@@ -82,7 +82,7 @@ Email → AI Classification → Suggested Action → Discarded
 
 ### API Security
 
-- **Rate Limiting**: 100 requests per minute per user
+- **Rate Limiting**: 1000 requests per 15 minutes per user (4000/hour)
 - **IP-Based Throttling**: Additional protection against abuse
 - **Authentication Required**: All API endpoints require valid JWT
 - **CORS Protection**: Only authorized origins can access API
@@ -261,7 +261,7 @@ Logout from the app or revoke OAuth access in your Google/Microsoft account. All
 
 ## Last Updated
 
-**Date**: 2025-01-XX
+**Date**: 2025-11-02
 **Version**: 1.0.0
 **Contact**: thematthanson@gmail.com
 
