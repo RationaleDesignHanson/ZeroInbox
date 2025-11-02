@@ -1,0 +1,123 @@
+rules_version = '2';
+
+/**
+ * Firestore Security Rules for Zero Email Platform
+ *
+ * Security Model:
+ * - Users can only read/write their own data
+ * - OAuth tokens are write-only (cannot be read directly)
+ * - Admin users have elevated privileges
+ * - All writes are logged via Audit Logs
+ */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+             get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // User tokens collection (OAuth tokens)
+    // SECURITY: Tokens are write-only to prevent leakage
+    match /user_tokens/{userId}_{provider} {
+      // Only the token owner can write their tokens
+      allow write: if isOwner(userId);
+
+      // NO READ ACCESS - tokens should only be accessed server-side
+      allow read: if false;
+    }
+
+    // Waitlist collection (email signups)
+    match /waitlist/{email} {
+      // Anyone can add themselves to waitlist
+      allow create: if isAuthenticated();
+
+      // Only admins can read waitlist
+      allow read: if isAdmin();
+
+      // Users cannot update or delete waitlist entries
+      allow update, delete: if false;
+    }
+
+    // User preferences and settings
+    match /user_preferences/{userId} {
+      // Users can read and write their own preferences
+      allow read, write: if isOwner(userId);
+    }
+
+    // Analytics events
+    match /analytics_events/{eventId} {
+      // Users can write their own events
+      allow create: if isAuthenticated();
+
+      // Only admins can read analytics
+      allow read: if isAdmin();
+
+      // No updates or deletes
+      allow update, delete: if false;
+    }
+
+    // Feedback collection
+    match /feedback/{feedbackId} {
+      // Users can create feedback
+      allow create: if isAuthenticated();
+
+      // Users can read their own feedback
+      allow read: if isAuthenticated() &&
+                     resource.data.userId == request.auth.uid;
+
+      // Only admins can read all feedback
+      allow read: if isAdmin();
+
+      // No updates or deletes
+      allow update, delete: if false;
+    }
+
+    // Admin users collection
+    match /admins/{userId} {
+      // Only admins can read admin list
+      allow read: if isAdmin();
+
+      // No writes allowed (admins must be set via Firebase console)
+      allow write: if false;
+    }
+
+    // Saved mail folders (user-created email folders)
+    match /saved_mail/{userId}/folders/{folderId} {
+      // Users can read and write their own folders
+      allow read, write: if isOwner(userId);
+    }
+
+    // Action feedback (for ML model improvement)
+    match /action_feedback/{feedbackId} {
+      // Users can create feedback
+      allow create: if isAuthenticated();
+
+      // Users can read their own feedback
+      allow read: if isAuthenticated() &&
+                     resource.data.userId == request.auth.uid;
+
+      // Admins can read all feedback
+      allow read: if isAdmin();
+
+      // No updates or deletes
+      allow update, delete: if false;
+    }
+
+    // Default: deny all access
+    // This ensures we don't accidentally expose data
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
