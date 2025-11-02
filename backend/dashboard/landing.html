@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero - Your Inbox, Simplified to Zero</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #3b82f6;
+            --primary-cyan: #0ea5e9;
+            --secondary-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --dark-bg-1: #1a1a2e;
+            --dark-bg-2: #2d1b4e;
+            --dark-bg-3: #4a1942;
+            --glass-white: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg-1) 0%, var(--dark-bg-2) 30%, var(--dark-bg-3) 60%, #1f1f3a 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Floating Spheres Background */
+        .floating-spheres {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .sphere:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.4), transparent);
+            top: 10%;
+            left: 10%;
+            animation-duration: 25s;
+        }
+
+        .sphere:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent);
+            top: 60%;
+            right: 10%;
+            animation-delay: 5s;
+            animation-duration: 30s;
+        }
+
+        .sphere:nth-child(3) {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.35), transparent);
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 10s;
+            animation-duration: 28s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -30px) scale(1.1); }
+            66% { transform: translate(-30px, 50px) scale(0.9); }
+        }
+
+        /* Content Container */
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .logo-hero {
+            font-size: 120px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -5px;
+            margin-bottom: 20px;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 700px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-cyan));
+            color: white;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(59, 130, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Zero Sequence Section */
+        .zero-sequence {
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 60px;
+        }
+
+        .sequence-flow {
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .sequence-step {
+            flex: 1;
+            min-width: 200px;
+            padding: 32px 24px;
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .sequence-step:hover {
+            transform: translateY(-8px);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 900;
+            margin: 0 auto 20px;
+        }
+
+        .sequence-step h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .sequence-step p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        .sequence-result {
+            padding: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-purple));
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .sequence-result h3 {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .sequence-result p {
+            font-size: 20px;
+            opacity: 0.95;
+        }
+
+        /* Action Shots Section */
+        .action-shots {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 100px 20px;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .action-card {
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 32px;
+            transition: transform 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: scale(1.02);
+        }
+
+        .action-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-cyan));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            margin-bottom: 24px;
+        }
+
+        .action-card h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .action-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .time-saved {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #86efac;
+        }
+
+        /* Value Props Section */
+        .value-props {
+            text-align: center;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .value-card {
+            padding: 48px 32px;
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .value-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .value-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 24px;
+            font-size: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .value-icon::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .value-card h3 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+
+        .value-stat {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .value-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* Security Section */
+        .security {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .security-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .security-feature {
+            padding: 32px;
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+
+        .security-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .security-feature h4 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .security-feature p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* FAQ Section */
+        .faq {
+            max-width: 800px;
+        }
+
+        .faq-item {
+            background: var(--glass-white);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .faq-question {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* Final CTA Section */
+        .final-cta {
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        .final-cta h2 {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 24px;
+        }
+
+        .final-cta p {
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 40px; }
+            .hero p { font-size: 18px; }
+            .section-title { font-size: 36px; }
+            .logo-hero { font-size: 80px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Spheres Background -->
+    <div class="floating-spheres">
+        <div class="sphere"></div>
+        <div class="sphere"></div>
+        <div class="sphere"></div>
+    </div>
+
+    <div class="content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="logo-hero">zero</div>
+            <h1>Your Inbox, Simplified to Zero</h1>
+            <p>AI-powered email intelligence that surfaces what matters and handles everything else with one-tap actions</p>
+            <div class="cta-buttons">
+                <a href="/splash.html" class="btn btn-primary">Join Beta</a>
+                <a href="#zero-sequence" class="btn btn-secondary">See How It Works</a>
+            </div>
+        </section>
+
+        <!-- Zero Sequence Section -->
+        <section id="zero-sequence" class="zero-sequence">
+            <h2 class="section-title">The Zero Sequence</h2>
+            <p class="section-subtitle">Every email goes through our 5-step process to reach inbox zero</p>
+
+            <div class="sequence-flow">
+                <div class="sequence-step">
+                    <div class="step-number">1</div>
+                    <h3>FETCH</h3>
+                    <p>Your emails arrive from Gmail or Outlook in real-time</p>
+                </div>
+
+                <div class="sequence-step">
+                    <div class="step-number">2</div>
+                    <h3>CLASSIFY</h3>
+                    <p>AI identifies intent: meeting, purchase, form, reply needed</p>
+                </div>
+
+                <div class="sequence-step">
+                    <div class="step-number">3</div>
+                    <h3>SUGGEST</h3>
+                    <p>One-tap actions appear: add to calendar, track package, reply</p>
+                </div>
+
+                <div class="sequence-step">
+                    <div class="step-number">4</div>
+                    <h3>EXECUTE</h3>
+                    <p>Swipe right to complete action instantly—no thinking required</p>
+                </div>
+
+                <div class="sequence-step">
+                    <div class="step-number">5</div>
+                    <h3>ZERO</h3>
+                    <p>Email cleared, action done, inbox always empty</p>
+                </div>
+            </div>
+
+            <div class="sequence-result">
+                <h3>Result: Hours Saved, Stress Eliminated</h3>
+                <p>Average user processes 200+ emails in under 10 minutes. Inbox zero, every day.</p>
+            </div>
+        </section>
+
+        <!-- Action Shots Section -->
+        <section class="action-shots">
+            <h2 class="section-title">One-Tap Actions for Everything</h2>
+            <p class="section-subtitle">See how Zero handles your most common email tasks</p>
+
+            <div class="action-grid">
+                <div class="action-card">
+                    <div class="action-icon">📅</div>
+                    <h3>Meeting Detection</h3>
+                    <p>Email with meeting invite → swipe → added to calendar with location and attendees</p>
+                    <span class="time-saved">2 min saved</span>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-icon">📦</div>
+                    <h3>Package Tracking</h3>
+                    <p>Shipping confirmation → swipe → tracking dashboard updated with delivery estimates</p>
+                    <span class="time-saved">1 min saved</span>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-icon">📝</div>
+                    <h3>Form Filling</h3>
+                    <p>PDF form email → swipe → form signed with your signature and sent back</p>
+                    <span class="time-saved">5 min saved</span>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-icon">💬</div>
+                    <h3>Smart Replies</h3>
+                    <p>Customer email → swipe → AI-generated reply sent with your tone</p>
+                    <span class="time-saved">3 min saved</span>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-icon">💳</div>
+                    <h3>Purchase Tracking</h3>
+                    <p>Receipt email → swipe → added to shopping tracker with warranty info</p>
+                    <span class="time-saved">2 min saved</span>
+                </div>
+
+                <div class="action-card">
+                    <div class="action-icon">⏰</div>
+                    <h3>Snooze & Remind</h3>
+                    <p>Email needs action later → swipe → snoozed until the perfect time</p>
+                    <span class="time-saved">Anxiety eliminated</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Value Props Section -->
+        <section class="value-props">
+            <h2 class="section-title">Why Users Love Zero</h2>
+            <p class="section-subtitle">Real benefits from our beta testers</p>
+
+            <div class="value-grid">
+                <div class="value-card">
+                    <div class="value-icon">⏰</div>
+                    <h3>Save Time</h3>
+                    <div class="value-stat">2 hrs</div>
+                    <p>saved per day on average. 99% of emails handled in one tap. Inbox zero in 5 minutes or less.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🧘</div>
+                    <h3>Reduce Stress</h3>
+                    <div class="value-stat">Zero</div>
+                    <p>email anxiety. AI handles the thinking. Never miss important deadlines. Peace of mind guaranteed.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🔒</div>
+                    <h3>Stay Secure</h3>
+                    <div class="value-stat">100%</div>
+                    <p>privacy protected. We cannot see your emails. Zero-visibility architecture. Bank-level encryption.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Section -->
+        <section class="security">
+            <h2 class="section-title">Your Privacy is Our Architecture</h2>
+            <p class="section-subtitle">We cannot see your emails—it's technically impossible</p>
+
+            <div class="security-features">
+                <div class="security-feature">
+                    <div class="security-icon">🔐</div>
+                    <h4>Zero-Visibility Design</h4>
+                    <p>Emails flow through our system but are never stored. We process, not keep.</p>
+                </div>
+
+                <div class="security-feature">
+                    <div class="security-icon">🔑</div>
+                    <h4>OAuth 2.0 Only</h4>
+                    <p>Industry-standard authentication. We never see your password.</p>
+                </div>
+
+                <div class="security-feature">
+                    <div class="security-icon">🏦</div>
+                    <h4>Bank-Level Encryption</h4>
+                    <p>All data encrypted in transit and at rest using Google Cloud's infrastructure.</p>
+                </div>
+
+                <div class="security-feature">
+                    <div class="security-icon">🕵️</div>
+                    <h4>No Email Storage</h4>
+                    <p>We removed even temporary caching. Your emails exist only on Gmail/Microsoft servers.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+                <a href="/SECURITY.md" class="btn btn-secondary">Read Full Security Architecture</a>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    Can you read my emails?
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    NO. Our architecture makes this technically impossible. Emails flow through our system for processing but are never stored. We cannot see your email content even if we wanted to.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    How does the AI work?
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    We use Google Gemini to classify emails and suggest actions. Email content is processed in memory and immediately discarded. Google doesn't store your emails either. It's similar to Gmail's own AI features.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    What email providers do you support?
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    Currently Gmail and Microsoft Outlook/Office 365. More providers coming soon based on user demand.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    Is this iOS only?
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    Yes for now. Android version is planned after we perfect the iOS experience. Join the waitlist to be notified when Android launches.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    How do I delete my data?
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    Simply logout from the app or revoke OAuth access in your Google/Microsoft account settings. All your data is automatically deleted. We only store OAuth tokens—no email content.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFAQ(this)">
+                <div class="faq-question">
+                    How much does it cost?
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    Free during beta! After launch: Free plan (100 emails/day), Pro ($10/month unlimited), Team ($25/user/month with admin dashboard).
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="final-cta">
+            <h2>Ready for Inbox Zero?</h2>
+            <p>Join 100 beta testers experiencing the future of email</p>
+            <div class="cta-buttons">
+                <a href="/splash.html" class="btn btn-primary">Request Beta Access</a>
+                <a href="/" class="btn btn-secondary">View Live Dashboard</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-links">
+                <a href="/SECURITY.md">Security</a>
+                <a href="mailto:thematthanson@gmail.com">Contact</a>
+                <a href="/">Dashboard</a>
+                <a href="/design-system-renderer.html">Design System</a>
+            </div>
+            <p style="color: rgba(255, 255, 255, 0.5); font-size: 14px;">
+                © 2025 Zero Email. Beta access by invitation only.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleFAQ(element) {
+            element.classList.toggle('active');
+            const icon = element.querySelector('.faq-question span');
+            icon.textContent = element.classList.contains('active') ? '−' : '+';
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(50px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero - Access Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Spheres Background */
+        .floating-spheres {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .sphere {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.3;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .sphere:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.4), transparent);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+            animation-duration: 25s;
+        }
+
+        .sphere:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent);
+            top: 60%;
+            right: 10%;
+            animation-delay: 5s;
+            animation-duration: 30s;
+        }
+
+        .sphere:nth-child(3) {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.35), transparent);
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 10s;
+            animation-duration: 28s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(50px, -30px) scale(1.1);
+            }
+            66% {
+                transform: translate(-30px, 50px) scale(0.9);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo-text {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -2px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        .welcome-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #3b82f6;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top: 12px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 28px 0;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .divider span {
+            padding: 0 12px;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            color: #fca5a5;
+            font-size: 14px;
+            display: none;
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
+            color: #86efac;
+            font-size: 14px;
+            display: none;
+        }
+
+        .footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Spheres Background -->
+    <div class="floating-spheres">
+        <div class="sphere"></div>
+        <div class="sphere"></div>
+        <div class="sphere"></div>
+    </div>
+
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <div class="logo-text">zero</div>
+            <p class="subtitle">Email Intelligence Platform</p>
+        </div>
+
+        <!-- Welcome Text -->
+        <p class="welcome-text">
+            Access the Zero Dashboard
+        </p>
+
+        <!-- Error/Success Messages -->
+        <div id="errorMessage" class="error-message"></div>
+        <div id="successMessage" class="success-message"></div>
+
+        <!-- Login Form -->
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="accessCode">Access Code</label>
+                <input
+                    type="password"
+                    id="accessCode"
+                    name="accessCode"
+                    placeholder="Enter your access code"
+                    required
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email (Optional)</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="your@email.com"
+                    autocomplete="email"
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary">Access Dashboard</button>
+        </form>
+
+        <div class="divider">
+            <span>or</span>
+        </div>
+
+        <!-- Waitlist Form Toggle -->
+        <button class="btn btn-secondary" onclick="toggleWaitlistForm()">Join Waitlist</button>
+
+        <!-- Waitlist Form (Hidden by default) -->
+        <form id="waitlistForm" class="hidden" style="margin-top: 20px;">
+            <div class="form-group">
+                <label for="waitlistEmail">Email</label>
+                <input
+                    type="email"
+                    id="waitlistEmail"
+                    name="waitlistEmail"
+                    placeholder="your@email.com"
+                    required
+                    autocomplete="email"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="waitlistName">Name (Optional)</label>
+                <input
+                    type="text"
+                    id="waitlistName"
+                    name="waitlistName"
+                    placeholder="Your name"
+                    autocomplete="name"
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary">Join Waitlist</button>
+            <button type="button" class="btn btn-secondary" onclick="toggleWaitlistForm()">Back to Login</button>
+        </form>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Beta access by invitation only</p>
+            <p style="margin-top: 8px;">
+                <a href="mailto:thematthanson@gmail.com">Contact for access code</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const waitlistForm = document.getElementById('waitlistForm');
+        const errorMessage = document.getElementById('errorMessage');
+        const successMessage = document.getElementById('successMessage');
+
+        // Handle login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessages();
+
+            const formData = {
+                accessCode: document.getElementById('accessCode').value,
+                email: document.getElementById('email').value || null
+            };
+
+            try {
+                loginForm.classList.add('loading');
+
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccess('Authentication successful! Redirecting...');
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 1000);
+                } else {
+                    showError(result.error || 'Invalid access code');
+                }
+
+            } catch (error) {
+                console.error('Login error:', error);
+                showError('Connection error. Please try again.');
+            } finally {
+                loginForm.classList.remove('loading');
+            }
+        });
+
+        // Handle waitlist
+        waitlistForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessages();
+
+            const formData = {
+                email: document.getElementById('waitlistEmail').value,
+                name: document.getElementById('waitlistName').value || null
+            };
+
+            try {
+                waitlistForm.classList.add('loading');
+
+                const response = await fetch('/auth/waitlist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showSuccess(result.message);
+                    waitlistForm.reset();
+                } else {
+                    showError(result.error || 'Failed to join waitlist');
+                }
+
+            } catch (error) {
+                console.error('Waitlist error:', error);
+                showError('Connection error. Please try again.');
+            } finally {
+                waitlistForm.classList.remove('loading');
+            }
+        });
+
+        // Toggle waitlist form
+        function toggleWaitlistForm() {
+            loginForm.parentElement.classList.toggle('hidden');
+            waitlistForm.classList.toggle('hidden');
+            hideMessages();
+        }
+
+        // Show error message
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+        }
+
+        // Show success message
+        function showSuccess(message) {
+            successMessage.textContent = message;
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+        }
+
+        // Hide messages
+        function hideMessages() {
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+        }
+
+        // Check if already authenticated
+        async function checkAuth() {
+            try {
+                const response = await fetch('/auth/status');
+                const result = await response.json();
+
+                if (result.authenticated) {
+                    window.location.href = '/';
+                }
+            } catch (error) {
+                console.error('Auth check error:', error);
+            }
+        }
+
+        checkAuth();
+    </script>
+</body>
+</html>
