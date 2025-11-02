@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIRequiresFullScreen</key>
+	<true/>
+
+	<!-- Google OAuth URL Scheme -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.514014482017-gpsj2233l3dl312j6ek96cglv0agovuq</string>
+			</array>
+		</dict>
+	</array>
+
+	<!-- Google Client ID -->
+	<key>GIDClientID</key>
+	<string>514014482017-gpsj2233l3dl312j6ek96cglv0agovuq.apps.googleusercontent.com</string>
+</dict>
+</plist>

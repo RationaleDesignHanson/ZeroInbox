@@ -1,0 +1,2072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Sequence Live | Zero Docs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .page-header {
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 56px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .status-banner {
+            background: rgba(52, 199, 89, 0.1);
+            border: 1px solid rgba(52, 199, 89, 0.3);
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-banner.error {
+            background: rgba(255, 59, 48, 0.1);
+            border-color: rgba(255, 59, 48, 0.3);
+        }
+
+        .status-banner.loading {
+            background: rgba(0, 122, 255, 0.1);
+            border-color: rgba(0, 122, 255, 0.3);
+        }
+
+        .status-icon {
+            font-size: 24px;
+        }
+
+        /* Unified input section matching flow-step pattern */
+        .input-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+
+        .input-panel-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .external-link-icon {
+            font-size: 20px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+            margin-left: auto;
+        }
+
+        .external-link-icon:hover {
+            opacity: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            font-family: 'SF Mono', Monaco, monospace;
+            line-height: 1.6;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            border-color: rgba(102, 126, 234, 0.5);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .form-input::placeholder, .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .generator-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .quick-test-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .quick-test-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .quick-test-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .quick-test-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Unified row layout for sequence steps */
+        .flow-step {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 28px;
+            position: relative;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            margin-bottom: 24px;
+        }
+
+        .flow-step.active {
+            opacity: 1;
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.2);
+        }
+
+        .flow-step.complete {
+            opacity: 1;
+            border-color: rgba(52, 199, 89, 0.5);
+        }
+
+        /* Unified step content with vertical divider */
+        .step-unified-content {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .step-left-panel {
+            min-width: 0;
+        }
+
+        .step-divider {
+            width: 2px;
+            background: linear-gradient(180deg,
+                transparent 0%,
+                rgba(102, 126, 234, 0.5) 20%,
+                rgba(102, 126, 234, 0.5) 80%,
+                transparent 100%
+            );
+            min-height: 200px;
+            height: 100%;
+            align-self: stretch;
+        }
+
+        .step-right-panel {
+            min-width: 0;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -16px;
+            left: 28px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .step-title {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .step-status {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .status-processing {
+            background: rgba(0, 122, 255, 0.2);
+            color: rgba(0, 122, 255, 1);
+            animation: pulse 2s infinite;
+        }
+
+        .status-complete {
+            background: rgba(52, 199, 89, 0.2);
+            color: rgba(52, 199, 89, 1);
+        }
+
+        .status-error {
+            background: rgba(255, 59, 48, 0.2);
+            color: rgba(255, 59, 48, 1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .step-content {
+            display: none;
+        }
+
+        .flow-step.active .step-content,
+        .flow-step.complete .step-content {
+            display: block;
+        }
+
+        .result-grid {
+            display: grid;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .result-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .result-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .result-value.intent {
+            color: #667eea;
+        }
+
+        .result-value.category {
+            color: #f093fb;
+        }
+
+        .result-value.action {
+            color: #52fa5a;
+        }
+
+        .result-value.modal {
+            color: #feca57;
+        }
+
+        .confidence-bar {
+            margin-top: 12px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .entities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .entity-chip {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+        }
+
+        .entity-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .entity-value {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Intent detail panel */
+        .intent-detail-panel {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .meta-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .triggers-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .trigger-tag {
+            background: rgba(76, 175, 80, 0.6);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            border: 1px solid rgba(76, 175, 80, 0.8);
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-top: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-block code {
+            color: rgba(52, 199, 89, 1);
+        }
+
+        .timeline-connector {
+            height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 24px;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            margin-left: 4px;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 300px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            text-align: left;
+            border-radius: 8px;
+            padding: 12px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -150px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 13px;
+            line-height: 1.5;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .action-card {
+            background: rgba(82, 250, 90, 0.2);
+            border: 1px solid rgba(82, 250, 90, 0.4);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .action-card.primary {
+            border: 2px solid rgba(255, 215, 0, 0.8);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .action-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .action-title {
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .primary-star {
+            color: #FFD700;
+            font-size: 18px;
+        }
+
+        .action-priority {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Modal Flow Styles */
+        .modal-flow-horizontal {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px 0;
+        }
+
+        .modal-flow-step {
+            min-width: 280px;
+            flex-shrink: 0;
+        }
+
+        .modal-flow-label {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-flow-arrow {
+            font-size: 32px;
+            color: rgba(255, 255, 255, 0.5);
+            flex-shrink: 0;
+        }
+
+        .modal-email-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .modal-preview-card {
+            background: rgba(20, 20, 40, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-success-state {
+            background: rgba(52, 199, 89, 0.15);
+            border: 2px solid rgba(52, 199, 89, 0.4);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .modal-success-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(52, 199, 89, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin: 0 auto 16px;
+        }
+
+        .action-card.clickable {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .action-card.clickable:hover {
+            background: rgba(82, 250, 90, 0.3);
+            border-color: rgba(82, 250, 90, 0.6);
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 1400px) {
+            .main-container {
+                max-width: 1400px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .generator-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-unified-content {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .step-divider {
+                display: none;
+            }
+
+            .step-left-panel,
+            .step-right-panel {
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 36px;
+            }
+
+            .main-container {
+                padding: 20px 12px;
+            }
+
+            .input-section,
+            .flow-step {
+                padding: 20px;
+            }
+
+            .quick-test-btn {
+                padding: 12px;
+            }
+
+            .modal-flow-horizontal {
+                gap: 12px;
+                padding: 12px 0;
+            }
+
+            .modal-flow-step {
+                min-width: 220px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 28px;
+            }
+
+            .page-subtitle {
+                font-size: 16px;
+            }
+
+            .main-container {
+                padding: 16px 8px;
+            }
+
+            .generator-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .quick-test-btn {
+                padding: 10px;
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+
+            .input-section,
+            .flow-step {
+                padding: 16px;
+                margin-bottom: 16px;
+            }
+
+            .step-number {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+                top: -12px;
+                left: 16px;
+            }
+
+            .step-title {
+                font-size: 18px;
+            }
+
+            .result-card {
+                padding: 14px;
+            }
+
+            .entities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-flow-horizontal {
+                gap: 8px;
+                padding: 8px 0;
+            }
+
+            .modal-flow-step {
+                min-width: 180px;
+            }
+
+            .modal-flow-arrow {
+                font-size: 24px;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">⚡ Zero Sequence Live</h1>
+            <p class="page-subtitle">
+                Test the complete pipeline with side-by-side detailed analysis
+            </p>
+        </div>
+
+        <!-- Status Banner -->
+        <div id="status-banner" class="status-banner" style="display: none;">
+            <span class="status-icon" id="status-icon">✅</span>
+            <span id="status-message">Ready to test</span>
+        </div>
+
+        <!-- Input Section: Unified Layout with Divider -->
+        <div class="input-section">
+            <div class="step-unified-content">
+                <!-- Left Panel: Email Generators -->
+                <div class="step-left-panel">
+                    <div class="input-panel-title">
+                        <span>✨</span>
+                        <span> Generate Test Email</span>
+                    </div>
+
+                    <div class="generator-grid">
+                        <button class="quick-test-btn" onclick="loadExample('permission_form')">
+                            <div class="quick-test-title">✍️ Permission Form</div>
+                            <div class="quick-test-desc">School field trip form</div>
+                        </button>
+                        <button class="quick-test-btn" onclick="loadExample('package_tracking')">
+                            <div class="quick-test-title">📦 Package Tracking</div>
+                            <div class="quick-test-desc">Shipment notification</div>
+                        </button>
+                        <button class="quick-test-btn" onclick="loadExample('invoice')">
+                            <div class="quick-test-title">💳 Invoice Payment</div>
+                            <div class="quick-test-desc">Invoice due reminder</div>
+                        </button>
+                        <button class="quick-test-btn" onclick="loadExample('flight_checkin')">
+                            <div class="quick-test-title">✈️ Flight Check-in</div>
+                            <div class="quick-test-desc">Airline check-in</div>
+                        </button>
+                        <button class="quick-test-btn" onclick="loadExample('subscription_cancel')">
+                            <div class="quick-test-title">🔔 Cancel Netflix</div>
+                            <div class="quick-test-desc">Subscription cancellation</div>
+                        </button>
+                        <button class="quick-test-btn" onclick="loadExample('appointment_scheduling')">
+                            <div class="quick-test-title">📅 Schedule Appointment</div>
+                            <div class="quick-test-desc">Doctor appointment request</div>
+                        </button>
+                        <button class="quick-test-btn" onclick="loadExample('compound_form_payment')">
+                            <div class="quick-test-title">✍️💳 Form + Fee</div>
+                            <div class="quick-test-desc">Compound: Sign & Pay</div>
+                        </button>
+                        <button class="quick-test-btn" onclick="loadExample('medical_bill')">
+                            <div class="quick-test-title">🏥 Medical Bill</div>
+                            <div class="quick-test-desc">Healthcare payment due</div>
+                        </button>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <button class="btn btn-primary" style="background: linear-gradient(90deg, #52fa5a, #4ade80);" onclick="generateEmail()">
+                            <span>🎲</span>
+                            <span>Generate Random Email</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Vertical Divider -->
+                <div class="step-divider"></div>
+
+                <!-- Right Panel: Email Input -->
+                <div class="step-right-panel">
+                    <div class="input-panel-title">
+                        <span>📧</span>
+                        <span> Email Input</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Subject</label>
+                        <input type="text" id="subject-input" class="form-input"
+                               placeholder="e.g., Field Trip Permission Form - Please Sign">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">From</label>
+                        <input type="text" id="from-input" class="form-input"
+                               placeholder="e.g., Mrs. Johnson <teacher@school.edu>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Body</label>
+                        <textarea id="body-input" class="form-textarea"
+                                  placeholder="Paste email body here..."></textarea>
+                    </div>
+
+                    <button class="btn btn-primary" id="classify-btn" onclick="runZeroSequence()">
+                        <span>⚡</span>
+                        <span>Run Zero Sequence</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-connector">↓</div>
+
+        <!-- Step 1: Intent Classification -->
+        <div class="flow-step" id="step-classification">
+            <div class="step-number">1</div>
+            <div class="step-header">
+                <div class="step-title">
+                    <span>🎯</span>
+                    <span>Intent Classification</span>
+                    <a href="intent-action-explorer.html" target="_blank" class="external-link-icon" title="Open Intent & Action Explorer">🔗</a>
+                </div>
+                <div class="step-status status-pending" id="status-classification">Pending</div>
+            </div>
+            <div class="step-content">
+                <div class="step-unified-content">
+                    <!-- Left Panel: Current Results -->
+                    <div class="step-left-panel">
+                        <div class="result-grid">
+                            <div class="result-card">
+                                <div class="result-label">Detected Intent</div>
+                                <div class="result-value intent" id="detected-intent">—</div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" id="intent-confidence-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Confidence</div>
+                                <div class="result-value" id="intent-confidence">—</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Source</div>
+                                <div class="result-value" id="intent-source">—</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Processing Time</div>
+                                <div class="result-value" id="intent-time">—</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vertical Divider -->
+                    <div class="step-divider"></div>
+
+                    <!-- Right Panel: Intent Details -->
+                    <div class="step-right-panel">
+                        <div class="intent-detail-panel">
+                            <div id="intent-details-content">
+                                <p style="color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+                                    Run classification to see intent details
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-connector">↓</div>
+
+        <!-- Step 2: Entity Extraction & Mail/Ads Classification -->
+        <div class="flow-step" id="step-entities">
+            <div class="step-number">2</div>
+            <div class="step-header">
+                <div class="step-title">
+                    <span>🔍</span>
+                    <span>Entity Extraction & Mail/Ads Classification</span>
+                </div>
+                <div class="step-status status-pending" id="status-entities">Pending</div>
+            </div>
+            <div class="step-content">
+                <div class="step-unified-content">
+                    <!-- Left Panel: Entity Extraction -->
+                    <div class="step-left-panel">
+                        <div style="margin-bottom: 12px; font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.9);">
+                            🔍 Entity Extraction
+                        </div>
+                        <div class="entities-grid" id="entities-grid">
+                            <!-- Entities will be dynamically inserted -->
+                        </div>
+                    </div>
+
+                    <!-- Vertical Divider -->
+                    <div class="step-divider"></div>
+
+                    <!-- Right Panel: Mail/Ads Classification -->
+                    <div class="step-right-panel">
+                        <div style="margin-bottom: 12px; font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.9); display: flex; align-items: center; gap: 8px;">
+                            <span>📮 Mail/Ads Classification</span>
+                            <span class="tooltip">❓
+                                <span class="tooltiptext">
+                                    <strong>Detection Signals</strong><br><br>
+                                    Indicators used to classify emails as MAIL or ADS:<br>
+                                    • Unsubscribe links (ADS signal)<br>
+                                    • Promotional keywords (ADS signal)<br>
+                                    • Marketing sender patterns (ADS signal)<br>
+                                    • Intent-based classification (default)
+                                </span>
+                            </span>
+                        </div>
+                        <div class="result-grid">
+                            <div class="result-card">
+                                <div class="result-label">Category</div>
+                                <div class="result-value category" id="mail-ads-category">—</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Confidence</div>
+                                <div class="result-value" id="mail-ads-confidence">—</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Detection Signals</div>
+                                <div class="result-value" id="detection-signals">—</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-connector">↓</div>
+
+        <!-- Step 3: Action Router -->
+        <div class="flow-step" id="step-actions">
+            <div class="step-number">3</div>
+            <div class="step-header">
+                <div class="step-title">
+                    <span>⚙️</span>
+                    <span>Action Router</span>
+                    <a href="action-modal-explorer.html" target="_blank" class="external-link-icon" title="Open Action & Modal Explorer">🔗</a>
+                </div>
+                <div class="step-status status-pending" id="status-actions">Pending</div>
+            </div>
+            <div class="step-content">
+                <div class="step-unified-content">
+                    <!-- Left Panel: Action Router Summary -->
+                    <div class="step-left-panel">
+                        <div class="result-grid">
+                            <div class="result-card">
+                                <div class="result-label">Suggested Actions</div>
+                                <div class="result-value action" id="suggested-actions-count">—</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Primary Action</div>
+                                <div class="result-value action" id="primary-action">—</div>
+                            </div>
+                        </div>
+                        <div id="all-actions-list" style="margin-top: 16px;"></div>
+                    </div>
+
+                    <!-- Vertical Divider -->
+                    <div class="step-divider"></div>
+
+                    <!-- Right Panel: Stack-Ranked Actions -->
+                    <div class="step-right-panel">
+                        <div style="margin-bottom: 12px; font-size: 16px; font-weight: 600; color: rgba(255,255,255,0.9);">
+                            📊 Stack-Ranked Actions
+                        </div>
+                        <div id="actions-detail-content">
+                            <p style="color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+                                Actions will appear here when classified
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-connector">↓</div>
+
+        <!-- Step 4: Modal Router (Full Width with Interactive Flows) -->
+        <div class="flow-step" id="step-modal">
+            <div class="step-number">4</div>
+            <div class="step-header">
+                <div class="step-title">
+                    <span>📱</span>
+                    <span>Modal Router</span>
+                    <span style="font-size: 14px; font-weight: normal; opacity: 0.7; margin-left: 8px;">Click actions above to preview flows</span>
+                </div>
+                <div class="step-status status-pending" id="status-modal">Pending</div>
+            </div>
+            <div class="step-content">
+                <!-- Modal flow visualization container -->
+                <div id="modal-flow-container" style="display: none;">
+                    <div class="modal-flow-horizontal" id="modal-flow-display">
+                        <!-- Dynamic modal flow will be injected here -->
+                    </div>
+                </div>
+
+                <!-- Fallback message when no action selected -->
+                <div id="modal-placeholder" style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
+                    <div style="font-size: 48px; margin-bottom: 16px;">📱</div>
+                    <div style="font-size: 18px; margin-bottom: 8px;">No action selected</div>
+                    <div style="font-size: 14px;">Click an action above to see its complete modal flow</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8082/api';
+
+        // Intent taxonomy subset for detail panels
+        const INTENT_DATA = {
+            'education.permission.form': {
+                description: 'Permission form requiring signature',
+                triggers: ['permission form', 'field trip', 'please sign', 'consent form'],
+                requiredEntities: ['formName'],
+                optionalEntities: ['dueDate', 'studentName', 'eventDate'],
+                actions: [
+                    { id: 'sign_form', name: 'Sign & Send', priority: 1, isPrimary: true },
+                    { id: 'pay_form_fee', name: 'Pay Fee', priority: 2 },
+                    { id: 'add_to_calendar', name: 'Add to Calendar', priority: 3 }
+                ]
+            },
+            'e-commerce.shipping.notification': {
+                description: 'Package shipped notification',
+                triggers: ['has shipped', 'on its way', 'tracking number', 'out for delivery'],
+                requiredEntities: ['trackingNumber', 'carrier'],
+                optionalEntities: ['orderNumber', 'estimatedDelivery'],
+                actions: [
+                    { id: 'track_package', name: 'Track Package', priority: 1, isPrimary: true },
+                    { id: 'view_order', name: 'View Order', priority: 2 },
+                    { id: 'contact_support', name: 'Contact Support', priority: 4 }
+                ]
+            },
+            'billing.invoice.due': {
+                description: 'Invoice due for payment',
+                triggers: ['invoice due', 'amount due', 'payment required', 'please pay'],
+                requiredEntities: ['invoiceId', 'amountDue', 'dueDate'],
+                optionalEntities: ['paymentLink'],
+                actions: [
+                    { id: 'pay_invoice', name: 'Pay Invoice', priority: 1, isPrimary: true },
+                    { id: 'view_invoice', name: 'View Invoice', priority: 2 },
+                    { id: 'set_payment_reminder', name: 'Set Reminder', priority: 3 }
+                ]
+            },
+            'travel.flight.check-in': {
+                description: 'Flight check-in reminder',
+                triggers: ['check-in', 'check in now', 'flight reminder'],
+                requiredEntities: ['flightNumber', 'departureDate'],
+                optionalEntities: ['confirmationCode', 'checkInUrl'],
+                actions: [
+                    { id: 'check_in_flight', name: 'Check In', priority: 1, isPrimary: true },
+                    { id: 'add_to_wallet', name: 'Add to Wallet', priority: 2 },
+                    { id: 'view_itinerary', name: 'View Itinerary', priority: 2 },
+                    { id: 'add_to_calendar', name: 'Add to Calendar', priority: 3 }
+                ]
+            }
+        };
+
+        // Quick test examples
+        const examples = {
+            permission_form: {
+                subject: "Field Trip Permission Form - Please Sign",
+                from: "Mrs. Johnson <teacher@school.edu>",
+                body: "Dear Parents,\n\nPlease sign the attached permission form for our science museum field trip on October 25th. The cost is $15 per student. Forms must be returned by October 20th.\n\nThank you,\nMrs. Johnson"
+            },
+            package_tracking: {
+                subject: "Your Amazon.com order has shipped",
+                from: "Amazon <shipment-tracking@amazon.com>",
+                body: "Hello,\n\nYour order #112-8493829-3847262 has shipped!\n\nTracking number: 1Z999AA10123456784\nCarrier: UPS\nExpected delivery: October 28, 2025\n\nTrack your package: https://www.amazon.com/tracking"
+            },
+            invoice: {
+                subject: "Invoice #INV-2025-1234 Due",
+                from: "Acme Corp <billing@acmecorp.com>",
+                body: "Dear Customer,\n\nYour invoice INV-2025-1234 is now due.\n\nAmount: $599.00\nDue Date: October 30, 2025\n\nPay online: https://pay.acmecorp.com/INV-2025-1234"
+            },
+            flight_checkin: {
+                subject: "Check in now for flight UA 123",
+                from: "United Airlines <noreply@united.com>",
+                body: "Your flight UA 123 departs tomorrow at 9:00 AM from SFO to LAX.\n\nCheck in now: https://www.united.com/checkin/ABC123\n\nConfirmation: ABC123"
+            },
+            subscription_cancel: {
+                subject: "We're sorry to see you go - Cancel Netflix",
+                from: "Netflix <membership@netflix.com>",
+                body: "Hi there,\n\nWe noticed you're considering canceling your Netflix subscription.\n\nYour current plan: Premium ($22.99/month)\nNext billing date: November 15, 2025\n\nIf you'd like to cancel, click here: https://www.netflix.com/cancelplan\n\nWe'd love to have you stay. Here's 50% off your next month if you keep your subscription.\n\nThe Netflix Team"
+            },
+            appointment_scheduling: {
+                subject: "Schedule Your Annual Physical - Dr. Martinez",
+                from: "Valley Medical Center <appointments@valleymedical.com>",
+                body: "Dear Patient,\n\nIt's time to schedule your annual physical examination with Dr. Martinez.\n\nPlease call us at (555) 123-4567 to schedule, or book online: https://valleymedical.com/schedule\n\nAvailable times:\n- Monday, Nov 4 at 2:00 PM\n- Wednesday, Nov 6 at 10:30 AM\n- Friday, Nov 8 at 3:00 PM\n\nWe look forward to seeing you!\n\nValley Medical Center"
+            },
+            compound_form_payment: {
+                subject: "Permission Form & Field Trip Fee - Action Required",
+                from: "Lincoln Elementary <office@lincolnelementary.edu>",
+                body: "Dear Parents,\n\nTwo items require your immediate attention for the upcoming Museum of Natural History field trip:\n\n1. PERMISSION FORM: Please sign the attached permission slip for your child to attend on November 12th.\n\n2. FIELD TRIP FEE: $25.00 per student (covers admission + transportation)\n   Pay online: https://lincolnelementary.edu/pay/fieldtrip2025\n\nBoth must be completed by November 5th.\n\nStudent: Alex Rodriguez - Grade 4\nTeacher: Ms. Patterson\n\nThank you,\nLincoln Elementary Administration"
+            },
+            medical_bill: {
+                subject: "Medical Bill Statement - Amount Due $450.00",
+                from: "City Hospital Billing <billing@cityhospital.org>",
+                body: "CITY HOSPITAL\nPatient Billing Statement\n\nAccount #: 782945-2025\nDate of Service: September 15, 2025\nAmount Due: $450.00\nDue Date: November 10, 2025\n\nService: Annual Physical Examination\nInsurance Applied: $125.00\nPatient Responsibility: $450.00\n\nPayment Options:\n- Pay Online: https://cityhospital.org/billing/pay\n- Phone: (555) 789-0123\n- Mail: City Hospital, PO Box 4567, San Francisco, CA 94102\n\nQuestions about your bill? Contact our billing department at (555) 789-0123.\n\nThank you,\nCity Hospital Billing Department"
+            }
+        };
+
+        function loadExample(exampleKey) {
+            const example = examples[exampleKey];
+            document.getElementById('subject-input').value = example.subject;
+            document.getElementById('from-input').value = example.from;
+            document.getElementById('body-input').value = example.body;
+
+            showStatus('📝 Example loaded! Click "Run Zero Sequence" to test.', 'loading');
+        }
+
+        function showStatus(message, type = 'success') {
+            const banner = document.getElementById('status-banner');
+            const icon = document.getElementById('status-icon');
+            const msg = document.getElementById('status-message');
+
+            banner.className = 'status-banner';
+            if (type === 'error') {
+                banner.classList.add('error');
+                icon.textContent = '❌';
+            } else if (type === 'loading') {
+                banner.classList.add('loading');
+                icon.textContent = '⏳';
+            } else {
+                icon.textContent = '✅';
+            }
+
+            msg.textContent = message;
+            banner.style.display = 'flex';
+        }
+
+        function resetSequence() {
+            const steps = ['classification', 'entities', 'actions', 'modal'];
+            steps.forEach(step => {
+                const el = document.getElementById(`step-${step}`);
+                if (el) {
+                    el.classList.remove('active', 'complete');
+                    const status = document.getElementById(`status-${step}`);
+                    if (status) {
+                        status.className = 'step-status status-pending';
+                        status.textContent = 'Pending';
+                    }
+                }
+            });
+        }
+
+        function setStepStatus(step, status, text) {
+            const el = document.getElementById(`step-${step}`);
+            const statusEl = document.getElementById(`status-${step}`);
+
+            if (status === 'processing') {
+                el.classList.add('active');
+                el.classList.remove('complete');
+                if (statusEl) {
+                    statusEl.className = 'step-status status-processing';
+                    statusEl.textContent = text || 'Processing...';
+                }
+            } else if (status === 'complete') {
+                el.classList.remove('active');
+                el.classList.add('complete');
+                if (statusEl) {
+                    statusEl.className = 'step-status status-complete';
+                    statusEl.textContent = text || 'Complete';
+                }
+            } else if (status === 'error') {
+                el.classList.add('active');
+                if (statusEl) {
+                    statusEl.className = 'step-status status-error';
+                    statusEl.textContent = text || 'Error';
+                }
+            }
+        }
+
+        async function runZeroSequence() {
+            const subject = document.getElementById('subject-input').value.trim();
+            const from = document.getElementById('from-input').value.trim();
+            const body = document.getElementById('body-input').value.trim();
+
+            if (!subject || !from || !body) {
+                showStatus('Please fill in all fields', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('classify-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span><span>Processing...</span>';
+
+            resetSequence();
+            showStatus('Starting Zero Sequence...', 'loading');
+
+            try {
+                // Step 1: Intent Classification
+                setStepStatus('classification', 'processing');
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                const response = await fetch(`${API_BASE_URL}/classify/debug`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: { subject, from, snippet: body.substring(0, 200), body, htmlBody: '' }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Populate Step 1: Intent Classification
+                document.getElementById('detected-intent').textContent = data.intentClassification.detectedIntent;
+                const confidence = Math.round(data.intentClassification.confidence * 100);
+                document.getElementById('intent-confidence').textContent = `${confidence}%`;
+                document.getElementById('intent-confidence-bar').style.width = `${confidence}%`;
+                document.getElementById('intent-source').textContent = data.intentClassification.source;
+                document.getElementById('intent-time').textContent = data.intentClassification.processingTime;
+
+                // Populate intent details panel
+                const intentId = data.intentClassification.detectedIntent;
+                const intentInfo = INTENT_DATA[intentId];
+                if (intentInfo) {
+                    document.getElementById('intent-details-content').innerHTML = `
+                        <div style="margin-bottom: 16px;">
+                            <div class="result-label">Description</div>
+                            <div style="color: white; margin-top: 8px;">${intentInfo.description}</div>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <div class="result-label">Category</div>
+                            <div style="margin-top: 8px;">
+                                <span class="meta-badge">${intentId.split('.')[0]}</span>
+                                <span class="meta-badge">${intentId.split('.')[1]}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="result-label">🎯 Trigger Patterns</div>
+                            <div class="triggers-list">
+                                ${intentInfo.triggers.map(t => `<span class="trigger-tag">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                        ${intentInfo.requiredEntities.length > 0 ? `
+                        <div style="margin-top: 16px;">
+                            <div class="result-label">🔑 Required Entities</div>
+                            <div style="margin-top: 8px; color: rgba(255,255,255,0.8);">
+                                ${intentInfo.requiredEntities.join(', ')}
+                            </div>
+                        </div>
+                        ` : ''}
+                    `;
+                }
+
+                setStepStatus('classification', 'complete', `${confidence}% confidence`);
+
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // Step 2: Entity Extraction & Mail/Ads Classification
+                setStepStatus('entities', 'processing');
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                const entitiesGrid = document.getElementById('entities-grid');
+                entitiesGrid.innerHTML = '';
+
+                const entities = data.entityExtraction.extractedEntities;
+                let entityCount = 0;
+
+                if (entities.deadline) {
+                    entitiesGrid.innerHTML += `
+                        <div class="entity-chip">
+                            <div class="entity-label">Deadline</div>
+                            <div class="entity-value">${entities.deadline.text}</div>
+                        </div>
+                    `;
+                    entityCount++;
+                }
+
+                if (entities.prices?.original) {
+                    entitiesGrid.innerHTML += `
+                        <div class="entity-chip">
+                            <div class="entity-label">Price</div>
+                            <div class="entity-value">${entities.prices.original}</div>
+                        </div>
+                    `;
+                    entityCount++;
+                }
+
+                if (entities.trackingNumbers?.length > 0) {
+                    entitiesGrid.innerHTML += `
+                        <div class="entity-chip">
+                            <div class="entity-label">Tracking Number</div>
+                            <div class="entity-value">${entities.trackingNumbers[0]}</div>
+                        </div>
+                    `;
+                    entityCount++;
+                }
+
+                if (entities.companies?.length > 0) {
+                    entitiesGrid.innerHTML += `
+                        <div class="entity-chip">
+                            <div class="entity-label">Company</div>
+                            <div class="entity-value">${entities.companies[0]}</div>
+                        </div>
+                    `;
+                    entityCount++;
+                }
+
+                if (entityCount === 0) {
+                    entitiesGrid.innerHTML = '<div style="color: rgba(255,255,255,0.5);">No entities extracted</div>';
+                }
+
+                // Mail/Ads Classification (part of Step 2)
+                const category = data.mailAdsClassification.finalCategory.toUpperCase();
+                document.getElementById('mail-ads-category').textContent = category;
+                document.getElementById('mail-ads-confidence').textContent = data.mailAdsClassification.accuracy.confidence.toUpperCase();
+
+                const signals = [];
+                if (data.mailAdsClassification.signals.unsubscribeLink) signals.push('Unsubscribe');
+                if (data.mailAdsClassification.signals.promoKeywords.count > 0) signals.push(`${data.mailAdsClassification.signals.promoKeywords.count} promo keywords`);
+                if (data.mailAdsClassification.signals.marketingSender) signals.push('Marketing sender');
+                document.getElementById('detection-signals').textContent = signals.length > 0 ? signals.join(', ') : 'Intent-based';
+
+                setStepStatus('entities', 'complete', `${entityCount} entities, ${category}`);
+
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // Step 3: Action Router
+                setStepStatus('actions', 'processing');
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                const actions = data.rulesEngine?.suggestedActions || [];
+                document.getElementById('suggested-actions-count').textContent = `${actions.length} action${actions.length !== 1 ? 's' : ''}`;
+                const primaryAction = actions.find(a => a.isPrimary) || actions[0];
+                document.getElementById('primary-action').textContent = primaryAction?.displayName || 'None';
+
+                const actionsList = document.getElementById('all-actions-list');
+                if (actions.length > 0) {
+                    actionsList.innerHTML = actions.map(action => `
+                        <div class="entity-chip" style="background: rgba(82, 250, 90, 0.2); border-color: rgba(82, 250, 90, 0.4);">
+                            <div class="entity-label">${action.isPrimary ? '⭐ PRIMARY' : `Priority ${action.priority}`}</div>
+                            <div class="entity-value">${action.displayName}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    actionsList.innerHTML = '<div style="color: rgba(255,255,255,0.5); padding: 12px;">No actions suggested for this email</div>';
+                }
+
+                // Populate actions detail panel (stack-ranked)
+                const actionsDetailContent = document.getElementById('actions-detail-content');
+                const intentActions = intentInfo?.actions || actions.map((a, idx) => ({
+                    id: a.actionId,
+                    name: a.displayName,
+                    priority: a.priority,
+                    isPrimary: a.isPrimary || idx === 0
+                }));
+
+                if (intentActions.length > 0) {
+                    actionsDetailContent.innerHTML = intentActions.map((action, idx) => `
+                        <div class="action-card clickable ${action.isPrimary ? 'primary' : ''}" onclick="showModalFlow('${action.id}')">
+                            <div class="action-header">
+                                <div class="action-title">
+                                    ${action.isPrimary ? '<span class="primary-star">⭐</span>' : ''}
+                                    ${action.name}
+                                </div>
+                                <div class="action-priority">P${action.priority}</div>
+                            </div>
+                            <div style="font-size: 13px; color: rgba(255,255,255,0.6);">
+                                Action ID: <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px;">${action.id}</code>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    actionsDetailContent.innerHTML = '<p style="color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">No actions available for this intent</p>';
+                }
+
+                setStepStatus('actions', 'complete', `${actions.length} found`);
+
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                // Step 4: Modal Router
+                setStepStatus('modal', 'processing');
+                await new Promise(resolve => setTimeout(resolve, 500));
+
+                if (primaryAction) {
+                    const modalMap = {
+                        'sign_form': { name: 'SignFormModal', path: 'Views/ActionModules/SignFormModal.swift' },
+                        'pay_invoice': { name: 'PayInvoiceModal', path: 'Views/ActionModules/PayInvoiceModal.swift' },
+                        'track_package': { name: 'TrackPackageModal', path: 'Views/ActionModules/TrackPackageModal.swift' },
+                        'check_in_flight': { name: 'CheckInFlightModal', path: 'Views/ActionModules/CheckInFlightModal.swift' },
+                        'schedule_purchase': { name: 'ScheduledPurchaseModal', path: 'Views/ActionModules/ScheduledPurchaseModal.swift' }
+                    };
+
+                    const modal = modalMap[primaryAction.actionId] || { name: 'UnknownModal', path: 'Unknown' };
+                    document.getElementById('modal-name').textContent = modal.name;
+                    document.getElementById('modal-path').textContent = modal.path;
+
+                    const codeBlock = document.getElementById('modal-code');
+                    const codeContent = document.getElementById('modal-code-content');
+                    codeContent.textContent = `// Swift Modal Routing\ncase "${primaryAction.actionId}":\n    return ${modal.name}(\n        card: card,\n        context: extractedContext\n    )\n    .onDisappear {\n        handleActionComplete(card)\n    }`;
+                    codeBlock.style.display = 'block';
+
+                    setStepStatus('modal', 'complete', modal.name);
+                }
+
+                showStatus(`✅ Zero Sequence Complete! Intent: ${data.intentClassification.detectedIntent} → ${primaryAction?.displayName || 'No action'}`, 'success');
+
+            } catch (error) {
+                console.error('Error:', error);
+                showStatus(`❌ Error: ${error.message}. Make sure backend is running (npm run start:all)`, 'error');
+                setStepStatus('classification', 'error', 'API Error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>⚡</span><span>Run Zero Sequence</span>';
+            }
+        }
+
+        // [Email generation code from original file - keeping it identical]
+        const emailTemplates = {
+            permission_form: {
+                subjects: ["Permission Slip Required - {event} on {date}", "{event} Permission Form - Action Required"],
+                events: ["Field Trip", "Science Fair", "Sports Tournament"],
+                teachers: ["Ms. Anderson", "Mr. Roberts", "Mrs. Chen"],
+                schools: ["Lincoln Elementary", "Washington Middle School"],
+                amounts: ["$12", "$15", "$20"],
+                bodies: ["Dear Families,\n\nI'm writing to request your permission for {name}'s participation in our {event} scheduled for {date}.\n\nCost: {amount} per student\nReturn deadline: {deadline}\n\nBest regards,\n{teacher}"]
+            },
+            package_delivery: {
+                subjects: ["Your {retailer} order #{orderNum} has shipped"],
+                retailers: ["Amazon", "Target", "Best Buy"],
+                carriers: ["UPS", "FedEx", "USPS"],
+                items: ["electronics", "home goods", "books"],
+                bodies: ["Good news! Your {retailer} order has shipped.\n\nOrder #{orderNum}\nTracking: {trackingNum}\nCarrier: {carrier}\nExpected delivery: {date}"]
+            },
+            invoice_payment: {
+                subjects: ["Invoice #{invoiceNum} Due - {company}"],
+                companies: ["Acme Corp", "TechServe Inc"],
+                services: ["consulting services", "software license"],
+                amounts: ["$499.00", "$599.00", "$799.00"],
+                bodies: ["Dear Customer,\n\nYour invoice for {services} is now due.\n\nInvoice: {invoiceNum}\nAmount: {amount}\nDue Date: {date}\n\n{company} Billing"]
+            },
+            flight_checkin: {
+                subjects: ["Check in now - Flight {flightNum} to {destination}"],
+                airlines: ["United", "Delta", "American Airlines"],
+                origins: ["SFO", "LAX", "JFK"],
+                destinations: ["NYC", "Chicago", "Miami"],
+                times: ["6:30 AM", "8:45 AM", "10:15 AM"],
+                bodies: ["Your {airline} flight is departing soon!\n\nFlight: {flightNum}\nFrom: {origin} to {destination}\nDeparture: {time} on {date}\nConfirmation: {confirmationNum}"]
+            }
+        };
+
+        function generateEmail() {
+            const templateTypes = Object.keys(emailTemplates);
+            const selectedType = templateTypes[Math.floor(Math.random() * templateTypes.length)];
+            const template = emailTemplates[selectedType];
+
+            const subject = pickRandom(template.subjects);
+            const body = pickRandom(template.bodies);
+
+            let sender;
+            if (selectedType === 'permission_form') {
+                const teacher = pickRandom(template.teachers);
+                const school = pickRandom(template.schools);
+                sender = `${teacher} <${teacher.toLowerCase().replace(/[.\s]/g, '')}@${school.toLowerCase().replace(/\s/g, '')}.edu>`;
+            } else if (selectedType === 'package_delivery') {
+                const retailer = pickRandom(template.retailers);
+                sender = `${retailer} <shipment@${retailer.toLowerCase().replace(/\s/g, '')}.com>`;
+            } else if (selectedType === 'invoice_payment') {
+                const company = pickRandom(template.companies);
+                sender = `${company} <billing@${company.toLowerCase().replace(/\s/g, '')}.com>`;
+            } else {
+                const airline = pickRandom(template.airlines);
+                sender = `${airline} <noreply@${airline.toLowerCase().replace(/\s/g, '')}.com>`;
+            }
+
+            const replacements = {
+                date: generateFutureDate(),
+                deadline: generateFutureDate(3, 10),
+                time: pickRandom(template.times || ["9:00 AM", "2:00 PM"]),
+                orderNum: generateOrderNumber(),
+                invoiceNum: `INV-2025-${randomInt(1000, 9999)}`,
+                trackingNum: `1Z999AA1${randomInt(10000000, 99999999)}`,
+                confirmationNum: generateConfirmationCode(),
+                flightNum: `${pickRandom(['UA', 'DL', 'AA'])}${randomInt(100, 999)}`,
+                name: pickRandom(["Alex", "Jordan", "Taylor"]),
+                teacher: pickRandom(template.teachers || []),
+                school: pickRandom(template.schools || []),
+                company: pickRandom(template.companies || []),
+                retailer: pickRandom(template.retailers || []),
+                airline: pickRandom(template.airlines || []),
+                event: pickRandom(template.events || []),
+                services: pickRandom(template.services || []),
+                items: pickRandom(template.items || []),
+                amount: pickRandom(template.amounts || ["$25.00"]),
+                origin: pickRandom(template.origins || ["SFO"]),
+                destination: pickRandom(template.destinations || ["LAX"]),
+                carrier: pickRandom(template.carriers || ["UPS"])
+            };
+
+            let finalSubject = subject;
+            let finalBody = body;
+
+            for (const [key, value] of Object.entries(replacements)) {
+                const placeholder = new RegExp(`\\{${key}\\}`, 'g');
+                finalSubject = finalSubject.replace(placeholder, value);
+                finalBody = finalBody.replace(placeholder, value);
+            }
+
+            document.getElementById('subject-input').value = finalSubject;
+            document.getElementById('from-input').value = sender;
+            document.getElementById('body-input').value = finalBody;
+
+            showStatus(`✨ Generated synthetic ${selectedType.replace(/_/g, ' ')} email! Click "Run Zero Sequence" to test.`, 'loading');
+        }
+
+        function pickRandom(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function randomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function generateFutureDate(minDays = 1, maxDays = 30) {
+            const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const date = new Date();
+            date.setDate(date.getDate() + randomInt(minDays, maxDays));
+            return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+        }
+
+        function generateOrderNumber() {
+            return `${randomInt(100, 999)}-${randomInt(1000000, 9999999)}-${randomInt(1000000, 9999999)}`;
+        }
+
+        function generateConfirmationCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) {
+                code += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return code;
+        }
+
+        // Modal Flow Data - Complete flows for each action type
+        const MODAL_FLOWS = {
+            'sign_form': {
+                title: '✍️ Sign Form',
+                steps: [
+                    {
+                        label: '1. Form Email',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Permission Form</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Signature required</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>✍️</span> Sign</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Draw Signature',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✍️ Sign Form</div>
+                            <div style="background: rgba(255,255,255,0.95); height: 80px; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #999; font-style: italic;">
+                                Draw your signature
+                            </div>
+                        </div>`
+                    },
+                    {
+                        label: '3. Confirm',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✍️ Confirm Signature</div>
+                            <div style="background: rgba(147, 51, 234, 0.15); border: 2px solid rgba(147, 51, 234, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+                                <div style="font-weight: 600; margin-bottom: 8px;">Field Trip Permission Form</div>
+                                <div style="font-size: 14px; opacity: 0.8;">Ready to send with your signature</div>
+                            </div>
+                            <div style="background: rgba(147, 51, 234, 0.3); padding: 14px; border-radius: 10px; text-align: center; font-weight: 600;">
+                                ✓ Send Signed Form
+                            </div>
+                        </div>`
+                    },
+                    {
+                        label: '4. Signed',
+                        html: `<div class="modal-success-state">
+                            <div class="modal-success-icon">✓</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Form Signed!</div>
+                            <div style="opacity: 0.8;">Reply sent with signature</div>
+                        </div>`
+                    }
+                ]
+            },
+            'pay_invoice': {
+                title: '💰 Pay Invoice',
+                steps: [
+                    {
+                        label: '1. Invoice Email',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Invoice #INV-2025-1234</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 10px 0;">$599.00</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Due: Oct 30, 2025</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>💳</span> Pay Now</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Payment Method',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💳 Pay Invoice</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;">
+                                <div style="opacity: 0.7; font-size: 12px;">Amount Due</div>
+                                <div style="font-size: 28px; font-weight: 700; color: #FFD700;">$599.00</div>
+                            </div>
+                            <div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">
+                                 Pay with Apple Pay
+                            </div>
+                        </div>`
+                    },
+                    {
+                        label: '3. Processing',
+                        html: `<div class="modal-preview-card" style="background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.4);">
+                            <div style="width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.2); border-top-color: #3B82F6; border-radius: 50%; margin: 0 auto 16px; animation: spin 1s linear infinite;"></div>
+                            <div style="text-align: center; font-weight: 600;">Processing Payment...</div>
+                        </div>`
+                    },
+                    {
+                        label: '4. Complete',
+                        html: `<div class="modal-success-state">
+                            <div class="modal-success-icon">✓</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Payment Sent!</div>
+                            <div style="opacity: 0.8;">$599.00 paid to Acme Corp</div>
+                        </div>`
+                    }
+                ]
+            },
+            'track_package': {
+                title: '📦 Track Package',
+                steps: [
+                    {
+                        label: '1. Shipping Email',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Your order has shipped</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">UPS • Arrives Friday</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📦</span> Track</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Tracking Details',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📦 Package Tracking</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                                <div style="font-size: 12px; opacity: 0.7;">Status</div>
+                                <div style="font-weight: 600; color: #FFD700;">Out for Delivery</div>
+                            </div>
+                            <div style="display: flex; gap: 8px; margin-top: 12px;">
+                                <div style="flex: 1; height: 4px; background: rgba(52, 199, 89, 0.8); border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 4px; background: rgba(52, 199, 89, 0.8); border-radius: 2px;"></div>
+                                <div style="flex: 1; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px;"></div>
+                            </div>
+                        </div>`
+                    },
+                    {
+                        label: '3. Live Updates',
+                        html: `<div class="modal-success-state">
+                            <div class="modal-success-icon">✓</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Tracking Active</div>
+                            <div style="opacity: 0.8;">Push notifications enabled</div>
+                        </div>`
+                    }
+                ]
+            },
+            'check_in_flight': {
+                title: '✈️ Check In Flight',
+                steps: [
+                    {
+                        label: '1. Check-in Email',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">UA 1234 Ready for Check-in</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">SFO → JFK • Tomorrow 9:00 AM</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(59, 130, 246, 0.3); border-radius: 10px; font-size: 13px;"><span>✈️</span> Check In</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Seat Selection',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✈️ Check In</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                                <div style="font-weight: 600;">Flight UA 1234</div>
+                                <div style="font-size: 13px; opacity: 0.7; margin-top: 4px;">Seat 12A</div>
+                            </div>
+                            <div style="background: rgba(59, 130, 246, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">
+                                Confirm Check-in
+                            </div>
+                        </div>`
+                    },
+                    {
+                        label: '3. Boarding Pass',
+                        html: `<div class="modal-success-state">
+                            <div class="modal-success-icon">✓</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Checked In!</div>
+                            <div style="opacity: 0.8;">Pass added to Wallet</div>
+                        </div>`
+                    }
+                ]
+            },
+            'schedule_purchase': {
+                title: '📅 Scheduled Purchase',
+                steps: [
+                    {
+                        label: '1. Product',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Monthly Coffee Subscription</div>
+                            <div style="font-size: 20px; font-weight: 700; margin: 10px 0;">$24.99/mo</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>📅</span> Schedule Purchase</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Schedule',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Schedule Recurring</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                                <div style="opacity: 0.7; font-size: 12px;">Frequency</div>
+                                <div style="font-weight: 600;">Monthly</div>
+                            </div>
+                            <div style="background: rgba(147, 51, 234, 0.2); border: 2px solid rgba(147, 51, 234, 0.6); padding: 12px; border-radius: 10px;">
+                                <div style="opacity: 0.7; font-size: 12px;">Next Charge</div>
+                                <div style="font-weight: 600;">Nov 29, 2025</div>
+                            </div>
+                        </div>`
+                    },
+                    {
+                        label: '3. Scheduled',
+                        html: `<div class="modal-success-state">
+                            <div class="modal-success-icon">✓</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Subscription Active!</div>
+                            <div style="opacity: 0.8;">$24.99 charged monthly</div>
+                        </div>`
+                    }
+                ]
+            },
+            'add_to_calendar': {
+                title: '📅 Add to Calendar',
+                steps: [
+                    {
+                        label: '1. Event Email',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Field Trip - Oct 25th</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Science Museum Visit</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(0, 122, 255, 0.3); border-radius: 10px; font-size: 13px;"><span>📅</span> Add to Calendar</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Event Details',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Calendar Event</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                                <div style="font-weight: 600;">Field Trip</div>
+                                <div style="font-size: 13px; opacity: 0.7; margin-top: 4px;">October 25, 2025 at 9:00 AM</div>
+                            </div>
+                            <div style="background: rgba(0, 122, 255, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">
+                                Add to Calendar
+                            </div>
+                        </div>`
+                    },
+                    {
+                        label: '3. Added',
+                        html: `<div class="modal-success-state">
+                            <div class="modal-success-icon">✓</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Event Added!</div>
+                            <div style="opacity: 0.8;">Reminder set for 1 day before</div>
+                        </div>`
+                    }
+                ]
+            },
+            'pay_form_fee': {
+                title: '💳 Pay Form Fee',
+                steps: [
+                    {
+                        label: '1. Fee Email',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Field Trip Fee</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 10px 0;">$15.00</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Per student</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>💳</span> Pay Now</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Payment',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💳 Pay Fee</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;">
+                                <div style="opacity: 0.7; font-size: 12px;">Amount</div>
+                                <div style="font-size: 28px; font-weight: 700; color: #FFD700;">$15.00</div>
+                            </div>
+                            <div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">
+                                 Pay with Apple Pay
+                            </div>
+                        </div>`
+                    },
+                    {
+                        label: '3. Complete',
+                        html: `<div class="modal-success-state">
+                            <div class="modal-success-icon">✓</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Payment Sent!</div>
+                            <div style="opacity: 0.8;">$15.00 paid</div>
+                        </div>`
+                    }
+                ]
+            },
+            'view_order': {
+                title: '📦 View Order',
+                steps: [
+                    {
+                        label: '1. Order Email',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Order #112-8493829</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">3 items</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(0, 122, 255, 0.3); border-radius: 10px; font-size: 13px;"><span>📦</span> View</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Order Details',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📦 Order Details</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                                <div style="font-weight: 600;">Order #112-8493829</div>
+                                <div style="font-size: 13px; opacity: 0.7; margin-top: 4px;">Placed: Oct 20, 2025</div>
+                                <div style="font-size: 13px; opacity: 0.7;">Total: $89.97</div>
+                            </div>
+                        </div>`
+                    }
+                ]
+            },
+            'view_invoice': {
+                title: '📄 View Invoice',
+                steps: [
+                    {
+                        label: '1. Invoice Email',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Invoice #INV-2025-1234</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 10px 0;">$599.00</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(0, 122, 255, 0.3); border-radius: 10px; font-size: 13px;"><span>📄</span> View</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Invoice Details',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📄 Invoice Details</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                                <div style="font-weight: 600;">INV-2025-1234</div>
+                                <div style="font-size: 13px; opacity: 0.7; margin-top: 4px;">Due: Oct 30, 2025</div>
+                                <div style="font-size: 20px; font-weight: 700; color: #FFD700; margin-top: 8px;">$599.00</div>
+                            </div>
+                        </div>`
+                    }
+                ]
+            },
+            'set_payment_reminder': {
+                title: '⏰ Set Payment Reminder',
+                steps: [
+                    {
+                        label: '1. Invoice',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Invoice Due Oct 30</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 10px 0;">$599.00</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>⏰</span> Remind Me</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Set Reminder',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⏰ Payment Reminder</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                                <div style="opacity: 0.7; font-size: 12px;">Remind me</div>
+                                <div style="font-weight: 600;">2 days before due date</div>
+                            </div>
+                            <div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">
+                                Set Reminder
+                            </div>
+                        </div>`
+                    },
+                    {
+                        label: '3. Reminder Set',
+                        html: `<div class="modal-success-state">
+                            <div class="modal-success-icon">✓</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Reminder Set!</div>
+                            <div style="opacity: 0.8;">You'll be notified on Oct 28</div>
+                        </div>`
+                    }
+                ]
+            },
+            'contact_support': {
+                title: '💬 Contact Support',
+                steps: [
+                    {
+                        label: '1. Support Request',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Need Help?</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Get support for your order</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>💬</span> Contact</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Send Message',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💬 Contact Support</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 10px; text-align: center;">
+                                <div style="font-weight: 600; margin-bottom: 8px;">Message sent</div>
+                                <div style="font-size: 13px; opacity: 0.7;">Expected response: 24 hours</div>
+                            </div>
+                        </div>`
+                    }
+                ]
+            },
+            'add_to_wallet': {
+                title: '📲 Add to Wallet',
+                steps: [
+                    {
+                        label: '1. Boarding Pass',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Flight UA 1234</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">SFO → JFK</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(0, 122, 255, 0.3); border-radius: 10px; font-size: 13px;"><span>📲</span> Add to Wallet</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Pass Added',
+                        html: `<div class="modal-success-state">
+                            <div class="modal-success-icon">✓</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Added to Wallet!</div>
+                            <div style="opacity: 0.8;">Boarding pass ready</div>
+                        </div>`
+                    }
+                ]
+            },
+            'view_itinerary': {
+                title: '✈️ View Itinerary',
+                steps: [
+                    {
+                        label: '1. Flight Email',
+                        html: `<div class="modal-email-card">
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Flight UA 1234</div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">SFO → JFK • Tomorrow 9:00 AM</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(0, 122, 255, 0.3); border-radius: 10px; font-size: 13px;"><span>✈️</span> View</div>
+                        </div>`
+                    },
+                    {
+                        label: '2. Itinerary',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✈️ Flight Itinerary</div>
+                            <div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 10px;">
+                                <div style="font-weight: 600;">UA 1234</div>
+                                <div style="font-size: 13px; opacity: 0.7; margin-top: 4px;">SFO Departure: 9:00 AM</div>
+                                <div style="font-size: 13px; opacity: 0.7;">JFK Arrival: 5:30 PM</div>
+                            </div>
+                        </div>`
+                    }
+                ]
+            }
+        };
+
+        // Function to display modal flow when action is clicked
+        function showModalFlow(actionId) {
+            const flow = MODAL_FLOWS[actionId];
+
+            if (!flow) {
+                console.log('No modal flow defined for action:', actionId);
+
+                // Show fallback message for actions without flows
+                document.getElementById('modal-flow-container').style.display = 'none';
+                document.getElementById('modal-placeholder').innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
+                        <div style="font-size: 48px; margin-bottom: 16px;">🚧</div>
+                        <div style="font-size: 18px; margin-bottom: 8px; color: rgba(255,255,255,0.8);">Modal Flow Not Yet Defined</div>
+                        <div style="font-size: 14px; margin-bottom: 16px;">Action ID: <code style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px; color: rgba(52,199,89,1);">${actionId}</code></div>
+                        <div style="font-size: 13px; opacity: 0.6;">This action would open a modal in the app, but the visualization hasn't been created yet.</div>
+                    </div>
+                `;
+                document.getElementById('modal-placeholder').style.display = 'block';
+
+                // Mark step as processing (not complete since no flow to show)
+                setStepStatus('modal', 'processing', 'Flow pending');
+
+                // Scroll modal section into view
+                document.getElementById('step-modal').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                return;
+            }
+
+            // Show modal flow container, hide placeholder
+            document.getElementById('modal-flow-container').style.display = 'block';
+            document.getElementById('modal-placeholder').style.display = 'none';
+
+            // Build the flow HTML
+            let flowHTML = '';
+            flow.steps.forEach((step, index) => {
+                flowHTML += `
+                    <div class="modal-flow-step">
+                        <div class="modal-flow-label">${step.label}</div>
+                        ${step.html}
+                    </div>
+                `;
+
+                // Add arrow between steps (except after last step)
+                if (index < flow.steps.length - 1) {
+                    flowHTML += '<div class="modal-flow-arrow">→</div>';
+                }
+            });
+
+            // Inject the HTML
+            document.getElementById('modal-flow-display').innerHTML = flowHTML;
+
+            // Activate Step 4 and mark as complete
+            setStepStatus('modal', 'complete', flow.title);
+
+            // Scroll modal section into view
+            document.getElementById('step-modal').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+    </script>
+</body>
+</html>

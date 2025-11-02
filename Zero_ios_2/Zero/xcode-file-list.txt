@@ -1,0 +1,98 @@
+# New Files to Add to Xcode Project
+
+## Instructions
+Add these files to your Xcode project:
+1. Right-click on appropriate folder in Project Navigator
+2. Select "Add Files to Zero..."
+3. Make sure "Copy items if needed" is UNCHECKED (files already in place)
+4. Make sure "Create groups" is selected
+5. Verify "Zero" target is checked
+
+---
+
+## Phase 1-3: Navigation & View Components (ALL ADDED ✅)
+
+### Config/
+- [x] Constants.swift
+
+### Protocols/
+- [x] EmailServiceProtocol.swift
+- [x] ShoppingCartServiceProtocol.swift
+- [x] AnalyticsServiceProtocol.swift
+
+### Navigation/
+- [x] ModalRouter.swift
+- [x] ModalViewBuilder.swift
+
+### Views/Feed/
+- [x] TopNavigationBar.swift
+- [x] BottomNavigationBar.swift
+- [x] CardStackView.swift
+
+### Utilities/
+- [x] Logger.swift
+
+### DI/
+- [x] ServiceContainer.swift
+
+### Models/
+- [x] UserSession.swift
+
+---
+
+## Phase 4-5: Services & ViewModel Refactoring (ALL ADDED ✅)
+
+### Protocols/
+- [x] UserPreferencesServiceProtocol.swift
+- [x] AppStateManagerProtocol.swift
+- [x] CardManagementServiceProtocol.swift
+
+### Services/
+- [x] UserPreferencesService.swift
+- [x] AppStateManager.swift
+- [x] CardManagementService.swift
+
+---
+
+## Phase 6: Error Handling & Logging (NEEDS TO BE ADDED)
+
+### Utilities/
+- [ ] **ErrorHandler.swift** ← ADD THIS FILE
+
+---
+
+## Summary
+
+**Total New Files:** 21
+**Added to Xcode:** 20 ✅
+**Remaining:** 1 (ErrorHandler.swift)
+
+---
+
+## Verification Steps
+
+After adding ErrorHandler.swift:
+
+1. **Build the project** (`Cmd+B`)
+   - Should complete successfully
+   - No compilation errors
+
+2. **Check file references**
+   - All 21 files should appear in Project Navigator
+   - No red file names (missing references)
+   - All files in appropriate groups/folders
+
+3. **Run the app** (`Cmd+R`)
+   - App launches successfully
+   - No runtime errors
+   - All features work as expected
+
+---
+
+## Notes
+
+- All files already exist on disk in correct locations
+- Don't use "Copy items if needed" - files are already in place
+- Ensure "Create groups" (not "Create folder references")
+- Verify "Zero" target is selected when adding files
+- Build after adding to catch any issues early

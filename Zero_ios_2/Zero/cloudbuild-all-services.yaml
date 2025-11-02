@@ -1,0 +1,96 @@
+# Cloud Build configuration for Zero Backend Services
+# Builds Docker images for all microservices
+
+steps:
+  # Build Email Service
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/email-service:latest'
+      - '-f'
+      - 'Dockerfile.email'
+      - '.'
+    id: 'build-email-service'
+
+  # Build Classifier Service
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/classifier-service:latest'
+      - '-f'
+      - 'Dockerfile.classifier'
+      - '.'
+    id: 'build-classifier-service'
+
+  # Build Summarization Service
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/summarization-service:latest'
+      - '-f'
+      - 'Dockerfile.summarization'
+      - '.'
+    id: 'build-summarization-service'
+
+  # Build Scheduled Purchase Service
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/scheduled-purchase-service:latest'
+      - '-f'
+      - 'Dockerfile.scheduled-purchase'
+      - '.'
+    id: 'build-scheduled-purchase-service'
+
+  # Build Shopping Agent Service
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/shopping-agent-service:latest'
+      - '-f'
+      - 'Dockerfile.shopping-agent'
+      - '.'
+    id: 'build-shopping-agent-service'
+
+  # Build Steel Agent Service
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/steel-agent-service:latest'
+      - '-f'
+      - 'services/steel-agent/Dockerfile'
+      - '.'
+    id: 'build-steel-agent-service'
+
+  # Build API Gateway
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/api-gateway:latest'
+      - '-f'
+      - 'Dockerfile.gateway'
+      - '.'
+    id: 'build-api-gateway'
+
+# Push all images to Container Registry
+images:
+  - 'gcr.io/$PROJECT_ID/email-service:latest'
+  - 'gcr.io/$PROJECT_ID/classifier-service:latest'
+  - 'gcr.io/$PROJECT_ID/summarization-service:latest'
+  - 'gcr.io/$PROJECT_ID/scheduled-purchase-service:latest'
+  - 'gcr.io/$PROJECT_ID/shopping-agent-service:latest'
+  - 'gcr.io/$PROJECT_ID/steel-agent-service:latest'
+  - 'gcr.io/$PROJECT_ID/api-gateway:latest'
+
+# Build configuration
+timeout: '1800s'  # 30 minutes
+options:
+  machineType: 'N1_HIGHCPU_8'
+  logging: CLOUD_LOGGING_ONLY

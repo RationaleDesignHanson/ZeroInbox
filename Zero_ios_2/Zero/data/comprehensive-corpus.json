@@ -1,0 +1,4412 @@
+[
+  {
+    "subject": "Return Label for Order #{num}",
+    "from": "Amazon <returns@amazon.com>",
+    "body": "Print your return label: {url}. Drop off at any UPS location. Refund processed within 5-7 days.",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Instructions - Order {num}",
+    "from": "Target <returns@target.com>",
+    "body": "Return your order by {date}. No box needed. Print label: {url}",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Start Your Return",
+    "from": "Shopify Store <returns@shop.com>",
+    "body": "We're sorry your item didn't work out. Return deadline: {date}. Get label: {url}",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Label for Order #{num}",
+    "from": "Amazon <returns@amazon.com>",
+    "body": "Print your return label: {url}. Drop off at any UPS location. Refund processed within 5-7 days.",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Instructions - Order {num}",
+    "from": "Target <returns@target.com>",
+    "body": "Return your order by {date}. No box needed. Print label: {url}",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Start Your Return",
+    "from": "Shopify Store <returns@shop.com>",
+    "body": "We're sorry your item didn't work out. Return deadline: {date}. Get label: {url}",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Label for Order #{num}",
+    "from": "Amazon <returns@amazon.com>",
+    "body": "Print your return label: {url}. Drop off at any UPS location. Refund processed within 5-7 days.",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Instructions - Order {num}",
+    "from": "Target <returns@target.com>",
+    "body": "Return your order by {date}. No box needed. Print label: {url}",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Start Your Return",
+    "from": "Shopify Store <returns@shop.com>",
+    "body": "We're sorry your item didn't work out. Return deadline: {date}. Get label: {url}",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Refund Initiated for Order #{num}",
+    "from": "Amazon <refunds@amazon.com>",
+    "body": "Your refund of ${amount} is being processed. Expect it in 3-5 business days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Approved - ${amount}",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund has been approved. Money will appear in your account within 5-7 days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Return Received - Refund Processing",
+    "from": "Returns <returns@shop.com>",
+    "body": "We received your return. Refund of ${amount} will be issued within 48 hours.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Initiated for Order #{num}",
+    "from": "Amazon <refunds@amazon.com>",
+    "body": "Your refund of ${amount} is being processed. Expect it in 3-5 business days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Approved - ${amount}",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund has been approved. Money will appear in your account within 5-7 days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Return Received - Refund Processing",
+    "from": "Returns <returns@shop.com>",
+    "body": "We received your return. Refund of ${amount} will be issued within 48 hours.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Initiated for Order #{num}",
+    "from": "Amazon <refunds@amazon.com>",
+    "body": "Your refund of ${amount} is being processed. Expect it in 3-5 business days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Approved - ${amount}",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund has been approved. Money will appear in your account within 5-7 days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Return Received - Refund Processing",
+    "from": "Returns <returns@shop.com>",
+    "body": "We received your return. Refund of ${amount} will be issued within 48 hours.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Item Temporarily Out of Stock",
+    "from": "Store <orders@store.com>",
+    "body": "{item} is on backorder. Expected restock: {date}. Your order will ship then.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Backorder Notice - Order #{num}",
+    "from": "Shop <shipping@shop.com>",
+    "body": "One item in your order is backordered. Estimated availability: {timeframe}.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Supply Chain Delay",
+    "from": "Store <notify@store.com>",
+    "body": "{product} is temporarily unavailable. We'll ship as soon as stock arrives ({eta}).",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Item Temporarily Out of Stock",
+    "from": "Store <orders@store.com>",
+    "body": "{item} is on backorder. Expected restock: {date}. Your order will ship then.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Backorder Notice - Order #{num}",
+    "from": "Shop <shipping@shop.com>",
+    "body": "One item in your order is backordered. Estimated availability: {timeframe}.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Supply Chain Delay",
+    "from": "Store <notify@store.com>",
+    "body": "{product} is temporarily unavailable. We'll ship as soon as stock arrives ({eta}).",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Item Temporarily Out of Stock",
+    "from": "Store <orders@store.com>",
+    "body": "{item} is on backorder. Expected restock: {date}. Your order will ship then.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Backorder Notice - Order #{num}",
+    "from": "Shop <shipping@shop.com>",
+    "body": "One item in your order is backordered. Estimated availability: {timeframe}.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Supply Chain Delay",
+    "from": "Store <notify@store.com>",
+    "body": "{product} is temporarily unavailable. We'll ship as soon as stock arrives ({eta}).",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming Payment Reminder",
+    "from": "Chase <alerts@chase.com>",
+    "body": "Your payment of ${amount} is due on {date}. Avoid late fees.",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Scheduled for {date}",
+    "from": "Bank <notifications@bank.com>",
+    "body": "Auto-payment of ${amount} will be withdrawn on {date}.",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Due in 3 Days",
+    "from": "Lender <payments@lender.com>",
+    "body": "Reminder: ${amount} due {date}. Pay now: {url}",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming Payment Reminder",
+    "from": "Chase <alerts@chase.com>",
+    "body": "Your payment of ${amount} is due on {date}. Avoid late fees.",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Scheduled for {date}",
+    "from": "Bank <notifications@bank.com>",
+    "body": "Auto-payment of ${amount} will be withdrawn on {date}.",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Due in 3 Days",
+    "from": "Lender <payments@lender.com>",
+    "body": "Reminder: ${amount} due {date}. Pay now: {url}",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming Payment Reminder",
+    "from": "Chase <alerts@chase.com>",
+    "body": "Your payment of ${amount} is due on {date}. Avoid late fees.",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Scheduled for {date}",
+    "from": "Bank <notifications@bank.com>",
+    "body": "Auto-payment of ${amount} will be withdrawn on {date}.",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Due in 3 Days",
+    "from": "Lender <payments@lender.com>",
+    "body": "Reminder: ${amount} due {date}. Pay now: {url}",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Failed - Action Required",
+    "from": "Netflix <billing@netflix.com>",
+    "body": "We couldn't process your payment. Update payment method to avoid service interruption.",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Declined: Payment Issue",
+    "from": "Bank <alerts@bank.com>",
+    "body": "Payment of ${amount} was declined. Insufficient funds. Please review your account.",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Update Payment Information",
+    "from": "Service <billing@service.com>",
+    "body": "Your recent payment failed. Update card ending in {last4}: {url}",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Payment Failed - Action Required",
+    "from": "Netflix <billing@netflix.com>",
+    "body": "We couldn't process your payment. Update payment method to avoid service interruption.",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Declined: Payment Issue",
+    "from": "Bank <alerts@bank.com>",
+    "body": "Payment of ${amount} was declined. Insufficient funds. Please review your account.",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Update Payment Information",
+    "from": "Service <billing@service.com>",
+    "body": "Your recent payment failed. Update card ending in {last4}: {url}",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Payment Failed - Action Required",
+    "from": "Netflix <billing@netflix.com>",
+    "body": "We couldn't process your payment. Update payment method to avoid service interruption.",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Declined: Payment Issue",
+    "from": "Bank <alerts@bank.com>",
+    "body": "Payment of ${amount} was declined. Insufficient funds. Please review your account.",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Update Payment Information",
+    "from": "Service <billing@service.com>",
+    "body": "Your recent payment failed. Update card ending in {last4}: {url}",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Completed - ${amount}",
+    "from": "Company <refunds@company.com>",
+    "body": "Your refund of ${amount} has been processed. It should appear in 3-5 business days.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Money Returned to Your Account",
+    "from": "Bank <notifications@bank.com>",
+    "body": "Refund credit: ${amount} from {merchant} on {date}.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Issued",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund of ${amount} has been sent. Reference: {refNum}",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Completed - ${amount}",
+    "from": "Company <refunds@company.com>",
+    "body": "Your refund of ${amount} has been processed. It should appear in 3-5 business days.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Money Returned to Your Account",
+    "from": "Bank <notifications@bank.com>",
+    "body": "Refund credit: ${amount} from {merchant} on {date}.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Issued",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund of ${amount} has been sent. Reference: {refNum}",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Completed - ${amount}",
+    "from": "Company <refunds@company.com>",
+    "body": "Your refund of ${amount} has been processed. It should appear in 3-5 business days.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Money Returned to Your Account",
+    "from": "Bank <notifications@bank.com>",
+    "body": "Refund credit: ${amount} from {merchant} on {date}.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Issued",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund of ${amount} has been sent. Reference: {refNum}",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Monthly Portfolio Update",
+    "from": "Vanguard <updates@vanguard.com>",
+    "body": "Your portfolio is up {percent}% this month. Total value: ${value}.",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Q4 Investment Summary",
+    "from": "Fidelity <reports@fidelity.com>",
+    "body": "Year-to-date return: {percent}%. View detailed report: {url}",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Market Update for Your Portfolio",
+    "from": "Schwab <market@schwab.com>",
+    "body": "Recent market performance impacted your holdings. Current balance: ${balance}.",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Monthly Portfolio Update",
+    "from": "Vanguard <updates@vanguard.com>",
+    "body": "Your portfolio is up {percent}% this month. Total value: ${value}.",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Q4 Investment Summary",
+    "from": "Fidelity <reports@fidelity.com>",
+    "body": "Year-to-date return: {percent}%. View detailed report: {url}",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Market Update for Your Portfolio",
+    "from": "Schwab <market@schwab.com>",
+    "body": "Recent market performance impacted your holdings. Current balance: ${balance}.",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Monthly Portfolio Update",
+    "from": "Vanguard <updates@vanguard.com>",
+    "body": "Your portfolio is up {percent}% this month. Total value: ${value}.",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Q4 Investment Summary",
+    "from": "Fidelity <reports@fidelity.com>",
+    "body": "Year-to-date return: {percent}%. View detailed report: {url}",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Market Update for Your Portfolio",
+    "from": "Schwab <market@schwab.com>",
+    "body": "Recent market performance impacted your holdings. Current balance: ${balance}.",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Suspicious Transaction Detected",
+    "from": "Chase <fraud@chase.com>",
+    "body": "Did you attempt a ${amount} charge at {merchant}? If not, lock your card immediately: {url}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Unusual Activity on Your Account",
+    "from": "Bank <security@bank.com>",
+    "body": "We detected unusual activity. Transaction: ${amount} at {location}. Verify: {url}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Alert - ${amount} Charge",
+    "from": "Card Services <fraud@cardservices.com>",
+    "body": "Confirm this transaction or report it as fraud: {details}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Suspicious Transaction Detected",
+    "from": "Chase <fraud@chase.com>",
+    "body": "Did you attempt a ${amount} charge at {merchant}? If not, lock your card immediately: {url}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Unusual Activity on Your Account",
+    "from": "Bank <security@bank.com>",
+    "body": "We detected unusual activity. Transaction: ${amount} at {location}. Verify: {url}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Alert - ${amount} Charge",
+    "from": "Card Services <fraud@cardservices.com>",
+    "body": "Confirm this transaction or report it as fraud: {details}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Suspicious Transaction Detected",
+    "from": "Chase <fraud@chase.com>",
+    "body": "Did you attempt a ${amount} charge at {merchant}? If not, lock your card immediately: {url}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Unusual Activity on Your Account",
+    "from": "Bank <security@bank.com>",
+    "body": "We detected unusual activity. Transaction: ${amount} at {location}. Verify: {url}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Alert - ${amount} Charge",
+    "from": "Card Services <fraud@cardservices.com>",
+    "body": "Confirm this transaction or report it as fraud: {details}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "You paid {name} ${amount}",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Payment sent! {name} received ${amount} for {note}.",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "Payment Sent via Zelle",
+    "from": "Bank <zelle@bank.com>",
+    "body": "You sent ${amount} to {email}. Transaction ID: {id}",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You sent ${amount}",
+    "from": "Cash App <cash@cash.app>",
+    "body": "Payment to {name} complete. Receipt: {url}",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You paid {name} ${amount}",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Payment sent! {name} received ${amount} for {note}.",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "Payment Sent via Zelle",
+    "from": "Bank <zelle@bank.com>",
+    "body": "You sent ${amount} to {email}. Transaction ID: {id}",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You sent ${amount}",
+    "from": "Cash App <cash@cash.app>",
+    "body": "Payment to {name} complete. Receipt: {url}",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You paid {name} ${amount}",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Payment sent! {name} received ${amount} for {note}.",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "Payment Sent via Zelle",
+    "from": "Bank <zelle@bank.com>",
+    "body": "You sent ${amount} to {email}. Transaction ID: {id}",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You sent ${amount}",
+    "from": "Cash App <cash@cash.app>",
+    "body": "Payment to {name} complete. Receipt: {url}",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "{name} paid you ${amount}",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Money received! {name} sent you ${amount}.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "You received ${amount}",
+    "from": "PayPal <service@paypal.com>",
+    "body": "{name} sent you a payment. Available now in your balance.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Payment Received: ${amount}",
+    "from": "Zelle <notifications@zelle.com>",
+    "body": "Payment from {name} deposited to your account.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "{name} paid you ${amount}",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Money received! {name} sent you ${amount}.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "You received ${amount}",
+    "from": "PayPal <service@paypal.com>",
+    "body": "{name} sent you a payment. Available now in your balance.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Payment Received: ${amount}",
+    "from": "Zelle <notifications@zelle.com>",
+    "body": "Payment from {name} deposited to your account.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "{name} paid you ${amount}",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Money received! {name} sent you ${amount}.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "You received ${amount}",
+    "from": "PayPal <service@paypal.com>",
+    "body": "{name} sent you a payment. Available now in your balance.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Payment Received: ${amount}",
+    "from": "Zelle <notifications@zelle.com>",
+    "body": "Payment from {name} deposited to your account.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Protect Yourself from Payment Scams",
+    "from": "Venmo <security@venmo.com>",
+    "body": "Never send money to people you don't know. Common scams to avoid: {list}",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Prevention Tips",
+    "from": "Zelle <safety@zelle.com>",
+    "body": "Only send money to people you trust. Zelle is like cash - payments can't be reversed.",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Stay Safe: Recognize These Scams",
+    "from": "Cash App <security@cash.app>",
+    "body": "Scammers pretending to be support, fake giveaways, and more. Learn how to stay safe.",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Protect Yourself from Payment Scams",
+    "from": "Venmo <security@venmo.com>",
+    "body": "Never send money to people you don't know. Common scams to avoid: {list}",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Prevention Tips",
+    "from": "Zelle <safety@zelle.com>",
+    "body": "Only send money to people you trust. Zelle is like cash - payments can't be reversed.",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Stay Safe: Recognize These Scams",
+    "from": "Cash App <security@cash.app>",
+    "body": "Scammers pretending to be support, fake giveaways, and more. Learn how to stay safe.",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Protect Yourself from Payment Scams",
+    "from": "Venmo <security@venmo.com>",
+    "body": "Never send money to people you don't know. Common scams to avoid: {list}",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Prevention Tips",
+    "from": "Zelle <safety@zelle.com>",
+    "body": "Only send money to people you trust. Zelle is like cash - payments can't be reversed.",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Stay Safe: Recognize These Scams",
+    "from": "Cash App <security@cash.app>",
+    "body": "Scammers pretending to be support, fake giveaways, and more. Learn how to stay safe.",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Mortgage Rate Quote - {rate}%",
+    "from": "Lender <rates@mortgage.com>",
+    "body": "Current rates: {rate}% for 30-year fixed. Pre-qualify: {url}",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Your Refinance Options",
+    "from": "Broker <info@broker.com>",
+    "body": "You could save ${savings}/month by refinancing. Let's discuss your options.",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approval Update",
+    "from": "Mortgage Co <approvals@mortgageco.com>",
+    "body": "Congratulations! You're pre-approved for up to ${amount}. Next steps: {url}",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Mortgage Rate Quote - {rate}%",
+    "from": "Lender <rates@mortgage.com>",
+    "body": "Current rates: {rate}% for 30-year fixed. Pre-qualify: {url}",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Your Refinance Options",
+    "from": "Broker <info@broker.com>",
+    "body": "You could save ${savings}/month by refinancing. Let's discuss your options.",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approval Update",
+    "from": "Mortgage Co <approvals@mortgageco.com>",
+    "body": "Congratulations! You're pre-approved for up to ${amount}. Next steps: {url}",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Mortgage Rate Quote - {rate}%",
+    "from": "Lender <rates@mortgage.com>",
+    "body": "Current rates: {rate}% for 30-year fixed. Pre-qualify: {url}",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Your Refinance Options",
+    "from": "Broker <info@broker.com>",
+    "body": "You could save ${savings}/month by refinancing. Let's discuss your options.",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approval Update",
+    "from": "Mortgage Co <approvals@mortgageco.com>",
+    "body": "Congratulations! You're pre-approved for up to ${amount}. Next steps: {url}",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Your PSE&G Bill is Ready",
+    "from": "PSE&G <myaccount@pseg.com>",
+    "body": "Electric bill for {month}: ${amount}. Due {date}. Pay online: {url}",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Verizon FiOS Bill - {month}",
+    "from": "Verizon <billing@verizon.com>",
+    "body": "Monthly charges: ${amount}. Auto-pay on {date}. View bill: {url}",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Water & Sewer Bill",
+    "from": "City Utilities <billing@city.gov>",
+    "body": "Quarterly bill: ${amount}. Due by {date}. Payment options: {url}",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Your PSE&G Bill is Ready",
+    "from": "PSE&G <myaccount@pseg.com>",
+    "body": "Electric bill for {month}: ${amount}. Due {date}. Pay online: {url}",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Verizon FiOS Bill - {month}",
+    "from": "Verizon <billing@verizon.com>",
+    "body": "Monthly charges: ${amount}. Auto-pay on {date}. View bill: {url}",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Water & Sewer Bill",
+    "from": "City Utilities <billing@city.gov>",
+    "body": "Quarterly bill: ${amount}. Due by {date}. Payment options: {url}",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Your PSE&G Bill is Ready",
+    "from": "PSE&G <myaccount@pseg.com>",
+    "body": "Electric bill for {month}: ${amount}. Due {date}. Pay online: {url}",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Verizon FiOS Bill - {month}",
+    "from": "Verizon <billing@verizon.com>",
+    "body": "Monthly charges: ${amount}. Auto-pay on {date}. View bill: {url}",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Water & Sewer Bill",
+    "from": "City Utilities <billing@city.gov>",
+    "body": "Quarterly bill: ${amount}. Due by {date}. Payment options: {url}",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Your Free Trial Ends {date}",
+    "from": "Spotify <premium@spotify.com>",
+    "body": "Your Premium trial ends in 3 days. ${price}/month after. Cancel anytime.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Trial Ending Soon",
+    "from": "Disney+ <account@disneyplus.com>",
+    "body": "Enjoy your last {days} days of free Disney+. Continue for ${price}/month.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Last Day of Your Free Trial",
+    "from": "Service <trial@service.com>",
+    "body": "Your trial ends tomorrow. We'll charge ${amount} unless you cancel: {url}",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Your Free Trial Ends {date}",
+    "from": "Spotify <premium@spotify.com>",
+    "body": "Your Premium trial ends in 3 days. ${price}/month after. Cancel anytime.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Trial Ending Soon",
+    "from": "Disney+ <account@disneyplus.com>",
+    "body": "Enjoy your last {days} days of free Disney+. Continue for ${price}/month.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Last Day of Your Free Trial",
+    "from": "Service <trial@service.com>",
+    "body": "Your trial ends tomorrow. We'll charge ${amount} unless you cancel: {url}",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Your Free Trial Ends {date}",
+    "from": "Spotify <premium@spotify.com>",
+    "body": "Your Premium trial ends in 3 days. ${price}/month after. Cancel anytime.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Trial Ending Soon",
+    "from": "Disney+ <account@disneyplus.com>",
+    "body": "Enjoy your last {days} days of free Disney+. Continue for ${price}/month.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Last Day of Your Free Trial",
+    "from": "Service <trial@service.com>",
+    "body": "Your trial ends tomorrow. We'll charge ${amount} unless you cancel: {url}",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Subscription Cancelled",
+    "from": "Netflix <account@netflix.com>",
+    "body": "Your Netflix subscription has been cancelled. Access until {date}.",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Cancellation Confirmed",
+    "from": "Spotify <help@spotify.com>",
+    "body": "Your Premium subscription is cancelled. No further charges. Resubscribe anytime.",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Membership Ended",
+    "from": "Service <billing@service.com>",
+    "body": "Your subscription to {service} has ended. Thanks for being a member!",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Subscription Cancelled",
+    "from": "Netflix <account@netflix.com>",
+    "body": "Your Netflix subscription has been cancelled. Access until {date}.",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Cancellation Confirmed",
+    "from": "Spotify <help@spotify.com>",
+    "body": "Your Premium subscription is cancelled. No further charges. Resubscribe anytime.",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Membership Ended",
+    "from": "Service <billing@service.com>",
+    "body": "Your subscription to {service} has ended. Thanks for being a member!",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Subscription Cancelled",
+    "from": "Netflix <account@netflix.com>",
+    "body": "Your Netflix subscription has been cancelled. Access until {date}.",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Cancellation Confirmed",
+    "from": "Spotify <help@spotify.com>",
+    "body": "Your Premium subscription is cancelled. No further charges. Resubscribe anytime.",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Membership Ended",
+    "from": "Service <billing@service.com>",
+    "body": "Your subscription to {service} has ended. Thanks for being a member!",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Storage Almost Full",
+    "from": "Dropbox <notify@dropbox.com>",
+    "body": "You've used 95% of your storage. Upgrade to Pro for more space: {url}",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "API Limit Reached",
+    "from": "Service <limits@service.com>",
+    "body": "You've reached your monthly API quota. Upgrade for higher limits: {url}",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "Usage Threshold Alert",
+    "from": "AWS <billing@aws.com>",
+    "body": "Your usage is approaching your budget limit. Current: ${amount}. Limit: ${max}.",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "Storage Almost Full",
+    "from": "Dropbox <notify@dropbox.com>",
+    "body": "You've used 95% of your storage. Upgrade to Pro for more space: {url}",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "API Limit Reached",
+    "from": "Service <limits@service.com>",
+    "body": "You've reached your monthly API quota. Upgrade for higher limits: {url}",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "Usage Threshold Alert",
+    "from": "AWS <billing@aws.com>",
+    "body": "Your usage is approaching your budget limit. Current: ${amount}. Limit: ${max}.",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "Storage Almost Full",
+    "from": "Dropbox <notify@dropbox.com>",
+    "body": "You've used 95% of your storage. Upgrade to Pro for more space: {url}",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "API Limit Reached",
+    "from": "Service <limits@service.com>",
+    "body": "You've reached your monthly API quota. Upgrade for higher limits: {url}",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "Usage Threshold Alert",
+    "from": "AWS <billing@aws.com>",
+    "body": "Your usage is approaching your budget limit. Current: ${amount}. Limit: ${max}.",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "New Features Available!",
+    "from": "Notion <updates@notion.so>",
+    "body": "Try our new AI features, improved templates, and faster search. Explore now.",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "What's New in Premium",
+    "from": "Service <features@service.com>",
+    "body": "Unlock these exclusive features with your subscription: {list}",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "Your Plan Just Got Better",
+    "from": "Product <news@product.com>",
+    "body": "We've added {feature1}, {feature2}, and {feature3} at no extra cost!",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "New Features Available!",
+    "from": "Notion <updates@notion.so>",
+    "body": "Try our new AI features, improved templates, and faster search. Explore now.",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "What's New in Premium",
+    "from": "Service <features@service.com>",
+    "body": "Unlock these exclusive features with your subscription: {list}",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "Your Plan Just Got Better",
+    "from": "Product <news@product.com>",
+    "body": "We've added {feature1}, {feature2}, and {feature3} at no extra cost!",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "New Features Available!",
+    "from": "Notion <updates@notion.so>",
+    "body": "Try our new AI features, improved templates, and faster search. Explore now.",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "What's New in Premium",
+    "from": "Service <features@service.com>",
+    "body": "Unlock these exclusive features with your subscription: {list}",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "Your Plan Just Got Better",
+    "from": "Product <news@product.com>",
+    "body": "We've added {feature1}, {feature2}, and {feature3} at no extra cost!",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "New Sign-In from {device}",
+    "from": "Google <no-reply@google.com>",
+    "body": "Someone just signed in to your Google Account from {device} in {location}. Was this you?",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "Unusual Activity Detected",
+    "from": "Microsoft <account@microsoft.com>",
+    "body": "New sign-in from {device} ({location}). If this wasn't you, secure your account: {url}",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "New Device Connected",
+    "from": "Apple <appleid@apple.com>",
+    "body": "Your Apple ID was used to sign in to {device}. {date} at {time}.",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "New Sign-In from {device}",
+    "from": "Google <no-reply@google.com>",
+    "body": "Someone just signed in to your Google Account from {device} in {location}. Was this you?",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "Unusual Activity Detected",
+    "from": "Microsoft <account@microsoft.com>",
+    "body": "New sign-in from {device} ({location}). If this wasn't you, secure your account: {url}",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "New Device Connected",
+    "from": "Apple <appleid@apple.com>",
+    "body": "Your Apple ID was used to sign in to {device}. {date} at {time}.",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "New Sign-In from {device}",
+    "from": "Google <no-reply@google.com>",
+    "body": "Someone just signed in to your Google Account from {device} in {location}. Was this you?",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "Unusual Activity Detected",
+    "from": "Microsoft <account@microsoft.com>",
+    "body": "New sign-in from {device} ({location}). If this wasn't you, secure your account: {url}",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "New Device Connected",
+    "from": "Apple <appleid@apple.com>",
+    "body": "Your Apple ID was used to sign in to {device}. {date} at {time}.",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "You Have ${amount} Available to Spend",
+    "from": "American Express <offers@aexp.com>",
+    "body": "Pre-approved for additional credit. Current limit: ${current}. New limit: ${new}.",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Credit Line Increase Available",
+    "from": "Chase <creditservices@chase.com>",
+    "body": "You're eligible for a ${amount} credit line increase. Accept: {url}",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approved: ${amount} Line of Credit",
+    "from": "Bank <preapproved@bank.com>",
+    "body": "You've been pre-approved! Apply now: {url}",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "You Have ${amount} Available to Spend",
+    "from": "American Express <offers@aexp.com>",
+    "body": "Pre-approved for additional credit. Current limit: ${current}. New limit: ${new}.",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Credit Line Increase Available",
+    "from": "Chase <creditservices@chase.com>",
+    "body": "You're eligible for a ${amount} credit line increase. Accept: {url}",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approved: ${amount} Line of Credit",
+    "from": "Bank <preapproved@bank.com>",
+    "body": "You've been pre-approved! Apply now: {url}",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "You Have ${amount} Available to Spend",
+    "from": "American Express <offers@aexp.com>",
+    "body": "Pre-approved for additional credit. Current limit: ${current}. New limit: ${new}.",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Credit Line Increase Available",
+    "from": "Chase <creditservices@chase.com>",
+    "body": "You're eligible for a ${amount} credit line increase. Accept: {url}",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approved: ${amount} Line of Credit",
+    "from": "Bank <preapproved@bank.com>",
+    "body": "You've been pre-approved! Apply now: {url}",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Reminder: Meeting with {person} in 1 hour",
+    "from": "Google Calendar <calendar@google.com>",
+    "body": "Your meeting \"{title}\" starts at {time}. Join: {url}",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming: {title}",
+    "from": "Outlook <calendar@outlook.com>",
+    "body": "In 15 minutes: {title}. Location: {location}. Join Zoom: {url}",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Meeting Starting Soon",
+    "from": "Zoom <noreply@zoom.us>",
+    "body": "{organizer}'s meeting starts in 10 minutes. Join now: {url}",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Reminder: Meeting with {person} in 1 hour",
+    "from": "Google Calendar <calendar@google.com>",
+    "body": "Your meeting \"{title}\" starts at {time}. Join: {url}",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming: {title}",
+    "from": "Outlook <calendar@outlook.com>",
+    "body": "In 15 minutes: {title}. Location: {location}. Join Zoom: {url}",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Meeting Starting Soon",
+    "from": "Zoom <noreply@zoom.us>",
+    "body": "{organizer}'s meeting starts in 10 minutes. Join now: {url}",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Reminder: Meeting with {person} in 1 hour",
+    "from": "Google Calendar <calendar@google.com>",
+    "body": "Your meeting \"{title}\" starts at {time}. Join: {url}",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming: {title}",
+    "from": "Outlook <calendar@outlook.com>",
+    "body": "In 15 minutes: {title}. Location: {location}. Join Zoom: {url}",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Meeting Starting Soon",
+    "from": "Zoom <noreply@zoom.us>",
+    "body": "{organizer}'s meeting starts in 10 minutes. Join now: {url}",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "GitHub Secret Scanning Alert",
+    "from": "GitHub <noreply@github.com>",
+    "body": "We found an API key in your repository {repo}. Revoke it immediately: {url}",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "API Key Exposed in Public Repository",
+    "from": "Security <security@platform.com>",
+    "body": "Your API key was committed to {repo}. Revoke and rotate: {url}",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "Credential Leak Detected",
+    "from": "Platform <alerts@platform.com>",
+    "body": "A secret token from {service} was exposed. Take action: {url}",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "GitHub Secret Scanning Alert",
+    "from": "GitHub <noreply@github.com>",
+    "body": "We found an API key in your repository {repo}. Revoke it immediately: {url}",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "API Key Exposed in Public Repository",
+    "from": "Security <security@platform.com>",
+    "body": "Your API key was committed to {repo}. Revoke and rotate: {url}",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "Credential Leak Detected",
+    "from": "Platform <alerts@platform.com>",
+    "body": "A secret token from {service} was exposed. Take action: {url}",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "GitHub Secret Scanning Alert",
+    "from": "GitHub <noreply@github.com>",
+    "body": "We found an API key in your repository {repo}. Revoke it immediately: {url}",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "API Key Exposed in Public Repository",
+    "from": "Security <security@platform.com>",
+    "body": "Your API key was committed to {repo}. Revoke and rotate: {url}",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "Credential Leak Detected",
+    "from": "Platform <alerts@platform.com>",
+    "body": "A secret token from {service} was exposed. Take action: {url}",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "April Callas sent you a message in Canvas",
+    "from": "Canvas <notifications@instructure.com>",
+    "body": "New message in PreAlgebra 8. Read message: {url}",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "Teacher comment on your submission",
+    "from": "Google Classroom <classroom@google.com>",
+    "body": "Ms. Smith commented on your {assignment}. View: {url}",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "New announcement from {teacher}",
+    "from": "Schoology <noreply@schoology.com>",
+    "body": "{teacher} posted: \"{message}\". View full post: {url}",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "April Callas sent you a message in Canvas",
+    "from": "Canvas <notifications@instructure.com>",
+    "body": "New message in PreAlgebra 8. Read message: {url}",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "Teacher comment on your submission",
+    "from": "Google Classroom <classroom@google.com>",
+    "body": "Ms. Smith commented on your {assignment}. View: {url}",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "New announcement from {teacher}",
+    "from": "Schoology <noreply@schoology.com>",
+    "body": "{teacher} posted: \"{message}\". View full post: {url}",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "April Callas sent you a message in Canvas",
+    "from": "Canvas <notifications@instructure.com>",
+    "body": "New message in PreAlgebra 8. Read message: {url}",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "Teacher comment on your submission",
+    "from": "Google Classroom <classroom@google.com>",
+    "body": "Ms. Smith commented on your {assignment}. View: {url}",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "New announcement from {teacher}",
+    "from": "Schoology <noreply@schoology.com>",
+    "body": "{teacher} posted: \"{message}\". View full post: {url}",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "New Assignment: {title}",
+    "from": "Canvas <notifications@instructure.com>",
+    "body": "Due {date}. {description}. View assignment: {url}",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "{teacher} posted an assignment",
+    "from": "Google Classroom <classroom@google.com>",
+    "body": "Assignment: {title}. Due: {date}. View details: {url}",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming Assignment in {course}",
+    "from": "Schoology <noreply@schoology.com>",
+    "body": "{title} is due {date}. Worth {points} points. Start now: {url}",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "New Assignment: {title}",
+    "from": "Canvas <notifications@instructure.com>",
+    "body": "Due {date}. {description}. View assignment: {url}",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "{teacher} posted an assignment",
+    "from": "Google Classroom <classroom@google.com>",
+    "body": "Assignment: {title}. Due: {date}. View details: {url}",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming Assignment in {course}",
+    "from": "Schoology <noreply@schoology.com>",
+    "body": "{title} is due {date}. Worth {points} points. Start now: {url}",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "New Assignment: {title}",
+    "from": "Canvas <notifications@instructure.com>",
+    "body": "Due {date}. {description}. View assignment: {url}",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "{teacher} posted an assignment",
+    "from": "Google Classroom <classroom@google.com>",
+    "body": "Assignment: {title}. Due: {date}. View details: {url}",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming Assignment in {course}",
+    "from": "Schoology <noreply@schoology.com>",
+    "body": "{title} is due {date}. Worth {points} points. Start now: {url}",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "Parent-Teacher Conference Signup",
+    "from": "School <principal@school.edu>",
+    "body": "Sign up for your conference slot on {date}. Reserve: {url}",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Back to School Night - {date}",
+    "from": "Elementary <info@elementary.edu>",
+    "body": "Meet the teachers! {date} at {time}. Childcare available. RSVP: {url}",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "PTA Meeting This Week",
+    "from": "PTA <pta@school.org>",
+    "body": "Join us {date} at {time} to discuss {topics}. All welcome!",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Parent-Teacher Conference Signup",
+    "from": "School <principal@school.edu>",
+    "body": "Sign up for your conference slot on {date}. Reserve: {url}",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Back to School Night - {date}",
+    "from": "Elementary <info@elementary.edu>",
+    "body": "Meet the teachers! {date} at {time}. Childcare available. RSVP: {url}",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "PTA Meeting This Week",
+    "from": "PTA <pta@school.org>",
+    "body": "Join us {date} at {time} to discuss {topics}. All welcome!",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Parent-Teacher Conference Signup",
+    "from": "School <principal@school.edu>",
+    "body": "Sign up for your conference slot on {date}. Reserve: {url}",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Back to School Night - {date}",
+    "from": "Elementary <info@elementary.edu>",
+    "body": "Meet the teachers! {date} at {time}. Childcare available. RSVP: {url}",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "PTA Meeting This Week",
+    "from": "PTA <pta@school.org>",
+    "body": "Join us {date} at {time} to discuss {topics}. All welcome!",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Classroom Update - Week of {date}",
+    "from": "Mrs. Smith <teacher@school.edu>",
+    "body": "What we're learning this week: {topics}. Homework due: {assignments}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Progress Report for {student}",
+    "from": "Teacher <teacher@school.edu>",
+    "body": "{student} is doing {status} in {subject}. Current grade: {grade}. Areas to work on: {areas}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Reminder: {event} Tomorrow",
+    "from": "Mr. Johnson <teacher@school.edu>",
+    "body": "Don't forget: {event} tomorrow. Students should bring {items}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Classroom Update - Week of {date}",
+    "from": "Mrs. Smith <teacher@school.edu>",
+    "body": "What we're learning this week: {topics}. Homework due: {assignments}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Progress Report for {student}",
+    "from": "Teacher <teacher@school.edu>",
+    "body": "{student} is doing {status} in {subject}. Current grade: {grade}. Areas to work on: {areas}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Reminder: {event} Tomorrow",
+    "from": "Mr. Johnson <teacher@school.edu>",
+    "body": "Don't forget: {event} tomorrow. Students should bring {items}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Classroom Update - Week of {date}",
+    "from": "Mrs. Smith <teacher@school.edu>",
+    "body": "What we're learning this week: {topics}. Homework due: {assignments}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Progress Report for {student}",
+    "from": "Teacher <teacher@school.edu>",
+    "body": "{student} is doing {status} in {subject}. Current grade: {grade}. Areas to work on: {areas}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Reminder: {event} Tomorrow",
+    "from": "Mr. Johnson <teacher@school.edu>",
+    "body": "Don't forget: {event} tomorrow. Students should bring {items}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Basketball Registration Opens Monday",
+    "from": "Parks & Rec <recreation@city.gov>",
+    "body": "Register for youth basketball! Ages 8-12. Season: {dates}. Cost: ${fee}. Sign up: {url}",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Soccer Tryouts - {date}",
+    "from": "Youth Soccer <coach@soccer.org>",
+    "body": "Travel team tryouts on {date}. Location: {field}. Bring cleats and water.",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Enroll Now: Spring Baseball",
+    "from": "Little League <info@littleleague.org>",
+    "body": "Registration closes {date}! Ages 6-12. Practices start {startDate}. Register: {url}",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Basketball Registration Opens Monday",
+    "from": "Parks & Rec <recreation@city.gov>",
+    "body": "Register for youth basketball! Ages 8-12. Season: {dates}. Cost: ${fee}. Sign up: {url}",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Soccer Tryouts - {date}",
+    "from": "Youth Soccer <coach@soccer.org>",
+    "body": "Travel team tryouts on {date}. Location: {field}. Bring cleats and water.",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Enroll Now: Spring Baseball",
+    "from": "Little League <info@littleleague.org>",
+    "body": "Registration closes {date}! Ages 6-12. Practices start {startDate}. Register: {url}",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Basketball Registration Opens Monday",
+    "from": "Parks & Rec <recreation@city.gov>",
+    "body": "Register for youth basketball! Ages 8-12. Season: {dates}. Cost: ${fee}. Sign up: {url}",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Soccer Tryouts - {date}",
+    "from": "Youth Soccer <coach@soccer.org>",
+    "body": "Travel team tryouts on {date}. Location: {field}. Bring cleats and water.",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Enroll Now: Spring Baseball",
+    "from": "Little League <info@littleleague.org>",
+    "body": "Registration closes {date}! Ages 6-12. Practices start {startDate}. Register: {url}",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Game This Saturday vs {opponent}",
+    "from": "Coach <coach@team.com>",
+    "body": "{date} at {time}. Location: {field}. Arrive 30 min early for warmup.",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Updated Season Schedule",
+    "from": "League <schedule@league.org>",
+    "body": "Your team's schedule is ready. {numGames} games from {startDate} to {endDate}. View: {url}",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Tournament Bracket Released",
+    "from": "Tournament <info@tournament.com>",
+    "body": "First game: {date} vs {opponent}. Location: {venue}. Schedule: {url}",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Game This Saturday vs {opponent}",
+    "from": "Coach <coach@team.com>",
+    "body": "{date} at {time}. Location: {field}. Arrive 30 min early for warmup.",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Updated Season Schedule",
+    "from": "League <schedule@league.org>",
+    "body": "Your team's schedule is ready. {numGames} games from {startDate} to {endDate}. View: {url}",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Tournament Bracket Released",
+    "from": "Tournament <info@tournament.com>",
+    "body": "First game: {date} vs {opponent}. Location: {venue}. Schedule: {url}",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Game This Saturday vs {opponent}",
+    "from": "Coach <coach@team.com>",
+    "body": "{date} at {time}. Location: {field}. Arrive 30 min early for warmup.",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Updated Season Schedule",
+    "from": "League <schedule@league.org>",
+    "body": "Your team's schedule is ready. {numGames} games from {startDate} to {endDate}. View: {url}",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Tournament Bracket Released",
+    "from": "Tournament <info@tournament.com>",
+    "body": "First game: {date} vs {opponent}. Location: {venue}. Schedule: {url}",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Practice Today at {time}",
+    "from": "TeamSnap <noreply@teamsnap.com>",
+    "body": "Don't forget practice! {time} at {location}. Bring {equipment}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Practice Schedule Update",
+    "from": "Coach <coach@team.com>",
+    "body": "New practice times: {day1} & {day2} at {time}. Location unchanged: {field}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Rain Check: Practice Cancelled",
+    "from": "Coach <coach@team.com>",
+    "body": "Practice cancelled due to weather. Next practice: {date}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Practice Today at {time}",
+    "from": "TeamSnap <noreply@teamsnap.com>",
+    "body": "Don't forget practice! {time} at {location}. Bring {equipment}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Practice Schedule Update",
+    "from": "Coach <coach@team.com>",
+    "body": "New practice times: {day1} & {day2} at {time}. Location unchanged: {field}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Rain Check: Practice Cancelled",
+    "from": "Coach <coach@team.com>",
+    "body": "Practice cancelled due to weather. Next practice: {date}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Practice Today at {time}",
+    "from": "TeamSnap <noreply@teamsnap.com>",
+    "body": "Don't forget practice! {time} at {location}. Bring {equipment}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Practice Schedule Update",
+    "from": "Coach <coach@team.com>",
+    "body": "New practice times: {day1} & {day2} at {time}. Location unchanged: {field}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Rain Check: Practice Cancelled",
+    "from": "Coach <coach@team.com>",
+    "body": "Practice cancelled due to weather. Next practice: {date}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Team Roster Announced",
+    "from": "Coach <coach@team.com>",
+    "body": "Congratulations! You made the team. First practice: {date}. Jersey #: {number}.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Uniform Pickup This Week",
+    "from": "Team Mom <teammom@gmail.com>",
+    "body": "Pick up uniforms {date} from {time} to {time}. Location: {address}. Size: {size}.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Important: Equipment Requirements",
+    "from": "Coach <coach@team.com>",
+    "body": "All players need: {equipment}. Recommended brands: {brands}. Questions? Reply here.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Team Roster Announced",
+    "from": "Coach <coach@team.com>",
+    "body": "Congratulations! You made the team. First practice: {date}. Jersey #: {number}.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Uniform Pickup This Week",
+    "from": "Team Mom <teammom@gmail.com>",
+    "body": "Pick up uniforms {date} from {time} to {time}. Location: {address}. Size: {size}.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Important: Equipment Requirements",
+    "from": "Coach <coach@team.com>",
+    "body": "All players need: {equipment}. Recommended brands: {brands}. Questions? Reply here.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Team Roster Announced",
+    "from": "Coach <coach@team.com>",
+    "body": "Congratulations! You made the team. First practice: {date}. Jersey #: {number}.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Uniform Pickup This Week",
+    "from": "Team Mom <teammom@gmail.com>",
+    "body": "Pick up uniforms {date} from {time} to {time}. Location: {address}. Size: {size}.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Important: Equipment Requirements",
+    "from": "Coach <coach@team.com>",
+    "body": "All players need: {equipment}. Recommended brands: {brands}. Questions? Reply here.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Lab Results Ready to View",
+    "from": "LabCorp <results@labcorp.com>",
+    "body": "Your test results from {date} are ready. View securely: {url}",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Test Results Available",
+    "from": "Dr. Smith <office@drsmith.com>",
+    "body": "Your {testType} results are in. Everything looks normal. Details: {url}",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Imaging Results Posted",
+    "from": "Radiology <results@imaging.com>",
+    "body": "Your {scanType} results from {date} are available in your patient portal.",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Lab Results Ready to View",
+    "from": "LabCorp <results@labcorp.com>",
+    "body": "Your test results from {date} are ready. View securely: {url}",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Test Results Available",
+    "from": "Dr. Smith <office@drsmith.com>",
+    "body": "Your {testType} results are in. Everything looks normal. Details: {url}",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Imaging Results Posted",
+    "from": "Radiology <results@imaging.com>",
+    "body": "Your {scanType} results from {date} are available in your patient portal.",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Lab Results Ready to View",
+    "from": "LabCorp <results@labcorp.com>",
+    "body": "Your test results from {date} are ready. View securely: {url}",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Test Results Available",
+    "from": "Dr. Smith <office@drsmith.com>",
+    "body": "Your {testType} results are in. Everything looks normal. Details: {url}",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Imaging Results Posted",
+    "from": "Radiology <results@imaging.com>",
+    "body": "Your {scanType} results from {date} are available in your patient portal.",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Superbill for {date} Visit",
+    "from": "Practice <billing@practice.com>",
+    "body": "Submit this superbill to your insurance for reimbursement. Amount: ${amount}. Codes: {codes}. Download: {url}",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Patient Statement - ${amount}",
+    "from": "Medical Office <billing@office.com>",
+    "body": "Balance after insurance: ${amount}. Submit to secondary insurance or pay online: {url}",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Out-of-Network Reimbursement",
+    "from": "Provider <billing@provider.com>",
+    "body": "Use this superbill for insurance reimbursement. Service: {service}. Date: {date}. CPT: {code}.",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Superbill for {date} Visit",
+    "from": "Practice <billing@practice.com>",
+    "body": "Submit this superbill to your insurance for reimbursement. Amount: ${amount}. Codes: {codes}. Download: {url}",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Patient Statement - ${amount}",
+    "from": "Medical Office <billing@office.com>",
+    "body": "Balance after insurance: ${amount}. Submit to secondary insurance or pay online: {url}",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Out-of-Network Reimbursement",
+    "from": "Provider <billing@provider.com>",
+    "body": "Use this superbill for insurance reimbursement. Service: {service}. Date: {date}. CPT: {code}.",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Superbill for {date} Visit",
+    "from": "Practice <billing@practice.com>",
+    "body": "Submit this superbill to your insurance for reimbursement. Amount: ${amount}. Codes: {codes}. Download: {url}",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Patient Statement - ${amount}",
+    "from": "Medical Office <billing@office.com>",
+    "body": "Balance after insurance: ${amount}. Submit to secondary insurance or pay online: {url}",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Out-of-Network Reimbursement",
+    "from": "Provider <billing@provider.com>",
+    "body": "Use this superbill for insurance reimbursement. Service: {service}. Date: {date}. CPT: {code}.",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Appointment Cancelled - {date}",
+    "from": "Dr. Office <scheduler@office.com>",
+    "body": "Your appointment on {date} has been cancelled by the provider. Reschedule: {url}",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Rescheduling Required",
+    "from": "Clinic <appointments@clinic.com>",
+    "body": "We need to reschedule your {date} appointment. Available dates: {options}. Call: {phone}",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Appointment No Longer Available",
+    "from": "Health Center <scheduling@health.com>",
+    "body": "Unfortunately we must cancel your {date} visit. Please book a new time: {url}",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Appointment Cancelled - {date}",
+    "from": "Dr. Office <scheduler@office.com>",
+    "body": "Your appointment on {date} has been cancelled by the provider. Reschedule: {url}",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Rescheduling Required",
+    "from": "Clinic <appointments@clinic.com>",
+    "body": "We need to reschedule your {date} appointment. Available dates: {options}. Call: {phone}",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Appointment No Longer Available",
+    "from": "Health Center <scheduling@health.com>",
+    "body": "Unfortunately we must cancel your {date} visit. Please book a new time: {url}",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Appointment Cancelled - {date}",
+    "from": "Dr. Office <scheduler@office.com>",
+    "body": "Your appointment on {date} has been cancelled by the provider. Reschedule: {url}",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Rescheduling Required",
+    "from": "Clinic <appointments@clinic.com>",
+    "body": "We need to reschedule your {date} appointment. Available dates: {options}. Call: {phone}",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Appointment No Longer Available",
+    "from": "Health Center <scheduling@health.com>",
+    "body": "Unfortunately we must cancel your {date} visit. Please book a new time: {url}",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Referral to {specialist}",
+    "from": "Dr. Smith <referrals@practice.com>",
+    "body": "I'm referring you to {specialistName} for {reason}. Contact them to schedule: {phone}",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "Specialist Referral Submitted",
+    "from": "Medical Office <referrals@office.com>",
+    "body": "Referral to {specialty} has been sent. They'll contact you within 3-5 days.",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "See a Cardiologist",
+    "from": "Provider <care@provider.com>",
+    "body": "Based on your results, I recommend seeing a cardiologist. Here's a referral: {details}",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "Referral to {specialist}",
+    "from": "Dr. Smith <referrals@practice.com>",
+    "body": "I'm referring you to {specialistName} for {reason}. Contact them to schedule: {phone}",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "Specialist Referral Submitted",
+    "from": "Medical Office <referrals@office.com>",
+    "body": "Referral to {specialty} has been sent. They'll contact you within 3-5 days.",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "See a Cardiologist",
+    "from": "Provider <care@provider.com>",
+    "body": "Based on your results, I recommend seeing a cardiologist. Here's a referral: {details}",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "Referral to {specialist}",
+    "from": "Dr. Smith <referrals@practice.com>",
+    "body": "I'm referring you to {specialistName} for {reason}. Contact them to schedule: {phone}",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "Specialist Referral Submitted",
+    "from": "Medical Office <referrals@office.com>",
+    "body": "Referral to {specialty} has been sent. They'll contact you within 3-5 days.",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "See a Cardiologist",
+    "from": "Provider <care@provider.com>",
+    "body": "Based on your results, I recommend seeing a cardiologist. Here's a referral: {details}",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "Claim Processed - EOB Available",
+    "from": "Insurance <claims@insurance.com>",
+    "body": "Your claim for {date} visit has been processed. You owe: ${amount}. View EOB: {url}",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Insurance Claim #{claimNum}",
+    "from": "Aetna <eob@aetna.com>",
+    "body": "Claim status: {status}. Amount covered: ${covered}. Your responsibility: ${owe}. Details: {url}",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Explanation of Benefits",
+    "from": "Insurance Co <claims@insco.com>",
+    "body": "EOB for {provider} visit. Charged: ${charged}. Allowed: ${allowed}. You pay: ${owe}.",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Claim Processed - EOB Available",
+    "from": "Insurance <claims@insurance.com>",
+    "body": "Your claim for {date} visit has been processed. You owe: ${amount}. View EOB: {url}",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Insurance Claim #{claimNum}",
+    "from": "Aetna <eob@aetna.com>",
+    "body": "Claim status: {status}. Amount covered: ${covered}. Your responsibility: ${owe}. Details: {url}",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Explanation of Benefits",
+    "from": "Insurance Co <claims@insco.com>",
+    "body": "EOB for {provider} visit. Charged: ${charged}. Allowed: ${allowed}. You pay: ${owe}.",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Claim Processed - EOB Available",
+    "from": "Insurance <claims@insurance.com>",
+    "body": "Your claim for {date} visit has been processed. You owe: ${amount}. View EOB: {url}",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Insurance Claim #{claimNum}",
+    "from": "Aetna <eob@aetna.com>",
+    "body": "Claim status: {status}. Amount covered: ${covered}. Your responsibility: ${owe}. Details: {url}",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Explanation of Benefits",
+    "from": "Insurance Co <claims@insco.com>",
+    "body": "EOB for {provider} visit. Charged: ${charged}. Allowed: ${allowed}. You pay: ${owe}.",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Lab Order for {testType}",
+    "from": "Quest <orders@questdiagnostics.com>",
+    "body": "Your provider ordered {testType}. No appointment needed. Visit any Quest location. Order #: {orderNum}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Imaging Scheduled: {scanType}",
+    "from": "Radiology <scheduling@radiology.com>",
+    "body": "{scanType} scheduled for {date} at {time}. Preparation instructions: {url}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Blood Draw Tomorrow",
+    "from": "LabCorp <appointments@labcorp.com>",
+    "body": "Fasting blood work at {time}. Don't eat after midnight. Location: {address}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Lab Order for {testType}",
+    "from": "Quest <orders@questdiagnostics.com>",
+    "body": "Your provider ordered {testType}. No appointment needed. Visit any Quest location. Order #: {orderNum}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Imaging Scheduled: {scanType}",
+    "from": "Radiology <scheduling@radiology.com>",
+    "body": "{scanType} scheduled for {date} at {time}. Preparation instructions: {url}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Blood Draw Tomorrow",
+    "from": "LabCorp <appointments@labcorp.com>",
+    "body": "Fasting blood work at {time}. Don't eat after midnight. Location: {address}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Lab Order for {testType}",
+    "from": "Quest <orders@questdiagnostics.com>",
+    "body": "Your provider ordered {testType}. No appointment needed. Visit any Quest location. Order #: {orderNum}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Imaging Scheduled: {scanType}",
+    "from": "Radiology <scheduling@radiology.com>",
+    "body": "{scanType} scheduled for {date} at {time}. Preparation instructions: {url}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Blood Draw Tomorrow",
+    "from": "LabCorp <appointments@labcorp.com>",
+    "body": "Fasting blood work at {time}. Don't eat after midnight. Location: {address}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Hotel Reservation Confirmed",
+    "from": "Marriott <reservations@marriott.com>",
+    "body": "Check-in: {checkin}. Check-out: {checkout}. Confirmation: {code}. See you soon!",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Flight Booked: {route}",
+    "from": "United <confirmations@united.com>",
+    "body": "Confirmation: {code}. Flight {flightNum} on {date}. Manage booking: {url}",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Car Rental Confirmation",
+    "from": "Hertz <reservations@hertz.com>",
+    "body": "Pickup: {date} at {location}. Vehicle: {vehicle}. Confirmation: {code}.",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Hotel Reservation Confirmed",
+    "from": "Marriott <reservations@marriott.com>",
+    "body": "Check-in: {checkin}. Check-out: {checkout}. Confirmation: {code}. See you soon!",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Flight Booked: {route}",
+    "from": "United <confirmations@united.com>",
+    "body": "Confirmation: {code}. Flight {flightNum} on {date}. Manage booking: {url}",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Car Rental Confirmation",
+    "from": "Hertz <reservations@hertz.com>",
+    "body": "Pickup: {date} at {location}. Vehicle: {vehicle}. Confirmation: {code}.",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Hotel Reservation Confirmed",
+    "from": "Marriott <reservations@marriott.com>",
+    "body": "Check-in: {checkin}. Check-out: {checkout}. Confirmation: {code}. See you soon!",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Flight Booked: {route}",
+    "from": "United <confirmations@united.com>",
+    "body": "Confirmation: {code}. Flight {flightNum} on {date}. Manage booking: {url}",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Car Rental Confirmation",
+    "from": "Hertz <reservations@hertz.com>",
+    "body": "Pickup: {date} at {location}. Vehicle: {vehicle}. Confirmation: {code}.",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "You left something in your cart",
+    "from": "Store <cart@store.com>",
+    "body": "Still interested in {item}? Complete your purchase: {url}. Free shipping today!",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "Don't forget these items!",
+    "from": "Shop <abandoned@shop.com>",
+    "body": "Your cart expires soon. {numItems} items waiting. Checkout now: {url}",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "Your cart is waiting",
+    "from": "Brand <marketing@brand.com>",
+    "body": "{item} is still available! Use code SAVE10 for 10% off. Shop now: {url}",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "You left something in your cart",
+    "from": "Store <cart@store.com>",
+    "body": "Still interested in {item}? Complete your purchase: {url}. Free shipping today!",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "Don't forget these items!",
+    "from": "Shop <abandoned@shop.com>",
+    "body": "Your cart expires soon. {numItems} items waiting. Checkout now: {url}",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "Your cart is waiting",
+    "from": "Brand <marketing@brand.com>",
+    "body": "{item} is still available! Use code SAVE10 for 10% off. Shop now: {url}",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "You left something in your cart",
+    "from": "Store <cart@store.com>",
+    "body": "Still interested in {item}? Complete your purchase: {url}. Free shipping today!",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "Don't forget these items!",
+    "from": "Shop <abandoned@shop.com>",
+    "body": "Your cart expires soon. {numItems} items waiting. Checkout now: {url}",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "Your cart is waiting",
+    "from": "Brand <marketing@brand.com>",
+    "body": "{item} is still available! Use code SAVE10 for 10% off. Shop now: {url}",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "You earned {points} points!",
+    "from": "Rewards <loyalty@brand.com>",
+    "body": "Total points: {totalPoints}. Redeem for ${value} off your next purchase.",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Exclusive Reward: ${amount} Off",
+    "from": "VIP Program <vip@store.com>",
+    "body": "Thanks for being a member! Here's ${amount} off your next order. Code: {code}",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Your points expire soon",
+    "from": "Loyalty <rewards@shop.com>",
+    "body": "{points} points expiring {date}. Use them before you lose them! Shop: {url}",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "You earned {points} points!",
+    "from": "Rewards <loyalty@brand.com>",
+    "body": "Total points: {totalPoints}. Redeem for ${value} off your next purchase.",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Exclusive Reward: ${amount} Off",
+    "from": "VIP Program <vip@store.com>",
+    "body": "Thanks for being a member! Here's ${amount} off your next order. Code: {code}",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Your points expire soon",
+    "from": "Loyalty <rewards@shop.com>",
+    "body": "{points} points expiring {date}. Use them before you lose them! Shop: {url}",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "You earned {points} points!",
+    "from": "Rewards <loyalty@brand.com>",
+    "body": "Total points: {totalPoints}. Redeem for ${value} off your next purchase.",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Exclusive Reward: ${amount} Off",
+    "from": "VIP Program <vip@store.com>",
+    "body": "Thanks for being a member! Here's ${amount} off your next order. Code: {code}",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Your points expire soon",
+    "from": "Loyalty <rewards@shop.com>",
+    "body": "{points} points expiring {date}. Use them before you lose them! Shop: {url}",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Exciting News from {brand}!",
+    "from": "Brand <news@brand.com>",
+    "body": "We're thrilled to announce {announcement}! Learn more: {url}",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Big changes coming to {product}",
+    "from": "Company <updates@company.com>",
+    "body": "We've been working on something special: {feature}. Coming {date}!",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Introducing: {newProduct}",
+    "from": "Brand <launch@brand.com>",
+    "body": "Meet {newProduct}, our latest innovation. Pre-order now: {url}",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Exciting News from {brand}!",
+    "from": "Brand <news@brand.com>",
+    "body": "We're thrilled to announce {announcement}! Learn more: {url}",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Big changes coming to {product}",
+    "from": "Company <updates@company.com>",
+    "body": "We've been working on something special: {feature}. Coming {date}!",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Introducing: {newProduct}",
+    "from": "Brand <launch@brand.com>",
+    "body": "Meet {newProduct}, our latest innovation. Pre-order now: {url}",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Exciting News from {brand}!",
+    "from": "Brand <news@brand.com>",
+    "body": "We're thrilled to announce {announcement}! Learn more: {url}",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Big changes coming to {product}",
+    "from": "Company <updates@company.com>",
+    "body": "We've been working on something special: {feature}. Coming {date}!",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Introducing: {newProduct}",
+    "from": "Brand <launch@brand.com>",
+    "body": "Meet {newProduct}, our latest innovation. Pre-order now: {url}",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "New Arrivals: Fall Collection",
+    "from": "Fashion <shop@fashion.com>",
+    "body": "Fresh styles just dropped! Shop coats, sweaters, and boots. View collection: {url}",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Just Launched: {collectionName}",
+    "from": "Store <new@store.com>",
+    "body": "Our latest collection is here. Explore {numItems} new pieces: {url}",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Now Available: {productLine}",
+    "from": "Brand <arrivals@brand.com>",
+    "body": "The wait is over! Shop the new {productLine} collection: {url}",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "New Arrivals: Fall Collection",
+    "from": "Fashion <shop@fashion.com>",
+    "body": "Fresh styles just dropped! Shop coats, sweaters, and boots. View collection: {url}",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Just Launched: {collectionName}",
+    "from": "Store <new@store.com>",
+    "body": "Our latest collection is here. Explore {numItems} new pieces: {url}",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Now Available: {productLine}",
+    "from": "Brand <arrivals@brand.com>",
+    "body": "The wait is over! Shop the new {productLine} collection: {url}",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "New Arrivals: Fall Collection",
+    "from": "Fashion <shop@fashion.com>",
+    "body": "Fresh styles just dropped! Shop coats, sweaters, and boots. View collection: {url}",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Just Launched: {collectionName}",
+    "from": "Store <new@store.com>",
+    "body": "Our latest collection is here. Explore {numItems} new pieces: {url}",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Now Available: {productLine}",
+    "from": "Brand <arrivals@brand.com>",
+    "body": "The wait is over! Shop the new {productLine} collection: {url}",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Fall Favorites Are Here",
+    "from": "Pottery Barn <fall@potterybarn.com>",
+    "body": "Cozy up with autumn decor, warm blankets, and seasonal scents. Shop fall: {url}",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Holiday Gift Guide 2025",
+    "from": "Store <gifts@store.com>",
+    "body": "Find the perfect gift for everyone on your list. Browse our curated guide: {url}",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Spring Refresh Sale",
+    "from": "Home Goods <spring@homegoods.com>",
+    "body": "New season, new look. Save on furniture, bedding, and decor. Shop: {url}",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Fall Favorites Are Here",
+    "from": "Pottery Barn <fall@potterybarn.com>",
+    "body": "Cozy up with autumn decor, warm blankets, and seasonal scents. Shop fall: {url}",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Holiday Gift Guide 2025",
+    "from": "Store <gifts@store.com>",
+    "body": "Find the perfect gift for everyone on your list. Browse our curated guide: {url}",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Spring Refresh Sale",
+    "from": "Home Goods <spring@homegoods.com>",
+    "body": "New season, new look. Save on furniture, bedding, and decor. Shop: {url}",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Fall Favorites Are Here",
+    "from": "Pottery Barn <fall@potterybarn.com>",
+    "body": "Cozy up with autumn decor, warm blankets, and seasonal scents. Shop fall: {url}",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Holiday Gift Guide 2025",
+    "from": "Store <gifts@store.com>",
+    "body": "Find the perfect gift for everyone on your list. Browse our curated guide: {url}",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Spring Refresh Sale",
+    "from": "Home Goods <spring@homegoods.com>",
+    "body": "New season, new look. Save on furniture, bedding, and decor. Shop: {url}",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Meet the Makers",
+    "from": "Artisan Co <story@artisan.com>",
+    "body": "Go behind the scenes with our craftspeople. See how we make {product}: {url}",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "Our Heritage: Since 1952",
+    "from": "Legacy Brand <heritage@brand.com>",
+    "body": "For 70 years, we've been crafting {product}. Read our story: {url}",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "The Story Behind {product}",
+    "from": "Brand <about@brand.com>",
+    "body": "Discover how {product} went from concept to creation. Watch the film: {url}",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "Meet the Makers",
+    "from": "Artisan Co <story@artisan.com>",
+    "body": "Go behind the scenes with our craftspeople. See how we make {product}: {url}",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "Our Heritage: Since 1952",
+    "from": "Legacy Brand <heritage@brand.com>",
+    "body": "For 70 years, we've been crafting {product}. Read our story: {url}",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "The Story Behind {product}",
+    "from": "Brand <about@brand.com>",
+    "body": "Discover how {product} went from concept to creation. Watch the film: {url}",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "Meet the Makers",
+    "from": "Artisan Co <story@artisan.com>",
+    "body": "Go behind the scenes with our craftspeople. See how we make {product}: {url}",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "Our Heritage: Since 1952",
+    "from": "Legacy Brand <heritage@brand.com>",
+    "body": "For 70 years, we've been crafting {product}. Read our story: {url}",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "The Story Behind {product}",
+    "from": "Brand <about@brand.com>",
+    "body": "Discover how {product} went from concept to creation. Watch the film: {url}",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "10 Ways to Style {item}",
+    "from": "Fashion Tips <style@fashion.com>",
+    "body": "Get the most out of your {item} with these styling ideas. Read more: {url}",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Holiday Entertaining Guide",
+    "from": "Martha Stewart <living@marthastewart.com>",
+    "body": "Host the perfect gathering with these recipes, decor ideas, and tips: {url}",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Design Trend: {trendName}",
+    "from": "Interior Design <ideas@design.com>",
+    "body": "{trendName} is everywhere this season. How to incorporate it at home: {url}",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "10 Ways to Style {item}",
+    "from": "Fashion Tips <style@fashion.com>",
+    "body": "Get the most out of your {item} with these styling ideas. Read more: {url}",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Holiday Entertaining Guide",
+    "from": "Martha Stewart <living@marthastewart.com>",
+    "body": "Host the perfect gathering with these recipes, decor ideas, and tips: {url}",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Design Trend: {trendName}",
+    "from": "Interior Design <ideas@design.com>",
+    "body": "{trendName} is everywhere this season. How to incorporate it at home: {url}",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "10 Ways to Style {item}",
+    "from": "Fashion Tips <style@fashion.com>",
+    "body": "Get the most out of your {item} with these styling ideas. Read more: {url}",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Holiday Entertaining Guide",
+    "from": "Martha Stewart <living@marthastewart.com>",
+    "body": "Host the perfect gathering with these recipes, decor ideas, and tips: {url}",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Design Trend: {trendName}",
+    "from": "Interior Design <ideas@design.com>",
+    "body": "{trendName} is everywhere this season. How to incorporate it at home: {url}",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Bestsellers: What Everyone's Buying",
+    "from": "Store <trending@store.com>",
+    "body": "Our top 10 items this week. See what's popular: {url}",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Hot Right Now: {product}",
+    "from": "Shop <popular@shop.com>",
+    "body": "{product} is flying off the shelves! Get yours before they're gone: {url}",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Customer Favorites",
+    "from": "Reviews <top@store.com>",
+    "body": "Highest-rated products this month: {list}. Shop fan favorites: {url}",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Bestsellers: What Everyone's Buying",
+    "from": "Store <trending@store.com>",
+    "body": "Our top 10 items this week. See what's popular: {url}",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Hot Right Now: {product}",
+    "from": "Shop <popular@shop.com>",
+    "body": "{product} is flying off the shelves! Get yours before they're gone: {url}",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Customer Favorites",
+    "from": "Reviews <top@store.com>",
+    "body": "Highest-rated products this month: {list}. Shop fan favorites: {url}",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Bestsellers: What Everyone's Buying",
+    "from": "Store <trending@store.com>",
+    "body": "Our top 10 items this week. See what's popular: {url}",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Hot Right Now: {product}",
+    "from": "Shop <popular@shop.com>",
+    "body": "{product} is flying off the shelves! Get yours before they're gone: {url}",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Customer Favorites",
+    "from": "Reviews <top@store.com>",
+    "body": "Highest-rated products this month: {list}. Shop fan favorites: {url}",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Support Ticket Created: #{ticketNum}",
+    "from": "Support <help@company.com>",
+    "body": "We received your request about {issue}. Ticket #{ticketNum}. We'll respond within 24 hours.",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Case #{caseNum} Opened",
+    "from": "Customer Service <support@service.com>",
+    "body": "Your case regarding {issue} has been created. Reference: #{caseNum}. Status: {url}",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Help is on the way!",
+    "from": "Help Desk <helpdesk@company.com>",
+    "body": "Ticket #{num} is assigned to {agent}. You'll hear from us soon. View status: {url}",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Support Ticket Created: #{ticketNum}",
+    "from": "Support <help@company.com>",
+    "body": "We received your request about {issue}. Ticket #{ticketNum}. We'll respond within 24 hours.",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Case #{caseNum} Opened",
+    "from": "Customer Service <support@service.com>",
+    "body": "Your case regarding {issue} has been created. Reference: #{caseNum}. Status: {url}",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Help is on the way!",
+    "from": "Help Desk <helpdesk@company.com>",
+    "body": "Ticket #{num} is assigned to {agent}. You'll hear from us soon. View status: {url}",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Support Ticket Created: #{ticketNum}",
+    "from": "Support <help@company.com>",
+    "body": "We received your request about {issue}. Ticket #{ticketNum}. We'll respond within 24 hours.",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Case #{caseNum} Opened",
+    "from": "Customer Service <support@service.com>",
+    "body": "Your case regarding {issue} has been created. Reference: #{caseNum}. Status: {url}",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Help is on the way!",
+    "from": "Help Desk <helpdesk@company.com>",
+    "body": "Ticket #{num} is assigned to {agent}. You'll hear from us soon. View status: {url}",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Register to Vote by {deadline}",
+    "from": "Elections <elections@gov>",
+    "body": "Deadline to register for {election}: {deadline}. Register online: {url}",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Voter Registration Deadline Approaching",
+    "from": "State <voter@state.gov>",
+    "body": "{days} days left to register for {electionDate} election. Check status: {url}",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Update Your Voter Registration",
+    "from": "County Clerk <clerk@county.gov>",
+    "body": "Moved? Update your registration by {deadline}. Update: {url}",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Register to Vote by {deadline}",
+    "from": "Elections <elections@gov>",
+    "body": "Deadline to register for {election}: {deadline}. Register online: {url}",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Voter Registration Deadline Approaching",
+    "from": "State <voter@state.gov>",
+    "body": "{days} days left to register for {electionDate} election. Check status: {url}",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Update Your Voter Registration",
+    "from": "County Clerk <clerk@county.gov>",
+    "body": "Moved? Update your registration by {deadline}. Update: {url}",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Register to Vote by {deadline}",
+    "from": "Elections <elections@gov>",
+    "body": "Deadline to register for {election}: {deadline}. Register online: {url}",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Voter Registration Deadline Approaching",
+    "from": "State <voter@state.gov>",
+    "body": "{days} days left to register for {electionDate} election. Check status: {url}",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Update Your Voter Registration",
+    "from": "County Clerk <clerk@county.gov>",
+    "body": "Moved? Update your registration by {deadline}. Update: {url}",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Driver License Renewal Notice",
+    "from": "DMV <dmv@state.gov>",
+    "body": "Your license expires {date}. Renew online: {url}. Fee: ${fee}.",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Time to Renew Your License",
+    "from": "Motor Vehicles <renewal@dmv.gov>",
+    "body": "License #{licenseNum} expires in 60 days. Renew early to avoid wait: {url}",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "REAL ID Upgrade Available",
+    "from": "DMV <realid@dmv.gov>",
+    "body": "Upgrade to REAL ID when you renew. Required for air travel starting {date}. Details: {url}",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Driver License Renewal Notice",
+    "from": "DMV <dmv@state.gov>",
+    "body": "Your license expires {date}. Renew online: {url}. Fee: ${fee}.",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Time to Renew Your License",
+    "from": "Motor Vehicles <renewal@dmv.gov>",
+    "body": "License #{licenseNum} expires in 60 days. Renew early to avoid wait: {url}",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "REAL ID Upgrade Available",
+    "from": "DMV <realid@dmv.gov>",
+    "body": "Upgrade to REAL ID when you renew. Required for air travel starting {date}. Details: {url}",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Driver License Renewal Notice",
+    "from": "DMV <dmv@state.gov>",
+    "body": "Your license expires {date}. Renew online: {url}. Fee: ${fee}.",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Time to Renew Your License",
+    "from": "Motor Vehicles <renewal@dmv.gov>",
+    "body": "License #{licenseNum} expires in 60 days. Renew early to avoid wait: {url}",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "REAL ID Upgrade Available",
+    "from": "DMV <realid@dmv.gov>",
+    "body": "Upgrade to REAL ID when you renew. Required for air travel starting {date}. Details: {url}",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Property Tax Bill - {year}",
+    "from": "Tax Assessor <taxes@county.gov>",
+    "body": "Annual property tax: ${amount}. Due: {date}. Property: {address}. Pay: {url}",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Assessment Notice: {address}",
+    "from": "County Assessor <assessor@county.gov>",
+    "body": "Assessed value: ${value}. Tax amount: ${tax}. Appeal deadline: {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Tax Payment Due {date}",
+    "from": "Tax Collector <collector@city.gov>",
+    "body": "Property tax payment due. Amount: ${amount}. Pay online or mail by {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Property Tax Bill - {year}",
+    "from": "Tax Assessor <taxes@county.gov>",
+    "body": "Annual property tax: ${amount}. Due: {date}. Property: {address}. Pay: {url}",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Assessment Notice: {address}",
+    "from": "County Assessor <assessor@county.gov>",
+    "body": "Assessed value: ${value}. Tax amount: ${tax}. Appeal deadline: {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Tax Payment Due {date}",
+    "from": "Tax Collector <collector@city.gov>",
+    "body": "Property tax payment due. Amount: ${amount}. Pay online or mail by {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Property Tax Bill - {year}",
+    "from": "Tax Assessor <taxes@county.gov>",
+    "body": "Annual property tax: ${amount}. Due: {date}. Property: {address}. Pay: {url}",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Assessment Notice: {address}",
+    "from": "County Assessor <assessor@county.gov>",
+    "body": "Assessed value: ${value}. Tax amount: ${tax}. Appeal deadline: {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Tax Payment Due {date}",
+    "from": "Tax Collector <collector@city.gov>",
+    "body": "Property tax payment due. Amount: ${amount}. Pay online or mail by {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Building Permit Application Received",
+    "from": "Building Dept <permits@city.gov>",
+    "body": "Application #{appNum} received. Processing time: {timeframe}. Status: {url}",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Permit Approved - #{permitNum}",
+    "from": "Permits <permits@county.gov>",
+    "body": "Your {permitType} permit is approved! Pick up at {location}. Expires: {expiry}.",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Additional Info Required for Permit",
+    "from": "Building Office <building@city.gov>",
+    "body": "We need {documents} to process your permit application. Submit by {deadline}: {url}",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Building Permit Application Received",
+    "from": "Building Dept <permits@city.gov>",
+    "body": "Application #{appNum} received. Processing time: {timeframe}. Status: {url}",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Permit Approved - #{permitNum}",
+    "from": "Permits <permits@county.gov>",
+    "body": "Your {permitType} permit is approved! Pick up at {location}. Expires: {expiry}.",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Additional Info Required for Permit",
+    "from": "Building Office <building@city.gov>",
+    "body": "We need {documents} to process your permit application. Submit by {deadline}: {url}",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Building Permit Application Received",
+    "from": "Building Dept <permits@city.gov>",
+    "body": "Application #{appNum} received. Processing time: {timeframe}. Status: {url}",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Permit Approved - #{permitNum}",
+    "from": "Permits <permits@county.gov>",
+    "body": "Your {permitType} permit is approved! Pick up at {location}. Expires: {expiry}.",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Additional Info Required for Permit",
+    "from": "Building Office <building@city.gov>",
+    "body": "We need {documents} to process your permit application. Submit by {deadline}: {url}",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Court Appearance Required - {date}",
+    "from": "Court <clerk@court.gov>",
+    "body": "Case #{caseNum}. Appear: {date} at {time}. Location: {courthouse}. Courtroom: {room}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Hearing Scheduled - Case #{caseNum}",
+    "from": "Court Clerk <notices@court.gov>",
+    "body": "Your hearing is scheduled for {date}. Bring: {documents}. Address: {address}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Jury Duty Summons",
+    "from": "Court Administration <jury@court.gov>",
+    "body": "Report for jury selection {date} at {time}. Juror #{jurorNum}. Details: {url}",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Court Appearance Required - {date}",
+    "from": "Court <clerk@court.gov>",
+    "body": "Case #{caseNum}. Appear: {date} at {time}. Location: {courthouse}. Courtroom: {room}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Hearing Scheduled - Case #{caseNum}",
+    "from": "Court Clerk <notices@court.gov>",
+    "body": "Your hearing is scheduled for {date}. Bring: {documents}. Address: {address}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Jury Duty Summons",
+    "from": "Court Administration <jury@court.gov>",
+    "body": "Report for jury selection {date} at {time}. Juror #{jurorNum}. Details: {url}",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Court Appearance Required - {date}",
+    "from": "Court <clerk@court.gov>",
+    "body": "Case #{caseNum}. Appear: {date} at {time}. Location: {courthouse}. Courtroom: {room}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Hearing Scheduled - Case #{caseNum}",
+    "from": "Court Clerk <notices@court.gov>",
+    "body": "Your hearing is scheduled for {date}. Bring: {documents}. Address: {address}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Jury Duty Summons",
+    "from": "Court Administration <jury@court.gov>",
+    "body": "Report for jury selection {date} at {time}. Juror #{jurorNum}. Details: {url}",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Re: Project Update",
+    "from": "John <john@company.com>",
+    "body": "Thanks for the update! Let's discuss tomorrow.\n\nOn Oct 28, 2025, Mary wrote:\n> Here's the latest status...",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Fwd: Meeting Notes",
+    "from": "Sarah <sarah@company.com>",
+    "body": "---------- Forwarded message ---------\nFrom: Team\nDate: Oct 28\nSubject: Meeting Notes\n\nHere are the notes from today's meeting...",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Re: Interview Availability",
+    "from": "Recruiter <hr@company.com>",
+    "body": "Great! I've sent a calendar invite.\n\n> I'm available Thursday at 2pm.",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Re: Project Update",
+    "from": "John <john@company.com>",
+    "body": "Thanks for the update! Let's discuss tomorrow.\n\nOn Oct 28, 2025, Mary wrote:\n> Here's the latest status...",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Fwd: Meeting Notes",
+    "from": "Sarah <sarah@company.com>",
+    "body": "---------- Forwarded message ---------\nFrom: Team\nDate: Oct 28\nSubject: Meeting Notes\n\nHere are the notes from today's meeting...",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Re: Interview Availability",
+    "from": "Recruiter <hr@company.com>",
+    "body": "Great! I've sent a calendar invite.\n\n> I'm available Thursday at 2pm.",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Re: Project Update",
+    "from": "John <john@company.com>",
+    "body": "Thanks for the update! Let's discuss tomorrow.\n\nOn Oct 28, 2025, Mary wrote:\n> Here's the latest status...",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Fwd: Meeting Notes",
+    "from": "Sarah <sarah@company.com>",
+    "body": "---------- Forwarded message ---------\nFrom: Team\nDate: Oct 28\nSubject: Meeting Notes\n\nHere are the notes from today's meeting...",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Re: Interview Availability",
+    "from": "Recruiter <hr@company.com>",
+    "body": "Great! I've sent a calendar invite.\n\n> I'm available Thursday at 2pm.",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Intro: John meet Sarah",
+    "from": "Connector <connector@company.com>",
+    "body": "Hi both,\n\nI'd like to introduce John and Sarah. You're both working on {topic} and should connect!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Introduction to {name}",
+    "from": "Friend <friend@email.com>",
+    "body": "I'd like to introduce you to {name}, who works on {topic}. I think you two should chat!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "{name1}, meet {name2}",
+    "from": "Mutual Friend <friend@email.com>",
+    "body": "Connecting you both - you're working on similar projects and should definitely talk!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Intro: John meet Sarah",
+    "from": "Connector <connector@company.com>",
+    "body": "Hi both,\n\nI'd like to introduce John and Sarah. You're both working on {topic} and should connect!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Introduction to {name}",
+    "from": "Friend <friend@email.com>",
+    "body": "I'd like to introduce you to {name}, who works on {topic}. I think you two should chat!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "{name1}, meet {name2}",
+    "from": "Mutual Friend <friend@email.com>",
+    "body": "Connecting you both - you're working on similar projects and should definitely talk!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Intro: John meet Sarah",
+    "from": "Connector <connector@company.com>",
+    "body": "Hi both,\n\nI'd like to introduce John and Sarah. You're both working on {topic} and should connect!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Introduction to {name}",
+    "from": "Friend <friend@email.com>",
+    "body": "I'd like to introduce you to {name}, who works on {topic}. I think you two should chat!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "{name1}, meet {name2}",
+    "from": "Mutual Friend <friend@email.com>",
+    "body": "Connecting you both - you're working on similar projects and should definitely talk!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Quick question about {topic}",
+    "from": "Colleague <colleague@company.com>",
+    "body": "Hi! I'm working on {project} and wondered if you have insights on {topic}?",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Following up on our conversation",
+    "from": "Contact <contact@company.com>",
+    "body": "Great chatting yesterday! Would you be interested in {opportunity}?",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Interested in discussing {topic}",
+    "from": "Professional <pro@company.com>",
+    "body": "I saw your work on {project}. I'd love to learn more about your approach to {topic}.",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Quick question about {topic}",
+    "from": "Colleague <colleague@company.com>",
+    "body": "Hi! I'm working on {project} and wondered if you have insights on {topic}?",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Following up on our conversation",
+    "from": "Contact <contact@company.com>",
+    "body": "Great chatting yesterday! Would you be interested in {opportunity}?",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Interested in discussing {topic}",
+    "from": "Professional <pro@company.com>",
+    "body": "I saw your work on {project}. I'd love to learn more about your approach to {topic}.",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Quick question about {topic}",
+    "from": "Colleague <colleague@company.com>",
+    "body": "Hi! I'm working on {project} and wondered if you have insights on {topic}?",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Following up on our conversation",
+    "from": "Contact <contact@company.com>",
+    "body": "Great chatting yesterday! Would you be interested in {opportunity}?",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Interested in discussing {topic}",
+    "from": "Professional <pro@company.com>",
+    "body": "I saw your work on {project}. I'd love to learn more about your approach to {topic}.",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Interview Request - {position}",
+    "from": "Hiring Manager <hiring@company.com>",
+    "body": "We'd love to interview you for {position}. Are you available {date} or {date2}? Video call via Zoom.",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - {company}",
+    "from": "Recruiter <recruiter@company.com>",
+    "body": "Congratulations! We'd like to schedule a phone screen. When are you available this week?",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Schedule Interview: {position}",
+    "from": "HR <hr@company.com>",
+    "body": "Please book your interview with {interviewer} using this Calendly link: {url}",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Interview Request - {position}",
+    "from": "Hiring Manager <hiring@company.com>",
+    "body": "We'd love to interview you for {position}. Are you available {date} or {date2}? Video call via Zoom.",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - {company}",
+    "from": "Recruiter <recruiter@company.com>",
+    "body": "Congratulations! We'd like to schedule a phone screen. When are you available this week?",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Schedule Interview: {position}",
+    "from": "HR <hr@company.com>",
+    "body": "Please book your interview with {interviewer} using this Calendly link: {url}",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Interview Request - {position}",
+    "from": "Hiring Manager <hiring@company.com>",
+    "body": "We'd love to interview you for {position}. Are you available {date} or {date2}? Video call via Zoom.",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - {company}",
+    "from": "Recruiter <recruiter@company.com>",
+    "body": "Congratulations! We'd like to schedule a phone screen. When are you available this week?",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Schedule Interview: {position}",
+    "from": "HR <hr@company.com>",
+    "body": "Please book your interview with {interviewer} using this Calendly link: {url}",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Offer Letter - {position} at {company}",
+    "from": "HR <offers@company.com>",
+    "body": "Congratulations! We're pleased to offer you {position}. Salary: ${salary}. Start: {startDate}. Review offer: {url}",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to the Team!",
+    "from": "Hiring Manager <manager@company.com>",
+    "body": "Official offer attached. Base: ${salary} + ${bonus} bonus + equity. Accept by {deadline}.",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Job Offer: {position}",
+    "from": "Company <careers@company.com>",
+    "body": "We're excited to extend an offer! Package details attached. Questions? Let's chat.",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Offer Letter - {position} at {company}",
+    "from": "HR <offers@company.com>",
+    "body": "Congratulations! We're pleased to offer you {position}. Salary: ${salary}. Start: {startDate}. Review offer: {url}",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to the Team!",
+    "from": "Hiring Manager <manager@company.com>",
+    "body": "Official offer attached. Base: ${salary} + ${bonus} bonus + equity. Accept by {deadline}.",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Job Offer: {position}",
+    "from": "Company <careers@company.com>",
+    "body": "We're excited to extend an offer! Package details attached. Questions? Let's chat.",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Offer Letter - {position} at {company}",
+    "from": "HR <offers@company.com>",
+    "body": "Congratulations! We're pleased to offer you {position}. Salary: ${salary}. Start: {startDate}. Review offer: {url}",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to the Team!",
+    "from": "Hiring Manager <manager@company.com>",
+    "body": "Official offer attached. Base: ${salary} + ${bonus} bonus + equity. Accept by {deadline}.",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Job Offer: {position}",
+    "from": "Company <careers@company.com>",
+    "body": "We're excited to extend an offer! Package details attached. Questions? Let's chat.",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "{position} opportunity at {company}",
+    "from": "Recruiter <recruiter@agency.com>",
+    "body": "Your background looks great for a {position} role I'm filling. Interested in learning more?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Are you open to new opportunities?",
+    "from": "Talent Scout <talent@company.com>",
+    "body": "I found your profile on LinkedIn. We're hiring for {position}. {salary} range. Chat?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Great fit: {position} at {company}",
+    "from": "Headhunter <jobs@headhunter.com>",
+    "body": "{company} is looking for a {position}. Based on your experience with {skill}, you'd be perfect!",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "{position} opportunity at {company}",
+    "from": "Recruiter <recruiter@agency.com>",
+    "body": "Your background looks great for a {position} role I'm filling. Interested in learning more?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Are you open to new opportunities?",
+    "from": "Talent Scout <talent@company.com>",
+    "body": "I found your profile on LinkedIn. We're hiring for {position}. {salary} range. Chat?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Great fit: {position} at {company}",
+    "from": "Headhunter <jobs@headhunter.com>",
+    "body": "{company} is looking for a {position}. Based on your experience with {skill}, you'd be perfect!",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "{position} opportunity at {company}",
+    "from": "Recruiter <recruiter@agency.com>",
+    "body": "Your background looks great for a {position} role I'm filling. Interested in learning more?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Are you open to new opportunities?",
+    "from": "Talent Scout <talent@company.com>",
+    "body": "I found your profile on LinkedIn. We're hiring for {position}. {salary} range. Chat?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Great fit: {position} at {company}",
+    "from": "Headhunter <jobs@headhunter.com>",
+    "body": "{company} is looking for a {position}. Based on your experience with {skill}, you'd be perfect!",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Application Received - {position}",
+    "from": "Careers <careers@company.com>",
+    "body": "Thank you for applying! We'll review your application and get back to you within 2 weeks.",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Update on your {position} application",
+    "from": "HR <recruiting@company.com>",
+    "body": "Your application is under review. We're excited about your background and will be in touch soon!",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - {position}",
+    "from": "Recruiting <recruiting@company.com>",
+    "body": "We'd like to move forward with your application. Expect to hear from us by {date}.",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Application Received - {position}",
+    "from": "Careers <careers@company.com>",
+    "body": "Thank you for applying! We'll review your application and get back to you within 2 weeks.",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Update on your {position} application",
+    "from": "HR <recruiting@company.com>",
+    "body": "Your application is under review. We're excited about your background and will be in touch soon!",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - {position}",
+    "from": "Recruiting <recruiting@company.com>",
+    "body": "We'd like to move forward with your application. Expect to hear from us by {date}.",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Application Received - {position}",
+    "from": "Careers <careers@company.com>",
+    "body": "Thank you for applying! We'll review your application and get back to you within 2 weeks.",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Update on your {position} application",
+    "from": "HR <recruiting@company.com>",
+    "body": "Your application is under review. We're excited about your background and will be in touch soon!",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - {position}",
+    "from": "Recruiting <recruiting@company.com>",
+    "body": "We'd like to move forward with your application. Expect to hear from us by {date}.",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Update on your application",
+    "from": "HR <recruiting@company.com>",
+    "body": "Thank you for your interest in {position}. Unfortunately, we've decided to move forward with other candidates.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Re: {position} at {company}",
+    "from": "Hiring Team <careers@company.com>",
+    "body": "We appreciate the time you invested in our process. While you won't be moving forward for this role, we'll keep your resume on file.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Thank you for applying",
+    "from": "Recruiting <recruiting@company.com>",
+    "body": "We had many strong candidates for {position} and have chosen to pursue others whose experience more closely matches our needs.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Update on your application",
+    "from": "HR <recruiting@company.com>",
+    "body": "Thank you for your interest in {position}. Unfortunately, we've decided to move forward with other candidates.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Re: {position} at {company}",
+    "from": "Hiring Team <careers@company.com>",
+    "body": "We appreciate the time you invested in our process. While you won't be moving forward for this role, we'll keep your resume on file.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Thank you for applying",
+    "from": "Recruiting <recruiting@company.com>",
+    "body": "We had many strong candidates for {position} and have chosen to pursue others whose experience more closely matches our needs.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Update on your application",
+    "from": "HR <recruiting@company.com>",
+    "body": "Thank you for your interest in {position}. Unfortunately, we've decided to move forward with other candidates.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Re: {position} at {company}",
+    "from": "Hiring Team <careers@company.com>",
+    "body": "We appreciate the time you invested in our process. While you won't be moving forward for this role, we'll keep your resume on file.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Thank you for applying",
+    "from": "Recruiting <recruiting@company.com>",
+    "body": "We had many strong candidates for {position} and have chosen to pursue others whose experience more closely matches our needs.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to {company}! First Day: {date}",
+    "from": "HR <onboarding@company.com>",
+    "body": "We're excited for your first day! Arrive at {time}. Parking info: {parking}. Bring: {documents}.",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Boarding Checklist",
+    "from": "People Ops <people@company.com>",
+    "body": "Before {startDate}, please complete: I-9 form, direct deposit, benefits enrollment. Portal: {url}",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Your First Week at {company}",
+    "from": "Manager <manager@company.com>",
+    "body": "Looking forward to Monday! Here's what to expect your first week: {schedule}",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to {company}! First Day: {date}",
+    "from": "HR <onboarding@company.com>",
+    "body": "We're excited for your first day! Arrive at {time}. Parking info: {parking}. Bring: {documents}.",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Boarding Checklist",
+    "from": "People Ops <people@company.com>",
+    "body": "Before {startDate}, please complete: I-9 form, direct deposit, benefits enrollment. Portal: {url}",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Your First Week at {company}",
+    "from": "Manager <manager@company.com>",
+    "body": "Looking forward to Monday! Here's what to expect your first week: {schedule}",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to {company}! First Day: {date}",
+    "from": "HR <onboarding@company.com>",
+    "body": "We're excited for your first day! Arrive at {time}. Parking info: {parking}. Bring: {documents}.",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Boarding Checklist",
+    "from": "People Ops <people@company.com>",
+    "body": "Before {startDate}, please complete: I-9 form, direct deposit, benefits enrollment. Portal: {url}",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Your First Week at {company}",
+    "from": "Manager <manager@company.com>",
+    "body": "Looking forward to Monday! Here's what to expect your first week: {schedule}",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Mediation Session THIS THURSDAY 9/19",
+    "from": "Attorney <attorney@lawfirm.com>",
+    "body": "Mediation at {location}. Time: {time}. Bring: {documents}. Case: {case}",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Contract Review Required",
+    "from": "Legal Counsel <legal@lawfirm.com>",
+    "body": "Please review and sign the attached agreement by {deadline}. Questions? Call {phone}",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Legal Matter Update",
+    "from": "Law Office <info@lawoffice.com>",
+    "body": "Update on case #{caseNum}: {update}. Next court date: {date}.",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Mediation Session THIS THURSDAY 9/19",
+    "from": "Attorney <attorney@lawfirm.com>",
+    "body": "Mediation at {location}. Time: {time}. Bring: {documents}. Case: {case}",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Contract Review Required",
+    "from": "Legal Counsel <legal@lawfirm.com>",
+    "body": "Please review and sign the attached agreement by {deadline}. Questions? Call {phone}",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Legal Matter Update",
+    "from": "Law Office <info@lawoffice.com>",
+    "body": "Update on case #{caseNum}: {update}. Next court date: {date}.",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Mediation Session THIS THURSDAY 9/19",
+    "from": "Attorney <attorney@lawfirm.com>",
+    "body": "Mediation at {location}. Time: {time}. Bring: {documents}. Case: {case}",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Contract Review Required",
+    "from": "Legal Counsel <legal@lawfirm.com>",
+    "body": "Please review and sign the attached agreement by {deadline}. Questions? Call {phone}",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Legal Matter Update",
+    "from": "Law Office <info@lawoffice.com>",
+    "body": "Update on case #{caseNum}: {update}. Next court date: {date}.",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Home Inspection Scheduled - {address}",
+    "from": "Inspector <inspector@homeinspection.com>",
+    "body": "Inspection date: {date} at {time}. Duration: 2-3 hours. Report within 24 hours.",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Listing Photos Complete",
+    "from": "Agent <agent@realty.com>",
+    "body": "Professional photos of {address} are ready! View and approve: {url}",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Open House This Sunday",
+    "from": "Realtor <realtor@realty.com>",
+    "body": "{address} open house: Sunday {time}. Excellent turnout expected!",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Home Inspection Scheduled - {address}",
+    "from": "Inspector <inspector@homeinspection.com>",
+    "body": "Inspection date: {date} at {time}. Duration: 2-3 hours. Report within 24 hours.",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Listing Photos Complete",
+    "from": "Agent <agent@realty.com>",
+    "body": "Professional photos of {address} are ready! View and approve: {url}",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Open House This Sunday",
+    "from": "Realtor <realtor@realty.com>",
+    "body": "{address} open house: Sunday {time}. Excellent turnout expected!",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Home Inspection Scheduled - {address}",
+    "from": "Inspector <inspector@homeinspection.com>",
+    "body": "Inspection date: {date} at {time}. Duration: 2-3 hours. Report within 24 hours.",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Listing Photos Complete",
+    "from": "Agent <agent@realty.com>",
+    "body": "Professional photos of {address} are ready! View and approve: {url}",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Open House This Sunday",
+    "from": "Realtor <realtor@realty.com>",
+    "body": "{address} open house: Sunday {time}. Excellent turnout expected!",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "John mentioned you in a post",
+    "from": "LinkedIn <notifications@linkedin.com>",
+    "body": "John Smith mentioned you in a post about {topic}. View: {url}",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "New message from Sarah",
+    "from": "Discord <noreply@discord.com>",
+    "body": "Sarah sent you a message in #{channel}: \"{preview}\"",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "You were tagged in a post",
+    "from": "Facebook <notification@facebook.com>",
+    "body": "{friend} tagged you in a photo. View: {url}",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "John mentioned you in a post",
+    "from": "LinkedIn <notifications@linkedin.com>",
+    "body": "John Smith mentioned you in a post about {topic}. View: {url}",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "New message from Sarah",
+    "from": "Discord <noreply@discord.com>",
+    "body": "Sarah sent you a message in #{channel}: \"{preview}\"",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "You were tagged in a post",
+    "from": "Facebook <notification@facebook.com>",
+    "body": "{friend} tagged you in a photo. View: {url}",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "John mentioned you in a post",
+    "from": "LinkedIn <notifications@linkedin.com>",
+    "body": "John Smith mentioned you in a post about {topic}. View: {url}",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "New message from Sarah",
+    "from": "Discord <noreply@discord.com>",
+    "body": "Sarah sent you a message in #{channel}: \"{preview}\"",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "You were tagged in a post",
+    "from": "Facebook <notification@facebook.com>",
+    "body": "{friend} tagged you in a photo. View: {url}",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "Verify your Roblox account: {username}",
+    "from": "Roblox <no-reply@roblox.com>",
+    "body": "Click to verify your email and secure your account: {url}. Code: {code}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Confirm your email address",
+    "from": "Platform <verify@platform.com>",
+    "body": "Verification required to activate your account. Link expires in 24 hours: {url}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Complete your signup",
+    "from": "Service <signup@service.com>",
+    "body": "Last step! Verify your email to unlock all features: {url}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Verify your Roblox account: {username}",
+    "from": "Roblox <no-reply@roblox.com>",
+    "body": "Click to verify your email and secure your account: {url}. Code: {code}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Confirm your email address",
+    "from": "Platform <verify@platform.com>",
+    "body": "Verification required to activate your account. Link expires in 24 hours: {url}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Complete your signup",
+    "from": "Service <signup@service.com>",
+    "body": "Last step! Verify your email to unlock all features: {url}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Verify your Roblox account: {username}",
+    "from": "Roblox <no-reply@roblox.com>",
+    "body": "Click to verify your email and secure your account: {url}. Code: {code}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Confirm your email address",
+    "from": "Platform <verify@platform.com>",
+    "body": "Verification required to activate your account. Link expires in 24 hours: {url}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Complete your signup",
+    "from": "Service <signup@service.com>",
+    "body": "Last step! Verify your email to unlock all features: {url}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "{name} invited you to join {workspace}",
+    "from": "Slack <invitations@slack.com>",
+    "body": "Join the {workspace} Slack workspace. Accept invitation: {url}",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Team invitation: {team}",
+    "from": "Platform <invites@platform.com>",
+    "body": "You've been invited to collaborate on {project}. Join now: {url}",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Workspace invitation from {name}",
+    "from": "Notion <invitations@notion.so>",
+    "body": "{name} wants you to join their workspace. Get started: {url}",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "{name} invited you to join {workspace}",
+    "from": "Slack <invitations@slack.com>",
+    "body": "Join the {workspace} Slack workspace. Accept invitation: {url}",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Team invitation: {team}",
+    "from": "Platform <invites@platform.com>",
+    "body": "You've been invited to collaborate on {project}. Join now: {url}",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Workspace invitation from {name}",
+    "from": "Notion <invitations@notion.so>",
+    "body": "{name} wants you to join their workspace. Get started: {url}",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "{name} invited you to join {workspace}",
+    "from": "Slack <invitations@slack.com>",
+    "body": "Join the {workspace} Slack workspace. Accept invitation: {url}",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Team invitation: {team}",
+    "from": "Platform <invites@platform.com>",
+    "body": "You've been invited to collaborate on {project}. Join now: {url}",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Workspace invitation from {name}",
+    "from": "Notion <invitations@notion.so>",
+    "body": "{name} wants you to join their workspace. Get started: {url}",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Grooming Appointment Reminder: {pet}",
+    "from": "Pet Spa <appointments@petspa.com>",
+    "body": "{pet}'s grooming appointment is tomorrow at {time}. Services: {services}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Nail Trim Special - $15",
+    "from": "Groomer <info@petgrooming.com>",
+    "body": "Book a nail trim this week for just $15! Regular price $25. Call: {phone}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Time for {pet}'s Grooming?",
+    "from": "Pet Care <reminders@petcare.com>",
+    "body": "It's been {weeks} weeks since {pet}'s last grooming. Schedule now: {url}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Grooming Appointment Reminder: {pet}",
+    "from": "Pet Spa <appointments@petspa.com>",
+    "body": "{pet}'s grooming appointment is tomorrow at {time}. Services: {services}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Nail Trim Special - $15",
+    "from": "Groomer <info@petgrooming.com>",
+    "body": "Book a nail trim this week for just $15! Regular price $25. Call: {phone}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Time for {pet}'s Grooming?",
+    "from": "Pet Care <reminders@petcare.com>",
+    "body": "It's been {weeks} weeks since {pet}'s last grooming. Schedule now: {url}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Grooming Appointment Reminder: {pet}",
+    "from": "Pet Spa <appointments@petspa.com>",
+    "body": "{pet}'s grooming appointment is tomorrow at {time}. Services: {services}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Nail Trim Special - $15",
+    "from": "Groomer <info@petgrooming.com>",
+    "body": "Book a nail trim this week for just $15! Regular price $25. Call: {phone}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Time for {pet}'s Grooming?",
+    "from": "Pet Care <reminders@petcare.com>",
+    "body": "It's been {weeks} weeks since {pet}'s last grooming. Schedule now: {url}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Winter Pet Safety Tips",
+    "from": "ASPCA <tips@aspca.org>",
+    "body": "Keep your pets safe this winter: {tips}. Learn more: {url}",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Is Your Dog Getting Enough Exercise?",
+    "from": "Pet MD <health@petmd.com>",
+    "body": "Learn how much exercise your {breed} needs and fun ways to stay active together.",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Pet Nutrition Guide",
+    "from": "Vet <newsletter@vet.com>",
+    "body": "What should you really be feeding your pet? Expert advice inside: {url}",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Winter Pet Safety Tips",
+    "from": "ASPCA <tips@aspca.org>",
+    "body": "Keep your pets safe this winter: {tips}. Learn more: {url}",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Is Your Dog Getting Enough Exercise?",
+    "from": "Pet MD <health@petmd.com>",
+    "body": "Learn how much exercise your {breed} needs and fun ways to stay active together.",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Pet Nutrition Guide",
+    "from": "Vet <newsletter@vet.com>",
+    "body": "What should you really be feeding your pet? Expert advice inside: {url}",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Winter Pet Safety Tips",
+    "from": "ASPCA <tips@aspca.org>",
+    "body": "Keep your pets safe this winter: {tips}. Learn more: {url}",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Is Your Dog Getting Enough Exercise?",
+    "from": "Pet MD <health@petmd.com>",
+    "body": "Learn how much exercise your {breed} needs and fun ways to stay active together.",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Pet Nutrition Guide",
+    "from": "Vet <newsletter@vet.com>",
+    "body": "What should you really be feeding your pet? Expert advice inside: {url}",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "This Week in Gaming",
+    "from": "GameSpot <newsletter@gamespot.com>",
+    "body": "New releases: {game1}, {game2}. Reviews, news, and deals inside.",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "PlayStation Store Sale",
+    "from": "PlayStation <news@playstation.com>",
+    "body": "Up to 75% off select titles this weekend! Highlights: {games}",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "Game Pass: New Additions",
+    "from": "Xbox <gamepass@xbox.com>",
+    "body": "New games on Game Pass this month: {list}. Download now!",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "This Week in Gaming",
+    "from": "GameSpot <newsletter@gamespot.com>",
+    "body": "New releases: {game1}, {game2}. Reviews, news, and deals inside.",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "PlayStation Store Sale",
+    "from": "PlayStation <news@playstation.com>",
+    "body": "Up to 75% off select titles this weekend! Highlights: {games}",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "Game Pass: New Additions",
+    "from": "Xbox <gamepass@xbox.com>",
+    "body": "New games on Game Pass this month: {list}. Download now!",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "This Week in Gaming",
+    "from": "GameSpot <newsletter@gamespot.com>",
+    "body": "New releases: {game1}, {game2}. Reviews, news, and deals inside.",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "PlayStation Store Sale",
+    "from": "PlayStation <news@playstation.com>",
+    "body": "Up to 75% off select titles this weekend! Highlights: {games}",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "Game Pass: New Additions",
+    "from": "Xbox <gamepass@xbox.com>",
+    "body": "New games on Game Pass this month: {list}. Download now!",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "NBA Trade Deadline Recap",
+    "from": "ESPN <nba@espn.com>",
+    "body": "Biggest moves and analysis from today's trades. Winners and losers: {analysis}",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "Your Fantasy Football Weekly",
+    "from": "Yahoo Sports <fantasy@yahoo.com>",
+    "body": "Week {week} Start/Sit recommendations: {picks}. Waiver wire targets: {players}",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "NFL Sunday Schedule",
+    "from": "NFL <sunday@nfl.com>",
+    "body": "Today's games: {games}. Key matchups and what to watch.",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "NBA Trade Deadline Recap",
+    "from": "ESPN <nba@espn.com>",
+    "body": "Biggest moves and analysis from today's trades. Winners and losers: {analysis}",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "Your Fantasy Football Weekly",
+    "from": "Yahoo Sports <fantasy@yahoo.com>",
+    "body": "Week {week} Start/Sit recommendations: {picks}. Waiver wire targets: {players}",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "NFL Sunday Schedule",
+    "from": "NFL <sunday@nfl.com>",
+    "body": "Today's games: {games}. Key matchups and what to watch.",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "NBA Trade Deadline Recap",
+    "from": "ESPN <nba@espn.com>",
+    "body": "Biggest moves and analysis from today's trades. Winners and losers: {analysis}",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "Your Fantasy Football Weekly",
+    "from": "Yahoo Sports <fantasy@yahoo.com>",
+    "body": "Week {week} Start/Sit recommendations: {picks}. Waiver wire targets: {players}",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "NFL Sunday Schedule",
+    "from": "NFL <sunday@nfl.com>",
+    "body": "Today's games: {games}. Key matchups and what to watch.",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "What to Watch This Week",
+    "from": "Netflix <info@netflix.com>",
+    "body": "New releases: {show1}, {show2}, {movie1}. Trending now: {trending}",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "This Week's Top Entertainment News",
+    "from": "EW <newsletter@ew.com>",
+    "body": "Box office results, celebrity news, reviews, and more. Read: {url}",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "HBO Max: New This Month",
+    "from": "HBO <max@hbomax.com>",
+    "body": "Coming in {month}: {shows}. Plus: {movies}. Watch now.",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "What to Watch This Week",
+    "from": "Netflix <info@netflix.com>",
+    "body": "New releases: {show1}, {show2}, {movie1}. Trending now: {trending}",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "This Week's Top Entertainment News",
+    "from": "EW <newsletter@ew.com>",
+    "body": "Box office results, celebrity news, reviews, and more. Read: {url}",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "HBO Max: New This Month",
+    "from": "HBO <max@hbomax.com>",
+    "body": "Coming in {month}: {shows}. Plus: {movies}. Watch now.",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "What to Watch This Week",
+    "from": "Netflix <info@netflix.com>",
+    "body": "New releases: {show1}, {show2}, {movie1}. Trending now: {trending}",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "This Week's Top Entertainment News",
+    "from": "EW <newsletter@ew.com>",
+    "body": "Box office results, celebrity news, reviews, and more. Read: {url}",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "HBO Max: New This Month",
+    "from": "HBO <max@hbomax.com>",
+    "body": "Coming in {month}: {shows}. Plus: {movies}. Watch now.",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "50 New Jobs in Product Design",
+    "from": "LinkedIn <jobs@linkedin.com>",
+    "body": "Jobs matching your profile:\n• Senior Designer at {company1}\n• Lead Designer at {company2}\n• {more}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "Weekly Job Digest",
+    "from": "Indeed <jobs@indeed.com>",
+    "body": "{count} new jobs in {location} matching \"{search}\". Top picks: {jobs}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "Career Opportunities at {company}",
+    "from": "Glassdoor <jobs@glassdoor.com>",
+    "body": "{company} is hiring! {numJobs} open roles including: {roles}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "50 New Jobs in Product Design",
+    "from": "LinkedIn <jobs@linkedin.com>",
+    "body": "Jobs matching your profile:\n• Senior Designer at {company1}\n• Lead Designer at {company2}\n• {more}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "Weekly Job Digest",
+    "from": "Indeed <jobs@indeed.com>",
+    "body": "{count} new jobs in {location} matching \"{search}\". Top picks: {jobs}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "Career Opportunities at {company}",
+    "from": "Glassdoor <jobs@glassdoor.com>",
+    "body": "{company} is hiring! {numJobs} open roles including: {roles}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "50 New Jobs in Product Design",
+    "from": "LinkedIn <jobs@linkedin.com>",
+    "body": "Jobs matching your profile:\n• Senior Designer at {company1}\n• Lead Designer at {company2}\n• {more}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "Weekly Job Digest",
+    "from": "Indeed <jobs@indeed.com>",
+    "body": "{count} new jobs in {location} matching \"{search}\". Top picks: {jobs}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "Career Opportunities at {company}",
+    "from": "Glassdoor <jobs@glassdoor.com>",
+    "body": "{company} is hiring! {numJobs} open roles including: {roles}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  }
+]

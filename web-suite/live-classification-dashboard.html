@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Classification Dashboard | Zero</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+        }
+
+        .test-input-section {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(0, 122, 255, 0.5);
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        textarea.input-field {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #0066FF, #8B5CF6);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .status-banner {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .status-banner.loading {
+            background: rgba(0, 122, 255, 0.2);
+            border: 1px solid rgba(0, 122, 255, 0.4);
+        }
+
+        .status-banner.success {
+            background: rgba(52, 199, 89, 0.2);
+            border: 1px solid rgba(52, 199, 89, 0.4);
+        }
+
+        .status-banner.error {
+            background: rgba(255, 59, 48, 0.2);
+            border: 1px solid rgba(255, 59, 48, 0.4);
+        }
+
+        .status-icon {
+            font-size: 24px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .results-container.visible {
+            display: block;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .tab.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background: rgba(52, 199, 89, 0.2);
+            color: rgba(52, 199, 89, 1);
+            border: 1px solid rgba(52, 199, 89, 0.4);
+        }
+
+        .badge-warning {
+            background: rgba(255, 149, 0, 0.2);
+            color: rgba(255, 149, 0, 1);
+            border: 1px solid rgba(255, 149, 0, 0.4);
+        }
+
+        .badge-error {
+            background: rgba(255, 59, 48, 0.2);
+            color: rgba(255, 59, 48, 1);
+            border: 1px solid rgba(255, 59, 48, 0.4);
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .data-row:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .data-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: rgba(52, 199, 89, 1);
+            margin-top: 12px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0066FF, #00CC88);
+            transition: width 0.3s ease;
+        }
+
+        .sample-emails {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .sample-email-btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sample-email-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(0, 122, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 36px;
+            }
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="page-header">
+            <h1 class="page-title">🔬 Live Classification Dashboard</h1>
+            <p class="page-subtitle">
+                Real-time email classification testing. Connected to backend services at localhost:8082.
+                Test intent detection, entity extraction, and Mail/Ads classification instantly.
+            </p>
+        </div>
+
+        <!-- Test Input Section -->
+        <div class="test-input-section">
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 20px;">Test Email Classification</h2>
+
+            <div class="sample-emails">
+                <button class="sample-email-btn" onclick="loadSampleEmail('permission_form')">📝 Permission Form</button>
+                <button class="sample-email-btn" onclick="loadSampleEmail('package_tracking')">📦 Package Tracking</button>
+                <button class="sample-email-btn" onclick="loadSampleEmail('invoice')">💳 Invoice</button>
+                <button class="sample-email-btn" onclick="loadSampleEmail('promo')">🛍️ Promotion</button>
+                <button class="sample-email-btn" onclick="loadSampleEmail('flight')">✈️ Flight Check-in</button>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">From</label>
+                <input type="text" id="email-from" class="input-field" placeholder="sender@example.com" value="noreply@school.edu">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Subject</label>
+                <input type="text" id="email-subject" class="input-field" placeholder="Field Trip Permission Form" value="Field Trip Permission Form - Please Sign">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Snippet</label>
+                <input type="text" id="email-snippet" class="input-field" placeholder="Please sign the permission form..." value="Please sign the attached permission form for the science museum field trip.">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">Body</label>
+                <textarea id="email-body" class="input-field" placeholder="Full email body text...">Dear Parents,
+
+Please sign the attached permission form for the upcoming field trip to the Science Museum on October 25th. The cost is $15 per student.
+
+The trip will depart at 9:00 AM and return at 3:00 PM. Students should bring a bag lunch.
+
+Please return the signed form by October 20th.
+
+Thank you,
+Mrs. Johnson
+Oak Elementary School</textarea>
+            </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="classifyEmail()" id="classify-btn">
+                    <span>🔍</span>
+                    <span>Classify Email</span>
+                </button>
+                <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+            </div>
+        </div>
+
+        <!-- Status Banner -->
+        <div id="status-banner" style="display: none;"></div>
+
+        <!-- Results Container -->
+        <div id="results-container" class="results-container">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('intent')">🎯 Intent</button>
+                <button class="tab" onclick="switchTab('entities')">📋 Entities</button>
+                <button class="tab" onclick="switchTab('rules')">⚙️ Rules</button>
+                <button class="tab" onclick="switchTab('mailads')">📧 Mail/Ads</button>
+                <button class="tab" onclick="switchTab('pipeline')">🔄 Pipeline</button>
+            </div>
+
+            <!-- Intent Tab -->
+            <div id="intent-content" class="tab-content active">
+                <div class="section">
+                    <h2 class="section-title">Intent Classification</h2>
+                    <p class="section-subtitle">Detected intent with confidence scores</p>
+                    <div id="intent-data"></div>
+                </div>
+            </div>
+
+            <!-- Entities Tab -->
+            <div id="entities-content" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Entity Extraction</h2>
+                    <p class="section-subtitle">Extracted entities and validation status</p>
+                    <div id="entities-data"></div>
+                </div>
+            </div>
+
+            <!-- Rules Tab -->
+            <div id="rules-content" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Rules Engine</h2>
+                    <p class="section-subtitle">Intent → Actions mapping and validation</p>
+                    <div id="rules-data"></div>
+                </div>
+            </div>
+
+            <!-- Mail/Ads Tab -->
+            <div id="mailads-content" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Mail vs Ads Classification</h2>
+                    <p class="section-subtitle">Binary classification with detection signals</p>
+                    <div id="mailads-data"></div>
+                </div>
+            </div>
+
+            <!-- Pipeline Tab -->
+            <div id="pipeline-content" class="tab-content">
+                <div class="section">
+                    <h2 class="section-title">Pipeline Trace</h2>
+                    <p class="section-subtitle">End-to-end classification pipeline steps</p>
+                    <div id="pipeline-data"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8082/api/classify/debug';
+
+        // Sample email templates
+        const sampleEmails = {
+            permission_form: {
+                from: 'noreply@school.edu',
+                subject: 'Field Trip Permission Form - Please Sign',
+                snippet: 'Please sign the attached permission form for the science museum field trip.',
+                body: `Dear Parents,
+
+Please sign the attached permission form for the upcoming field trip to the Science Museum on October 25th. The cost is $15 per student.
+
+The trip will depart at 9:00 AM and return at 3:00 PM. Students should bring a bag lunch.
+
+Please return the signed form by October 20th.
+
+Thank you,
+Mrs. Johnson
+Oak Elementary School`
+            },
+            package_tracking: {
+                from: 'shipment@amazon.com',
+                subject: 'Your package has shipped',
+                snippet: 'Your order #123-4567890 has shipped. Track your package.',
+                body: `Your Amazon order #123-4567890 has shipped!
+
+Tracking Number: 1Z999AA10123456784
+Carrier: UPS
+
+Estimated delivery: October 22, 2025
+
+Track your package: https://amazon.com/track/1Z999AA10123456784`
+            },
+            invoice: {
+                from: 'billing@acme.com',
+                subject: 'Invoice #INV-2025-1234 Due',
+                snippet: 'Your invoice INV-2025-1234 is due on October 30th. Amount: $599.00',
+                body: `Invoice INV-2025-1234
+
+Amount Due: $599.00
+Due Date: October 30, 2025
+
+Description: Software Subscription - Annual Plan
+
+Pay online: https://pay.acme.com/INV-2025-1234
+
+Thank you for your business!`
+            },
+            promo: {
+                from: 'marketing@store.com',
+                subject: '🔥 Flash Sale! 50% Off Everything - Today Only!',
+                snippet: 'Limited time offer! Use code FLASH50 at checkout.',
+                body: `⚡ FLASH SALE ⚡
+
+50% OFF EVERYTHING
+Today Only!
+
+Use code: FLASH50
+
+Shop now: https://store.com/sale
+
+Unsubscribe: https://store.com/unsubscribe`
+            },
+            flight: {
+                from: 'noreply@united.com',
+                subject: 'Check in for flight UA 123',
+                snippet: 'Your flight UA 123 departs tomorrow at 9:00 AM.',
+                body: `United Airlines - Flight Check-in
+
+Flight: UA 123
+Date: October 22, 2025
+Departure: 9:00 AM (SFO)
+Arrival: 5:30 PM (JFK)
+
+Check in now: https://united.com/checkin/ABC123
+
+Mobile boarding pass available after check-in.`
+            }
+        };
+
+        function loadSampleEmail(type) {
+            const sample = sampleEmails[type];
+            document.getElementById('email-from').value = sample.from;
+            document.getElementById('email-subject').value = sample.subject;
+            document.getElementById('email-snippet').value = sample.snippet;
+            document.getElementById('email-body').value = sample.body;
+        }
+
+        function clearForm() {
+            document.getElementById('email-from').value = '';
+            document.getElementById('email-subject').value = '';
+            document.getElementById('email-snippet').value = '';
+            document.getElementById('email-body').value = '';
+            document.getElementById('results-container').classList.remove('visible');
+            document.getElementById('status-banner').style.display = 'none';
+        }
+
+        function showStatus(type, message, icon) {
+            const banner = document.getElementById('status-banner');
+            banner.className = `status-banner ${type}`;
+            banner.style.display = 'flex';
+
+            if (type === 'loading') {
+                banner.innerHTML = `<div class="spinner"></div><span>${message}</span>`;
+            } else {
+                banner.innerHTML = `<span class="status-icon">${icon}</span><span>${message}</span>`;
+            }
+        }
+
+        function hideStatus() {
+            document.getElementById('status-banner').style.display = 'none';
+        }
+
+        async function classifyEmail() {
+            const from = document.getElementById('email-from').value;
+            const subject = document.getElementById('email-subject').value;
+            const snippet = document.getElementById('email-snippet').value;
+            const body = document.getElementById('email-body').value;
+
+            if (!subject || !body) {
+                showStatus('error', 'Please enter at least a subject and body', '⚠️');
+                return;
+            }
+
+            // Disable button
+            const btn = document.getElementById('classify-btn');
+            btn.disabled = true;
+
+            showStatus('loading', 'Classifying email...', '');
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: {
+                            id: `test-${Date.now()}`,
+                            subject: subject,
+                            from: from,
+                            snippet: snippet,
+                            body: body,
+                            htmlBody: body
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                showStatus('success', 'Classification complete!', '✅');
+                setTimeout(hideStatus, 3000);
+
+                renderResults(data);
+                document.getElementById('results-container').classList.add('visible');
+
+            } catch (error) {
+                console.error('Classification error:', error);
+                showStatus('error', `Error: ${error.message}. Make sure backend is running on localhost:8082`, '❌');
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        function renderResults(data) {
+            renderIntent(data.intentClassification);
+            renderEntities(data.entityExtraction);
+            renderRules(data.rulesEngine);
+            renderMailAds(data.mailAdsClassification);
+            renderPipeline(data.pipelineTrace);
+        }
+
+        function renderIntent(intent) {
+            const container = document.getElementById('intent-data');
+            const confidence = Math.round(intent.confidence * 100);
+            const confidenceClass = confidence >= 85 ? 'success' : confidence >= 30 ? 'warning' : 'error';
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-title">Detected Intent</div>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="font-size: 24px; font-weight: 800; color: #0066FF;">${intent.detectedIntent}</div>
+                        <span class="badge badge-${confidenceClass}">${confidence}% Confidence</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Source</span>
+                        <span class="data-value">${intent.source}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Processing Time</span>
+                        <span class="data-value">${intent.processingTime}</span>
+                    </div>
+                </div>
+
+                ${intent.matchBreakdown && intent.matchBreakdown.length > 0 ? `
+                <div class="card">
+                    <div class="card-title">Match Breakdown</div>
+                    ${intent.matchBreakdown.map(match => `
+                        <div class="data-row">
+                            <span class="data-label">${match.pattern} (${match.location})</span>
+                            <span class="data-value">+${match.weight}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                ` : ''}
+
+                ${intent.topIntents ? `
+                <div class="card">
+                    <div class="card-title">Top Intent Scores</div>
+                    ${Object.entries(intent.topIntents).slice(0, 5).map(([intentName, score]) => `
+                        <div style="margin-bottom: 12px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                                <span class="data-label">${intentName}</span>
+                                <span class="data-value">${Math.round(score.confidence * 100)}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${score.confidence * 100}%"></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                ` : ''}
+            `;
+        }
+
+        function renderEntities(entities) {
+            const container = document.getElementById('entities-data');
+            const extracted = entities.extractedEntities;
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-title">Validation Status</div>
+                    <div class="data-row">
+                        <span class="data-label">Has Deadline</span>
+                        <span class="data-value">${entities.validation.hasDeadline ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Has Prices</span>
+                        <span class="data-value">${entities.validation.hasPrices ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Has Tracking Numbers</span>
+                        <span class="data-value">${entities.validation.hasTrackingNumbers ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Has Children</span>
+                        <span class="data-value">${entities.validation.hasChildren ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Has Companies</span>
+                        <span class="data-value">${entities.validation.hasCompanies ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Extracted Entities</div>
+                    ${extracted.deadline ? `
+                        <div class="data-row">
+                            <span class="data-label">📅 Deadline</span>
+                            <span class="data-value">${extracted.deadline.text} ${extracted.deadline.isUrgent ? '<span class="badge badge-error">URGENT</span>' : ''}</span>
+                        </div>
+                    ` : ''}
+                    ${extracted.prices?.original ? `
+                        <div class="data-row">
+                            <span class="data-label">💰 Price</span>
+                            <span class="data-value">${extracted.prices.original}</span>
+                        </div>
+                    ` : ''}
+                    ${extracted.trackingNumbers && extracted.trackingNumbers.length > 0 ? `
+                        <div class="data-row">
+                            <span class="data-label">📦 Tracking</span>
+                            <span class="data-value">${extracted.trackingNumbers.join(', ')}</span>
+                        </div>
+                    ` : ''}
+                    ${extracted.stores && extracted.stores.length > 0 ? `
+                        <div class="data-row">
+                            <span class="data-label">🏪 Stores</span>
+                            <span class="data-value">${extracted.stores.join(', ')}</span>
+                        </div>
+                    ` : ''}
+                    ${extracted.children && extracted.children.length > 0 ? `
+                        <div class="data-row">
+                            <span class="data-label">👦 Children</span>
+                            <span class="data-value">${extracted.children.join(', ')}</span>
+                        </div>
+                    ` : ''}
+                    ${extracted.companies && extracted.companies.length > 0 ? `
+                        <div class="data-row">
+                            <span class="data-label">🏢 Companies</span>
+                            <span class="data-value">${extracted.companies.join(', ')}</span>
+                        </div>
+                    ` : ''}
+                    ${!extracted.deadline && !extracted.prices?.original && (!extracted.trackingNumbers || extracted.trackingNumbers.length === 0) ? `
+                        <div style="color: rgba(255,255,255,0.5); text-align: center; padding: 20px;">
+                            No entities extracted
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderRules(rules) {
+            const container = document.getElementById('rules-data');
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-title">Rule Match Status</div>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <span style="font-size: 32px;">${rules.matchedRule ? '✅' : '❌'}</span>
+                        <div>
+                            <div style="font-size: 18px; font-weight: 700;">${rules.matchedRule ? 'Rule Matched' : 'No Rule Match'}</div>
+                            <div style="font-size: 14px; color: rgba(255,255,255,0.7);">${rules.intent}</div>
+                        </div>
+                    </div>
+                    <div style="color: rgba(255,255,255,0.8); margin-top: 12px;">${rules.reasoning}</div>
+                </div>
+
+                ${rules.suggestedActions && rules.suggestedActions.length > 0 ? `
+                <div class="card">
+                    <div class="card-title">Suggested Actions (${rules.suggestedActions.length})</div>
+                    ${rules.suggestedActions.map(action => `
+                        <div style="padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                <div style="font-size: 16px; font-weight: 700;">${action.displayName}</div>
+                                ${action.isPrimary ? '<span class="badge badge-success">PRIMARY</span>' : ''}
+                            </div>
+                            <div style="font-size: 13px; color: rgba(255,255,255,0.6);">${action.actionId}</div>
+                            <div style="font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px;">${action.endpoint}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                ` : ''}
+            `;
+        }
+
+        function renderMailAds(mailAds) {
+            const container = document.getElementById('mailads-data');
+            const isMail = mailAds.finalCategory === 'mail';
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-title">Final Classification</div>
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 16px;">
+                        <div style="font-size: 36px; font-weight: 900; color: ${isMail ? '#0066FF' : '#FF9500'};">
+                            ${mailAds.finalCategory.toUpperCase()}
+                        </div>
+                        <span class="badge badge-${mailAds.accuracy.confidence === 'high' ? 'success' : 'warning'}">
+                            ${mailAds.accuracy.confidence.toUpperCase()} CONFIDENCE
+                        </span>
+                    </div>
+                    <div style="color: rgba(255,255,255,0.8);">${mailAds.reasoning.finalDecision}</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Detection Signals</div>
+                    <div class="data-row">
+                        <span class="data-label">🔗 Unsubscribe Link</span>
+                        <span class="data-value">${mailAds.signals.unsubscribeLink ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">🏷️ Promo Keywords</span>
+                        <span class="data-value">${mailAds.signals.promoKeywords.count}/${mailAds.signals.promoKeywords.threshold} ${mailAds.signals.promoKeywords.count >= mailAds.signals.promoKeywords.threshold ? '✅' : '❌'}</span>
+                    </div>
+                    ${mailAds.signals.promoKeywords.matches.length > 0 ? `
+                        <div style="margin-top: 8px; padding: 12px; background: rgba(255,149,0,0.1); border-radius: 8px; font-size: 13px;">
+                            Matched: ${mailAds.signals.promoKeywords.matches.join(', ')}
+                        </div>
+                    ` : ''}
+                    <div class="data-row">
+                        <span class="data-label">📧 Marketing Sender</span>
+                        <span class="data-value">${mailAds.signals.marketingSender ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">🎯 Intent-Based</span>
+                        <span class="data-value">${mailAds.signals.intentBased ? '✅ Yes' : '❌ No'}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPipeline(pipeline) {
+            const container = document.getElementById('pipeline-data');
+
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-title">Overall Status</div>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                        <span style="font-size: 32px;">${pipeline.allStepsSuccessful ? '✅' : '⚠️'}</span>
+                        <div>
+                            <div style="font-size: 18px; font-weight: 700;">${pipeline.allStepsSuccessful ? 'All Steps Successful' : 'Pipeline Issues'}</div>
+                            <div style="font-size: 14px; color: rgba(255,255,255,0.7);">${pipeline.steps.length} steps • ${pipeline.totalTime}</div>
+                        </div>
+                    </div>
+                    ${pipeline.errors && pipeline.errors.length > 0 ? `
+                        <div style="background: rgba(255,59,48,0.2); border: 1px solid rgba(255,59,48,0.4); border-radius: 8px; padding: 12px; margin-top: 12px;">
+                            <div style="font-weight: 700; margin-bottom: 8px;">Errors:</div>
+                            ${pipeline.errors.map(err => `<div>• ${err}</div>`).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+
+                <div class="card">
+                    <div class="card-title">Pipeline Steps</div>
+                    ${pipeline.steps.map(step => `
+                        <div style="padding: 16px; background: rgba(255,255,255,0.05); border-radius: 12px; margin-bottom: 12px;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                                <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(0,122,255,0.2); display: flex; align-items: center; justify-content: center; font-weight: 700; color: #0066FF;">
+                                    ${step.step}
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-size: 16px; font-weight: 700;">${step.name}</div>
+                                    <div style="font-size: 13px; color: rgba(255,255,255,0.7); margin-top: 4px;">${step.result}</div>
+                                </div>
+                                <span class="badge badge-${step.status === 'success' || step.status === 'found' ? 'success' : step.status === 'not-found' || step.status === 'no-match' ? 'warning' : 'error'}">
+                                    ${step.status.toUpperCase()}
+                                </span>
+                                <div style="font-size: 13px; color: rgba(255,255,255,0.6);">${step.time}</div>
+                            </div>
+                            ${step.reasoning && step.reasoning.length > 0 ? `
+                                <div style="margin-top: 8px; padding-left: 44px; font-size: 13px; color: rgba(255,255,255,0.6);">
+                                    ${step.reasoning.map(r => `• ${r}`).join('<br>')}
+                                </div>
+                            ` : ''}
+                            ${step.error ? `
+                                <div style="margin-top: 8px; padding-left: 44px; color: rgba(255,59,48,0.9); font-size: 13px;">
+                                    Error: ${step.error}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(`${tabName}-content`).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Load default sample on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSampleEmail('permission_form');
+        });
+    </script>
+</body>
+</html>

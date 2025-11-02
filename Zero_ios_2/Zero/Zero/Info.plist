@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Zero needs access to your calendar to add events from your emails, such as school events, meetings, and appointments.</string>
+	<key>NSCalendarsWriteOnlyAccessUsageDescription</key>
+	<string>Zero will add events to your calendar based on the emails you receive.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Zero uses speech recognition to transcribe your voice input when composing email replies.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Zero needs microphone access to enable voice-to-text input for composing email replies.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>Zero needs access to create reminders from your emails so you never miss important tasks.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>Zero can save contact information from your emails to make it easier to reach people.</string>
+	<key>NSSiriUsageDescription</key>
+	<string>Zero uses Siri to let you check your inbox, reply to emails, and complete actions with voice commands.</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>com.zero.checkInbox</string>
+		<string>com.zero.replyToLastEmail</string>
+		<string>com.zero.completeAction</string>
+		<string>com.zero.searchEmails</string>
+		<string>com.zero.showUnreadCount</string>
+	</array>
+	<key>OPENAI_API_KEY</key>
+	<string>$(OPENAI_API_KEY)</string>
+	<key>GEMINI_API_KEY</key>
+	<string>$(GEMINI_API_KEY)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.zero.oauth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.514014482017-gpsj2233l3dl312j6ek96cglv0agovuq</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,2795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intent & Action Explorer | Zero</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Stats Banner */
+        .stats-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 450px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 1400px) {
+            .main-grid {
+                grid-template-columns: 400px 1fr;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 350px 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intent-detail-panel {
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 12px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Intent Selector Panel */
+        .intent-selector {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .category-section {
+            margin-bottom: 15px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-header:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .category-header.active {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .category-title {
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: capitalize;
+        }
+
+        .category-count {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .intents-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding-left: 15px;
+            margin-top: 10px;
+        }
+
+        .intents-list.open {
+            max-height: 2000px;
+        }
+
+        .intent-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .intent-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .intent-item.selected {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+        }
+
+        .intent-item.hidden {
+            display: none;
+        }
+
+        .intent-name {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .action-count-badge {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.6);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+
+        /* Zero Sequence Viewer */
+        .zero-sequence-viewer {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            min-height: 600px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            opacity: 0.7;
+        }
+
+        /* Intent Details */
+        .intent-header {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .intent-id {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .intent-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .intent-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .meta-badge.category {
+            background: rgba(100, 149, 237, 0.6);
+        }
+
+        /* Sections */
+        .sequence-section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 1.5rem;
+        }
+
+        .triggers-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .trigger-tag {
+            background: rgba(76, 175, 80, 0.6);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(76, 175, 80, 0.8);
+        }
+
+        .trigger-tag.negative {
+            background: rgba(244, 67, 54, 0.6);
+            border-color: rgba(244, 67, 54, 0.8);
+        }
+
+        /* Trigger Groups - Improved Layout */
+        .triggers-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .trigger-group {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            border: 2px solid;
+        }
+
+        .trigger-group.positive {
+            border-color: rgba(76, 175, 80, 0.6);
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .trigger-group.negative {
+            border-color: rgba(244, 67, 54, 0.6);
+            background: rgba(244, 67, 54, 0.05);
+        }
+
+        .trigger-group-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .trigger-group-icon {
+            font-size: 1.2rem;
+        }
+
+        .trigger-group-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: auto;
+        }
+
+        .entities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .entity-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .entity-card.required {
+            border-color: rgba(244, 67, 54, 0.8);
+            background: rgba(244, 67, 54, 0.15);
+        }
+
+        .entity-card.optional {
+            border-color: rgba(33, 150, 243, 0.8);
+            background: rgba(33, 150, 243, 0.15);
+        }
+
+        .entity-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .entity-label {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Actions */
+        .actions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-card.primary {
+            border-color: rgba(255, 215, 0, 0.8);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .action-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .action-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .primary-star {
+            color: #FFD700;
+            font-size: 1.5rem;
+        }
+
+        .action-badges {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-badge {
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-in-app {
+            background: rgba(76, 175, 80, 0.6);
+            border: 1px solid rgba(76, 175, 80, 0.8);
+        }
+
+        .badge-go-to {
+            background: rgba(33, 150, 243, 0.6);
+            border: 1px solid rgba(33, 150, 243, 0.8);
+        }
+
+        .badge-priority {
+            background: rgba(255, 152, 0, 0.6);
+            border: 1px solid rgba(255, 152, 0, 0.8);
+        }
+
+        .action-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .action-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .meta-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .meta-value code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .context-keys {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .context-key {
+            background: rgba(156, 39, 176, 0.6);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(156, 39, 176, 0.8);
+        }
+
+        .no-actions {
+            text-align: center;
+            padding: 40px;
+            background: rgba(244, 67, 54, 0.15);
+            border-radius: 15px;
+            border: 2px dashed rgba(244, 67, 54, 0.5);
+        }
+
+        .no-actions-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            padding: 10px 20px;
+            background: rgba(76, 175, 80, 0.6);
+            border: 2px solid rgba(76, 175, 80, 0.8);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(76, 175, 80, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: rgba(33, 150, 243, 0.6);
+            border-color: rgba(33, 150, 243, 0.8);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(33, 150, 243, 0.8);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            margin-bottom: 25px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        /* Trigger Builder - Mad Libs Style */
+        .trigger-builder {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .builder-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .builder-template {
+            font-size: 1.1rem;
+            line-height: 2;
+            margin-bottom: 20px;
+        }
+
+        .builder-slot {
+            display: inline-block;
+            min-width: 150px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .builder-slot:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .builder-slot.filled {
+            background: rgba(76, 175, 80, 0.3);
+            border: 2px solid rgba(76, 175, 80, 0.6);
+            border-style: solid;
+        }
+
+        .builder-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .example-chip {
+            padding: 6px 12px;
+            background: rgba(33, 150, 243, 0.3);
+            border: 1px solid rgba(33, 150, 243, 0.5);
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-chip:hover {
+            background: rgba(33, 150, 243, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* Autocomplete */
+        .autocomplete-container {
+            position: relative;
+        }
+
+        .autocomplete-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 50, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            margin-top: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .autocomplete-results.active {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.2s;
+        }
+
+        .autocomplete-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-match {
+            color: #FFD700;
+            font-weight: 700;
+        }
+
+        .autocomplete-intent {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .trigger-preview {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid rgba(76, 175, 80, 0.8);
+        }
+
+        .preview-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .preview-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(76, 175, 80, 1);
+        }
+
+        .sample-emails-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sample-email-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sample-email-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .sample-email-subject {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .sample-email-snippet {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .confidence-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .confidence-strong {
+            background: rgba(76, 175, 80, 0.6);
+        }
+
+        .confidence-weak {
+            background: rgba(255, 152, 0, 0.6);
+        }
+
+        .buttons-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        /* Scrollbar Styling */
+        .intent-selector::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .intent-selector::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .intent-selector::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .intent-selector::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Intent & Action Explorer</h1>
+            <p>Interactive Intent-Action Auditor | Select any intent to view its complete zero sequence with all actions and metadata</p>
+        </div>
+
+        <!-- Stats Banner -->
+        <div class="stats-banner">
+            <div class="stat-card">
+                <div class="stat-number" id="total-intents">89</div>
+                <div class="stat-label">Total Intents</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-actions">0</div>
+                <div class="stat-label">Total Actions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="categories-count">12</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avg-actions">0</div>
+                <div class="stat-label">Avg Actions/Intent</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="corpus-size">12.5K</div>
+                <div class="stat-label">Corpus Size</div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Intent Selector -->
+            <div class="intent-selector">
+                <input
+                    type="search"
+                    class="search-box"
+                    id="intent-search"
+                    placeholder="🔍 Search 89 intents..."
+                />
+                <div id="categories-container"></div>
+            </div>
+
+            <!-- Zero Sequence Viewer -->
+            <div class="zero-sequence-viewer">
+                <div class="empty-state">
+                    <div class="empty-state-icon">🎯</div>
+                    <h2>Select an Intent</h2>
+                    <p>Choose any intent from the left panel to view its complete zero sequence flow</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <div class="modal-overlay" id="add-trigger-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Add Trigger Pattern</div>
+                    <div class="modal-close" onclick="closeModal('add-trigger-modal')">×</div>
+                </div>
+                <div class="modal-body">
+                    <p style="opacity: 0.9; margin-bottom: 20px;">
+                        Adding trigger for: <strong id="modal-intent-name"></strong>
+                    </p>
+
+                    <!-- Mad Libs Builder -->
+                    <div class="trigger-builder">
+                        <label class="builder-label">🎯 Build your trigger pattern:</label>
+                        <div class="builder-template" id="builder-template">
+                            Emails containing
+                            <span class="builder-slot" data-slot="keyword" onclick="focusSlot('keyword')">
+                                <span id="slot-keyword">click to fill</span>
+                            </span>
+                            or related to
+                            <span class="builder-slot" data-slot="context" onclick="focusSlot('context')">
+                                <span id="slot-context">click to fill</span>
+                            </span>
+                        </div>
+                        <div class="builder-examples" id="builder-examples">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Manual Input with Autocomplete -->
+                    <div class="autocomplete-container">
+                        <label class="builder-label">Or enter manually:</label>
+                        <input
+                            type="text"
+                            class="modal-input"
+                            id="new-trigger-input"
+                            placeholder="Type to search existing triggers..."
+                            oninput="handleTriggerInput(this.value)"
+                            onkeydown="handleTriggerKeydown(event)"
+                        />
+                        <div class="autocomplete-results" id="autocomplete-results">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Preview -->
+                    <div class="trigger-preview" id="trigger-preview" style="display: none;">
+                        <div class="preview-label">Preview:</div>
+                        <div class="preview-text" id="preview-text"></div>
+                    </div>
+
+                    <div style="font-size: 0.85rem; opacity: 0.7; margin-top: 15px;">
+                        💡 Tip: Use simple, clear phrases like "payment due" or "order shipped". Triggers are case-insensitive.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn secondary" onclick="closeModal('add-trigger-modal')">Cancel</button>
+                    <button class="action-btn" id="save-trigger-btn" onclick="saveTrigger()">Save Trigger</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="sample-emails-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Sample Matched Emails</div>
+                    <div class="modal-close" onclick="closeModal('sample-emails-modal')">×</div>
+                </div>
+                <div class="modal-body">
+                    <p style="opacity: 0.9; margin-bottom: 20px;">
+                        Showing sample emails for: <strong id="sample-intent-name"></strong>
+                    </p>
+                    <div class="sample-emails-list" id="sample-emails-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn" onclick="closeModal('sample-emails-modal')">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="threshold-emails-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Classification Threshold Examples</div>
+                    <div class="modal-close" onclick="closeModal('threshold-emails-modal')">×</div>
+                </div>
+                <div class="modal-body">
+                    <p style="opacity: 0.9; margin-bottom: 20px;">
+                        Generated examples for: <strong id="threshold-intent-name"></strong>
+                    </p>
+                    <div id="threshold-emails-content">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn" onclick="closeModal('threshold-emails-modal')">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="confirmation-modal">
+            <div class="modal-content" style="max-width: 400px;">
+                <div class="modal-header">
+                    <div class="modal-title">✓ Success</div>
+                    <div class="modal-close" onclick="closeModal('confirmation-modal')">×</div>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmation-message" style="font-size: 1.1rem; text-align: center;">
+                        Trigger saved successfully!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn" onclick="closeModal('confirmation-modal')">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Complete Intent Taxonomy with Action Catalog Integration
+        const INTENT_DATA = {
+            // E-COMMERCE (10 intents)
+            'e-commerce.order.confirmation': {
+                description: 'Order placement confirmation',
+                triggers: ['order confirmed', 'thank you for your order', 'order number'],
+                requiredEntities: ['orderNumber'],
+                optionalEntities: ['totalAmount', 'estimatedDelivery'],
+                actions: ['view_order', 'track_package', 'contact_support', 'unsubscribe']
+            },
+            'e-commerce.shipping.notification': {
+                description: 'Package shipped notification',
+                triggers: ['has shipped', 'on its way', 'tracking number', 'out for delivery'],
+                requiredEntities: ['trackingNumber', 'carrier'],
+                optionalEntities: ['orderNumber', 'estimatedDelivery'],
+                actions: ['track_package', 'view_order', 'contact_support', 'unsubscribe']
+            },
+            'e-commerce.delivery.completed': {
+                description: 'Package delivered confirmation',
+                triggers: ['delivered', 'package arrived', 'delivery confirmed'],
+                requiredEntities: ['orderNumber'],
+                optionalEntities: ['deliveryLocation'],
+                actions: ['buy_again', 'return_item', 'contact_support', 'unsubscribe']
+            },
+            'e-commerce.order.receipt': {
+                description: 'Order receipt or invoice',
+                triggers: ['receipt', 'invoice', 'payment received'],
+                requiredEntities: ['orderNumber', 'totalAmount'],
+                optionalEntities: ['items'],
+                actions: ['download_receipt', 'view_order', 'unsubscribe']
+            },
+            'e-commerce.order.delayed': {
+                description: 'Order or shipment delayed',
+                triggers: ['delayed', 'running late', 'shipping delayed', 'delivery delayed'],
+                requiredEntities: ['orderNumber'],
+                optionalEntities: ['newEstimatedDelivery', 'reason'],
+                actions: ['track_package', 'view_order', 'contact_support']
+            },
+            'e-commerce.return.label': {
+                description: 'Return label or instructions',
+                triggers: ['return label', 'return shipping', 'return instructions'],
+                requiredEntities: ['orderNumber'],
+                optionalEntities: ['returnDeadline', 'returnUrl', 'labelUrl'],
+                actions: ['track_return', 'print_return_label', 'contact_support']
+            },
+            'e-commerce.refund.processing': {
+                description: 'Refund being processed',
+                triggers: ['refund initiated', 'refund processing', 'money back'],
+                requiredEntities: ['refundAmount'],
+                optionalEntities: ['orderNumber', 'processingDays'],
+                actions: ['view_refund_status', 'contact_support']
+            },
+            'e-commerce.backorder.notification': {
+                description: 'Item on backorder or out of stock',
+                triggers: ['back ordered', 'out of stock', 'delayed shipment'],
+                requiredEntities: ['productName'],
+                optionalEntities: ['orderNumber', 'expectedRestockDate'],
+                actions: ['reorder_item', 'notify_restock', 'contact_support']
+            },
+            'e-commerce.price.drop': {
+                description: 'Price drop alert for watched item',
+                triggers: ['price drop', 'now on sale', 'price reduced'],
+                requiredEntities: ['productName', 'newPrice'],
+                optionalEntities: ['oldPrice', 'savings', 'productUrl'],
+                actions: ['view_product', 'set_price_alert', 'buy_again']
+            },
+            'e-commerce.restock.alert': {
+                description: 'Item back in stock alert',
+                triggers: ['back in stock', 'now available', 'restock alert'],
+                requiredEntities: ['productName'],
+                optionalEntities: ['productUrl', 'quantity'],
+                actions: ['reorder_item', 'view_product']
+            },
+            'e-commerce.warranty.expiring': {
+                description: 'Warranty expiration notice',
+                triggers: ['warranty expiring', 'warranty ends', 'protection plan'],
+                requiredEntities: ['productName', 'expirationDate'],
+                optionalEntities: ['orderNumber', 'extensionUrl'],
+                actions: ['view_warranty', 'contact_support']
+            },
+
+            // BILLING & FINANCE (13 intents)
+            'billing.invoice.due': {
+                description: 'Invoice due for payment',
+                triggers: ['invoice due', 'amount due', 'payment required', 'please pay'],
+                requiredEntities: ['invoiceId', 'amountDue', 'dueDate'],
+                optionalEntities: ['paymentLink'],
+                actions: ['pay_invoice', 'view_invoice', 'set_payment_reminder', 'schedule_payment']
+            },
+            'billing.payment.received': {
+                description: 'Payment confirmation',
+                triggers: ['payment received', 'payment confirmed', 'thank you for your payment'],
+                requiredEntities: ['paymentAmount'],
+                optionalEntities: ['invoiceId', 'receiptUrl'],
+                actions: ['download_receipt', 'view_invoice']
+            },
+            'billing.subscription.renewal': {
+                description: 'Subscription renewal notice or payment issue',
+                triggers: ['subscription renews', 'renewal date', 'auto-renew', 'update payment method'],
+                requiredEntities: [],
+                optionalEntities: ['renewalDate', 'amount', 'subscriptionName'],
+                actions: ['manage_subscription', 'cancel_subscription', 'update_payment']
+            },
+            'finance.statement.ready': {
+                description: 'Financial statement available',
+                triggers: ['statement available', 'statement ready', 'monthly statement'],
+                requiredEntities: ['accountId'],
+                optionalEntities: ['statementPeriod', 'statementUrl'],
+                actions: ['view_statement', 'download_receipt']
+            },
+            'finance.payment.reminder': {
+                description: 'Upcoming payment reminder',
+                triggers: ['payment reminder', 'payment approaching', 'upcoming payment'],
+                requiredEntities: ['amountDue', 'dueDate'],
+                optionalEntities: ['accountId', 'paymentMethod'],
+                actions: ['schedule_payment', 'update_payment_method', 'set_payment_reminder']
+            },
+            'finance.payment.failed': {
+                description: 'Payment failed notification',
+                triggers: ['payment failed', 'payment declined', 'insufficient funds'],
+                requiredEntities: ['amountDue'],
+                optionalEntities: ['accountId', 'failureReason'],
+                actions: ['update_payment_method', 'schedule_payment', 'contact_support']
+            },
+            'finance.refund.processed': {
+                description: 'Refund issued notification',
+                triggers: ['refund issued', 'refund processed', 'money returned'],
+                requiredEntities: ['refundAmount'],
+                optionalEntities: ['accountId', 'originalTransaction'],
+                actions: ['view_refund_status', 'view_statement']
+            },
+            'finance.credit.alert': {
+                description: 'Credit score or report update',
+                triggers: ['credit score updated', 'credit report available', 'score change'],
+                requiredEntities: [],
+                optionalEntities: ['creditScore', 'scoreChange', 'reportUrl'],
+                actions: ['view_credit_report', 'view_details']
+            },
+            'finance.tax.document': {
+                description: 'Tax document available',
+                triggers: ['tax document ready', '1099 available', 'w-2 available'],
+                requiredEntities: ['taxYear'],
+                optionalEntities: ['documentType', 'downloadUrl'],
+                actions: ['download_tax_document', 'view_details']
+            },
+            'finance.investment.performance': {
+                description: 'Investment portfolio update',
+                triggers: ['portfolio update', 'investment summary', 'market performance'],
+                requiredEntities: ['accountId'],
+                optionalEntities: ['portfolioValue', 'changePercent'],
+                actions: ['view_portfolio', 'view_statement']
+            },
+            'finance.fraud.alert': {
+                description: 'Suspicious activity or fraud alert',
+                triggers: ['suspicious activity', 'fraud alert', 'unusual transaction'],
+                requiredEntities: ['accountId'],
+                optionalEntities: ['transactionAmount', 'transactionDate'],
+                actions: ['dispute_transaction', 'verify_transaction', 'contact_support']
+            },
+            'finance.payment.sent': {
+                description: 'Payment sent confirmation (Venmo, Zelle, etc.)',
+                triggers: ['you paid', 'you sent', 'payment sent', 'venmo', 'zelle'],
+                requiredEntities: [],
+                optionalEntities: ['paymentAmount', 'recipient', 'paymentMethod'],
+                actions: ['view_details', 'dispute_transaction']
+            },
+            'finance.payment.received': {
+                description: 'Payment received notification',
+                triggers: ['you received', 'payment received', 'deposited'],
+                requiredEntities: [],
+                optionalEntities: ['paymentAmount', 'sender', 'paymentMethod'],
+                actions: ['view_details', 'save_for_later']
+            },
+            'finance.mortgage': {
+                description: 'Mortgage or refinancing communication',
+                triggers: ['mortgage', 'refi', 'refinance', 'home loan'],
+                requiredEntities: [],
+                optionalEntities: ['lender', 'rate', 'amount'],
+                actions: ['view_mortgage_details', 'view_details']
+            },
+            'finance.utility.bill': {
+                description: 'Utility bill notification',
+                triggers: ['utility bill', 'electric bill', 'gas bill', 'water bill'],
+                requiredEntities: [],
+                optionalEntities: ['amountDue', 'dueDate', 'provider'],
+                actions: ['pay_utility_bill', 'schedule_payment', 'view_details']
+            },
+
+            // SUBSCRIPTION (6 intents)
+            'subscription.trial.ending': {
+                description: 'Free trial ending soon',
+                triggers: ['trial ending', 'trial expires', 'free trial ends'],
+                requiredEntities: ['expirationDate'],
+                optionalEntities: ['serviceName', 'upgradeUrl'],
+                actions: ['upgrade_subscription', 'extend_trial', 'cancel_subscription_service']
+            },
+            'subscription.cancellation.confirmation': {
+                description: 'Subscription cancelled confirmation',
+                triggers: ['subscription cancelled', 'cancellation confirmed', 'service ended'],
+                requiredEntities: ['serviceName'],
+                optionalEntities: ['cancellationDate', 'refundAmount'],
+                actions: ['view_refund_status', 'view_details']
+            },
+            'subscription.upgrade.offer': {
+                description: 'Upgrade or premium offer',
+                triggers: ['upgrade offer', 'upgrade to premium', 'unlock features'],
+                requiredEntities: ['serviceName'],
+                optionalEntities: ['discount', 'offerExpiration'],
+                actions: ['upgrade_subscription', 'view_benefits', 'manage_subscription']
+            },
+            'subscription.usage.limit': {
+                description: 'Usage limit or quota reached',
+                triggers: ['usage limit', 'quota reached', 'limit exceeded'],
+                requiredEntities: ['serviceName'],
+                optionalEntities: ['currentUsage', 'maxUsage'],
+                actions: ['view_usage', 'upgrade_subscription', 'manage_subscription']
+            },
+            'subscription.anniversary': {
+                description: 'Subscription anniversary or milestone',
+                triggers: ['anniversary', 'been with us for', 'member since'],
+                requiredEntities: ['serviceName'],
+                optionalEntities: ['membershipDuration', 'rewardUrl'],
+                actions: ['view_benefits', 'view_details']
+            },
+            'subscription.feature.update': {
+                description: 'Subscription feature updates and perks',
+                triggers: ['new features', 'trial', 'membership', 'upgrade'],
+                requiredEntities: [],
+                optionalEntities: ['subscriptionService', 'features'],
+                actions: ['view_details', 'upgrade_subscription']
+            },
+
+            // ACCOUNT & SECURITY (5 intents)
+            'account.password.reset': {
+                description: 'Password reset request',
+                triggers: ['reset password', 'forgot password', 'password reset'],
+                requiredEntities: ['resetLink'],
+                optionalEntities: ['username'],
+                actions: ['reset_password']
+            },
+            'account.security.alert': {
+                description: 'Security or login alert',
+                triggers: ['security alert', 'unusual activity', 'new login', 'suspicious'],
+                requiredEntities: [],
+                optionalEntities: ['device', 'location', 'ipAddress'],
+                actions: ['verify_device', 'review_security', 'reset_password']
+            },
+            'account.verification.required': {
+                description: 'Email or account verification',
+                triggers: ['verify email', 'confirm account', 'verification required'],
+                requiredEntities: ['verificationLink'],
+                optionalEntities: [],
+                actions: ['verify_account']
+            },
+            'account.secret.exposed': {
+                description: 'API key or secret exposed',
+                triggers: ['secret exposed', 'api key', 'credential leaked'],
+                requiredEntities: ['secretType'],
+                optionalEntities: ['repository', 'actionUrl'],
+                actions: ['revoke_secret', 'review_security']
+            },
+            'account.device.login': {
+                description: 'New device login notification',
+                triggers: ['new device', 'signed in', 'login from', 'new sign-in'],
+                requiredEntities: [],
+                optionalEntities: ['device', 'location', 'ipAddress'],
+                actions: ['verify_device', 'review_security']
+            },
+
+            // EDUCATION & YOUTH (9 intents)
+            'education.assignment.due': {
+                description: 'Assignment or homework due',
+                triggers: ['assignment due', 'homework', 'due date'],
+                requiredEntities: ['dueDate', 'assignmentName'],
+                optionalEntities: ['studentName', 'courseName'],
+                actions: ['view_assignment', 'add_to_calendar']
+            },
+            'education.grade.posted': {
+                description: 'Grade posted notification',
+                triggers: ['grade posted', 'graded', 'score available'],
+                requiredEntities: ['assignmentName'],
+                optionalEntities: ['grade', 'studentName'],
+                actions: ['check_grade', 'view_assignment']
+            },
+            'education.permission.form': {
+                description: 'Permission form requiring signature',
+                triggers: ['permission form', 'field trip', 'please sign', 'consent form'],
+                requiredEntities: ['formName'],
+                optionalEntities: ['dueDate', 'studentName', 'eventDate'],
+                actions: ['sign_form', 'pay_form_fee', 'add_to_calendar']
+            },
+            'education.lms.message': {
+                description: 'Message from teacher via LMS',
+                triggers: ['sent you a message in canvas', 'google classroom', 'schoology'],
+                requiredEntities: ['teacher', 'messageUrl'],
+                optionalEntities: ['subject', 'course', 'platform'],
+                actions: ['view_lms_message', 'reply_to_teacher']
+            },
+            'education.lms.assignment.posted': {
+                description: 'New assignment posted in LMS',
+                triggers: ['new assignment', 'assignment posted', 'posted an assignment'],
+                requiredEntities: ['assignment', 'assignmentUrl'],
+                optionalEntities: ['dueDate', 'course', 'teacher'],
+                actions: ['submit_assignment', 'view_assignment', 'add_to_calendar']
+            },
+            'education.event.invitation': {
+                description: 'School event or parent meeting invitation',
+                triggers: ['parent-teacher conference', 'open house', 'pta meeting'],
+                requiredEntities: ['event', 'dateTime'],
+                optionalEntities: ['location', 'rsvpUrl', 'teacher'],
+                actions: ['accept_school_event', 'rsvp_school_event', 'add_to_calendar']
+            },
+            'education.parent.teacher.communication': {
+                description: 'Direct teacher-parent correspondence',
+                triggers: ['classroom update', 'your child', 'homework', 'student progress'],
+                requiredEntities: ['teacher'],
+                optionalEntities: ['subject', 'class', 'studentName'],
+                actions: ['reply_to_teacher', 'quick_reply']
+            },
+            'youth.sports.registration': {
+                description: 'Youth sports or activity registration',
+                triggers: ['registration', 'sign up', 'tryouts', 'enroll'],
+                requiredEntities: ['sport', 'registrationUrl'],
+                optionalEntities: ['organization', 'deadline', 'cost'],
+                actions: ['register_for_sports', 'add_to_calendar']
+            },
+            'youth.sports.game.schedule': {
+                description: 'Game schedule notification',
+                triggers: ['game schedule', 'tournament', 'game day', 'next game'],
+                requiredEntities: ['sport', 'dateTime'],
+                optionalEntities: ['location', 'opponent', 'scheduleUrl'],
+                actions: ['view_game_schedule', 'rsvp_game', 'add_to_calendar', 'get_directions']
+            },
+            'youth.sports.practice.reminder': {
+                description: 'Practice reminder',
+                triggers: ['practice', 'training', 'scrimmage', 'practice today'],
+                requiredEntities: ['sport', 'dateTime'],
+                optionalEntities: ['location', 'duration'],
+                actions: ['view_practice_details', 'add_to_calendar', 'get_directions']
+            },
+            'youth.sports.team.announcement': {
+                description: 'Team announcement',
+                triggers: ['team update', 'roster', 'uniform', 'coach message'],
+                requiredEntities: ['sport', 'team'],
+                optionalEntities: ['message', 'coach'],
+                actions: ['view_team_announcement', 'quick_reply']
+            },
+
+            // HEALTHCARE (10 intents)
+            'healthcare.appointment.reminder': {
+                description: 'Medical appointment reminder',
+                triggers: ['appointment reminder', 'upcoming appointment', 'dr.', 'doctor'],
+                negativePatterns: ['cancelled', 'canceled', 'confirmed', 'scheduled for'],
+                requiredEntities: ['dateTime', 'provider'],
+                optionalEntities: ['location', 'specialty', 'checkInUrl'],
+                actions: ['check_in_appointment', 'confirm_appointment', 'add_to_calendar', 'get_directions']
+            },
+            'healthcare.prescription.ready': {
+                description: 'Prescription ready for pickup',
+                triggers: ['prescription ready', 'rx ready', 'pick up by', 'pharmacy'],
+                requiredEntities: ['medication'],
+                optionalEntities: ['rxNumber', 'pickupDeadline', 'pharmacyLocation'],
+                actions: ['view_pickup_details', 'pickup_prescription', 'get_directions']
+            },
+            'healthcare.results.available': {
+                description: 'Lab or test results available',
+                triggers: ['lab results', 'test results available', 'results now available'],
+                requiredEntities: ['resultType'],
+                optionalEntities: ['testDate', 'resultsUrl'],
+                actions: ['view_results', 'download_results']
+            },
+            'healthcare.billing.superbill': {
+                description: 'Medical bill or superbill for insurance reimbursement',
+                triggers: ['superbill', 'medical bill', 'patient statement', 'insurance claim'],
+                requiredEntities: [],
+                optionalEntities: ['amountDue', 'provider', 'dateOfService'],
+                actions: ['file_insurance_claim', 'pay_invoice', 'view_invoice']
+            },
+            'healthcare.appointment.confirmation': {
+                description: 'Medical appointment confirmation',
+                triggers: ['appointment confirmed', 'appointment scheduled', 'scheduled for'],
+                requiredEntities: ['dateTime', 'provider'],
+                optionalEntities: ['location', 'specialty', 'confirmationCode'],
+                actions: ['confirm_appointment', 'add_to_calendar', 'get_directions']
+            },
+            'healthcare.appointment.cancellation': {
+                description: 'Medical appointment cancelled',
+                triggers: ['appointment cancelled', 'visit cancelled', 'rescheduling required'],
+                requiredEntities: ['dateTime'],
+                optionalEntities: ['provider', 'reason', 'rescheduleUrl'],
+                actions: ['reschedule_appointment', 'view_details']
+            },
+            'healthcare.referral.request': {
+                description: 'Medical referral to specialist',
+                triggers: ['referral to specialist', 'see a specialist', 'referred you to'],
+                requiredEntities: ['specialistType'],
+                optionalEntities: ['provider', 'referralCode', 'specialistName'],
+                actions: ['view_referral', 'schedule_test']
+            },
+            'healthcare.insurance.claim': {
+                description: 'Insurance claim status update',
+                triggers: ['claim submitted', 'claim approved', 'claim denied', 'eob available'],
+                requiredEntities: ['claimNumber'],
+                optionalEntities: ['claimAmount', 'claimStatus', 'provider'],
+                actions: ['view_claim_status', 'file_insurance_claim']
+            },
+            'healthcare.test.order': {
+                description: 'Medical test or lab work scheduled',
+                triggers: ['lab test scheduled', 'imaging scheduled', 'bloodwork required'],
+                requiredEntities: ['testType'],
+                optionalEntities: ['dateTime', 'location', 'preparationInstructions'],
+                actions: ['schedule_test', 'add_to_calendar', 'get_directions']
+            },
+            'healthcare.follow-up.reminder': {
+                description: 'Follow-up appointment reminder',
+                triggers: ['follow up appointment', 'follow-up required', 'follow up with'],
+                requiredEntities: ['dateTime'],
+                optionalEntities: ['provider', 'reason', 'schedulingUrl'],
+                actions: ['schedule_test', 'confirm_appointment', 'add_to_calendar']
+            },
+
+            // TRAVEL (3 intents)
+            'travel.flight.check-in': {
+                description: 'Flight check-in reminder',
+                triggers: ['check-in', 'check in now', 'flight reminder'],
+                requiredEntities: ['flightNumber', 'departureDate'],
+                optionalEntities: ['confirmationCode', 'checkInUrl'],
+                actions: ['check_in_flight', 'add_to_wallet', 'view_itinerary', 'add_to_calendar']
+            },
+            'travel.reservation.confirmation': {
+                description: 'Hotel, flight, or car reservation',
+                triggers: ['reservation confirmed', 'booking confirmed', 'itinerary'],
+                requiredEntities: ['confirmationCode'],
+                optionalEntities: ['checkInDate', 'location'],
+                actions: ['view_itinerary', 'manage_booking', 'add_to_calendar']
+            },
+            'travel.itinerary.update': {
+                description: 'Travel itinerary change',
+                triggers: ['itinerary change', 'flight change', 'delay', 'cancellation'],
+                requiredEntities: ['confirmationCode'],
+                optionalEntities: ['newTime', 'reason'],
+                actions: ['view_itinerary', 'manage_booking', 'contact_support']
+            },
+
+            // DINING & DELIVERY (2 intents)
+            'dining.reservation.confirmation': {
+                description: 'Restaurant reservation confirmation',
+                triggers: ['reservation confirmed', 'your table', 'opentable', 'resy'],
+                requiredEntities: ['restaurant', 'dateTime', 'partySize'],
+                optionalEntities: ['confirmationCode', 'location'],
+                actions: ['view_reservation', 'modify_reservation', 'add_to_calendar', 'get_directions']
+            },
+            'delivery.food.tracking': {
+                description: 'Food delivery tracking',
+                triggers: ['on its way', 'driver is', 'dasher', 'courier', 'minutes away'],
+                requiredEntities: ['restaurant', 'eta'],
+                optionalEntities: ['driver', 'orderNumber', 'trackingUrl'],
+                actions: ['track_delivery', 'contact_driver']
+            },
+
+            // FEEDBACK (2 intents)
+            'feedback.review.request': {
+                description: 'Request for product or service review',
+                triggers: ['review', 'feedback', 'how was your', 'rate your'],
+                requiredEntities: ['productName'],
+                optionalEntities: ['orderNumber', 'reviewLink'],
+                actions: ['write_review', 'rate_product']
+            },
+            'feedback.survey.invitation': {
+                description: 'Survey invitation',
+                triggers: ['survey', 'questionnaire', 'your opinion'],
+                requiredEntities: ['surveyLink'],
+                optionalEntities: [],
+                actions: ['take_survey']
+            },
+
+            // MARKETING (10 intents)
+            'marketing.promotion.flash-sale': {
+                description: 'Time-limited flash sale',
+                triggers: ['flash sale', 'today only', 'limited time', 'expires today'],
+                requiredEntities: ['expiresAt'],
+                optionalEntities: ['discount', 'promoCode'],
+                actions: ['claim_deal', 'copy_promo_code', 'unsubscribe']
+            },
+            'marketing.promotion.discount': {
+                description: 'General discount or sale promotion',
+                triggers: ['% off', 'discount', 'sale', 'use code', 'promo code'],
+                requiredEntities: [],
+                optionalEntities: ['discount', 'promoCode', 'expiresAt'],
+                actions: ['claim_deal', 'copy_promo_code', 'unsubscribe']
+            },
+            'marketing.product.launch': {
+                description: 'New product announcement',
+                triggers: ['new product', 'just launched', 'now available'],
+                requiredEntities: ['productName'],
+                optionalEntities: ['productUrl', 'price'],
+                actions: ['view_product', 'claim_deal', 'unsubscribe']
+            },
+            'marketing.cart.abandonment': {
+                description: 'Cart abandonment reminder',
+                triggers: ['left in cart', 'forgot something', 'complete your order'],
+                requiredEntities: ['cartUrl'],
+                optionalEntities: ['items', 'totalAmount'],
+                actions: ['complete_cart', 'copy_promo_code', 'unsubscribe']
+            },
+            'marketing.loyalty.reward': {
+                description: 'Loyalty points or rewards notification',
+                triggers: ['reward points', 'loyalty points', 'redeem points', 'vip member'],
+                requiredEntities: [],
+                optionalEntities: ['pointsBalance', 'expirationDate', 'rewardUrl'],
+                actions: ['redeem_rewards', 'view_details', 'unsubscribe']
+            },
+            'marketing.brand.announcement': {
+                description: 'Brand news or company announcement',
+                triggers: ['announcing', 'exciting news', 'partnership', 'brand update'],
+                requiredEntities: [],
+                optionalEntities: ['announcementUrl', 'topic'],
+                actions: ['view_announcement', 'unsubscribe']
+            },
+            'marketing.collection.new-arrivals': {
+                description: 'New product collections and arrivals',
+                triggers: ['new arrivals', 'just dropped', 'new collection', 'now available'],
+                requiredEntities: [],
+                optionalEntities: ['collectionName', 'productUrl'],
+                actions: ['view_product', 'claim_deal', 'unsubscribe']
+            },
+            'marketing.seasonal.campaign': {
+                description: 'Seasonal marketing campaigns',
+                triggers: ['fall', 'summer', 'holiday', 'seasonal', 'back to school'],
+                requiredEntities: [],
+                optionalEntities: ['season', 'productUrl'],
+                actions: ['view_product', 'claim_deal', 'unsubscribe']
+            },
+            'marketing.brand.storytelling': {
+                description: 'Brand storytelling and heritage',
+                triggers: ['trusted by', 'founded', 'heritage', 'our story', 'celebrating'],
+                requiredEntities: [],
+                optionalEntities: ['brandName', 'storyUrl'],
+                actions: ['view_announcement', 'unsubscribe']
+            },
+            'marketing.trending': {
+                description: 'Trending products and bestsellers',
+                triggers: ['trending', 'popular', 'best sellers', 'fan favorites'],
+                requiredEntities: [],
+                optionalEntities: ['productName', 'productUrl'],
+                actions: ['view_product', 'claim_deal', 'unsubscribe']
+            },
+
+            // SHOPPING (1 intent)
+            'shopping.future_sale': {
+                description: 'Product launching or going on sale in the future',
+                triggers: ['launching', 'goes on sale', 'dropping', 'coming soon'],
+                requiredEntities: ['saleDate', 'productUrl'],
+                optionalEntities: ['productName', 'saleTime', 'timezone'],
+                actions: ['schedule_purchase', 'set_reminder']
+            },
+
+            // SUPPORT & PROJECT (5 intents)
+            'support.ticket.confirmation': {
+                description: 'Support ticket created',
+                triggers: ['ticket created', 'case number', 'support request'],
+                requiredEntities: ['ticketId'],
+                optionalEntities: ['ticketUrl'],
+                actions: ['view_ticket']
+            },
+            'support.ticket.update': {
+                description: 'Support ticket update',
+                triggers: ['ticket update', 'case update', 'response from'],
+                requiredEntities: ['ticketId'],
+                optionalEntities: ['status'],
+                actions: ['view_ticket', 'reply_to_ticket']
+            },
+            'project.task.assigned': {
+                description: 'Task assigned to user',
+                triggers: ['assigned to you', 'new task', 'action item'],
+                requiredEntities: ['taskName'],
+                optionalEntities: ['dueDate', 'projectName'],
+                actions: ['view_task', 'add_to_calendar']
+            },
+            'project.incident.alert': {
+                description: 'System incident or outage',
+                triggers: ['incident', 'outage', 'production issue', 'alert'],
+                requiredEntities: ['severity'],
+                optionalEntities: ['incidentUrl'],
+                actions: ['view_incident']
+            },
+            'project.deployment.notification': {
+                description: 'Deployment notification',
+                triggers: ['deployed', 'deployment', 'release'],
+                requiredEntities: [],
+                optionalEntities: ['version', 'environment'],
+                actions: ['view_details']
+            },
+
+            // CIVIC (6 intents)
+            'civic.voting.registration': {
+                description: 'Voter registration reminder',
+                triggers: ['register to vote', 'voter registration', 'election registration'],
+                requiredEntities: ['deadline'],
+                optionalEntities: ['electionDate', 'registrationUrl'],
+                actions: ['register_to_vote', 'add_to_calendar']
+            },
+            'civic.license.renewal': {
+                description: 'Driver\'s license or ID renewal',
+                triggers: ['license renewal', 'renew your license', 'license expires'],
+                requiredEntities: ['expirationDate'],
+                optionalEntities: ['licenseNumber', 'renewalUrl'],
+                actions: ['renew_license', 'add_to_calendar']
+            },
+            'civic.tax.assessment': {
+                description: 'Property tax assessment or bill',
+                triggers: ['property tax', 'tax assessment', 'tax bill'],
+                requiredEntities: ['amountDue'],
+                optionalEntities: ['dueDate', 'propertyAddress'],
+                actions: ['pay_property_tax', 'schedule_payment']
+            },
+            'civic.permit.application': {
+                description: 'Permit application status or requirement',
+                triggers: ['permit application', 'building permit', 'permit status'],
+                requiredEntities: ['permitType'],
+                optionalEntities: ['permitNumber', 'applicationStatus'],
+                actions: ['apply_for_permit', 'view_details']
+            },
+            'civic.court.notice': {
+                description: 'Court appearance or legal notice',
+                triggers: ['court appearance', 'court date', 'jury duty', 'legal notice'],
+                requiredEntities: ['dateTime'],
+                optionalEntities: ['caseNumber', 'location'],
+                actions: ['confirm_court_appearance', 'add_to_calendar']
+            },
+            'civic.ballot.information': {
+                description: 'Ballot information or voting guide',
+                triggers: ['ballot information', 'voting guide', 'election day'],
+                requiredEntities: ['electionDate'],
+                optionalEntities: ['pollingLocation', 'guideUrl'],
+                actions: ['view_ballot', 'add_to_calendar']
+            },
+            'civic.appointment.summons': {
+                description: 'Government appointment or summons',
+                triggers: ['jury duty', 'summons', 'dmv appointment', 'voter registration'],
+                requiredEntities: ['dateTime', 'location'],
+                optionalEntities: ['jurorNumber', 'confirmationCode'],
+                actions: ['confirm_court_appearance', 'add_to_calendar', 'get_directions']
+            },
+
+            // COMMUNICATION & CAREER (9 intents)
+            'communication.thread.reply': {
+                description: 'Email thread reply',
+                triggers: ['re:', 'fwd:', 'reply', 'thanks for', 'thank you for'],
+                requiredEntities: [],
+                optionalEntities: ['sender', 'subject'],
+                actions: ['reply_to_thread', 'quick_reply']
+            },
+            'communication.introduction': {
+                description: 'Professional introduction',
+                triggers: ['meet', 'introduction', 'intro', 'connect you with'],
+                requiredEntities: ['introducedPerson'],
+                optionalEntities: ['context', 'reason'],
+                actions: ['view_introduction', 'reply_to_thread', 'schedule_meeting']
+            },
+            'communication.professional.inquiry': {
+                description: 'Business or professional inquiry',
+                triggers: ['reaching out', 'quick question', 'would you be interested'],
+                requiredEntities: [],
+                optionalEntities: ['topic', 'company'],
+                actions: ['reply_to_thread', 'schedule_meeting']
+            },
+            'career.interview.invitation': {
+                description: 'Interview invitation',
+                triggers: ['interview', 'schedule an interview', 'phone screen'],
+                requiredEntities: ['company', 'position'],
+                optionalEntities: ['dateTime', 'interviewType', 'interviewUrl'],
+                actions: ['schedule_interview', 'view_job_details', 'add_to_calendar']
+            },
+            'career.job.offer': {
+                description: 'Job offer received',
+                triggers: ['offer letter', 'job offer', 'congratulations', 'welcome to the team'],
+                requiredEntities: ['company', 'position'],
+                optionalEntities: ['salary', 'startDate', 'offerDeadline'],
+                actions: ['accept_offer', 'view_job_details']
+            },
+            'career.recruiter.outreach': {
+                description: 'Recruiter reaching out about opportunity',
+                triggers: ['recruiting', 'great opportunity', 'your background', 'career opportunity'],
+                requiredEntities: [],
+                optionalEntities: ['company', 'position', 'recruiterName'],
+                actions: ['view_job_details', 'schedule_meeting', 'reply_to_thread']
+            },
+            'career.application.status': {
+                description: 'Job application status update',
+                triggers: ['application received', 'application status', 'under review'],
+                requiredEntities: ['company', 'position'],
+                optionalEntities: ['applicationStatus', 'nextSteps'],
+                actions: ['check_application_status', 'view_job_details']
+            },
+            'career.rejection.notice': {
+                description: 'Job rejection or application declined',
+                triggers: ['unfortunately', 'not moving forward', 'other candidates'],
+                requiredEntities: ['company', 'position'],
+                optionalEntities: ['reason', 'futureOpportunities'],
+                actions: ['check_application_status', 'view_details']
+            },
+            'career.onboarding': {
+                description: 'New hire onboarding information',
+                triggers: ['first day', 'welcome to the team', 'onboarding', 'orientation'],
+                requiredEntities: ['company'],
+                optionalEntities: ['startDate', 'location', 'contactPerson'],
+                actions: ['view_onboarding_info', 'add_to_calendar']
+            },
+
+            // PROFESSIONAL SERVICES & SOCIAL (6 intents)
+            'legal.document': {
+                description: 'Legal documents and communications',
+                triggers: ['mediation', 'legal', 'attorney', 'contract', 'agreement'],
+                requiredEntities: [],
+                optionalEntities: ['attorney', 'caseNumber', 'deadline'],
+                actions: ['view_legal_document', 'view_details']
+            },
+            'real-estate.service': {
+                description: 'Real estate services and inspections',
+                triggers: ['home inspection', 'real estate', 'property', 'listing'],
+                requiredEntities: [],
+                optionalEntities: ['property', 'agent', 'date', 'location'],
+                actions: ['schedule_inspection', 'add_to_calendar']
+            },
+            'social.notification': {
+                description: 'Social platform notifications and messages',
+                triggers: ['sent you a message', 'mentioned you', 'tagged you', 'linkedin'],
+                requiredEntities: [],
+                optionalEntities: ['platform', 'sender', 'messageUrl'],
+                actions: ['view_social_message', 'quick_reply']
+            },
+            'social.verification': {
+                description: 'Social platform account verification',
+                triggers: ['verify your account', 'email verification', 'roblox', 'gaming account'],
+                requiredEntities: ['platform'],
+                optionalEntities: ['verificationLink', 'username'],
+                actions: ['verify_social_account']
+            },
+            'social.invitation': {
+                description: 'Social platform invitations',
+                triggers: ['invited you to', 'join', 'wants to connect', 'team invitation'],
+                requiredEntities: [],
+                optionalEntities: ['platform', 'inviter', 'invitationLink'],
+                actions: ['accept_social_invitation', 'view_details']
+            },
+            'content.newsletter.gaming': {
+                description: 'Gaming news and announcements',
+                triggers: ['game announcements', 'nintendo', 'playstation', 'xbox', 'gaming'],
+                requiredEntities: [],
+                optionalEntities: ['gameName', 'platform', 'newsUrl'],
+                actions: ['view_newsletter_summary', 'unsubscribe']
+            },
+            'content.newsletter.sports': {
+                description: 'Sports news and updates',
+                triggers: ['mlb', 'nfl', 'nba', 'sports', 'athletic', 'playoff'],
+                requiredEntities: [],
+                optionalEntities: ['sport', 'team', 'newsUrl'],
+                actions: ['view_newsletter_summary', 'unsubscribe']
+            },
+            'content.newsletter.entertainment': {
+                description: 'Entertainment and content newsletters',
+                triggers: ['stories of the week', 'what to watch', 'weekly roundup', 'streaming'],
+                requiredEntities: [],
+                optionalEntities: ['showName', 'contentUrl'],
+                actions: ['view_newsletter_summary', 'unsubscribe']
+            },
+            'content.newsletter.career': {
+                description: 'Job alerts and career newsletters',
+                triggers: ['jobs posted', 'new jobs', 'job alert', 'career opportunities'],
+                requiredEntities: [],
+                optionalEntities: ['jobTitle', 'company', 'jobUrl'],
+                actions: ['view_newsletter_summary', 'unsubscribe']
+            },
+
+            // GENERIC (2 intents)
+            'generic.transactional': {
+                description: 'Generic transactional email',
+                triggers: [],
+                requiredEntities: [],
+                optionalEntities: [],
+                actions: ['view_details', 'quick_reply', 'save_for_later']
+            },
+            'generic.newsletter': {
+                description: 'Newsletter or content digest',
+                triggers: ['newsletter', 'digest', 'weekly', 'roundup', 'bulletin'],
+                requiredEntities: [],
+                optionalEntities: ['keyTopics', 'articleLinks'],
+                actions: ['view_newsletter_summary', 'unsubscribe', 'save_for_later']
+            }
+        };
+
+        // Action Catalog with Complete Metadata
+        const ACTION_CATALOG = {
+            track_package: { displayName: 'Track Package', type: 'GO_TO', priority: 1, modal: null, description: 'Track package delivery status' },
+            view_order: { displayName: 'View Order', type: 'GO_TO', priority: 2, modal: null, description: 'View order details' },
+            buy_again: { displayName: 'Buy Again', type: 'GO_TO', priority: 2, modal: null, description: 'Reorder the same items' },
+            return_item: { displayName: 'Return Item', type: 'GO_TO', priority: 1, modal: null, description: 'Initiate return process' },
+            pay_invoice: { displayName: 'Pay Invoice', type: 'IN_APP', priority: 1, modal: 'PayInvoiceModal', description: 'Pay outstanding invoice' },
+            download_receipt: { displayName: 'Download Receipt', type: 'GO_TO', priority: 2, modal: null, description: 'Download payment receipt' },
+            view_invoice: { displayName: 'View Invoice', type: 'GO_TO', priority: 2, modal: null, description: 'View invoice details' },
+            set_payment_reminder: { displayName: 'Set Reminder', type: 'IN_APP', priority: 3, modal: 'ReminderModal', description: 'Set reminder to pay invoice' },
+            manage_subscription: { displayName: 'Manage Subscription', type: 'GO_TO', priority: 2, modal: null, description: 'Manage subscription settings' },
+            cancel_subscription: { displayName: 'Cancel Subscription', type: 'IN_APP', priority: 1, modal: 'CancelSubscriptionModal', description: 'Cancel unwanted subscription with AI assistance' },
+            unsubscribe: { displayName: 'Unsubscribe', type: 'GO_TO', priority: 3, modal: null, description: 'Unsubscribe from marketing emails' },
+            update_payment: { displayName: 'Update Payment', type: 'GO_TO', priority: 2, modal: null, description: 'Update payment method' },
+            join_meeting: { displayName: 'Join Meeting', type: 'GO_TO', priority: 1, modal: null, description: 'Join video meeting' },
+            add_to_calendar: { displayName: 'Add to Calendar', type: 'IN_APP', priority: 2, modal: 'CalendarModal', description: 'Add event to calendar' },
+            rsvp_yes: { displayName: 'RSVP Yes', type: 'IN_APP', priority: 1, modal: 'RSVPModal', description: 'Accept invitation' },
+            rsvp_no: { displayName: 'RSVP No', type: 'IN_APP', priority: 3, modal: 'RSVPModal', description: 'Decline invitation' },
+            register_event: { displayName: 'Register', type: 'GO_TO', priority: 1, modal: null, description: 'Register for event' },
+            reset_password: { displayName: 'Reset Password', type: 'GO_TO', priority: 1, modal: null, description: 'Reset account password' },
+            verify_account: { displayName: 'Verify Account', type: 'GO_TO', priority: 1, modal: null, description: 'Verify email or account' },
+            verify_device: { displayName: 'Verify Device', type: 'GO_TO', priority: 1, modal: null, description: 'Verify new device login' },
+            review_security: { displayName: 'Review Security', type: 'GO_TO', priority: 1, modal: null, description: 'Review security settings' },
+            revoke_secret: { displayName: 'Revoke Secret', type: 'GO_TO', priority: 1, modal: null, description: 'Revoke exposed API key or secret' },
+            check_in_appointment: { displayName: 'Check In', type: 'GO_TO', priority: 1, modal: null, description: 'Check in for appointment online' },
+            get_directions: { displayName: 'Get Directions', type: 'GO_TO', priority: 2, modal: null, description: 'Get directions to location' },
+            view_pickup_details: { displayName: 'View Pickup Details', type: 'IN_APP', priority: 1, modal: 'PickupModal', description: 'View prescription pickup information' },
+            view_results: { displayName: 'View Results', type: 'GO_TO', priority: 1, modal: null, description: 'View lab or test results' },
+            file_insurance_claim: { displayName: 'File Insurance Claim', type: 'IN_APP', priority: 1, modal: 'InsuranceClaimModal', description: 'File insurance claim for reimbursement' },
+            view_reservation: { displayName: 'View Reservation', type: 'GO_TO', priority: 1, modal: null, description: 'View restaurant reservation details' },
+            modify_reservation: { displayName: 'Modify Reservation', type: 'GO_TO', priority: 2, modal: null, description: 'Modify restaurant reservation' },
+            track_delivery: { displayName: 'Track Delivery', type: 'GO_TO', priority: 1, modal: null, description: 'Track food delivery in real-time' },
+            contact_driver: { displayName: 'Contact Driver', type: 'IN_APP', priority: 2, modal: 'ContactModal', description: 'Contact delivery driver' },
+            view_assignment: { displayName: 'View Assignment', type: 'GO_TO', priority: 1, modal: null, description: 'View assignment details' },
+            check_grade: { displayName: 'Check Grade', type: 'GO_TO', priority: 1, modal: null, description: 'View grade details' },
+            sign_form: { displayName: 'Sign & Send', type: 'IN_APP', priority: 1, modal: 'SignFormModal', description: 'Sign permission form' },
+            pay_form_fee: { displayName: 'Pay Fee', type: 'IN_APP', priority: 2, modal: 'PaymentModal', description: 'Pay associated fee' },
+            view_lms_message: { displayName: 'View Message', type: 'GO_TO', priority: 1, modal: null, description: 'View Canvas/Classroom message' },
+            reply_to_teacher: { displayName: 'Reply to Teacher', type: 'GO_TO', priority: 2, modal: null, description: 'Reply to teacher message' },
+            submit_assignment: { displayName: 'Submit Assignment', type: 'GO_TO', priority: 1, modal: null, description: 'Go to assignment submission page' },
+            register_for_sports: { displayName: 'Register', type: 'GO_TO', priority: 1, modal: null, description: 'Register for youth sports or activity' },
+            view_game_schedule: { displayName: 'View Schedule', type: 'GO_TO', priority: 1, modal: null, description: 'View game schedule' },
+            rsvp_game: { displayName: 'RSVP', type: 'GO_TO', priority: 2, modal: null, description: 'RSVP for game attendance' },
+            view_practice_details: { displayName: 'View Practice Info', type: 'IN_APP', priority: 1, modal: 'PracticeModal', description: 'View practice details' },
+            accept_school_event: { displayName: 'Accept Event', type: 'IN_APP', priority: 1, modal: 'EventModal', description: 'Accept school event invitation' },
+            rsvp_school_event: { displayName: 'RSVP', type: 'GO_TO', priority: 2, modal: null, description: 'RSVP for school event' },
+            view_team_announcement: { displayName: 'View Announcement', type: 'IN_APP', priority: 1, modal: 'AnnouncementModal', description: 'View team announcement' },
+            check_in_flight: { displayName: 'Check In', type: 'IN_APP', priority: 1, modal: 'CheckInModal', description: 'Check in for flight' },
+            view_itinerary: { displayName: 'View Itinerary', type: 'GO_TO', priority: 2, modal: null, description: 'View travel itinerary' },
+            add_to_wallet: { displayName: 'Add to Wallet', type: 'IN_APP', priority: 2, modal: 'WalletModal', description: 'Add boarding pass to wallet' },
+            manage_booking: { displayName: 'Manage Booking', type: 'GO_TO', priority: 3, modal: null, description: 'Manage reservation' },
+            write_review: { displayName: 'Write Review', type: 'IN_APP', priority: 1, modal: 'ReviewModal', description: 'Write product review' },
+            rate_product: { displayName: 'Rate Product', type: 'IN_APP', priority: 2, modal: 'RatingModal', description: 'Quick star rating' },
+            take_survey: { displayName: 'Take Survey', type: 'GO_TO', priority: 1, modal: null, description: 'Complete survey' },
+            claim_deal: { displayName: 'Claim Deal', type: 'GO_TO', priority: 1, modal: null, description: 'Claim promotional offer' },
+            copy_promo_code: { displayName: 'Copy Code', type: 'IN_APP', priority: 2, modal: 'PromoCodeModal', description: 'Copy promo code' },
+            view_product: { displayName: 'View Product', type: 'GO_TO', priority: 1, modal: null, description: 'View product details' },
+            complete_cart: { displayName: 'Complete Order', type: 'GO_TO', priority: 1, modal: null, description: 'Complete cart checkout' },
+            schedule_purchase: { displayName: 'Buy on Sale Date', type: 'IN_APP', priority: 1, modal: 'ScheduledPurchaseModal', description: 'Schedule automated purchase' },
+            set_reminder: { displayName: 'Remind me', type: 'IN_APP', priority: 2, modal: 'ReminderModal', description: 'Set reminder for future sale' },
+            redeem_rewards: { displayName: 'Redeem Rewards', type: 'GO_TO', priority: 1, modal: null, description: 'Redeem loyalty points' },
+            view_announcement: { displayName: 'View Announcement', type: 'GO_TO', priority: 1, modal: null, description: 'View brand announcement' },
+            view_ticket: { displayName: 'View Ticket', type: 'GO_TO', priority: 1, modal: null, description: 'View support ticket' },
+            reply_to_ticket: { displayName: 'Reply', type: 'IN_APP', priority: 2, modal: 'ReplyModal', description: 'Reply to support ticket' },
+            contact_support: { displayName: 'Contact Support', type: 'GO_TO', priority: 4, modal: null, description: 'Contact customer support' },
+            view_task: { displayName: 'View Task', type: 'GO_TO', priority: 1, modal: null, description: 'View task details' },
+            view_incident: { displayName: 'View Incident', type: 'GO_TO', priority: 1, modal: null, description: 'View incident details' },
+            confirm_appointment: { displayName: 'Confirm Appointment', type: 'GO_TO', priority: 1, modal: null, description: 'Confirm medical appointment' },
+            reschedule_appointment: { displayName: 'Reschedule', type: 'GO_TO', priority: 1, modal: null, description: 'Reschedule appointment' },
+            download_results: { displayName: 'Download Results', type: 'GO_TO', priority: 1, modal: null, description: 'Download medical test results' },
+            pickup_prescription: { displayName: 'Pickup Details', type: 'IN_APP', priority: 1, modal: 'PickupModal', description: 'View prescription pickup info' },
+            view_referral: { displayName: 'View Referral', type: 'GO_TO', priority: 1, modal: null, description: 'View specialist referral details' },
+            schedule_test: { displayName: 'Schedule Test', type: 'GO_TO', priority: 1, modal: null, description: 'Schedule medical test or lab work' },
+            view_claim_status: { displayName: 'View Claim', type: 'GO_TO', priority: 1, modal: null, description: 'View insurance claim status' },
+            view_statement: { displayName: 'View Statement', type: 'GO_TO', priority: 1, modal: null, description: 'View financial statement' },
+            update_payment_method: { displayName: 'Update Payment', type: 'GO_TO', priority: 1, modal: null, description: 'Update payment method' },
+            download_tax_document: { displayName: 'Download Tax Form', type: 'GO_TO', priority: 1, modal: null, description: 'Download tax document' },
+            dispute_transaction: { displayName: 'Dispute Transaction', type: 'GO_TO', priority: 1, modal: null, description: 'Report fraudulent transaction' },
+            view_credit_report: { displayName: 'View Credit Report', type: 'GO_TO', priority: 1, modal: null, description: 'View credit score and report' },
+            schedule_payment: { displayName: 'Schedule Payment', type: 'IN_APP', priority: 2, modal: 'PaymentModal', description: 'Schedule automatic payment' },
+            view_portfolio: { displayName: 'View Portfolio', type: 'GO_TO', priority: 1, modal: null, description: 'View investment portfolio' },
+            verify_transaction: { displayName: 'Verify Transaction', type: 'GO_TO', priority: 1, modal: null, description: 'Verify suspicious transaction' },
+            track_return: { displayName: 'Track Return', type: 'GO_TO', priority: 1, modal: null, description: 'Track return shipment status' },
+            print_return_label: { displayName: 'Print Label', type: 'GO_TO', priority: 1, modal: null, description: 'Print return shipping label' },
+            view_refund_status: { displayName: 'View Refund', type: 'GO_TO', priority: 1, modal: null, description: 'View refund processing status' },
+            reorder_item: { displayName: 'Reorder', type: 'GO_TO', priority: 1, modal: null, description: 'Reorder out-of-stock item' },
+            set_price_alert: { displayName: 'Set Price Alert', type: 'IN_APP', priority: 2, modal: 'AlertModal', description: 'Get notified of price changes' },
+            view_warranty: { displayName: 'View Warranty', type: 'GO_TO', priority: 1, modal: null, description: 'View warranty details' },
+            notify_restock: { displayName: 'Notify When Back', type: 'IN_APP', priority: 2, modal: 'NotificationModal', description: 'Get notified when item restocks' },
+            register_to_vote: { displayName: 'Register to Vote', type: 'GO_TO', priority: 1, modal: null, description: 'Complete voter registration' },
+            renew_license: { displayName: 'Renew License', type: 'GO_TO', priority: 1, modal: null, description: 'Renew driver license or ID' },
+            pay_property_tax: { displayName: 'Pay Property Tax', type: 'GO_TO', priority: 1, modal: null, description: 'Pay property tax bill' },
+            apply_for_permit: { displayName: 'Apply for Permit', type: 'GO_TO', priority: 1, modal: null, description: 'Apply for government permit' },
+            view_ballot: { displayName: 'View Ballot', type: 'GO_TO', priority: 1, modal: null, description: 'View sample ballot and voting guide' },
+            confirm_court_appearance: { displayName: 'Confirm Appearance', type: 'GO_TO', priority: 1, modal: null, description: 'Confirm court appearance' },
+            upgrade_subscription: { displayName: 'Upgrade Now', type: 'GO_TO', priority: 1, modal: null, description: 'Upgrade subscription plan' },
+            cancel_subscription_service: { displayName: 'Cancel Service', type: 'GO_TO', priority: 2, modal: null, description: 'Cancel subscription service' },
+            view_usage: { displayName: 'View Usage', type: 'GO_TO', priority: 1, modal: null, description: 'View subscription usage details' },
+            extend_trial: { displayName: 'Extend Trial', type: 'GO_TO', priority: 2, modal: null, description: 'Extend free trial period' },
+            view_benefits: { displayName: 'View Benefits', type: 'IN_APP', priority: 1, modal: 'BenefitsModal', description: 'View subscription benefits' },
+            reply_to_thread: { displayName: 'Reply', type: 'IN_APP', priority: 1, modal: 'ReplyModal', description: 'Reply to email thread' },
+            schedule_meeting: { displayName: 'Schedule Meeting', type: 'GO_TO', priority: 2, modal: null, description: 'Schedule a meeting with sender' },
+            view_introduction: { displayName: 'View Introduction', type: 'IN_APP', priority: 1, modal: 'IntroductionModal', description: 'View introduction details' },
+            schedule_interview: { displayName: 'Schedule Interview', type: 'GO_TO', priority: 1, modal: null, description: 'Schedule interview time' },
+            accept_offer: { displayName: 'Accept Offer', type: 'GO_TO', priority: 1, modal: null, description: 'Accept job offer' },
+            view_job_details: { displayName: 'View Job Details', type: 'GO_TO', priority: 2, modal: null, description: 'View detailed job description' },
+            check_application_status: { displayName: 'Check Status', type: 'GO_TO', priority: 1, modal: null, description: 'Check application status' },
+            view_onboarding_info: { displayName: 'View Onboarding Info', type: 'IN_APP', priority: 1, modal: 'OnboardingModal', description: 'View new hire onboarding' },
+            view_mortgage_details: { displayName: 'View Mortgage Details', type: 'IN_APP', priority: 1, modal: 'MortgageModal', description: 'View mortgage details' },
+            pay_utility_bill: { displayName: 'Pay Bill', type: 'GO_TO', priority: 1, modal: null, description: 'Pay utility bill online' },
+            view_legal_document: { displayName: 'View Document', type: 'IN_APP', priority: 1, modal: 'DocumentModal', description: 'View legal document' },
+            schedule_inspection: { displayName: 'Schedule Inspection', type: 'GO_TO', priority: 1, modal: null, description: 'Schedule real estate inspection' },
+            view_social_message: { displayName: 'View Message', type: 'GO_TO', priority: 1, modal: null, description: 'View social platform message' },
+            verify_social_account: { displayName: 'Verify Account', type: 'GO_TO', priority: 1, modal: null, description: 'Verify social platform account' },
+            accept_social_invitation: { displayName: 'Accept Invitation', type: 'GO_TO', priority: 1, modal: null, description: 'Accept social invitation' },
+            view_newsletter_summary: { displayName: 'View Summary', type: 'IN_APP', priority: 1, modal: 'NewsletterSummaryModal', description: 'View AI-generated newsletter summary' },
+            quick_reply: { displayName: 'Quick Reply', type: 'IN_APP', priority: 5, modal: 'ReplyModal', description: 'Send quick reply' },
+            save_for_later: { displayName: 'Save for Later', type: 'IN_APP', priority: 6, modal: null, description: 'Archive for later review' },
+            view_details: { displayName: 'View Details', type: 'IN_APP', priority: 7, modal: null, description: 'View full email details' }
+        };
+
+        // Build category index
+        function buildCategoryIndex() {
+            const categories = {};
+
+            for (const [intentId, intentData] of Object.entries(INTENT_DATA)) {
+                const category = intentId.split('.')[0];
+
+                if (!categories[category]) {
+                    categories[category] = [];
+                }
+
+                categories[category].push({
+                    id: intentId,
+                    ...intentData
+                });
+            }
+
+            return categories;
+        }
+
+        const categoryIndex = buildCategoryIndex();
+        let currentSelectedIntent = null;
+        let corpusData = []; // Will be loaded from comprehensive-corpus.json
+
+        // Initialize the page
+        async function init() {
+            // Load corpus data
+            try {
+                const response = await fetch('./data/comprehensive-corpus.json');
+                corpusData = await response.json();
+                console.log(`Loaded ${corpusData.length} corpus emails`);
+            } catch (error) {
+                console.warn('Could not load corpus data:', error);
+                corpusData = [];
+            }
+
+            renderCategories();
+            updateStatistics();
+            setupSearch();
+        }
+
+        // Render categories and intents
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+
+            const sortedCategories = Object.entries(categoryIndex).sort((a, b) =>
+                b[1].length - a[1].length
+            );
+
+            for (const [category, intents] of sortedCategories) {
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section';
+
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `
+                    <span class="category-title">${category}</span>
+                    <span class="category-count">${intents.length}</span>
+                `;
+
+                const intentsList = document.createElement('div');
+                intentsList.className = 'intents-list';
+
+                for (const intent of intents.sort((a, b) =>
+                    (b.actions?.length || 0) - (a.actions?.length || 0)
+                )) {
+                    const intentItem = document.createElement('div');
+                    intentItem.className = 'intent-item';
+                    intentItem.dataset.intentId = intent.id;
+                    intentItem.innerHTML = `
+                        <div class="intent-name">${intent.id}</div>
+                        <span class="action-count-badge">${intent.actions?.length || 0} actions</span>
+                    `;
+
+                    intentItem.addEventListener('click', () => selectIntent(intent.id));
+                    intentsList.appendChild(intentItem);
+                }
+
+                header.addEventListener('click', () => {
+                    header.classList.toggle('active');
+                    intentsList.classList.toggle('open');
+                });
+
+                categorySection.appendChild(header);
+                categorySection.appendChild(intentsList);
+                container.appendChild(categorySection);
+            }
+        }
+
+        // Select and display an intent
+        function selectIntent(intentId) {
+            currentSelectedIntent = intentId;
+
+            // Update selection UI
+            document.querySelectorAll('.intent-item').forEach(item => {
+                item.classList.toggle('selected', item.dataset.intentId === intentId);
+            });
+
+            // Render zero sequence
+            renderZeroSequence(intentId);
+        }
+
+        // Render complete zero sequence
+        function renderZeroSequence(intentId) {
+            const viewer = document.querySelector('.zero-sequence-viewer');
+            const intentData = INTENT_DATA[intentId];
+
+            if (!intentData) return;
+
+            const category = intentId.split('.')[0];
+            const subCategory = intentId.split('.')[1];
+
+            viewer.innerHTML = `
+                <div class="intent-header">
+                    <div class="intent-id">${intentId}</div>
+                    <div class="intent-description">${intentData.description}</div>
+                    <div class="intent-meta">
+                        <span class="meta-badge category">${category}</span>
+                        <span class="meta-badge">${subCategory}</span>
+                        <span class="meta-badge">${intentData.actions?.length || 0} Actions</span>
+                        <span class="meta-badge">${intentData.triggers?.length || 0} Triggers</span>
+                    </div>
+                </div>
+
+                ${renderTriggersSection(intentData)}
+                ${renderEntitiesSection(intentData)}
+                ${renderActionsSection(intentData)}
+            `;
+
+            // Update button text with actual corpus count
+            const sampleBtn = document.getElementById('view-samples-btn');
+            if (sampleBtn && corpusData.length > 0) {
+                const count = corpusData.filter(email => email.intent === intentId).length;
+                sampleBtn.textContent = `📧 View Sample Emails (${count})`;
+            }
+        }
+
+        // Render triggers section
+        function renderTriggersSection(intentData) {
+            const triggers = intentData.triggers || [];
+            const negativePatterns = intentData.negativePatterns || [];
+
+            if (triggers.length === 0 && negativePatterns.length === 0) {
+                return '';
+            }
+
+            let triggersHTML = '';
+
+            // Positive triggers group
+            if (triggers.length > 0) {
+                triggersHTML += `
+                    <div class="trigger-group positive">
+                        <div class="trigger-group-header">
+                            <span class="trigger-group-icon">✅</span>
+                            <span>Match Patterns</span>
+                            <span class="trigger-group-count">${triggers.length}</span>
+                        </div>
+                        <div class="triggers-grid">
+                            ${triggers.map(t => `<span class="trigger-tag">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Negative triggers group
+            if (negativePatterns.length > 0) {
+                triggersHTML += `
+                    <div class="trigger-group negative">
+                        <div class="trigger-group-header">
+                            <span class="trigger-group-icon">⛔</span>
+                            <span>Exclude Patterns</span>
+                            <span class="trigger-group-count">${negativePatterns.length}</span>
+                        </div>
+                        <div class="triggers-grid">
+                            ${negativePatterns.map(t => `<span class="trigger-tag negative">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="sequence-section">
+                    <div class="section-title">
+                        <span class="section-icon">🎯</span>
+                        <span>Trigger Patterns</span>
+                    </div>
+                    <div class="triggers-container">
+                        ${triggersHTML}
+                    </div>
+                    <div class="buttons-row">
+                        <button class="action-btn" onclick="openAddTriggerModal()">
+                            ➕ Add Trigger
+                        </button>
+                        <button class="action-btn secondary" onclick="openSampleEmailsModal()" id="view-samples-btn">
+                            📧 View Sample Emails
+                        </button>
+                        <button class="action-btn secondary" onclick="openThresholdEmailsModal()">
+                            🎚️ Generate Threshold Examples
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render entities section
+        function renderEntitiesSection(intentData) {
+            const required = intentData.requiredEntities || [];
+            const optional = intentData.optionalEntities || [];
+
+            if (required.length === 0 && optional.length === 0) {
+                return '';
+            }
+
+            return `
+                <div class="sequence-section">
+                    <div class="section-title">
+                        <span class="section-icon">🔑</span>
+                        <span>Entity Requirements</span>
+                    </div>
+                    <div class="entities-grid">
+                        ${required.map(e => `
+                            <div class="entity-card required">
+                                <div class="entity-name">${e}</div>
+                                <div class="entity-label">⚠️ Required</div>
+                            </div>
+                        `).join('')}
+                        ${optional.map(e => `
+                            <div class="entity-card optional">
+                                <div class="entity-name">${e}</div>
+                                <div class="entity-label">ℹ️ Optional</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render actions section
+        function renderActionsSection(intentData) {
+            const actions = intentData.actions || [];
+
+            if (actions.length === 0) {
+                return `
+                    <div class="sequence-section">
+                        <div class="section-title">
+                            <span class="section-icon">⚡</span>
+                            <span>Suggested Actions</span>
+                        </div>
+                        <div class="no-actions">
+                            <div class="no-actions-icon">⚠️</div>
+                            <div>No actions configured for this intent</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="sequence-section">
+                    <div class="section-title">
+                        <span class="section-icon">⚡</span>
+                        <span>Suggested Actions (${actions.length})</span>
+                    </div>
+                    <div class="actions-list">
+                        ${actions.map((actionId, idx) => renderActionCard(actionId, idx === 0)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render individual action card
+        function renderActionCard(actionId, isPrimary) {
+            const action = ACTION_CATALOG[actionId];
+
+            if (!action) {
+                return `
+                    <div class="action-card">
+                        <div class="action-title">⚠️ ${actionId}</div>
+                        <div style="color: #ff6b6b;">Action not found in catalog</div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="action-card ${isPrimary ? 'primary' : ''}">
+                    <div class="action-header">
+                        <div class="action-title">
+                            ${isPrimary ? '<span class="primary-star">⭐</span>' : ''}
+                            ${action.displayName}
+                        </div>
+                        <div class="action-badges">
+                            <span class="action-badge ${action.type === 'IN_APP' ? 'badge-in-app' : 'badge-go-to'}">
+                                ${action.type}
+                            </span>
+                            <span class="action-badge badge-priority">P${action.priority}</span>
+                        </div>
+                    </div>
+                    <div class="action-description">${action.description}</div>
+                    <div class="action-meta">
+                        <div class="meta-item">
+                            <div class="meta-label">Action ID</div>
+                            <div class="meta-value"><code>${actionId}</code></div>
+                        </div>
+                        ${action.modal ? `
+                            <div class="meta-item">
+                                <div class="meta-label">Modal Component</div>
+                                <div class="meta-value"><code>${action.modal}</code></div>
+                            </div>
+                        ` : ''}
+                        <div class="meta-item">
+                            <div class="meta-label">User Experience</div>
+                            <div class="meta-value">
+                                ${action.type === 'IN_APP' ? '📱 Opens in Zero app' : '🌐 Opens in Safari'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const totalIntents = Object.keys(INTENT_DATA).length;
+            const totalActions = new Set();
+            let actionCount = 0;
+
+            for (const intentData of Object.values(INTENT_DATA)) {
+                if (intentData.actions) {
+                    actionCount += intentData.actions.length;
+                    intentData.actions.forEach(a => totalActions.add(a));
+                }
+            }
+
+            document.getElementById('total-intents').textContent = totalIntents;
+            document.getElementById('total-actions').textContent = totalActions.size;
+            document.getElementById('categories-count').textContent = Object.keys(categoryIndex).length;
+            document.getElementById('avg-actions').textContent = (actionCount / totalIntents).toFixed(1);
+        }
+
+        // Setup search functionality
+        function setupSearch() {
+            const searchBox = document.getElementById('intent-search');
+
+            searchBox.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+
+                document.querySelectorAll('.intent-item').forEach(item => {
+                    const intentId = item.dataset.intentId;
+                    const intentData = INTENT_DATA[intentId];
+
+                    const matches =
+                        intentId.toLowerCase().includes(query) ||
+                        intentData.description.toLowerCase().includes(query) ||
+                        intentData.triggers?.some(t => t.toLowerCase().includes(query)) ||
+                        intentData.actions?.some(a => a.toLowerCase().includes(query));
+
+                    item.classList.toggle('hidden', !matches);
+                });
+
+                // Auto-expand categories with matches
+                document.querySelectorAll('.category-section').forEach(section => {
+                    const visibleIntents = section.querySelectorAll('.intent-item:not(.hidden)');
+                    if (visibleIntents.length > 0 && query) {
+                        section.querySelector('.category-header').classList.add('active');
+                        section.querySelector('.intents-list').classList.add('open');
+                    }
+                });
+            });
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Add Trigger Modal - Enhanced with Mad Libs Builder
+        let currentBuilderSlot = null;
+        let builderState = { keyword: '', context: '' };
+
+        function openAddTriggerModal() {
+            if (!currentSelectedIntent) return;
+
+            document.getElementById('modal-intent-name').textContent = currentSelectedIntent;
+            document.getElementById('new-trigger-input').value = '';
+            document.getElementById('autocomplete-results').classList.remove('active');
+            document.getElementById('trigger-preview').style.display = 'none';
+
+            // Reset builder state
+            builderState = { keyword: '', context: '' };
+            document.getElementById('slot-keyword').textContent = 'click to fill';
+            document.getElementById('slot-context').textContent = 'click to fill';
+            document.querySelectorAll('.builder-slot').forEach(slot => slot.classList.remove('filled'));
+
+            // Populate examples based on intent category
+            populateBuilderExamples();
+
+            openModal('add-trigger-modal');
+        }
+
+        function populateBuilderExamples() {
+            const category = currentSelectedIntent.split('.')[0];
+            const examples = {
+                'billing': ['invoice', 'payment', 'bill', 'charge', 'subscription'],
+                'e-commerce': ['order', 'shipment', 'delivery', 'package', 'tracking'],
+                'education': ['assignment', 'homework', 'test', 'grade', 'project'],
+                'travel': ['flight', 'booking', 'reservation', 'hotel', 'itinerary'],
+                'social': ['message', 'friend request', 'comment', 'mention', 'tag'],
+                'professional': ['meeting', 'interview', 'offer', 'deadline', 'review']
+            };
+
+            const categoryExamples = examples[category] || ['notification', 'update', 'reminder', 'alert'];
+
+            const examplesHtml = categoryExamples.map(ex =>
+                `<span class="example-chip" onclick="fillBuilderSlot('${ex}')">${ex}</span>`
+            ).join('');
+
+            document.getElementById('builder-examples').innerHTML =
+                `<div style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 8px;">Quick suggestions:</div>${examplesHtml}`;
+        }
+
+        function focusSlot(slotName) {
+            currentBuilderSlot = slotName;
+            document.querySelectorAll('.builder-slot').forEach(slot => {
+                slot.style.boxShadow = slot.dataset.slot === slotName ? '0 0 0 3px rgba(255, 215, 0, 0.5)' : 'none';
+            });
+        }
+
+        function fillBuilderSlot(value) {
+            if (!currentBuilderSlot) {
+                // If no slot selected, fill the first empty one
+                if (!builderState.keyword) {
+                    currentBuilderSlot = 'keyword';
+                } else if (!builderState.context) {
+                    currentBuilderSlot = 'context';
+                }
+            }
+
+            if (currentBuilderSlot) {
+                builderState[currentBuilderSlot] = value;
+                document.getElementById(`slot-${currentBuilderSlot}`).textContent = value;
+                document.querySelector(`[data-slot="${currentBuilderSlot}"]`).classList.add('filled');
+                document.querySelector(`[data-slot="${currentBuilderSlot}"]`).style.boxShadow = 'none';
+
+                // Update manual input and preview
+                const trigger = builderState.keyword || '';
+                document.getElementById('new-trigger-input').value = trigger;
+                updateTriggerPreview(trigger);
+
+                currentBuilderSlot = null;
+            }
+        }
+
+        function updateTriggerPreview(text) {
+            const preview = document.getElementById('trigger-preview');
+            const previewText = document.getElementById('preview-text');
+
+            if (text && text.length > 0) {
+                previewText.textContent = text;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Autocomplete for existing triggers
+        function handleTriggerInput(value) {
+            updateTriggerPreview(value);
+
+            if (value.length < 2) {
+                document.getElementById('autocomplete-results').classList.remove('active');
+                return;
+            }
+
+            // Search across all intents for matching triggers
+            const matches = [];
+            Object.keys(INTENT_DATA).forEach(intentId => {
+                const triggers = INTENT_DATA[intentId].triggers || [];
+                triggers.forEach(trigger => {
+                    if (trigger.toLowerCase().includes(value.toLowerCase())) {
+                        matches.push({
+                            trigger: trigger,
+                            intentId: intentId,
+                            exactMatch: trigger.toLowerCase() === value.toLowerCase()
+                        });
+                    }
+                });
+            });
+
+            // Remove duplicates and sort by relevance
+            const uniqueMatches = [...new Map(matches.map(m => [m.trigger, m])).values()]
+                .sort((a, b) => a.exactMatch ? -1 : b.exactMatch ? 1 : 0)
+                .slice(0, 5);
+
+            if (uniqueMatches.length > 0) {
+                const resultsHtml = uniqueMatches.map(match => {
+                    const highlightedTrigger = match.trigger.replace(
+                        new RegExp(value, 'gi'),
+                        match => `<span class="autocomplete-match">${match}</span>`
+                    );
+                    return `
+                        <div class="autocomplete-item" onclick="selectAutocompleteTrigger('${match.trigger.replace(/'/g, "\\'")}')">
+                            <div>${highlightedTrigger}</div>
+                            <div class="autocomplete-intent">Used in: ${match.intentId}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                document.getElementById('autocomplete-results').innerHTML = resultsHtml;
+                document.getElementById('autocomplete-results').classList.add('active');
+            } else {
+                document.getElementById('autocomplete-results').classList.remove('active');
+            }
+        }
+
+        function selectAutocompleteTrigger(trigger) {
+            document.getElementById('new-trigger-input').value = trigger;
+            document.getElementById('autocomplete-results').classList.remove('active');
+            updateTriggerPreview(trigger);
+        }
+
+        function handleTriggerKeydown(event) {
+            if (event.key === 'Escape') {
+                document.getElementById('autocomplete-results').classList.remove('active');
+            }
+        }
+
+        async function saveTrigger() {
+            const triggerPattern = document.getElementById('new-trigger-input').value.trim();
+
+            if (!triggerPattern) {
+                alert('Please enter a trigger pattern');
+                return;
+            }
+
+            // Check if trigger already exists
+            const existingTriggers = INTENT_DATA[currentSelectedIntent].triggers || [];
+            if (existingTriggers.includes(triggerPattern)) {
+                alert('This trigger already exists for this intent');
+                return;
+            }
+
+            // Simulate backend POST request
+            try {
+                console.log('Saving trigger to backend:', {
+                    intentId: currentSelectedIntent,
+                    trigger: triggerPattern
+                });
+
+                // In a real implementation, this would be:
+                // await fetch('http://localhost:8082/api/triggers', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         intentId: currentSelectedIntent,
+                //         trigger: triggerPattern
+                //     })
+                // });
+
+                // Add to local data
+                if (!INTENT_DATA[currentSelectedIntent].triggers) {
+                    INTENT_DATA[currentSelectedIntent].triggers = [];
+                }
+                INTENT_DATA[currentSelectedIntent].triggers.push(triggerPattern);
+
+                // Close modal and show confirmation
+                closeModal('add-trigger-modal');
+
+                document.getElementById('confirmation-message').textContent =
+                    `✅ Trigger "${triggerPattern}" added successfully to ${currentSelectedIntent}!`;
+                openModal('confirmation-modal');
+
+                // Refresh the display
+                renderZeroSequence(currentSelectedIntent);
+            } catch (error) {
+                alert('Error saving trigger: ' + error.message);
+            }
+        }
+
+        // Sample Emails Modal
+        function openSampleEmailsModal() {
+            if (!currentSelectedIntent) return;
+
+            document.getElementById('sample-intent-name').textContent = currentSelectedIntent;
+
+            // Generate sample emails based on intent
+            const sampleEmails = generateSampleEmails(currentSelectedIntent);
+
+            const listHtml = sampleEmails.map(email => `
+                <div class="sample-email-item">
+                    <div class="sample-email-subject">
+                        ${email.subject}
+                        <span class="confidence-badge confidence-${email.confidence}">
+                            ${email.confidenceScore}% confidence
+                        </span>
+                    </div>
+                    ${email.from ? `<div style="font-size: 0.85rem; opacity: 0.7; margin: 4px 0;">From: ${email.from}</div>` : ''}
+                    <div class="sample-email-snippet">${email.snippet}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('sample-emails-list').innerHTML = listHtml;
+            openModal('sample-emails-modal');
+        }
+
+        function generateSampleEmails(intentId) {
+            // Filter corpus for emails matching this intent
+            const matchingEmails = corpusData.filter(email => email.intent === intentId);
+
+            if (matchingEmails.length === 0) {
+                // Fallback to synthetic if no corpus data available
+                const intentData = INTENT_DATA[intentId];
+                const triggers = intentData.triggers || [];
+                return [{
+                    subject: `No corpus data available for ${intentId}`,
+                    snippet: `Generate corpus emails using triggers: ${triggers.slice(0, 3).join(', ')}`,
+                    confidence: 'weak',
+                    confidenceScore: 0
+                }];
+            }
+
+            // Return up to 8 real anonymized emails from corpus
+            return matchingEmails.slice(0, 8).map((email, idx) => {
+                // Calculate confidence score (simulate classification confidence)
+                const confidenceScore = Math.floor(Math.random() * 20) + 75; // 75-95%
+
+                return {
+                    subject: email.subject || 'No subject',
+                    snippet: email.body ? email.body.substring(0, 150) + '...' : 'No preview available',
+                    from: email.from || 'Unknown sender',
+                    confidence: confidenceScore >= 85 ? 'strong' : 'weak',
+                    confidenceScore: confidenceScore
+                };
+            });
+        }
+
+        // System classification parameters (from backend/shared/config/classification-weights.js)
+        const SYSTEM_THRESHOLDS = {
+            MIN_THRESHOLD: 0.30,      // 30% - Below this = generic fallback
+            HIGH_CONFIDENCE: 0.85,    // 85% - High confidence classification
+            MAX_SCORE: 100            // Normalization factor
+        };
+
+        const PATTERN_WEIGHTS = {
+            SUBJECT_MATCH: 40,
+            SNIPPET_MATCH: 25,
+            BODY_MATCH: 10
+        };
+
+        // Threshold Examples Modal - Generative based on system parameters
+        function openThresholdEmailsModal() {
+            if (!currentSelectedIntent) return;
+
+            document.getElementById('threshold-intent-name').textContent = currentSelectedIntent;
+
+            const intentData = INTENT_DATA[currentSelectedIntent];
+            const { highThresholdEmail, lowThresholdEmail } = generateThresholdEmails(currentSelectedIntent, intentData);
+
+            // Side-by-side layout
+            const contentHtml = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 20px;">
+                    <!-- HIGH THRESHOLD (LEFT) -->
+                    <div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <span class="confidence-badge confidence-strong">${Math.floor(highThresholdEmail.confidence * 100)}%</span>
+                            HIGH CONFIDENCE
+                        </h3>
+                        <div class="sample-email-item" style="background: rgba(76, 175, 80, 0.08); border: 2px solid rgba(76, 175, 80, 0.3);">
+                            <div class="sample-email-subject" style="color: rgba(76, 175, 80, 1); font-weight: 600;">
+                                ${highThresholdEmail.subject}
+                            </div>
+                            <div style="font-size: 0.85rem; opacity: 0.7; margin: 8px 0;">From: ${highThresholdEmail.from}</div>
+                            <div class="sample-email-snippet">${highThresholdEmail.body}</div>
+                        </div>
+                        <div style="margin-top: 15px; padding: 12px; background: rgba(76, 175, 80, 0.1); border-radius: 8px; font-size: 0.85rem; border-left: 3px solid rgba(76, 175, 80, 0.6);">
+                            <strong>Score Breakdown:</strong><br/>
+                            ${highThresholdEmail.scoring.map(s => `• ${s}`).join('<br/>')}
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);">
+                                <strong>Classification Result:</strong> ${highThresholdEmail.confidence >= SYSTEM_THRESHOLDS.HIGH_CONFIDENCE ? '✓ HIGH CONFIDENCE' : '✓ MEDIUM CONFIDENCE'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LOW THRESHOLD (RIGHT) -->
+                    <div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <span class="confidence-badge confidence-weak">${Math.floor(lowThresholdEmail.confidence * 100)}%</span>
+                            LOW CONFIDENCE
+                        </h3>
+                        <div class="sample-email-item" style="background: rgba(255, 152, 0, 0.08); border: 2px solid rgba(255, 152, 0, 0.3);">
+                            <div class="sample-email-subject" style="color: rgba(255, 152, 0, 1); font-weight: 600;">
+                                ${lowThresholdEmail.subject}
+                            </div>
+                            <div style="font-size: 0.85rem; opacity: 0.7; margin: 8px 0;">From: ${lowThresholdEmail.from}</div>
+                            <div class="sample-email-snippet">${lowThresholdEmail.body}</div>
+                        </div>
+                        <div style="margin-top: 15px; padding: 12px; background: rgba(255, 152, 0, 0.1); border-radius: 8px; font-size: 0.85rem; border-left: 3px solid rgba(255, 152, 0, 0.6);">
+                            <strong>Score Breakdown:</strong><br/>
+                            ${lowThresholdEmail.scoring.map(s => `• ${s}`).join('<br/>')}
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);">
+                                <strong>Classification Result:</strong> ${lowThresholdEmail.confidence >= SYSTEM_THRESHOLDS.MIN_THRESHOLD ? '✓ PASSES (Just Above Threshold)' : '✗ FAILS (Would use generic fallback)'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.3); font-size: 0.9rem;">
+                    <strong>📊 System Thresholds:</strong><br/>
+                    • Minimum Threshold: ${Math.floor(SYSTEM_THRESHOLDS.MIN_THRESHOLD * 100)}% (below = generic fallback)<br/>
+                    • High Confidence: ${Math.floor(SYSTEM_THRESHOLDS.HIGH_CONFIDENCE * 100)}%+ (triggers high-confidence actions)<br/>
+                    • Pattern Weights: Subject = ${PATTERN_WEIGHTS.SUBJECT_MATCH}pts, Snippet = ${PATTERN_WEIGHTS.SNIPPET_MATCH}pts, Body = ${PATTERN_WEIGHTS.BODY_MATCH}pts
+                </div>
+            `;
+
+            document.getElementById('threshold-emails-content').innerHTML = contentHtml;
+            openModal('threshold-emails-modal');
+        }
+
+        // Generate realistic threshold emails based on intent and system parameters
+        function generateThresholdEmails(intentId, intentData) {
+            const triggers = intentData.triggers || [];
+            const entities = intentData.requiredEntities || [];
+            const category = intentId.split('.')[0];
+
+            // HIGH THRESHOLD EMAIL (85%+)
+            // Uses 3+ triggers in subject + body, includes entities, clear sender
+            const highSubject = `${triggers[0] || 'Notification'} - ${triggers[1] || 'Update'}`;
+            const highBody = `${triggers[2] || 'Important update'}: ${intentData.description}. ${entities.length > 0 ? `Ref: ${entities[0]} #12345. ` : ''}${triggers.slice(0, 3).join(', ')}. Please review and take action.`;
+            const highFrom = getCategorySender(category, true);
+
+            const highScore = (PATTERN_WEIGHTS.SUBJECT_MATCH * 2) + (PATTERN_WEIGHTS.SNIPPET_MATCH * 3) + 30; // ~175 points
+            const highConfidence = Math.min(highScore / SYSTEM_THRESHOLDS.MAX_SCORE, 0.95);
+
+            const highThresholdEmail = {
+                subject: highSubject,
+                from: highFrom,
+                body: highBody,
+                confidence: highConfidence,
+                scoring: [
+                    `Subject matches: 2 triggers (+${PATTERN_WEIGHTS.SUBJECT_MATCH * 2}pts)`,
+                    `Body matches: 3+ triggers (+${PATTERN_WEIGHTS.SNIPPET_MATCH * 3}pts)`,
+                    `Category boost: ${category} sender (+30pts)`,
+                    entities.length > 0 ? `Entity present: ${entities[0]} (+15pts)` : '',
+                    `Total: ${Math.floor(highScore)}pts / ${SYSTEM_THRESHOLDS.MAX_SCORE} = ${Math.floor(highConfidence * 100)}%`
+                ].filter(Boolean)
+            };
+
+            // LOW THRESHOLD EMAIL (30-40%)
+            // Single trigger, vague context, ambiguous sender
+            const lowSubject = `Re: ${triggers[0] || 'Question'}`;
+            const lowBody = `Quick question about ${intentData.description.toLowerCase()}. Can you help? Thanks!`;
+            const lowFrom = getCategorySender(category, false);
+
+            const lowScore = PATTERN_WEIGHTS.SUBJECT_MATCH + 5; // ~45 points
+            const lowConfidence = Math.max(lowScore / SYSTEM_THRESHOLDS.MAX_SCORE, 0.32);
+
+            const lowThresholdEmail = {
+                subject: lowSubject,
+                from: lowFrom,
+                body: lowBody,
+                confidence: lowConfidence,
+                scoring: [
+                    `Subject matches: 1 trigger (+${PATTERN_WEIGHTS.SUBJECT_MATCH}pts)`,
+                    `Body matches: Partial mention (+5pts)`,
+                    `Category boost: Generic sender (+0pts)`,
+                    `Missing: Required entities, multiple triggers, clear context`,
+                    `Total: ${Math.floor(lowScore)}pts / ${SYSTEM_THRESHOLDS.MAX_SCORE} = ${Math.floor(lowConfidence * 100)}%`
+                ]
+            };
+
+            return { highThresholdEmail, lowThresholdEmail };
+        }
+
+        // Get realistic sender email for category
+        function getCategorySender(category, isStrong) {
+            const senders = {
+                'e-commerce': { strong: 'orders@amazon.com', weak: 'info@shop.com' },
+                'billing': { strong: 'billing@stripe.com', weak: 'noreply@company.com' },
+                'finance': { strong: 'alerts@chase.com', weak: 'info@bank.com' },
+                'travel': { strong: 'reservations@united.com', weak: 'booking@travel.com' },
+                'event': { strong: 'calendar@zoom.us', weak: 'events@company.com' },
+                'account': { strong: 'security@google.com', weak: 'noreply@service.com' },
+                'education': { strong: 'teacher@school.edu', weak: 'info@school.org' },
+                'healthcare': { strong: 'patient@stanford.health', weak: 'info@clinic.com' },
+                'subscription': { strong: 'billing@spotify.com', weak: 'info@service.com' },
+                'marketing': { strong: 'newsletter@brand.com', weak: 'promo@shop.com' }
+            };
+
+            const categoryData = senders[category] || { strong: 'info@company.com', weak: 'hello@mail.com' };
+            return isStrong ? categoryData.strong : categoryData.weak;
+        }
+
+        // Close modals on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Initialize on page load
+        init();
+    </script>
+</body>
+</html>

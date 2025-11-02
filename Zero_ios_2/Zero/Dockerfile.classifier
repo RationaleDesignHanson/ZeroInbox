@@ -1,0 +1,26 @@
+# Classifier Service Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install production dependencies
+RUN npm install --only=production
+
+# Copy shared modules
+COPY shared/ ./shared/
+
+# Copy classifier service
+COPY services/classifier/ ./services/classifier/
+
+# Expose port
+EXPOSE 8080
+
+# Set environment
+ENV NODE_ENV=production
+ENV PORT=8080
+
+# Start service
+CMD ["node", "services/classifier/server.js"]
