@@ -675,7 +675,7 @@
                     <div class="status-dots" id="service-dots">
                         <!-- Populated by JS -->
                     </div>
-                    <span id="service-count">0/8 healthy</span>
+                    <span id="service-count">0/9 healthy</span>
                 </div>
                 <div class="status-item">
                     <span>Web Tools:</span>
@@ -829,7 +829,8 @@
                 cloudRunName: 'emailshortform-gateway',
                 productionUrl: 'https://emailshortform-gateway-hqdlmnyzrq-uc.a.run.app',
                 critical: true,
-                command: 'npm run start:gateway'
+                command: 'npm run start:gateway',
+                serviceDir: 'gateway'
             },
             {
                 name: 'Email Service',
@@ -837,7 +838,8 @@
                 cloudRunName: 'emailshortform-email',
                 productionUrl: 'https://emailshortform-email-hqdlmnyzrq-uc.a.run.app',
                 critical: true,
-                command: 'npm run start:email'
+                command: 'npm run start:email',
+                serviceDir: 'email'
             },
             {
                 name: 'Classifier',
@@ -845,7 +847,8 @@
                 cloudRunName: 'emailshortform-classifier',
                 productionUrl: 'https://emailshortform-classifier-hqdlmnyzrq-uc.a.run.app',
                 critical: true,
-                command: 'npm run start:classifier'
+                command: 'npm run start:classifier',
+                serviceDir: 'classifier'
             },
             {
                 name: 'Summarization',
@@ -853,7 +856,8 @@
                 cloudRunName: 'emailshortform-summarization',
                 productionUrl: 'https://emailshortform-summarization-hqdlmnyzrq-uc.a.run.app',
                 critical: true,
-                command: 'npm run start:summarization'
+                command: 'npm run start:summarization',
+                serviceDir: 'summarization'
             },
             {
                 name: 'Smart Replies',
@@ -861,7 +865,8 @@
                 cloudRunName: 'smart-replies-service',
                 productionUrl: 'https://smart-replies-service-hqdlmnyzrq-uc.a.run.app',
                 critical: false,
-                command: 'npm run start:smart-replies'
+                command: 'npm run start:smart-replies',
+                serviceDir: 'smart-replies'
             },
             {
                 name: 'Shopping Agent',
@@ -869,7 +874,8 @@
                 cloudRunName: 'shopping-agent-service',
                 productionUrl: 'https://shopping-agent-service-hqdlmnyzrq-uc.a.run.app',
                 critical: false,
-                command: 'npm run start:shopping-agent'
+                command: 'npm run start:shopping-agent',
+                serviceDir: 'shopping-agent'
             },
             {
                 name: 'Steel Agent',
@@ -877,7 +883,8 @@
                 cloudRunName: 'steel-agent-service',
                 productionUrl: 'https://steel-agent-service-hqdlmnyzrq-uc.a.run.app',
                 critical: false,
-                command: 'npm run start:subscriptions'
+                command: 'npm run start:subscriptions',
+                serviceDir: 'subscriptions'
             },
             {
                 name: 'Scheduled Purchase',
@@ -885,7 +892,17 @@
                 cloudRunName: 'scheduled-purchase-service',
                 productionUrl: 'https://scheduled-purchase-service-hqdlmnyzrq-uc.a.run.app',
                 critical: false,
-                command: 'npm run start:scheduled-purchase'
+                command: 'npm run start:scheduled-purchase',
+                serviceDir: 'scheduled-purchase'
+            },
+            {
+                name: 'Analytics',
+                localPort: 8090,
+                cloudRunName: 'analytics-service',
+                productionUrl: 'https://analytics-service-hqdlmnyzrq-uc.a.run.app',
+                critical: false,
+                command: 'npm run start:analytics',
+                serviceDir: 'analytics'
             }
         ];
 
@@ -1116,11 +1133,14 @@
                 // Show recovery actions (Cloud Console links for production, restart for local)
                 if (IS_PRODUCTION) {
                     actionsDiv.innerHTML = `
-                        <button class="restart-btn" onclick="openCloudConsole('${service.cloudRunName}', event)">
+                        <button class="restart-btn" onclick="openCloudConsole('${service.cloudRunName}', event)" style="background: rgba(66, 133, 244, 0.6); border-color: rgba(66, 133, 244, 0.8);">
                             ☁️ Open Cloud Console
                         </button>
+                        <button class="restart-btn" onclick="showDeployModal('${service.name}', '${service.cloudRunName}', '${service.serviceDir}', event)" style="background: rgba(156, 39, 176, 0.6); border-color: rgba(156, 39, 176, 0.8);">
+                            🚀 Deploy Service
+                        </button>
                         <button class="copy-btn" onclick="copyRestartCommand('${service.cloudRunName}', event)" style="padding: 8px 12px;">
-                            📋 Copy Restart Command
+                            📋 Copy Restart
                         </button>
                     `;
                 } else {
@@ -1146,7 +1166,7 @@
                 return `<span class="status-dot ${status}"></span>`;
             }).join('');
 
-            countEl.textContent = `${healthyCount}/8 healthy`;
+            countEl.textContent = `${healthyCount}/9 healthy`;
 
             // Update Zero Sequence Live status (depends on classifier and email service)
             const classifierService = SERVICES.find(s => s.name === 'Classifier');
@@ -1308,7 +1328,7 @@
         }
 
         // Update business metrics (honest reporting - real data only, no mocks)
-        function updateBusinessMetrics() {
+        async function updateBusinessMetrics() {
             const totalServices = SERVICES.length;
             const healthyServices = Object.values(serviceStatus).filter(s => s.status === 'up').length;
 
@@ -1328,9 +1348,48 @@
                 document.getElementById('metric-response').textContent = 'N/A';
             }
 
-            // Honest reporting: Show "Not Available" for metrics we don't track yet
-            document.getElementById('metric-requests').textContent = 'N/A';
-            document.getElementById('metric-requests').parentElement.querySelector('.metric-subtitle').textContent = 'Analytics not integrated yet';
+            // Fetch real analytics data from analytics service
+            try {
+                const analyticsUrl = IS_PRODUCTION
+                    ? 'https://analytics-service-hqdlmnyzrq-uc.a.run.app/api/metrics'
+                    : 'http://localhost:8090/api/metrics';
+
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 3000);
+
+                const response = await fetch(analyticsUrl, {
+                    method: 'GET',
+                    mode: 'cors',
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeout);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const metrics = data.metrics;
+
+                    // Update Total Requests with real data
+                    if (metrics.totalEvents > 0) {
+                        const formattedEvents = metrics.totalEvents >= 1000
+                            ? `${(metrics.totalEvents / 1000).toFixed(1)}K`
+                            : metrics.totalEvents.toString();
+                        document.getElementById('metric-requests').textContent = formattedEvents;
+                        document.getElementById('metric-requests').parentElement.querySelector('.metric-subtitle').textContent = 'Last 7 days';
+                    } else {
+                        document.getElementById('metric-requests').textContent = '0';
+                        document.getElementById('metric-requests').parentElement.querySelector('.metric-subtitle').textContent = 'No events tracked yet';
+                    }
+                } else {
+                    // Analytics service returned error
+                    document.getElementById('metric-requests').textContent = 'N/A';
+                    document.getElementById('metric-requests').parentElement.querySelector('.metric-subtitle').textContent = 'Analytics service unavailable';
+                }
+            } catch (error) {
+                // Analytics service not responding
+                document.getElementById('metric-requests').textContent = 'N/A';
+                document.getElementById('metric-requests').parentElement.querySelector('.metric-subtitle').textContent = 'Analytics service offline';
+            }
         }
 
         // Reauthenticate with Google Cloud
@@ -1445,6 +1504,158 @@
                 setTimeout(() => {
                     btn.textContent = originalText;
                     btn.style.background = 'rgba(255, 255, 255, 0.2)';
+                }, 2000);
+            });
+        }
+
+        // Show deployment modal with instructions
+        function showDeployModal(serviceName, cloudRunName, serviceDir, event) {
+            event.stopPropagation();
+
+            // Build deployment command
+            const deployCommand = `cd /Users/matthanson/Zer0_Inbox/backend/services/${serviceDir}
+gcloud run deploy ${cloudRunName} \\
+  --source . \\
+  --region ${GCP_REGION} \\
+  --platform managed \\
+  --allow-unauthenticated \\
+  --memory 512Mi \\
+  --timeout 60s \\
+  --max-instances 10 \\
+  --set-env-vars "NODE_ENV=production"`;
+
+            // Create modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(10px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+            `;
+
+            modal.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%);
+                    padding: 40px;
+                    border-radius: 20px;
+                    max-width: 700px;
+                    color: #fff;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+                ">
+                    <h2 style="margin: 0 0 20px 0; font-size: 24px; font-weight: 700;">
+                        🚀 Deploy ${serviceName} to Production
+                    </h2>
+
+                    <div style="
+                        background: rgba(255, 243, 224, 0.15);
+                        border-left: 4px solid rgba(255, 152, 0, 0.8);
+                        padding: 16px;
+                        border-radius: 8px;
+                        margin-bottom: 20px;
+                    ">
+                        <p style="margin: 0 0 12px 0; font-size: 14px; line-height: 1.6;">
+                            ⚠️ <strong>Important:</strong>
+                        </p>
+                        <ul style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.6;">
+                            <li>Run these commands from your <strong>LOCAL terminal</strong> (NOT Cloud Shell)</li>
+                            <li>Make sure all code changes are committed to git first</li>
+                            <li>Cloud Run buildpacks deploy from your git repository</li>
+                        </ul>
+                    </div>
+
+                    <p style="margin: 0 0 16px 0; opacity: 0.9; line-height: 1.6;">
+                        Run these commands in your <strong>local Mac terminal</strong>:
+                    </p>
+
+                    <div style="
+                        background: rgba(0, 0, 0, 0.4);
+                        padding: 16px;
+                        border-radius: 10px;
+                        margin-bottom: 20px;
+                        font-family: 'Monaco', monospace;
+                        font-size: 13px;
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                        max-height: 300px;
+                        overflow-y: auto;
+                    ">
+                        <pre style="margin: 0; white-space: pre-wrap; word-wrap: break-word; user-select: all;" id="deploy-command">${deployCommand}</pre>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                        <button onclick="copyDeployCommand()" style="
+                            flex: 1;
+                            padding: 12px 24px;
+                            background: rgba(76, 175, 80, 0.8);
+                            border: 2px solid rgba(76, 175, 80, 1);
+                            border-radius: 10px;
+                            color: #fff;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.2s;
+                            font-size: 14px;
+                        " id="copy-deploy-btn">📋 Copy Command</button>
+
+                        <button onclick="window.open('https://console.cloud.google.com/run/detail/${GCP_REGION}/${cloudRunName}?project=${GCP_PROJECT}', '_blank')" style="
+                            flex: 1;
+                            padding: 12px 24px;
+                            background: rgba(66, 133, 244, 0.8);
+                            border: 2px solid rgba(66, 133, 244, 1);
+                            border-radius: 10px;
+                            color: #fff;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.2s;
+                            font-size: 14px;
+                        ">☁️ View in Console</button>
+                    </div>
+
+                    <p style="margin: 0 0 20px 0; opacity: 0.8; font-size: 13px; line-height: 1.5;">
+                        After deployment completes (usually 2-3 minutes), refresh this dashboard to verify the service is UP.
+                    </p>
+
+                    <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                        <button onclick="this.closest('div').parentElement.remove()" style="
+                            padding: 12px 24px;
+                            background: rgba(255, 255, 255, 0.2);
+                            border: 2px solid rgba(255, 255, 255, 0.3);
+                            border-radius: 10px;
+                            color: #fff;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.2s;
+                        ">Close</button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Click outside to close
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+
+        // Copy deployment command to clipboard
+        function copyDeployCommand() {
+            const command = document.getElementById('deploy-command').textContent;
+            navigator.clipboard.writeText(command).then(() => {
+                const btn = document.getElementById('copy-deploy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✓ Copied!';
+                btn.style.background = 'rgba(76, 175, 80, 1)';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'rgba(76, 175, 80, 0.8)';
                 }, 2000);
             });
         }
