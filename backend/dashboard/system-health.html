@@ -899,7 +899,7 @@
                 name: 'Analytics',
                 localPort: 8090,
                 cloudRunName: 'analytics-service',
-                productionUrl: 'https://analytics-service-hqdlmnyzrq-uc.a.run.app',
+                productionUrl: 'https://analytics-service-514014482017.us-central1.run.app',
                 critical: false,
                 command: 'npm run start:analytics',
                 serviceDir: 'analytics'
@@ -1351,7 +1351,7 @@
             // Fetch real analytics data from analytics service
             try {
                 const analyticsUrl = IS_PRODUCTION
-                    ? 'https://analytics-service-hqdlmnyzrq-uc.a.run.app/api/metrics'
+                    ? 'https://analytics-service-514014482017.us-central1.run.app/api/metrics'
                     : 'http://localhost:8090/api/metrics';
 
                 const controller = new AbortController();
