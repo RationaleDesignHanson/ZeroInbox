@@ -1,0 +1,4346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Actions | Zero</title>
+    <script src="js/config.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .header-nav {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Stats Banner */
+        .stats-banner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 450px 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 1400px) {
+            .main-grid {
+                grid-template-columns: 400px 1fr;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 350px 1fr;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .intent-detail-panel {
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 12px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Intent Selector Panel */
+        .intent-selector {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .category-section {
+            margin-bottom: 15px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-header:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .category-header.active {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .category-title {
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: capitalize;
+        }
+
+        .category-count {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+        }
+
+        .intents-list {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding-left: 15px;
+            margin-top: 10px;
+        }
+
+        .intents-list.open {
+            max-height: 2000px;
+        }
+
+        .intent-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .intent-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .intent-item.selected {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+        }
+
+        .intent-item.hidden {
+            display: none;
+        }
+
+        .intent-name {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .action-count-badge {
+            display: inline-block;
+            background: rgba(76, 175, 80, 0.6);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+        }
+
+        /* Zero Sequence Viewer */
+        .zero-sequence-viewer {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            min-height: 600px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            opacity: 0.7;
+        }
+
+        /* Intent Details */
+        .intent-header {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .intent-id {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .intent-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .intent-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .meta-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .meta-badge.category {
+            background: rgba(100, 149, 237, 0.6);
+        }
+
+        /* Sections */
+        .sequence-section {
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-icon {
+            font-size: 1.5rem;
+        }
+
+        .triggers-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .trigger-tag {
+            background: rgba(76, 175, 80, 0.6);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(76, 175, 80, 0.8);
+        }
+
+        .trigger-tag.negative {
+            background: rgba(244, 67, 54, 0.6);
+            border-color: rgba(244, 67, 54, 0.8);
+        }
+
+        /* Email Example Styling */
+        .email-example {
+            background: rgba(79, 70, 229, 0.1);
+            border-left: 3px solid rgba(79, 70, 229, 0.5);
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #fff;
+        }
+
+        .examples-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Trigger Groups - Improved Layout */
+        .triggers-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .trigger-group {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            border: 2px solid;
+        }
+
+        .trigger-group.positive {
+            border-color: rgba(76, 175, 80, 0.6);
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .trigger-group.negative {
+            border-color: rgba(244, 67, 54, 0.6);
+            background: rgba(244, 67, 54, 0.05);
+        }
+
+        .trigger-group-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .trigger-group-icon {
+            font-size: 1.2rem;
+        }
+
+        .trigger-group-count {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            margin-left: auto;
+        }
+
+        .entities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .entity-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .entity-card.required {
+            border-color: rgba(244, 67, 54, 0.8);
+            background: rgba(244, 67, 54, 0.15);
+        }
+
+        .entity-card.optional {
+            border-color: rgba(33, 150, 243, 0.8);
+            background: rgba(33, 150, 243, 0.15);
+        }
+
+        .entity-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .entity-label {
+            font-size: 0.75rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Actions */
+        .actions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .action-card.primary {
+            border-color: rgba(255, 215, 0, 0.8);
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .action-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .action-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .primary-star {
+            color: #FFD700;
+            font-size: 1.5rem;
+        }
+
+        .action-badges {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-badge {
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-in-app {
+            background: rgba(76, 175, 80, 0.6);
+            border: 1px solid rgba(76, 175, 80, 0.8);
+        }
+
+        .badge-go-to {
+            background: rgba(33, 150, 243, 0.6);
+            border: 1px solid rgba(33, 150, 243, 0.8);
+        }
+
+        .badge-priority {
+            background: rgba(255, 152, 0, 0.6);
+            border: 1px solid rgba(255, 152, 0, 0.8);
+        }
+
+        .action-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .action-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .meta-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .meta-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .meta-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .meta-value code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .context-keys {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .context-key {
+            background: rgba(156, 39, 176, 0.6);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(156, 39, 176, 0.8);
+        }
+
+        .no-actions {
+            text-align: center;
+            padding: 40px;
+            background: rgba(244, 67, 54, 0.15);
+            border-radius: 15px;
+            border: 2px dashed rgba(244, 67, 54, 0.5);
+        }
+
+        .no-actions-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            padding: 10px 20px;
+            background: rgba(76, 175, 80, 0.6);
+            border: 2px solid rgba(76, 175, 80, 0.8);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn:hover {
+            background: rgba(76, 175, 80, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: rgba(33, 150, 243, 0.6);
+            border-color: rgba(33, 150, 243, 0.8);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(33, 150, 243, 0.8);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            margin-bottom: 25px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        /* Trigger Builder - Mad Libs Style */
+        .trigger-builder {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .builder-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .builder-template {
+            font-size: 1.1rem;
+            line-height: 2;
+            margin-bottom: 20px;
+        }
+
+        .builder-slot {
+            display: inline-block;
+            min-width: 150px;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .builder-slot:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .builder-slot.filled {
+            background: rgba(76, 175, 80, 0.3);
+            border: 2px solid rgba(76, 175, 80, 0.6);
+            border-style: solid;
+        }
+
+        .builder-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .example-chip {
+            padding: 6px 12px;
+            background: rgba(33, 150, 243, 0.3);
+            border: 1px solid rgba(33, 150, 243, 0.5);
+            border-radius: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-chip:hover {
+            background: rgba(33, 150, 243, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* Autocomplete */
+        .autocomplete-container {
+            position: relative;
+        }
+
+        .autocomplete-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 50, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            margin-top: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .autocomplete-results.active {
+            display: block;
+        }
+
+        .autocomplete-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.2s;
+        }
+
+        .autocomplete-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .autocomplete-item:last-child {
+            border-bottom: none;
+        }
+
+        .autocomplete-match {
+            color: #FFD700;
+            font-weight: 700;
+        }
+
+        .autocomplete-intent {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .trigger-preview {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid rgba(76, 175, 80, 0.8);
+        }
+
+        .preview-label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .preview-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(76, 175, 80, 1);
+        }
+
+        .sample-emails-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sample-email-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sample-email-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .sample-email-subject {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .sample-email-snippet {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .confidence-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        .confidence-strong {
+            background: rgba(76, 175, 80, 0.6);
+        }
+
+        .confidence-weak {
+            background: rgba(255, 152, 0, 0.6);
+        }
+
+        .buttons-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        /* Scrollbar Styling */
+        .intent-selector::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .intent-selector::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .intent-selector::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+        }
+
+        .intent-selector::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        /* ====================
+           NEW STACK-BASED UI
+           ==================== */
+
+        /* View Container */
+        .view-container {
+            position: relative;
+            min-height: 600px;
+        }
+
+        .view {
+            display: none;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        /* View 1: Category Stacks Grid */
+        .stacks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        @media (max-width: 600px) {
+            .stacks-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stack-card-container {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stack-card-container:hover {
+            transform: translateY(-8px);
+        }
+
+        .stack-card-container:hover .stack-preview-card {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .stack-preview-card {
+            width: 100%;
+            max-width: 345px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 600px;
+            max-height: 700px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .stack-preview-card::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .stack-preview-card::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .stack-preview-card::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .stack-preview-header {
+            margin-bottom: 20px;
+        }
+
+        .stack-preview-category-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-transform: capitalize;
+        }
+
+        .stack-preview-category-header .category-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stack-preview-category-header .category-icon {
+            font-size: 1.8rem;
+        }
+
+        .stack-preview-category-header .category-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stack-preview-category-header .category-count {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            font-weight: 600;
+        }
+
+        .intent-selector-dropdown {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 12px;
+        }
+
+        .intent-selector-dropdown:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .intent-selector-dropdown:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .intent-selector-dropdown option {
+            background: #2d1b4e;
+            color: white;
+            padding: 8px;
+        }
+
+        .stack-preview-description {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .intent-detail-section {
+            margin-bottom: 16px;
+        }
+
+        .intent-detail-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.6;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .intent-examples-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .intent-example-item {
+            background: rgba(79, 70, 229, 0.1);
+            border-left: 3px solid rgba(79, 70, 229, 0.5);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .intent-actions-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .intent-action-mini {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .intent-action-mini:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .intent-action-mini.primary {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .intent-entities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .intent-entity-chip {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            text-align: center;
+        }
+
+        .intent-entity-chip.required {
+            background: rgba(244, 67, 54, 0.15);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .intent-entity-chip.optional {
+            background: rgba(33, 150, 243, 0.15);
+            border: 1px solid rgba(33, 150, 243, 0.3);
+        }
+
+        .card-actions-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .card-action-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .stack-category-bar {
+            width: 100%;
+            max-width: 345px;
+            padding: 16px 24px;
+            border-radius: 0 0 24px 24px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .stack-category-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stack-category-icon {
+            font-size: 1.5rem;
+        }
+
+        .stack-category-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .stack-category-count-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stack-category-count {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .add-intent-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.4);
+            border-radius: 50%;
+            color: #4caf50;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .add-intent-btn:hover {
+            background: rgba(76, 175, 80, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* View 2: Intent Card Deck */
+        .deck-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 600px;
+            position: relative;
+            padding: 40px 20px;
+        }
+
+        .intent-card {
+            width: 345px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 32px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            touch-action: pan-y;
+            cursor: grab;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .intent-card:active {
+            cursor: grabbing;
+        }
+
+        .intent-card-header {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .intent-card-category {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .intent-card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            word-break: break-word;
+        }
+
+        .intent-card-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .intent-card-section {
+            margin-bottom: 24px;
+        }
+
+        .intent-card-section-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.7;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .intent-card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .intent-card-action-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .intent-card-action-item.primary {
+            background: rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.5);
+        }
+
+        .intent-card-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .intent-card-badge {
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Swipe Gesture Indicators */
+        .swipe-indicator {
+            position: absolute;
+            font-size: 3rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .swipe-indicator.active {
+            opacity: 0.7;
+        }
+
+        .swipe-left-indicator {
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .swipe-right-indicator {
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .swipe-up-indicator {
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .swipe-down-indicator {
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Quick View Panel (Swipe Left) */
+        .quick-view-panel {
+            position: fixed;
+            left: -400px;
+            top: 0;
+            bottom: 0;
+            width: 400px;
+            background: rgba(30, 30, 50, 0.98);
+            backdrop-filter: blur(20px);
+            border-right: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 40px 30px;
+            overflow-y: auto;
+            transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 999;
+        }
+
+        .quick-view-panel.active {
+            left: 0;
+        }
+
+        .quick-view-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .quick-view-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .quick-view-close {
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .quick-view-close:hover {
+            opacity: 1;
+        }
+
+        /* Bottom Navigation Bar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: rgba(30, 30, 50, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            z-index: 998;
+        }
+
+        .bottom-nav.active {
+            display: flex;
+        }
+
+        .bottom-nav-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .bottom-nav-section.left {
+            justify-content: flex-start;
+        }
+
+        .bottom-nav-section.center {
+            justify-content: center;
+        }
+
+        .bottom-nav-section.right {
+            justify-content: flex-end;
+        }
+
+        .bottom-nav-button {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .bottom-nav-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .bottom-nav-progress {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        /* Search Hero */
+        .search-hero {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .search-hero .search-box {
+            width: 100%;
+            padding: 18px 24px;
+            font-size: 1.1rem;
+        }
+
+        /* Category Navigation Bar */
+        .category-nav {
+            display: flex;
+            gap: 12px;
+            padding: 20px 0;
+            overflow-x: auto;
+            margin-bottom: 30px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .category-nav::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .category-nav::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .category-nav::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .category-nav-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 22px;
+            border-radius: 24px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-nav-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.35);
+            filter: brightness(1.15);
+        }
+
+        .category-nav-item:active {
+            transform: translateY(-1px);
+        }
+
+        .category-nav-item-icon {
+            font-size: 1.3rem;
+        }
+
+        .category-nav-item-count {
+            opacity: 0.85;
+            font-size: 0.88rem;
+            padding: 3px 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-weight: 800;
+        }
+
+        /* Hide original layout when using new UI */
+        body.new-ui .main-grid {
+            display: none;
+        }
+
+        body.new-ui .stats-banner {
+            display: none;
+        }
+
+        body.new-ui .container {
+            padding-bottom: 100px;
+        }
+
+        /* Table row styles */
+        .category-table-container {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+            scroll-margin-top: 120px; /* Prevent occlusion with fixed header */
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .category-table-container.collapsed {
+            padding: 20px 30px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .category-table-container.collapsed:hover {
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .category-table-container.expanded {
+            margin-bottom: 40px;
+            grid-column: 1 / -1; /* Span full width when expanded */
+        }
+
+        .intent-table {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .intent-table thead {
+            background: rgba(255, 255, 255, 0.08);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .intent-table thead th {
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .intent-row {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s ease;
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .intent-row:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+            transform: translateX(4px);
+        }
+
+        .intent-row.expanded {
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-bottom: none;
+        }
+
+        .expanded-content {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+            animation: expandIn 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        @keyframes expandIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .intent-table button {
+            transition: all 0.2s ease;
+            border: none;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .intent-table button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            filter: brightness(1.15);
+        }
+
+        .intent-table button:active {
+            transform: translateY(0);
+        }
+
+        /* Corpus Email Viewer */
+        .corpus-viewer {
+            margin-top: 32px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .corpus-viewer.visible {
+            display: block;
+        }
+
+        .corpus-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .corpus-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .corpus-count {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .email-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .email-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.2s;
+        }
+
+        .email-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(52, 199, 89, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .email-subject {
+            font-size: 15px;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .email-from {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .email-body {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            margin-top: 12px;
+        }
+
+        .generated-badge {
+            background: rgba(139, 92, 246, 0.2);
+            color: rgba(139, 92, 246, 1);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-nav">
+                <a href="index.html" class="btn">Home</a>
+            </div>
+            <h1>Smart Actions</h1>
+            <p>Interactive Intent-Action Auditor | Select any intent to view its complete zero sequence with all actions and metadata</p>
+        </div>
+
+        <!-- Stats Banner -->
+        <div class="stats-banner">
+            <div class="stat-card">
+                <div class="stat-number" id="total-intents">89</div>
+                <div class="stat-label">Total Intents</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="total-actions">0</div>
+                <div class="stat-label">Total Actions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="categories-count">12</div>
+                <div class="stat-label">Categories</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avg-actions">0</div>
+                <div class="stat-label">Avg Actions/Intent</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="corpus-size">12.5K</div>
+                <div class="stat-label">Corpus Size</div>
+            </div>
+        </div>
+
+        <!-- NEW STACK-BASED UI -->
+        <div id="new-ui-container" style="display: none;">
+            <!-- View Container -->
+            <div class="view-container">
+                <!-- View 1: Category Stacks -->
+                <div id="stacks-view" class="view active">
+                    <div class="stacks-grid" id="stacks-grid-container">
+                        <!-- Dynamically populated -->
+                    </div>
+                </div>
+
+                <!-- View 2: Intent Card Deck -->
+                <div id="deck-view" class="view">
+                    <div class="deck-container">
+                        <div class="swipe-indicator swipe-left-indicator">👈</div>
+                        <div class="swipe-indicator swipe-right-indicator">👉</div>
+                        <div class="swipe-indicator swipe-up-indicator">☝️</div>
+                        <div class="swipe-indicator swipe-down-indicator">👇</div>
+                        <div id="intent-card-container">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick View Panel (Swipe Left) -->
+            <div id="quick-view-panel" class="quick-view-panel">
+                <div class="quick-view-header">
+                    <div class="quick-view-title">Trigger Examples</div>
+                    <div class="quick-view-close" onclick="closeQuickView()">×</div>
+                </div>
+                <div id="quick-view-content">
+                    <!-- Dynamically populated -->
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div id="bottom-nav" class="bottom-nav">
+                <div class="bottom-nav-section left">
+                    <button class="bottom-nav-button" id="back-to-stacks-btn" onclick="navigateToStacks()">
+                        ← <span id="category-name-display">Categories</span>
+                    </button>
+                </div>
+                <div class="bottom-nav-section center">
+                    <div class="bottom-nav-progress" id="nav-progress">
+                        Intent <span id="current-intent-num">1</span> of <span id="total-intents-num">12</span>
+                    </div>
+                </div>
+                <div class="bottom-nav-section right">
+                    <button class="bottom-nav-button" onclick="showActionsList()">
+                        Actions →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Grid (Original UI) -->
+        <div class="main-grid">
+            <!-- Intent Selector -->
+            <div class="intent-selector">
+                <input
+                    type="search"
+                    class="search-box"
+                    id="intent-search"
+                    placeholder="🔍 Search 89 intents..."
+                />
+                <div id="categories-container"></div>
+            </div>
+
+            <!-- Zero Sequence Viewer -->
+            <div class="zero-sequence-viewer">
+                <div class="empty-state">
+                    <div class="empty-state-icon">🎯</div>
+                    <h2>Select an Intent</h2>
+                    <p>Choose any intent from the left panel to view its complete zero sequence flow</p>
+                </div>
+            </div>
+
+            <!-- Corpus Email Viewer -->
+            <div class="corpus-viewer" id="corpus-viewer">
+                <div class="corpus-header">
+                    <div>
+                        <div class="corpus-title" id="corpus-title">📧 Corpus Emails</div>
+                        <div class="corpus-count" id="corpus-count"></div>
+                    </div>
+                </div>
+                <div class="email-grid" id="email-grid">
+                    <!-- Emails will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals -->
+        <div class="modal-overlay" id="add-trigger-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Add Trigger Pattern</div>
+                    <div class="modal-close" onclick="closeModal('add-trigger-modal')">×</div>
+                </div>
+                <div class="modal-body">
+                    <p style="opacity: 0.9; margin-bottom: 20px;">
+                        Adding trigger for: <strong id="modal-intent-name"></strong>
+                    </p>
+
+                    <!-- Mad Libs Builder -->
+                    <div class="trigger-builder">
+                        <label class="builder-label">🎯 Build your trigger pattern:</label>
+                        <div class="builder-template" id="builder-template">
+                            Emails containing
+                            <span class="builder-slot" data-slot="keyword" onclick="focusSlot('keyword')">
+                                <span id="slot-keyword">click to fill</span>
+                            </span>
+                            or related to
+                            <span class="builder-slot" data-slot="context" onclick="focusSlot('context')">
+                                <span id="slot-context">click to fill</span>
+                            </span>
+                        </div>
+                        <div class="builder-examples" id="builder-examples">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Manual Input with Autocomplete -->
+                    <div class="autocomplete-container">
+                        <label class="builder-label">Or enter manually:</label>
+                        <input
+                            type="text"
+                            class="modal-input"
+                            id="new-trigger-input"
+                            placeholder="Type to search existing triggers..."
+                            oninput="handleTriggerInput(this.value)"
+                            onkeydown="handleTriggerKeydown(event)"
+                        />
+                        <div class="autocomplete-results" id="autocomplete-results">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Preview -->
+                    <div class="trigger-preview" id="trigger-preview" style="display: none;">
+                        <div class="preview-label">Preview:</div>
+                        <div class="preview-text" id="preview-text"></div>
+                    </div>
+
+                    <div style="font-size: 0.85rem; opacity: 0.7; margin-top: 15px;">
+                        💡 Tip: Use simple, clear phrases like "payment due" or "order shipped". Triggers are case-insensitive.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn secondary" onclick="closeModal('add-trigger-modal')">Cancel</button>
+                    <button class="action-btn" id="save-trigger-btn" onclick="saveTrigger()">Save Trigger</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="sample-emails-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Sample Matched Emails</div>
+                    <div class="modal-close" onclick="closeModal('sample-emails-modal')">×</div>
+                </div>
+                <div class="modal-body">
+                    <p style="opacity: 0.9; margin-bottom: 20px;">
+                        Showing sample emails for: <strong id="sample-intent-name"></strong>
+                    </p>
+                    <div class="sample-emails-list" id="sample-emails-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn" onclick="closeModal('sample-emails-modal')">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="threshold-emails-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">Classification Threshold Examples</div>
+                    <div class="modal-close" onclick="closeModal('threshold-emails-modal')">×</div>
+                </div>
+                <div class="modal-body">
+                    <p style="opacity: 0.9; margin-bottom: 20px;">
+                        Generated examples for: <strong id="threshold-intent-name"></strong>
+                    </p>
+                    <div id="threshold-emails-content">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn" onclick="closeModal('threshold-emails-modal')">Close</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-overlay" id="confirmation-modal">
+            <div class="modal-content" style="max-width: 400px;">
+                <div class="modal-header">
+                    <div class="modal-title">✓ Success</div>
+                    <div class="modal-close" onclick="closeModal('confirmation-modal')">×</div>
+                </div>
+                <div class="modal-body">
+                    <p id="confirmation-message" style="font-size: 1.1rem; text-align: center;">
+                        Trigger saved successfully!
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="action-btn" onclick="closeModal('confirmation-modal')">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Category Configuration - All 26 categories with gradients, icons, colors
+        const CATEGORY_CONFIG = {
+            'finance': { gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', icon: '💰', color: '#10b981', emoji: '💰' },
+            'marketing': { gradient: 'linear-gradient(135deg, #a855f7 0%, #9333ea 100%)', icon: '📢', color: '#a855f7', emoji: '📢' },
+            'e-commerce': { gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', icon: '🛒', color: '#f59e0b', emoji: '🛒' },
+            'healthcare': { gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', icon: '🏥', color: '#ef4444', emoji: '🏥' },
+            'education': { gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', icon: '🎓', color: '#3b82f6', emoji: '🎓' },
+            'civic': { gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', icon: '🏛️', color: '#8b5cf6', emoji: '🏛️' },
+            'subscription': { gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)', icon: '🔄', color: '#ec4899', emoji: '🔄' },
+            'career': { gradient: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)', icon: '💼', color: '#14b8a6', emoji: '💼' },
+            'account': { gradient: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', icon: '🔐', color: '#6366f1', emoji: '🔐' },
+            'youth': { gradient: 'linear-gradient(135deg, #fb923c 0%, #f97316 100%)', icon: '🎈', color: '#fb923c', emoji: '🎈' },
+            'content': { gradient: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)', icon: '📰', color: '#06b6d4', emoji: '📰' },
+            'travel': { gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', icon: '✈️', color: '#0ea5e9', emoji: '✈️' },
+            'social': { gradient: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)', icon: '💬', color: '#f43f5e', emoji: '💬' },
+            'project': { gradient: 'linear-gradient(135deg, #84cc16 0%, #65a30d 100%)', icon: '📊', color: '#84cc16', emoji: '📊' },
+            'event': { gradient: 'linear-gradient(135deg, #d946ef 0%, #c026d3 100%)', icon: '📅', color: '#d946ef', emoji: '📅' },
+            'communication': { gradient: 'linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%)', icon: '📞', color: '#22d3ee', emoji: '📞' },
+            'billing': { gradient: 'linear-gradient(135deg, #facc15 0%, #eab308 100%)', icon: '💳', color: '#facc15', emoji: '💳' },
+            'support': { gradient: 'linear-gradient(135deg, #a3e635 0%, #84cc16 100%)', icon: '🎧', color: '#a3e635', emoji: '🎧' },
+            'pets': { gradient: 'linear-gradient(135deg, #fb7185 0%, #f43f5e 100%)', icon: '🐾', color: '#fb7185', emoji: '🐾' },
+            'generic': { gradient: 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)', icon: '📬', color: '#94a3b8', emoji: '📬' },
+            'feedback': { gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)', icon: '⭐', color: '#fbbf24', emoji: '⭐' },
+            'shopping': { gradient: 'linear-gradient(135deg, #fb923c 0%, #f97316 100%)', icon: '🛍️', color: '#fb923c', emoji: '🛍️' },
+            'real-estate': { gradient: 'linear-gradient(135deg, #78716c 0%, #57534e 100%)', icon: '🏠', color: '#78716c', emoji: '🏠' },
+            'legal': { gradient: 'linear-gradient(135deg, #475569 0%, #334155 100%)', icon: '⚖️', color: '#475569', emoji: '⚖️' },
+            'dining': { gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)', icon: '🍽️', color: '#f97316', emoji: '🍽️' },
+            'delivery': { gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', icon: '📦', color: '#10b981', emoji: '📦' }
+        };
+
+        // View States
+        const VIEW_STATES = {
+            STACKS: 'stacks',
+            DECK: 'deck',
+            DETAIL: 'detail'
+        };
+
+        // State Management
+        let currentView = VIEW_STATES.STACKS;
+        let currentCategory = null;
+        let currentIntentIndex = 0;
+        let currentCategoryIntents = [];
+
+        // Intent and Action data will be loaded from API
+        let INTENT_DATA = {};
+        let ACTION_CATALOG = {};
+        let categoryIndex = {};
+        let currentSelectedIntent = null;
+        let corpusData = []; // Will be loaded from comprehensive-corpus.json
+        let corpusCountsByIntent = {}; // Maps intentId → count of corpus emails
+        let expandedRows = new Set(); // Tracks which intent rows are expanded
+        let expandedCategory = null; // Tracks which category is expanded (only one at a time)
+        let corpusEmails = [];
+        let emailsByIntent = {};
+
+        // ====================
+        // NEW STACK-BASED UI FUNCTIONS
+        // ====================
+
+        // Enable the new UI mode
+        function enableNewUI() {
+            document.body.classList.add('new-ui');
+            document.getElementById('new-ui-container').style.display = 'block';
+            document.querySelector('.main-grid').style.display = 'none';
+            renderStacksView();
+            setupURLRouting();
+            console.log('New stack-based UI enabled');
+        }
+
+        // Render the category navigation bar
+        function renderCategoryNav() {
+            const nav = document.getElementById('category-nav');
+            const sortedCategories = Object.entries(categoryIndex).sort((a, b) => b[1].length - a[1].length);
+
+            nav.innerHTML = sortedCategories.map(([category, intents]) => {
+                const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG['generic'];
+                return `
+                    <div class="category-nav-item"
+                         style="background: ${config.gradient}; border-color: ${config.color}50;"
+                         onclick="scrollToCategory('${category}')">
+                        <span class="category-nav-item-icon">${config.icon}</span>
+                        <span>${category}</span>
+                        <span class="category-nav-item-count">${intents.length}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Scroll to a specific category table and expand it
+        function scrollToCategory(category) {
+            // Expand the category if it's not already expanded
+            if (expandedCategory !== category) {
+                expandedCategory = category;
+                expandedRows.clear();
+                renderStacksView();
+            }
+
+            // Wait for render, then scroll
+            setTimeout(() => {
+                const table = document.getElementById(`table-${category}`);
+                if (table) {
+                    // Scroll with offset to account for fixed header
+                    const yOffset = -120;
+                    const y = table.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                    window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+            }, 100);
+        }
+
+        // Render the category tables with expandable rows
+        function renderStacksView() {
+            const container = document.getElementById('stacks-grid-container');
+            const sortedCategories = Object.entries(categoryIndex).sort((a, b) => b[1].length - a[1].length);
+
+            container.innerHTML = sortedCategories.map(([category, intents]) => {
+                return renderCategoryTable(category, intents);
+            }).join('');
+        }
+
+        // Render a category as a table
+        function renderCategoryTable(category, intents) {
+            const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG['generic'];
+            const sortedIntents = intents.sort((a, b) => a.id.localeCompare(b.id));
+            const isExpanded = expandedCategory === category;
+            const totalCorpus = intents.reduce((sum, i) => sum + (corpusCountsByIntent[i.id] || 0), 0);
+
+            return `
+                <div class="category-table-container ${isExpanded ? 'expanded' : 'collapsed'}" id="table-${category}">
+                    <div class="category-table-header"
+                         style="display: flex; align-items: center; gap: 24px; padding: 0 0 ${isExpanded ? '24px' : '0'}; margin-bottom: ${isExpanded ? '24px' : '0'}; border-bottom: ${isExpanded ? '3px solid ' + config.color + '80' : 'none'}; cursor: pointer; transition: all 0.3s ease;"
+                         onclick="toggleCategory('${category}')">
+                        <div style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; background: ${config.gradient}; border-radius: 18px; font-size: 2.2rem; box-shadow: 0 6px 16px ${config.color}50; border: 2px solid ${config.color}40; flex-shrink: 0;">
+                            ${config.icon}
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="font-size: 1.35rem; font-weight: 800; text-transform: capitalize; letter-spacing: -0.02em; margin-bottom: 6px; color: rgba(255,255,255,0.95); white-space: nowrap;">${category}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.65; font-weight: 500;">${intents.length} intent${intents.length !== 1 ? 's' : ''} • ${totalCorpus} corpus emails</div>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; opacity: 0.6; flex-shrink: 0;">
+                            <span style="font-size: 1.8rem; transition: transform 0.3s ease; transform: rotate(${isExpanded ? '180deg' : '0deg'}); display: inline-block;">▾</span>
+                        </div>
+                    </div>
+
+                    ${isExpanded ? `
+                        <table class="intent-table" style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left; padding: 18px 16px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; font-weight: 800;">Intent ID</th>
+                                    <th style="text-align: center; padding: 18px 16px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; font-weight: 800; width: 110px;">Triggers</th>
+                                    <th style="text-align: center; padding: 18px 16px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; font-weight: 800; width: 110px;">Actions</th>
+                                    <th style="text-align: center; padding: 18px 16px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; opacity: 0.8; font-weight: 800; width: 110px;">Corpus</th>
+                                    <th style="width: 60px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${sortedIntents.map(intent => renderIntentRow(intent.id, category, config)).join('')}
+                            </tbody>
+                        </table>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        // Render an intent row in the table
+        function renderIntentRow(intentId, category, config) {
+            const intentData = INTENT_DATA[intentId];
+            const triggerCount = (intentData.examples || intentData.triggers || []).length;
+            const actionCount = (intentData.actions || []).length;
+            const corpusCount = corpusCountsByIntent[intentId] || 0;
+            const isExpanded = expandedRows.has(intentId);
+
+            return `
+                <tr class="intent-row ${isExpanded ? 'expanded' : ''}" id="row-${intentId}"
+                    onclick="toggleIntentRow('${intentId}')"
+                    style="cursor: pointer;">
+                    <td style="padding: 20px 16px; font-size: 0.95rem; font-weight: 600;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 6px; height: 6px; background: ${config.color}; border-radius: 50%; opacity: 0.8; box-shadow: 0 0 8px ${config.color}60;"></div>
+                            <span style="color: rgba(255,255,255,0.92);">${intentId}</span>
+                        </div>
+                    </td>
+                    <td style="padding: 20px 16px; text-align: center; font-size: 0.95rem; font-weight: 700; opacity: 0.75;">
+                        <div style="display: inline-block; padding: 6px 12px; background: rgba(255,255,255,0.06); border-radius: 8px; min-width: 40px;">
+                            ${triggerCount}
+                        </div>
+                    </td>
+                    <td style="padding: 20px 16px; text-align: center; font-size: 0.95rem; font-weight: 700; opacity: 0.75;">
+                        <div style="display: inline-block; padding: 6px 12px; background: rgba(255,255,255,0.06); border-radius: 8px; min-width: 40px;">
+                            ${actionCount}
+                        </div>
+                    </td>
+                    <td style="padding: 20px 16px; text-align: center;">
+                        <span style="display: inline-block; padding: 8px 18px; background: ${corpusCount > 0 ? 'rgba(16,185,129,0.2)' : 'rgba(255,255,255,0.04)'}; border: 2px solid ${corpusCount > 0 ? 'rgba(16,185,129,0.5)' : 'rgba(255,255,255,0.08)'}; border-radius: 20px; font-weight: 800; font-size: 0.95rem; color: ${corpusCount > 0 ? '#10b981' : 'rgba(255,255,255,0.3)'}; min-width: 50px;">
+                            ${corpusCount}
+                        </span>
+                    </td>
+                    <td style="padding: 20px 16px; text-align: center; opacity: 0.6;">
+                        <span style="display: inline-block; transition: transform 0.3s ease; transform: rotate(${isExpanded ? '180deg' : '0deg'}); font-size: 1.3rem;">▾</span>
+                    </td>
+                </tr>
+                ${isExpanded ? renderExpandedContent(intentId, config) : ''}
+            `;
+        }
+
+        // Render expanded content for an intent
+        function renderExpandedContent(intentId, config) {
+            const intentData = INTENT_DATA[intentId];
+            const actions = intentData.actions || [];
+            const triggers = intentData.examples || intentData.triggers || [];
+            const requiredEntities = intentData.requiredEntities || [];
+            const optionalEntities = intentData.optionalEntities || [];
+            const corpusCount = corpusCountsByIntent[intentId] || 0;
+            const primaryAction = actions[0];
+
+            return `
+                <tr class="expanded-content" id="expanded-${intentId}">
+                    <td colspan="5" style="padding: 0;">
+                        <div style="padding: 40px; padding-left: 48px; border-left: 5px solid ${config.color}; background: linear-gradient(to right, ${config.color}12, ${config.color}03, transparent); margin: 0 8px;">
+                            <div style="margin-bottom: 32px;">
+                                <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.55; margin-bottom: 12px; font-weight: 800; color: ${config.color};">Description</div>
+                                <div style="font-size: 1.05rem; line-height: 1.75; opacity: 0.92; max-width: 850px; font-weight: 400;">${intentData.description}</div>
+                            </div>
+
+                            ${actions.length > 0 ? `
+                                <div style="margin-bottom: 32px;">
+                                    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.55; margin-bottom: 14px; font-weight: 800; color: ${config.color};">⚡ Actions (${actions.length})</div>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                                        ${actions.map((actionId, index) => {
+                                            const isPrimary = index === 0;
+                                            return `<div style="display: inline-block; padding: 12px 20px; background: linear-gradient(135deg, ${isPrimary ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.08)'}, ${isPrimary ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.04)'}); border: 2px solid ${isPrimary ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.12)'}; border-radius: 10px; font-weight: ${isPrimary ? '800' : '600'}; cursor: pointer; transition: all 0.25s; font-size: 0.92rem; box-shadow: 0 2px 8px rgba(0,0,0,0.15); position: relative;"
+                                                     onclick="window.open('action-modal-explorer.html#action=${actionId}', '_blank'); event.stopPropagation();"
+                                                     onmouseover="this.style.background='linear-gradient(135deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08))'; this.style.borderColor='rgba(255,255,255,0.3)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.3)'"
+                                                     onmouseout="this.style.background='linear-gradient(135deg, ${isPrimary ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.08)'}, ${isPrimary ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.04)'})'; this.style.borderColor='${isPrimary ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.12)'}'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.15)'">
+                                                ${isPrimary ? '<span style="position: absolute; top: -6px; right: -6px; background: linear-gradient(135deg, #fbbf24, #f59e0b); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; box-shadow: 0 2px 6px rgba(0,0,0,0.3);">⭐</span>' : ''}
+                                                ${ACTION_CATALOG[actionId]?.displayName || actionId} →
+                                            </div>`;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            ${triggers.length > 0 ? `
+                                <div style="margin-bottom: 32px;">
+                                    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; opacity: 0.55; margin-bottom: 14px; font-weight: 800; color: ${config.color};">📬 Trigger Examples (${triggers.length})</div>
+                                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                                        ${triggers.slice(0, 3).map(ex => {
+                                            const exampleText = typeof ex === 'string' ? ex : (ex.text || ex.subject || JSON.stringify(ex));
+                                            return `<div style="padding: 14px 18px; background: rgba(0,0,0,0.25); border-left: 3px solid ${config.color}; border-radius: 8px; font-size: 0.92rem; opacity: 0.88; font-family: 'SF Mono', 'Monaco', monospace; line-height: 1.6;">• ${exampleText}</div>`;
+                                        }).join('')}
+                                        ${triggers.length > 3 ? `<div style="padding: 12px 18px; font-size: 0.88rem; opacity: 0.5; font-style: italic; font-weight: 500;">+ ${triggers.length - 3} more trigger${triggers.length - 3 !== 1 ? 's' : ''}</div>` : ''}
+                                    </div>
+                                </div>
+                            ` : ''}
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 32px; padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.06);">
+                                <button onclick="showCorpusExamples('${intentId}', '${config.category}'); event.stopPropagation();"
+                                        style="padding: 16px 24px; background: linear-gradient(135deg, rgba(16,185,129,0.25), rgba(16,185,129,0.15)); border: 2px solid rgba(16,185,129,0.5); border-radius: 12px; color: #10b981; font-weight: 800; cursor: pointer; font-size: 0.98rem; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 2px 8px rgba(16,185,129,0.15);">
+                                    <span style="font-size: 1.3rem;">📧</span>
+                                    <span>Corpus Examples</span>
+                                    <span style="padding: 4px 10px; background: rgba(16,185,129,0.35); border-radius: 10px; font-size: 0.88rem; font-weight: 900;">${corpusCount}</span>
+                                </button>
+                                <button onclick="showThresholdExamples('${intentId}', '${config.category}'); event.stopPropagation();"
+                                        style="padding: 16px 24px; background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(59,130,246,0.15)); border: 2px solid rgba(59,130,246,0.5); border-radius: 12px; color: #3b82f6; font-weight: 800; cursor: pointer; font-size: 0.98rem; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 2px 8px rgba(59,130,246,0.15);">
+                                    <span style="font-size: 1.3rem;">🎯</span>
+                                    <span>Threshold Examples</span>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Toggle intent row expansion
+        function toggleIntentRow(intentId) {
+            if (expandedRows.has(intentId)) {
+                expandedRows.delete(intentId);
+            } else {
+                // Only allow one row expanded at a time
+                expandedRows.clear();
+                expandedRows.add(intentId);
+            }
+
+            // Re-render the UI
+            renderStacksView();
+        }
+
+        // Toggle category expansion (accordion pattern - only one open at a time)
+        function toggleCategory(category) {
+            if (expandedCategory === category) {
+                expandedCategory = null; // Collapse if clicking the same category
+            } else {
+                expandedCategory = category; // Expand new category
+                expandedRows.clear(); // Clear any expanded intent rows when switching categories
+            }
+
+            // Re-render the UI
+            renderStacksView();
+        }
+
+        // Render a complete category card with all details
+        function renderCategoryCard(category, intents, config, selectedIndex) {
+            const selectedIntent = intents[selectedIndex];
+            const intentData = INTENT_DATA[selectedIntent.id];
+            const actions = intentData.actions || [];
+            const examples = intentData.examples || [];
+            const requiredEntities = intentData.requiredEntities || [];
+            const optionalEntities = intentData.optionalEntities || [];
+
+            return `
+                <div class="stack-card-container" id="card-${category}">
+                    <div class="stack-preview-card">
+                        <div class="stack-preview-header">
+                            <select class="intent-selector-dropdown" id="intent-dropdown-${category}">
+                                ${intents.map((intent, idx) => `
+                                    <option value="${idx}" ${idx === selectedIndex ? 'selected' : ''}>
+                                        ${intent.id}
+                                    </option>
+                                `).join('')}
+                            </select>
+                        </div>
+
+                        <div class="stack-preview-description">${intentData.description}</div>
+
+                        ${examples.length > 0 ? `
+                            <div class="intent-detail-section">
+                                <div class="intent-detail-section-title">📬 Trigger Examples (${examples.length})</div>
+                                <div class="intent-examples-list">
+                                    ${examples.slice(0, 3).map(ex => {
+                                        // Handle both string and object examples
+                                        const exampleText = typeof ex === 'string' ? ex : (ex.text || ex.subject || JSON.stringify(ex));
+                                        return `<div class="intent-example-item">${exampleText}</div>`;
+                                    }).join('')}
+                                    ${examples.length > 3 ? `
+                                        <div style="font-size: 0.75rem; opacity: 0.7; margin-top: 4px;">
+                                            +${examples.length - 3} more examples
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${actions.length > 0 ? `
+                            <div class="intent-detail-section">
+                                <div class="intent-detail-section-title">⚡ Suggested Actions (${actions.length})</div>
+                                <div class="intent-actions-mini">
+                                    ${actions.map((actionId, idx) => {
+                                        const action = ACTION_CATALOG[actionId];
+                                        const displayName = action ? (action.displayName || actionId) : actionId;
+                                        return `
+                                            <div class="intent-action-mini ${idx === 0 ? 'primary' : ''}"
+                                                 onclick="window.open('action-modal-explorer.html#action=${actionId}', '_blank')">
+                                                ${idx === 0 ? '⭐ ' : ''}${displayName}
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${(requiredEntities.length > 0 || optionalEntities.length > 0) ? `
+                            <div class="intent-detail-section">
+                                <div class="intent-detail-section-title">📋 Entities</div>
+                                <div class="intent-entities-grid">
+                                    ${requiredEntities.map(entity => `
+                                        <div class="intent-entity-chip required">${entity} *</div>
+                                    `).join('')}
+                                    ${optionalEntities.map(entity => `
+                                        <div class="intent-entity-chip optional">${entity}</div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <div class="card-actions-row">
+                            <button class="card-action-btn" onclick="showThresholdExamples('${selectedIntent.id}', '${category}')" style="flex: 1;">
+                                📊 Show Threshold Examples
+                            </button>
+                        </div>
+                        <div class="card-actions-row" style="margin-top: 12px;">
+                            <button class="card-action-btn" onclick="showCorpusExamples('${selectedIntent.id}', '${category}')" style="flex: 1;">
+                                📧 Show Corpus Examples
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Update a specific category card when dropdown changes
+        function updateCategoryCard(category, selectedIndex) {
+            const intents = categoryIndex[category];
+            const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG['generic'];
+            const cardContainer = document.getElementById(`card-${category}`);
+
+            if (cardContainer && intents) {
+                const newHtml = renderCategoryCard(category, intents, config, selectedIndex);
+                cardContainer.outerHTML = newHtml;
+
+                // Re-attach event listener
+                const dropdown = document.getElementById(`intent-dropdown-${category}`);
+                if (dropdown) {
+                    dropdown.addEventListener('change', (e) => {
+                        const newIndex = parseInt(e.target.value);
+                        updateCategoryCard(category, newIndex);
+                    });
+                }
+            }
+        }
+
+        // Open modal to add new intent (placeholder - can be implemented later)
+        function openAddIntentModal(category) {
+            alert(`Add Intent to ${category}\n\nThis will guide you through:\n1. Creating a new intent ID\n2. Adding description\n3. Adding trigger examples\n4. Defining entities\n5. Selecting actions\n\n(To be implemented)`);
+        }
+
+        // Show threshold examples modal
+        function showThresholdExamples(intentId, category) {
+            const intentData = INTENT_DATA[intentId];
+            const triggers = intentData.examples || intentData.triggers || [];
+            const entities = [...(intentData.requiredEntities || []), ...(intentData.optionalEntities || [])];
+
+            // Generate high confidence example - rich, detailed, clear
+            const highConfidenceEmail = generateRealisticEmail(intentId, intentData, triggers, entities, true);
+
+            // Generate low confidence example - vague, minimal, ambiguous
+            const firstTrigger = triggers[0] || 'question';
+            const lowConfidenceVariants = [
+                {
+                    subject: `Re: ${firstTrigger}`,
+                    body: `Hi, I had a quick question about this. Could you help me out? Let me know when you get a chance. Thanks!`
+                },
+                {
+                    subject: `Quick question`,
+                    body: `Hey, just following up on something related to ${intentData.description.toLowerCase()}. Not urgent but would appreciate your thoughts when you have time.`
+                },
+                {
+                    subject: `FYI`,
+                    body: `Saw this and thought of you. Might be relevant? Let me know what you think. - Sarah`
+                },
+                {
+                    subject: `Following up`,
+                    body: `Hi there, checking in about the thing we discussed. Any updates? Thanks in advance.`
+                },
+                {
+                    subject: `${firstTrigger}?`,
+                    body: `Not sure if this is the right place to ask, but I was wondering about this. Can you point me in the right direction?`
+                }
+            ];
+            const lowConfidenceEmail = lowConfidenceVariants[Math.floor(Math.random() * lowConfidenceVariants.length)];
+
+            // Create and show modal
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.id = 'threshold-examples-modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 800px;">
+                    <div class="modal-header">
+                        <div class="modal-title">Threshold Examples for ${intentId}</div>
+                        <div class="modal-close" onclick="closeThresholdExamplesModal()">×</div>
+                    </div>
+                    <div class="modal-body">
+                        <p style="margin-bottom: 24px; opacity: 0.9;">
+                            These examples show what emails look like at different confidence levels. High confidence emails strongly match the intent, while low confidence emails are borderline matches.
+                        </p>
+
+                        <!-- High Confidence Example -->
+                        <div style="margin-bottom: 32px;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                                <div style="padding: 8px 16px; background: rgba(76, 175, 80, 0.2); border: 2px solid rgba(76, 175, 80, 0.5); border-radius: 12px; color: #4caf50; font-weight: 700; font-size: 0.9rem;">
+                                    ✅ HIGH CONFIDENCE (85%+)
+                                </div>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(76, 175, 80, 0.3); border-radius: 16px; padding: 20px;">
+                                <div style="margin-bottom: 12px;">
+                                    <strong style="opacity: 0.7; font-size: 0.85rem;">Subject:</strong>
+                                    <div style="margin-top: 4px; font-size: 1rem;">${highConfidenceEmail.subject}</div>
+                                </div>
+                                <div>
+                                    <strong style="opacity: 0.7; font-size: 0.85rem;">Body:</strong>
+                                    <div style="margin-top: 4px; font-size: 0.95rem; line-height: 1.6;">${highConfidenceEmail.body}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Low Confidence Example -->
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                                <div style="padding: 8px 16px; background: rgba(255, 152, 0, 0.2); border: 2px solid rgba(255, 152, 0, 0.5); border-radius: 12px; color: #ff9800; font-weight: 700; font-size: 0.9rem;">
+                                    ⚠️ LOW CONFIDENCE (30-50%)
+                                </div>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 152, 0, 0.3); border-radius: 16px; padding: 20px;">
+                                <div style="margin-bottom: 12px;">
+                                    <strong style="opacity: 0.7; font-size: 0.85rem;">Subject:</strong>
+                                    <div style="margin-top: 4px; font-size: 1rem;">${lowConfidenceEmail.subject}</div>
+                                </div>
+                                <div>
+                                    <strong style="opacity: 0.7; font-size: 0.85rem;">Body:</strong>
+                                    <div style="margin-top: 4px; font-size: 0.95rem; line-height: 1.6;">${lowConfidenceEmail.body}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 24px; padding: 16px; background: rgba(33, 150, 243, 0.1); border-left: 4px solid #2196f3; border-radius: 8px;">
+                            <strong>Note:</strong> The classifier uses MIN_THRESHOLD (30%) to decide if an email matches this intent. Emails scoring below 30% won't trigger this intent.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="action-btn" onclick="closeThresholdExamplesModal()">Close</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Close threshold examples modal
+        function closeThresholdExamplesModal() {
+            const modal = document.getElementById('threshold-examples-modal');
+            if (modal) modal.remove();
+        }
+
+        // Show corpus examples modal
+        function showCorpusExamples(intentId, category) {
+            console.log('showCorpusExamples called with:', { intentId, category, corpusDataLength: corpusData.length });
+
+            // Filter corpus for emails matching this intent
+            const matchingEmails = corpusData.filter(email => email.intent === intentId);
+
+            console.log(`Found ${matchingEmails.length} matching emails for intent: ${intentId}`);
+
+            let contentHtml;
+            if (corpusData.length === 0) {
+                contentHtml = `
+                    <div style="padding: 40px; text-align: center; opacity: 0.7;">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">⚠️</div>
+                        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">Corpus Data Not Loaded</div>
+                        <div style="font-size: 0.95rem;">The comprehensive corpus data file could not be loaded.</div>
+                        <div style="font-size: 0.85rem; margin-top: 12px; opacity: 0.7;">Check the browser console for errors.</div>
+                    </div>
+                `;
+            } else if (matchingEmails.length === 0) {
+                contentHtml = `
+                    <div style="padding: 40px; text-align: center; opacity: 0.7;">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">📭</div>
+                        <div style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">No Corpus Examples Found</div>
+                        <div style="font-size: 0.95rem;">No emails from the corpus matched intent: <strong>${intentId}</strong></div>
+                        <div style="font-size: 0.85rem; margin-top: 12px; opacity: 0.7;">Total corpus size: ${corpusData.length} emails</div>
+                    </div>
+                `;
+            } else {
+                // Display up to 10 corpus examples
+                const examplesHtml = matchingEmails.slice(0, 10).map((email, idx) => {
+                    // Calculate simulated confidence score if not present
+                    const confidenceScore = email.confidence || (Math.floor(Math.random() * 20) + 75);
+                    const isHighConfidence = confidenceScore >= 85;
+
+                    return `
+                        <div style="margin-bottom: 24px;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+                                <div style="padding: 6px 12px; background: ${isHighConfidence ? 'rgba(76, 175, 80, 0.2)' : 'rgba(255, 152, 0, 0.2)'}; border: 2px solid ${isHighConfidence ? 'rgba(76, 175, 80, 0.5)' : 'rgba(255, 152, 0, 0.5)'}; border-radius: 8px; color: ${isHighConfidence ? '#4caf50' : '#ff9800'}; font-weight: 700; font-size: 0.85rem;">
+                                    ${isHighConfidence ? '✅' : '⚠️'} ${confidenceScore}% Confidence
+                                </div>
+                                <div style="opacity: 0.6; font-size: 0.85rem;">Email ${idx + 1} of ${matchingEmails.length}</div>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid ${isHighConfidence ? 'rgba(76, 175, 80, 0.3)' : 'rgba(255, 152, 0, 0.3)'}; border-radius: 12px; padding: 16px;">
+                                ${email.from ? `
+                                    <div style="margin-bottom: 10px;">
+                                        <strong style="opacity: 0.7; font-size: 0.8rem;">From:</strong>
+                                        <div style="margin-top: 2px; font-size: 0.9rem;">${email.from}</div>
+                                    </div>
+                                ` : ''}
+                                <div style="margin-bottom: 10px;">
+                                    <strong style="opacity: 0.7; font-size: 0.8rem;">Subject:</strong>
+                                    <div style="margin-top: 2px; font-size: 0.95rem;">${email.subject || 'No subject'}</div>
+                                </div>
+                                <div>
+                                    <strong style="opacity: 0.7; font-size: 0.8rem;">Body Preview:</strong>
+                                    <div style="margin-top: 2px; font-size: 0.9rem; line-height: 1.5; opacity: 0.9;">${email.body ? (email.body.substring(0, 200) + (email.body.length > 200 ? '...' : '')) : 'No preview available'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                contentHtml = `
+                    <p style="margin-bottom: 24px; opacity: 0.9;">
+                        Found <strong>${matchingEmails.length}</strong> email${matchingEmails.length !== 1 ? 's' : ''} from the corpus that matched this intent. Showing ${Math.min(10, matchingEmails.length)} examples.
+                    </p>
+                    ${examplesHtml}
+                `;
+            }
+
+            // Create and show modal
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.id = 'corpus-examples-modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 900px; max-height: 90vh;">
+                    <div class="modal-header">
+                        <div class="modal-title">Corpus Examples for ${intentId}</div>
+                        <div class="modal-close" onclick="closeCorpusExamplesModal()">×</div>
+                    </div>
+                    <div class="modal-body" style="max-height: calc(90vh - 200px); overflow-y: auto;">
+                        ${contentHtml}
+                    </div>
+                    <div class="modal-footer">
+                        <button class="action-btn" onclick="closeCorpusExamplesModal()">Close</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Close corpus examples modal
+        function closeCorpusExamplesModal() {
+            const modal = document.getElementById('corpus-examples-modal');
+            if (modal) modal.remove();
+        }
+
+        // Navigate from stacks to deck view
+        function navigateToCategory(categoryName) {
+            currentCategory = categoryName;
+            currentCategoryIntents = categoryIndex[categoryName] || [];
+            currentIntentIndex = 0;
+            currentView = VIEW_STATES.DECK;
+
+            // Update URL hash
+            window.location.hash = `category=${categoryName}`;
+
+            // Hide stacks, show deck
+            document.getElementById('stacks-view').classList.remove('active');
+            document.getElementById('deck-view').classList.add('active');
+
+            // Show and update bottom nav
+            document.getElementById('bottom-nav').classList.add('active');
+            renderIntentCard();
+            updateBottomNav();
+        }
+
+        // Render the current intent card
+        function renderIntentCard() {
+            const container = document.getElementById('intent-card-container');
+            const intent = currentCategoryIntents[currentIntentIndex];
+
+            if (!intent) {
+                container.innerHTML = '<p>No intents in this category</p>';
+                return;
+            }
+
+            const intentData = INTENT_DATA[intent.id];
+            const config = CATEGORY_CONFIG[currentCategory] || CATEGORY_CONFIG['generic'];
+            const actions = intentData.actions || [];
+            const examples = intentData.examples || [];
+
+            container.innerHTML = `
+                <div class="intent-card" id="swipeable-card">
+                    <div class="intent-card-header">
+                        <div class="intent-card-category" style="background: ${config.color}40; color: ${config.color}">
+                            ${config.icon} ${currentCategory}
+                        </div>
+                        <div class="intent-card-title">${intent.id}</div>
+                        <div class="intent-card-description">${intentData.description}</div>
+                    </div>
+
+                    <div class="intent-card-section">
+                        <div class="intent-card-section-title">Suggested Actions (${actions.length})</div>
+                        <div class="intent-card-actions">
+                            ${actions.slice(0, 3).map((actionId, idx) => {
+                                const action = ACTION_CATALOG[actionId];
+                                if (!action) return `<div class="intent-card-action-item">${actionId}</div>`;
+                                return `
+                                    <div class="intent-card-action-item ${idx === 0 ? 'primary' : ''}"
+                                         onclick="openActionDetail('${actionId}')">
+                                        ${idx === 0 ? '⭐ ' : ''}${action.displayName || actionId}
+                                    </div>
+                                `;
+                            }).join('')}
+                            ${actions.length > 3 ? `<div class="intent-card-action-item">+${actions.length - 3} more</div>` : ''}
+                        </div>
+                    </div>
+
+                    <div class="intent-card-section">
+                        <div class="intent-card-section-title">Quick Info</div>
+                        <div class="intent-card-badges">
+                            <span class="intent-card-badge">${examples.length} examples</span>
+                            <span class="intent-card-badge">${intentData.requiredEntities?.length || 0} required entities</span>
+                            <span class="intent-card-badge">${intentData.optionalEntities?.length || 0} optional entities</span>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 24px; opacity: 0.6; font-size: 0.85rem;">
+                        👈 Quick View • 👉 Next • ☝️ Details • 👇 Back
+                    </div>
+                </div>
+            `;
+
+            // Setup swipe gestures
+            setTimeout(() => setupSwipeGestures(), 100);
+        }
+
+        // Setup swipe gesture detection
+        function setupSwipeGestures() {
+            const card = document.getElementById('swipeable-card');
+            if (!card) return;
+
+            let startX = 0, startY = 0, currentX = 0, currentY = 0;
+            let isDragging = false;
+
+            function handleStart(e) {
+                isDragging = true;
+                const point = e.touches ? e.touches[0] : e;
+                startX = point.clientX;
+                startY = point.clientY;
+            }
+
+            function handleMove(e) {
+                if (!isDragging) return;
+                const point = e.touches ? e.touches[0] : e;
+                currentX = point.clientX;
+                currentY = point.clientY;
+
+                const deltaX = currentX - startX;
+                const deltaY = currentY - startY;
+
+                // Show appropriate indicator
+                const threshold = 50;
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    // Horizontal swipe
+                    if (deltaX > threshold) {
+                        document.querySelector('.swipe-right-indicator').classList.add('active');
+                        document.querySelector('.swipe-left-indicator').classList.remove('active');
+                    } else if (deltaX < -threshold) {
+                        document.querySelector('.swipe-left-indicator').classList.add('active');
+                        document.querySelector('.swipe-right-indicator').classList.remove('active');
+                    }
+                } else {
+                    // Vertical swipe
+                    if (deltaY < -threshold) {
+                        document.querySelector('.swipe-up-indicator').classList.add('active');
+                        document.querySelector('.swipe-down-indicator').classList.remove('active');
+                    } else if (deltaY > threshold) {
+                        document.querySelector('.swipe-down-indicator').classList.add('active');
+                        document.querySelector('.swipe-up-indicator').classList.remove('active');
+                    }
+                }
+
+                // Visual feedback
+                card.style.transform = `translate(${deltaX * 0.3}px, ${deltaY * 0.3}px) rotate(${deltaX * 0.05}deg)`;
+            }
+
+            function handleEnd(e) {
+                if (!isDragging) return;
+                isDragging = false;
+
+                const deltaX = currentX - startX;
+                const deltaY = currentY - startY;
+                const threshold = 100;
+
+                // Reset indicators
+                document.querySelectorAll('.swipe-indicator').forEach(ind => ind.classList.remove('active'));
+
+                // Reset card position
+                card.style.transform = '';
+
+                // Determine gesture
+                if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                    // Horizontal swipe
+                    if (deltaX > threshold) {
+                        navigateIntent('next'); // Swipe right = next
+                    } else if (deltaX < -threshold) {
+                        showQuickView(); // Swipe left = quick view
+                    }
+                } else {
+                    // Vertical swipe
+                    if (deltaY < -threshold) {
+                        showDetailModal(); // Swipe up = details
+                    } else if (deltaY > threshold) {
+                        navigateToStacks(); // Swipe down = back to stacks
+                    }
+                }
+            }
+
+            // Touch events
+            card.addEventListener('touchstart', handleStart, { passive: true });
+            card.addEventListener('touchmove', handleMove, { passive: true });
+            card.addEventListener('touchend', handleEnd, { passive: true });
+
+            // Mouse events (for desktop)
+            card.addEventListener('mousedown', handleStart);
+            document.addEventListener('mousemove', handleMove);
+            document.addEventListener('mouseup', handleEnd);
+        }
+
+        // Navigate between intents
+        function navigateIntent(direction) {
+            if (direction === 'next') {
+                currentIntentIndex = (currentIntentIndex + 1) % currentCategoryIntents.length;
+            } else if (direction === 'prev') {
+                currentIntentIndex = (currentIntentIndex - 1 + currentCategoryIntents.length) % currentCategoryIntents.length;
+            }
+
+            renderIntentCard();
+            updateBottomNav();
+
+            // Update URL hash
+            const intent = currentCategoryIntents[currentIntentIndex];
+            window.location.hash = `intent=${intent.id}`;
+        }
+
+        // Show quick view panel (swipe left)
+        function showQuickView() {
+            const panel = document.getElementById('quick-view-panel');
+            const content = document.getElementById('quick-view-content');
+            const intent = currentCategoryIntents[currentIntentIndex];
+            const intentData = INTENT_DATA[intent.id];
+            const examples = intentData.examples || [];
+            const negativePatterns = intentData.negativePatterns || [];
+
+            content.innerHTML = `
+                <div style="margin-bottom: 24px;">
+                    <h3 style="font-size: 1.2rem; margin-bottom: 12px;">📬 Email Examples</h3>
+                    <div class="examples-list">
+                        ${examples.map(ex => `<div class="email-example">${ex}</div>`).join('')}
+                    </div>
+                </div>
+
+                ${negativePatterns.length > 0 ? `
+                    <div style="margin-bottom: 24px;">
+                        <h3 style="font-size: 1.2rem; margin-bottom: 12px;">⛔ Exclude Patterns</h3>
+                        <div class="triggers-grid">
+                            ${negativePatterns.map(t => `<span class="trigger-tag negative">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                ` : ''}
+
+                <div class="buttons-row">
+                    <button class="action-btn" onclick="openAddTriggerModal()">
+                        ➕ Add Trigger
+                    </button>
+                    <button class="action-btn secondary" onclick="openSampleEmailsModal()">
+                        📧 View Samples
+                    </button>
+                </div>
+            `;
+
+            panel.classList.add('active');
+        }
+
+        // Close quick view panel
+        function closeQuickView() {
+            document.getElementById('quick-view-panel').classList.remove('active');
+        }
+
+        // Show detail modal (swipe up) - reuse existing modal system
+        function showDetailModal() {
+            const intent = currentCategoryIntents[currentIntentIndex];
+            currentSelectedIntent = intent.id;
+            // Render using existing function
+            renderZeroSequence(intent.id);
+
+            // Create and show a detail modal
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.id = 'detail-modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 900px;">
+                    <div class="modal-header">
+                        <div class="modal-title">${intent.id}</div>
+                        <div class="modal-close" onclick="closeDetailModal()">×</div>
+                    </div>
+                    <div class="modal-body">
+                        <div id="detail-modal-content"></div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            // Copy the rendered sequence content
+            setTimeout(() => {
+                const sequenceContent = document.querySelector('.zero-sequence-viewer').innerHTML;
+                document.getElementById('detail-modal-content').innerHTML = sequenceContent;
+            }, 100);
+        }
+
+        // Close detail modal
+        function closeDetailModal() {
+            const modal = document.getElementById('detail-modal');
+            if (modal) modal.remove();
+        }
+
+        // Navigate back to stacks view
+        function navigateToStacks() {
+            currentView = VIEW_STATES.STACKS;
+            currentCategory = null;
+
+            // Update URL hash
+            window.location.hash = '';
+
+            // Hide deck, show stacks
+            document.getElementById('deck-view').classList.remove('active');
+            document.getElementById('stacks-view').classList.add('active');
+
+            // Hide bottom nav
+            document.getElementById('bottom-nav').classList.remove('active');
+
+            // Close quick view if open
+            closeQuickView();
+        }
+
+        // Update bottom navigation bar
+        function updateBottomNav() {
+            const categoryDisplay = document.getElementById('category-name-display');
+            const currentNum = document.getElementById('current-intent-num');
+            const totalNum = document.getElementById('total-intents-num');
+
+            if (currentCategory) {
+                const config = CATEGORY_CONFIG[currentCategory] || CATEGORY_CONFIG['generic'];
+                categoryDisplay.innerHTML = `${config.icon} ${currentCategory}`;
+                currentNum.textContent = currentIntentIndex + 1;
+                totalNum.textContent = currentCategoryIntents.length;
+            }
+        }
+
+        // Setup URL hash routing for deep linking
+        function setupURLRouting() {
+            function handleHashChange() {
+                const hash = window.location.hash.substring(1);
+                if (!hash) {
+                    if (currentView !== VIEW_STATES.STACKS) {
+                        navigateToStacks();
+                    }
+                    return;
+                }
+
+                const params = new URLSearchParams(hash);
+                const intentId = params.get('intent');
+                const categoryName = params.get('category');
+
+                if (intentId) {
+                    // Deep link to specific intent
+                    const category = intentId.split('.')[0];
+                    const intents = categoryIndex[category] || [];
+                    const intentIndex = intents.findIndex(i => i.id === intentId);
+
+                    if (intentIndex !== -1) {
+                        currentCategory = category;
+                        currentCategoryIntents = intents;
+                        currentIntentIndex = intentIndex;
+                        currentView = VIEW_STATES.DECK;
+
+                        document.getElementById('stacks-view').classList.remove('active');
+                        document.getElementById('deck-view').classList.add('active');
+                        document.getElementById('bottom-nav').classList.add('active');
+
+                        renderIntentCard();
+                        updateBottomNav();
+                    }
+                } else if (categoryName) {
+                    // Deep link to category
+                    if (categoryIndex[categoryName]) {
+                        navigateToCategory(categoryName);
+                    }
+                }
+            }
+
+            window.addEventListener('hashchange', handleHashChange);
+            handleHashChange(); // Handle initial hash
+        }
+
+        // Show actions list - link to action modal explorer
+        function showActionsList() {
+            const intent = currentCategoryIntents[currentIntentIndex];
+            const intentData = INTENT_DATA[intent.id];
+            const actions = intentData.actions || [];
+
+            // Create action list modal
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.id = 'actions-list-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="modal-title">Actions for ${intent.id}</div>
+                        <div class="modal-close" onclick="closeActionsListModal()">×</div>
+                    </div>
+                    <div class="modal-body">
+                        <p style="opacity: 0.9; margin-bottom: 20px;">
+                            ${actions.length} action${actions.length > 1 ? 's' : ''} suggested for this intent:
+                        </p>
+                        <div class="actions-list">
+                            ${actions.map((actionId, idx) => {
+                                const action = ACTION_CATALOG[actionId];
+                                if (!action) {
+                                    return `
+                                        <div class="action-card">
+                                            <div class="action-title">${actionId}</div>
+                                            <div style="color: #ff6b6b;">Action not found in catalog</div>
+                                        </div>
+                                    `;
+                                }
+                                return `
+                                    <div class="action-card ${idx === 0 ? 'primary' : ''}"
+                                         style="cursor: pointer;"
+                                         onclick="openActionInExplorer('${actionId}')">
+                                        <div class="action-header">
+                                            <div class="action-title">
+                                                ${idx === 0 ? '<span class="primary-star">⭐</span>' : ''}
+                                                ${action.displayName || actionId}
+                                            </div>
+                                            <div class="action-badges">
+                                                <span class="action-badge ${action.type === 'IN_APP' ? 'badge-in-app' : 'badge-go-to'}">
+                                                    ${action.type || 'UNKNOWN'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="action-description">${action.description || 'No description'}</div>
+                                        <div style="margin-top: 12px; font-size: 0.85rem; opacity: 0.7;">
+                                            Click to view in Action Modal Explorer →
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="action-btn" onclick="closeActionsListModal()">Close</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        // Close actions list modal
+        function closeActionsListModal() {
+            const modal = document.getElementById('actions-list-modal');
+            if (modal) modal.remove();
+        }
+
+        // Open action in action-modal-explorer
+        function openActionInExplorer(actionId) {
+            window.open(`action-modal-explorer.html#action=${actionId}`, '_blank');
+        }
+
+        // Open action detail modal
+        function openActionDetail(actionId) {
+            openActionInExplorer(actionId);
+        }
+
+        // Setup search for new UI
+        function setupNewUISearch() {
+            const searchBox = document.getElementById('new-intent-search');
+            searchBox.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+
+                if (!query) {
+                    renderStacksView();
+                    return;
+                }
+
+                // Search across all intents
+                const results = [];
+                for (const [category, intents] of Object.entries(categoryIndex)) {
+                    const matchingIntents = intents.filter(intent => {
+                        const intentData = INTENT_DATA[intent.id];
+                        return (
+                            intent.id.toLowerCase().includes(query) ||
+                            intentData.description.toLowerCase().includes(query) ||
+                            intentData.triggers?.some(t => t.toLowerCase().includes(query)) ||
+                            intentData.actions?.some(a => a.toLowerCase().includes(query))
+                        );
+                    });
+
+                    if (matchingIntents.length > 0) {
+                        results.push({ category, intents: matchingIntents });
+                    }
+                }
+
+                // Render filtered results with card previews
+                const container = document.getElementById('stacks-grid-container');
+                container.innerHTML = results.map(({ category, intents }) => {
+                    const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG['generic'];
+
+                    // Get first intent as preview
+                    const firstIntent = intents[0];
+                    if (!firstIntent) return '';
+
+                    const intentData = INTENT_DATA[firstIntent.id];
+                    const actions = intentData.actions || [];
+                    const examples = intentData.examples || [];
+
+                    return `
+                        <div class="stack-card-container" onclick="navigateToCategory('${category}')">
+                            <div class="stack-preview-card">
+                                <div class="stack-preview-header">
+                                    <div class="stack-preview-category-badge"
+                                         style="background: ${config.color}40; color: ${config.color}">
+                                        ${config.icon} ${category}
+                                    </div>
+                                    <div class="stack-preview-title">${firstIntent.id}</div>
+                                    <div class="stack-preview-description">${intentData.description}</div>
+                                </div>
+                                <div class="stack-preview-actions">
+                                    <div class="stack-preview-action-count">
+                                        ⚡ ${actions.length} action${actions.length !== 1 ? 's' : ''} •
+                                        📬 ${examples.length} example${examples.length !== 1 ? 's' : ''}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stack-category-bar">
+                                <div class="stack-category-info">
+                                    <div class="stack-category-icon">${config.icon}</div>
+                                    <div class="stack-category-name">${category}</div>
+                                </div>
+                                <div class="stack-category-count">${intents.length} match${intents.length > 1 ? 'es' : ''}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            });
+        }
+
+        // Build category index
+        function buildCategoryIndex() {
+            const categories = {};
+
+            for (const [intentId, intentData] of Object.entries(INTENT_DATA)) {
+                const category = intentId.split('.')[0];
+
+                if (!categories[category]) {
+                    categories[category] = [];
+                }
+
+                categories[category].push({
+                    id: intentId,
+                    ...intentData
+                });
+            }
+
+            return categories;
+        }
+
+        // Calculate corpus email counts per intent
+        function calculateCorpusCounts() {
+            corpusCountsByIntent = {};
+
+            corpusData.forEach(email => {
+                const intentId = email.intent;
+                if (intentId) {
+                    corpusCountsByIntent[intentId] = (corpusCountsByIntent[intentId] || 0) + 1;
+                }
+            });
+
+            console.log(`Calculated corpus counts for ${Object.keys(corpusCountsByIntent).length} intents`);
+        }
+
+        // Initialize the page
+        async function init() {
+            try {
+                // Show loading state
+                console.log('Loading intent taxonomy and actions from API...');
+
+                // Fetch intent taxonomy from classifier service
+                const taxonomyResponse = await fetch(`${DashboardConfig.services.classifier}/api/intent-taxonomy`);
+                if (!taxonomyResponse.ok) {
+                    throw new Error(`Failed to load intent taxonomy: ${taxonomyResponse.status}`);
+                }
+                const taxonomyData = await taxonomyResponse.json();
+
+                // Transform API response into INTENT_DATA format
+                INTENT_DATA = {};
+                for (const intent of taxonomyData.intents) {
+                    INTENT_DATA[intent.id] = {
+                        description: intent.description || 'No description',
+                        category: intent.category || intent.id.split('.')[0],
+                        examples: intent.examples || [],
+                        negativePatterns: intent.negativePatterns || [],
+                        requiredEntities: intent.requiredEntities || [],
+                        optionalEntities: intent.optionalEntities || [],
+                        actions: intent.actions || [],
+                        triggers: intent.triggers || intent.examples || [] // Use examples as triggers fallback
+                    };
+                }
+
+                console.log(`Loaded ${Object.keys(INTENT_DATA).length} intents from API`);
+
+                // Fetch action catalog from actions service
+                const actionsResponse = await fetch(`${DashboardConfig.services.actions}/api/actions/catalog`);
+                if (!actionsResponse.ok) {
+                    console.warn(`Failed to load action catalog: ${actionsResponse.status}`);
+                    ACTION_CATALOG = {}; // Use empty catalog if fetch fails
+                } else {
+                    const actionsData = await actionsResponse.json();
+                    ACTION_CATALOG = actionsData.actions || actionsData || {};
+                    console.log(`Loaded ${Object.keys(ACTION_CATALOG).length} actions from API`);
+                }
+
+                // Build category index after loading data
+                categoryIndex = buildCategoryIndex();
+
+                // Load corpus data (optional)
+                try {
+                    const response = await fetch('./data/comprehensive-corpus.json');
+                    corpusData = await response.json();
+                    console.log(`Loaded ${corpusData.length} corpus emails`);
+
+                    // Calculate corpus counts per intent
+                    calculateCorpusCounts();
+                } catch (error) {
+                    console.warn('Could not load corpus data:', error);
+                    corpusData = [];
+                }
+
+                // Load corpus emails for the viewer
+                await loadCorpusEmails();
+
+                // Render UI
+                renderCategories();
+                updateStatistics();
+                setupSearch();
+
+                // Enable the new stack-based UI
+                enableNewUI();
+
+            } catch (error) {
+                console.error('Error loading data from API:', error);
+                alert(`Failed to load intent data from API: ${error.message}\n\nPlease ensure the classifier service is running on port 8082.`);
+            }
+        }
+
+        // Render categories and intents
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+
+            const sortedCategories = Object.entries(categoryIndex).sort((a, b) =>
+                b[1].length - a[1].length
+            );
+
+            for (const [category, intents] of sortedCategories) {
+                const categorySection = document.createElement('div');
+                categorySection.className = 'category-section';
+
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `
+                    <span class="category-title">${category}</span>
+                    <span class="category-count">${intents.length}</span>
+                `;
+
+                const intentsList = document.createElement('div');
+                intentsList.className = 'intents-list';
+
+                for (const intent of intents.sort((a, b) =>
+                    (b.actions?.length || 0) - (a.actions?.length || 0)
+                )) {
+                    const intentItem = document.createElement('div');
+                    intentItem.className = 'intent-item';
+                    intentItem.dataset.intentId = intent.id;
+                    intentItem.innerHTML = `
+                        <div class="intent-name">${intent.id}</div>
+                        <span class="action-count-badge">${intent.actions?.length || 0} actions</span>
+                    `;
+
+                    intentItem.addEventListener('click', () => selectIntent(intent.id));
+                    intentsList.appendChild(intentItem);
+                }
+
+                header.addEventListener('click', () => {
+                    header.classList.toggle('active');
+                    intentsList.classList.toggle('open');
+                });
+
+                categorySection.appendChild(header);
+                categorySection.appendChild(intentsList);
+                container.appendChild(categorySection);
+            }
+        }
+
+        // Select and display an intent
+        function selectIntent(intentId) {
+            currentSelectedIntent = intentId;
+
+            // Update selection UI
+            document.querySelectorAll('.intent-item').forEach(item => {
+                item.classList.toggle('selected', item.dataset.intentId === intentId);
+            });
+
+            // Render zero sequence
+            renderZeroSequence(intentId);
+
+            // Render corpus emails
+            renderCorpusEmails(intentId);
+        }
+
+        // Render complete zero sequence
+        function renderZeroSequence(intentId) {
+            const viewer = document.querySelector('.zero-sequence-viewer');
+            const intentData = INTENT_DATA[intentId];
+
+            if (!intentData) return;
+
+            const category = intentId.split('.')[0];
+            const subCategory = intentId.split('.')[1];
+
+            viewer.innerHTML = `
+                <div class="intent-header">
+                    <div class="intent-id">${intentId}</div>
+                    <div class="intent-description">${intentData.description}</div>
+                    <div class="intent-meta">
+                        <span class="meta-badge category">${category}</span>
+                        <span class="meta-badge">${subCategory}</span>
+                        <span class="meta-badge">${intentData.actions?.length || 0} Actions</span>
+                        <span class="meta-badge">${intentData.examples?.length || 0} Examples</span>
+                    </div>
+                </div>
+
+                ${renderTriggersSection(intentData)}
+                ${renderEntitiesSection(intentData)}
+                ${renderActionsSection(intentData)}
+            `;
+
+            // Update button text with actual corpus count
+            const sampleBtn = document.getElementById('view-samples-btn');
+            if (sampleBtn && corpusData.length > 0) {
+                const count = corpusData.filter(email => email.intent === intentId).length;
+                sampleBtn.textContent = `📧 View Sample Emails (${count})`;
+            }
+        }
+
+        // Render triggers section
+        function renderTriggersSection(intentData) {
+            const examples = intentData.examples || [];
+            const negativePatterns = intentData.negativePatterns || [];
+
+            if (examples.length === 0 && negativePatterns.length === 0) {
+                return '';
+            }
+
+            let examplesHTML = '';
+
+            // Email examples group
+            if (examples.length > 0) {
+                examplesHTML += `
+                    <div class="trigger-group positive">
+                        <div class="trigger-group-header">
+                            <span class="trigger-group-icon">📧</span>
+                            <span>Email Examples</span>
+                            <span class="trigger-group-count">${examples.length}</span>
+                        </div>
+                        <div class="examples-list">
+                            ${examples.map(ex => `<div class="email-example">${ex}</div>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Negative triggers group
+            if (negativePatterns.length > 0) {
+                examplesHTML += `
+                    <div class="trigger-group negative">
+                        <div class="trigger-group-header">
+                            <span class="trigger-group-icon">⛔</span>
+                            <span>Exclude Patterns</span>
+                            <span class="trigger-group-count">${negativePatterns.length}</span>
+                        </div>
+                        <div class="triggers-grid">
+                            ${negativePatterns.map(t => `<span class="trigger-tag negative">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="sequence-section">
+                    <div class="section-title">
+                        <span class="section-icon">📬</span>
+                        <span>Email Subject Examples</span>
+                    </div>
+                    <div class="triggers-container">
+                        ${examplesHTML}
+                    </div>
+                    <div class="buttons-row">
+                        <button class="action-btn" onclick="openAddTriggerModal()">
+                            ➕ Add Trigger
+                        </button>
+                        <button class="action-btn secondary" onclick="openSampleEmailsModal()" id="view-samples-btn">
+                            📧 View Sample Emails
+                        </button>
+                        <button class="action-btn secondary" onclick="openThresholdEmailsModal()">
+                            🎚️ Generate Threshold Examples
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render entities section
+        function renderEntitiesSection(intentData) {
+            const required = intentData.requiredEntities || [];
+            const optional = intentData.optionalEntities || [];
+
+            if (required.length === 0 && optional.length === 0) {
+                return '';
+            }
+
+            return `
+                <div class="sequence-section">
+                    <div class="section-title">
+                        <span class="section-icon">🔑</span>
+                        <span>Entity Requirements</span>
+                    </div>
+                    <div class="entities-grid">
+                        ${required.map(e => `
+                            <div class="entity-card required">
+                                <div class="entity-name">${e}</div>
+                                <div class="entity-label">⚠️ Required</div>
+                            </div>
+                        `).join('')}
+                        ${optional.map(e => `
+                            <div class="entity-card optional">
+                                <div class="entity-name">${e}</div>
+                                <div class="entity-label">ℹ️ Optional</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render actions section
+        function renderActionsSection(intentData) {
+            const actions = intentData.actions || [];
+
+            if (actions.length === 0) {
+                return `
+                    <div class="sequence-section">
+                        <div class="section-title">
+                            <span class="section-icon">⚡</span>
+                            <span>Suggested Actions</span>
+                        </div>
+                        <div class="no-actions">
+                            <div class="no-actions-icon">⚠️</div>
+                            <div>No actions configured for this intent</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="sequence-section">
+                    <div class="section-title">
+                        <span class="section-icon">⚡</span>
+                        <span>Suggested Actions (${actions.length})</span>
+                    </div>
+                    <div class="actions-list">
+                        ${actions.map((actionId, idx) => renderActionCard(actionId, idx === 0)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render individual action card
+        function renderActionCard(actionId, isPrimary) {
+            const action = ACTION_CATALOG[actionId];
+
+            if (!action) {
+                return `
+                    <div class="action-card">
+                        <div class="action-title">⚠️ ${actionId}</div>
+                        <div style="color: #ff6b6b;">Action not found in catalog</div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="action-card ${isPrimary ? 'primary' : ''}">
+                    <div class="action-header">
+                        <div class="action-title">
+                            ${isPrimary ? '<span class="primary-star">⭐</span>' : ''}
+                            ${action.displayName}
+                        </div>
+                        <div class="action-badges">
+                            <span class="action-badge ${action.type === 'IN_APP' ? 'badge-in-app' : 'badge-go-to'}">
+                                ${action.type}
+                            </span>
+                            <span class="action-badge badge-priority">P${action.priority}</span>
+                        </div>
+                    </div>
+                    <div class="action-description">${action.description}</div>
+                    <div class="action-meta">
+                        <div class="meta-item">
+                            <div class="meta-label">Action ID</div>
+                            <div class="meta-value"><code>${actionId}</code></div>
+                        </div>
+                        ${action.modal ? `
+                            <div class="meta-item">
+                                <div class="meta-label">Modal Component</div>
+                                <div class="meta-value"><code>${action.modal}</code></div>
+                            </div>
+                        ` : ''}
+                        <div class="meta-item">
+                            <div class="meta-label">User Experience</div>
+                            <div class="meta-value">
+                                ${action.type === 'IN_APP' ? '📱 Opens in Zero app' : '🌐 Opens in Safari'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load corpus emails
+        async function loadCorpusEmails() {
+            try {
+                const response = await fetch('data/comprehensive-corpus.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                corpusEmails = await response.json();
+
+                // Group emails by intent
+                emailsByIntent = {};
+                corpusEmails.forEach(email => {
+                    if (!emailsByIntent[email.intent]) {
+                        emailsByIntent[email.intent] = [];
+                    }
+                    emailsByIntent[email.intent].push(email);
+                });
+
+                console.log('✅ Loaded corpus emails:', corpusEmails.length, 'total emails');
+                console.log('✅ Grouped into', Object.keys(emailsByIntent).length, 'intents');
+                console.log('✅ Intents:', Object.keys(emailsByIntent).slice(0, 5).join(', '), '...');
+            } catch (error) {
+                console.error('❌ Error loading corpus emails:', error);
+                // Initialize empty so dropdown still works
+                emailsByIntent = {};
+            }
+        }
+
+        // Render corpus emails for selected intent
+        function renderCorpusEmails(intentId) {
+            const viewer = document.getElementById('corpus-viewer');
+            const emailGrid = document.getElementById('email-grid');
+            const corpusTitle = document.getElementById('corpus-title');
+            const corpusCount = document.getElementById('corpus-count');
+
+            console.log('📧 renderCorpusEmails called with intent:', intentId);
+            console.log('📧 emailsByIntent keys:', Object.keys(emailsByIntent).length);
+
+            if (!intentId) {
+                console.log('📧 Hiding viewer - no intent selected');
+                viewer.classList.remove('visible');
+                return;
+            }
+
+            const emails = emailsByIntent[intentId] || [];
+            console.log('📧 Found', emails.length, 'emails for intent:', intentId);
+
+            if (emails.length === 0) {
+                console.log('📧 No emails found, hiding viewer');
+                viewer.classList.remove('visible');
+                return;
+            }
+
+            // Show viewer
+            console.log('📧 Showing viewer with', emails.length, 'emails');
+            viewer.classList.add('visible');
+
+            // Update header
+            const intentLabel = intentId.charAt(0).toUpperCase() + intentId.slice(1).replace(/_/g, ' ').replace(/\./g, ' › ');
+            corpusTitle.textContent = `📧 Corpus Emails: ${intentLabel}`;
+            corpusCount.textContent = `${emails.length} email${emails.length !== 1 ? 's' : ''}`;
+
+            // Render emails
+            emailGrid.innerHTML = emails.map(email => `
+                <div class="email-card">
+                    <div class="email-header">
+                        <div>
+                            <div class="email-subject">${escapeHtml(email.subject)}</div>
+                            <div class="email-from">${escapeHtml(email.from)}</div>
+                        </div>
+                        ${email.generated ? '<span class="generated-badge">GENERATED</span>' : ''}
+                    </div>
+                    <div class="email-body">${escapeHtml(email.body)}</div>
+                </div>
+            `).join('');
+
+            // Scroll to viewer
+            setTimeout(() => {
+                viewer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        // Escape HTML to prevent XSS
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Update statistics
+        function updateStatistics() {
+            const totalIntents = Object.keys(INTENT_DATA).length;
+            const totalActions = new Set();
+            let actionCount = 0;
+
+            for (const intentData of Object.values(INTENT_DATA)) {
+                if (intentData.actions) {
+                    actionCount += intentData.actions.length;
+                    intentData.actions.forEach(a => totalActions.add(a));
+                }
+            }
+
+            document.getElementById('total-intents').textContent = totalIntents;
+            document.getElementById('total-actions').textContent = totalActions.size;
+            document.getElementById('categories-count').textContent = Object.keys(categoryIndex).length;
+            document.getElementById('avg-actions').textContent = (actionCount / totalIntents).toFixed(1);
+        }
+
+        // Setup search functionality
+        function setupSearch() {
+            const searchBox = document.getElementById('intent-search');
+
+            searchBox.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+
+                document.querySelectorAll('.intent-item').forEach(item => {
+                    const intentId = item.dataset.intentId;
+                    const intentData = INTENT_DATA[intentId];
+
+                    const matches =
+                        intentId.toLowerCase().includes(query) ||
+                        intentData.description.toLowerCase().includes(query) ||
+                        intentData.triggers?.some(t => t.toLowerCase().includes(query)) ||
+                        intentData.actions?.some(a => a.toLowerCase().includes(query));
+
+                    item.classList.toggle('hidden', !matches);
+                });
+
+                // Auto-expand categories with matches
+                document.querySelectorAll('.category-section').forEach(section => {
+                    const visibleIntents = section.querySelectorAll('.intent-item:not(.hidden)');
+                    if (visibleIntents.length > 0 && query) {
+                        section.querySelector('.category-header').classList.add('active');
+                        section.querySelector('.intents-list').classList.add('open');
+                    }
+                });
+            });
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Add Trigger Modal - Enhanced with Mad Libs Builder
+        let currentBuilderSlot = null;
+        let builderState = { keyword: '', context: '' };
+
+        function openAddTriggerModal() {
+            if (!currentSelectedIntent) return;
+
+            document.getElementById('modal-intent-name').textContent = currentSelectedIntent;
+            document.getElementById('new-trigger-input').value = '';
+            document.getElementById('autocomplete-results').classList.remove('active');
+            document.getElementById('trigger-preview').style.display = 'none';
+
+            // Reset builder state
+            builderState = { keyword: '', context: '' };
+            document.getElementById('slot-keyword').textContent = 'click to fill';
+            document.getElementById('slot-context').textContent = 'click to fill';
+            document.querySelectorAll('.builder-slot').forEach(slot => slot.classList.remove('filled'));
+
+            // Populate examples based on intent category
+            populateBuilderExamples();
+
+            openModal('add-trigger-modal');
+        }
+
+        function populateBuilderExamples() {
+            const category = currentSelectedIntent.split('.')[0];
+            const examples = {
+                'billing': ['invoice', 'payment', 'bill', 'charge', 'subscription'],
+                'e-commerce': ['order', 'shipment', 'delivery', 'package', 'tracking'],
+                'education': ['assignment', 'homework', 'test', 'grade', 'project'],
+                'travel': ['flight', 'booking', 'reservation', 'hotel', 'itinerary'],
+                'social': ['message', 'friend request', 'comment', 'mention', 'tag'],
+                'professional': ['meeting', 'interview', 'offer', 'deadline', 'review']
+            };
+
+            const categoryExamples = examples[category] || ['notification', 'update', 'reminder', 'alert'];
+
+            const examplesHtml = categoryExamples.map(ex =>
+                `<span class="example-chip" onclick="fillBuilderSlot('${ex}')">${ex}</span>`
+            ).join('');
+
+            document.getElementById('builder-examples').innerHTML =
+                `<div style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 8px;">Quick suggestions:</div>${examplesHtml}`;
+        }
+
+        function focusSlot(slotName) {
+            currentBuilderSlot = slotName;
+            document.querySelectorAll('.builder-slot').forEach(slot => {
+                slot.style.boxShadow = slot.dataset.slot === slotName ? '0 0 0 3px rgba(255, 215, 0, 0.5)' : 'none';
+            });
+        }
+
+        function fillBuilderSlot(value) {
+            if (!currentBuilderSlot) {
+                // If no slot selected, fill the first empty one
+                if (!builderState.keyword) {
+                    currentBuilderSlot = 'keyword';
+                } else if (!builderState.context) {
+                    currentBuilderSlot = 'context';
+                }
+            }
+
+            if (currentBuilderSlot) {
+                builderState[currentBuilderSlot] = value;
+                document.getElementById(`slot-${currentBuilderSlot}`).textContent = value;
+                document.querySelector(`[data-slot="${currentBuilderSlot}"]`).classList.add('filled');
+                document.querySelector(`[data-slot="${currentBuilderSlot}"]`).style.boxShadow = 'none';
+
+                // Update manual input and preview
+                const trigger = builderState.keyword || '';
+                document.getElementById('new-trigger-input').value = trigger;
+                updateTriggerPreview(trigger);
+
+                currentBuilderSlot = null;
+            }
+        }
+
+        function updateTriggerPreview(text) {
+            const preview = document.getElementById('trigger-preview');
+            const previewText = document.getElementById('preview-text');
+
+            if (text && text.length > 0) {
+                previewText.textContent = text;
+                preview.style.display = 'block';
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // Autocomplete for existing triggers
+        function handleTriggerInput(value) {
+            updateTriggerPreview(value);
+
+            if (value.length < 2) {
+                document.getElementById('autocomplete-results').classList.remove('active');
+                return;
+            }
+
+            // Search across all intents for matching triggers
+            const matches = [];
+            Object.keys(INTENT_DATA).forEach(intentId => {
+                const triggers = INTENT_DATA[intentId].triggers || [];
+                triggers.forEach(trigger => {
+                    if (trigger.toLowerCase().includes(value.toLowerCase())) {
+                        matches.push({
+                            trigger: trigger,
+                            intentId: intentId,
+                            exactMatch: trigger.toLowerCase() === value.toLowerCase()
+                        });
+                    }
+                });
+            });
+
+            // Remove duplicates and sort by relevance
+            const uniqueMatches = [...new Map(matches.map(m => [m.trigger, m])).values()]
+                .sort((a, b) => a.exactMatch ? -1 : b.exactMatch ? 1 : 0)
+                .slice(0, 5);
+
+            if (uniqueMatches.length > 0) {
+                const resultsHtml = uniqueMatches.map(match => {
+                    const highlightedTrigger = match.trigger.replace(
+                        new RegExp(value, 'gi'),
+                        match => `<span class="autocomplete-match">${match}</span>`
+                    );
+                    return `
+                        <div class="autocomplete-item" onclick="selectAutocompleteTrigger('${match.trigger.replace(/'/g, "\\'")}')">
+                            <div>${highlightedTrigger}</div>
+                            <div class="autocomplete-intent">Used in: ${match.intentId}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                document.getElementById('autocomplete-results').innerHTML = resultsHtml;
+                document.getElementById('autocomplete-results').classList.add('active');
+            } else {
+                document.getElementById('autocomplete-results').classList.remove('active');
+            }
+        }
+
+        function selectAutocompleteTrigger(trigger) {
+            document.getElementById('new-trigger-input').value = trigger;
+            document.getElementById('autocomplete-results').classList.remove('active');
+            updateTriggerPreview(trigger);
+        }
+
+        function handleTriggerKeydown(event) {
+            if (event.key === 'Escape') {
+                document.getElementById('autocomplete-results').classList.remove('active');
+            }
+        }
+
+        async function saveTrigger() {
+            const triggerPattern = document.getElementById('new-trigger-input').value.trim();
+
+            if (!triggerPattern) {
+                alert('Please enter a trigger pattern');
+                return;
+            }
+
+            // Check if trigger already exists
+            const existingTriggers = INTENT_DATA[currentSelectedIntent].triggers || [];
+            if (existingTriggers.includes(triggerPattern)) {
+                alert('This trigger already exists for this intent');
+                return;
+            }
+
+            // Simulate backend POST request
+            try {
+                console.log('Saving trigger to backend:', {
+                    intentId: currentSelectedIntent,
+                    trigger: triggerPattern
+                });
+
+                // In a real implementation, this would be:
+                // await fetch('http://localhost:8082/api/triggers', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         intentId: currentSelectedIntent,
+                //         trigger: triggerPattern
+                //     })
+                // });
+
+                // Add to local data
+                if (!INTENT_DATA[currentSelectedIntent].triggers) {
+                    INTENT_DATA[currentSelectedIntent].triggers = [];
+                }
+                INTENT_DATA[currentSelectedIntent].triggers.push(triggerPattern);
+
+                // Close modal and show confirmation
+                closeModal('add-trigger-modal');
+
+                document.getElementById('confirmation-message').textContent =
+                    `✅ Trigger "${triggerPattern}" added successfully to ${currentSelectedIntent}!`;
+                openModal('confirmation-modal');
+
+                // Refresh the display
+                renderZeroSequence(currentSelectedIntent);
+            } catch (error) {
+                alert('Error saving trigger: ' + error.message);
+            }
+        }
+
+        // Sample Emails Modal
+        function openSampleEmailsModal() {
+            if (!currentSelectedIntent) return;
+
+            document.getElementById('sample-intent-name').textContent = currentSelectedIntent;
+
+            // Generate sample emails based on intent
+            const sampleEmails = generateSampleEmails(currentSelectedIntent);
+
+            const listHtml = sampleEmails.map(email => `
+                <div class="sample-email-item">
+                    <div class="sample-email-subject">
+                        ${email.subject}
+                        <span class="confidence-badge confidence-${email.confidence}">
+                            ${email.confidenceScore}% confidence
+                        </span>
+                    </div>
+                    ${email.from ? `<div style="font-size: 0.85rem; opacity: 0.7; margin: 4px 0;">From: ${email.from}</div>` : ''}
+                    <div class="sample-email-snippet">${email.snippet}</div>
+                </div>
+            `).join('');
+
+            document.getElementById('sample-emails-list').innerHTML = listHtml;
+            openModal('sample-emails-modal');
+        }
+
+        function generateSampleEmails(intentId) {
+            // Filter corpus for emails matching this intent
+            const matchingEmails = corpusData.filter(email => email.intent === intentId);
+
+            if (matchingEmails.length === 0) {
+                // Fallback to synthetic if no corpus data available
+                const intentData = INTENT_DATA[intentId];
+                const triggers = intentData.triggers || [];
+                return [{
+                    subject: `No corpus data available for ${intentId}`,
+                    snippet: `Generate corpus emails using triggers: ${triggers.slice(0, 3).join(', ')}`,
+                    confidence: 'weak',
+                    confidenceScore: 0
+                }];
+            }
+
+            // Return up to 8 real anonymized emails from corpus
+            return matchingEmails.slice(0, 8).map((email, idx) => {
+                // Calculate confidence score (simulate classification confidence)
+                const confidenceScore = Math.floor(Math.random() * 20) + 75; // 75-95%
+
+                return {
+                    subject: email.subject || 'No subject',
+                    snippet: email.body ? email.body.substring(0, 150) + '...' : 'No preview available',
+                    from: email.from || 'Unknown sender',
+                    confidence: confidenceScore >= 85 ? 'strong' : 'weak',
+                    confidenceScore: confidenceScore
+                };
+            });
+        }
+
+        // System classification parameters (from backend/shared/config/classification-weights.js)
+        const SYSTEM_THRESHOLDS = {
+            MIN_THRESHOLD: 0.30,      // 30% - Below this = generic fallback
+            HIGH_CONFIDENCE: 0.85,    // 85% - High confidence classification
+            MAX_SCORE: 100            // Normalization factor
+        };
+
+        const PATTERN_WEIGHTS = {
+            SUBJECT_MATCH: 40,
+            SNIPPET_MATCH: 25,
+            BODY_MATCH: 10
+        };
+
+        // Threshold Examples Modal - Generative based on system parameters
+        function openThresholdEmailsModal() {
+            if (!currentSelectedIntent) return;
+
+            document.getElementById('threshold-intent-name').textContent = currentSelectedIntent;
+
+            const intentData = INTENT_DATA[currentSelectedIntent];
+            const { highThresholdEmail, lowThresholdEmail } = generateThresholdEmails(currentSelectedIntent, intentData);
+
+            // Side-by-side layout
+            const contentHtml = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 20px;">
+                    <!-- HIGH THRESHOLD (LEFT) -->
+                    <div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <span class="confidence-badge confidence-strong">${Math.floor(highThresholdEmail.confidence * 100)}%</span>
+                            HIGH CONFIDENCE
+                        </h3>
+                        <div class="sample-email-item" style="background: rgba(76, 175, 80, 0.08); border: 2px solid rgba(76, 175, 80, 0.3);">
+                            <div class="sample-email-subject" style="color: rgba(76, 175, 80, 1); font-weight: 600;">
+                                ${highThresholdEmail.subject}
+                            </div>
+                            <div style="font-size: 0.85rem; opacity: 0.7; margin: 8px 0;">From: ${highThresholdEmail.from}</div>
+                            <div class="sample-email-snippet">${highThresholdEmail.body}</div>
+                        </div>
+                        <div style="margin-top: 15px; padding: 12px; background: rgba(76, 175, 80, 0.1); border-radius: 8px; font-size: 0.85rem; border-left: 3px solid rgba(76, 175, 80, 0.6);">
+                            <strong>Score Breakdown:</strong><br/>
+                            ${highThresholdEmail.scoring.map(s => `• ${s}`).join('<br/>')}
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);">
+                                <strong>Classification Result:</strong> ${highThresholdEmail.confidence >= SYSTEM_THRESHOLDS.HIGH_CONFIDENCE ? '✓ HIGH CONFIDENCE' : '✓ MEDIUM CONFIDENCE'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LOW THRESHOLD (RIGHT) -->
+                    <div>
+                        <h3 style="font-size: 1.3rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
+                            <span class="confidence-badge confidence-weak">${Math.floor(lowThresholdEmail.confidence * 100)}%</span>
+                            LOW CONFIDENCE
+                        </h3>
+                        <div class="sample-email-item" style="background: rgba(255, 152, 0, 0.08); border: 2px solid rgba(255, 152, 0, 0.3);">
+                            <div class="sample-email-subject" style="color: rgba(255, 152, 0, 1); font-weight: 600;">
+                                ${lowThresholdEmail.subject}
+                            </div>
+                            <div style="font-size: 0.85rem; opacity: 0.7; margin: 8px 0;">From: ${lowThresholdEmail.from}</div>
+                            <div class="sample-email-snippet">${lowThresholdEmail.body}</div>
+                        </div>
+                        <div style="margin-top: 15px; padding: 12px; background: rgba(255, 152, 0, 0.1); border-radius: 8px; font-size: 0.85rem; border-left: 3px solid rgba(255, 152, 0, 0.6);">
+                            <strong>Score Breakdown:</strong><br/>
+                            ${lowThresholdEmail.scoring.map(s => `• ${s}`).join('<br/>')}
+                            <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.1);">
+                                <strong>Classification Result:</strong> ${lowThresholdEmail.confidence >= SYSTEM_THRESHOLDS.MIN_THRESHOLD ? '✓ PASSES (Just Above Threshold)' : '✗ FAILS (Would use generic fallback)'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="padding: 15px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.3); font-size: 0.9rem;">
+                    <strong>📊 System Thresholds:</strong><br/>
+                    • Minimum Threshold: ${Math.floor(SYSTEM_THRESHOLDS.MIN_THRESHOLD * 100)}% (below = generic fallback)<br/>
+                    • High Confidence: ${Math.floor(SYSTEM_THRESHOLDS.HIGH_CONFIDENCE * 100)}%+ (triggers high-confidence actions)<br/>
+                    • Pattern Weights: Subject = ${PATTERN_WEIGHTS.SUBJECT_MATCH}pts, Snippet = ${PATTERN_WEIGHTS.SNIPPET_MATCH}pts, Body = ${PATTERN_WEIGHTS.BODY_MATCH}pts
+                </div>
+            `;
+
+            document.getElementById('threshold-emails-content').innerHTML = contentHtml;
+            openModal('threshold-emails-modal');
+        }
+
+        // Generate realistic threshold emails based on intent and system parameters
+        function generateThresholdEmails(intentId, intentData) {
+            const triggers = intentData.triggers || [];
+            const entities = intentData.requiredEntities || [];
+            const category = intentId.split('.')[0];
+            const subCategory = intentId.split('.')[1];
+
+            // HIGH THRESHOLD EMAIL (85%+)
+            // Uses realistic templates that naturally incorporate triggers
+            const highFrom = getCategorySender(category, true);
+            const { subject: highSubject, body: highBody } = generateRealisticEmail(intentId, intentData, triggers, entities, true);
+
+            const highScore = (PATTERN_WEIGHTS.SUBJECT_MATCH * 2) + (PATTERN_WEIGHTS.SNIPPET_MATCH * 3) + 30; // ~175 points
+            const highConfidence = Math.min(highScore / SYSTEM_THRESHOLDS.MAX_SCORE, 0.95);
+
+            const highThresholdEmail = {
+                subject: highSubject,
+                from: highFrom,
+                body: highBody,
+                confidence: highConfidence,
+                scoring: [
+                    `Subject matches: 2 triggers (+${PATTERN_WEIGHTS.SUBJECT_MATCH * 2}pts)`,
+                    `Body matches: 3+ triggers (+${PATTERN_WEIGHTS.SNIPPET_MATCH * 3}pts)`,
+                    `Category boost: ${category} sender (+30pts)`,
+                    entities.length > 0 ? `Entity present: ${entities[0]} (+15pts)` : '',
+                    `Total: ${Math.floor(highScore)}pts / ${SYSTEM_THRESHOLDS.MAX_SCORE} = ${Math.floor(highConfidence * 100)}%`
+                ].filter(Boolean)
+            };
+
+            // LOW THRESHOLD EMAIL (30-40%)
+            // Single trigger, vague context, ambiguous sender
+            const lowSubject = `Re: ${triggers[0] || 'Question'}`;
+            const lowBody = `Quick question about ${intentData.description.toLowerCase()}. Can you help? Thanks!`;
+            const lowFrom = getCategorySender(category, false);
+
+            const lowScore = PATTERN_WEIGHTS.SUBJECT_MATCH + 5; // ~45 points
+            const lowConfidence = Math.max(lowScore / SYSTEM_THRESHOLDS.MAX_SCORE, 0.32);
+
+            const lowThresholdEmail = {
+                subject: lowSubject,
+                from: lowFrom,
+                body: lowBody,
+                confidence: lowConfidence,
+                scoring: [
+                    `Subject matches: 1 trigger (+${PATTERN_WEIGHTS.SUBJECT_MATCH}pts)`,
+                    `Body matches: Partial mention (+5pts)`,
+                    `Category boost: Generic sender (+0pts)`,
+                    `Missing: Required entities, multiple triggers, clear context`,
+                    `Total: ${Math.floor(lowScore)}pts / ${SYSTEM_THRESHOLDS.MAX_SCORE} = ${Math.floor(lowConfidence * 100)}%`
+                ]
+            };
+
+            return { highThresholdEmail, lowThresholdEmail };
+        }
+
+        // Generate realistic email templates based on category
+        function generateRealisticEmail(intentId, intentData, triggers, entities, isHighConfidence) {
+            const category = intentId.split('.')[0];
+            const subCategory = intentId.split('.')[1];
+            const randomId = Math.floor(Math.random() * 100000);
+            const randomAmount = Math.floor(Math.random() * 500) + 50;
+            const futureDate = new Date(Date.now() + (Math.floor(Math.random() * 7) + 1) * 24 * 60 * 60 * 1000);
+            const dateStr = futureDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            // Category-specific realistic templates
+            if (category === 'e-commerce') {
+                if (subCategory === 'shipping') {
+                    return {
+                        subject: `Your order #${randomId} has shipped`,
+                        body: `Good news! Your package is on its way and should arrive by ${dateStr}. You can track your shipment using the link below. Thanks for your order!`
+                    };
+                } else if (subCategory === 'order') {
+                    return {
+                        subject: `Order confirmation #${randomId}`,
+                        body: `Thank you for your order! We've received your purchase and it's being prepared for shipment. You'll receive a tracking number once your items ship.`
+                    };
+                } else if (subCategory === 'return') {
+                    return {
+                        subject: `Return approved for order #${randomId}`,
+                        body: `Your return request has been approved. Please ship your item back using the prepaid label attached to this email. Refund will be processed within 5-7 business days.`
+                    };
+                }
+            }
+
+            else if (category === 'billing') {
+                if (subCategory === 'invoice') {
+                    return {
+                        subject: `Invoice #INV-${randomId} from Acme Corp - Due ${dateStr}`,
+                        body: `Your invoice for $${randomAmount}.00 is now available. Payment is due by ${dateStr}. You can view and pay your invoice online using the secure link below.`
+                    };
+                } else if (subCategory === 'payment') {
+                    return {
+                        subject: `Payment confirmation - $${randomAmount}.00 received`,
+                        body: `Thank you! We've received your payment of $${randomAmount}.00. Your account is now up to date. Receipt #${randomId} is attached for your records.`
+                    };
+                } else if (subCategory === 'statement') {
+                    return {
+                        subject: `Your monthly statement is ready`,
+                        body: `Your account statement for this month is now available. Total charges: $${randomAmount}.00. View your full statement and recent activity online.`
+                    };
+                }
+            }
+
+            else if (category === 'education') {
+                if (subCategory === 'permission') {
+                    return {
+                        subject: `Permission slip required for field trip on ${dateStr}`,
+                        body: `Your child's class is taking a field trip to the Science Museum on ${dateStr}. Please sign the attached permission form and return it by the end of the week. Fee: $${Math.floor(randomAmount / 10)}.00`
+                    };
+                } else if (subCategory === 'assignment') {
+                    return {
+                        subject: `New assignment posted: Chapter ${Math.floor(randomId / 10000)} Review`,
+                        body: `A new assignment has been posted for your class. The assignment is due ${dateStr}. Please complete all questions and submit through the online portal.`
+                    };
+                } else if (subCategory === 'grade') {
+                    return {
+                        subject: `Grade posted for Math Test ${Math.floor(randomId / 10000)}`,
+                        body: `Your grade for the recent math test has been posted. You can view your detailed results and feedback in the student portal. Great work this semester!`
+                    };
+                }
+            }
+
+            else if (category === 'travel') {
+                if (subCategory === 'flight') {
+                    const flightNum = `${['UA', 'AA', 'DL', 'SW'][Math.floor(Math.random() * 4)]} ${Math.floor(Math.random() * 900) + 100}`;
+                    return {
+                        subject: `Check in now for flight ${flightNum} on ${dateStr}`,
+                        body: `It's time to check in for your upcoming flight! Flight ${flightNum} departs tomorrow at 2:45 PM. Check in now and get your mobile boarding pass.`
+                    };
+                } else if (subCategory === 'booking') {
+                    return {
+                        subject: `Booking confirmed - Confirmation #${randomId}`,
+                        body: `Your reservation is confirmed! Check-in: ${dateStr}. We've sent all the details to your email. If you have any questions, our team is here to help.`
+                    };
+                } else if (subCategory === 'hotel') {
+                    return {
+                        subject: `Your stay at Grand Hotel - Confirmation #${randomId}`,
+                        body: `Thank you for booking with us! Your reservation is confirmed for ${dateStr}. Check-in is at 3:00 PM. We look forward to welcoming you.`
+                    };
+                }
+            }
+
+            else if (category === 'event') {
+                if (subCategory === 'meeting') {
+                    return {
+                        subject: `Meeting scheduled: Q4 Planning Review - ${dateStr}`,
+                        body: `You've been invited to attend the Q4 Planning Review meeting on ${dateStr} at 2:00 PM. The meeting will be held in Conference Room B. Agenda and materials are attached.`
+                    };
+                } else if (subCategory === 'appointment') {
+                    return {
+                        subject: `Appointment reminder: Dr. Smith on ${dateStr}`,
+                        body: `This is a reminder of your upcoming appointment with Dr. Smith on ${dateStr} at 10:30 AM. Please arrive 15 minutes early to complete any necessary paperwork.`
+                    };
+                } else if (subCategory === 'rsvp') {
+                    return {
+                        subject: `You're invited! Annual Company Dinner - ${dateStr}`,
+                        body: `You're cordially invited to our Annual Company Dinner on ${dateStr} at 7:00 PM. Please RSVP by the end of this week. We hope you can join us!`
+                    };
+                }
+            }
+
+            else if (category === 'finance') {
+                if (subCategory === 'transaction') {
+                    return {
+                        subject: `Transaction alert: $${randomAmount}.00 charge at Retailer`,
+                        body: `A charge of $${randomAmount}.00 was made to your account ending in 1234 at Retailer on ${dateStr}. If you don't recognize this transaction, please contact us immediately.`
+                    };
+                } else if (subCategory === 'statement') {
+                    return {
+                        subject: `Your credit card statement is ready`,
+                        body: `Your monthly statement for account ending in 5678 is now available. Current balance: $${randomAmount * 2}.00. Minimum payment due: $${Math.floor(randomAmount / 10)}.00 by ${dateStr}.`
+                    };
+                } else if (subCategory === 'alert') {
+                    return {
+                        subject: `Important: Low balance alert on your account`,
+                        body: `Your checking account balance has fallen below $100. Current balance: $${Math.floor(randomAmount / 10)}.00. Consider transferring funds to avoid overdraft fees.`
+                    };
+                }
+            }
+
+            else if (category === 'subscription') {
+                if (subCategory === 'renewal') {
+                    return {
+                        subject: `Your Premium subscription renews on ${dateStr}`,
+                        body: `Your Premium subscription will automatically renew on ${dateStr} for $${Math.floor(randomAmount / 10)}.99/month. Your payment method ending in 1234 will be charged.`
+                    };
+                } else if (subCategory === 'cancellation') {
+                    return {
+                        subject: `Confirm cancellation of your Premium subscription`,
+                        body: `We received your request to cancel your Premium subscription. Your access will continue until ${dateStr}. If this was a mistake, you can reactivate anytime.`
+                    };
+                } else if (subCategory === 'trial') {
+                    return {
+                        subject: `Your free trial ends in 3 days`,
+                        body: `Your 30-day free trial of Premium will end on ${dateStr}. To continue enjoying premium features, your payment method will be charged $${Math.floor(randomAmount / 10)}.99/month.`
+                    };
+                }
+            }
+
+            else if (category === 'healthcare') {
+                if (subCategory === 'appointment') {
+                    return {
+                        subject: `Appointment confirmed with Dr. Johnson - ${dateStr}`,
+                        body: `Your appointment is scheduled for ${dateStr} at 2:30 PM with Dr. Johnson at Westside Medical Center. Please bring your insurance card and arrive 10 minutes early.`
+                    };
+                } else if (subCategory === 'prescription') {
+                    return {
+                        subject: `Your prescription is ready for pickup`,
+                        body: `Your prescription for [medication name] is ready at Westside Pharmacy. Please bring your ID and insurance card. Pickup hours are 9 AM - 9 PM daily.`
+                    };
+                } else if (subCategory === 'results') {
+                    return {
+                        subject: `Lab results available in patient portal`,
+                        body: `Your recent lab results are now available in your secure patient portal. Dr. Johnson has reviewed the results and left notes for you. Log in to view details.`
+                    };
+                }
+            }
+
+            else if (category === 'account') {
+                if (subCategory === 'security') {
+                    return {
+                        subject: `Security alert: New sign-in from Chrome on Mac`,
+                        body: `We noticed a new sign-in to your account from Chrome on macOS in San Francisco, CA on ${dateStr}. If this was you, you can ignore this email. If not, secure your account immediately.`
+                    };
+                } else if (subCategory === 'password') {
+                    return {
+                        subject: `Password reset requested for your account`,
+                        body: `We received a request to reset your password. Click the link below to create a new password. This link expires in 1 hour. If you didn't request this, please ignore.`
+                    };
+                } else if (subCategory === 'verification') {
+                    return {
+                        subject: `Verify your email address - Code: ${Math.floor(randomId / 100)}`,
+                        body: `Thanks for signing up! To complete your registration, please verify your email address using the code: ${Math.floor(randomId / 100)}. This code expires in 10 minutes.`
+                    };
+                }
+            }
+
+            else if (category === 'social') {
+                if (subCategory === 'notification') {
+                    return {
+                        subject: `You have 5 new notifications`,
+                        body: `Sarah Johnson liked your post. Mike Chen commented on your photo. Emma Davis sent you a friend request. View all your notifications in the app.`
+                    };
+                } else if (subCategory === 'message') {
+                    return {
+                        subject: `New message from Alex Martinez`,
+                        body: `Alex Martinez sent you a message: "Hey! Are we still on for coffee tomorrow morning? Let me know!" Reply directly from this email or view in the app.`
+                    };
+                }
+            }
+
+            else if (category === 'marketing') {
+                if (subCategory === 'promotion') {
+                    return {
+                        subject: `${Math.floor(Math.random() * 30) + 20}% off everything - This weekend only!`,
+                        body: `Don't miss out! Get ${Math.floor(Math.random() * 30) + 20}% off your entire purchase this weekend. Use code SAVE${randomId.toString().substring(0,4)} at checkout. Expires ${dateStr}.`
+                    };
+                } else if (subCategory === 'newsletter') {
+                    return {
+                        subject: `Your weekly digest: Top stories and updates`,
+                        body: `Here's what you missed this week: New features released, upcoming events, and community highlights. Read the full stories and stay connected with our community.`
+                    };
+                }
+            }
+
+            else if (category === 'professional') {
+                if (subCategory === 'job') {
+                    return {
+                        subject: `New job matches for Senior Developer positions`,
+                        body: `We found ${Math.floor(Math.random() * 10) + 5} new jobs matching your profile. Top match: Senior Full Stack Developer at Tech Corp - $${randomAmount}K-${randomAmount + 50}K. View all matches.`
+                    };
+                } else if (subCategory === 'application') {
+                    return {
+                        subject: `Application received for Software Engineer position`,
+                        body: `Thank you for applying to the Software Engineer position at Tech Corp. We've received your application and our hiring team will review it within 5-7 business days.`
+                    };
+                }
+            }
+
+            // Fallback generic template
+            return {
+                subject: `${triggers[0] || 'Important'}: ${intentData.description}`,
+                body: `This email contains important information about ${intentData.description.toLowerCase()}. ${entities.length > 0 ? `Reference: ${entities[0]} #${randomId}.` : ''} Please review and take action if needed.`
+            };
+        }
+
+        // Get realistic sender email for category
+        function getCategorySender(category, isStrong) {
+            const senders = {
+                'e-commerce': { strong: 'orders@amazon.com', weak: 'info@shop.com' },
+                'billing': { strong: 'billing@stripe.com', weak: 'noreply@company.com' },
+                'finance': { strong: 'alerts@chase.com', weak: 'info@bank.com' },
+                'travel': { strong: 'reservations@united.com', weak: 'booking@travel.com' },
+                'event': { strong: 'calendar@zoom.us', weak: 'events@company.com' },
+                'account': { strong: 'security@google.com', weak: 'noreply@service.com' },
+                'education': { strong: 'teacher@school.edu', weak: 'info@school.org' },
+                'healthcare': { strong: 'patient@stanford.health', weak: 'info@clinic.com' },
+                'subscription': { strong: 'billing@spotify.com', weak: 'info@service.com' },
+                'marketing': { strong: 'newsletter@brand.com', weak: 'promo@shop.com' }
+            };
+
+            const categoryData = senders[category] || { strong: 'info@company.com', weak: 'hello@mail.com' };
+            return isStrong ? categoryData.strong : categoryData.weak;
+        }
+
+        // Close modals on overlay click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Initialize on page load
+        init();
+    </script>
+</body>
+</html>
