@@ -205,6 +205,8 @@ database.json
 ## OAuth tokens
 .oauth-tokens
 backend/services/gateway/data/tokens/*.json
+backend/services.backup_logger_consolidation/gateway/data/tokens/*.json
+**/data/tokens/*.json
 
 # ==========================================
 # Google Cloud Platform
