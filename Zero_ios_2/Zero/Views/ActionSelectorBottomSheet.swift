@@ -132,9 +132,9 @@ struct ActionSelectorBottomSheet: View {
         .glassmorphic(opacity: 0.03, cornerRadius: DesignTokens.Radius.card)
         .sheet(isPresented: $showShareSheet) {
             if let shareURL = extractFirstURL() {
-                ShareSheet(activityItems: [shareURL, card.title])
+                ActionSelectorShareSheet(activityItems: [shareURL, card.title])
             } else {
-                ShareSheet(activityItems: [card.title, card.summary])
+                ActionSelectorShareSheet(activityItems: [card.title, card.summary])
             }
         }
         // PAYWALL COMMENTED OUT - Keep premium tabs visible but don't enforce paywall
@@ -445,15 +445,13 @@ struct QuickActionIconButton: View {
     }
 }
 
-// MARK: - ShareSheet UIViewControllerRepresentable
-private struct ShareSheet: UIViewControllerRepresentable {
+// MARK: - Action Selector Share Sheet
+
+struct ActionSelectorShareSheet: UIViewControllerRepresentable {
     let activityItems: [Any]
 
     func makeUIViewController(context: Context) -> UIActivityViewController {
-        let controller = UIActivityViewController(
-            activityItems: activityItems,
-            applicationActivities: nil
-        )
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         return controller
     }
 

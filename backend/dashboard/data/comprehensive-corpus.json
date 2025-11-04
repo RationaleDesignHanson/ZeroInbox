@@ -1,0 +1,3222 @@
+[
+  {
+    "subject": "Return Label for Order #517-1377436-5473494",
+    "from": "Amazon <returns@amazon.com>",
+    "body": "Print your return label: https://platform.io/payment/695438. Drop off at any UPS location. Refund processed within 5-7 days.",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Instructions - Order 946-2552068-9848512",
+    "from": "Target <returns@target.com>",
+    "body": "Return your order by Dec 12, 2025. No box needed. Print label: https://platform.io/checkout/886468",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Start Your Return",
+    "from": "Shopify Store <returns@shop.com>",
+    "body": "We're sorry your item didn't work out. Return deadline: Jul 24, 2025. Get label: https://example.com/return/736306",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Label for Order #738-4940148-2377926",
+    "from": "Amazon <returns@amazon.com>",
+    "body": "Print your return label: https://service.net/return/158076. Drop off at any UPS location. Refund processed within 5-7 days.",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Instructions - Order 481-1859471-5926720",
+    "from": "Target <returns@target.com>",
+    "body": "Return your order by Jun 12, 2025. No box needed. Print label: https://app.co/payment/522936",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Label for Order #767-2714859-8679071",
+    "from": "Amazon <returns@amazon.com>",
+    "body": "Print your return label: https://platform.io/confirm/619611. Drop off at any UPS location. Refund processed within 5-7 days.",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Return Instructions - Order 768-6795874-6806184",
+    "from": "Target <returns@target.com>",
+    "body": "Return your order by Feb 20, 2025. No box needed. Print label: https://app.co/invoice/890070",
+    "intent": "e-commerce.return.label",
+    "generated": true
+  },
+  {
+    "subject": "Refund Initiated for Order #629-5674749-3001026",
+    "from": "Amazon <refunds@amazon.com>",
+    "body": "Your refund of $$891.43 is being processed. Expect it in 3-5 business days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Approved - $$363.36",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund has been approved. Money will appear in your account within 5-7 days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Return Received - Refund Processing",
+    "from": "Returns <returns@shop.com>",
+    "body": "We received your return. Refund of $$735.14 will be issued within 48 hours.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Initiated for Order #319-6809434-5419457",
+    "from": "Amazon <refunds@amazon.com>",
+    "body": "Your refund of $$552.33 is being processed. Expect it in 3-5 business days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Approved - $$307.74",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund has been approved. Money will appear in your account within 5-7 days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Initiated for Order #880-9315429-3912398",
+    "from": "Amazon <refunds@amazon.com>",
+    "body": "Your refund of $$302.74 is being processed. Expect it in 3-5 business days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Refund Approved - $$929.44",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund has been approved. Money will appear in your account within 5-7 days.",
+    "intent": "e-commerce.refund.processing",
+    "generated": true
+  },
+  {
+    "subject": "Item Temporarily Out of Stock",
+    "from": "Store <orders@store.com>",
+    "body": "{item} is on backorder. Expected restock: Feb 2, 2025. Your order will ship then.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Backorder Notice - Order #506-4074221-1687226",
+    "from": "Shop <shipping@shop.com>",
+    "body": "One item in your order is backordered. Estimated availability: {timeframe}.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Supply Chain Delay",
+    "from": "Store <notify@store.com>",
+    "body": "{product} is temporarily unavailable. We'll ship as soon as stock arrives ({eta}).",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Backorder Notice - Order #144-7488031-3775852",
+    "from": "Shop <shipping@shop.com>",
+    "body": "One item in your order is backordered. Estimated availability: {timeframe}.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Backorder Notice - Order #829-4503269-8065046",
+    "from": "Shop <shipping@shop.com>",
+    "body": "One item in your order is backordered. Estimated availability: {timeframe}.",
+    "intent": "e-commerce.backorder.notification",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming Payment Reminder",
+    "from": "Chase <alerts@chase.com>",
+    "body": "Your payment of $$501.76 is due on Aug 3, 2025. Avoid late fees.",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Scheduled for Aug 13, 2025",
+    "from": "Bank <notifications@bank.com>",
+    "body": "Auto-payment of $$652.14 will be withdrawn on Mar 13, 2025.",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Due in 3 Days",
+    "from": "Lender <payments@lender.com>",
+    "body": "Reminder: $$165.33 due Apr 8, 2025. Pay now: https://service.net/view/728295",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Scheduled for Nov 6, 2025",
+    "from": "Bank <notifications@bank.com>",
+    "body": "Auto-payment of $$854.99 will be withdrawn on Jun 14, 2025.",
+    "intent": "finance.payment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Payment Failed - Action Required",
+    "from": "Netflix <billing@netflix.com>",
+    "body": "We couldn't process your payment. Update payment method to avoid service interruption.",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Declined: Payment Issue",
+    "from": "Bank <alerts@bank.com>",
+    "body": "Payment of $$738.41 was declined. Insufficient funds. Please review your account.",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Update Payment Information",
+    "from": "Service <billing@service.com>",
+    "body": "Your recent payment failed. Update card ending in {last4}: https://app.co/schedule/973327",
+    "intent": "finance.payment.failed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Completed - $$580.70",
+    "from": "Company <refunds@company.com>",
+    "body": "Your refund of $$166.28 has been processed. It should appear in 3-5 business days.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Money Returned to Your Account",
+    "from": "Bank <notifications@bank.com>",
+    "body": "Refund credit: $$392.10 from {merchant} on Dec 14, 2025.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Issued",
+    "from": "Store <billing@store.com>",
+    "body": "Your refund of $$382.25 has been sent. Reference: {refNum}",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Completed - $$12.68",
+    "from": "Company <refunds@company.com>",
+    "body": "Your refund of $$87.22 has been processed. It should appear in 3-5 business days.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Refund Completed - $$989.16",
+    "from": "Company <refunds@company.com>",
+    "body": "Your refund of $$793.91 has been processed. It should appear in 3-5 business days.",
+    "intent": "finance.refund.processed",
+    "generated": true
+  },
+  {
+    "subject": "Monthly Portfolio Update",
+    "from": "Vanguard <updates@vanguard.com>",
+    "body": "Your portfolio is up {percent}% this month. Total value: ${value}.",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Q4 Investment Summary",
+    "from": "Fidelity <reports@fidelity.com>",
+    "body": "Year-to-date return: {percent}%. View detailed report: https://platform.io/order/928204",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Market Update for Your Portfolio",
+    "from": "Schwab <market@schwab.com>",
+    "body": "Recent market performance impacted your holdings. Current balance: ${balance}.",
+    "intent": "finance.investment.performance",
+    "generated": true
+  },
+  {
+    "subject": "Suspicious Transaction Detected",
+    "from": "Chase <fraud@chase.com>",
+    "body": "Did you attempt a $$794.38 charge at {merchant}? If not, lock your card immediately: https://example.com/schedule/548954",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Unusual Activity on Your Account",
+    "from": "Bank <security@bank.com>",
+    "body": "We detected unusual activity. Transaction: $$26.18 at {location}. Verify: https://example.com/payment/589178",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Alert - $$641.88 Charge",
+    "from": "Card Services <fraud@cardservices.com>",
+    "body": "Confirm this transaction or report it as fraud: {details}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Alert - $$327.17 Charge",
+    "from": "Card Services <fraud@cardservices.com>",
+    "body": "Confirm this transaction or report it as fraud: {details}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Alert - $$169.59 Charge",
+    "from": "Card Services <fraud@cardservices.com>",
+    "body": "Confirm this transaction or report it as fraud: {details}",
+    "intent": "finance.fraud.alert",
+    "generated": true
+  },
+  {
+    "subject": "You paid Jordan Martinez $$56.28",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Payment sent! Sam Rodriguez received $$33.61 for {note}.",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "Payment Sent via Zelle",
+    "from": "Bank <zelle@bank.com>",
+    "body": "You sent $$531.84 to jordan.brown@sample.io. Transaction ID: {id}",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You sent $$426.74",
+    "from": "Cash App <cash@cash.app>",
+    "body": "Payment to Drew Jones complete. Receipt: https://platform.io/order/869089",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You paid Casey Rodriguez $$729.84",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Payment sent! Drew Johnson received $$892.92 for {note}.",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You sent $$206.98",
+    "from": "Cash App <cash@cash.app>",
+    "body": "Payment to Morgan Rodriguez complete. Receipt: https://app.co/view/974319",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You paid Riley Jones $$985.15",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Payment sent! Morgan Jones received $$655.44 for {note}.",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "You sent $$947.69",
+    "from": "Cash App <cash@cash.app>",
+    "body": "Payment to Riley Garcia complete. Receipt: https://platform.io/account/936374",
+    "intent": "finance.payment.sent",
+    "generated": true
+  },
+  {
+    "subject": "Jamie Miller paid you $$837.73",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Money received! Sam Jones sent you $$401.74.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "You received $$535.96",
+    "from": "PayPal <service@paypal.com>",
+    "body": "Riley Johnson sent you a payment. Available now in your balance.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Payment Received: $$201.52",
+    "from": "Zelle <notifications@zelle.com>",
+    "body": "Payment from Drew Smith deposited to your account.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Sam Davis paid you $$263.43",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Money received! Avery Johnson sent you $$559.89.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "You received $$469.18",
+    "from": "PayPal <service@paypal.com>",
+    "body": "Jordan Davis sent you a payment. Available now in your balance.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Payment Received: $$947.54",
+    "from": "Zelle <notifications@zelle.com>",
+    "body": "Payment from Taylor Brown deposited to your account.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Alex Rodriguez paid you $$105.10",
+    "from": "Venmo <notifications@venmo.com>",
+    "body": "Money received! Morgan Davis sent you $$788.53.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "You received $$682.17",
+    "from": "PayPal <service@paypal.com>",
+    "body": "Taylor Martinez sent you a payment. Available now in your balance.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Payment Received: $$802.38",
+    "from": "Zelle <notifications@zelle.com>",
+    "body": "Payment from Avery Rodriguez deposited to your account.",
+    "intent": "finance.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Protect Yourself from Payment Scams",
+    "from": "Venmo <security@venmo.com>",
+    "body": "Never send money to people you don't know. Common scams to avoid: {list}",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Fraud Prevention Tips",
+    "from": "Zelle <safety@zelle.com>",
+    "body": "Only send money to people you trust. Zelle is like cash - payments can't be reversed.",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Stay Safe: Recognize These Scams",
+    "from": "Cash App <security@cash.app>",
+    "body": "Scammers pretending to be support, fake giveaways, and more. Learn how to stay safe.",
+    "intent": "finance.payment.scam-alert",
+    "generated": true
+  },
+  {
+    "subject": "Mortgage Rate Quote - {rate}%",
+    "from": "Lender <rates@mortgage.com>",
+    "body": "Current rates: {rate}% for 30-year fixed. Pre-qualify: https://example.com/view/577856",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Your Refinance Options",
+    "from": "Broker <info@broker.com>",
+    "body": "You could save ${savings}/month by refinancing. Let's discuss your options.",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approval Update",
+    "from": "Mortgage Co <approvals@mortgageco.com>",
+    "body": "Congratulations! You're pre-approved for up to $$668.14. Next steps: https://service.net/account/421419",
+    "intent": "finance.mortgage",
+    "generated": true
+  },
+  {
+    "subject": "Your PSE&G Bill is Ready",
+    "from": "PSE&G <myaccount@pseg.com>",
+    "body": "Electric bill for {month}: $$520.52. Due Aug 6, 2025. Pay online: https://service.net/checkout/688468",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Verizon FiOS Bill - {month}",
+    "from": "Verizon <billing@verizon.com>",
+    "body": "Monthly charges: $$326.44. Auto-pay on Dec 21, 2025. View bill: https://platform.io/details/810684",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Water & Sewer Bill",
+    "from": "City Utilities <billing@city.gov>",
+    "body": "Quarterly bill: $$801.85. Due by Feb 16, 2025. Payment options: https://service.net/track/309638",
+    "intent": "finance.utility.bill",
+    "generated": true
+  },
+  {
+    "subject": "Your Free Trial Ends Oct 9, 2025",
+    "from": "Spotify <premium@spotify.com>",
+    "body": "Your Premium trial ends in 3 days. ${price}/month after. Cancel anytime.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Trial Ending Soon",
+    "from": "Disney+ <account@disneyplus.com>",
+    "body": "Enjoy your last {days} days of free Disney+. Continue for ${price}/month.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Last Day of Your Free Trial",
+    "from": "Service <trial@service.com>",
+    "body": "Your trial ends tomorrow. We'll charge $$565.33 unless you cancel: https://platform.io/schedule/963975",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Your Free Trial Ends Jun 19, 2025",
+    "from": "Spotify <premium@spotify.com>",
+    "body": "Your Premium trial ends in 3 days. ${price}/month after. Cancel anytime.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Your Free Trial Ends Apr 6, 2025",
+    "from": "Spotify <premium@spotify.com>",
+    "body": "Your Premium trial ends in 3 days. ${price}/month after. Cancel anytime.",
+    "intent": "subscription.trial.ending",
+    "generated": true
+  },
+  {
+    "subject": "Subscription Cancelled",
+    "from": "Netflix <account@netflix.com>",
+    "body": "Your Netflix subscription has been cancelled. Access until Nov 18, 2025.",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Cancellation Confirmed",
+    "from": "Spotify <help@spotify.com>",
+    "body": "Your Premium subscription is cancelled. No further charges. Resubscribe anytime.",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Membership Ended",
+    "from": "Service <billing@service.com>",
+    "body": "Your subscription to {service} has ended. Thanks for being a member!",
+    "intent": "subscription.cancellation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Storage Almost Full",
+    "from": "Dropbox <notify@dropbox.com>",
+    "body": "You've used 95% of your storage. Upgrade to Pro for more space: https://app.co/schedule/125483",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "API Limit Reached",
+    "from": "Service <limits@service.com>",
+    "body": "You've reached your monthly API quota. Upgrade for higher limits: https://app.co/schedule/173722",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "Usage Threshold Alert",
+    "from": "AWS <billing@aws.com>",
+    "body": "Your usage is approaching your budget limit. Current: $$498.25. Limit: ${max}.",
+    "intent": "subscription.usage.limit",
+    "generated": true
+  },
+  {
+    "subject": "New Features Available!",
+    "from": "Notion <updates@notion.so>",
+    "body": "Try our new AI features, improved templates, and faster search. Explore now.",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "What's New in Premium",
+    "from": "Service <features@service.com>",
+    "body": "Unlock these exclusive features with your subscription: {list}",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "Your Plan Just Got Better",
+    "from": "Product <news@product.com>",
+    "body": "We've added {feature1}, {feature2}, and {feature3} at no extra cost!",
+    "intent": "subscription.feature.update",
+    "generated": true
+  },
+  {
+    "subject": "New Sign-In from {device}",
+    "from": "Google <no-reply@google.com>",
+    "body": "Someone just signed in to your Google Account from {device} in {location}. Was this you?",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "Unusual Activity Detected",
+    "from": "Microsoft <account@microsoft.com>",
+    "body": "New sign-in from {device} ({location}). If this wasn't you, secure your account: https://service.net/view/258937",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "New Device Connected",
+    "from": "Apple <appleid@apple.com>",
+    "body": "Your Apple ID was used to sign in to {device}. Sep 27, 2025 at 5:06 PM.",
+    "intent": "account.device.login",
+    "generated": true
+  },
+  {
+    "subject": "You Have $$738.69 Available to Spend",
+    "from": "American Express <offers@aexp.com>",
+    "body": "Pre-approved for additional credit. Current limit: ${current}. New limit: ${new}.",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Credit Line Increase Available",
+    "from": "Chase <creditservices@chase.com>",
+    "body": "You're eligible for a $$620.68 credit line increase. Accept: https://service.net/view/773171",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approved: $$323.76 Line of Credit",
+    "from": "Bank <preapproved@bank.com>",
+    "body": "You've been pre-approved! Apply now: https://app.co/order/249795",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "You Have $$479.59 Available to Spend",
+    "from": "American Express <offers@aexp.com>",
+    "body": "Pre-approved for additional credit. Current limit: ${current}. New limit: ${new}.",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approved: $$284.32 Line of Credit",
+    "from": "Bank <preapproved@bank.com>",
+    "body": "You've been pre-approved! Apply now: https://platform.io/track/613068",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "You Have $$707.15 Available to Spend",
+    "from": "American Express <offers@aexp.com>",
+    "body": "Pre-approved for additional credit. Current limit: ${current}. New limit: ${new}.",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Approved: $$339.53 Line of Credit",
+    "from": "Bank <preapproved@bank.com>",
+    "body": "You've been pre-approved! Apply now: https://app.co/checkout/187978",
+    "intent": "finance.credit.available",
+    "generated": true
+  },
+  {
+    "subject": "Reminder: Meeting with {person} in 1 hour",
+    "from": "Google Calendar <calendar@google.com>",
+    "body": "Your meeting \"{title}\" starts at 3:32 PM. Join: https://app.co/schedule/903675",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming: {title}",
+    "from": "Outlook <calendar@outlook.com>",
+    "body": "In 15 minutes: {title}. Location: {location}. Join Zoom: https://service.net/invoice/340903",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Meeting Starting Soon",
+    "from": "Zoom <noreply@zoom.us>",
+    "body": "{organizer}'s meeting starts in 10 minutes. Join now: https://service.net/invoice/792067",
+    "intent": "event.meeting.reminder",
+    "generated": true
+  },
+  {
+    "subject": "GitHub Secret Scanning Alert",
+    "from": "GitHub <noreply@github.com>",
+    "body": "We found an API key in your repository {repo}. Revoke it immediately: https://platform.io/order/377336",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "API Key Exposed in Public Repository",
+    "from": "Security <security@platform.com>",
+    "body": "Your API key was committed to {repo}. Revoke and rotate: https://service.net/payment/250052",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "Credential Leak Detected",
+    "from": "Platform <alerts@platform.com>",
+    "body": "A secret token from {service} was exposed. Take action: https://example.com/details/958507",
+    "intent": "account.secret.exposed",
+    "generated": true
+  },
+  {
+    "subject": "April Callas sent you a message in Canvas",
+    "from": "Canvas <notifications@instructure.com>",
+    "body": "New message in PreAlgebra 8. Read message: https://service.net/confirm/665922",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "Teacher comment on your submission",
+    "from": "Google Classroom <classroom@google.com>",
+    "body": "Ms. Smith commented on your {assignment}. View: https://app.co/invoice/221837",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "New announcement from {teacher}",
+    "from": "Schoology <noreply@schoology.com>",
+    "body": "{teacher} posted: \"{message}\". View full post: https://app.co/invoice/685239",
+    "intent": "education.lms.message",
+    "generated": true
+  },
+  {
+    "subject": "New Assignment: {title}",
+    "from": "Canvas <notifications@instructure.com>",
+    "body": "Due Sep 7, 2025. {description}. View assignment: https://example.com/track/571056",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "{teacher} posted an assignment",
+    "from": "Google Classroom <classroom@google.com>",
+    "body": "Assignment: {title}. Due: Apr 16, 2025. View details: https://service.net/track/876517",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming Assignment in {course}",
+    "from": "Schoology <noreply@schoology.com>",
+    "body": "{title} is due Sep 5, 2025. Worth {points} points. Start now: https://example.com/confirm/405886",
+    "intent": "education.lms.assignment.posted",
+    "generated": true
+  },
+  {
+    "subject": "Parent-Teacher Conference Signup",
+    "from": "School <principal@school.edu>",
+    "body": "Sign up for your conference slot on Jan 12, 2025. Reserve: https://platform.io/account/238668",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Back to School Night - Oct 26, 2025",
+    "from": "Elementary <info@elementary.edu>",
+    "body": "Meet the teachers! Dec 3, 2025 at 4:54 PM. Childcare available. RSVP: https://app.co/schedule/230907",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "PTA Meeting This Week",
+    "from": "PTA <pta@school.org>",
+    "body": "Join us Apr 10, 2025 at 9:29 AM to discuss {topics}. All welcome!",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Back to School Night - Sep 5, 2025",
+    "from": "Elementary <info@elementary.edu>",
+    "body": "Meet the teachers! Oct 5, 2025 at 11:54 AM. Childcare available. RSVP: https://app.co/payment/857537",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Back to School Night - Dec 15, 2025",
+    "from": "Elementary <info@elementary.edu>",
+    "body": "Meet the teachers! Dec 26, 2025 at 9:22 AM. Childcare available. RSVP: https://example.com/confirm/425645",
+    "intent": "education.event.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Classroom Update - Week of Mar 14, 2025",
+    "from": "Mrs. Smith <teacher@school.edu>",
+    "body": "What we're learning this week: {topics}. Homework due: {assignments}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Progress Report for {student}",
+    "from": "Teacher <teacher@school.edu>",
+    "body": "{student} is doing {status} in {subject}. Current grade: {grade}. Areas to work on: {areas}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Reminder: {event} Tomorrow",
+    "from": "Mr. Johnson <teacher@school.edu>",
+    "body": "Don't forget: {event} tomorrow. Students should bring {items}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Classroom Update - Week of Jan 6, 2025",
+    "from": "Mrs. Smith <teacher@school.edu>",
+    "body": "What we're learning this week: {topics}. Homework due: {assignments}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Classroom Update - Week of Mar 5, 2025",
+    "from": "Mrs. Smith <teacher@school.edu>",
+    "body": "What we're learning this week: {topics}. Homework due: {assignments}.",
+    "intent": "education.parent.teacher.communication",
+    "generated": true
+  },
+  {
+    "subject": "Basketball Registration Opens Monday",
+    "from": "Parks & Rec <recreation@city.gov>",
+    "body": "Register for youth basketball! Ages 8-12. Season: {dates}. Cost: ${fee}. Sign up: https://service.net/schedule/754134",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Soccer Tryouts - May 23, 2025",
+    "from": "Youth Soccer <coach@soccer.org>",
+    "body": "Travel team tryouts on Nov 22, 2025. Location: {field}. Bring cleats and water.",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Enroll Now: Spring Baseball",
+    "from": "Little League <info@littleleague.org>",
+    "body": "Registration closes Aug 3, 2025! Ages 6-12. Practices start {startDate}. Register: https://platform.io/invoice/665490",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Soccer Tryouts - Jun 17, 2025",
+    "from": "Youth Soccer <coach@soccer.org>",
+    "body": "Travel team tryouts on Jan 27, 2025. Location: {field}. Bring cleats and water.",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Soccer Tryouts - Sep 16, 2025",
+    "from": "Youth Soccer <coach@soccer.org>",
+    "body": "Travel team tryouts on Jul 28, 2025. Location: {field}. Bring cleats and water.",
+    "intent": "youth.sports.registration",
+    "generated": true
+  },
+  {
+    "subject": "Game This Saturday vs {opponent}",
+    "from": "Coach <coach@team.com>",
+    "body": "Jan 23, 2025 at 7:42 PM. Location: {field}. Arrive 30 min early for warmup.",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Updated Season Schedule",
+    "from": "League <schedule@league.org>",
+    "body": "Your team's schedule is ready. {numGames} games from {startDate} to {endDate}. View: https://app.co/view/857166",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Tournament Bracket Released",
+    "from": "Tournament <info@tournament.com>",
+    "body": "First game: Apr 23, 2025 vs {opponent}. Location: {venue}. Schedule: https://platform.io/return/341450",
+    "intent": "youth.sports.game.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Practice Today at 3:48 PM",
+    "from": "TeamSnap <noreply@teamsnap.com>",
+    "body": "Don't forget practice! 9:07 AM at {location}. Bring {equipment}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Practice Schedule Update",
+    "from": "Coach <coach@team.com>",
+    "body": "New practice times: {day1} & {day2} at 2:08 PM. Location unchanged: {field}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Rain Check: Practice Cancelled",
+    "from": "Coach <coach@team.com>",
+    "body": "Practice cancelled due to weather. Next practice: Apr 4, 2025.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Practice Today at 11:34 AM",
+    "from": "TeamSnap <noreply@teamsnap.com>",
+    "body": "Don't forget practice! 4:53 PM at {location}. Bring {equipment}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Practice Today at 7:02 PM",
+    "from": "TeamSnap <noreply@teamsnap.com>",
+    "body": "Don't forget practice! 10:36 AM at {location}. Bring {equipment}.",
+    "intent": "youth.sports.practice.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Team Roster Announced",
+    "from": "Coach <coach@team.com>",
+    "body": "Congratulations! You made the team. First practice: Sep 24, 2025. Jersey #: {number}.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Uniform Pickup This Week",
+    "from": "Team Mom <teammom@gmail.com>",
+    "body": "Pick up uniforms Dec 13, 2025 from 1:17 PM to 8:47 AM. Location: {address}. Size: {size}.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Important: Equipment Requirements",
+    "from": "Coach <coach@team.com>",
+    "body": "All players need: {equipment}. Recommended brands: {brands}. Questions? Reply here.",
+    "intent": "youth.sports.team.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Lab Results Ready to View",
+    "from": "LabCorp <results@labcorp.com>",
+    "body": "Your test results from Jan 22, 2025 are ready. View securely: https://service.net/order/605752",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Test Results Available",
+    "from": "Dr. Smith <office@drsmith.com>",
+    "body": "Your {testType} results are in. Everything looks normal. Details: https://platform.io/invoice/428731",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Imaging Results Posted",
+    "from": "Radiology <results@imaging.com>",
+    "body": "Your {scanType} results from Nov 15, 2025 are available in your patient portal.",
+    "intent": "healthcare.results.available",
+    "generated": true
+  },
+  {
+    "subject": "Superbill for Mar 6, 2025 Visit",
+    "from": "Practice <billing@practice.com>",
+    "body": "Submit this superbill to your insurance for reimbursement. Amount: $$885.21. Codes: {codes}. Download: https://platform.io/track/412807",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Patient Statement - $$310.25",
+    "from": "Medical Office <billing@office.com>",
+    "body": "Balance after insurance: $$395.58. Submit to secondary insurance or pay online: https://example.com/account/995708",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Out-of-Network Reimbursement",
+    "from": "Provider <billing@provider.com>",
+    "body": "Use this superbill for insurance reimbursement. Service: {service}. Date: Oct 22, 2025. CPT: {code}.",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Superbill for Mar 20, 2025 Visit",
+    "from": "Practice <billing@practice.com>",
+    "body": "Submit this superbill to your insurance for reimbursement. Amount: $$961.82. Codes: {codes}. Download: https://platform.io/invoice/509076",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Patient Statement - $$88.26",
+    "from": "Medical Office <billing@office.com>",
+    "body": "Balance after insurance: $$873.90. Submit to secondary insurance or pay online: https://service.net/view/705086",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Superbill for Feb 20, 2025 Visit",
+    "from": "Practice <billing@practice.com>",
+    "body": "Submit this superbill to your insurance for reimbursement. Amount: $$758.44. Codes: {codes}. Download: https://platform.io/checkout/294751",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Patient Statement - $$751.54",
+    "from": "Medical Office <billing@office.com>",
+    "body": "Balance after insurance: $$580.81. Submit to secondary insurance or pay online: https://example.com/view/246264",
+    "intent": "healthcare.billing.superbill",
+    "generated": true
+  },
+  {
+    "subject": "Appointment Cancelled - Feb 9, 2025",
+    "from": "Dr. Office <scheduler@office.com>",
+    "body": "Your appointment on Apr 8, 2025 has been cancelled by the provider. Reschedule: https://platform.io/checkout/539096",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Rescheduling Required",
+    "from": "Clinic <appointments@clinic.com>",
+    "body": "We need to reschedule your Dec 3, 2025 appointment. Available dates: {options}. Call: (237) 683-7415",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Appointment No Longer Available",
+    "from": "Health Center <scheduling@health.com>",
+    "body": "Unfortunately we must cancel your May 4, 2025 visit. Please book a new time: https://service.net/details/607736",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Appointment Cancelled - Mar 18, 2025",
+    "from": "Dr. Office <scheduler@office.com>",
+    "body": "Your appointment on Oct 19, 2025 has been cancelled by the provider. Reschedule: https://example.com/view/140209",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Appointment Cancelled - Jul 25, 2025",
+    "from": "Dr. Office <scheduler@office.com>",
+    "body": "Your appointment on Apr 24, 2025 has been cancelled by the provider. Reschedule: https://platform.io/schedule/406664",
+    "intent": "healthcare.appointment.cancellation",
+    "generated": true
+  },
+  {
+    "subject": "Referral to {specialist}",
+    "from": "Dr. Smith <referrals@practice.com>",
+    "body": "I'm referring you to {specialistName} for {reason}. Contact them to schedule: (827) 448-4061",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "Specialist Referral Submitted",
+    "from": "Medical Office <referrals@office.com>",
+    "body": "Referral to {specialty} has been sent. They'll contact you within 3-5 days.",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "See a Cardiologist",
+    "from": "Provider <care@provider.com>",
+    "body": "Based on your results, I recommend seeing a cardiologist. Here's a referral: {details}",
+    "intent": "healthcare.referral.request",
+    "generated": true
+  },
+  {
+    "subject": "Claim Processed - EOB Available",
+    "from": "Insurance <claims@insurance.com>",
+    "body": "Your claim for Apr 1, 2025 visit has been processed. You owe: $$783.16. View EOB: https://service.net/account/796838",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Insurance Claim #{claimNum}",
+    "from": "Aetna <eob@aetna.com>",
+    "body": "Claim status: {status}. Amount covered: ${covered}. Your responsibility: ${owe}. Details: https://app.co/return/193860",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Explanation of Benefits",
+    "from": "Insurance Co <claims@insco.com>",
+    "body": "EOB for {provider} visit. Charged: ${charged}. Allowed: ${allowed}. You pay: ${owe}.",
+    "intent": "healthcare.insurance.claim",
+    "generated": true
+  },
+  {
+    "subject": "Lab Order for {testType}",
+    "from": "Quest <orders@questdiagnostics.com>",
+    "body": "Your provider ordered {testType}. No appointment needed. Visit any Quest location. Order #: {orderNum}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Imaging Scheduled: {scanType}",
+    "from": "Radiology <scheduling@radiology.com>",
+    "body": "{scanType} scheduled for Dec 7, 2025 at 8:04 PM. Preparation instructions: https://platform.io/invoice/880049",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Blood Draw Tomorrow",
+    "from": "LabCorp <appointments@labcorp.com>",
+    "body": "Fasting blood work at 5:12 PM. Don't eat after midnight. Location: {address}",
+    "intent": "healthcare.test.order",
+    "generated": true
+  },
+  {
+    "subject": "Hotel Reservation Confirmed",
+    "from": "Marriott <reservations@marriott.com>",
+    "body": "Check-in: {checkin}. Check-out: {checkout}. Confirmation: {code}. See you soon!",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Flight Booked: {route}",
+    "from": "United <confirmations@united.com>",
+    "body": "Confirmation: {code}. Flight {flightNum} on Jan 21, 2025. Manage booking: https://app.co/view/213651",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Car Rental Confirmation",
+    "from": "Hertz <reservations@hertz.com>",
+    "body": "Pickup: Jul 11, 2025 at {location}. Vehicle: {vehicle}. Confirmation: {code}.",
+    "intent": "travel.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "You left something in your cart",
+    "from": "Store <cart@store.com>",
+    "body": "Still interested in {item}? Complete your purchase: https://example.com/invoice/748950. Free shipping today!",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "Don't forget these items!",
+    "from": "Shop <abandoned@shop.com>",
+    "body": "Your cart expires soon. {numItems} items waiting. Checkout now: https://service.net/details/457532",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "Your cart is waiting",
+    "from": "Brand <marketing@brand.com>",
+    "body": "{item} is still available! Use code SAVE10 for 10% off. Shop now: https://app.co/return/231152",
+    "intent": "marketing.cart.abandonment",
+    "generated": true
+  },
+  {
+    "subject": "You earned {points} points!",
+    "from": "Rewards <loyalty@brand.com>",
+    "body": "Total points: {totalPoints}. Redeem for ${value} off your next purchase.",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Exclusive Reward: $$406.65 Off",
+    "from": "VIP Program <vip@store.com>",
+    "body": "Thanks for being a member! Here's $$405.86 off your next order. Code: {code}",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Your points expire soon",
+    "from": "Loyalty <rewards@shop.com>",
+    "body": "{points} points expiring Feb 18, 2025. Use them before you lose them! Shop: https://app.co/order/729246",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Exclusive Reward: $$589.85 Off",
+    "from": "VIP Program <vip@store.com>",
+    "body": "Thanks for being a member! Here's $$418.49 off your next order. Code: {code}",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Exclusive Reward: $$254.98 Off",
+    "from": "VIP Program <vip@store.com>",
+    "body": "Thanks for being a member! Here's $$939.51 off your next order. Code: {code}",
+    "intent": "marketing.loyalty.reward",
+    "generated": true
+  },
+  {
+    "subject": "Exciting News from {brand}!",
+    "from": "Brand <news@brand.com>",
+    "body": "We're thrilled to announce {announcement}! Learn more: https://app.co/track/674278",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Big changes coming to {product}",
+    "from": "Company <updates@company.com>",
+    "body": "We've been working on something special: {feature}. Coming Jul 28, 2025!",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Introducing: {newProduct}",
+    "from": "Brand <launch@brand.com>",
+    "body": "Meet {newProduct}, our latest innovation. Pre-order now: https://service.net/payment/144872",
+    "intent": "marketing.brand.announcement",
+    "generated": true
+  },
+  {
+    "subject": "New Arrivals: Fall Collection",
+    "from": "Fashion <shop@fashion.com>",
+    "body": "Fresh styles just dropped! Shop coats, sweaters, and boots. View collection: https://service.net/payment/748701",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Just Launched: {collectionName}",
+    "from": "Store <new@store.com>",
+    "body": "Our latest collection is here. Explore {numItems} new pieces: https://app.co/confirm/828377",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Now Available: {productLine}",
+    "from": "Brand <arrivals@brand.com>",
+    "body": "The wait is over! Shop the new {productLine} collection: https://app.co/details/337437",
+    "intent": "marketing.collection.new-arrivals",
+    "generated": true
+  },
+  {
+    "subject": "Fall Favorites Are Here",
+    "from": "Pottery Barn <fall@potterybarn.com>",
+    "body": "Cozy up with autumn decor, warm blankets, and seasonal scents. Shop fall: https://service.net/view/921445",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Holiday Gift Guide 2025",
+    "from": "Store <gifts@store.com>",
+    "body": "Find the perfect gift for everyone on your list. Browse our curated guide: https://app.co/details/727244",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Spring Refresh Sale",
+    "from": "Home Goods <spring@homegoods.com>",
+    "body": "New season, new look. Save on furniture, bedding, and decor. Shop: https://service.net/order/129761",
+    "intent": "marketing.seasonal.campaign",
+    "generated": true
+  },
+  {
+    "subject": "Meet the Makers",
+    "from": "Artisan Co <story@artisan.com>",
+    "body": "Go behind the scenes with our craftspeople. See how we make {product}: https://service.net/schedule/401760",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "Our Heritage: Since 1952",
+    "from": "Legacy Brand <heritage@brand.com>",
+    "body": "For 70 years, we've been crafting {product}. Read our story: https://app.co/payment/665705",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "The Story Behind {product}",
+    "from": "Brand <about@brand.com>",
+    "body": "Discover how {product} went from concept to creation. Watch the film: https://platform.io/invoice/951539",
+    "intent": "marketing.brand.storytelling",
+    "generated": true
+  },
+  {
+    "subject": "10 Ways to Style {item}",
+    "from": "Fashion Tips <style@fashion.com>",
+    "body": "Get the most out of your {item} with these styling ideas. Read more: https://app.co/order/940995",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Holiday Entertaining Guide",
+    "from": "Martha Stewart <living@marthastewart.com>",
+    "body": "Host the perfect gathering with these recipes, decor ideas, and tips: https://example.com/schedule/645435",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Design Trend: {trendName}",
+    "from": "Interior Design <ideas@design.com>",
+    "body": "{trendName} is everywhere this season. How to incorporate it at home: https://example.com/track/891181",
+    "intent": "marketing.content.lifestyle",
+    "generated": true
+  },
+  {
+    "subject": "Bestsellers: What Everyone's Buying",
+    "from": "Store <trending@store.com>",
+    "body": "Our top 10 items this week. See what's popular: https://service.net/order/714012",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Hot Right Now: {product}",
+    "from": "Shop <popular@shop.com>",
+    "body": "{product} is flying off the shelves! Get yours before they're gone: https://app.co/view/483121",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Customer Favorites",
+    "from": "Reviews <top@store.com>",
+    "body": "Highest-rated products this month: {list}. Shop fan favorites: https://platform.io/invoice/632905",
+    "intent": "marketing.trending",
+    "generated": true
+  },
+  {
+    "subject": "Support Ticket Created: #{ticketNum}",
+    "from": "Support <help@company.com>",
+    "body": "We received your request about {issue}. Ticket #{ticketNum}. We'll respond within 24 hours.",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Case #{caseNum} Opened",
+    "from": "Customer Service <support@service.com>",
+    "body": "Your case regarding {issue} has been created. Reference: #{caseNum}. Status: https://platform.io/order/508987",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Help is on the way!",
+    "from": "Help Desk <helpdesk@company.com>",
+    "body": "Ticket #861-6482161-6261014 is assigned to {agent}. You'll hear from us soon. View status: https://example.com/schedule/210050",
+    "intent": "support.ticket.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Register to Vote by {deadline}",
+    "from": "Elections <elections@gov>",
+    "body": "Deadline to register for {election}: {deadline}. Register online: https://example.com/details/538718",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Voter Registration Deadline Approaching",
+    "from": "State <voter@state.gov>",
+    "body": "{days} days left to register for {electionDate} election. Check status: https://service.net/view/508010",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Update Your Voter Registration",
+    "from": "County Clerk <clerk@county.gov>",
+    "body": "Moved? Update your registration by {deadline}. Update: https://platform.io/details/443616",
+    "intent": "civic.voting.registration",
+    "generated": true
+  },
+  {
+    "subject": "Driver License Renewal Notice",
+    "from": "DMV <dmv@state.gov>",
+    "body": "Your license expires Sep 4, 2025. Renew online: https://example.com/account/427491. Fee: ${fee}.",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Time to Renew Your License",
+    "from": "Motor Vehicles <renewal@dmv.gov>",
+    "body": "License #{licenseNum} expires in 60 days. Renew early to avoid wait: https://example.com/checkout/159721",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "REAL ID Upgrade Available",
+    "from": "DMV <realid@dmv.gov>",
+    "body": "Upgrade to REAL ID when you renew. Required for air travel starting Feb 25, 2025. Details: https://service.net/checkout/157364",
+    "intent": "civic.license.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Property Tax Bill - {year}",
+    "from": "Tax Assessor <taxes@county.gov>",
+    "body": "Annual property tax: $$400.74. Due: Jul 6, 2025. Property: {address}. Pay: https://example.com/account/243442",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Assessment Notice: {address}",
+    "from": "County Assessor <assessor@county.gov>",
+    "body": "Assessed value: ${value}. Tax amount: ${tax}. Appeal deadline: {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Tax Payment Due Jun 28, 2025",
+    "from": "Tax Collector <collector@city.gov>",
+    "body": "Property tax payment due. Amount: $$918.71. Pay online or mail by {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Tax Payment Due Jun 23, 2025",
+    "from": "Tax Collector <collector@city.gov>",
+    "body": "Property tax payment due. Amount: $$862.55. Pay online or mail by {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Tax Payment Due Oct 4, 2025",
+    "from": "Tax Collector <collector@city.gov>",
+    "body": "Property tax payment due. Amount: $$905.26. Pay online or mail by {deadline}.",
+    "intent": "civic.tax.assessment",
+    "generated": true
+  },
+  {
+    "subject": "Building Permit Application Received",
+    "from": "Building Dept <permits@city.gov>",
+    "body": "Application #{appNum} received. Processing time: {timeframe}. Status: https://service.net/details/545074",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Permit Approved - #{permitNum}",
+    "from": "Permits <permits@county.gov>",
+    "body": "Your {permitType} permit is approved! Pick up at {location}. Expires: {expiry}.",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Additional Info Required for Permit",
+    "from": "Building Office <building@city.gov>",
+    "body": "We need {documents} to process your permit application. Submit by {deadline}: https://service.net/schedule/906155",
+    "intent": "civic.permit.application",
+    "generated": true
+  },
+  {
+    "subject": "Court Appearance Required - May 24, 2025",
+    "from": "Court <clerk@court.gov>",
+    "body": "Case #{caseNum}. Appear: Oct 9, 2025 at 9:56 AM. Location: {courthouse}. Courtroom: {room}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Hearing Scheduled - Case #{caseNum}",
+    "from": "Court Clerk <notices@court.gov>",
+    "body": "Your hearing is scheduled for Apr 19, 2025. Bring: {documents}. Address: {address}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Jury Duty Summons",
+    "from": "Court Administration <jury@court.gov>",
+    "body": "Report for jury selection Jul 24, 2025 at 2:39 PM. Juror #{jurorNum}. Details: https://service.net/payment/230909",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Court Appearance Required - Oct 5, 2025",
+    "from": "Court <clerk@court.gov>",
+    "body": "Case #{caseNum}. Appear: Apr 17, 2025 at 3:47 PM. Location: {courthouse}. Courtroom: {room}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Court Appearance Required - Apr 14, 2025",
+    "from": "Court <clerk@court.gov>",
+    "body": "Case #{caseNum}. Appear: May 23, 2025 at 5:45 PM. Location: {courthouse}. Courtroom: {room}.",
+    "intent": "civic.court.notice",
+    "generated": true
+  },
+  {
+    "subject": "Re: Project Update",
+    "from": "John <john@company.com>",
+    "body": "Thanks for the update! Let's discuss tomorrow.\n\nOn Oct 28, 2025, Mary wrote:\n> Here's the latest status...",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Fwd: Meeting Notes",
+    "from": "Sarah <sarah@company.com>",
+    "body": "---------- Forwarded message ---------\nFrom: Team\nDate: Oct 28\nSubject: Meeting Notes\n\nHere are the notes from today's meeting...",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Re: Interview Availability",
+    "from": "Recruiter <hr@company.com>",
+    "body": "Great! I've sent a calendar invite.\n\n> I'm available Thursday at 2pm.",
+    "intent": "communication.thread.reply",
+    "generated": true
+  },
+  {
+    "subject": "Intro: John meet Sarah",
+    "from": "Connector <connector@company.com>",
+    "body": "Hi both,\n\nI'd like to introduce John and Sarah. You're both working on {topic} and should connect!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Introduction to Morgan Smith",
+    "from": "Friend <friend@email.com>",
+    "body": "I'd like to introduce you to Drew Miller, who works on {topic}. I think you two should chat!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "{name1}, meet {name2}",
+    "from": "Mutual Friend <friend@email.com>",
+    "body": "Connecting you both - you're working on similar projects and should definitely talk!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Introduction to Alex Miller",
+    "from": "Friend <friend@email.com>",
+    "body": "I'd like to introduce you to Riley Williams, who works on {topic}. I think you two should chat!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Introduction to Sam Martinez",
+    "from": "Friend <friend@email.com>",
+    "body": "I'd like to introduce you to Taylor Johnson, who works on {topic}. I think you two should chat!",
+    "intent": "communication.introduction",
+    "generated": true
+  },
+  {
+    "subject": "Quick question about {topic}",
+    "from": "Colleague <colleague@company.com>",
+    "body": "Hi! I'm working on {project} and wondered if you have insights on {topic}?",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Following up on our conversation",
+    "from": "Contact <contact@company.com>",
+    "body": "Great chatting yesterday! Would you be interested in {opportunity}?",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Interested in discussing {topic}",
+    "from": "Professional <pro@company.com>",
+    "body": "I saw your work on {project}. I'd love to learn more about your approach to {topic}.",
+    "intent": "communication.professional.inquiry",
+    "generated": true
+  },
+  {
+    "subject": "Interview Request - {position}",
+    "from": "Hiring Manager <hiring@company.com>",
+    "body": "We'd love to interview you for {position}. Are you available Apr 23, 2025 or {date2}? Video call via Zoom.",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - TechCorp",
+    "from": "Recruiter <recruiter@company.com>",
+    "body": "Congratulations! We'd like to schedule a phone screen. When are you available this week?",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Schedule Interview: {position}",
+    "from": "HR <hr@company.com>",
+    "body": "Please book your interview with {interviewer} using this Calendly link: https://app.co/payment/923185",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - NetServices",
+    "from": "Recruiter <recruiter@company.com>",
+    "body": "Congratulations! We'd like to schedule a phone screen. When are you available this week?",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - InfoTech",
+    "from": "Recruiter <recruiter@company.com>",
+    "body": "Congratulations! We'd like to schedule a phone screen. When are you available this week?",
+    "intent": "career.interview.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Offer Letter - {position} at InnovateLabs",
+    "from": "HR <offers@company.com>",
+    "body": "Congratulations! We're pleased to offer you {position}. Salary: ${salary}. Start: {startDate}. Review offer: https://service.net/return/588662",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to the Team!",
+    "from": "Hiring Manager <manager@company.com>",
+    "body": "Official offer attached. Base: ${salary} + ${bonus} bonus + equity. Accept by {deadline}.",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Job Offer: {position}",
+    "from": "Company <careers@company.com>",
+    "body": "We're excited to extend an offer! Package details attached. Questions? Let's chat.",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Offer Letter - {position} at NetServices",
+    "from": "HR <offers@company.com>",
+    "body": "Congratulations! We're pleased to offer you {position}. Salary: ${salary}. Start: {startDate}. Review offer: https://platform.io/track/738948",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "Offer Letter - {position} at InfoTech",
+    "from": "HR <offers@company.com>",
+    "body": "Congratulations! We're pleased to offer you {position}. Salary: ${salary}. Start: {startDate}. Review offer: https://platform.io/invoice/784044",
+    "intent": "career.job.offer",
+    "generated": true
+  },
+  {
+    "subject": "{position} opportunity at CloudWorks",
+    "from": "Recruiter <recruiter@agency.com>",
+    "body": "Your background looks great for a {position} role I'm filling. Interested in learning more?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Are you open to new opportunities?",
+    "from": "Talent Scout <talent@company.com>",
+    "body": "I found your profile on LinkedIn. We're hiring for {position}. {salary} range. Chat?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Great fit: {position} at WebDynamics",
+    "from": "Headhunter <jobs@headhunter.com>",
+    "body": "SmartSolutions is looking for a {position}. Based on your experience with {skill}, you'd be perfect!",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "{position} opportunity at SmartSolutions",
+    "from": "Recruiter <recruiter@agency.com>",
+    "body": "Your background looks great for a {position} role I'm filling. Interested in learning more?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Great fit: {position} at SmartSolutions",
+    "from": "Headhunter <jobs@headhunter.com>",
+    "body": "NetServices is looking for a {position}. Based on your experience with {skill}, you'd be perfect!",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "{position} opportunity at DataSystems",
+    "from": "Recruiter <recruiter@agency.com>",
+    "body": "Your background looks great for a {position} role I'm filling. Interested in learning more?",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Great fit: {position} at TechCorp",
+    "from": "Headhunter <jobs@headhunter.com>",
+    "body": "SmartSolutions is looking for a {position}. Based on your experience with {skill}, you'd be perfect!",
+    "intent": "career.recruiter.outreach",
+    "generated": true
+  },
+  {
+    "subject": "Application Received - {position}",
+    "from": "Careers <careers@company.com>",
+    "body": "Thank you for applying! We'll review your application and get back to you within 2 weeks.",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Update on your {position} application",
+    "from": "HR <recruiting@company.com>",
+    "body": "Your application is under review. We're excited about your background and will be in touch soon!",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Next Steps - {position}",
+    "from": "Recruiting <recruiting@company.com>",
+    "body": "We'd like to move forward with your application. Expect to hear from us by Oct 1, 2025.",
+    "intent": "career.application.status",
+    "generated": true
+  },
+  {
+    "subject": "Update on your application",
+    "from": "HR <recruiting@company.com>",
+    "body": "Thank you for your interest in {position}. Unfortunately, we've decided to move forward with other candidates.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Re: {position} at FutureWare",
+    "from": "Hiring Team <careers@company.com>",
+    "body": "We appreciate the time you invested in our process. While you won't be moving forward for this role, we'll keep your resume on file.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Re: {position} at WebDynamics",
+    "from": "Hiring Team <careers@company.com>",
+    "body": "We appreciate the time you invested in our process. While you won't be moving forward for this role, we'll keep your resume on file.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Re: {position} at InnovateLabs",
+    "from": "Hiring Team <careers@company.com>",
+    "body": "We appreciate the time you invested in our process. While you won't be moving forward for this role, we'll keep your resume on file.",
+    "intent": "career.rejection.notice",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to FutureWare! First Day: Oct 27, 2025",
+    "from": "HR <onboarding@company.com>",
+    "body": "We're excited for your first day! Arrive at 8:58 PM. Parking info: {parking}. Bring: {documents}.",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Boarding Checklist",
+    "from": "People Ops <people@company.com>",
+    "body": "Before {startDate}, please complete: I-9 form, direct deposit, benefits enrollment. Portal: https://example.com/track/565990",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Your First Week at DigitalFirst",
+    "from": "Manager <manager@company.com>",
+    "body": "Looking forward to Monday! Here's what to expect your first week: {schedule}",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to FutureWare! First Day: Jun 20, 2025",
+    "from": "HR <onboarding@company.com>",
+    "body": "We're excited for your first day! Arrive at 8:19 AM. Parking info: {parking}. Bring: {documents}.",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Your First Week at WebDynamics",
+    "from": "Manager <manager@company.com>",
+    "body": "Looking forward to Monday! Here's what to expect your first week: {schedule}",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Welcome to DigitalFirst! First Day: Aug 14, 2025",
+    "from": "HR <onboarding@company.com>",
+    "body": "We're excited for your first day! Arrive at 6:42 PM. Parking info: {parking}. Bring: {documents}.",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Your First Week at InnovateLabs",
+    "from": "Manager <manager@company.com>",
+    "body": "Looking forward to Monday! Here's what to expect your first week: {schedule}",
+    "intent": "career.onboarding",
+    "generated": true
+  },
+  {
+    "subject": "Mediation Session THIS THURSDAY 9/19",
+    "from": "Attorney <attorney@lawfirm.com>",
+    "body": "Mediation at {location}. Time: 11:21 AM. Bring: {documents}. Case: {case}",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Contract Review Required",
+    "from": "Legal Counsel <legal@lawfirm.com>",
+    "body": "Please review and sign the attached agreement by {deadline}. Questions? Call (321) 686-7091",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Legal Matter Update",
+    "from": "Law Office <info@lawoffice.com>",
+    "body": "Update on case #{caseNum}: {update}. Next court date: Nov 3, 2025.",
+    "intent": "legal.document",
+    "generated": true
+  },
+  {
+    "subject": "Home Inspection Scheduled - {address}",
+    "from": "Inspector <inspector@homeinspection.com>",
+    "body": "Inspection date: Feb 3, 2025 at 9:28 AM. Duration: 2-3 hours. Report within 24 hours.",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Listing Photos Complete",
+    "from": "Agent <agent@realty.com>",
+    "body": "Professional photos of {address} are ready! View and approve: https://service.net/details/972213",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "Open House This Sunday",
+    "from": "Realtor <realtor@realty.com>",
+    "body": "{address} open house: Sunday 7:10 PM. Excellent turnout expected!",
+    "intent": "real-estate.service",
+    "generated": true
+  },
+  {
+    "subject": "John mentioned you in a post",
+    "from": "LinkedIn <notifications@linkedin.com>",
+    "body": "John Smith mentioned you in a post about {topic}. View: https://platform.io/confirm/776662",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "New message from Sarah",
+    "from": "Discord <noreply@discord.com>",
+    "body": "Sarah sent you a message in #{channel}: \"{preview}\"",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "You were tagged in a post",
+    "from": "Facebook <notification@facebook.com>",
+    "body": "{friend} tagged you in a photo. View: https://service.net/details/436751",
+    "intent": "social.notification",
+    "generated": true
+  },
+  {
+    "subject": "Verify your Roblox account: {username}",
+    "from": "Roblox <no-reply@roblox.com>",
+    "body": "Click to verify your email and secure your account: https://example.com/schedule/287614. Code: {code}",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Confirm your email address",
+    "from": "Platform <verify@platform.com>",
+    "body": "Verification required to activate your account. Link expires in 24 hours: https://platform.io/confirm/738935",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Complete your signup",
+    "from": "Service <signup@service.com>",
+    "body": "Last step! Verify your email to unlock all features: https://app.co/details/546156",
+    "intent": "social.verification",
+    "generated": true
+  },
+  {
+    "subject": "Sam Davis invited you to join {workspace}",
+    "from": "Slack <invitations@slack.com>",
+    "body": "Join the {workspace} Slack workspace. Accept invitation: https://example.com/view/776562",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Team invitation: {team}",
+    "from": "Platform <invites@platform.com>",
+    "body": "You've been invited to collaborate on {project}. Join now: https://service.net/account/139879",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Workspace invitation from Sam Jones",
+    "from": "Notion <invitations@notion.so>",
+    "body": "Riley Davis wants you to join their workspace. Get started: https://example.com/details/313949",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Drew Brown invited you to join {workspace}",
+    "from": "Slack <invitations@slack.com>",
+    "body": "Join the {workspace} Slack workspace. Accept invitation: https://platform.io/invoice/119096",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Workspace invitation from Drew Jones",
+    "from": "Notion <invitations@notion.so>",
+    "body": "Drew Jones wants you to join their workspace. Get started: https://app.co/return/254113",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Sam Miller invited you to join {workspace}",
+    "from": "Slack <invitations@slack.com>",
+    "body": "Join the {workspace} Slack workspace. Accept invitation: https://platform.io/view/575882",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Workspace invitation from Sam Williams",
+    "from": "Notion <invitations@notion.so>",
+    "body": "Alex Davis wants you to join their workspace. Get started: https://app.co/payment/892651",
+    "intent": "social.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Grooming Appointment Reminder: {pet}",
+    "from": "Pet Spa <appointments@petspa.com>",
+    "body": "{pet}'s grooming appointment is tomorrow at 3:59 PM. Services: {services}",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Nail Trim Special - $15",
+    "from": "Groomer <info@petgrooming.com>",
+    "body": "Book a nail trim this week for just $15! Regular price $25. Call: (299) 247-5422",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Time for {pet}'s Grooming?",
+    "from": "Pet Care <reminders@petcare.com>",
+    "body": "It's been {weeks} weeks since {pet}'s last grooming. Schedule now: https://example.com/invoice/930583",
+    "intent": "pets.service.grooming",
+    "generated": true
+  },
+  {
+    "subject": "Winter Pet Safety Tips",
+    "from": "ASPCA <tips@aspca.org>",
+    "body": "Keep your pets safe this winter: {tips}. Learn more: https://platform.io/details/428641",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Is Your Dog Getting Enough Exercise?",
+    "from": "Pet MD <health@petmd.com>",
+    "body": "Learn how much exercise your {breed} needs and fun ways to stay active together.",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "Pet Nutrition Guide",
+    "from": "Vet <newsletter@vet.com>",
+    "body": "What should you really be feeding your pet? Expert advice inside: https://app.co/invoice/926515",
+    "intent": "pets.content.tips",
+    "generated": true
+  },
+  {
+    "subject": "This Week in Gaming",
+    "from": "GameSpot <newsletter@gamespot.com>",
+    "body": "New releases: {game1}, {game2}. Reviews, news, and deals inside.",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "PlayStation Store Sale",
+    "from": "PlayStation <news@playstation.com>",
+    "body": "Up to 75% off select titles this weekend! Highlights: {games}",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "Game Pass: New Additions",
+    "from": "Xbox <gamepass@xbox.com>",
+    "body": "New games on Game Pass this month: {list}. Download now!",
+    "intent": "content.newsletter.gaming",
+    "generated": true
+  },
+  {
+    "subject": "NBA Trade Deadline Recap",
+    "from": "ESPN <nba@espn.com>",
+    "body": "Biggest moves and analysis from today's trades. Winners and losers: {analysis}",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "Your Fantasy Football Weekly",
+    "from": "Yahoo Sports <fantasy@yahoo.com>",
+    "body": "Week {week} Start/Sit recommendations: {picks}. Waiver wire targets: {players}",
+    "intent": "content.newsletter.sports",
+    "generated": true
+  },
+  {
+    "subject": "What to Watch This Week",
+    "from": "Netflix <info@netflix.com>",
+    "body": "New releases: {show1}, {show2}, {movie1}. Trending now: {trending}",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "This Week's Top Entertainment News",
+    "from": "EW <newsletter@ew.com>",
+    "body": "Box office results, celebrity news, reviews, and more. Read: https://platform.io/checkout/246199",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "HBO Max: New This Month",
+    "from": "HBO <max@hbomax.com>",
+    "body": "Coming in {month}: {shows}. Plus: {movies}. Watch now.",
+    "intent": "content.newsletter.entertainment",
+    "generated": true
+  },
+  {
+    "subject": "Career Opportunities at InnovateLabs",
+    "from": "Glassdoor <jobs@glassdoor.com>",
+    "body": "FutureWare is hiring! {numJobs} open roles including: {roles}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "Career Opportunities at TechCorp",
+    "from": "Glassdoor <jobs@glassdoor.com>",
+    "body": "SmartSolutions is hiring! {numJobs} open roles including: {roles}",
+    "intent": "content.newsletter.career",
+    "generated": true
+  },
+  {
+    "subject": "Order Confirmed: #394-8463028-1749201",
+    "from": "Amazon <orders@amazon.com>",
+    "body": "Thank you for your order! Order number: #394-8463028-1749201. Total: $142.99. Estimated delivery: Dec 18, 2025. Track your order: https://amazon.com/track",
+    "intent": "e-commerce.order.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Your Target Order is Confirmed",
+    "from": "Target <orders@target.com>",
+    "body": "We've got your order! Order #284-9201847-5639102. You'll receive it by Nov 22, 2025. View order details: https://target.com/orders",
+    "intent": "e-commerce.order.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Thanks for your Shopify order!",
+    "from": "Store <shop@shopify.com>",
+    "body": "Order confirmed! Number: #SO-4729. Total: $89.50. We're processing your order and will ship soon.",
+    "intent": "e-commerce.order.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Order Placed Successfully",
+    "from": "Walmart <orders@walmart.com>",
+    "body": "Your order has been placed. Order ID: WM-739204. Arriving Dec 5, 2025. Total: $67.24.",
+    "intent": "e-commerce.order.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Your Order is Delayed",
+    "from": "Amazon <shipping@amazon.com>",
+    "body": "We're sorry - order #482-7362049-9284731 is delayed due to weather. New estimated delivery: Jan 8, 2026.",
+    "intent": "e-commerce.order.delayed",
+    "generated": true
+  },
+  {
+    "subject": "Shipping Update: Running Late",
+    "from": "FedEx <updates@fedex.com>",
+    "body": "Your package is experiencing a delay due to transportation issues. New delivery date: Dec 28, 2025. Tracking: 847293674920",
+    "intent": "e-commerce.order.delayed",
+    "generated": true
+  },
+  {
+    "subject": "Delivery Delayed - Order #629-8374920-5738201",
+    "from": "UPS <delivery@ups.com>",
+    "body": "Your shipment is delayed. Original date: Dec 15. New date: Dec 19, 2025. We apologize for the inconvenience.",
+    "intent": "e-commerce.order.delayed",
+    "generated": true
+  },
+  {
+    "subject": "Receipt for Order #738-2947301-8462910",
+    "from": "Amazon <receipts@amazon.com>",
+    "body": "Your receipt for order #738-2947301-8462910. Items: Wireless Mouse ($24.99), USB Cable ($8.99). Total: $33.98. Payment received.",
+    "intent": "e-commerce.order.receipt",
+    "generated": true
+  },
+  {
+    "subject": "Payment Receipt - Invoice #INV-48392",
+    "from": "Shopify <billing@shopify.com>",
+    "body": "Payment received! Invoice #INV-48392. Amount: $156.75. Date: Nov 30, 2025. Download receipt: https://shop.com/receipt",
+    "intent": "e-commerce.order.receipt",
+    "generated": true
+  },
+  {
+    "subject": "Order Receipt #OR-84729",
+    "from": "Store <orders@store.com>",
+    "body": "Receipt for your purchase. Order: #OR-84729. Total: $245.60 (inc. tax). Items shipped to: 123 Main St.",
+    "intent": "e-commerce.order.receipt",
+    "generated": true
+  },
+  {
+    "subject": "Your Package Has Shipped!",
+    "from": "Amazon <shipping@amazon.com>",
+    "body": "Good news! Your order #629-8374920-5738201 has shipped. Track your package: https://amazon.com/track/TRK8472938. Arriving Dec 22, 2025.",
+    "intent": "e-commerce.shipping.notification",
+    "generated": true
+  },
+  {
+    "subject": "On Its Way: Order #284-9201847",
+    "from": "Target <shipping@target.com>",
+    "body": "Your order is on the way! Tracking number: 1Z9384729374. Carrier: UPS. Estimated delivery: Tomorrow by 8pm.",
+    "intent": "e-commerce.shipping.notification",
+    "generated": true
+  },
+  {
+    "subject": "Tracking Number: 847293674920",
+    "from": "FedEx <tracking@fedex.com>",
+    "body": "Your package is out for delivery today! Track here: https://fedex.com/track/847293674920. Be on the lookout!",
+    "intent": "e-commerce.shipping.notification",
+    "generated": true
+  },
+  {
+    "subject": "Package Arriving Today",
+    "from": "USPS <inform@usps.com>",
+    "body": "Your package will arrive today by 5pm. Tracking: 9400123456789. Track your shipment: https://usps.com/track",
+    "intent": "e-commerce.shipping.notification",
+    "generated": true
+  },
+  {
+    "subject": "Delivered: Your Amazon Package",
+    "from": "Amazon <delivery@amazon.com>",
+    "body": "Your package was delivered at 3:45 PM. Location: Front porch. Order #847-2937401-8392710.",
+    "intent": "e-commerce.delivery.completed",
+    "generated": true
+  },
+  {
+    "subject": "Package Delivered Successfully",
+    "from": "UPS <delivery@ups.com>",
+    "body": "Delivered! Your package arrived at 2:15 PM on Dec 15, 2025. Left at: Front door. Tracking: 1Z847293847.",
+    "intent": "e-commerce.delivery.completed",
+    "generated": true
+  },
+  {
+    "subject": "Delivery Confirmed",
+    "from": "FedEx <confirm@fedex.com>",
+    "body": "Package delivered to your address. Delivered: Dec 16, 2025 at 11:30 AM. Signature not required.",
+    "intent": "e-commerce.delivery.completed",
+    "generated": true
+  },
+  {
+    "subject": "Schedule Your Delivery",
+    "from": "Best Buy <delivery@bestbuy.com>",
+    "body": "Your large item is ready for delivery! Choose your delivery window: https://bestbuy.com/schedule. Order #BB-847293.",
+    "intent": "e-commerce.delivery.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Pick Your Delivery Time",
+    "from": "IKEA <delivery@ikea.com>",
+    "body": "Schedule your furniture delivery. Order #IK-9482736. Available slots: Dec 20-22. Book now: https://ikea.com/schedule",
+    "intent": "e-commerce.delivery.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Delivery Appointment Required",
+    "from": "Home Depot <delivery@homedepot.com>",
+    "body": "Your appliance delivery needs scheduling. Order #HD-739201. Choose a 4-hour window: https://homedepot.com/delivery",
+    "intent": "e-commerce.delivery.schedule",
+    "generated": true
+  },
+  {
+    "subject": "Price Drop Alert: Wireless Headphones",
+    "from": "Amazon <deals@amazon.com>",
+    "body": "The item on your wishlist dropped in price! Sony WH-1000XM4 now $248 (was $349). Save $101! https://amazon.com/deal",
+    "intent": "e-commerce.price.drop",
+    "generated": true
+  },
+  {
+    "subject": "Price Reduced: Item You're Watching",
+    "from": "eBay <alerts@ebay.com>",
+    "body": "Good news! The item you're watching is now $45.99 (was $67.50). Buy now before the sale ends!",
+    "intent": "e-commerce.price.drop",
+    "generated": true
+  },
+  {
+    "subject": "Save $50 on Your Wishlist Item",
+    "from": "Best Buy <savings@bestbuy.com>",
+    "body": "Price match alert! Samsung TV on your wishlist is now $799 (was $849). Shop now: https://bestbuy.com/deal",
+    "intent": "e-commerce.price.drop",
+    "generated": true
+  },
+  {
+    "subject": "Back in Stock: Item You Wanted",
+    "from": "Target <restock@target.com>",
+    "body": "Great news! The Nintendo Switch you wanted is back in stock. Order now before it sells out again: https://target.com/buy",
+    "intent": "e-commerce.restock.alert",
+    "generated": true
+  },
+  {
+    "subject": "Restock Alert: Available Now!",
+    "from": "Best Buy <alerts@bestbuy.com>",
+    "body": "PlayStation 5 is now available! Limited quantity. Order here: https://bestbuy.com/ps5. Don't wait!",
+    "intent": "e-commerce.restock.alert",
+    "generated": true
+  },
+  {
+    "subject": "Item Available Again",
+    "from": "Store <notify@store.com>",
+    "body": "The product you requested is back! Mechanical Keyboard - Cherry MX Blue. In stock now: https://store.com/product",
+    "intent": "e-commerce.restock.alert",
+    "generated": true
+  },
+  {
+    "subject": "Your Product Warranty Expires Soon",
+    "from": "AppleCare <support@apple.com>",
+    "body": "Your AppleCare+ warranty for iPhone 13 expires on Jan 15, 2026. Extend your coverage: https://apple.com/extend",
+    "intent": "e-commerce.warranty.expiring",
+    "generated": true
+  },
+  {
+    "subject": "Warranty Ending: Extend Your Protection",
+    "from": "Samsung <warranty@samsung.com>",
+    "body": "Your Samsung Galaxy warranty expires in 30 days. Keep your device protected: https://samsung.com/warranty",
+    "intent": "e-commerce.warranty.expiring",
+    "generated": true
+  },
+  {
+    "subject": "Protection Plan Expires Dec 20, 2025",
+    "from": "Best Buy <geeksquad@bestbuy.com>",
+    "body": "Your Geek Squad protection for Laptop expires soon. Renew now for continued coverage: https://bestbuy.com/renew",
+    "intent": "e-commerce.warranty.expiring",
+    "generated": true
+  },
+  {
+    "subject": "Invoice #INV-84729 Due",
+    "from": "Company <billing@company.com>",
+    "body": "Invoice #INV-84729 is due on Dec 25, 2025. Amount due: $1,250.00. Pay online: https://company.com/pay",
+    "intent": "billing.invoice.due",
+    "generated": true
+  },
+  {
+    "subject": "Payment Required: Invoice #847293",
+    "from": "Services <accounting@services.com>",
+    "body": "Your invoice is ready. Amount due: $875.50. Due date: Jan 5, 2026. Payment link: https://services.com/invoice/847293",
+    "intent": "billing.invoice.due",
+    "generated": true
+  },
+  {
+    "subject": "Amount Due: $2,340.00",
+    "from": "Vendor <billing@vendor.com>",
+    "body": "Invoice #2025-1234 is due by Dec 31, 2025. Total: $2,340.00. Please pay to avoid late fees.",
+    "intent": "billing.invoice.due",
+    "generated": true
+  },
+  {
+    "subject": "Payment Received - Thank You!",
+    "from": "Company <payments@company.com>",
+    "body": "We received your payment of $1,250.00 for invoice #INV-84729. Receipt: https://company.com/receipt/847293",
+    "intent": "billing.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Payment Confirmed: $875.50",
+    "from": "Services <billing@services.com>",
+    "body": "Your payment has been confirmed. Amount: $875.50. Invoice: #847293. Thank you for your business!",
+    "intent": "billing.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Receipt: Payment Processed",
+    "from": "Vendor <payments@vendor.com>",
+    "body": "Payment received on Dec 20, 2025. Amount: $2,340.00. Invoice #2025-1234 is now paid in full.",
+    "intent": "billing.payment.received",
+    "generated": true
+  },
+  {
+    "subject": "Your Subscription Renews Tomorrow",
+    "from": "Netflix <billing@netflix.com>",
+    "body": "Your Netflix subscription will automatically renew on Dec 21, 2025 for $15.99. Manage subscription: https://netflix.com/account",
+    "intent": "billing.subscription.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Subscription Renewal Notice",
+    "from": "Spotify <billing@spotify.com>",
+    "body": "Your Premium subscription renews on Jan 1, 2026. $9.99 will be charged to your payment method.",
+    "intent": "billing.subscription.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Update Payment Method",
+    "from": "Adobe <billing@adobe.com>",
+    "body": "We had trouble processing your subscription renewal. Please update your payment method: https://adobe.com/billing",
+    "intent": "billing.subscription.renewal",
+    "generated": true
+  },
+  {
+    "subject": "Your Statement is Ready",
+    "from": "Chase <statements@chase.com>",
+    "body": "Your November 2025 credit card statement is now available. View online: https://chase.com/statements",
+    "intent": "finance.statement.ready",
+    "generated": true
+  },
+  {
+    "subject": "Bank Statement Available",
+    "from": "Bank of America <statements@bankofamerica.com>",
+    "body": "Your checking account statement for Dec 2025 is ready to view. Download: https://bankofamerica.com/docs",
+    "intent": "finance.statement.ready",
+    "generated": true
+  },
+  {
+    "subject": "Monthly Statement Ready to View",
+    "from": "Citi <estatements@citi.com>",
+    "body": "Your Citi credit card statement (Account ending in 4829) is available. Closing balance: $1,234.56.",
+    "intent": "finance.statement.ready",
+    "generated": true
+  },
+  {
+    "subject": "Your Credit Score Updated",
+    "from": "Credit Karma <alerts@creditkarma.com>",
+    "body": "Your credit score changed! New score: 742 (up 15 points). View your report: https://creditkarma.com/score",
+    "intent": "finance.credit.alert",
+    "generated": true
+  },
+  {
+    "subject": "Credit Monitoring Alert",
+    "from": "Experian <monitoring@experian.com>",
+    "body": "Your credit score decreased by 8 points. New score: 688. See what changed: https://experian.com/report",
+    "intent": "finance.credit.alert",
+    "generated": true
+  },
+  {
+    "subject": "New Credit Inquiry Detected",
+    "from": "TransUnion <alerts@transunion.com>",
+    "body": "A hard inquiry was added to your credit report on Dec 15, 2025. Creditor: Chase Bank. View details: https://transunion.com",
+    "intent": "finance.credit.alert",
+    "generated": true
+  },
+  {
+    "subject": "Your 2024 1099 is Ready",
+    "from": "Vanguard <tax@vanguard.com>",
+    "body": "Your 2024 Form 1099-DIV is now available. Download: https://vanguard.com/tax-docs. Tax year: 2024.",
+    "intent": "finance.tax.document",
+    "generated": true
+  },
+  {
+    "subject": "W-2 Available for Download",
+    "from": "Payroll <payroll@company.com>",
+    "body": "Your 2024 W-2 is ready! Access your tax documents: https://company.com/w2. Remember to file by April 15.",
+    "intent": "finance.tax.document",
+    "generated": true
+  },
+  {
+    "subject": "Tax Form 1098 Available",
+    "from": "Mortgage Co <tax@mortgage.com>",
+    "body": "Your 2024 Form 1098 (Mortgage Interest Statement) is ready. Download: https://mortgage.com/tax-docs",
+    "intent": "finance.tax.document",
+    "generated": true
+  },
+  {
+    "subject": "Happy 2 Year Anniversary!",
+    "from": "Spotify <premium@spotify.com>",
+    "body": "You've been a Premium member for 2 years! Thanks for the support. Enjoy this playlist we made for you.",
+    "intent": "subscription.anniversary",
+    "generated": true
+  },
+  {
+    "subject": "Celebrating 1 Year with You!",
+    "from": "Netflix <membership@netflix.com>",
+    "body": "Thanks for 1 amazing year! You've watched 147 hours of content. Here's what to watch next.",
+    "intent": "subscription.anniversary",
+    "generated": true
+  },
+  {
+    "subject": "3 Years of Adobe Creative Cloud",
+    "from": "Adobe <membership@adobe.com>",
+    "body": "You've been creating with us for 3 years! As a thank you, here's a special offer on premium fonts.",
+    "intent": "subscription.anniversary",
+    "generated": true
+  },
+  {
+    "subject": "Upgrade to Premium - 50% Off!",
+    "from": "Spotify <offers@spotify.com>",
+    "body": "Unlock Premium features for just $4.99/month (regular $9.99). Offer expires Dec 31. Upgrade: https://spotify.com/upgrade",
+    "intent": "subscription.upgrade.offer",
+    "generated": true
+  },
+  {
+    "subject": "Special Offer: Go Pro",
+    "from": "Dropbox <upgrade@dropbox.com>",
+    "body": "Upgrade to Dropbox Pro and get 2TB storage for $9.99/month (40% off). Limited time offer!",
+    "intent": "subscription.upgrade.offer",
+    "generated": true
+  },
+  {
+    "subject": "Unlock Premium Features",
+    "from": "LinkedIn <premium@linkedin.com>",
+    "body": "Try LinkedIn Premium free for 1 month. See who's viewed your profile, send InMails, and more. Start trial: https://linkedin.com/premium",
+    "intent": "subscription.upgrade.offer",
+    "generated": true
+  },
+  {
+    "subject": "Reset Your Password",
+    "from": "Google <noreply@google.com>",
+    "body": "You requested a password reset. Click here to reset: https://accounts.google.com/reset. Link expires in 1 hour.",
+    "intent": "account.password.reset",
+    "generated": true
+  },
+  {
+    "subject": "Password Reset Request",
+    "from": "Facebook <security@facebook.com>",
+    "body": "We received a request to reset your password. Reset here: https://facebook.com/recover. If you didn't request this, ignore this email.",
+    "intent": "account.password.reset",
+    "generated": true
+  },
+  {
+    "subject": "Forgot Your Password?",
+    "from": "Amazon <account@amazon.com>",
+    "body": "Click to reset your Amazon password: https://amazon.com/password-reset. This link expires in 30 minutes.",
+    "intent": "account.password.reset",
+    "generated": true
+  },
+  {
+    "subject": "Security Alert: Unusual Activity",
+    "from": "Microsoft <security@microsoft.com>",
+    "body": "We detected unusual activity on your account. Someone tried to sign in from Russia. Secure your account: https://microsoft.com/security",
+    "intent": "account.security.alert",
+    "generated": true
+  },
+  {
+    "subject": "New Login from Unknown Location",
+    "from": "Apple <security@apple.com>",
+    "body": "Your Apple ID was used to sign in to iCloud on a new device in New York. If this wasn't you, secure your account now.",
+    "intent": "account.security.alert",
+    "generated": true
+  },
+  {
+    "subject": "Suspicious Activity Detected",
+    "from": "PayPal <security@paypal.com>",
+    "body": "We noticed a login attempt from an unrecognized device. Review activity: https://paypal.com/security",
+    "intent": "account.security.alert",
+    "generated": true
+  },
+  {
+    "subject": "Verify Your Email Address",
+    "from": "Shopify <verify@shopify.com>",
+    "body": "Please verify your email to complete registration. Click here: https://shopify.com/verify?token=abc123. Verification required to access your account.",
+    "intent": "account.verification.required",
+    "generated": true
+  },
+  {
+    "subject": "Confirm Your Account",
+    "from": "Stripe <verify@stripe.com>",
+    "body": "Verify your email address to activate your Stripe account: https://stripe.com/verify. This link expires in 24 hours.",
+    "intent": "account.verification.required",
+    "generated": true
+  },
+  {
+    "subject": "Email Verification Required",
+    "from": "GitHub <noreply@github.com>",
+    "body": "Please verify your email address to complete your GitHub account setup: https://github.com/verify",
+    "intent": "account.verification.required",
+    "generated": true
+  },
+  {
+    "subject": "Your Card Expires Soon",
+    "from": "Netflix <billing@netflix.com>",
+    "body": "The credit card ending in 4829 expires on 12/2025. Update your payment method to avoid service interruption: https://netflix.com/billing",
+    "intent": "account.payment.expiration",
+    "generated": true
+  },
+  {
+    "subject": "Update Payment Information",
+    "from": "Hulu <billing@hulu.com>",
+    "body": "Your card is about to expire. Update your payment method: https://hulu.com/account. Current card ends in 7392.",
+    "intent": "account.payment.expiration",
+    "generated": true
+  },
+  {
+    "subject": "Payment Method Expiring",
+    "from": "Amazon <payments@amazon.com>",
+    "body": "Your payment card ending in 5847 expires soon. Update it now to continue Prime: https://amazon.com/wallet",
+    "intent": "account.payment.expiration",
+    "generated": true
+  },
+  {
+    "subject": "Meeting Invitation: Q4 Planning",
+    "from": "Sarah Johnson <sarah@company.com>",
+    "body": "You're invited to Q4 Planning Meeting on Dec 20, 2025 at 2:00 PM PST. Join Zoom: https://zoom.us/j/847293847. See you there!",
+    "intent": "event.meeting.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Invitation: Team Sync",
+    "from": "John Smith <john@company.com>",
+    "body": "Let's sync on the project. Dec 22, 2025 at 10:00 AM. Calendar invite attached. Location: Conference Room B.",
+    "intent": "event.meeting.invitation",
+    "generated": true
+  },
+  {
+    "subject": "You're Invited: Product Review",
+    "from": "Manager <manager@company.com>",
+    "body": "Join us for Product Review on Jan 5, 2026 at 3:00 PM. Video call link: https://meet.google.com/abc-defg-hij",
+    "intent": "event.meeting.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Join Our Webinar: AI in 2026",
+    "from": "TechConf <events@techconf.com>",
+    "body": "Register for our free webinar on AI trends. Jan 10, 2026 at 1:00 PM EST. Sign up: https://techconf.com/webinar/ai2026",
+    "intent": "event.webinar.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Webinar Registration: Marketing Strategies",
+    "from": "HubSpot <webinars@hubspot.com>",
+    "body": "Don't miss our live webinar on Dec 28, 2025. Learn the latest marketing strategies. Register now: https://hubspot.com/webinar",
+    "intent": "event.webinar.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Free Online Event: Cloud Computing 101",
+    "from": "AWS <events@aws.com>",
+    "body": "Join our online event to learn about AWS. Jan 15, 2026 at 11:00 AM PST. Register: https://aws.amazon.com/events/cloud101",
+    "intent": "event.webinar.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Homework Due: Chapter 5 Questions",
+    "from": "Teacher <teacher@school.edu>",
+    "body": "Reminder: Math homework is due tomorrow, Dec 21, 2025. Complete Chapter 5 questions 1-20. Submit via Google Classroom.",
+    "intent": "education.assignment.due",
+    "generated": true
+  },
+  {
+    "subject": "Assignment Reminder: History Essay",
+    "from": "Ms. Anderson <anderson@school.edu>",
+    "body": "Your essay on the Civil War is due Dec 23, 2025. Minimum 500 words. Submit to Canvas by 11:59 PM.",
+    "intent": "education.assignment.due",
+    "generated": true
+  },
+  {
+    "subject": "Due Tomorrow: Science Lab Report",
+    "from": "Mr. Chen <chen@school.edu>",
+    "body": "Lab report for Experiment 3 is due tomorrow. Include your data tables and analysis. Upload to Schoology.",
+    "intent": "education.assignment.due",
+    "generated": true
+  },
+  {
+    "subject": "Grade Posted: Math Quiz #5",
+    "from": "Canvas <notifications@instructure.com>",
+    "body": "Ms. Johnson graded your Math Quiz #5. Score: 92/100. View feedback and correct answers in Canvas.",
+    "intent": "education.grade.posted",
+    "generated": true
+  },
+  {
+    "subject": "Your Essay Has Been Graded",
+    "from": "Teacher <teacher@school.edu>",
+    "body": "I've graded your History essay. Score: 87/100 (B+). Excellent analysis! View comments in Google Classroom.",
+    "intent": "education.grade.posted",
+    "generated": true
+  },
+  {
+    "subject": "Project Grade Available",
+    "from": "Schoology <noreply@schoology.com>",
+    "body": "Mr. Martinez posted your grade for Science Fair Project: 95/100 (A). Great work!",
+    "intent": "education.grade.posted",
+    "generated": true
+  },
+  {
+    "subject": "Permission Form: Field Trip",
+    "from": "School <office@school.edu>",
+    "body": "Please sign the permission form for the museum field trip on Jan 12, 2026. Form attached. Return by Dec 22.",
+    "intent": "education.permission.form",
+    "generated": true
+  },
+  {
+    "subject": "Consent Form Required: Science Camp",
+    "from": "Principal <principal@school.edu>",
+    "body": "Science camp is Feb 5-7, 2026. Your child needs a signed consent form. Download: https://school.edu/forms/camp",
+    "intent": "education.permission.form",
+    "generated": true
+  },
+  {
+    "subject": "Field Trip Permission Needed",
+    "from": "Teacher <teacher@school.edu>",
+    "body": "We're going to the planetarium! Please sign and return the permission slip by Dec 20. Trip date: Jan 8, 2026.",
+    "intent": "education.permission.form",
+    "generated": true
+  },
+  {
+    "subject": "Weekly School Newsletter - Dec 20",
+    "from": "Principal <principal@school.edu>",
+    "body": "This week at Lincoln Elementary: Winter concert Dec 22, Early dismissal Dec 23, Winter break Dec 24-Jan 6.",
+    "intent": "education.announcement.general",
+    "generated": true
+  },
+  {
+    "subject": "Important School Updates",
+    "from": "School <info@school.edu>",
+    "body": "Upcoming events: Parent-teacher conferences Jan 10, No school Jan 17 (MLK Day), Science fair Feb 15.",
+    "intent": "education.announcement.general",
+    "generated": true
+  },
+  {
+    "subject": "School Closure: Weather",
+    "from": "District <alerts@district.edu>",
+    "body": "Due to snow, all schools are closed tomorrow, Dec 21, 2025. Stay safe!",
+    "intent": "education.announcement.general",
+    "generated": true
+  },
+  {
+    "subject": "Weekend Workshop: Build a Robot",
+    "from": "Science Museum <events@sciencemuseum.org>",
+    "body": "Kids ages 8-12: Join our robotics workshop! Dec 18, 2025 at 10:00 AM. Build and program your own robot. Register: https://sciencemuseum.org/robot",
+    "intent": "education.activity.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Family Activity: DIY Volcanoes",
+    "from": "Library <programs@library.org>",
+    "body": "Make your own volcano this Saturday! Ages 6+. All materials provided. Free event at 2:00 PM. Sign up: https://library.org/volcano",
+    "intent": "education.activity.announcement",
+    "generated": true
+  },
+  {
+    "subject": "STEM Workshop: Coding for Kids",
+    "from": "Community Center <events@communitycenter.org>",
+    "body": "Learn to code! Free workshop for ages 10-14. Create your own game. Jan 8, 2026. Register: https://communitycenter.org/coding",
+    "intent": "education.activity.announcement",
+    "generated": true
+  },
+  {
+    "subject": "Appointment Reminder: Dr. Smith",
+    "from": "Medical Office <appointments@office.com>",
+    "body": "Reminder: You have an appointment with Dr. Smith tomorrow at 2:30 PM. Location: 123 Medical Plaza, Suite 200. Please arrive 15 minutes early.",
+    "intent": "healthcare.appointment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Upcoming: Dentist Appointment",
+    "from": "Dental Care <reminders@dental.com>",
+    "body": "Don't forget! Cleaning appointment on Dec 22, 2025 at 10:00 AM. Bring your insurance card. Call to reschedule: (555) 123-4567",
+    "intent": "healthcare.appointment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Tomorrow: Physical Therapy",
+    "from": "PT Clinic <schedule@ptclinic.com>",
+    "body": "Your physical therapy session is tomorrow at 4:00 PM with Sarah Johnson. Wear comfortable clothing.",
+    "intent": "healthcare.appointment.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Appointment Confirmed: Dr. Johnson",
+    "from": "Health Center <confirm@health.com>",
+    "body": "Your appointment is confirmed! Dr. Johnson on Jan 5, 2026 at 9:00 AM. Address: 456 Health Way. Confirmation #: HC-84729",
+    "intent": "healthcare.appointment.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Booking Confirmed: Annual Physical",
+    "from": "Primary Care <scheduling@primarycare.com>",
+    "body": "Appointment scheduled! Annual physical exam on Jan 10, 2026 at 11:30 AM. Dr. Martinez. Fasting required.",
+    "intent": "healthcare.appointment.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Confirmed: Dermatology Appointment",
+    "from": "Skin Clinic <bookings@skinclinic.com>",
+    "body": "See you on Dec 28, 2025 at 2:15 PM! Dr. Lee will see you for a skin check. Location: Building A, 3rd floor.",
+    "intent": "healthcare.appointment.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Prescription Ready for Pickup",
+    "from": "CVS Pharmacy <rx@cvs.com>",
+    "body": "Your prescription for Amoxicillin is ready! Pick up by Dec 25, 2025. CVS on Main St. Rx #: 847293",
+    "intent": "healthcare.prescription.ready",
+    "generated": true
+  },
+  {
+    "subject": "Rx Ready: Lisinopril",
+    "from": "Walgreens <prescriptions@walgreens.com>",
+    "body": "Prescription ready! Lisinopril 10mg (90-day supply). Pickup at Walgreens on Elm St. Rx #: WG-739201",
+    "intent": "healthcare.prescription.ready",
+    "generated": true
+  },
+  {
+    "subject": "Medication Available",
+    "from": "Rite Aid <pharmacy@riteaid.com>",
+    "body": "Your medication is ready for pickup. Metformin 500mg. Pick up within 14 days. Questions? Call (555) 987-6543",
+    "intent": "healthcare.prescription.ready",
+    "generated": true
+  },
+  {
+    "subject": "Follow-Up Appointment Due",
+    "from": "Medical Group <followup@medical.com>",
+    "body": "It's time to schedule your 6-month follow-up with Dr. Chen. Call to book: (555) 246-8135. Reference: Visit from Jun 20, 2025.",
+    "intent": "healthcare.follow-up.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Follow-Up Needed: Lab Results",
+    "from": "Clinic <appointments@clinic.com>",
+    "body": "Dr. Smith would like to discuss your recent lab results. Please schedule a follow-up visit: https://clinic.com/schedule",
+    "intent": "healthcare.follow-up.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Return Visit Recommended",
+    "from": "Specialist <office@specialist.com>",
+    "body": "Dr. Anderson recommends a follow-up in 3 months. Call to schedule your return visit: (555) 369-2580",
+    "intent": "healthcare.follow-up.reminder",
+    "generated": true
+  },
+  {
+    "subject": "Check In for Your Flight",
+    "from": "United Airlines <checkin@united.com>",
+    "body": "Check in now for flight UA847 to Chicago tomorrow! Confirmation: ABC123. Get your boarding pass: https://united.com/checkin",
+    "intent": "travel.flight.check-in",
+    "generated": true
+  },
+  {
+    "subject": "Ready to Check In? Flight AA293",
+    "from": "American Airlines <travel@aa.com>",
+    "body": "Check in for your flight to Miami departing Dec 22 at 6:45 AM. Get boarding pass: https://aa.com/checkin. Confirmation: XYZ789",
+    "intent": "travel.flight.check-in",
+    "generated": true
+  },
+  {
+    "subject": "Time to Check In: DL 1847",
+    "from": "Delta <checkin@delta.com>",
+    "body": "Your flight to Seattle leaves in 24 hours. Check in now and choose your seat: https://delta.com/checkin/DEF456",
+    "intent": "travel.flight.check-in",
+    "generated": true
+  },
+  {
+    "subject": "Flight Change: New Departure Time",
+    "from": "Southwest <travel@southwest.com>",
+    "body": "Your flight WN847 departure time changed from 3:00 PM to 5:30 PM on Dec 21. Confirmation: GHI789. No action needed.",
+    "intent": "travel.itinerary.update",
+    "generated": true
+  },
+  {
+    "subject": "Gate Change: Flight UA293",
+    "from": "United Airlines <updates@united.com>",
+    "body": "Gate change! Your flight to Denver now departs from Gate B15 (was A10). Time unchanged: 8:15 AM.",
+    "intent": "travel.itinerary.update",
+    "generated": true
+  },
+  {
+    "subject": "Flight Delay Notice",
+    "from": "American Airlines <alerts@aa.com>",
+    "body": "Flight AA1847 to Boston is delayed 90 minutes due to weather. New departure: 4:30 PM. We apologize for the inconvenience.",
+    "intent": "travel.itinerary.update",
+    "generated": true
+  },
+  {
+    "subject": "Table Reserved: The Cheesecake Factory",
+    "from": "OpenTable <reservations@opentable.com>",
+    "body": "Your reservation is confirmed! Dec 21, 2025 at 7:00 PM for 4 guests. The Cheesecake Factory on Main St. Confirmation: OT-84729",
+    "intent": "dining.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Reservation Confirmed: Per Se",
+    "from": "Resy <confirm@resy.com>",
+    "body": "Looking forward to seeing you! Dec 30, 2025 at 8:00 PM. Party of 2. Per Se, New York. Confirmation #: RS-9482",
+    "intent": "dining.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Your Table is Booked",
+    "from": "Restaurant <reservations@restaurant.com>",
+    "body": "Reservation confirmed for Dec 24, 2025 at 6:30 PM. Party of 6. Special request noted: Window table. See you soon!",
+    "intent": "dining.reservation.confirmation",
+    "generated": true
+  },
+  {
+    "subject": "Your Order is On Its Way!",
+    "from": "DoorDash <delivery@doordash.com>",
+    "body": "Your Chipotle order is being prepared! Dasher John will deliver in 25-35 minutes. Track: https://doordash.com/track/847293",
+    "intent": "delivery.food.tracking",
+    "generated": true
+  },
+  {
+    "subject": "Driver Arriving Soon",
+    "from": "Uber Eats <orders@ubereats.com>",
+    "body": "Your Panera order is 5 minutes away! Driver: Sarah (Toyota Camry - ABC123). Live tracking: https://ubereats.com/track",
+    "intent": "delivery.food.tracking",
+    "generated": true
+  },
+  {
+    "subject": "Preparing Your Order",
+    "from": "Grubhub <delivery@grubhub.com>",
+    "body": "Olive Garden is preparing your order! ETA: 40 minutes. Track your courier: https://grubhub.com/orders/847293",
+    "intent": "delivery.food.tracking",
+    "generated": true
+  },
+  {
+    "subject": "UPS My Choice: Package Alert",
+    "from": "UPS <mychoice@ups.com>",
+    "body": "A package is scheduled for delivery tomorrow. Tracking: 1Z847293847. Change delivery date or location: https://ups.com/mychoice",
+    "intent": "delivery.tracking.alert",
+    "generated": true
+  },
+  {
+    "subject": "Delivery Window: 2-6 PM Today",
+    "from": "FedEx <delivery@fedex.com>",
+    "body": "Your package will arrive between 2-6 PM today. Tracking: 847293674920. Delivery manager: https://fedex.com/delivery",
+    "intent": "delivery.tracking.alert",
+    "generated": true
+  },
+  {
+    "subject": "Package Arriving Tomorrow",
+    "from": "USPS <informed@usps.com>",
+    "body": "Informed Delivery Alert: 2 packages arriving tomorrow. Track them: https://usps.com/track. Manage deliveries: https://usps.com/preferences",
+    "intent": "delivery.tracking.alert",
+    "generated": true
+  },
+  {
+    "subject": "How Was Your Order?",
+    "from": "Amazon <review@amazon.com>",
+    "body": "Please review your recent purchase: Wireless Mouse. Your feedback helps other customers. Write review: https://amazon.com/review/847293",
+    "intent": "feedback.review.request",
+    "generated": true
+  },
+  {
+    "subject": "Rate Your Experience",
+    "from": "Target <feedback@target.com>",
+    "body": "How was your recent order? Rate your shopping experience and help us improve. Quick survey: https://target.com/survey",
+    "intent": "feedback.review.request",
+    "generated": true
+  },
+  {
+    "subject": "Tell Us About Your Purchase",
+    "from": "Best Buy <reviews@bestbuy.com>",
+    "body": "We'd love to hear about your Samsung TV! Write a review to help others: https://bestbuy.com/review/847293",
+    "intent": "feedback.review.request",
+    "generated": true
+  },
+  {
+    "subject": "We'd Love Your Feedback",
+    "from": "Company <survey@company.com>",
+    "body": "Take our 2-minute survey about your recent experience. Your opinion matters! Start survey: https://company.com/survey/xyz",
+    "intent": "feedback.survey.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Customer Satisfaction Survey",
+    "from": "Services <feedback@services.com>",
+    "body": "Help us serve you better! Complete our short questionnaire: https://services.com/survey. Enter to win a $50 gift card!",
+    "intent": "feedback.survey.invitation",
+    "generated": true
+  },
+  {
+    "subject": "Share Your Thoughts",
+    "from": "Support <surveys@support.com>",
+    "body": "How did we do? Your feedback helps us improve. Survey takes just 1 minute: https://support.com/feedback/847293",
+    "intent": "feedback.survey.invitation",
+    "generated": true
+  },
+  {
+    "subject": "FLASH SALE: 4 Hours Only!",
+    "from": "Store <deals@store.com>",
+    "body": "Flash sale ends tonight at midnight! Take 40% off everything. Use code: FLASH40. Shop now: https://store.com/flash",
+    "intent": "marketing.promotion.flash-sale",
+    "generated": true
+  },
+  {
+    "subject": "Today Only: 50% Off!",
+    "from": "Fashion <sales@fashion.com>",
+    "body": "24-hour flash sale! 50% off all dresses. Ends at 11:59 PM tonight. Shop: https://fashion.com/flash-sale",
+    "intent": "marketing.promotion.flash-sale",
+    "generated": true
+  },
+  {
+    "subject": "Limited Time: Extra 30% Off Clearance",
+    "from": "Nordstrom <sale@nordstrom.com>",
+    "body": "Hurry! Extra 30% off already reduced clearance items. Today only! In stores and online.",
+    "intent": "marketing.promotion.flash-sale",
+    "generated": true
+  },
+  {
+    "subject": "20% Off Your Order",
+    "from": "Target <coupons@target.com>",
+    "body": "Exclusive offer! Take 20% off your entire purchase. Use code: SAVE20. Valid through Dec 25. Shop: https://target.com",
+    "intent": "marketing.promotion.discount",
+    "generated": true
+  },
+  {
+    "subject": "Holiday Sale: Up to 70% Off",
+    "from": "Macy's <sales@macys.com>",
+    "body": "Huge holiday savings! Up to 70% off clothing, home, and more. Plus extra 15% off with code: HOLIDAY. Shop: https://macys.com/sale",
+    "intent": "marketing.promotion.discount",
+    "generated": true
+  },
+  {
+    "subject": "Weekend Special: Buy One Get One Free",
+    "from": "Bath & Body Works <offers@bathandbody.com>",
+    "body": "BOGO Free on all candles this weekend! Stock up on your favorites. In stores and online.",
+    "intent": "marketing.promotion.discount",
+    "generated": true
+  },
+  {
+    "subject": "Introducing: iPhone 15",
+    "from": "Apple <news@apple.com>",
+    "body": "Say hello to iPhone 15. Our most powerful iPhone yet. Pre-order now: https://apple.com/iphone15. Available Sept 22.",
+    "intent": "marketing.product.launch",
+    "generated": true
+  },
+  {
+    "subject": "New Product: AirPods Max 2",
+    "from": "Apple <products@apple.com>",
+    "body": "Just launched! AirPods Max 2 with improved noise cancellation. $549. Order today: https://apple.com/airpods-max",
+    "intent": "marketing.product.launch",
+    "generated": true
+  },
+  {
+    "subject": "Now Available: Galaxy S24",
+    "from": "Samsung <launch@samsung.com>",
+    "body": "The new Galaxy S24 is here! Pre-order now and get $200 credit. Learn more: https://samsung.com/galaxy-s24",
+    "intent": "marketing.product.launch",
+    "generated": true
+  },
+  {
+    "subject": "Modern Shades for Your Home",
+    "from": "Blinds.com <shop@blinds.com>",
+    "body": "Transform your space with roller shades. Hundreds of materials and colors. Free samples: https://blinds.com/roller-shades",
+    "intent": "marketing.home-decor.products",
+    "generated": true
+  },
+  {
+    "subject": "New Furniture Collection",
+    "from": "West Elm <new@westelm.com>",
+    "body": "Chic, modern furniture for every room. Shop our latest collection: https://westelm.com/new. Free shipping on orders over $49.",
+    "intent": "marketing.home-decor.products",
+    "generated": true
+  },
+  {
+    "subject": "Interior Design Made Easy",
+    "from": "Pottery Barn <decor@potterybarn.com>",
+    "body": "Create your dream space with our design experts. Book a free consultation: https://potterybarn.com/design-services",
+    "intent": "marketing.home-decor.products",
+    "generated": true
+  },
+  {
+    "subject": "Pre-Sale: New Sneaker Drop",
+    "from": "Nike <launches@nike.com>",
+    "body": "Air Jordan 1 Retro dropping Dec 25 at 10:00 AM EST! Set your alarm. Pre-sale for members: https://nike.com/upcoming/aj1",
+    "intent": "shopping.future_sale",
+    "generated": true
+  },
+  {
+    "subject": "Coming Soon: Limited Edition Release",
+    "from": "Supreme <drops@supremenewyork.com>",
+    "body": "This Thursday: Limited edition box logo hoodie. Online release at 11:00 AM EST. Be ready: https://supremenewyork.com",
+    "intent": "shopping.future_sale",
+    "generated": true
+  },
+  {
+    "subject": "Mark Your Calendar: Black Friday Sale",
+    "from": "Best Buy <events@bestbuy.com>",
+    "body": "Black Friday sale starts Nov 24 at 5:00 AM! Doorbusters and online deals. Preview: https://bestbuy.com/black-friday",
+    "intent": "shopping.future_sale",
+    "generated": true
+  },
+  {
+    "subject": "Update: Ticket #84729",
+    "from": "Support <updates@support.com>",
+    "body": "Your support ticket has been updated. Status: In Progress. Agent John added a comment. View: https://support.com/ticket/84729",
+    "intent": "support.ticket.update",
+    "generated": true
+  },
+  {
+    "subject": "Response from Support Team",
+    "from": "Help Desk <tickets@helpdesk.com>",
+    "body": "We've responded to your ticket #CS-9482. Please check our response and let us know if this resolves your issue.",
+    "intent": "support.ticket.update",
+    "generated": true
+  },
+  {
+    "subject": "Ticket Resolved: #847293",
+    "from": "Customer Service <service@company.com>",
+    "body": "Good news! Ticket #847293 has been marked as resolved. If you need further assistance, reply to reopen.",
+    "intent": "support.ticket.update",
+    "generated": true
+  },
+  {
+    "subject": "You've Been Assigned: Update Documentation",
+    "from": "Jira <notifications@jira.com>",
+    "body": "Task assigned to you: Update API documentation. Due: Dec 30, 2025. Project: Engineering. Priority: Medium. View: https://jira.com/PROJ-847",
+    "intent": "project.task.assigned",
+    "generated": true
+  },
+  {
+    "subject": "New Action Item for You",
+    "from": "Asana <tasks@asana.com>",
+    "body": "Sarah assigned 'Review Q4 budget' to you. Due tomorrow. Project: Finance 2025. View task: https://asana.com/task/847293",
+    "intent": "project.task.assigned",
+    "generated": true
+  },
+  {
+    "subject": "Task Assigned: Code Review",
+    "from": "GitHub <notifications@github.com>",
+    "body": "You've been requested to review PR #847: Add user authentication. Repo: company/app. Review: https://github.com/company/app/pull/847",
+    "intent": "project.task.assigned",
+    "generated": true
+  },
+  {
+    "subject": "INCIDENT: Production API Down",
+    "from": "PagerDuty <alerts@pagerduty.com>",
+    "body": "HIGH priority incident! API server not responding. Acknowledged by: On-call team. Status page: https://status.company.com. Incident #INC-847",
+    "intent": "project.incident.alert",
+    "generated": true
+  },
+  {
+    "subject": "Critical Alert: Database Connection Errors",
+    "from": "Datadog <alerts@datadoghq.com>",
+    "body": "CRITICAL: Database connection pool exhausted. Service: production-db. Started: 2 minutes ago. View: https://datadog.com/incidents/847293",
+    "intent": "project.incident.alert",
+    "generated": true
+  },
+  {
+    "subject": "System Outage: Payment Service",
+    "from": "New Relic <alerts@newrelic.com>",
+    "body": "Payment service is down. Error rate: 100%. Started: 12:45 PM. Investigate: https://newrelic.com/alerts/payment-service",
+    "intent": "project.incident.alert",
+    "generated": true
+  },
+  {
+    "subject": "Deployed: v2.4.0 to Production",
+    "from": "CircleCI <deploy@circleci.com>",
+    "body": "Deployment successful! Version 2.4.0 deployed to production at 3:45 PM. Deploy time: 5m 23s. View: https://circleci.com/deploy/847293",
+    "intent": "project.deployment.notification",
+    "generated": true
+  },
+  {
+    "subject": "Release v3.1.0 Deployed",
+    "from": "Vercel <deployments@vercel.app>",
+    "body": "Your deployment is live! v3.1.0 deployed to https://app.company.com. Build time: 2m 14s. Logs: https://vercel.com/deploy/xyz",
+    "intent": "project.deployment.notification",
+    "generated": true
+  },
+  {
+    "subject": "Production Deploy Complete",
+    "from": "Heroku <deploy@heroku.com>",
+    "body": "app-name deployed to production. Release: v84. Deployed by: john@company.com. View: https://dashboard.heroku.com/apps/app-name",
+    "intent": "project.deployment.notification",
+    "generated": true
+  },
+  {
+    "subject": "Your Ballot Information for Nov 5 Election",
+    "from": "County Elections <elections@county.gov>",
+    "body": "View your sample ballot for the Nov 5, 2025 election. Find your polling place and see what's on your ballot: https://county.gov/ballot",
+    "intent": "civic.ballot.information",
+    "generated": true
+  },
+  {
+    "subject": "2025 Election Voter Guide",
+    "from": "League of Women Voters <info@lwv.org>",
+    "body": "Read our nonpartisan voter guide. Learn about candidates and ballot measures: https://lwv.org/voter-guide-2025",
+    "intent": "civic.ballot.information",
+    "generated": true
+  },
+  {
+    "subject": "Polling Location Update",
+    "from": "State Elections <voter@state.gov>",
+    "body": "Your polling place for the Nov 5 election: Lincoln Elementary School, 123 Main St. Polls open 7 AM-8 PM.",
+    "intent": "civic.ballot.information",
+    "generated": true
+  },
+  {
+    "subject": "Join Our Movement",
+    "from": "Campaign <donate@campaign.org>",
+    "body": "We're fighting for healthcare reform. Chip in $25 to support our campaign: https://campaign.org/donate. Deadline: Dec 31.",
+    "intent": "civic.donation.request",
+    "generated": true
+  },
+  {
+    "subject": "Can You Donate $10?",
+    "from": "Candidate <support@candidate.com>",
+    "body": "I'm asking for your support. $10 helps us reach more voters. We're close to our goal! Donate: https://candidate.com/contribute",
+    "intent": "civic.donation.request",
+    "generated": true
+  },
+  {
+    "subject": "Urgent: Matching Donations Today",
+    "from": "Political Committee <give@committee.org>",
+    "body": "All donations matched 2x today only! Your $50 becomes $100. Stand with us: https://committee.org/donate-now",
+    "intent": "civic.donation.request",
+    "generated": true
+  },
+  {
+    "subject": "Planned Power Outage: Dec 22",
+    "from": "PG&E <alerts@pge.com>",
+    "body": "Public Safety Power Shutoff scheduled for Dec 22, 6 AM - 10 PM. Your area may be affected. Prepare: https://pge.com/psps",
+    "intent": "utility.service.alert",
+    "generated": true
+  },
+  {
+    "subject": "Service Interruption Notice",
+    "from": "Water Department <service@water.gov>",
+    "body": "Water service will be disrupted Dec 21, 9 AM - 2 PM for maintenance. Affected area: Downtown. Plan ahead.",
+    "intent": "utility.service.alert",
+    "generated": true
+  },
+  {
+    "subject": "High Wind Warning: Possible Outage",
+    "from": "Electric Company <outages@electric.com>",
+    "body": "High winds expected tonight. Possible power outages. Stay informed: https://electric.com/outage-map. Have flashlights ready.",
+    "intent": "utility.service.alert",
+    "generated": true
+  },
+  {
+    "subject": "Top Post: Lost Dog in Oak Street Area",
+    "from": "Nextdoor <digest@nextdoor.com>",
+    "body": "Trending in your neighborhood: Sarah posted about a lost Golden Retriever. Can you help? View post: https://nextdoor.com/post/847293",
+    "intent": "community.post.notification",
+    "generated": true
+  },
+  {
+    "subject": "New Post from Your Neighbor",
+    "from": "Nextdoor <notifications@nextdoor.com>",
+    "body": "John shared: 'Recommendation for a good plumber?' 12 neighbors replied. Join the conversation: https://nextdoor.com/post/948273",
+    "intent": "community.post.notification",
+    "generated": true
+  },
+  {
+    "subject": "Popular in Maple Grove: Garage Sale This Weekend",
+    "from": "Nextdoor <posts@nextdoor.com>",
+    "body": "Your neighbor posted about a multi-family garage sale Saturday 8 AM. Great deals! View details: https://nextdoor.com/events/847",
+    "intent": "community.post.notification",
+    "generated": true
+  },
+  {
+    "subject": "Homes for You in San Francisco",
+    "from": "Zillow <homes@zillow.com>",
+    "body": "3 new homes match your search! 3 bed, 2 bath from $850K. View listings: https://zillow.com/saved-search/847293",
+    "intent": "real-estate.recommendation",
+    "generated": true
+  },
+  {
+    "subject": "Price Drop: 123 Oak Street",
+    "from": "Redfin <alerts@redfin.com>",
+    "body": "A home you favorited dropped $25K! Now $675,000. 4 bed, 3 bath, 2,400 sqft. Tour: https://redfin.com/homes/847293",
+    "intent": "real-estate.recommendation",
+    "generated": true
+  },
+  {
+    "subject": "New Listings in Your Area",
+    "from": "Realtor.com <listings@realtor.com>",
+    "body": "5 new properties in Austin, TX matching your criteria. View all: https://realtor.com/search/austin-tx",
+    "intent": "real-estate.recommendation",
+    "generated": true
+  },
+  {
+    "subject": "Pins We Think You'll Like",
+    "from": "Pinterest <suggested@pinterest.com>",
+    "body": "Based on your interests: Home office ideas, Minimalist decor, DIY projects. Explore: https://pinterest.com/recommendations",
+    "intent": "social.content.recommendation",
+    "generated": true
+  },
+  {
+    "subject": "Recommended for You",
+    "from": "YouTube <noreply@youtube.com>",
+    "body": "New videos you might like: 'How to Build a PC' by TechTips, 'Cooking 101' by ChefJohn. Watch: https://youtube.com/feed/recommended",
+    "intent": "social.content.recommendation",
+    "generated": true
+  },
+  {
+    "subject": "Content Picked for You",
+    "from": "Medium <digest@medium.com>",
+    "body": "Based on your reading history: 'The Future of AI' by @techwriter, '10 Productivity Hacks'. Read: https://medium.com/recommended",
+    "intent": "social.content.recommendation",
+    "generated": true
+  },
+  {
+    "subject": "Sarah gave you kudos!",
+    "from": "Strava <kudos@strava.com>",
+    "body": "Sarah Johnson gave kudos to your Morning Run! 5.2 miles, 42:15. View activity: https://strava.com/activities/847293",
+    "intent": "social.notification.kudos",
+    "generated": true
+  },
+  {
+    "subject": "10 Kudos on Your Ride!",
+    "from": "Strava <activity@strava.com>",
+    "body": "Your Evening Bike Ride got 10 kudos! John, Mike, Sarah and 7 others liked it. See your activity: https://strava.com/activities/948273",
+    "intent": "social.notification.kudos",
+    "generated": true
+  },
+  {
+    "subject": "Kudos from Your Friend",
+    "from": "Strava <notifications@strava.com>",
+    "body": "Mike gave kudos to Afternoon Workout. You crushed it! 8.3 miles. View: https://strava.com/activities/738291",
+    "intent": "social.notification.kudos",
+    "generated": true
+  },
+  {
+    "subject": "Done",
+    "from": "Me <me@email.com>",
+    "body": "Task finished",
+    "intent": "communication.personal",
+    "generated": true
+  },
+  {
+    "subject": "Thanks",
+    "from": "Friend <friend@email.com>",
+    "body": "Got it, thanks!",
+    "intent": "communication.personal",
+    "generated": true
+  },
+  {
+    "subject": "Test",
+    "from": "Me <me@email.com>",
+    "body": "Testing email",
+    "intent": "communication.personal",
+    "generated": true
+  },
+  {
+    "subject": "Note to Self: Buy Milk",
+    "from": "Me <me@email.com>",
+    "body": "Reminder: Pick up milk, eggs, and bread on the way home.",
+    "intent": "communication.personal.self-note",
+    "generated": true
+  },
+  {
+    "subject": "TODO: Call Doctor",
+    "from": "Me <me@email.com>",
+    "body": "Don't forget to schedule annual checkup appointment.",
+    "intent": "communication.personal.self-note",
+    "generated": true
+  },
+  {
+    "subject": "Remember: Meeting Notes",
+    "from": "Me <me@email.com>",
+    "body": "Key points from today's meeting: Q1 goals, new hire starting Monday, budget review next week.",
+    "intent": "communication.personal.self-note",
+    "generated": true
+  },
+  {
+    "subject": "This Week in Tech Newsletter",
+    "from": "TechCrunch <newsletter@techcrunch.com>",
+    "body": "Top stories this week: AI breakthrough, New iPhone rumors, Startup acquisitions. Read more: https://techcrunch.com/newsletter",
+    "intent": "generic.newsletter",
+    "generated": true
+  },
+  {
+    "subject": "Your Daily Digest",
+    "from": "NY Times <newsletters@nytimes.com>",
+    "body": "Morning Briefing: Top news, opinion, and analysis. Today's stories: Politics, Business, Arts. Read: https://nytimes.com/digest",
+    "intent": "generic.newsletter",
+    "generated": true
+  },
+  {
+    "subject": "Weekly Roundup: Design Inspiration",
+    "from": "Dribbble <weekly@dribbble.com>",
+    "body": "This week's best shots: UI designs, illustrations, typography. Get inspired: https://dribbble.com/weekly",
+    "intent": "generic.newsletter",
+    "generated": true
+  },
+  {
+    "subject": "Your Account Notification",
+    "from": "Service <notifications@service.com>",
+    "body": "This is an automated notification from your account. Reference ID: TXN-847293.",
+    "intent": "generic.transactional",
+    "generated": true
+  },
+  {
+    "subject": "System Message",
+    "from": "Platform <system@platform.com>",
+    "body": "Automated system message. Transaction ID: SYS-948273. No action required.",
+    "intent": "generic.transactional",
+    "generated": true
+  },
+  {
+    "subject": "Confirmation Email",
+    "from": "Company <noreply@company.com>",
+    "body": "This email confirms your recent activity. Confirmation number: CNF-738291.",
+    "intent": "generic.transactional",
+    "generated": true
+  },
+  {
+    "subject": "Jury Duty Summons - Report Jan 15, 2026",
+    "from": "Superior Court <jury@court.gov>",
+    "body": "You are summoned for jury duty on Jan 15, 2026 at 8:00 AM. Report to: Superior Court, 100 Court St. Juror #: JU-847293. Parking info included.",
+    "intent": "civic.appointment.summons",
+    "generated": true
+  },
+  {
+    "subject": "DMV Appointment Confirmation",
+    "from": "DMV <appointments@dmv.gov>",
+    "body": "Your DMV appointment is scheduled for Dec 28, 2025 at 10:30 AM. Service: Driver's license renewal. Location: DMV Office, 200 Main St. Confirmation: DMV-948273.",
+    "intent": "civic.appointment.summons",
+    "generated": true
+  },
+  {
+    "subject": "Court Summons: Appear Jan 10, 2026",
+    "from": "Municipal Court <clerk@court.gov>",
+    "body": "You are required to appear at Municipal Court on Jan 10, 2026 at 9:00 AM. Case: TR-738291. Location: Courtroom 3, 150 Court Plaza. Bring ID.",
+    "intent": "civic.appointment.summons",
+    "generated": true
+  }
+]

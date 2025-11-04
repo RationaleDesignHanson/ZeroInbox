@@ -1,0 +1,177 @@
+{
+  "description": "Curated test email templates for validating intent classification and action routing",
+  "version": "1.0.0",
+  "templates": {
+    "e-commerce_shipping": {
+      "subject": "Your Amazon order has shipped",
+      "from": "shipment-tracking@amazon.com",
+      "body": "Your order #112-7654321 has shipped. Tracking number: 1Z999AA10123456784. Carrier: UPS. Estimated delivery: January 15, 2025.",
+      "expectedIntent": "e-commerce.shipping.notification",
+      "expectedPrimaryAction": "track_package",
+      "expectedEntities": ["orderNumber", "trackingNumber", "carrier", "deliveryDate"]
+    },
+    "healthcare_appointment_reminder": {
+      "subject": "Appointment Reminder - Dr. Smith",
+      "from": "appointments@healthcare.com",
+      "body": "Your appointment with Dr. Smith is scheduled for January 15, 2025 at 2:00 PM. Location: 123 Medical Plaza. Please arrive 15 minutes early.",
+      "expectedIntent": "healthcare.appointment.reminder",
+      "expectedPrimaryAction": "calendar_with_reminder",
+      "expectedEntities": ["provider", "appointmentDate", "appointmentTime", "location"]
+    },
+    "healthcare_appointment_booking": {
+      "subject": "Time to schedule your annual checkup",
+      "from": "reminders@healthcare.com",
+      "body": "It's time to schedule your annual physical. Book online at https://scheduling.healthcare.com/book or call (555) 123-4567.",
+      "expectedIntent": "healthcare.appointment.booking_request",
+      "expectedPrimaryAction": "book_appointment",
+      "expectedEntities": ["schedulingUrl"]
+    },
+    "billing_invoice_due": {
+      "subject": "Invoice #INV-2025-1234 Due",
+      "from": "billing@company.com",
+      "body": "Invoice INV-2025-1234 is due on October 30, 2025. Amount: $599.00. Pay online: https://pay.com/INV-2025-1234",
+      "expectedIntent": "billing.invoice.due",
+      "expectedPrimaryAction": "pay_invoice",
+      "expectedEntities": ["invoiceId", "amount", "dueDate", "invoiceUrl"]
+    },
+    "travel_flight_checkin": {
+      "subject": "Check in for flight UA 123",
+      "from": "United Airlines <noreply@united.com>",
+      "body": "Flight UA 123 from SFO to ORD departs tomorrow at 10:30 AM. Check in now: https://united.com/checkin/ABC123",
+      "expectedIntent": "travel.flight.check-in",
+      "expectedPrimaryAction": "check_in_flight",
+      "expectedEntities": ["flightNumber", "airline", "departureTime", "confirmationCode"]
+    },
+    "education_permission_form": {
+      "subject": "Field Trip Permission Form - Please Sign",
+      "from": "teacher@school.edu",
+      "body": "Please sign the attached permission form for the field trip on January 20, 2025. Fee: $25. Return by Wednesday, January 10.",
+      "expectedIntent": "education.permission.form",
+      "expectedPrimaryAction": "sign_form_with_payment",
+      "expectedEntities": ["formName", "eventDate", "amount", "deadline"]
+    },
+    "marketing_promotion": {
+      "subject": "Flash Sale: 50% Off Everything",
+      "from": "deals@store.com",
+      "body": "24-hour flash sale! Use code FLASH50 for 50% off your entire purchase. Shop now: https://store.com/sale",
+      "expectedIntent": "marketing.promotion.flash-sale",
+      "expectedPrimaryAction": "claim_deal",
+      "expectedEntities": ["promoCode", "dealUrl"]
+    },
+    "subscription_renewal": {
+      "subject": "Your subscription renews soon",
+      "from": "billing@service.com",
+      "body": "Your monthly subscription ($9.99) will renew on January 15, 2025. Update payment: https://service.com/billing",
+      "expectedIntent": "billing.subscription.renewal",
+      "expectedPrimaryAction": "manage_subscription",
+      "expectedEntities": ["amount", "renewalDate", "subscriptionUrl"]
+    },
+    "event_meeting_invitation": {
+      "subject": "Team Standup - Tomorrow 10am",
+      "from": "calendar@company.com",
+      "body": "You're invited to Team Standup on January 15, 2025 at 10:00 AM. Join: https://zoom.us/j/123456789",
+      "expectedIntent": "event.meeting.invitation",
+      "expectedPrimaryAction": "join_meeting",
+      "expectedEntities": ["meetingUrl", "dateTime"]
+    },
+    "account_password_reset": {
+      "subject": "Reset your password",
+      "from": "security@service.com",
+      "body": "We received a request to reset your password. Click here to reset: https://service.com/reset/abc123. This link expires in 1 hour.",
+      "expectedIntent": "account.password.reset",
+      "expectedPrimaryAction": "reset_password",
+      "expectedEntities": ["resetLink", "expirationTime"]
+    },
+    "delivery_tracking": {
+      "subject": "Your DoorDash order is on the way",
+      "from": "orders@doordash.com",
+      "body": "Your order from Chipotle is being prepared. Driver John will pick it up soon. Track: https://doordash.com/track/xyz789",
+      "expectedIntent": "delivery.food.tracking",
+      "expectedPrimaryAction": "track_delivery",
+      "expectedEntities": ["restaurant", "driver", "trackingUrl"]
+    },
+    "finance_fraud_alert": {
+      "subject": "Unusual Activity Detected",
+      "from": "alerts@bank.com",
+      "body": "We detected a $500 charge at Electronics Store. If this wasn't you, verify immediately: https://bank.com/verify/alert123",
+      "expectedIntent": "finance.fraud.alert",
+      "expectedPrimaryAction": "verify_transaction",
+      "expectedEntities": ["amount", "merchant", "verificationUrl"]
+    },
+    "career_interview_invitation": {
+      "subject": "Interview Invitation - Software Engineer",
+      "from": "recruiting@techcorp.com",
+      "body": "Congratulations! We'd like to interview you for the Software Engineer position. Schedule your interview: https://calendly.com/techcorp/interview",
+      "expectedIntent": "career.interview.invitation",
+      "expectedPrimaryAction": "schedule_interview",
+      "expectedEntities": ["company", "position", "interviewUrl"]
+    },
+    "civic_voting_registration": {
+      "subject": "Register to Vote - Deadline Approaching",
+      "from": "elections@county.gov",
+      "body": "The voter registration deadline is October 15, 2025. Register online: https://vote.gov/register",
+      "expectedIntent": "civic.voting.registration",
+      "expectedPrimaryAction": "register_to_vote",
+      "expectedEntities": ["deadline", "registrationUrl"]
+    },
+    "newsletter_tech": {
+      "subject": "This Week in Tech",
+      "from": "newsletter@techcrunch.com",
+      "body": "Top stories: 1) AI breakthrough in healthcare 2) New iPhone announced 3) Startup funding trends...",
+      "expectedIntent": "content.newsletter.tech",
+      "expectedPrimaryAction": "view_newsletter_summary",
+      "expectedEntities": []
+    },
+    "self_note": {
+      "subject": "Reminder: Call dentist",
+      "from": "matthanson@gmail.com",
+      "to": "matthanson@gmail.com",
+      "body": "Don't forget to call dentist to schedule cleaning. Phone: (555) 123-4567",
+      "expectedIntent": "communication.personal.self-note",
+      "expectedPrimaryAction": "add_to_notes",
+      "expectedEntities": []
+    },
+    "compound_action_sign_and_pay": {
+      "subject": "Field Trip Permission Form",
+      "from": "teacher@school.edu",
+      "body": "Please sign permission form for zoo field trip on March 20. Cost: $15. Deadline: March 10.",
+      "expectedIntent": "education.permission.form",
+      "expectedPrimaryAction": "sign_form_with_payment",
+      "expectedCompoundAction": true,
+      "expectedSteps": ["sign_form", "pay_form_fee", "email_composer"]
+    },
+    "compound_action_calendar_reminder": {
+      "subject": "Doctor Appointment Tomorrow",
+      "from": "clinic@healthcare.com",
+      "body": "Reminder: Your appointment with Dr. Johnson is tomorrow, January 15, 2025 at 3:00 PM.",
+      "expectedIntent": "healthcare.appointment.reminder",
+      "expectedPrimaryAction": "calendar_with_reminder",
+      "expectedCompoundAction": true,
+      "expectedSteps": ["add_to_calendar", "add_reminder"]
+    },
+    "compound_action_checkin_wallet": {
+      "subject": "Check in now for UA 456",
+      "from": "United Airlines <noreply@united.com>",
+      "body": "Flight UA 456 to NYC departs in 24 hours. Check in now to get your boarding pass.",
+      "expectedIntent": "travel.flight.check-in",
+      "expectedPrimaryAction": "check_in_with_wallet",
+      "expectedCompoundAction": true,
+      "expectedSteps": ["check_in_flight", "add_to_wallet"]
+    },
+    "edge_case_html_only": {
+      "subject": "Weekly Newsletter",
+      "from": "news@example.com",
+      "htmlBody": "<html><body><h1>Newsletter</h1><p>Content here</p></body></html>",
+      "body": "",
+      "expectedIntent": "generic.newsletter",
+      "expectedPrimaryAction": "view_newsletter_summary"
+    },
+    "edge_case_no_subject": {
+      "subject": "",
+      "from": "sender@example.com",
+      "body": "This email has no subject line.",
+      "expectedIntent": "generic.transactional",
+      "expectedPrimaryAction": "quick_reply"
+    }
+  }
+}

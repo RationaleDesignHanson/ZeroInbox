@@ -46,7 +46,7 @@ struct CardStackView: View {
                 LoadingOverlayView()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: 600)  // Constrain card height for better nav clearance
         .scaleEffect(cardStackScale)
         .opacity(cardStackOpacity)
         .offset(y: cardStackYOffset)

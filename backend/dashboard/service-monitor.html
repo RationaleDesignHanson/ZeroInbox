@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Monitor - Zero Email Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header-left p {
+            opacity: 0.9;
+            font-size: 15px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .btn-primary {
+            background: rgba(76, 175, 80, 0.6);
+            border-color: rgba(76, 175, 80, 0.8);
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 25px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-card.healthy {
+            border-color: rgba(76, 175, 80, 0.5);
+        }
+
+        .service-card.degraded {
+            border-color: rgba(255, 152, 0, 0.5);
+        }
+
+        .service-card.down {
+            border-color: rgba(244, 67, 54, 0.5);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+        }
+
+        .service-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.healthy {
+            background: #4CAF50;
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.8);
+        }
+
+        .status-dot.degraded {
+            background: #FF9800;
+            box-shadow: 0 0 15px rgba(255, 152, 0, 0.8);
+        }
+
+        .status-dot.down {
+            background: #F44336;
+            box-shadow: 0 0 15px rgba(244, 67, 54, 0.8);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .service-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .service-badge {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-critical {
+            background: rgba(244, 67, 54, 0.6);
+        }
+
+        .badge-optional {
+            background: rgba(33, 150, 243, 0.6);
+        }
+
+        .service-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 10px;
+        }
+
+        .info-label {
+            font-size: 11px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .service-description {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .service-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .service-btn {
+            flex: 1;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .service-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .service-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .service-logs {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .service-logs.visible {
+            display: block;
+        }
+
+        .log-line {
+            margin-bottom: 4px;
+        }
+
+        .log-timestamp {
+            opacity: 0.5;
+            margin-right: 8px;
+        }
+
+        /* Loading */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            display: none;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-content {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <h1>🖥️ Service Monitor</h1>
+                <p>Real-time monitoring and control of all backend services</p>
+            </div>
+            <div class="header-right">
+                <a href="index.html" class="btn">
+                    <span>←</span>
+                    <span>Back to Dashboard</span>
+                </a>
+                <button class="btn btn-primary" onclick="refreshAll()">
+                    <span>🔄</span>
+                    <span>Refresh</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="services-grid" id="services-grid">
+            <!-- Services will be populated here -->
+            <div class="loading-content">
+                <div class="spinner"></div>
+                <p>Loading service status...</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loading-message">Processing...</p>
+        </div>
+    </div>
+
+    <script>
+        // Service definitions
+        const SERVICES = [
+            {
+                name: 'Gateway',
+                port: 3001,
+                critical: true,
+                description: 'OAuth endpoints, API gateway, and request routing',
+                healthPath: '/health'
+            },
+            {
+                name: 'Email Service',
+                port: 8081,
+                critical: true,
+                description: 'Gmail and Outlook API integration for email fetching',
+                healthPath: '/health'
+            },
+            {
+                name: 'Classifier',
+                port: 8082,
+                critical: true,
+                description: 'Intent detection and classification (117 intents)',
+                healthPath: '/health'
+            },
+            {
+                name: 'Summarization',
+                port: 8083,
+                critical: true,
+                description: 'AI-powered email summarization service',
+                healthPath: '/health'
+            },
+            {
+                name: 'Smart Replies',
+                port: 8084,
+                critical: false,
+                description: 'AI-generated reply suggestions',
+                healthPath: '/health'
+            },
+            {
+                name: 'Scheduled Purchase',
+                port: 8085,
+                critical: false,
+                description: 'Automated purchase scheduling for future sales',
+                healthPath: '/health'
+            },
+            {
+                name: 'Shopping Agent',
+                port: 8086,
+                critical: false,
+                description: 'Shopping assistant with OpenAI integration',
+                healthPath: '/health'
+            },
+            {
+                name: 'Steel Agent',
+                port: 8087,
+                critical: false,
+                description: 'Browser automation for subscriptions',
+                healthPath: '/health'
+            }
+        ];
+
+        const REFRESH_INTERVAL = 5000; // 5 seconds
+        let refreshTimer = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAllServices();
+            startAutoRefresh();
+        });
+
+        // Load all services
+        async function loadAllServices() {
+            const grid = document.getElementById('services-grid');
+
+            const serviceCards = await Promise.all(
+                SERVICES.map(service => createServiceCard(service))
+            );
+
+            grid.innerHTML = serviceCards.join('');
+        }
+
+        // Create service card HTML
+        async function createServiceCard(service) {
+            const status = await checkServiceHealth(service);
+
+            return `
+                <div class="service-card ${status.class}" id="service-${service.port}">
+                    <div class="service-header">
+                        <div class="service-title">
+                            <div class="status-dot ${status.class}"></div>
+                            <div class="service-name">${service.name}</div>
+                        </div>
+                        <div class="service-badge ${service.critical ? 'badge-critical' : 'badge-optional'}">
+                            ${service.critical ? 'CRITICAL' : 'OPTIONAL'}
+                        </div>
+                    </div>
+
+                    <div class="service-info">
+                        <div class="info-item">
+                            <div class="info-label">Port</div>
+                            <div class="info-value">${service.port}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Status</div>
+                            <div class="info-value">${status.text}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Response Time</div>
+                            <div class="info-value">${status.responseTime || 'N/A'}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">PID</div>
+                            <div class="info-value">${status.pid || 'N/A'}</div>
+                        </div>
+                    </div>
+
+                    <div class="service-description">${service.description}</div>
+
+                    <div class="service-actions">
+                        <button class="service-btn" onclick="startService('${service.name}', ${service.port})" ${status.class === 'healthy' ? 'disabled' : ''}>
+                            ▶️ Start
+                        </button>
+                        <button class="service-btn" onclick="stopService('${service.name}', ${service.port})" ${status.class === 'down' ? 'disabled' : ''}>
+                            ⏹️ Stop
+                        </button>
+                        <button class="service-btn" onclick="restartService('${service.name}', ${service.port})">
+                            🔄 Restart
+                        </button>
+                        <button class="service-btn" onclick="toggleLogs(${service.port})">
+                            📝 Logs
+                        </button>
+                    </div>
+
+                    <div class="service-logs" id="logs-${service.port}">
+                        <div class="log-line">
+                            <span class="log-timestamp">[Loading logs...]</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Check service health
+        async function checkServiceHealth(service) {
+            try {
+                const startTime = Date.now();
+                const response = await fetch(`http://localhost:${service.port}${service.healthPath}`, {
+                    timeout: 3000
+                });
+                const responseTime = Date.now() - startTime;
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    if (data.status === 'ok' || data.status === 'healthy') {
+                        return {
+                            class: 'healthy',
+                            text: 'HEALTHY',
+                            responseTime: `${responseTime}ms`,
+                            pid: 'Running'
+                        };
+                    }
+                }
+
+                return {
+                    class: 'degraded',
+                    text: 'DEGRADED',
+                    responseTime: `${responseTime}ms`,
+                    pid: 'Running'
+                };
+            } catch (error) {
+                return {
+                    class: 'down',
+                    text: 'DOWN',
+                    responseTime: null,
+                    pid: null
+                };
+            }
+        }
+
+        // Service control actions
+        async function startService(name, port) {
+            showLoading(`Starting ${name}...`);
+
+            try {
+                // TODO: Implement actual service start via API
+                console.log(`Starting ${name} on port ${port}`);
+
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate
+                hideLoading();
+                await refreshAll();
+            } catch (error) {
+                console.error(`Failed to start ${name}:`, error);
+                hideLoading();
+                alert(`Failed to start ${name}`);
+            }
+        }
+
+        async function stopService(name, port) {
+            if (!confirm(`Stop ${name}? This may interrupt active connections.`)) return;
+
+            showLoading(`Stopping ${name}...`);
+
+            try {
+                // TODO: Implement actual service stop via API
+                console.log(`Stopping ${name} on port ${port}`);
+
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate
+                hideLoading();
+                await refreshAll();
+            } catch (error) {
+                console.error(`Failed to stop ${name}:`, error);
+                hideLoading();
+                alert(`Failed to stop ${name}`);
+            }
+        }
+
+        async function restartService(name, port) {
+            showLoading(`Restarting ${name}...`);
+
+            try {
+                // TODO: Implement actual service restart via API
+                console.log(`Restarting ${name} on port ${port}`);
+
+                await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate
+                hideLoading();
+                await refreshAll();
+            } catch (error) {
+                console.error(`Failed to restart ${name}:`, error);
+                hideLoading();
+                alert(`Failed to restart ${name}`);
+            }
+        }
+
+        async function toggleLogs(port) {
+            const logsDiv = document.getElementById(`logs-${port}`);
+            const isVisible = logsDiv.classList.contains('visible');
+
+            if (isVisible) {
+                logsDiv.classList.remove('visible');
+            } else {
+                // Load logs
+                await loadServiceLogs(port);
+                logsDiv.classList.add('visible');
+            }
+        }
+
+        async function loadServiceLogs(port) {
+            const logsDiv = document.getElementById(`logs-${port}`);
+
+            try {
+                // TODO: Implement actual log fetching via API
+                const mockLogs = [
+                    { timestamp: new Date().toISOString(), message: `Service listening on port ${port}` },
+                    { timestamp: new Date().toISOString(), message: 'Environment: development' },
+                    { timestamp: new Date().toISOString(), message: 'Health endpoint: /health' }
+                ];
+
+                logsDiv.innerHTML = mockLogs.map(log => `
+                    <div class="log-line">
+                        <span class="log-timestamp">[${new Date(log.timestamp).toLocaleTimeString()}]</span>
+                        <span>${log.message}</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Failed to load logs:', error);
+                logsDiv.innerHTML = '<div class="log-line">Failed to load logs</div>';
+            }
+        }
+
+        // Refresh all services
+        async function refreshAll() {
+            await loadAllServices();
+        }
+
+        // Auto-refresh
+        function startAutoRefresh() {
+            refreshTimer = setInterval(() => {
+                refreshAll();
+            }, REFRESH_INTERVAL);
+        }
+
+        function stopAutoRefresh() {
+            if (refreshTimer) {
+                clearInterval(refreshTimer);
+                refreshTimer = null;
+            }
+        }
+
+        // Loading UI
+        function showLoading(message) {
+            const overlay = document.getElementById('loading-overlay');
+            const messageEl = document.getElementById('loading-message');
+            messageEl.textContent = message;
+            overlay.classList.add('active');
+        }
+
+        function hideLoading() {
+            const overlay = document.getElementById('loading-overlay');
+            overlay.classList.remove('active');
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            stopAutoRefresh();
+        });
+    </script>
+</body>
+</html>

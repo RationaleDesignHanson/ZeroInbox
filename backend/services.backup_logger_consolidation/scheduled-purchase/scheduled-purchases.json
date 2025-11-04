@@ -1,0 +1,54 @@
+[
+  {
+    "id": "84c22bed-dae8-4ffd-865f-94a492a4ddc0",
+    "userId": "test-user-1",
+    "emailId": "email-123",
+    "productName": "James Jean - Sun Tarot Nebula",
+    "productUrl": "https://avantarte.com/releases/james-jean-2025",
+    "scheduledTime": "2025-10-31T17:00:00Z",
+    "timezone": "Europe/London",
+    "status": "pending",
+    "variant": null,
+    "createdAt": "2025-10-20T17:36:07.422Z",
+    "updatedAt": "2025-10-20T17:36:07.422Z"
+  },
+  {
+    "id": "986849ea-8783-4177-9aca-3650d4da029e",
+    "userId": "test-user-1",
+    "emailId": "email-123",
+    "productName": "James Jean - Sun Tarot Nebula",
+    "productUrl": "https://avantarte.com/releases/james-jean-2025",
+    "scheduledTime": "2025-10-31T17:00:00Z",
+    "timezone": "Europe/London",
+    "status": "pending",
+    "variant": null,
+    "createdAt": "2025-10-20T17:45:57.318Z",
+    "updatedAt": "2025-10-20T17:45:57.318Z"
+  },
+  {
+    "id": "df4ef3bc-98eb-4f56-9ebe-8c50df77229d",
+    "userId": "current-user",
+    "emailId": "ds5",
+    "productName": "James Jean - Sun Tarot Nebula",
+    "productUrl": "https://avantarte.com/releases/james-jean-2025",
+    "scheduledTime": "2025-10-31T17:00:00Z",
+    "timezone": "UTC",
+    "status": "pending",
+    "variant": null,
+    "createdAt": "2025-10-20T18:12:42.505Z",
+    "updatedAt": "2025-10-20T18:12:42.505Z"
+  },
+  {
+    "id": "ee1f0d21-4330-4377-baa5-5d2699d3e597",
+    "userId": "current-user",
+    "emailId": "shop6",
+    "productName": "James Jean - Sun Tarot Nebula",
+    "productUrl": "https://avantarte.com/releases/james-jean-2025",
+    "scheduledTime": "2025-10-31T17:00:00Z",
+    "timezone": "UTC",
+    "status": "pending",
+    "variant": null,
+    "createdAt": "2025-10-24T05:00:24.399Z",
+    "updatedAt": "2025-10-24T05:00:24.399Z"
+  }
+]

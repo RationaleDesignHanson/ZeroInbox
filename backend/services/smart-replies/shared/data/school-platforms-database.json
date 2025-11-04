@@ -1,0 +1,535 @@
+{
+  "lms": {
+    "canvas": {
+      "name": "Canvas LMS",
+      "vendor": "Instructure",
+      "emailDomains": [
+        "@instructure.com",
+        "@canvas.instructure.com",
+        "notifications@instructure.com"
+      ],
+      "subjectPatterns": [
+        "sent you a message in Canvas",
+        "commented on your submission",
+        "graded your submission",
+        "new assignment",
+        "Canvas notification"
+      ],
+      "urlPatterns": [
+        "instructure.com",
+        "canvas.instructure.com"
+      ]
+    },
+    "googleClassroom": {
+      "name": "Google Classroom",
+      "vendor": "Google",
+      "emailDomains": [
+        "@classroom.google.com",
+        "classroom-noreply@google.com"
+      ],
+      "subjectPatterns": [
+        "posted a new assignment",
+        "commented on your work",
+        "returned your work",
+        "Google Classroom"
+      ],
+      "urlPatterns": [
+        "classroom.google.com"
+      ]
+    },
+    "schoology": {
+      "name": "Schoology",
+      "vendor": "PowerSchool",
+      "emailDomains": [
+        "@schoology.com",
+        "noreply@schoology.com"
+      ],
+      "subjectPatterns": [
+        "Schoology notification",
+        "new assignment posted",
+        "upcoming due date"
+      ],
+      "urlPatterns": [
+        "schoology.com"
+      ]
+    },
+    "moodle": {
+      "name": "Moodle",
+      "vendor": "Moodle",
+      "emailDomains": [
+        "@moodle.com",
+        "noreply@moodle.com"
+      ],
+      "subjectPatterns": [
+        "Moodle notification"
+      ],
+      "urlPatterns": [
+        "moodle.com",
+        "moodle.org"
+      ]
+    },
+    "blackboard": {
+      "name": "Blackboard Learn",
+      "vendor": "Anthology",
+      "emailDomains": [
+        "@blackboard.com",
+        "donotreply@blackboard.com"
+      ],
+      "subjectPatterns": [
+        "Blackboard notification",
+        "new grade posted"
+      ],
+      "urlPatterns": [
+        "blackboard.com"
+      ]
+    }
+  },
+  "communication": {
+    "remind": {
+      "name": "Remind",
+      "vendor": "Remind",
+      "emailDomains": [
+        "@mail.remind.com",
+        "@remind.com",
+        "noreply@remind.com"
+      ],
+      "subjectPatterns": [
+        "Remind message",
+        "sent you a message on Remind"
+      ],
+      "urlPatterns": [
+        "remind.com"
+      ]
+    },
+    "classdojo": {
+      "name": "ClassDojo",
+      "vendor": "ClassDojo",
+      "emailDomains": [
+        "@classdojo.com",
+        "hello@classdojo.com",
+        "notifications@classdojo.com"
+      ],
+      "subjectPatterns": [
+        "ClassDojo",
+        "shared a class story",
+        "added a post"
+      ],
+      "urlPatterns": [
+        "classdojo.com"
+      ]
+    },
+    "seesaw": {
+      "name": "Seesaw",
+      "vendor": "Seesaw Learning",
+      "emailDomains": [
+        "@seesaw.me",
+        "@web.seesaw.me",
+        "hello@seesaw.me"
+      ],
+      "subjectPatterns": [
+        "Seesaw",
+        "added something new",
+        "new post from"
+      ],
+      "urlPatterns": [
+        "seesaw.me",
+        "web.seesaw.me"
+      ]
+    },
+    "parentsquare": {
+      "name": "ParentSquare",
+      "vendor": "ParentSquare",
+      "emailDomains": [
+        "@parentsquare.com",
+        "noreply@parentsquare.com"
+      ],
+      "subjectPatterns": [
+        "ParentSquare",
+        "new message from",
+        "sign up"
+      ],
+      "urlPatterns": [
+        "parentsquare.com"
+      ]
+    },
+    "bloomz": {
+      "name": "Bloomz",
+      "vendor": "Bloomz",
+      "emailDomains": [
+        "@bloomz.net",
+        "@bloomz.com",
+        "noreply@bloomz.net"
+      ],
+      "subjectPatterns": [
+        "Bloomz",
+        "sent you a message"
+      ],
+      "urlPatterns": [
+        "bloomz.net"
+      ]
+    },
+    "konstella": {
+      "name": "Konstella",
+      "vendor": "Konstella",
+      "emailDomains": [
+        "@konstella.com",
+        "hello@konstella.com"
+      ],
+      "subjectPatterns": [
+        "Konstella"
+      ],
+      "urlPatterns": [
+        "konstella.com"
+      ]
+    },
+    "talkingpoints": {
+      "name": "Talking Points",
+      "vendor": "Talking Points",
+      "emailDomains": [
+        "@talkingpts.org",
+        "@mail.talkingpts.org"
+      ],
+      "subjectPatterns": [
+        "Talking Points",
+        "message from teacher"
+      ],
+      "urlPatterns": [
+        "talkingpts.org"
+      ]
+    }
+  },
+  "studentInfo": {
+    "powerschool": {
+      "name": "PowerSchool SIS",
+      "vendor": "PowerSchool",
+      "emailDomains": [
+        "@powerschool.com",
+        "noreply@powerschool.com",
+        "mobile.support@powerschool.com"
+      ],
+      "subjectPatterns": [
+        "PowerSchool",
+        "grade posted",
+        "attendance notification",
+        "new assignment"
+      ],
+      "urlPatterns": [
+        "powerschool.com"
+      ]
+    },
+    "infinitecampus": {
+      "name": "Infinite Campus",
+      "vendor": "Infinite Campus",
+      "emailDomains": [
+        "@infinitecampus.com",
+        "@mail.infinitecampus.com"
+      ],
+      "subjectPatterns": [
+        "Infinite Campus",
+        "attendance alert",
+        "grade notification"
+      ],
+      "urlPatterns": [
+        "infinitecampus.com"
+      ]
+    },
+    "skyward": {
+      "name": "Skyward",
+      "vendor": "Skyward",
+      "emailDomains": [
+        "@skyward.com",
+        "@mail.skyward.com"
+      ],
+      "subjectPatterns": [
+        "Skyward"
+      ],
+      "urlPatterns": [
+        "skyward.com"
+      ]
+    },
+    "aspen": {
+      "name": "Aspen SIS",
+      "vendor": "Follett",
+      "emailDomains": [
+        "@follettaspen.com"
+      ],
+      "subjectPatterns": [
+        "Aspen",
+        "grade notification"
+      ],
+      "urlPatterns": [
+        "follettaspen.com"
+      ]
+    }
+  },
+  "lunch": {
+    "myschoolbucks": {
+      "name": "MySchoolBucks",
+      "vendor": "Heartland Payment Systems",
+      "emailDomains": [
+        "@myschoolbucks.com",
+        "@mail.myschoolbucks.com",
+        "noreply@myschoolbucks.com"
+      ],
+      "subjectPatterns": [
+        "MySchoolBucks",
+        "low balance alert",
+        "payment receipt",
+        "account balance"
+      ],
+      "urlPatterns": [
+        "myschoolbucks.com"
+      ]
+    },
+    "schoolcafe": {
+      "name": "SchoolCafe",
+      "vendor": "Heartland",
+      "emailDomains": [
+        "@schoolcafe.com",
+        "@mail.schoolcafe.com"
+      ],
+      "subjectPatterns": [
+        "SchoolCafe",
+        "meal account"
+      ],
+      "urlPatterns": [
+        "schoolcafe.com"
+      ]
+    },
+    "ezschoolpay": {
+      "name": "EZSchoolPay",
+      "vendor": "EZSchoolPay",
+      "emailDomains": [
+        "@ezschoolpay.com"
+      ],
+      "subjectPatterns": [
+        "EZSchoolPay"
+      ],
+      "urlPatterns": [
+        "ezschoolpay.com"
+      ]
+    },
+    "myschoolaccount": {
+      "name": "MySchoolAccount",
+      "vendor": "LunchTime",
+      "emailDomains": [
+        "@myschoolaccount.com"
+      ],
+      "subjectPatterns": [
+        "MySchoolAccount",
+        "lunch account"
+      ],
+      "urlPatterns": [
+        "myschoolaccount.com"
+      ]
+    }
+  },
+  "sports": {
+    "sportsengine": {
+      "name": "SportsEngine",
+      "vendor": "NBC Sports Next",
+      "emailDomains": [
+        "@sportsengine.com",
+        "@mail.sportsengine.com",
+        "@sportsengineplay.com"
+      ],
+      "subjectPatterns": [
+        "SportsEngine",
+        "game schedule",
+        "team update",
+        "registration"
+      ],
+      "urlPatterns": [
+        "sportsengine.com"
+      ]
+    },
+    "teamsnap": {
+      "name": "TeamSnap",
+      "vendor": "TeamSnap",
+      "emailDomains": [
+        "@teamsnap.com",
+        "@mail.teamsnap.com"
+      ],
+      "subjectPatterns": [
+        "TeamSnap",
+        "availability",
+        "game reminder",
+        "practice"
+      ],
+      "urlPatterns": [
+        "teamsnap.com"
+      ]
+    },
+    "leagueapps": {
+      "name": "LeagueApps",
+      "vendor": "LeagueApps",
+      "emailDomains": [
+        "@leagueapps.com",
+        "@mail.leagueapps.com"
+      ],
+      "subjectPatterns": [
+        "LeagueApps",
+        "registration",
+        "season"
+      ],
+      "urlPatterns": [
+        "leagueapps.com"
+      ]
+    },
+    "communitypass": {
+      "name": "CommunityPass",
+      "vendor": "CommunityPass",
+      "emailDomains": [
+        "@communitypass.net",
+        "info@communitypass.net"
+      ],
+      "subjectPatterns": [
+        "CommunityPass",
+        "registration",
+        "recreation"
+      ],
+      "urlPatterns": [
+        "communitypass.net"
+      ]
+    },
+    "activenet": {
+      "name": "ActiveNet",
+      "vendor": "Active Network",
+      "emailDomains": [
+        "@active.com",
+        "@mail.active.com"
+      ],
+      "subjectPatterns": [
+        "Active",
+        "registration confirmation"
+      ],
+      "urlPatterns": [
+        "active.com"
+      ]
+    }
+  },
+  "earlyChildhood": {
+    "brightwheel": {
+      "name": "Brightwheel",
+      "vendor": "Brightwheel",
+      "emailDomains": [
+        "@mybrightwheel.com",
+        "@mail.mybrightwheel.com"
+      ],
+      "subjectPatterns": [
+        "Brightwheel",
+        "daily report",
+        "photo update"
+      ],
+      "urlPatterns": [
+        "mybrightwheel.com"
+      ]
+    },
+    "tadpoles": {
+      "name": "Tadpoles",
+      "vendor": "Tadpoles",
+      "emailDomains": [
+        "@tadpoles.com",
+        "@mail.tadpoles.com"
+      ],
+      "subjectPatterns": [
+        "Tadpoles",
+        "new photos",
+        "daily sheet"
+      ],
+      "urlPatterns": [
+        "tadpoles.com"
+      ]
+    },
+    "procare": {
+      "name": "Procare",
+      "vendor": "Procare Software",
+      "emailDomains": [
+        "@procareconnect.com",
+        "@procaresoftware.com"
+      ],
+      "subjectPatterns": [
+        "Procare"
+      ],
+      "urlPatterns": [
+        "procareconnect.com",
+        "procaresoftware.com"
+      ]
+    }
+  },
+  "other": {
+    "signupgenius": {
+      "name": "SignUpGenius",
+      "vendor": "SignUpGenius",
+      "emailDomains": [
+        "@signupgenius.com",
+        "noreply@signupgenius.com"
+      ],
+      "subjectPatterns": [
+        "SignUpGenius",
+        "sign up",
+        "volunteer"
+      ],
+      "urlPatterns": [
+        "signupgenius.com"
+      ]
+    },
+    "lifetouch": {
+      "name": "Lifetouch",
+      "vendor": "Lifetouch/Shutterfly",
+      "emailDomains": [
+        "@lifetouch.com",
+        "@mail.lifetouch.com"
+      ],
+      "subjectPatterns": [
+        "Lifetouch",
+        "school pictures",
+        "picture day"
+      ],
+      "urlPatterns": [
+        "lifetouch.com",
+        "mylifetouch.com"
+      ]
+    },
+    "naviance": {
+      "name": "Naviance",
+      "vendor": "PowerSchool",
+      "emailDomains": [
+        "@naviance.com",
+        "@mail.naviance.com"
+      ],
+      "subjectPatterns": [
+        "Naviance",
+        "college planning"
+      ],
+      "urlPatterns": [
+        "naviance.com"
+      ]
+    }
+  },
+  "detection": {
+    "schoolDomainPatterns": [
+      ".k12.nj.us",
+      ".k12.ny.us",
+      ".k12.ca.us",
+      ".k12.tx.us",
+      ".k12.us",
+      ".edu",
+      "schooldistrict",
+      "schools.org"
+    ],
+    "teacherEmailPatterns": [
+      "teachers@",
+      "staff@",
+      "faculty@"
+    ],
+    "genericSchoolKeywords": [
+      "school",
+      "district",
+      "education",
+      "principal",
+      "teacher",
+      "classroom"
+    ]
+  }
+}

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Relationship Visualization - Phase 3.5</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+        }
+
+        .input-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+            resize: vertical;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+
+        .visualization {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px;
+            background: #ecf0f1;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        .entity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .entity-card {
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+
+        .entity-card.high-conf {
+            background: #e8f5e9;
+            border-left-color: #27ae60;
+        }
+
+        .entity-card.medium-conf {
+            background: #fff3e0;
+            border-left-color: #f39c12;
+        }
+
+        .entity-card.low-conf {
+            background: #ffebee;
+            border-left-color: #e74c3c;
+        }
+
+        .entity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .entity-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .entity-confidence {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .entity-value {
+            color: #34495e;
+            font-family: monospace;
+            background: rgba(0,0,0,0.05);
+            padding: 6px 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+
+        .entity-meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .badge-type {
+            background: #3498db;
+            color: white;
+        }
+
+        .badge-validated {
+            background: #27ae60;
+            color: white;
+        }
+
+        .badge-not-validated {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .relationships-section {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .relationship-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            border-left: 3px solid #9b59b6;
+        }
+
+        .relationship-type {
+            font-weight: 600;
+            color: #8e44ad;
+            margin-bottom: 8px;
+        }
+
+        .relationship-detail {
+            color: #34495e;
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #95a5a6;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Entity Relationship Visualization</h1>
+            <p class="subtitle">Phase 3.5 - Debug entity extraction and relationships</p>
+        </header>
+
+        <div class="input-section">
+            <h3>Enhanced Entity Extraction Result</h3>
+            <p style="margin: 10px 0; color: #7f8c8d;">Paste the output from extractEntitiesEnhanced() here:</p>
+            <textarea id="entityInput" placeholder='{"entities": {...}, "metadata": {...}, "relationships": [...], "stats": {...}}'></textarea>
+            <div class="button-group">
+                <button class="btn-primary" onclick="visualize()">Visualize</button>
+                <button class="btn-secondary" onclick="loadSample()">Load Sample Data</button>
+            </div>
+        </div>
+
+        <div id="visualization" class="visualization" style="display: none;">
+            <!-- Content will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        function loadSample() {
+            const sample = {
+                "entities": {
+                    "trackingNumber": "1Z999AA10123456784",
+                    "orderNumber": "112-7654321",
+                    "carrier": "UPS",
+                    "amount": "99.99",
+                    "deliveryDate": "2025-01-15"
+                },
+                "metadata": {
+                    "trackingNumber": {
+                        "confidence": 0.9,
+                        "type": "ID",
+                        "source": "pattern_match",
+                        "validated": true,
+                        "corrected": false
+                    },
+                    "orderNumber": {
+                        "confidence": 0.85,
+                        "type": "ID",
+                        "source": "pattern_match",
+                        "validated": true,
+                        "corrected": false
+                    },
+                    "carrier": {
+                        "confidence": 0.95,
+                        "type": "TEXT",
+                        "source": "inferred_from_relationship",
+                        "validated": true,
+                        "corrected": false
+                    },
+                    "amount": {
+                        "confidence": 0.8,
+                        "type": "MONEY",
+                        "source": "pattern_match",
+                        "validated": true,
+                        "corrected": false
+                    },
+                    "deliveryDate": {
+                        "confidence": 0.75,
+                        "type": "DATE",
+                        "source": "pattern_match",
+                        "validated": true,
+                        "corrected": false
+                    }
+                },
+                "relationships": [
+                    {
+                        "type": "inferred",
+                        "from": "trackingNumber",
+                        "to": "carrier",
+                        "value": "UPS",
+                        "confidence": 0.9
+                    },
+                    {
+                        "type": "related",
+                        "entities": ["orderNumber", "trackingNumber"],
+                        "confidence": 0.85
+                    }
+                ],
+                "stats": {
+                    "totalEntities": 5,
+                    "avgConfidence": 0.85,
+                    "highConfidenceCount": 4,
+                    "processingTime": 2
+                }
+            };
+
+            document.getElementById('entityInput').value = JSON.stringify(sample, null, 2);
+        }
+
+        function visualize() {
+            const input = document.getElementById('entityInput').value;
+            const vizDiv = document.getElementById('visualization');
+
+            try {
+                const data = JSON.parse(input);
+                renderVisualization(data);
+                vizDiv.style.display = 'block';
+            } catch (error) {
+                vizDiv.innerHTML = `<div class="error">Error parsing JSON: ${error.message}</div>`;
+                vizDiv.style.display = 'block';
+            }
+        }
+
+        function renderVisualization(data) {
+            const vizDiv = document.getElementById('visualization');
+            const { entities, metadata, relationships, stats } = data;
+
+            let html = '';
+
+            // Stats bar
+            html += '<div class="stats-bar">';
+            html += `<div class="stat">
+                <div class="stat-value">${stats.totalEntities || 0}</div>
+                <div class="stat-label">Total Entities</div>
+            </div>`;
+            html += `<div class="stat">
+                <div class="stat-value">${((stats.avgConfidence || 0) * 100).toFixed(0)}%</div>
+                <div class="stat-label">Avg Confidence</div>
+            </div>`;
+            html += `<div class="stat">
+                <div class="stat-value">${stats.highConfidenceCount || 0}</div>
+                <div class="stat-label">High Confidence</div>
+            </div>`;
+            html += `<div class="stat">
+                <div class="stat-value">${stats.processingTime || 0}ms</div>
+                <div class="stat-label">Processing Time</div>
+            </div>`;
+            html += '</div>';
+
+            // Entities section
+            html += '<div class="section-title">Extracted Entities</div>';
+
+            if (!entities || Object.keys(entities).length === 0) {
+                html += '<div class="empty-state">No entities extracted</div>';
+            } else {
+                html += '<div class="entity-grid">';
+
+                for (const [key, value] of Object.entries(entities)) {
+                    const meta = metadata[key] || {};
+                    const confidence = meta.confidence || 0;
+                    const confClass = confidence >= 0.8 ? 'high-conf' : confidence >= 0.6 ? 'medium-conf' : 'low-conf';
+
+                    html += `<div class="entity-card ${confClass}">
+                        <div class="entity-header">
+                            <span class="entity-name">${key}</span>
+                            <span class="entity-confidence">${(confidence * 100).toFixed(0)}%</span>
+                        </div>
+                        <div class="entity-value">${value}</div>
+                        <div class="entity-meta">
+                            <span class="badge badge-type">${meta.type || 'TEXT'}</span>
+                            <span class="badge ${meta.validated ? 'badge-validated' : 'badge-not-validated'}">
+                                ${meta.validated ? '✓ Validated' : 'Not validated'}
+                            </span>
+                        </div>
+                    </div>`;
+                }
+
+                html += '</div>';
+            }
+
+            // Relationships section
+            if (relationships && relationships.length > 0) {
+                html += '<div class="relationships-section">';
+                html += '<div class="section-title">Entity Relationships</div>';
+
+                relationships.forEach(rel => {
+                    if (rel.type === 'inferred') {
+                        html += `<div class="relationship-card">
+                            <div class="relationship-type">Inferred Relationship</div>
+                            <div class="relationship-detail">
+                                From <strong>${rel.from}</strong> inferred <strong>${rel.to}</strong> = "${rel.value}"
+                                (${(rel.confidence * 100).toFixed(0)}% confidence)
+                            </div>
+                        </div>`;
+                    } else if (rel.type === 'related') {
+                        html += `<div class="relationship-card">
+                            <div class="relationship-type">Related Entities</div>
+                            <div class="relationship-detail">
+                                <strong>${rel.entities.join(', ')}</strong> are related
+                                (${(rel.confidence * 100).toFixed(0)}% confidence)
+                            </div>
+                        </div>`;
+                    }
+                });
+
+                html += '</div>';
+            }
+
+            vizDiv.innerHTML = html;
+        }
+
+        // Load sample data on page load
+        window.addEventListener('load', () => {
+            loadSample();
+            visualize();
+        });
+    </script>
+</body>
+</html>

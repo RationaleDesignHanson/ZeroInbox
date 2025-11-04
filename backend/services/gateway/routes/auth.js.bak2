@@ -1,0 +1,504 @@
+const express = require('express');
+const router = express.Router();
+const { google } = require('googleapis');
+const { ConfidentialClientApplication } = require('@azure/msal-node');
+const logger = require('../shared/config/logger');
+const { generateToken, storeUserTokens } = require('../shared/utils/auth');
+const { createOAuth2Client, clearReauthFlag } = require('../../shared/utils/token-manager');
+
+// ============================================
+// DEMO LOGIN (for testing without OAuth)
+// ============================================
+
+/**
+ * POST /api/auth/demo
+ * Demo login with password (123456)
+ * Returns JWT for first available Gmail user
+ */
+router.post('/demo', (req, res) => {
+  try {
+    const { password } = req.body;
+
+    // Check password
+    if (password !== '123456') {
+      return res.status(401).json({
+        success: false,
+        error: 'Invalid password. Use 123456 for demo access.'
+      });
+    }
+
+    // Get first available user from stored tokens
+    const { getUserTokens } = require('../shared/utils/auth');
+    const fs = require('fs');
+    const path = require('path');
+
+    const TOKEN_DIR = path.join(__dirname, '../../data/tokens');
+
+    if (!fs.existsSync(TOKEN_DIR)) {
+      return res.status(404).json({
+        success: false,
+        error: 'No authenticated users found. Please authenticate via OAuth first.'
+      });
+    }
+
+    // Find first Gmail token file
+    const tokenFiles = fs.readdirSync(TOKEN_DIR).filter(f => f.endsWith('_gmail.json'));
+
+    if (tokenFiles.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: 'No Gmail accounts authenticated. Please authenticate via OAuth first.'
+      });
+    }
+
+    // Use first available user
+    const firstFile = tokenFiles[0];
+    const userId = firstFile.replace('_gmail.json', '');
+    const tokenData = getUserTokens(userId, 'gmail');
+
+    if (!tokenData) {
+      return res.status(500).json({
+        success: false,
+        error: 'Failed to load user tokens.'
+      });
+    }
+
+    // Generate JWT for this user
+    const jwtToken = generateToken(userId, 'gmail', tokenData.email);
+
+    logger.info('Demo login successful', { userId, email: tokenData.email });
+
+    res.json({
+      success: true,
+      token: jwtToken,
+      email: tokenData.email,
+      provider: 'gmail',
+      message: 'Demo login successful'
+    });
+
+  } catch (error) {
+    logger.error('Demo login error', { error: error.message });
+    res.status(500).json({
+      success: false,
+      error: 'Failed to complete demo login'
+    });
+  }
+});
+
+// ============================================
+// GMAIL OAUTH FLOW
+// ============================================
+
+/**
+ * GET /api/auth/gmail
+ * Initiate Gmail OAuth flow
+ */
+router.get('/gmail', (req, res) => {
+  try {
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+    const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    const redirectUri = process.env.GOOGLE_REDIRECT_URI;
+
+    // Debug logging
+    logger.info('OAuth env check', {
+      hasClientId: !!clientId,
+      clientIdLength: clientId ? clientId.length : 0,
+      hasClientSecret: !!clientSecret,
+      hasRedirectUri: !!redirectUri
+    });
+
+    if (!clientId || !clientSecret || !redirectUri) {
+      logger.error('OAuth env missing', {
+        hasClientId: !!clientId,
+        hasClientSecret: !!clientSecret,
+        hasRedirectUri: !!redirectUri
+      });
+      return res.status(500).json({ error: 'OAuth not configured on server' });
+    }
+
+    const oauth2Client = new google.auth.OAuth2(
+      clientId,
+      clientSecret,
+      redirectUri
+    );
+
+    const scopes = [
+      'https://www.googleapis.com/auth/gmail.readonly',
+      'https://www.googleapis.com/auth/gmail.send',
+      'https://www.googleapis.com/auth/userinfo.email'
+    ];
+
+    const authUrl = oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      scope: scopes,
+      prompt: 'consent', // Force consent to get refresh token
+      // Be explicit to avoid any client_id omissions
+      client_id: clientId,
+      redirect_uri: redirectUri
+    });
+
+    res.json({ authUrl });
+
+  } catch (error) {
+    logger.error('Gmail OAuth initiation error', { error: error.message });
+    res.status(500).json({ error: 'Failed to initiate Gmail authentication' });
+  }
+});
+
+/**
+ * GET /api/auth/gmail/add
+ * Initiate Gmail OAuth flow for adding additional account
+ * Query params: userId (existing user), isAdditional (true)
+ */
+router.get('/gmail/add', (req, res) => {
+  try {
+    const { userId, isAdditional } = req.query;
+
+    if (!userId || isAdditional !== 'true') {
+      return res.status(400).json({
+        error: 'userId and isAdditional=true required for adding additional account'
+      });
+    }
+
+    const oauth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      process.env.GOOGLE_REDIRECT_URI
+    );
+
+    const scopes = [
+      'https://www.googleapis.com/auth/gmail.readonly',
+      'https://www.googleapis.com/auth/gmail.send',
+      'https://www.googleapis.com/auth/userinfo.email'
+    ];
+
+    // Store state to link new account to existing user
+    const state = Buffer.from(JSON.stringify({
+      userId,
+      isAdditional: true
+    })).toString('base64');
+
+    const authUrl = oauth2Client.generateAuthUrl({
+      access_type: 'offline',
+      scope: scopes,
+      prompt: 'consent', // Force consent to get refresh token
+      state // Pass state to callback
+    });
+
+    logger.info('Initiating additional Gmail account OAuth', { userId });
+    res.json({ authUrl });
+
+  } catch (error) {
+    logger.error('Gmail add account OAuth initiation error', { error: error.message });
+    res.status(500).json({ error: 'Failed to initiate additional Gmail authentication' });
+  }
+});
+
+/**
+ * GET /api/auth/gmail/callback
+ * Handle Gmail OAuth callback (for both initial and additional accounts)
+ */
+router.get('/gmail/callback', async (req, res) => {
+  try {
+    const { code, state } = req.query;
+
+    if (!code) {
+      return res.status(400).json({ error: 'Authorization code missing' });
+    }
+
+    // Parse state to check if this is an additional account
+    let isAdditional = false;
+    let existingUserId = null;
+    if (state) {
+      try {
+        const stateData = JSON.parse(Buffer.from(state, 'base64').toString());
+        isAdditional = stateData.isAdditional === true;
+        existingUserId = stateData.userId;
+        logger.info('Parsed OAuth state', { isAdditional, existingUserId });
+      } catch (e) {
+        logger.warn('Failed to parse OAuth state', { state });
+      }
+    }
+
+    const oauth2Client = new google.auth.OAuth2(
+      process.env.GOOGLE_CLIENT_ID,
+      process.env.GOOGLE_CLIENT_SECRET,
+      process.env.GOOGLE_REDIRECT_URI
+    );
+
+    // Exchange code for tokens
+    const { tokens } = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(tokens);
+
+    // Get user info
+    const oauth2 = google.oauth2({ version: 'v2', auth: oauth2Client });
+    const userInfo = await oauth2.userinfo.get();
+
+    const userId = userInfo.data.id;
+    const email = userInfo.data.email;
+
+    // Store tokens (TokenManager will handle automatic refresh)
+    const storedTokens = {
+      accessToken: tokens.access_token,
+      refreshToken: tokens.refresh_token,
+      expiresAt: tokens.expiry_date,
+      email
+    };
+    await storeUserTokens(userId, 'gmail', storedTokens);
+
+    // Clear any existing re-auth flag (fresh login)
+    clearReauthFlag(userId);
+
+    if (isAdditional) {
+      logger.info('Additional Gmail account added successfully', { userId, email, linkedToUser: existingUserId });
+    } else {
+      logger.info('Gmail OAuth successful', { userId, email });
+    }
+
+    // Generate JWT for the app
+    const jwtToken = generateToken(userId, 'gmail', email);
+
+    // Generate callback URL with custom scheme
+    const callbackUrl = `com.googleusercontent.apps.514014482017-gpsj2233l3dl312j6ek96cglv0agovuq://oauth?token=${encodeURIComponent(jwtToken)}&email=${encodeURIComponent(email)}&provider=gmail`;
+
+    // Check if request explicitly wants JSON response (for API testing)
+    const requestedJson = req.query.format === 'json';
+
+    if (requestedJson) {
+      // API/testing mode: return JSON response
+      res.json({
+        success: true,
+        token: jwtToken,
+        email,
+        provider: 'gmail',
+        userId
+      });
+    } else {
+      // Direct 302 redirect to custom URL scheme
+      // This is what ASWebAuthenticationSession expects
+      res.redirect(302, callbackUrl);
+    }
+
+  } catch (error) {
+    logger.error('Gmail OAuth callback error', { error: error.message, stack: error.stack });
+    res.status(500).json({ error: 'Failed to complete Gmail authentication', details: error.message });
+  }
+});
+
+// ============================================
+// MICROSOFT OAUTH FLOW
+// ============================================
+
+const msalConfig = {
+  auth: {
+    clientId: process.env.MICROSOFT_CLIENT_ID,
+    authority: `https://login.microsoftonline.com/${process.env.MICROSOFT_TENANT_ID || 'common'}`,
+    clientSecret: process.env.MICROSOFT_CLIENT_SECRET
+  }
+};
+
+let msalClient;
+if (process.env.MICROSOFT_CLIENT_ID && process.env.MICROSOFT_CLIENT_SECRET) {
+  msalClient = new ConfidentialClientApplication(msalConfig);
+}
+
+/**
+ * GET /api/auth/microsoft
+ * Initiate Microsoft OAuth flow
+ */
+router.get('/microsoft', (req, res) => {
+  try {
+    if (!msalClient) {
+      return res.status(500).json({ error: 'Microsoft OAuth not configured' });
+    }
+
+    const authCodeUrlParameters = {
+      scopes: [
+        'openid',
+        'profile',
+        'offline_access',
+        'https://graph.microsoft.com/Mail.ReadWrite',
+        'https://graph.microsoft.com/Mail.Send',
+        'https://graph.microsoft.com/User.Read'
+      ],
+      redirectUri: process.env.MICROSOFT_REDIRECT_URI
+    };
+
+    msalClient.getAuthCodeUrl(authCodeUrlParameters).then((authUrl) => {
+      res.json({ authUrl });
+    });
+
+  } catch (error) {
+    logger.error('Microsoft OAuth initiation error', { error: error.message });
+    res.status(500).json({ error: 'Failed to initiate Microsoft authentication' });
+  }
+});
+
+/**
+ * GET /api/auth/microsoft/callback
+ * Handle Microsoft OAuth callback
+ */
+router.get('/microsoft/callback', async (req, res) => {
+  try {
+    const { code } = req.query;
+
+    if (!code) {
+      return res.status(400).json({ error: 'Authorization code missing' });
+    }
+
+    if (!msalClient) {
+      return res.status(500).json({ error: 'Microsoft OAuth not configured' });
+    }
+
+    const tokenRequest = {
+      code,
+      scopes: [
+        'openid',
+        'profile',
+        'offline_access',
+        'https://graph.microsoft.com/Mail.ReadWrite',
+        'https://graph.microsoft.com/Mail.Send',
+        'https://graph.microsoft.com/User.Read'
+      ],
+      redirectUri: process.env.MICROSOFT_REDIRECT_URI
+    };
+
+    const response = await msalClient.acquireTokenByCode(tokenRequest);
+
+    const userId = response.account.homeAccountId;
+    const email = response.account.username;
+
+    // Store tokens
+    storeUserTokens(userId, 'outlook', {
+      accessToken: response.accessToken,
+      refreshToken: response.refreshToken || null,
+      expiresAt: response.expiresOn.getTime(),
+      email
+    });
+
+    // Generate JWT
+    const jwtToken = generateToken(userId, 'outlook', email);
+
+    res.json({
+      success: true,
+      token: jwtToken,
+      email,
+      provider: 'outlook'
+    });
+
+  } catch (error) {
+    logger.error('Microsoft OAuth callback error', { error: error.message });
+    res.status(500).json({ error: 'Failed to complete Microsoft authentication' });
+  }
+});
+
+// ============================================
+// YAHOO OAUTH FLOW (Placeholder)
+// ============================================
+
+/**
+ * GET /api/auth/yahoo
+ * Initiate Yahoo OAuth flow
+ * Note: Requires Yahoo API approval
+ */
+router.get('/yahoo', (req, res) => {
+  res.status(501).json({
+    error: 'Yahoo OAuth not yet implemented',
+    message: 'Yahoo Mail API access requires approval. See BACKEND_SETUP_GUIDE.md for instructions.'
+  });
+});
+
+// ============================================
+// iCLOUD MANUAL AUTH
+// ============================================
+
+/**
+ * POST /api/auth/icloud
+ * Store iCloud credentials (app-specific password)
+ */
+router.post('/icloud', (req, res) => {
+  try {
+    const { email, appSpecificPassword } = req.body;
+
+    if (!email || !appSpecificPassword) {
+      return res.status(400).json({ error: 'Email and app-specific password required' });
+    }
+
+    // Generate a simple user ID from email
+    const userId = Buffer.from(email).toString('base64');
+
+    // Store credentials
+    storeUserTokens(userId, 'icloud', {
+      email,
+      appSpecificPassword,
+      expiresAt: null // App-specific passwords don't expire
+    });
+
+    // Generate JWT
+    const jwtToken = generateToken(userId, 'icloud', email);
+
+    res.json({
+      success: true,
+      token: jwtToken,
+      email,
+      provider: 'icloud'
+    });
+
+  } catch (error) {
+    logger.error('iCloud auth error', { error: error.message });
+    res.status(500).json({ error: 'Failed to store iCloud credentials' });
+  }
+});
+
+// ============================================
+// TOKEN REFRESH
+// ============================================
+
+/**
+ * POST /api/auth/refresh
+ * Refresh access token
+ */
+router.post('/refresh', async (req, res) => {
+  try {
+    const { refreshToken, provider } = req.body;
+
+    if (!refreshToken || !provider) {
+      return res.status(400).json({ error: 'Refresh token and provider required' });
+    }
+
+    // Handle provider-specific refresh logic
+    // This is a simplified version - production should handle each provider
+    res.status(501).json({ error: 'Token refresh not yet implemented' });
+
+  } catch (error) {
+    logger.error('Token refresh error', { error: error.message });
+    res.status(500).json({ error: 'Failed to refresh token' });
+  }
+});
+
+// ============================================
+// LOGOUT
+// ============================================
+
+/**
+ * POST /api/auth/logout
+ * Logout user and clear tokens
+ */
+router.post('/logout', (req, res) => {
+  try {
+    const { userId, provider } = req.body;
+
+    if (userId && provider) {
+      const { deleteUserTokens } = require('../shared/utils/auth');
+      deleteUserTokens(userId, provider);
+    }
+
+    res.json({ success: true, message: 'Logged out successfully' });
+
+  } catch (error) {
+    logger.error('Logout error', { error: error.message });
+    res.status(500).json({ error: 'Failed to logout' });
+  }
+});
+
+module.exports = router;

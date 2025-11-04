@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero Email - Test Center</title>
+    <script src="js/config.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .test-panel {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .panel-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        button {
+            padding: 12px 24px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(76, 175, 80, 0.8);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background: rgba(76, 175, 80, 1);
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .result-box pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-left: 10px;
+        }
+
+        .status.success {
+            background: rgba(76, 175, 80, 0.8);
+        }
+
+        .status.error {
+            background: rgba(244, 67, 54, 0.8);
+        }
+
+        .status.warning {
+            background: rgba(255, 152, 0, 0.8);
+        }
+
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .action-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-name {
+            font-weight: 600;
+        }
+
+        .action-type {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 8px;
+            background: rgba(59, 130, 246, 0.6);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .quick-tests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .quick-test-btn {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .quick-test-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .quick-test-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .quick-test-label {
+            font-size: 14px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧪 Zero Email Test Center</h1>
+            <p>Live testing and debugging for the complete Zero Email system</p>
+            <a href="index.html" class="btn">← Back to Dashboard</a>
+        </header>
+
+        <!-- Quick Test Buttons -->
+        <div class="test-panel">
+            <div class="panel-title">⚡ Quick Tests</div>
+            <div class="quick-tests">
+                <div class="quick-test-btn" onclick="runQuickTest('package')">
+                    <div class="quick-test-icon">📦</div>
+                    <div class="quick-test-label">Package Shipment</div>
+                </div>
+                <div class="quick-test-btn" onclick="runQuickTest('invoice')">
+                    <div class="quick-test-icon">💰</div>
+                    <div class="quick-test-label">Invoice Payment</div>
+                </div>
+                <div class="quick-test-btn" onclick="runQuickTest('school')">
+                    <div class="quick-test-icon">🏫</div>
+                    <div class="quick-test-label">School Form</div>
+                </div>
+                <div class="quick-test-btn" onclick="runQuickTest('flight')">
+                    <div class="quick-test-icon">✈️</div>
+                    <div class="quick-test-label">Flight Check-in</div>
+                </div>
+                <div class="quick-test-btn" onclick="runQuickTest('doctor')">
+                    <div class="quick-test-icon">🏥</div>
+                    <div class="quick-test-label">Doctor Appt</div>
+                </div>
+                <div class="quick-test-btn" onclick="runQuickTest('newsletter')">
+                    <div class="quick-test-icon">📰</div>
+                    <div class="quick-test-label">Newsletter</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-grid">
+            <!-- Email Classifier Test -->
+            <div class="test-panel">
+                <div class="panel-title">
+                    🎯 Email Classifier
+                    <span id="classifier-status"></span>
+                </div>
+                <div class="form-group">
+                    <label>Email Subject</label>
+                    <input type="text" id="test-subject" placeholder="Your Amazon order has shipped">
+                </div>
+                <div class="form-group">
+                    <label>Email From</label>
+                    <input type="text" id="test-from" placeholder="Amazon <shipment@amazon.com>">
+                </div>
+                <div class="form-group">
+                    <label>Email Body</label>
+                    <textarea id="test-body" placeholder="Order #123-4567890 has shipped. Tracking number: 1Z999AA10123456784..."></textarea>
+                </div>
+                <button onclick="testClassification()">
+                    <span id="classify-btn-text">🎯 Classify Email</span>
+                </button>
+                <div id="classify-result" class="result-box" style="display: none;"></div>
+            </div>
+
+            <!-- Email Summarization Test -->
+            <div class="test-panel">
+                <div class="panel-title">
+                    📝 Email Summarization
+                    <span id="summarization-status"></span>
+                </div>
+                <div class="form-group">
+                    <label>Email Subject</label>
+                    <input type="text" id="summary-subject" placeholder="Your Amazon order has shipped">
+                </div>
+                <div class="form-group">
+                    <label>Email Body</label>
+                    <textarea id="summary-body" placeholder="Order #123-4567890 has shipped..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Intent (optional)</label>
+                    <input type="text" id="summary-intent" placeholder="e-commerce.shipping.notification">
+                </div>
+                <button onclick="testSummarization()">
+                    <span id="summarize-btn-text">📝 Generate Summary</span>
+                </button>
+                <div id="summary-result" class="result-box" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="test-grid">
+            <!-- Intent Lookup Test -->
+            <div class="test-panel">
+                <div class="panel-title">🔍 Intent Lookup</div>
+                <div class="form-group">
+                    <label>Intent ID</label>
+                    <input type="text" id="intent-id" placeholder="e-commerce.shipping.notification" list="intent-list">
+                    <datalist id="intent-list">
+                        <option value="e-commerce.shipping.notification">
+                        <option value="billing.invoice.due">
+                        <option value="education.permission.form">
+                        <option value="travel.flight.check-in">
+                        <option value="healthcare.appointment.reminder">
+                    </datalist>
+                </div>
+                <button onclick="lookupIntent()">🔍 Lookup Intent</button>
+                <div id="intent-result" class="result-box" style="display: none;"></div>
+            </div>
+
+            <!-- Action Validator -->
+            <div class="test-panel">
+                <div class="panel-title">⚡ Action Validator</div>
+                <div class="form-group">
+                    <label>Action ID</label>
+                    <input type="text" id="action-id" placeholder="track_package" list="action-list">
+                    <datalist id="action-list">
+                        <option value="track_package">
+                        <option value="pay_invoice">
+                        <option value="sign_form">
+                        <option value="check_in_flight">
+                        <option value="schedule_purchase">
+                    </datalist>
+                </div>
+                <button onclick="validateAction()">⚡ Validate Action</button>
+                <div id="action-result" class="result-box" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Use DashboardConfig for backend URLs
+        const API_BASE = DashboardConfig.services.gateway;
+        const CLASSIFIER_API = DashboardConfig.services.classifier;
+        const SUMMARIZATION_API = DashboardConfig.services.summarization;
+
+        // Check service status on load
+        window.addEventListener('DOMContentLoaded', () => {
+            checkServiceStatus();
+        });
+
+        async function checkServiceStatus() {
+            // Check classifier
+            try {
+                const response = await fetch(`${CLASSIFIER_API}/health`);
+                if (response.ok) {
+                    document.getElementById('classifier-status').innerHTML = '<span class="status success">✓ ONLINE</span>';
+                } else {
+                    document.getElementById('classifier-status').innerHTML = '<span class="status error">✗ DOWN</span>';
+                }
+            } catch (error) {
+                document.getElementById('classifier-status').innerHTML = '<span class="status error">✗ DOWN</span>';
+            }
+
+            // Check summarization
+            try {
+                const response = await fetch(`${SUMMARIZATION_API}/health`);
+                if (response.ok) {
+                    document.getElementById('summarization-status').innerHTML = '<span class="status success">✓ ONLINE</span>';
+                } else {
+                    document.getElementById('summarization-status').innerHTML = '<span class="status error">✗ DOWN</span>';
+                }
+            } catch (error) {
+                document.getElementById('summarization-status').innerHTML = '<span class="status error">✗ DOWN</span>';
+            }
+        }
+
+        async function testClassification() {
+            const subject = document.getElementById('test-subject').value;
+            const from = document.getElementById('test-from').value;
+            const body = document.getElementById('test-body').value;
+
+            if (!subject || !body) {
+                alert('Please enter subject and body');
+                return;
+            }
+
+            document.getElementById('classify-btn-text').innerHTML = '<span class="loading"></span> Classifying...';
+            document.getElementById('classify-result').style.display = 'block';
+            document.getElementById('classify-result').innerHTML = '<p>Processing...</p>';
+
+            try {
+                const response = await fetch(`${CLASSIFIER_API}/api/classify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: { subject, from, body }
+                    })
+                });
+
+                const data = await response.json();
+
+                let html = '<pre><strong>✅ Classification Result:</strong>\n\n';
+                html += `<strong>Intent:</strong> ${data.intent}\n`;
+                html += `<strong>Confidence:</strong> ${(data.confidence * 100).toFixed(1)}%\n`;
+                html += `<strong>Category:</strong> ${data.category}\n`;
+                html += `<strong>Priority:</strong> ${data.priority}\n\n`;
+
+                if (data.suggestedActions && data.suggestedActions.length > 0) {
+                    html += `<strong>Suggested Actions (${data.suggestedActions.length}):</strong>\n`;
+                    data.suggestedActions.forEach((action, idx) => {
+                        html += `${idx + 1}. ${action.displayName} (${action.actionType})${action.isPrimary ? ' ⭐ PRIMARY' : ''}\n`;
+                    });
+                }
+
+                html += '\n<strong>Full Response:</strong>\n' + JSON.stringify(data, null, 2) + '</pre>';
+                document.getElementById('classify-result').innerHTML = html;
+            } catch (error) {
+                document.getElementById('classify-result').innerHTML = `<pre><strong>❌ Error:</strong>\n${error.message}</pre>`;
+            }
+
+            document.getElementById('classify-btn-text').textContent = '🎯 Classify Email';
+        }
+
+        async function testSummarization() {
+            const subject = document.getElementById('summary-subject').value;
+            const body = document.getElementById('summary-body').value;
+            const intent = document.getElementById('summary-intent').value;
+
+            if (!subject || !body) {
+                alert('Please enter subject and body');
+                return;
+            }
+
+            document.getElementById('summarize-btn-text').innerHTML = '<span class="loading"></span> Generating...';
+            document.getElementById('summary-result').style.display = 'block';
+            document.getElementById('summary-result').innerHTML = '<p>Processing...</p>';
+
+            try {
+                const response = await fetch(`${SUMMARIZATION_API}/api/summarize`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: { subject, body, from: 'Test', intent: intent || undefined }
+                    })
+                });
+
+                const data = await response.json();
+
+                let html = '<pre><strong>✅ Summary Result:</strong>\n\n';
+                html += `<strong>Summary:</strong>\n${data.summary || data.aiGeneratedSummary}\n\n`;
+                html += '<strong>Full Response:</strong>\n' + JSON.stringify(data, null, 2) + '</pre>';
+                document.getElementById('summary-result').innerHTML = html;
+            } catch (error) {
+                document.getElementById('summary-result').innerHTML = `<pre><strong>❌ Error:</strong>\n${error.message}</pre>`;
+            }
+
+            document.getElementById('summarize-btn-text').textContent = '📝 Generate Summary';
+        }
+
+        function runQuickTest(type) {
+            const tests = {
+                package: {
+                    subject: 'Your Amazon order has shipped',
+                    from: 'Amazon <shipment@amazon.com>',
+                    body: 'Order #123-4567890 has shipped. Tracking number: 1Z999AA10123456784. Estimated delivery: October 30, 2025. Carrier: UPS.'
+                },
+                invoice: {
+                    subject: 'Invoice #INV-2025-001 Due',
+                    from: 'Acme Corp <billing@acme.com>',
+                    body: 'Your invoice #INV-2025-001 is due on October 30, 2025. Amount due: $250.00. Pay online at: https://pay.acme.com/inv-001'
+                },
+                school: {
+                    subject: 'Field Trip Permission Form',
+                    from: 'Mrs. Johnson <teacher@school.edu>',
+                    body: 'Please sign the attached permission form for the science museum field trip on October 25. Fee: $15. Deadline: October 20.'
+                },
+                flight: {
+                    subject: 'Check in for flight UA 1234',
+                    from: 'United Airlines <noreply@united.com>',
+                    body: 'Your flight UA 1234 departs tomorrow at 9:00 AM from SFO to JFK. Check in now to get your boarding pass: https://united.com/checkin'
+                },
+                doctor: {
+                    subject: 'Appointment Reminder',
+                    from: 'Dr. Smith Office <office@drsmith.com>',
+                    body: 'Reminder: You have an appointment with Dr. Smith tomorrow at 2:00 PM. Location: 123 Main St, Suite 100. Check in online: https://drsmith.com/checkin'
+                },
+                newsletter: {
+                    subject: 'This Week in Tech - Issue #47',
+                    from: 'TechCrunch <newsletter@techcrunch.com>',
+                    body: 'TOP STORIES: GPT-5 speculation heats up. EU AI Act goes into effect. GitHub Copilot X major upgrade. Read more at techcrunch.com'
+                }
+            };
+
+            const test = tests[type];
+            document.getElementById('test-subject').value = test.subject;
+            document.getElementById('test-from').value = test.from;
+            document.getElementById('test-body').value = test.body;
+
+            // Auto-trigger classification
+            testClassification();
+        }
+
+        function lookupIntent() {
+            const intentId = document.getElementById('intent-id').value;
+            if (!intentId) {
+                alert('Please enter an intent ID');
+                return;
+            }
+
+            document.getElementById('intent-result').style.display = 'block';
+            document.getElementById('intent-result').innerHTML = `<pre>Looking up intent: ${intentId}\n\nNote: This feature requires connecting to the Zero Sequence Generator.\n\nOpen zero-sequence-generator.html and search for "${intentId}" to see:\n• Full intent definition\n• Trigger patterns\n• Required/optional entities\n• All suggested actions with metadata</pre>`;
+        }
+
+        function validateAction() {
+            const actionId = document.getElementById('action-id').value;
+            if (!actionId) {
+                alert('Please enter an action ID');
+                return;
+            }
+
+            document.getElementById('action-result').style.display = 'block';
+            document.getElementById('action-result').innerHTML = `<pre>Validating action: ${actionId}\n\nNote: This feature requires connecting to the Action Catalog.\n\nCheck:\n• Action exists in shared/config/action-catalog.js\n• Modal component exists (if actionType is IN_APP)\n• Action is referenced in at least one intent\n• displayName, priority, and description are set</pre>`;
+        }
+    </script>
+</body>
+</html>

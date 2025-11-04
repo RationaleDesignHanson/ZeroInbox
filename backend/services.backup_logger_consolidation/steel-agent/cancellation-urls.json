@@ -1,0 +1,331 @@
+{
+  "services": [
+    {
+      "name": "Netflix",
+      "aliases": ["netflix", "netflix.com"],
+      "accountPageUrl": "https://www.netflix.com/youraccount",
+      "cancellationUrl": "https://www.netflix.com/cancelplan",
+      "cancellationSteps": [
+        "Go to Account",
+        "Select Cancel Membership",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Spotify",
+      "aliases": ["spotify", "spotify.com"],
+      "accountPageUrl": "https://www.spotify.com/us/account/subscription",
+      "cancellationUrl": "https://www.spotify.com/us/account/subscription/cancel",
+      "cancellationSteps": [
+        "Go to Subscription page",
+        "Click Cancel Premium",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Amazon Prime",
+      "aliases": ["amazon prime", "prime", "amazon.com"],
+      "accountPageUrl": "https://www.amazon.com/mc/prime",
+      "cancellationUrl": "https://www.amazon.com/mc/prime/cancel",
+      "cancellationSteps": [
+        "Go to Prime Membership",
+        "Click End Membership",
+        "Confirm end date"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Hulu",
+      "aliases": ["hulu", "hulu.com"],
+      "accountPageUrl": "https://www.hulu.com/account",
+      "cancellationUrl": "https://secure.hulu.com/account/cancel",
+      "cancellationSteps": [
+        "Go to Account page",
+        "Click Cancel Your Subscription",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Disney+",
+      "aliases": ["disney+", "disney plus", "disneyplus", "disneyplus.com"],
+      "accountPageUrl": "https://www.disneyplus.com/account",
+      "cancellationUrl": "https://www.disneyplus.com/account/cancel",
+      "cancellationSteps": [
+        "Go to Account",
+        "Click Cancel Subscription",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Apple Music",
+      "aliases": ["apple music", "music.apple.com"],
+      "accountPageUrl": "https://music.apple.com/settings/subscriptions",
+      "cancellationUrl": "https://music.apple.com/settings/subscriptions",
+      "cancellationSteps": [
+        "Open Subscriptions",
+        "Click Cancel Subscription",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "HBO Max",
+      "aliases": ["hbo max", "hbomax", "max", "hbomax.com"],
+      "accountPageUrl": "https://www.max.com/account",
+      "cancellationUrl": "https://www.max.com/account/subscription",
+      "cancellationSteps": [
+        "Go to Account",
+        "Manage Subscription",
+        "Cancel Subscription"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "YouTube Premium",
+      "aliases": ["youtube premium", "youtube", "youtube.com"],
+      "accountPageUrl": "https://www.youtube.com/paid_memberships",
+      "cancellationUrl": "https://www.youtube.com/paid_memberships",
+      "cancellationSteps": [
+        "Go to Paid Memberships",
+        "Find YouTube Premium",
+        "Disable or Cancel"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Paramount+",
+      "aliases": ["paramount+", "paramount plus", "paramountplus", "paramountplus.com"],
+      "accountPageUrl": "https://www.paramountplus.com/account/subscription",
+      "cancellationUrl": "https://www.paramountplus.com/account/subscription/cancel",
+      "cancellationSteps": [
+        "Go to Account",
+        "Click Cancel Subscription",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Peacock",
+      "aliases": ["peacock", "peacocktv", "peacocktv.com"],
+      "accountPageUrl": "https://www.peacocktv.com/account",
+      "cancellationUrl": "https://www.peacocktv.com/account/your-subscriptions",
+      "cancellationSteps": [
+        "Go to Account",
+        "Manage Your Plan",
+        "Cancel Subscription"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Audible",
+      "aliases": ["audible", "audible.com"],
+      "accountPageUrl": "https://www.audible.com/account/details",
+      "cancellationUrl": "https://www.audible.com/account/membership/cancel",
+      "cancellationSteps": [
+        "Go to Account Details",
+        "Click Cancel Membership",
+        "Complete cancellation survey"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Adobe Creative Cloud",
+      "aliases": ["adobe", "adobe creative cloud", "adobe.com"],
+      "accountPageUrl": "https://account.adobe.com/plans",
+      "cancellationUrl": "https://account.adobe.com/plans",
+      "cancellationSteps": [
+        "Go to Plans",
+        "Click Manage Plan",
+        "Cancel your plan"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Dropbox",
+      "aliases": ["dropbox", "dropbox.com"],
+      "accountPageUrl": "https://www.dropbox.com/account/plan",
+      "cancellationUrl": "https://www.dropbox.com/account/plan",
+      "cancellationSteps": [
+        "Go to Account",
+        "Click Cancel plan",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "LinkedIn Premium",
+      "aliases": ["linkedin premium", "linkedin", "linkedin.com"],
+      "accountPageUrl": "https://www.linkedin.com/premium/products",
+      "cancellationUrl": "https://www.linkedin.com/premium/products",
+      "cancellationSteps": [
+        "Click on 'Me' icon",
+        "Go to Settings & Privacy",
+        "Cancel Premium subscription"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "The New York Times",
+      "aliases": ["new york times", "nytimes", "nyt", "nytimes.com"],
+      "accountPageUrl": "https://myaccount.nytimes.com/seg/settings",
+      "cancellationUrl": "https://myaccount.nytimes.com/seg/cancel",
+      "cancellationSteps": [
+        "Go to Account",
+        "Click Cancel my subscription",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "The Washington Post",
+      "aliases": ["washington post", "washingtonpost", "wapo", "washingtonpost.com"],
+      "accountPageUrl": "https://subscribe.washingtonpost.com/account",
+      "cancellationUrl": "https://subscribe.washingtonpost.com/cancel",
+      "cancellationSteps": [
+        "Go to Account",
+        "Manage subscription",
+        "Cancel subscription"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "The Wall Street Journal",
+      "aliases": ["wall street journal", "wsj", "wsj.com"],
+      "accountPageUrl": "https://customer.wsj.com/management",
+      "cancellationUrl": "https://customer.wsj.com/cancel",
+      "cancellationSteps": [
+        "Go to Account",
+        "Click Cancel Subscription",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Grammarly",
+      "aliases": ["grammarly", "grammarly.com"],
+      "accountPageUrl": "https://account.grammarly.com/account/subscription",
+      "cancellationUrl": "https://account.grammarly.com/account/subscription",
+      "cancellationSteps": [
+        "Go to Subscription",
+        "Click Cancel subscription",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Duolingo",
+      "aliases": ["duolingo", "duolingo.com"],
+      "accountPageUrl": "https://www.duolingo.com/settings/subscriptions",
+      "cancellationUrl": "https://www.duolingo.com/settings/subscriptions",
+      "cancellationSteps": [
+        "Go to Settings",
+        "Click Manage Subscription",
+        "Cancel Subscription"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Headspace",
+      "aliases": ["headspace", "headspace.com"],
+      "accountPageUrl": "https://www.headspace.com/account",
+      "cancellationUrl": "https://help.headspace.com/hc/en-us/articles/360001562043",
+      "cancellationSteps": [
+        "Contact support or check platform",
+        "Subscription depends on purchase method",
+        "Cancel via App Store, Play Store, or web"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Planet Fitness",
+      "aliases": ["planet fitness", "planetfitness", "planetfitness.com"],
+      "accountPageUrl": "https://www.planetfitness.com/myplanet",
+      "cancellationUrl": "https://www.planetfitness.com/contact-us",
+      "cancellationSteps": [
+        "Visit home club in person or send certified mail",
+        "Fill out cancellation form",
+        "May require 30-day notice"
+      ],
+      "requiresLogin": false,
+      "note": "Most Planet Fitness locations require in-person or certified mail cancellation"
+    },
+    {
+      "name": "Crunch Fitness",
+      "aliases": ["crunch fitness", "crunch", "crunch.com"],
+      "accountPageUrl": "https://www.crunch.com/locations",
+      "cancellationUrl": "https://www.crunch.com/contact",
+      "cancellationSteps": [
+        "Visit home gym location",
+        "Fill out cancellation form",
+        "May require 30-day notice"
+      ],
+      "requiresLogin": false,
+      "note": "Typically requires in-person cancellation at home gym"
+    },
+    {
+      "name": "Blue Apron",
+      "aliases": ["blue apron", "blueapron", "blueapron.com"],
+      "accountPageUrl": "https://www.blueapron.com/account",
+      "cancellationUrl": "https://www.blueapron.com/account/cancel",
+      "cancellationSteps": [
+        "Go to Account Settings",
+        "Click Deactivate Account",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "HelloFresh",
+      "aliases": ["hellofresh", "hello fresh", "hellofresh.com"],
+      "accountPageUrl": "https://www.hellofresh.com/my-account",
+      "cancellationUrl": "https://www.hellofresh.com/my-account/cancel",
+      "cancellationSteps": [
+        "Go to Account Settings",
+        "Click Cancel Plan",
+        "Complete cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Dollar Shave Club",
+      "aliases": ["dollar shave club", "dollarshaveclub", "dollarshaveclub.com"],
+      "accountPageUrl": "https://www.dollarshaveclub.com/account",
+      "cancellationUrl": "https://www.dollarshaveclub.com/account/cancel",
+      "cancellationSteps": [
+        "Go to Account",
+        "Click Cancel Membership",
+        "Confirm cancellation"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "Birchbox",
+      "aliases": ["birchbox", "birchbox.com"],
+      "accountPageUrl": "https://www.birchbox.com/me/account",
+      "cancellationUrl": "https://www.birchbox.com/me/account/subscriptions",
+      "cancellationSteps": [
+        "Go to Account Settings",
+        "Click Manage Subscription",
+        "Cancel Subscription"
+      ],
+      "requiresLogin": true
+    },
+    {
+      "name": "FabFitFun",
+      "aliases": ["fabfitfun", "fab fit fun", "fabfitfun.com"],
+      "accountPageUrl": "https://www.fabfitfun.com/account",
+      "cancellationUrl": "https://support.fabfitfun.com/hc/en-us",
+      "cancellationSteps": [
+        "Contact Customer Care",
+        "Request cancellation",
+        "May need to wait until end of cycle"
+      ],
+      "requiresLogin": true,
+      "note": "Cancellation typically requires contacting support"
+    }
+  ]
+}

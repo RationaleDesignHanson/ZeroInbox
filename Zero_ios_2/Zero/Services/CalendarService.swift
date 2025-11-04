@@ -195,6 +195,32 @@ class CalendarService {
         }
     }
 
+    /// Convenience method for adding events with completion handler (for backwards compatibility)
+    func addEvent(
+        title: String,
+        startDate: Date,
+        endDate: Date,
+        location: String? = nil,
+        notes: String? = nil,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        Task {
+            do {
+                let eventData = CalendarEventData(
+                    title: title,
+                    startDate: startDate,
+                    endDate: endDate,
+                    location: location,
+                    notes: notes
+                )
+                try await createEvent(eventData)
+                completion(.success(()))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
     // MARK: - Meeting URL Detection
 
     /// Extract meeting platform from URL

@@ -1,0 +1,23 @@
+{
+  "name": "emailshortform-gateway",
+  "version": "1.0.0",
+  "description": "API Gateway for EmailShortForm",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "gcp-build": "echo 'Build step: copying shared dependencies' && cp -r ../../shared ./shared 2>/dev/null || echo 'Shared folder already in place'"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.0.0",
+    "express-rate-limit": "^6.10.0",
+    "axios": "^1.5.0",
+    "dotenv": "^16.3.1",
+    "winston": "^3.10.0",
+    "jsonwebtoken": "^9.0.2",
+    "googleapis": "^126.0.0",
+    "@azure/msal-node": "^2.6.0",
+    "@google-cloud/firestore": "^7.1.0"
+  }
+}

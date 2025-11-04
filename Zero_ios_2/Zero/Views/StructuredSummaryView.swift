@@ -22,7 +22,7 @@ struct StructuredSummaryView: View {
             // If summary is empty, show placeholder
             if summary.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 Text("No summary available")
-                    .font(.body)
+                    .font(DesignTokens.Typography.cardSummary)
                     .foregroundColor(.white.opacity(0.5))
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -72,31 +72,24 @@ private struct CombinedInfoCard: View {
     let lineLimit: Int?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            // Why content (no label)
+        VStack(alignment: .leading, spacing: 12) {
+            // Why content (no label, no background)
             Text((try? AttributedString(markdown: whySection.content)) ?? AttributedString(whySection.content))
-                .font(.body)
-                .foregroundColor(.white.opacity(0.9))
-                .lineSpacing(4)
+                .font(DesignTokens.Typography.cardSummary)
+                .foregroundColor(.white.opacity(0.85))
+                .lineSpacing(5)
                 .lineLimit(lineLimit)
                 .textSelection(.enabled)
 
-            // Context content (no label, spaced below)
+            // Context content (no label, no background, spaced below)
             Text((try? AttributedString(markdown: contextSection.content)) ?? AttributedString(contextSection.content))
-                .font(.body)
-                .foregroundColor(.white.opacity(0.9))
-                .lineSpacing(4)
+                .font(DesignTokens.Typography.cardSummary)
+                .foregroundColor(.white.opacity(0.85))
+                .lineSpacing(5)
                 .lineLimit(lineLimit)
                 .textSelection(.enabled)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(8)
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
-        )
     }
 }
 
@@ -108,19 +101,12 @@ private struct InfoCard: View {
 
     var body: some View {
         Text((try? AttributedString(markdown: content)) ?? AttributedString(content))
-            .font(.body)
-            .foregroundColor(.white.opacity(0.9))
-            .lineSpacing(4)
+            .font(DesignTokens.Typography.cardSummary)
+            .foregroundColor(.white.opacity(0.85))
+            .lineSpacing(5)
             .lineLimit(lineLimit)
             .textSelection(.enabled)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
-            .background(Color.white.opacity(0.05))
-            .cornerRadius(8)
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
-            )
     }
 }
 
@@ -131,35 +117,25 @@ private struct SectionCard: View {
     let lineLimit: Int?
 
     var body: some View {
-        // Vertical layout for sections like Actions
+        // Vertical layout for sections like Actions - no background box
         VStack(alignment: .leading, spacing: 8) {
             // Section header
             HStack(spacing: 6) {
                 Text(section.title.uppercased())
-                    .font(.subheadline.bold())
-                    .foregroundColor(.white.opacity(0.9))
+                    .font(DesignTokens.Typography.cardSectionHeader)
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
             }
 
             // Section content with markdown rendering
             Text((try? AttributedString(markdown: section.content)) ?? AttributedString(section.content))
-                .font(.body)
-                .foregroundColor(.white.opacity(0.9))
-                .lineSpacing(8)
+                .font(DesignTokens.Typography.cardSummary)
+                .foregroundColor(.white.opacity(0.85))
+                .lineSpacing(5)
                 .lineLimit(lineLimit)
                 .textSelection(.enabled)
         }
-        .padding(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
-        .background(backgroundOpacity)
-        .cornerRadius(8)
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .strokeBorder(section.color.opacity(0.2), lineWidth: 1)
-        )
-    }
-
-    /// Actions section gets slightly more emphasis
-    private var backgroundOpacity: Color {
-        Color.white.opacity(section.isActions ? 0.12 : 0.05)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

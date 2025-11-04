@@ -120,7 +120,7 @@ const ActionCatalog = {
       'marketing.brand.storytelling',
       'e-commerce.order.receipt',
       'e-commerce.delivery.completed',
-      'generic.newsletter',
+      'generic.newsletter.content',
       'content.newsletter.sports',
       'content.newsletter.gaming',
       'content.newsletter.entertainment',
@@ -166,15 +166,26 @@ const ActionCatalog = {
       'event.webinar.invitation',
       'education.permission.form',
       'healthcare.appointment.reminder',
-      'healthcare.appointment.booking_request',
+      'healthcare.appointment.booking-request',
       'dining.reservation.confirmation',
       'civic.appointment.summons'
     ],
-    priority: 2
+    priority: 2,
+    usesNativeIOS: true
+  },
+  add_reminder: {
+    actionId: 'add_reminder',
+    displayName: 'Add Reminder',
+    actionType: 'IN_APP',
+    description: 'Add iOS reminder notification (default 15min before event)',
+    requiredEntities: ['dateTime'],
+    validIntents: [],
+    priority: 3,
+    usesNativeIOS: true
   },
   rsvp_yes: {
     actionId: 'rsvp_yes',
-    displayName: 'RSVP Yes',
+    displayName: 'Accept Invitation',
     actionType: 'IN_APP',
     description: 'Accept invitation',
     requiredEntities: [],
@@ -183,7 +194,7 @@ const ActionCatalog = {
   },
   rsvp_no: {
     actionId: 'rsvp_no',
-    displayName: 'RSVP No',
+    displayName: 'Decline Invitation',
     actionType: 'IN_APP',
     description: 'Decline invitation',
     requiredEntities: [],
@@ -422,7 +433,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'Reply to teacher message',
     requiredEntities: ['teacher'],
-    validIntents: ['education.lms.message', 'education.parent.teacher.communication'],
+    validIntents: ['education.lms.message', 'education.parent.teacher-communication'],
     priority: 2,
     urlTemplate: '{messageUrl}'
   },
@@ -432,7 +443,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'Go to assignment submission page',
     requiredEntities: ['assignmentUrl'],
-    validIntents: ['education.lms.assignment.posted', 'education.assignment.due'],
+    validIntents: ['education.lms.assignment-posted', 'education.assignment.due'],
     priority: 1,
     urlTemplate: '{assignmentUrl}'
   },
@@ -452,17 +463,17 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'View game schedule',
     requiredEntities: [],
-    validIntents: ['youth.sports.game.schedule'],
+    validIntents: ['youth.sports.game-schedule'],
     priority: 1,
     urlTemplate: '{scheduleUrl}'
   },
   rsvp_game: {
     actionId: 'rsvp_game',
-    displayName: 'RSVP',
+    displayName: 'RSVP to Game',
     actionType: 'GO_TO',
     description: 'RSVP for game attendance',
     requiredEntities: [],
-    validIntents: ['youth.sports.game.schedule'],
+    validIntents: ['youth.sports.game-schedule'],
     priority: 2,
     urlTemplate: '{rsvpUrl}'
   },
@@ -472,7 +483,7 @@ const ActionCatalog = {
     actionType: 'IN_APP',
     description: 'View practice details',
     requiredEntities: ['sport', 'dateTime'],
-    validIntents: ['youth.sports.practice.reminder'],
+    validIntents: ['youth.sports.practice-reminder'],
     priority: 1
   },
   accept_school_event: {
@@ -482,11 +493,12 @@ const ActionCatalog = {
     description: 'Accept school event invitation and add to calendar',
     requiredEntities: ['event', 'dateTime'],
     validIntents: ['education.event.invitation'],
-    priority: 1
+    priority: 1,
+    usesNativeIOS: true
   },
   rsvp_school_event: {
     actionId: 'rsvp_school_event',
-    displayName: 'RSVP',
+    displayName: 'RSVP to Event',
     actionType: 'GO_TO',
     description: 'RSVP for school event',
     requiredEntities: [],
@@ -500,7 +512,7 @@ const ActionCatalog = {
     actionType: 'IN_APP',
     description: 'View team announcement details',
     requiredEntities: ['sport', 'team'],
-    validIntents: ['youth.sports.team.announcement'],
+    validIntents: ['youth.sports.team-announcement'],
     priority: 1
   },
 
@@ -531,7 +543,8 @@ const ActionCatalog = {
     description: 'Add boarding pass to wallet',
     requiredEntities: ['confirmationCode'],
     validIntents: ['travel.flight.check-in'],
-    priority: 2
+    priority: 2,
+    usesNativeIOS: true
   },
   manage_booking: {
     actionId: 'manage_booking',
@@ -620,7 +633,7 @@ const ActionCatalog = {
     actionType: 'IN_APP',
     description: 'Schedule automated purchase for future sale date',
     requiredEntities: ['saleDate', 'productUrl'],
-    validIntents: ['shopping.future_sale'],
+    validIntents: ['shopping.product.future-sale'],
     priority: 1
   },
   set_reminder: {
@@ -629,7 +642,7 @@ const ActionCatalog = {
     actionType: 'IN_APP',
     description: 'Set reminder for future sale date',
     requiredEntities: ['saleDate'],
-    validIntents: ['shopping.future_sale'],
+    validIntents: ['shopping.product.future-sale'],
     priority: 2
   },
   redeem_rewards: {
@@ -713,7 +726,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'Schedule or book a new appointment',
     requiredEntities: [],
-    validIntents: ['healthcare.appointment.booking_request'],
+    validIntents: ['healthcare.appointment.booking-request'],
     priority: 1,
     urlTemplate: '{schedulingUrl}'
   },
@@ -987,7 +1000,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'View recommended property listings',
     requiredEntities: [],
-    validIntents: ['real-estate.recommendation'],
+    validIntents: ['real-estate.recommendation.listing'],
     priority: 1,
     urlTemplate: '{listingsUrl}'
   },
@@ -997,7 +1010,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'Save properties to favorites',
     requiredEntities: [],
-    validIntents: ['real-estate.recommendation'],
+    validIntents: ['real-estate.recommendation.listing'],
     priority: 2,
     urlTemplate: '{listingsUrl}'
   },
@@ -1007,7 +1020,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'Schedule property showing',
     requiredEntities: [],
-    validIntents: ['real-estate.recommendation'],
+    validIntents: ['real-estate.recommendation.listing'],
     priority: 2,
     urlTemplate: '{schedulingUrl}'
   },
@@ -1072,7 +1085,8 @@ const ActionCatalog = {
     description: 'Add activity to calendar',
     requiredEntities: ['date'],
     validIntents: ['education.activity.announcement'],
-    priority: 3
+    priority: 3,
+    usesNativeIOS: true
   },
 
   // NEW CIVIC ACTIONS (for 6 new intents)
@@ -1204,7 +1218,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'Schedule a meeting with sender',
     requiredEntities: [],
-    validIntents: ['communication.introduction', 'communication.professional.inquiry'],
+    validIntents: ['communication.introduction.connect', 'communication.professional.inquiry'],
     priority: 2,
     urlTemplate: '{calendarUrl}'
   },
@@ -1214,7 +1228,7 @@ const ActionCatalog = {
     actionType: 'IN_APP',
     description: 'View introduction details',
     requiredEntities: ['introducedPerson'],
-    validIntents: ['communication.introduction'],
+    validIntents: ['communication.introduction.connect'],
     priority: 1
   },
   add_to_notes: {
@@ -1224,7 +1238,8 @@ const ActionCatalog = {
     description: 'Save email content to iOS Notes app',
     requiredEntities: [],
     validIntents: ['communication.personal.self-note'],
-    priority: 1
+    priority: 1,
+    usesNativeIOS: true
   },
 
   // CAREER & RECRUITING ACTIONS
@@ -1274,7 +1289,7 @@ const ActionCatalog = {
     actionType: 'IN_APP',
     description: 'View new hire onboarding information',
     requiredEntities: [],
-    validIntents: ['career.onboarding'],
+    validIntents: ['career.onboarding.information'],
     priority: 1
   },
 
@@ -1285,7 +1300,7 @@ const ActionCatalog = {
     actionType: 'IN_APP',
     description: 'View mortgage or refinancing details',
     requiredEntities: [],
-    validIntents: ['finance.mortgage'],
+    validIntents: ['finance.mortgage.communication'],
     priority: 1
   },
   pay_utility_bill: {
@@ -1304,7 +1319,7 @@ const ActionCatalog = {
     actionType: 'IN_APP',
     description: 'View legal document details',
     requiredEntities: [],
-    validIntents: ['legal.document'],
+    validIntents: ['legal.document.communication'],
     priority: 1
   },
   schedule_inspection: {
@@ -1313,7 +1328,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'Schedule real estate inspection',
     requiredEntities: [],
-    validIntents: ['real-estate.service'],
+    validIntents: ['real-estate.service.communication'],
     priority: 1,
     urlTemplate: '{schedulingUrl}'
   },
@@ -1325,7 +1340,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'View social platform message',
     requiredEntities: [],
-    validIntents: ['social.notification'],
+    validIntents: ['social.notification.message'],
     priority: 1,
     urlTemplate: '{messageUrl}'
   },
@@ -1364,7 +1379,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'Verify social platform account',
     requiredEntities: ['platform'],
-    validIntents: ['social.verification'],
+    validIntents: ['social.verification.required'],
     priority: 1,
     urlTemplate: '{verificationLink}'
   },
@@ -1374,7 +1389,7 @@ const ActionCatalog = {
     actionType: 'GO_TO',
     description: 'Accept social platform invitation',
     requiredEntities: [],
-    validIntents: ['social.invitation'],
+    validIntents: ['social.invitation.request'],
     priority: 1,
     urlTemplate: '{invitationLink}'
   },
@@ -1396,7 +1411,7 @@ const ActionCatalog = {
     description: 'View AI-generated newsletter summary with key links',
     requiredEntities: [],
     validIntents: [
-      'generic.newsletter',
+      'generic.newsletter.content',
       'content.newsletter.sports',
       'content.newsletter.gaming',
       'content.newsletter.entertainment',
@@ -1423,7 +1438,7 @@ const ActionCatalog = {
     description: 'Archive for later review',
     requiredEntities: [],
     validIntents: [], // Available for all intents
-    priority: 6
+    priority: 5  // Fixed from 6 to match iOS contract (1-5 range)
   },
   view_details: {
     actionId: 'view_details',
@@ -1432,7 +1447,7 @@ const ActionCatalog = {
     description: 'View full email details',
     requiredEntities: [],
     validIntents: [], // Available for all intents
-    priority: 7  // Low priority - fallback action when nothing else applies
+    priority: 5  // Fixed from 7 to match iOS contract (1-5 range)
   }
 };
 

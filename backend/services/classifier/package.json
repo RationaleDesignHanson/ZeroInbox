@@ -1,0 +1,21 @@
+{
+  "name": "classifier-service",
+  "version": "1.0.0",
+  "description": "Email classification service with action-first routing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "gcp-build": "echo 'Build step: copying shared dependencies' && cp -r ../../shared ./shared 2>/dev/null || echo 'Shared folder already in place' && cp -r ../actions ./actions 2>/dev/null || echo 'Actions folder already in place'"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "redis": "^4.6.0",
+    "winston": "^3.11.0"
+  }
+}

@@ -6,6 +6,7 @@ class ModalRouter {
     
     /// Modal types that can be presented
     enum ModalDestination {
+        // Existing cases
         case documentViewer(card: EmailCard)
         case spreadsheetViewer(card: EmailCard)
         case scheduleMeeting(card: EmailCard)
@@ -20,8 +21,46 @@ class ModalRouter {
         case saveForLater(card: EmailCard)
         case viewAttachments(card: EmailCard)
         case fallback(card: EmailCard)
+
+        // Newly wired existing modals (Phase 3A)
+        case addReminder(card: EmailCard)
+        case addToWallet(card: EmailCard)
+        case browseShopping(card: EmailCard)
+        case cancelSubscription(card: EmailCard)
+        case checkInFlight(card: EmailCard)
+        case contactDriver(card: EmailCard)
+        case newsletterSummary(card: EmailCard)
+        case payInvoice(card: EmailCard)
+        case pickupDetails(card: EmailCard)
+        case quickReply(card: EmailCard)
+        case reservation(card: EmailCard)
+        case saveContact(card: EmailCard)
+        case sendMessage(card: EmailCard)
+        case share(card: EmailCard)
+        case snooze(card: EmailCard)
+        case trackPackage(card: EmailCard)
+        case unsubscribe(card: EmailCard)
+        case writeReview(card: EmailCard)
+
+        // Phase 3B: New high-priority modals
+        case addToNotes(card: EmailCard)
+
+        // Phase 3C: Remaining HIGH priority modals
+        case provideAccessCode(card: EmailCard)
+        case viewActivity(card: EmailCard)
+        case saveProperties(card: EmailCard)
+
+        // Phase 3D: MEDIUM priority modals
+        case scheduleDeliveryTime(card: EmailCard)
+        case prepareForOutage(card: EmailCard)
+        case viewActivityDetails(card: EmailCard)
+        case readCommunityPost(card: EmailCard)
+
+        // Phase 3E: LOW priority modals
+        case viewOutageDetails(card: EmailCard)
+        case viewPostComments(card: EmailCard)
     }
-    
+
     /// Route an action to the appropriate modal
     /// - Parameters:
     ///   - card: The email card to route
@@ -111,7 +150,7 @@ class ModalRouter {
         }
         
         // Scheduled purchase
-        if normalizedAction.contains("schedule_purchase") || 
+        if normalizedAction.contains("schedule_purchase") ||
            (normalizedAction.contains("buy") && normalizedAction.contains("on")) {
             Logger.info("Routing to ScheduledPurchaseModal", category: .modal)
             if let action = card.suggestedActions?.first(where: { $0.actionId == "schedule_purchase" }) {
@@ -121,7 +160,183 @@ class ModalRouter {
                 return .emailComposer(card: card)
             }
         }
-        
+
+        // ========== PHASE 3A: Newly Wired Modals ==========
+
+        // Quick Reply
+        if normalizedAction.contains("quick_reply") {
+            Logger.info("Routing to QuickReplyModal", category: .modal)
+            return .quickReply(card: card)
+        }
+
+        // Pay Invoice
+        if normalizedAction.contains("pay_invoice") {
+            Logger.info("Routing to PayInvoiceModal", category: .modal)
+            return .payInvoice(card: card)
+        }
+
+        // Track Package (IN_APP modal instead of GO_TO)
+        if normalizedAction.contains("track_package") && card.suggestedActions?.first(where: { $0.actionId == "track_package" && $0.actionType.rawValue == "IN_APP" }) != nil {
+            Logger.info("Routing to TrackPackageModal (IN_APP)", category: .modal)
+            return .trackPackage(card: card)
+        }
+
+        // Contact Driver
+        if normalizedAction.contains("contact_driver") {
+            Logger.info("Routing to ContactDriverModal", category: .modal)
+            return .contactDriver(card: card)
+        }
+
+        // Pickup Details
+        if normalizedAction.contains("pickup") || normalizedAction.contains("view_pickup_details") {
+            Logger.info("Routing to PickupDetailsModal", category: .modal)
+            return .pickupDetails(card: card)
+        }
+
+        // Newsletter Summary (PREMIUM)
+        if normalizedAction.contains("view_newsletter_summary") || normalizedAction.contains("newsletter_summary") {
+            Logger.info("Routing to NewsletterSummaryModal", category: .modal)
+            return .newsletterSummary(card: card)
+        }
+
+        // Add Reminder
+        if normalizedAction.contains("add_reminder") || normalizedAction.contains("set_reminder") {
+            Logger.info("Routing to AddReminderModal", category: .modal)
+            return .addReminder(card: card)
+        }
+
+        // Add to Wallet (boarding passes, tickets, etc.)
+        if normalizedAction.contains("add_to_wallet") || normalizedAction.contains("wallet") {
+            Logger.info("Routing to AddToWalletModal", category: .modal)
+            return .addToWallet(card: card)
+        }
+
+        // Save Contact
+        if normalizedAction.contains("save_contact") {
+            Logger.info("Routing to SaveContactModal", category: .modal)
+            return .saveContact(card: card)
+        }
+
+        // Send Message (SMS/iMessage)
+        if normalizedAction.contains("send_message") {
+            Logger.info("Routing to SendMessageModal", category: .modal)
+            return .sendMessage(card: card)
+        }
+
+        // Share (iOS Share Sheet)
+        if normalizedAction.contains("share") && !normalizedAction.contains("team") {
+            Logger.info("Routing to ShareModal", category: .modal)
+            return .share(card: card)
+        }
+
+        // Write Review / Rate Product
+        if normalizedAction.contains("write_review") || normalizedAction.contains("rate_product") || normalizedAction.contains("rate") {
+            Logger.info("Routing to WriteReviewModal", category: .modal)
+            return .writeReview(card: card)
+        }
+
+        // Cancel Subscription
+        if normalizedAction.contains("cancel_subscription") {
+            Logger.info("Routing to CancelSubscriptionModal", category: .modal)
+            return .cancelSubscription(card: card)
+        }
+
+        // Unsubscribe
+        if normalizedAction.contains("unsubscribe") {
+            Logger.info("Routing to UnsubscribeModal", category: .modal)
+            return .unsubscribe(card: card)
+        }
+
+        // Browse Shopping
+        if normalizedAction.contains("browse_shopping") || normalizedAction.contains("browse") {
+            Logger.info("Routing to BrowseShoppingModal", category: .modal)
+            return .browseShopping(card: card)
+        }
+
+        // Snooze (dedicated modal instead of picker)
+        if normalizedAction == "snooze" || normalizedAction.contains("snooze_email") {
+            Logger.info("Routing to SnoozeModal", category: .modal)
+            return .snooze(card: card)
+        }
+
+        // Check In Flight (IN_APP modal when available, otherwise GO_TO)
+        if normalizedAction.contains("check_in_flight") && card.suggestedActions?.first(where: { $0.actionId == "check_in_flight" && $0.actionType.rawValue == "IN_APP" }) != nil {
+            Logger.info("Routing to CheckInFlightModal (IN_APP)", category: .modal)
+            return .checkInFlight(card: card)
+        }
+
+        // Reservation (IN_APP modal when available, otherwise GO_TO)
+        if normalizedAction.contains("view_reservation") && card.suggestedActions?.first(where: { $0.actionId == "view_reservation" && $0.actionType.rawValue == "IN_APP" }) != nil {
+            Logger.info("Routing to ReservationModal (IN_APP)", category: .modal)
+            return .reservation(card: card)
+        }
+
+        // ========== PHASE 3B: New High-Priority Modals ==========
+
+        // Add to Notes
+        if normalizedAction.contains("add_to_notes") || normalizedAction.contains("save_to_notes") {
+            Logger.info("Routing to AddToNotesModal", category: .modal)
+            return .addToNotes(card: card)
+        }
+
+        // Provide Access Code
+        if normalizedAction.contains("provide_access_code") || normalizedAction.contains("access_code") {
+            Logger.info("Routing to ProvideAccessCodeModal", category: .modal)
+            return .provideAccessCode(card: card)
+        }
+
+        // View Activity / RSVP
+        if normalizedAction.contains("view_activity") || normalizedAction.contains("rsvp") {
+            Logger.info("Routing to ViewActivityModal", category: .modal)
+            return .viewActivity(card: card)
+        }
+
+        // Save Properties
+        if normalizedAction.contains("save_properties") || normalizedAction.contains("save_listing") {
+            Logger.info("Routing to SavePropertiesModal", category: .modal)
+            return .saveProperties(card: card)
+        }
+
+        // ========== PHASE 3D: MEDIUM Priority Modals ==========
+
+        // Schedule Delivery Time
+        if normalizedAction.contains("schedule_delivery") || normalizedAction.contains("choose_delivery_time") {
+            Logger.info("Routing to ScheduleDeliveryTimeModal", category: .modal)
+            return .scheduleDeliveryTime(card: card)
+        }
+
+        // Prepare for Outage
+        if normalizedAction.contains("prepare_for_outage") || normalizedAction.contains("outage_preparation") {
+            Logger.info("Routing to PrepareForOutageModal", category: .modal)
+            return .prepareForOutage(card: card)
+        }
+
+        // View Activity Details
+        if normalizedAction.contains("view_activity_details") || normalizedAction.contains("activity_itinerary") {
+            Logger.info("Routing to ViewActivityDetailsModal", category: .modal)
+            return .viewActivityDetails(card: card)
+        }
+
+        // Read Community Post
+        if normalizedAction.contains("read_community_post") || normalizedAction.contains("read_post") || normalizedAction.contains("community_post") {
+            Logger.info("Routing to ReadCommunityPostModal", category: .modal)
+            return .readCommunityPost(card: card)
+        }
+
+        // ========== PHASE 3E: LOW Priority Modals ==========
+
+        // View Outage Details
+        if normalizedAction.contains("view_outage_details") || normalizedAction.contains("outage_status") || normalizedAction.contains("outage_info") {
+            Logger.info("Routing to ViewOutageDetailsModal", category: .modal)
+            return .viewOutageDetails(card: card)
+        }
+
+        // View Post Comments
+        if normalizedAction.contains("view_post_comments") || normalizedAction.contains("view_comments") || normalizedAction.contains("read_comments") {
+            Logger.info("Routing to ViewPostCommentsModal", category: .modal)
+            return .viewPostComments(card: card)
+        }
+
         // Shopping/deals
         if normalizedAction.contains("claim_deal") ||
            normalizedAction.contains("save_deal") ||

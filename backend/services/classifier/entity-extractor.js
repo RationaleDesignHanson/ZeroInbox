@@ -83,12 +83,12 @@ function extractBasicEntities(email, fullText) {
 function extractOrderEntities(text) {
   const entities = {};
 
-  // Order numbers - various formats
+  // Order numbers - various formats (minimum 6 characters)
   const orderPatterns = [
-    /order\s*#?\s*:?\s*([A-Z0-9-]{8,})/i,
-    /order\s*number\s*:?\s*([A-Z0-9-]{8,})/i,
+    /order\s*#\s*:?\s*([A-Z0-9-]{6,})/i,
+    /order\s*number\s*:?\s*([A-Z0-9-]{6,})/i,
     /confirmation\s*#?\s*:?\s*([A-Z0-9-]{6,})/i,
-    /order\s*id\s*:?\s*([A-Z0-9-]{8,})/i
+    /order\s*id\s*:?\s*([A-Z0-9-]{6,})/i
   ];
 
   for (const pattern of orderPatterns) {
@@ -288,7 +288,7 @@ function extractMeetingEntities(email, text) {
 
   // Meeting URLs (Zoom, Meet, Teams)
   const meetingUrlPatterns = [
-    /(https?:\/\/[a-z0-9-]+\.zoom\.us\/j\/\d+[^\s]*)/i,
+    /(https?:\/\/(?:[a-z0-9-]+\.)?zoom\.us\/j\/\d+[^\s]*)/i,
     /(https?:\/\/meet\.google\.com\/[a-z0-9-]+)/i,
     /(https?:\/\/teams\.microsoft\.com\/l\/meetup-join\/[^\s]+)/i,
     /(https?:\/\/[a-z0-9-]+\.webex\.com\/[^\s]+)/i
@@ -506,7 +506,7 @@ function extractIntentSpecificEntities(text, intentId) {
     if (text.includes('permission') || text.includes('consent')) {
       const formMatch = text.match(/(field trip|permission|consent|volunteer)(?:\s+form)?/i);
       if (formMatch) {
-        entities.formName = formMatch[0];
+        entities.formName = formMatch[0].toLowerCase();
       }
     }
 
@@ -601,7 +601,7 @@ function extractIntentSpecificEntities(text, intentId) {
   // Healthcare-specific entities
   if (intentId.startsWith('healthcare.')) {
     // Healthcare provider
-    const providerMatch = text.match(/(?:dr\.|doctor|physician)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)/i);
+    const providerMatch = text.match(/(?:[Dd]r\.|[Dd]octor|[Pp]hysician)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\b/);
     if (providerMatch) {
       entities.provider = providerMatch[0].trim();
     }
@@ -756,7 +756,7 @@ function extractIntentSpecificEntities(text, intentId) {
     }
 
     // Party size
-    const partySizeMatch = text.match(/(?:for|party of)\s+(\d+)\s+(?:people|guests|person)?/i);
+    const partySizeMatch = text.match(/(?:for|party of)\s+(\d+)(?:\s+(?:people|guests|person))?/i);
     if (partySizeMatch) {
       entities.partySize = parseInt(partySizeMatch[1]);
     }

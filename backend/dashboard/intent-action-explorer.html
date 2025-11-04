@@ -1,9 +1,28 @@
 <!DOCTYPE html>
+<!--
+    ⚠️ IMPORTANT: This page MUST be served via HTTP (not file://)
+
+    This page loads data/comprehensive-corpus.json via fetch(),
+    which is blocked by CORS when opened directly with file:// protocol.
+
+    To run this page:
+    1. Start a local web server in the dashboard directory:
+       cd /Users/matthanson/Zer0_Inbox/backend/dashboard
+       python3 -m http.server 8088
+
+    2. Open in browser:
+       http://localhost:8088/intent-action-explorer.html
+
+    Symptoms if opened with file://:
+    - Page may not display intent data correctly
+    - Console shows CORS error for comprehensive-corpus.json
+    - Console shows fetch() failed error
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Actions | Zero</title>
+    <title>Intent Categories | Zero</title>
     <script src="js/config.js"></script>
     <style>
         * {
@@ -13,6 +32,7 @@
         }
 
         body {
+            padding-top: 60px;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
             min-height: 100vh;
@@ -1215,10 +1235,6 @@
             gap: 10px;
         }
 
-        .stack-category-icon {
-            font-size: 1.5rem;
-        }
-
         .stack-category-name {
             font-size: 1.1rem;
             font-weight: 700;
@@ -1295,24 +1311,29 @@
 
         .intent-card-category {
             display: inline-block;
-            padding: 6px 16px;
+            padding: 8px 18px;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
         }
 
         .intent-card-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 12px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 14px;
             word-break: break-word;
+            line-height: 1.3;
+            letter-spacing: -0.5px;
         }
 
         .intent-card-description {
-            font-size: 1rem;
-            opacity: 0.9;
-            line-height: 1.5;
+            font-size: 1.05rem;
+            opacity: 0.85;
+            line-height: 1.6;
+            font-weight: 400;
         }
 
         .intent-card-section {
@@ -1774,16 +1795,193 @@
             font-size: 11px;
             font-weight: 700;
         }
+    
+        /* Beta Banner - Fixed Top */
+        .beta-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg,
+                rgba(26, 26, 46, 0.95) 0%,
+                rgba(45, 27, 78, 0.95) 30%,
+                rgba(74, 25, 66, 0.95) 60%,
+                rgba(31, 31, 58, 0.95) 100%
+            );
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15),
+                        0 0 40px rgba(139, 92, 246, 0.1);
+            padding: 12px 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .beta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(59, 130, 246, 0.05) 20%,
+                rgba(139, 92, 246, 0.05) 50%,
+                rgba(59, 130, 246, 0.05) 80%,
+                transparent 100%
+            );
+            pointer-events: none;
+            animation: shimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .beta-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .beta-banner-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .beta-banner-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .beta-banner-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .beta-banner-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .beta-banner-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .beta-banner-btn.primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #6366f1 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3),
+                        0 0 20px rgba(139, 92, 246, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .beta-banner-btn.primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: button-shine 3s ease-in-out infinite;
+        }
+
+        @keyframes button-shine {
+            0%, 100% { transform: translateX(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .beta-banner-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5),
+                        0 0 40px rgba(139, 92, 246, 0.3);
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #4f46e5 100%);
+        }
+
+        .beta-banner-btn.secondary {
+            background: rgba(139, 92, 246, 0.1);
+            color: white;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);
+        }
+
+        .beta-banner-btn.secondary:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .beta-banner {
+                padding: 10px 16px;
+            }
+
+            .beta-banner-actions {
+                width: 100%;
+            }
+
+            .beta-banner-btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
     </style>
 </head>
 <body>
+    <!-- Beta Banner -->
+    <div class="beta-banner">
+        <div class="beta-banner-content">
+            <div class="beta-banner-text">
+                <div class="beta-banner-title">Ready to Experience ZerO Inbox?</div>
+                <div class="beta-banner-subtitle">Join hundreds of beta testers achieving inbox zero every day</div>
+            </div>
+            <div class="beta-banner-actions">
+                <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_blank" class="beta-banner-btn primary">
+                    Download TestFlight
+                </a>
+                <a href="mailto:zerobeta@rationale.work?subject=Zero%20Beta%20Access%20Request" class="beta-banner-btn secondary">
+                    Request Beta Access
+                </a>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
         <!-- Header -->
         <div class="header">
             <div class="header-nav">
                 <a href="index.html" class="btn">Home</a>
             </div>
-            <h1>Smart Actions</h1>
+            <h1>Intent Categories</h1>
             <p>Interactive Intent-Action Auditor | Select any intent to view its complete zero sequence with all actions and metadata</p>
         </div>
 
@@ -2027,32 +2225,32 @@
     <script>
         // Category Configuration - All 26 categories with gradients, icons, colors
         const CATEGORY_CONFIG = {
-            'finance': { gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', icon: '💰', color: '#10b981', emoji: '💰' },
-            'marketing': { gradient: 'linear-gradient(135deg, #a855f7 0%, #9333ea 100%)', icon: '📢', color: '#a855f7', emoji: '📢' },
-            'e-commerce': { gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', icon: '🛒', color: '#f59e0b', emoji: '🛒' },
-            'healthcare': { gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', icon: '🏥', color: '#ef4444', emoji: '🏥' },
-            'education': { gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', icon: '🎓', color: '#3b82f6', emoji: '🎓' },
-            'civic': { gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', icon: '🏛️', color: '#8b5cf6', emoji: '🏛️' },
-            'subscription': { gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)', icon: '🔄', color: '#ec4899', emoji: '🔄' },
-            'career': { gradient: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)', icon: '💼', color: '#14b8a6', emoji: '💼' },
-            'account': { gradient: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', icon: '🔐', color: '#6366f1', emoji: '🔐' },
-            'youth': { gradient: 'linear-gradient(135deg, #fb923c 0%, #f97316 100%)', icon: '🎈', color: '#fb923c', emoji: '🎈' },
-            'content': { gradient: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)', icon: '📰', color: '#06b6d4', emoji: '📰' },
-            'travel': { gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', icon: '✈️', color: '#0ea5e9', emoji: '✈️' },
-            'social': { gradient: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)', icon: '💬', color: '#f43f5e', emoji: '💬' },
-            'project': { gradient: 'linear-gradient(135deg, #84cc16 0%, #65a30d 100%)', icon: '📊', color: '#84cc16', emoji: '📊' },
-            'event': { gradient: 'linear-gradient(135deg, #d946ef 0%, #c026d3 100%)', icon: '📅', color: '#d946ef', emoji: '📅' },
-            'communication': { gradient: 'linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%)', icon: '📞', color: '#22d3ee', emoji: '📞' },
-            'billing': { gradient: 'linear-gradient(135deg, #facc15 0%, #eab308 100%)', icon: '💳', color: '#facc15', emoji: '💳' },
-            'support': { gradient: 'linear-gradient(135deg, #a3e635 0%, #84cc16 100%)', icon: '🎧', color: '#a3e635', emoji: '🎧' },
-            'pets': { gradient: 'linear-gradient(135deg, #fb7185 0%, #f43f5e 100%)', icon: '🐾', color: '#fb7185', emoji: '🐾' },
-            'generic': { gradient: 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)', icon: '📬', color: '#94a3b8', emoji: '📬' },
-            'feedback': { gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)', icon: '⭐', color: '#fbbf24', emoji: '⭐' },
-            'shopping': { gradient: 'linear-gradient(135deg, #fb923c 0%, #f97316 100%)', icon: '🛍️', color: '#fb923c', emoji: '🛍️' },
-            'real-estate': { gradient: 'linear-gradient(135deg, #78716c 0%, #57534e 100%)', icon: '🏠', color: '#78716c', emoji: '🏠' },
-            'legal': { gradient: 'linear-gradient(135deg, #475569 0%, #334155 100%)', icon: '⚖️', color: '#475569', emoji: '⚖️' },
-            'dining': { gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)', icon: '🍽️', color: '#f97316', emoji: '🍽️' },
-            'delivery': { gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', icon: '📦', color: '#10b981', emoji: '📦' }
+            'finance': { gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#10b981' },
+            'marketing': { gradient: 'linear-gradient(135deg, #a855f7 0%, #9333ea 100%)', color: '#a855f7' },
+            'e-commerce': { gradient: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', color: '#f59e0b' },
+            'healthcare': { gradient: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', color: '#ef4444' },
+            'education': { gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', color: '#3b82f6' },
+            'civic': { gradient: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', color: '#8b5cf6' },
+            'subscription': { gradient: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)', color: '#ec4899' },
+            'career': { gradient: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)', color: '#14b8a6' },
+            'account': { gradient: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', color: '#6366f1' },
+            'youth': { gradient: 'linear-gradient(135deg, #fb923c 0%, #f97316 100%)', color: '#fb923c' },
+            'content': { gradient: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)', color: '#06b6d4' },
+            'travel': { gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%)', color: '#0ea5e9' },
+            'social': { gradient: 'linear-gradient(135deg, #f43f5e 0%, #e11d48 100%)', color: '#f43f5e' },
+            'project': { gradient: 'linear-gradient(135deg, #84cc16 0%, #65a30d 100%)', color: '#84cc16' },
+            'event': { gradient: 'linear-gradient(135deg, #d946ef 0%, #c026d3 100%)', color: '#d946ef' },
+            'communication': { gradient: 'linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%)', color: '#22d3ee' },
+            'billing': { gradient: 'linear-gradient(135deg, #facc15 0%, #eab308 100%)', color: '#facc15' },
+            'support': { gradient: 'linear-gradient(135deg, #a3e635 0%, #84cc16 100%)', color: '#a3e635' },
+            'pets': { gradient: 'linear-gradient(135deg, #fb7185 0%, #f43f5e 100%)', color: '#fb7185' },
+            'generic': { gradient: 'linear-gradient(135deg, #94a3b8 0%, #64748b 100%)', color: '#94a3b8' },
+            'feedback': { gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)', color: '#fbbf24' },
+            'shopping': { gradient: 'linear-gradient(135deg, #fb923c 0%, #f97316 100%)', color: '#fb923c' },
+            'real-estate': { gradient: 'linear-gradient(135deg, #78716c 0%, #57534e 100%)', color: '#78716c' },
+            'legal': { gradient: 'linear-gradient(135deg, #475569 0%, #334155 100%)', color: '#475569' },
+            'dining': { gradient: 'linear-gradient(135deg, #f97316 0%, #ea580c 100%)', color: '#f97316' },
+            'delivery': { gradient: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', color: '#10b981' }
         };
 
         // View States
@@ -2105,7 +2303,7 @@
                     <div class="category-nav-item"
                          style="background: ${config.gradient}; border-color: ${config.color}50;"
                          onclick="scrollToCategory('${category}')">
-                        <span class="category-nav-item-icon">${config.icon}</span>
+                        
                         <span>${category}</span>
                         <span class="category-nav-item-count">${intents.length}</span>
                     </div>
@@ -2156,9 +2354,6 @@
                     <div class="category-table-header"
                          style="display: flex; align-items: center; gap: 24px; padding: 0 0 ${isExpanded ? '24px' : '0'}; margin-bottom: ${isExpanded ? '24px' : '0'}; border-bottom: ${isExpanded ? '3px solid ' + config.color + '80' : 'none'}; cursor: pointer; transition: all 0.3s ease;"
                          onclick="toggleCategory('${category}')">
-                        <div style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; background: ${config.gradient}; border-radius: 18px; font-size: 2.2rem; box-shadow: 0 6px 16px ${config.color}50; border: 2px solid ${config.color}40; flex-shrink: 0;">
-                            ${config.icon}
-                        </div>
                         <div style="flex: 1;">
                             <div style="font-size: 1.35rem; font-weight: 800; text-transform: capitalize; letter-spacing: -0.02em; margin-bottom: 6px; color: rgba(255,255,255,0.95); white-space: nowrap;">${category}</div>
                             <div style="font-size: 0.9rem; opacity: 0.65; font-weight: 500;">${intents.length} intent${intents.length !== 1 ? 's' : ''} • ${totalCorpus} corpus emails</div>
@@ -2683,7 +2878,7 @@
                 <div class="intent-card" id="swipeable-card">
                     <div class="intent-card-header">
                         <div class="intent-card-category" style="background: ${config.color}40; color: ${config.color}">
-                            ${config.icon} ${currentCategory}
+                            ${currentCategory}
                         </div>
                         <div class="intent-card-title">${intent.id}</div>
                         <div class="intent-card-description">${intentData.description}</div>
@@ -2698,7 +2893,7 @@
                                 return `
                                     <div class="intent-card-action-item ${idx === 0 ? 'primary' : ''}"
                                          onclick="openActionDetail('${actionId}')">
-                                        ${idx === 0 ? '⭐ ' : ''}${action.displayName || actionId}
+                                        ${action.displayName || actionId}
                                     </div>
                                 `;
                             }).join('')}
@@ -2716,7 +2911,7 @@
                     </div>
 
                     <div style="text-align: center; margin-top: 24px; opacity: 0.6; font-size: 0.85rem;">
-                        👈 Quick View • 👉 Next • ☝️ Details • 👇 Back
+                        Swipe left: Quick View • Swipe right: Next • Swipe up: Details • Swipe down: Back
                     </div>
                 </div>
             `;
@@ -2942,7 +3137,7 @@
 
             if (currentCategory) {
                 const config = CATEGORY_CONFIG[currentCategory] || CATEGORY_CONFIG['generic'];
-                categoryDisplay.innerHTML = `${config.icon} ${currentCategory}`;
+                categoryDisplay.innerHTML = ` ${currentCategory}`;
                 currentNum.textContent = currentIntentIndex + 1;
                 totalNum.textContent = currentCategoryIntents.length;
             }
@@ -3121,7 +3316,7 @@
                                 <div class="stack-preview-header">
                                     <div class="stack-preview-category-badge"
                                          style="background: ${config.color}40; color: ${config.color}">
-                                        ${config.icon} ${category}
+                                         ${category}
                                     </div>
                                     <div class="stack-preview-title">${firstIntent.id}</div>
                                     <div class="stack-preview-description">${intentData.description}</div>
@@ -3135,7 +3330,6 @@
                             </div>
                             <div class="stack-category-bar">
                                 <div class="stack-category-info">
-                                    <div class="stack-category-icon">${config.icon}</div>
                                     <div class="stack-category-name">${category}</div>
                                 </div>
                                 <div class="stack-category-count">${intents.length} match${intents.length > 1 ? 'es' : ''}</div>

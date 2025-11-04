@@ -14,12 +14,13 @@ enum DesignTokens {
             static let xxs: CGFloat = 4
             static let xs: CGFloat = 6
             static let sm: CGFloat = 8
-            static let md: CGFloat = 12
-            static let lg: CGFloat = 16
-            static let xl: CGFloat = 20
-            static let xxl: CGFloat = 24
-            static let xxxl: CGFloat = 32
-            static let xxxxl: CGFloat = 48
+            static let md: CGFloat = 10
+            static let lg: CGFloat = 12
+            static let xl: CGFloat = 16
+            static let xxl: CGFloat = 20
+            static let xxxl: CGFloat = 24
+            static let xxxxl: CGFloat = 32
+            static let xxxxxl: CGFloat = 48
         }
 
         /// Opacity scale (0.0 - 1.0)
@@ -35,6 +36,14 @@ enum DesignTokens {
             static let tertiary: Double = 0.8        // Tertiary text
             static let primary: Double = 0.9         // Primary readable text
             static let full: Double = 1.0            // Fully opaque
+        }
+
+        /// Blur radius scale (for glassmorphic effects)
+        enum Blur {
+            static let subtle: CGFloat = 10          // Light blur
+            static let standard: CGFloat = 20        // Standard glassmorphic
+            static let heavy: CGFloat = 30           // Intense glassmorphic
+            static let ultra: CGFloat = 40           // Ultra-blurred backgrounds
         }
 
         /// Animation duration scale (in seconds)
@@ -64,8 +73,8 @@ enum DesignTokens {
 
     /// Corner radius tokens - semantic names for border radius
     enum Radius {
-        static let card: CGFloat = Primitive.Size.xxl          // 24 - Main cards
-        static let modal: CGFloat = Primitive.Size.xl          // 20 - Modals
+        static let card: CGFloat = Primitive.Size.xl           // 16 - Main cards (updated to match web)
+        static let modal: CGFloat = Primitive.Size.xxl         // 20 - Modals
         static let container: CGFloat = Primitive.Size.lg      // 16 - Containers
         static let button: CGFloat = Primitive.Size.md         // 12 - Buttons
         static let chip: CGFloat = Primitive.Size.sm           // 8 - Chips/pills
@@ -125,6 +134,12 @@ enum DesignTokens {
         static let accentPurple = Color.purple.opacity(0.8)
         static let accentRed = Color.red
 
+        // Archetype gradient colors (matching web demo)
+        static let mailGradientStart = Color(red: 0.4, green: 0.49, blue: 0.92)      // #667eea - blue
+        static let mailGradientEnd = Color(red: 0.46, green: 0.29, blue: 0.64)      // #764ba2 - purple
+        static let adsGradientStart = Color(red: 0.09, green: 0.73, blue: 0.61)     // #16bbaa - teal/cyan
+        static let adsGradientEnd = Color(red: 0.31, green: 0.82, blue: 0.62)       // #4fd19e - green
+
         // Semantic colors (for alerts, states, etc)
         static let errorPrimary = Color.red
         static let errorBackground = Color.red.opacity(0.15)
@@ -164,6 +179,17 @@ enum DesignTokens {
         static let labelLarge = Font.system(.caption, weight: .bold)
         static let labelMedium = Font.system(.caption, weight: .regular)
         static let labelSmall = Font.system(.caption2, weight: .regular)
+
+        // Email Card Typography (specific to card components)
+        static let cardTitle = Font.system(size: 19, weight: .bold)           // Email card title (matches web demo)
+        static let cardSummary = Font.system(size: 15)                        // Email card summary (matches web demo)
+        static let cardSectionHeader = Font.system(size: 15, weight: .bold)   // Section headers (Actions, Why, etc - matches web)
+
+        // Thread Typography (for threaded card views)
+        static let threadTitle = Font.system(size: 14, weight: .semibold)     // Thread card title
+        static let threadSummary = Font.system(size: 16)                      // Thread card summary
+        static let threadMessageSender = Font.system(size: 13, weight: .bold) // Expanded thread sender
+        static let threadMessageBody = Font.system(size: 13)                  // Expanded thread body
     }
 
     // MARK: - Component Tokens (Compound values for specific components)
@@ -211,7 +237,7 @@ enum DesignTokens {
 
     /// Shadow preset tokens
     enum Shadow {
-        static let card = (color: Color.black.opacity(Opacity.overlayMedium), radius: CGFloat(20), x: CGFloat(0), y: CGFloat(10))
+        static let card = (color: Color.black.opacity(0.4), radius: CGFloat(20), x: CGFloat(0), y: CGFloat(10))  // Updated to 0.4 (web demo)
         static let button = (color: Color.black.opacity(Opacity.overlayLight), radius: CGFloat(10), x: CGFloat(0), y: CGFloat(5))
         static let subtle = (color: Color.black.opacity(Opacity.glassLight), radius: CGFloat(8), x: CGFloat(0), y: CGFloat(2))
     }

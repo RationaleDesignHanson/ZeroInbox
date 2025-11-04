@@ -136,7 +136,7 @@ struct AttachmentPreviewModal: View {
             }
             .sheet(isPresented: $showShareSheet) {
                 if let data = attachmentData {
-                    ShareSheet(attachment: attachment, data: data)
+                    AttachmentShareSheet(activityItems: [data, attachment.filename])
                 }
             }
         }
@@ -192,6 +192,21 @@ struct AttachmentPreviewModal: View {
     }
 }
 
+// MARK: - Attachment Share Sheet
+
+struct AttachmentShareSheet: UIViewControllerRepresentable {
+    let activityItems: [Any]
+
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        return controller
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
+        // No updates needed
+    }
+}
+
 // MARK: - PDF Preview View
 
 struct PDFPreviewView: UIViewRepresentable {
@@ -212,28 +227,6 @@ struct PDFPreviewView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: PDFView, context: Context) {
-        // No updates needed
-    }
-}
-
-// MARK: - Share Sheet
-
-private struct ShareSheet: UIViewControllerRepresentable {
-    let attachment: EmailAttachment
-    let data: Data
-
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        let tempURL = try! AttachmentService.shared.getShareableURL(for: attachment, data: data)
-
-        let activityVC = UIActivityViewController(
-            activityItems: [tempURL],
-            applicationActivities: nil
-        )
-
-        return activityVC
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
         // No updates needed
     }
 }

@@ -74,16 +74,16 @@ struct ThreadedCardView: View {
                             }
                         }
 
-                        // Title
+                        // Title (reduced to 80% for consistency)
                         Text(latestEmail.title)
-                            .font(.headline)
+                            .font(DesignTokens.Typography.threadTitle)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .lineLimit(2)
                             .multilineTextAlignment(.leading)
 
-                        // Summary
+                        // Summary (increased for readability)
                         Text(latestEmail.summary)
-                            .font(.subheadline)
+                            .font(DesignTokens.Typography.threadSummary)
                             .foregroundColor(DesignTokens.Colors.textSubtle)
                             .lineLimit(2)
                             .multilineTextAlignment(.leading)
@@ -94,6 +94,9 @@ struct ThreadedCardView: View {
                             Text(RelativeDateFormatter.string(from: latestEmail.timestamp))
                                 .font(.caption)
                                 .foregroundColor(DesignTokens.Colors.textSubtle)
+
+                            // Status dots (VIP, Deadline, Newsletter, Shopping)
+                            StatusDots(from: latestEmail)
 
                             // Participants (if thread)
                             if thread.count > 1 && threadSummary.participants.count > 1 {
@@ -108,7 +111,7 @@ struct ThreadedCardView: View {
 
                             Spacer()
 
-                            // Badges
+                            // Additional badges (attachments, calendar)
                             HStack(spacing: 6) {
                                 if latestEmail.hasAttachments == true {
                                     Image(systemName: "paperclip")
@@ -120,12 +123,6 @@ struct ThreadedCardView: View {
                                     Image(systemName: "calendar")
                                         .font(.caption)
                                         .foregroundColor(.blue.opacity(0.8))
-                                }
-
-                                if latestEmail.isVIP == true {
-                                    Image(systemName: "star.fill")
-                                        .font(.caption)
-                                        .foregroundColor(.yellow)
                                 }
                             }
                         }
@@ -184,7 +181,7 @@ struct ThreadMessageRow: View {
                     HStack {
                         if let sender = email.sender {
                             Text(sender.name ?? sender.email ?? "Unknown")
-                                .font(.caption.bold())
+                                .font(DesignTokens.Typography.threadMessageSender)
                                 .foregroundColor(DesignTokens.Colors.textPrimary)
                         }
 
@@ -201,9 +198,9 @@ struct ThreadMessageRow: View {
                         }
                     }
 
-                    // Summary
+                    // Summary (increased for readability)
                     Text(email.summary)
-                        .font(.caption)
+                        .font(DesignTokens.Typography.threadMessageBody)
                         .foregroundColor(DesignTokens.Colors.textSubtle)
                         .lineLimit(2)
                         .multilineTextAlignment(.leading)

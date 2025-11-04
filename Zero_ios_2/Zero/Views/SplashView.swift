@@ -122,13 +122,73 @@ struct SplashView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(
-                            LinearGradient(
-                                colors: [Color.orange.opacity(0.7), Color.pink.opacity(0.7)],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
+                            ZStack {
+                                // Base glass layer
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.08),
+                                                Color.white.opacity(0.03)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .background(
+                                        .ultraThinMaterial.opacity(0.6),
+                                        in: RoundedRectangle(cornerRadius: 16)
+                                    )
+
+                                // Button-specific accent glow
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color.orange.opacity(0.2), Color.pink.opacity(0.2)],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+
+                                // Holographic rim lighting
+                                RoundedRectangle(cornerRadius: 16)
+                                    .strokeBorder(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.orange.opacity(0.6),
+                                                Color.pink.opacity(0.5),
+                                                Color.orange.opacity(0.4)
+                                            ],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        ),
+                                        lineWidth: 1.5
+                                    )
+
+                                // Inner glow for depth
+                                RoundedRectangle(cornerRadius: 16)
+                                    .strokeBorder(
+                                        Color.white.opacity(0.15),
+                                        lineWidth: 0.5
+                                    )
+                                    .blur(radius: 2)
+
+                                // Specular highlight
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(0.3),
+                                        Color.clear,
+                                        Color.clear,
+                                        Color.white.opacity(0.1)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                .allowsHitTesting(false)
+                            }
                         )
-                        .cornerRadius(16)
+                        .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: -3)
                     }
 
                     // Google OAuth Button
@@ -183,13 +243,73 @@ struct SplashView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(
-                            LinearGradient(
-                                colors: [Color.blue.opacity(0.8), Color.cyan.opacity(0.8)],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
+                            ZStack {
+                                // Base glass layer
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.08),
+                                                Color.white.opacity(0.03)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .background(
+                                        .ultraThinMaterial.opacity(0.6),
+                                        in: RoundedRectangle(cornerRadius: 16)
+                                    )
+
+                                // Button-specific accent glow
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color.blue.opacity(0.2), Color.cyan.opacity(0.2)],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+
+                                // Holographic rim lighting
+                                RoundedRectangle(cornerRadius: 16)
+                                    .strokeBorder(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.blue.opacity(0.6),
+                                                Color.cyan.opacity(0.5),
+                                                Color.blue.opacity(0.4)
+                                            ],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        ),
+                                        lineWidth: 1.5
+                                    )
+
+                                // Inner glow for depth
+                                RoundedRectangle(cornerRadius: 16)
+                                    .strokeBorder(
+                                        Color.white.opacity(0.15),
+                                        lineWidth: 0.5
+                                    )
+                                    .blur(radius: 2)
+
+                                // Specular highlight
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(0.3),
+                                        Color.clear,
+                                        Color.clear,
+                                        Color.white.opacity(0.1)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                .allowsHitTesting(false)
+                            }
                         )
-                        .cornerRadius(16)
+                        .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: -3)
                     }
                     .disabled(isAuthenticating)
                     .opacity(isAuthenticating ? 0.5 : 1.0)
@@ -246,13 +366,73 @@ struct SplashView: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(
-                            LinearGradient(
-                                colors: [Color.indigo.opacity(0.8), Color.purple.opacity(0.8)],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
+                            ZStack {
+                                // Base glass layer
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.white.opacity(0.08),
+                                                Color.white.opacity(0.03)
+                                            ],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .background(
+                                        .ultraThinMaterial.opacity(0.6),
+                                        in: RoundedRectangle(cornerRadius: 16)
+                                    )
+
+                                // Button-specific accent glow
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color.indigo.opacity(0.2), Color.purple.opacity(0.2)],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+
+                                // Holographic rim lighting
+                                RoundedRectangle(cornerRadius: 16)
+                                    .strokeBorder(
+                                        LinearGradient(
+                                            colors: [
+                                                Color.indigo.opacity(0.6),
+                                                Color.purple.opacity(0.5),
+                                                Color.indigo.opacity(0.4)
+                                            ],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        ),
+                                        lineWidth: 1.5
+                                    )
+
+                                // Inner glow for depth
+                                RoundedRectangle(cornerRadius: 16)
+                                    .strokeBorder(
+                                        Color.white.opacity(0.15),
+                                        lineWidth: 0.5
+                                    )
+                                    .blur(radius: 2)
+
+                                // Specular highlight
+                                LinearGradient(
+                                    colors: [
+                                        Color.white.opacity(0.3),
+                                        Color.clear,
+                                        Color.clear,
+                                        Color.white.opacity(0.1)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 16))
+                                .allowsHitTesting(false)
+                            }
                         )
-                        .cornerRadius(16)
+                        .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: -3)
                     }
                     .disabled(isAuthenticating)
                     .opacity(isAuthenticating ? 0.5 : 1.0)

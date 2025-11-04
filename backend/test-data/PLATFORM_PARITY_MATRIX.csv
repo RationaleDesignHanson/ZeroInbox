@@ -1,0 +1,16 @@
+feature,component,type,authenticated_user_test,authenticated_notes,mock_mode_test,mock_notes,parity_status,discrepancies,overall_status
+Email List Display,EmailListView,UI,not_tested,,not_tested,,unknown,,not_started
+Action Button Rendering,ActionButtonRow,UI,not_tested,,not_tested,,unknown,,not_started
+Modal Presentation,ModalCoordinator,UI,not_tested,,not_tested,,unknown,,not_started
+Authentication Flow,UserSession,Auth,not_tested,,not_tested,,unknown,,not_started
+Mock Mode Classification,ClassifierService,Backend,not_tested,,not_tested,,unknown,,not_started
+Mock Mode Actions,ActionService,Backend,not_tested,,not_tested,,unknown,,not_started
+Calendar Integration,CalendarService,iOS Integration,not_tested,,not_tested,,unknown,,not_started
+Notes Integration,NotesService,iOS Integration,not_tested,,not_tested,,unknown,,not_started
+Wallet Integration,WalletService,iOS Integration,not_tested,,not_tested,,unknown,,not_started
+URL Handling (GO_TO actions),SafariViewController,iOS Integration,not_tested,,not_tested,,unknown,,not_started
+Email Composer,MFMailComposeViewController,iOS Integration,not_tested,,not_tested,,unknown,,not_started
+Analytics Events,AnalyticsService,Backend,not_tested,,not_tested,,unknown,,not_started
+Error Handling,ErrorCoordinator,UI,not_tested,,not_tested,,unknown,,not_started
+Offline Queue,OfflineActionQueue,Backend,not_tested,,not_tested,,unknown,,not_started
+Action Validation,CompoundActionContextValidator,Backend,not_tested,,not_tested,,unknown,,not_started

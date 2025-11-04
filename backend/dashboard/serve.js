@@ -9,7 +9,7 @@ const { requireAuth } = require('./auth-middleware');
 const authRoutes = require('./auth-routes');
 
 const app = express();
-const PORT = 8088;
+const PORT = process.env.PORT || 8088;
 
 // Parse JSON request bodies
 app.use(express.json());
@@ -25,10 +25,11 @@ app.use((req, res, next) => {
 // Auth routes (publicly accessible)
 app.use('/auth', authRoutes);
 
-// Public static assets (JS, CSS, images) - no auth required
+// Public static assets (JS, CSS, images, data) - no auth required
 app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/css', express.static(path.join(__dirname, 'css')));
 app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/data', express.static(path.join(__dirname, 'data')));
 
 // Protected routes - require authentication
 // Splash page (login) is accessible without auth
@@ -42,9 +43,9 @@ app.get('/*.html', requireAuth, (req, res) => {
   res.sendFile(path.join(__dirname, fileName));
 });
 
-// Root route - redirect to splash if not authenticated, otherwise show index
+// Root route - redirect to splash if not authenticated, otherwise show app-demo
 app.get('/', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(__dirname, 'app-demo.html'));
 });
 
 app.listen(PORT, () => {

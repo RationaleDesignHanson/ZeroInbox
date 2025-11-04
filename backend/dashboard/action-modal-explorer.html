@@ -1,4 +1,23 @@
 <!DOCTYPE html>
+<!--
+    ⚠️ IMPORTANT: This page MUST be served via HTTP (not file://)
+
+    The intent dropdown loads data/comprehensive-corpus.json via fetch(),
+    which is blocked by CORS when opened directly with file:// protocol.
+
+    To run this page:
+    1. Start a local web server in the dashboard directory:
+       cd /Users/matthanson/Zer0_Inbox/backend/dashboard
+       python3 -m http.server 8088
+
+    2. Open in browser:
+       http://localhost:8088/action-modal-explorer.html
+
+    Symptoms if opened with file://:
+    - Intent dropdown only shows "All Intents" (no other options)
+    - Console shows CORS error for comprehensive-corpus.json
+    - Console shows "emailsByIntent has 0 intents"
+-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +31,7 @@
         }
 
         body {
+            padding-top: 60px;
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
             min-height: 100vh;
@@ -573,9 +593,186 @@
             opacity: 0.5;
             cursor: not-allowed;
         }
+    
+        /* Beta Banner - Fixed Top */
+        .beta-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg,
+                rgba(26, 26, 46, 0.95) 0%,
+                rgba(45, 27, 78, 0.95) 30%,
+                rgba(74, 25, 66, 0.95) 60%,
+                rgba(31, 31, 58, 0.95) 100%
+            );
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15),
+                        0 0 40px rgba(139, 92, 246, 0.1);
+            padding: 12px 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .beta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(59, 130, 246, 0.05) 20%,
+                rgba(139, 92, 246, 0.05) 50%,
+                rgba(59, 130, 246, 0.05) 80%,
+                transparent 100%
+            );
+            pointer-events: none;
+            animation: shimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .beta-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .beta-banner-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .beta-banner-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .beta-banner-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .beta-banner-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .beta-banner-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .beta-banner-btn.primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #6366f1 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3),
+                        0 0 20px rgba(139, 92, 246, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .beta-banner-btn.primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: button-shine 3s ease-in-out infinite;
+        }
+
+        @keyframes button-shine {
+            0%, 100% { transform: translateX(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .beta-banner-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5),
+                        0 0 40px rgba(139, 92, 246, 0.3);
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #4f46e5 100%);
+        }
+
+        .beta-banner-btn.secondary {
+            background: rgba(139, 92, 246, 0.1);
+            color: white;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);
+        }
+
+        .beta-banner-btn.secondary:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .beta-banner {
+                padding: 10px 16px;
+            }
+
+            .beta-banner-actions {
+                width: 100%;
+            }
+
+            .beta-banner-btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
     </style>
 </head>
 <body>
+    <!-- Beta Banner -->
+    <div class="beta-banner">
+        <div class="beta-banner-content">
+            <div class="beta-banner-text">
+                <div class="beta-banner-title">Ready to Experience ZerO Inbox?</div>
+                <div class="beta-banner-subtitle">Join hundreds of beta testers achieving inbox zero every day</div>
+            </div>
+            <div class="beta-banner-actions">
+                <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_blank" class="beta-banner-btn primary">
+                    Download TestFlight
+                </a>
+                <a href="mailto:zerobeta@rationale.work?subject=Zero%20Beta%20Access%20Request" class="beta-banner-btn secondary">
+                    Request Beta Access
+                </a>
+            </div>
+        </div>
+    </div>
+
+
     <div class="dashboard-container">
         <div class="dashboard-header">
             <div class="header-content">
@@ -615,6 +812,11 @@
                     <span>Compound Actions Only</span>
                 </button>
 
+                <button class="compound-toggle" id="native-ios-toggle" onclick="toggleNativeIOSFilter()">
+                    <span>📱</span>
+                    <span>Native iOS Only</span>
+                </button>
+
                 <div class="intent-dropdown">
                     <select class="intent-select" id="intent-select" onchange="handleIntentChange()">
                         <option value="all">All Intents</option>
@@ -645,7 +847,7 @@
         // Modal flows copied from zero-sequence-live.html
         const MODAL_FLOWS = {
             'sign_form': {
-                title: '✍️ Sign Form',
+                title: 'Sign Form',
                 steps: [
                     {
                         label: '1. Form Email',
@@ -688,7 +890,7 @@
                 ]
             },
             'pay_invoice': {
-                title: '💰 Pay Invoice',
+                title: 'Pay Invoice',
                 steps: [
                     {
                         label: '1. Invoice Email',
@@ -730,7 +932,7 @@
                 ]
             },
             'track_package': {
-                title: '📦 Track Package',
+                title: 'Track Package',
                 steps: [
                     {
                         label: '1. Shipping Email',
@@ -766,7 +968,7 @@
                 ]
             },
             'check_in_flight': {
-                title: '✈️ Check In Flight',
+                title: 'Check In Flight',
                 steps: [
                     {
                         label: '1. Check-in Email',
@@ -800,7 +1002,7 @@
                 ]
             },
             'schedule_purchase': {
-                title: '📅 Scheduled Purchase',
+                title: 'Scheduled Purchase',
                 steps: [
                     {
                         label: '1. Product',
@@ -835,7 +1037,7 @@
                 ]
             },
             'add_to_calendar': {
-                title: '📅 Add to Calendar',
+                title: 'Add to Calendar',
                 steps: [
                     {
                         label: '1. Event Email',
@@ -869,7 +1071,7 @@
                 ]
             },
             'pay_form_fee': {
-                title: '💳 Pay Form Fee',
+                title: 'Pay Form Fee',
                 steps: [
                     {
                         label: '1. Fee Email',
@@ -904,7 +1106,7 @@
                 ]
             },
             'view_order': {
-                title: '📦 View Order',
+                title: 'View Order',
                 steps: [
                     {
                         label: '1. Order Email',
@@ -928,7 +1130,7 @@
                 ]
             },
             'view_invoice': {
-                title: '📄 View Invoice',
+                title: 'View Invoice',
                 steps: [
                     {
                         label: '1. Invoice Email',
@@ -965,7 +1167,7 @@
                 ]
             },
             'set_payment_reminder': {
-                title: '⏰ Set Payment Reminder',
+                title: 'Set Payment Reminder',
                 steps: [
                     {
                         label: '1. Invoice',
@@ -999,7 +1201,7 @@
                 ]
             },
             'contact_support': {
-                title: '💬 Contact Support',
+                title: 'Contact Support',
                 steps: [
                     {
                         label: '1. Support Request',
@@ -1022,7 +1224,7 @@
                 ]
             },
             'add_to_wallet': {
-                title: '📲 Add to Wallet',
+                title: 'Add to Wallet',
                 steps: [
                     {
                         label: '1. Boarding Pass',
@@ -1043,7 +1245,7 @@
                 ]
             },
             'quick_reply': {
-                title: '💬 Quick Reply',
+                title: 'Quick Reply',
                 steps: [
                     {
                         label: '1. Email Card',
@@ -1076,7 +1278,7 @@
                 ]
             },
             'confirm_appointment': {
-                title: '🏥 Confirm Appointment',
+                title: 'Confirm Appointment',
                 steps: [
                     {
                         label: '1. Appointment Email',
@@ -1111,7 +1313,7 @@
                 ]
             },
             'reply_to_thread': {
-                title: '↩️ Reply to Thread',
+                title: 'Reply to Thread',
                 steps: [
                     {
                         label: '1. Thread Email',
@@ -1144,7 +1346,7 @@
                 ]
             },
             'save_for_later': {
-                title: '📌 Save for Later',
+                title: 'Save for Later',
                 steps: [
                     {
                         label: '1. Email Card',
@@ -1165,7 +1367,7 @@
                 ]
             },
             'view_details': {
-                title: '📄 View Details',
+                title: 'View Details',
                 steps: [
                     {
                         label: '1. Email Card',
@@ -1188,7 +1390,7 @@
                 ]
             },
             'copy_promo_code': {
-                title: '🎟️ Copy Promo Code',
+                title: 'Copy Promo Code',
                 steps: [
                     {
                         label: '1. Promo Email',
@@ -1210,7 +1412,7 @@
                 ]
             },
             'cancel_subscription': {
-                title: '❌ Cancel Subscription',
+                title: 'Cancel Subscription',
                 steps: [
                     {
                         label: '1. Subscription Email',
@@ -1244,7 +1446,7 @@
                 ]
             },
             'rsvp_yes': {
-                title: '✅ Accept Invitation',
+                title: 'Accept Invitation',
                 steps: [
                     {
                         label: '1. Invitation',
@@ -1265,7 +1467,7 @@
                 ]
             },
             'rsvp_no': {
-                title: '❌ Decline Invitation',
+                title: 'Decline Invitation',
                 steps: [
                     {
                         label: '1. Invitation',
@@ -1286,7 +1488,7 @@
                 ]
             },
             'file_insurance_claim': {
-                title: '🏥 File Insurance Claim',
+                title: 'File Insurance Claim',
                 steps: [
                     {
                         label: '1. Medical Bill',
@@ -1322,7 +1524,7 @@
                 ]
             },
             'view_pickup_details': {
-                title: '💊 View Pickup Details',
+                title: 'View Pickup Details',
                 steps: [
                     {
                         label: '1. Prescription Email',
@@ -1346,7 +1548,7 @@
                 ]
             },
             'pickup_prescription': {
-                title: '💊 Pickup Prescription',
+                title: 'Pickup Prescription',
                 steps: [
                     {
                         label: '1. Prescription Email',
@@ -1367,7 +1569,7 @@
                 ]
             },
             'view_practice_details': {
-                title: '⚽ View Practice Details',
+                title: 'View Practice Details',
                 steps: [
                     {
                         label: '1. Practice Email',
@@ -1391,7 +1593,7 @@
                 ]
             },
             'accept_school_event': {
-                title: '🎓 Accept School Event',
+                title: 'Accept School Event',
                 steps: [
                     {
                         label: '1. Event Email',
@@ -1425,7 +1627,7 @@
                 ]
             },
             'view_team_announcement': {
-                title: '📣 View Team Announcement',
+                title: 'View Team Announcement',
                 steps: [
                     {
                         label: '1. Announcement Email',
@@ -1448,7 +1650,7 @@
                 ]
             },
             'write_review': {
-                title: '⭐ Write Review',
+                title: 'Write Review',
                 steps: [
                     {
                         label: '1. Review Request',
@@ -1490,7 +1692,7 @@
                 ]
             },
             'rate_product': {
-                title: '⭐ Rate Product',
+                title: 'Rate Product',
                 steps: [
                     {
                         label: '1. Rating Request',
@@ -1526,7 +1728,7 @@
                 ]
             },
             'set_reminder': {
-                title: '⏰ Set Reminder',
+                title: 'Set Reminder',
                 steps: [
                     {
                         label: '1. Sale Email',
@@ -1547,7 +1749,7 @@
                 ]
             },
             'set_price_alert': {
-                title: '💰 Set Price Alert',
+                title: 'Set Price Alert',
                 steps: [
                     {
                         label: '1. Product Email',
@@ -1568,7 +1770,7 @@
                 ]
             },
             'notify_restock': {
-                title: '📦 Restock Notification',
+                title: 'Restock Notification',
                 steps: [
                     {
                         label: '1. Out of Stock',
@@ -1589,7 +1791,7 @@
                 ]
             },
             'reply_to_ticket': {
-                title: '💬 Reply to Ticket',
+                title: 'Reply to Ticket',
                 steps: [
                     {
                         label: '1. Support Ticket',
@@ -1622,7 +1824,7 @@
                 ]
             },
             'contact_driver': {
-                title: '🚗 Contact Driver',
+                title: 'Contact Driver',
                 steps: [
                     {
                         label: '1. Delivery Email',
@@ -1653,7 +1855,7 @@
                 ]
             },
             'view_introduction': {
-                title: '👋 View Introduction',
+                title: 'View Introduction',
                 steps: [
                     {
                         label: '1. Intro Email',
@@ -1676,7 +1878,7 @@
                 ]
             },
             'schedule_payment': {
-                title: '📅 Schedule Payment',
+                title: 'Schedule Payment',
                 steps: [
                     {
                         label: '1. Bill Email',
@@ -1713,7 +1915,7 @@
                 ]
             },
             'view_benefits': {
-                title: '🎁 View Benefits',
+                title: 'View Benefits',
                 steps: [
                     {
                         label: '1. Subscription Email',
@@ -1746,7 +1948,7 @@
                 ]
             },
             'view_onboarding_info': {
-                title: '👔 View Onboarding Info',
+                title: 'View Onboarding Info',
                 steps: [
                     {
                         label: '1. Onboarding Email',
@@ -1771,7 +1973,7 @@
                 ]
             },
             'view_mortgage_details': {
-                title: '🏠 View Mortgage Details',
+                title: 'View Mortgage Details',
                 steps: [
                     {
                         label: '1. Mortgage Email',
@@ -1808,7 +2010,7 @@
                 ]
             },
             'view_legal_document': {
-                title: '⚖️ View Legal Document',
+                title: 'View Legal Document',
                 steps: [
                     {
                         label: '1. Document Email',
@@ -1832,7 +2034,7 @@
                 ]
             },
             'view_newsletter_summary': {
-                title: '📰 Newsletter Summary',
+                title: 'Newsletter Summary',
                 steps: [
                     {
                         label: '1. Newsletter Email',
@@ -1862,7 +2064,7 @@
                 ]
             },
             'buy_again': {
-                title: '🛒 Buy Again',
+                title: 'Buy Again',
                 steps: [
                     {
                         label: '1. Order Email',
@@ -1896,7 +2098,7 @@
                 ]
             },
             'reorder_item': {
-                title: '🔄 Reorder Item',
+                title: 'Reorder Item',
                 steps: [
                     {
                         label: '1. Restock Email',
@@ -1931,7 +2133,7 @@
                 ]
             },
             'return_item': {
-                title: '📦 Return Item',
+                title: 'Return Item',
                 steps: [
                     {
                         label: '1. Order Email',
@@ -1980,7 +2182,7 @@
                 ]
             },
             'complete_cart': {
-                title: '🛍️ Complete Cart',
+                title: 'Complete Cart',
                 steps: [
                     {
                         label: '1. Cart Email',
@@ -2017,7 +2219,7 @@
                 ]
             },
             'claim_deal': {
-                title: '🎁 Claim Deal',
+                title: 'Claim Deal',
                 steps: [
                     {
                         label: '1. Promo Email',
@@ -2052,7 +2254,7 @@
                 ]
             },
             'view_product': {
-                title: '👀 View Product',
+                title: 'View Product',
                 steps: [
                     {
                         label: '1. Product Email',
@@ -2076,7 +2278,7 @@
                 ]
             },
             'redeem_rewards': {
-                title: '🎉 Redeem Rewards',
+                title: 'Redeem Rewards',
                 steps: [
                     {
                         label: '1. Rewards Email',
@@ -2125,7 +2327,7 @@
                 ]
             },
             'view_announcement': {
-                title: '📢 View Announcement',
+                title: 'View Announcement',
                 steps: [
                     {
                         label: '1. Announcement Email',
@@ -2152,7 +2354,7 @@
                 ]
             },
             'track_delivery': {
-                title: '🚚 Track Delivery',
+                title: 'Track Delivery',
                 steps: [
                     {
                         label: '1. Delivery Email',
@@ -2184,7 +2386,7 @@
                 ]
             },
             'track_return': {
-                title: '📦 Track Return',
+                title: 'Track Return',
                 steps: [
                     {
                         label: '1. Return Email',
@@ -2218,7 +2420,7 @@
                 ]
             },
             'print_return_label': {
-                title: '🖨️ Print Return Label',
+                title: 'Print Return Label',
                 steps: [
                     {
                         label: '1. Return Email',
@@ -2255,7 +2457,7 @@
                 ]
             },
             'view_warranty': {
-                title: '🛡️ View Warranty',
+                title: 'View Warranty',
                 steps: [
                     {
                         label: '1. Product Email',
@@ -2279,7 +2481,7 @@
                 ]
             },
             'download_receipt': {
-                title: '📥 Download Receipt',
+                title: 'Download Receipt',
                 steps: [
                     {
                         label: '1. Payment Email',
@@ -2314,7 +2516,7 @@
                 ]
             },
             'view_statement': {
-                title: '📊 View Statement',
+                title: 'View Statement',
                 steps: [
                     {
                         label: '1. Statement Email',
@@ -2347,7 +2549,7 @@
                 ]
             },
             'update_payment': {
-                title: '💳 Update Payment',
+                title: 'Update Payment',
                 steps: [
                     {
                         label: '1. Payment Email',
@@ -2406,7 +2608,7 @@
                 ]
             },
             'update_payment_method': {
-                title: '💳 Update Payment Method',
+                title: 'Update Payment Method',
                 steps: [
                     {
                         label: '1. Account Email',
@@ -2452,7 +2654,7 @@
                 ]
             },
             'dispute_transaction': {
-                title: '⚠️ Dispute Transaction',
+                title: 'Dispute Transaction',
                 steps: [
                     {
                         label: '1. Transaction Email',
@@ -2502,7 +2704,7 @@
                 ]
             },
             'view_credit_report': {
-                title: '📈 View Credit Report',
+                title: 'View Credit Report',
                 steps: [
                     {
                         label: '1. Report Email',
@@ -2538,7 +2740,7 @@
                 ]
             },
             'view_portfolio': {
-                title: '💼 View Portfolio',
+                title: 'View Portfolio',
                 steps: [
                     {
                         label: '1. Portfolio Email',
@@ -2566,7 +2768,7 @@
                 ]
             },
             'verify_transaction': {
-                title: '✅ Verify Transaction',
+                title: 'Verify Transaction',
                 steps: [
                     {
                         label: '1. Transaction Email',
@@ -2607,7 +2809,7 @@
                 ]
             },
             'view_refund_status': {
-                title: '💰 View Refund',
+                title: 'View Refund',
                 steps: [
                     {
                         label: '1. Refund Email',
@@ -2632,7 +2834,7 @@
                 ]
             },
             'pay_property_tax': {
-                title: '🏠 Pay Property Tax',
+                title: 'Pay Property Tax',
                 steps: [
                     {
                         label: '1. Tax Bill Email',
@@ -2675,7 +2877,7 @@
                 ]
             },
             'pay_utility_bill': {
-                title: '💡 Pay Utility Bill',
+                title: 'Pay Utility Bill',
                 steps: [
                     {
                         label: '1. Bill Email',
@@ -2718,7 +2920,7 @@
                 ]
             },
             'download_tax_document': {
-                title: '📑 Download Tax Form',
+                title: 'Download Tax Form',
                 steps: [
                     {
                         label: '1. Tax Email',
@@ -2753,7 +2955,7 @@
                 ]
             },
             'manage_subscription': {
-                title: '⚙️ Manage Subscription',
+                title: 'Manage Subscription',
                 steps: [
                     {
                         label: '1. Subscription Email',
@@ -2791,7 +2993,7 @@
                 ]
             },
             'upgrade_subscription': {
-                title: '⭐ Upgrade Subscription',
+                title: 'Upgrade Subscription',
                 steps: [
                     {
                         label: '1. Upgrade Email',
@@ -2841,7 +3043,7 @@
                 ]
             },
             'view_reservation': {
-                title: '🍽️ View Reservation',
+                title: 'View Reservation',
                 steps: [
                     {
                         label: '1. Confirmation Email',
@@ -2866,7 +3068,7 @@
                 ]
             },
             'modify_reservation': {
-                title: '✏️ Modify Reservation',
+                title: 'Modify Reservation',
                 steps: [
                     {
                         label: '1. Confirmation Email',
@@ -2914,7 +3116,7 @@
                 ]
             },
             'view_itinerary': {
-                title: '✈️ View Itinerary',
+                title: 'View Itinerary',
                 steps: [
                     {
                         label: '1. Travel Email',
@@ -2947,7 +3149,7 @@
                 ]
             },
             'manage_booking': {
-                title: '⚙️ Manage Booking',
+                title: 'Manage Booking',
                 steps: [
                     {
                         label: '1. Booking Email',
@@ -2983,28 +3185,28 @@
                 ]
             },
             'view_assignment': {
-                title: '📝 View Assignment',
+                title: 'View Assignment',
                 steps: [
                     { label: '1. Assignment Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">New Assignment Posted</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Due Nov 20, 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📝</span> View</div></div>` },
                     { label: '2. Assignment Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📝 Assignment</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Math Chapter 5 Problems</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Due: Nov 20, 2025</div><div style="font-size: 13px; opacity: 0.7;">Points: 50</div></div></div>` }
                 ]
             },
             'check_grade': {
-                title: '📊 Check Grade',
+                title: 'Check Grade',
                 steps: [
                     { label: '1. Grade Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Grade Posted</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Math Test #3</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>📊</span> View</div></div>` },
                     { label: '2. Grade Breakdown', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📊 Your Grade</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; text-align: center;"><div style="font-size: 48px; font-weight: 700; color: #34C759;">92%</div><div style="font-size: 14px; opacity: 0.8;">Grade: A-</div></div></div>` }
                 ]
             },
             'view_lms_message': {
-                title: '💬 View Message',
+                title: 'View Message',
                 steps: [
                     { label: '1. Message Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">New Message from Teacher</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Ms. Johnson</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💬</span> Read</div></div>` },
                     { label: '2. Message Thread', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💬 Message</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">From: Ms. Johnson</div><div style="font-size: 14px; opacity: 0.9;">Please review Chapter 5 before tomorrow's class...</div></div></div>` }
                 ]
             },
             'reply_to_teacher': {
-                title: '✉️ Reply to Teacher',
+                title: 'Reply to Teacher',
                 steps: [
                     { label: '1. Message Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Message from Ms. Johnson</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Question about assignment</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>✉️</span> Reply</div></div>` },
                     { label: '2. Compose Reply', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✉️ Reply</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 14px; opacity: 0.9;">Thank you for clarifying...</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📤 Send Reply</div></div>` },
@@ -3012,7 +3214,7 @@
                 ]
             },
             'submit_assignment': {
-                title: '📤 Submit Assignment',
+                title: 'Submit Assignment',
                 steps: [
                     { label: '1. Assignment Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Assignment Due Soon</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Due Nov 20, 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📤</span> Submit</div></div>` },
                     { label: '2. Upload File', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📤 Submit Work</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600; margin-bottom: 8px;">Math_Assignment.pdf</div><div style="font-size: 13px; opacity: 0.7;">2.3 MB</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📤 Submit Assignment</div></div>` },
@@ -3021,7 +3223,7 @@
                 ]
             },
             'rsvp_school_event': {
-                title: '🎓 RSVP School Event',
+                title: 'RSVP School Event',
                 steps: [
                     { label: '1. Event Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">School Play Invitation</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Dec 10, 2025 at 7:00 PM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🎓</span> RSVP</div></div>` },
                     { label: '2. Confirm Attendance', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎓 RSVP</div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Attending</div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✗ Not Attending</div></div></div>` },
@@ -3029,63 +3231,63 @@
                 ]
             },
             'view_game_schedule': {
-                title: '🏀 View Schedule',
+                title: 'View Schedule',
                 steps: [
                     { label: '1. Schedule Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Basketball Schedule</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Fall 2025 Season</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🏀</span> View</div></div>` },
                     { label: '2. Game Calendar', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🏀 Season Schedule</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">vs. Eagles</div><div style="font-size: 13px; opacity: 0.7;">Nov 15 @ 6:00 PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">vs. Tigers</div><div style="font-size: 13px; opacity: 0.7;">Nov 22 @ 5:30 PM</div></div></div>` }
                 ]
             },
             'rsvp_game': {
-                title: '⚽ RSVP Game',
+                title: 'RSVP Game',
                 steps: [
                     { label: '1. Game Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Upcoming Soccer Game</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Saturday @ 10:00 AM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>⚽</span> RSVP</div></div>` },
                     { label: '2. Confirm Attendance', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⚽ Will You Attend?</div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Yes</div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✗ No</div></div></div>` },
                     { label: '3. Confirmed', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">RSVP Received!</div><div style="opacity: 0.8;">Coach notified</div></div>` }
                 ]
             },        // Compound Action Flows (Multi-Step Wizards)
-            'check_in_appointment': {title: '✅ Check In', steps: [{label: '1. Appointment Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Appointment Tomorrow</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">10:00 AM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>✅</span> Check In</div></div>`}, {label: '2. Confirm Info', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✅ Check-In</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600;">Dr. Smith</div><div style="font-size: 13px; opacity: 0.7;">Nov 15, 10:00 AM</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Check In Now</div></div>`}, {label: '3. Checked In', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Checked In!</div><div style="opacity: 0.8;">Please arrive 10 min early</div></div>`}]},
-            'get_directions': {title: '🗺️ Get Directions', steps: [{label: '1. Appointment Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Dr. Smith Appointment</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">123 Medical Plaza</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🗺️</span> Directions</div></div>`}, {label: '2. Opening Maps', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🗺️ Directions</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px;"><div style="font-weight: 600; margin-bottom: 4px;">123 Medical Plaza</div><div style="font-size: 13px; opacity: 0.8;">Opening in Maps...</div></div></div>`}]},
-            'view_results': {title: '📋 View Results', steps: [{label: '1. Results Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Lab Results Available</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Blood Test - Complete</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>📋</span> View</div></div>`}, {label: '2. Verify Identity', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Secure Access</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">DOB</div><div>MM/DD/YYYY</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Verify</div></div>`}, {label: '3. View Results', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Lab Results</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Blood Test - Complete</div><div style="font-size: 13px; opacity: 0.7;">All values normal</div></div></div>`}]},
-            'download_results': {title: '📥 Download Results', steps: [{label: '1. Results Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Lab Results Ready</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Download PDF</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📥</span> Download</div></div>`}, {label: '2. PDF Preview', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📥 Results PDF</div><div style="background: rgba(255,255,255,0.95); padding: 16px; border-radius: 10px; margin-bottom: 12px; color: #000;"><div style="font-weight: 600;">Lab_Results_11-01-2025.pdf</div><div style="font-size: 12px; opacity: 0.7;">854 KB</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📥 Download</div></div>`}, {label: '3. Downloaded', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Downloaded!</div><div style="opacity: 0.8;">Results saved</div></div>`}]},
-            'reschedule_appointment': {title: '📅 Reschedule', steps: [{label: '1. Appointment Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Your Appointment</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Nov 15 @ 10:00 AM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📅</span> Reschedule</div></div>`}, {label: '2. Select Date', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 New Date</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(255, 149, 0, 0.4);"><div style="font-weight: 600;">Nov 16 @ 2:00 PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 17 @ 10:00 AM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Confirm</div><div style="background: rgba(255, 149, 0, 0.15); border: 2px solid rgba(255, 149, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">New: Nov 16 @ 2:00 PM</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm</div></div>`}, {label: '4. Rescheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Rescheduled!</div><div style="opacity: 0.8;">Confirmation sent</div></div>`}]},
-            'view_referral': {title: '👨‍⚕️ View Referral', steps: [{label: '1. Referral Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Specialist Referral</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Dr. Johnson - Cardiology</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>👨‍⚕️</span> View</div></div>`}, {label: '2. Referral Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">👨‍⚕️ Referral</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Dr. Sarah Johnson</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Cardiology</div><div style="font-size: 13px; opacity: 0.7;">📞 (555) 123-4567</div></div></div>`}]},
-            'schedule_test': {title: '🧪 Schedule Test', steps: [{label: '1. Test Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Lab Work Ordered</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Blood Test Required</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🧪</span> Schedule</div></div>`}, {label: '2. Select Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🧪 Available Times</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(147, 51, 234, 0.4);"><div style="font-weight: 600;">Nov 15 @ 8:00 AM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 16 @ 9:00 AM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🧪 Confirm</div><div style="background: rgba(147, 51, 234, 0.15); border: 2px solid rgba(147, 51, 234, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Blood Test</div><div style="font-size: 13px; opacity: 0.8;">Nov 15 @ 8:00 AM</div></div><div style="background: rgba(147, 51, 234, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Schedule</div></div>`}, {label: '4. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Test Scheduled!</div><div style="opacity: 0.8;">Reminder sent</div></div>`}]},
-            'view_claim_status': {title: '💼 View Claim', steps: [{label: '1. Claim Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Insurance Claim Update</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Claim #C-12345</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💼</span> View</div></div>`}, {label: '2. Claim Tracker', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💼 Claim Status</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Claim #C-12345</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Status: Under Review</div><div style="font-size: 13px; opacity: 0.7;">Est. Decision: 5-7 days</div></div></div>`}]},
-            'schedule_interview': {title: '🤝 Schedule Interview', steps: [{label: '1. Interview Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Interview Invitation</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Acme Corp - Software Engineer</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>🤝</span> Schedule</div></div>`}, {label: '2. Select Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🤝 Available Slots</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(52, 199, 89, 0.4);"><div style="font-weight: 600;">Nov 18 @ 2:00 PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 19 @ 10:00 AM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🤝 Confirm</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Software Engineer Interview</div><div style="font-size: 13px; opacity: 0.8;">Nov 18 @ 2:00 PM</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Schedule Interview</div></div>`}, {label: '4. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Interview Scheduled!</div><div style="opacity: 0.8;">Calendar invite sent</div></div>`}]},
-            'accept_offer': {title: '🎉 Accept Offer', steps: [{label: '1. Offer Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Job Offer</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Software Engineer @ Acme Corp</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 215, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🎉</span> Review</div></div>`}, {label: '2. Review Terms', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎉 Job Offer</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600; margin-bottom: 8px;">Software Engineer</div><div style="font-size: 20px; color: #FFD700; margin: 8px 0;">$120,000/year</div><div style="font-size: 13px; opacity: 0.7;">Start: Dec 1, 2025</div></div></div>`}, {label: '3. Accept', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎉 Accept Offer</div><div style="background: rgba(255, 215, 0, 0.15); border: 2px solid rgba(255, 215, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Ready to accept?</div><div style="font-size: 13px; opacity: 0.8;">This action is binding</div></div><div style="background: rgba(255, 215, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Accept Offer</div></div>`}, {label: '4. Accepted', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Offer Accepted!</div><div style="opacity: 0.8;">Welcome aboard!</div></div>`}]},
-            'view_job_details': {title: '💼 View Job Details', steps: [{label: '1. Job Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Job Opening</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Software Engineer</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💼</span> View</div></div>`}, {label: '2. Full Description', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💼 Job Details</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Software Engineer</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">📍 San Francisco, CA</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">💰 $100k-150k</div><div style="font-size: 13px; opacity: 0.7;">⏰ Full-time</div></div></div>`}]},
-            'check_application_status': {title: '📊 Check Status', steps: [{label: '1. Application Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Application Update</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Software Engineer @ Acme</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📊</span> Check</div></div>`}, {label: '2. Status Tracker', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📊 Application Status</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Software Engineer</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Status: Under Review</div><div style="font-size: 13px; opacity: 0.7;">Applied: Oct 25, 2025</div></div></div>`}]},
-            'schedule_meeting': {title: '📅 Schedule Meeting', steps: [{label: '1. Meeting Request', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Meeting Request</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Project Discussion</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📅</span> Schedule</div></div>`}, {label: '2. Select Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Available Times</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(100, 149, 237, 0.4);"><div style="font-weight: 600;">Nov 15 @ 2:00 PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 16 @ 10:00 AM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Confirm</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Project Discussion</div><div style="font-size: 13px; opacity: 0.8;">Nov 15 @ 2:00 PM (30 min)</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Schedule</div></div>`}, {label: '4. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Meeting Scheduled!</div><div style="opacity: 0.8;">Calendar invite sent</div></div>`}]},
-            'register_to_vote': {title: '🗳️ Register to Vote', steps: [{label: '1. Registration Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Voter Registration</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Deadline: Nov 30, 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🗳️</span> Register</div></div>`}, {label: '2. Fill Form', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🗳️ Registration</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Name</div><div>John Smith</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Address</div><div>123 Main St</div></div></div>`}, {label: '3. Verify', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🗳️ Verify</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Review & Submit</div><div style="font-size: 13px; opacity: 0.8;">All information correct?</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Submit</div></div>`}, {label: '4. Registered', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Registered!</div><div style="opacity: 0.8;">Confirmation mailed</div></div>`}]},
-            'renew_license': {title: '🪪 Renew License', steps: [{label: '1. Renewal Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">License Expiring</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Expires: Dec 31, 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🪪</span> Renew</div></div>`}, {label: '2. Upload Photo', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🪪 New Photo</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600; margin-bottom: 8px;">📸 Upload Photo</div><div style="font-size: 13px; opacity: 0.7;">Max 5MB, JPG/PNG</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📸 Take Photo</div></div>`}, {label: '3. Pay Fee', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🪪 Pay Fee</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 8px 0;">$35.00</div><div style="font-size: 13px; opacity: 0.7;">License Renewal Fee</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">💳 Pay Now</div></div>`}, {label: '4. Renewed', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">License Renewed!</div><div style="opacity: 0.8;">Arrives in 7-10 days</div></div>`}]},
-            'apply_for_permit': {title: '📋 Apply for Permit', steps: [{label: '1. Permit Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Permit Application</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Building Permit</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📋</span> Apply</div></div>`}, {label: '2. Application Form', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Application</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Property Address</div><div>123 Main St</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Project Type</div><div>Deck Addition</div></div></div>`}, {label: '3. Submit', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Submit</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Application Fee: $150</div><div style="font-size: 13px; opacity: 0.8;">Review time: 2-4 weeks</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📤 Submit & Pay</div></div>`}, {label: '4. Submitted', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Application Submitted!</div><div style="opacity: 0.8;">Tracking #P-12345</div></div>`}]},
-            'view_ballot': {title: '🗳️ View Ballot', steps: [{label: '1. Ballot Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Sample Ballot Available</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Nov 5, 2025 Election</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🗳️</span> View</div></div>`}, {label: '2. Ballot Preview', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🗳️ Sample Ballot</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Nov 5, 2025 Election</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">• Federal Offices</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">• State Propositions</div><div style="font-size: 13px; opacity: 0.7;">• Local Measures</div></div></div>`}]},
-            'confirm_court_appearance': {title: '⚖️ Confirm Appearance', steps: [{label: '1. Court Notice', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Court Appearance</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Dec 1, 2025 @ 9:00 AM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>⚖️</span> Confirm</div></div>`}, {label: '2. Confirm Attendance', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⚖️ Confirm</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Courtroom 4A</div><div style="font-size: 13px; opacity: 0.8;">Dec 1 @ 9:00 AM</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm Appearance</div></div>`}, {label: '3. Confirmed', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Appearance Confirmed!</div><div style="opacity: 0.8;">Arrive 15 min early</div></div>`}]},
-            'schedule_inspection': {title: '🏠 Schedule Inspection', steps: [{label: '1. Inspection Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Inspection Required</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Home Inspection</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🏠</span> Schedule</div></div>`}, {label: '2. Select Date', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🏠 Available Dates</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(147, 51, 234, 0.4);"><div style="font-weight: 600;">Nov 18 @ 10:00 AM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 19 @ 2:00 PM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🏠 Confirm</div><div style="background: rgba(147, 51, 234, 0.15); border: 2px solid rgba(147, 51, 234, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Home Inspection</div><div style="font-size: 13px; opacity: 0.8;">Nov 18 @ 10:00 AM</div></div><div style="background: rgba(147, 51, 234, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Schedule</div></div>`}, {label: '4. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Inspection Scheduled!</div><div style="opacity: 0.8;">Confirmation sent</div></div>`}]},
-            'reset_password': {title: '🔑 Reset Password', steps: [{label: '1. Reset Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Reset Password</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Click to reset</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🔑</span> Reset</div></div>`}, {label: '2. New Password', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔑 New Password</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Password</div><div>••••••••</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">Confirm</div><div>••••••••</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Save Password</div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔑 Confirm</div><div style="background: rgba(255, 149, 0, 0.15); border: 2px solid rgba(255, 149, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Password meets requirements</div><div style="font-size: 13px; opacity: 0.8;">✓ At least 8 characters</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm</div></div>`}, {label: '4. Reset Complete', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Password Reset!</div><div style="opacity: 0.8;">You can now log in</div></div>`}]},
-            'verify_account': {title: '✅ Verify Account', steps: [{label: '1. Verification Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Verify Your Account</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Click to verify</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>✅</span> Verify</div></div>`}, {label: '2. Click Verify', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✅ Verify Email</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Confirm your email address</div><div style="font-size: 13px; opacity: 0.8;">john@example.com</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Verify Email</div></div>`}, {label: '3. Verified', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Account Verified!</div><div style="opacity: 0.8;">You're all set</div></div>`}]},
-            'verify_device': {title: '📱 Verify Device', steps: [{label: '1. Device Alert', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">New Device Login</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Was this you?</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📱</span> Verify</div></div>`}, {label: '2. Approve Device', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📱 New Device</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600; margin-bottom: 4px;">iPhone 15 Pro</div><div style="font-size: 13px; opacity: 0.7;">San Francisco, CA</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Approve</div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✗ Deny</div></div></div>`}, {label: '3. Verified', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Device Verified!</div><div style="opacity: 0.8;">Login approved</div></div>`}]},
-            'review_security': {title: '🛡️ Review Security', steps: [{label: '1. Security Alert', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Security Update</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Review recent activity</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🛡️</span> Review</div></div>`}, {label: '2. Activity Log', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🛡️ Recent Activity</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">Login - Nov 1, 3:00 PM</div><div style="font-size: 12px; opacity: 0.7;">San Francisco, CA</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">Password Changed - Oct 28</div></div></div>`}, {label: '3. Review Complete', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Security OK!</div><div style="opacity: 0.8;">All activity verified</div></div>`}]},
-            'revoke_secret': {title: '🔐 Revoke Secret', steps: [{label: '1. Security Alert', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Exposed API Key</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Found in public repo</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 59, 48, 0.3); border-radius: 10px; font-size: 13px;"><span>🔐</span> Revoke</div></div>`}, {label: '2. Confirm Revoke', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔐 Revoke Key</div><div style="background: rgba(255, 59, 48, 0.15); border: 2px solid rgba(255, 59, 48, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">API Key: sk-••••••••</div><div style="font-size: 13px; opacity: 0.8;">This will stop all access</div></div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">🔐 Revoke Now</div></div>`}, {label: '3. Revoked', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Key Revoked!</div><div style="opacity: 0.8;">Generate new key</div></div>`}]},
-            'verify_social_account': {title: '✅ Verify Account', steps: [{label: '1. Verification Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Verify Social Account</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Confirm connection</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>✅</span> Verify</div></div>`}, {label: '2. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✅ Verify</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Link @username?</div><div style="font-size: 13px; opacity: 0.8;">This will connect your accounts</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm</div></div>`}, {label: '3. Verified', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Account Verified!</div><div style="opacity: 0.8;">Successfully linked</div></div>`}]},
-            'accept_social_invitation': {title: '🤝 Accept Invitation', steps: [{label: '1. Invitation Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Network Invitation</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">From @username</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>🤝</span> Accept</div></div>`}, {label: '2. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🤝 Accept?</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Connect with @username?</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Accept</div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✗ Decline</div></div></div>`}, {label: '3. Connected', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Invitation Accepted!</div><div style="opacity: 0.8;">Now connected</div></div>`}]},
-            'view_social_message': {title: '💬 View Message', steps: [{label: '1. Message Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">New Message</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">From @username</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💬</span> Read</div></div>`}, {label: '2. Message View', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💬 Message</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">From: @username</div><div style="font-size: 14px; opacity: 0.9;">Hey, I wanted to connect about...</div></div></div>`}]},
-            'join_meeting': {title: '📹 Join Meeting', steps: [{label: '1. Meeting Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Meeting Starting</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Nov 15 @ 2:00 PM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>📹</span> Join</div></div>`}, {label: '2. Joining...', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📹 Joining Meeting</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px;"><div style="font-weight: 600; margin-bottom: 4px;">Opening Zoom...</div><div style="font-size: 13px; opacity: 0.8;">Meeting ID: 123-456-789</div></div></div>`}]},
-            'view_incident': {title: '🚨 View Incident', steps: [{label: '1. Incident Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Service Incident</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Status: Investigating</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🚨</span> View</div></div>`}, {label: '2. Incident Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🚨 Incident #12345</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">API Performance Degradation</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Status: Investigating</div><div style="font-size: 13px; opacity: 0.7;">Started: 2:30 PM</div></div></div>`}]},
-            'register_event': {title: '🎫 Register Event', steps: [{label: '1. Event Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Conference Registration</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Dec 10-12, 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🎫</span> Register</div></div>`}, {label: '2. Registration Form', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎫 Register</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Name</div><div>John Smith</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Email</div><div>john@example.com</div></div></div>`}, {label: '3. Review', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎫 Review</div><div style="background: rgba(147, 51, 234, 0.15); border: 2px solid rgba(147, 51, 234, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Conference Pass</div><div style="font-size: 13px; opacity: 0.8;">Dec 10-12, 2025</div></div><div style="background: rgba(147, 51, 234, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Complete Registration</div></div>`}, {label: '4. Registered', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Registered!</div><div style="opacity: 0.8;">Ticket sent to email</div></div>`}]},
-            'register_for_sports': {title: '⚽ Register Sports', steps: [{label: '1. Registration Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Youth Soccer Registration</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Spring 2026 Season</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>⚽</span> Register</div></div>`}, {label: '2. Player Info', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⚽ Player Info</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Player Name</div><div>Sarah Smith</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Age Group</div><div>U-10</div></div></div>`}, {label: '3. Pay Fee', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⚽ Registration Fee</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 8px 0;">$150.00</div><div style="font-size: 13px; opacity: 0.7;">Season Registration</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">💳 Pay & Register</div></div>`}, {label: '4. Registered', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Registered!</div><div style="opacity: 0.8;">Practice starts March 1</div></div>`}]},
-            'unsubscribe': {title: '✉️ Unsubscribe', steps: [{label: '1. Newsletter Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Marketing Newsletter</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Don't want these?</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 59, 48, 0.3); border-radius: 10px; font-size: 13px;"><span>✉️</span> Unsubscribe</div></div>`}, {label: '2. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✉️ Unsubscribe?</div><div style="background: rgba(255, 59, 48, 0.15); border: 2px solid rgba(255, 59, 48, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Stop receiving emails?</div><div style="font-size: 13px; opacity: 0.8;">You can resubscribe anytime</div></div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Unsubscribe</div></div>`}, {label: '3. Unsubscribed', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Unsubscribed!</div><div style="opacity: 0.8;">You won't receive more emails</div></div>`}]},
-            'take_survey': {title: '📝 Take Survey', steps: [{label: '1. Survey Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Customer Survey</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">2 minutes</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📝</span> Start</div></div>`}, {label: '2. Answer Questions', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📝 Survey</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600; margin-bottom: 8px;">How was your experience?</div><div style="font-size: 24px;">⭐⭐⭐⭐⭐</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">Next →</div></div>`}, {label: '3. Review', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📝 Review</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">3 questions answered</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📤 Submit Survey</div></div>`}, {label: '4. Submitted', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Survey Complete!</div><div style="opacity: 0.8;">Thank you for your feedback</div></div>`}]},
-            'cancel_subscription_service': {title: '❌ Cancel Service', steps: [{label: '1. Subscription Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Your Subscription</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">$9.99/month</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 59, 48, 0.3); border-radius: 10px; font-size: 13px;"><span>❌</span> Cancel</div></div>`}, {label: '2. Confirm Cancel', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">❌ Cancel Subscription?</div><div style="background: rgba(255, 59, 48, 0.15); border: 2px solid rgba(255, 59, 48, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Premium Plan</div><div style="font-size: 13px; opacity: 0.8;">Active until Dec 1, 2025</div></div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm Cancellation</div></div>`}, {label: '3. Cancelled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Subscription Cancelled</div><div style="opacity: 0.8;">Access until Dec 1</div></div>`}]},
-            'extend_trial': {title: '⏰ Extend Trial', steps: [{label: '1. Trial Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Trial Ending Soon</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Expires in 3 days</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 215, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>⏰</span> Extend</div></div>`}, {label: '2. Extend Options', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⏰ Extend Trial</div><div style="background: rgba(255, 215, 0, 0.15); border: 2px solid rgba(255, 215, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">7 More Days Free</div><div style="font-size: 13px; opacity: 0.8;">No credit card required</div></div><div style="background: rgba(255, 215, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Extend Trial</div></div>`}, {label: '3. Extended', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Trial Extended!</div><div style="opacity: 0.8;">New end date: Nov 22</div></div>`}]},
-            'view_usage': {title: '📊 View Usage', steps: [{label: '1. Usage Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Monthly Usage Report</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">October 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📊</span> View</div></div>`}, {label: '2. Usage Dashboard', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📊 Usage</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">API Calls</div><div style="font-weight: 600;">12,450 / 15,000</div></div><div style="margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">Storage</div><div style="font-weight: 600;">8.2 GB / 10 GB</div></div><div><div style="font-size: 12px; opacity: 0.7;">Bandwidth</div><div style="font-weight: 600;">45 GB / 100 GB</div></div></div></div>`}]},
-            'view_task': {title: '📋 View Task', steps: [{label: '1. Task Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Task Assignment</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Due Tomorrow</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📋</span> View</div></div>`}, {label: '2. Task Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Task Details</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Complete Q4 Report</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Due: Nov 15, 2025</div><div style="font-size: 13px; opacity: 0.7;">Priority: High</div></div></div>`}]},
-            'view_ticket': {title: '🎫 View Ticket', steps: [{label: '1. Ticket Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Support Ticket Update</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Ticket #T-12345</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🎫</span> View</div></div>`}, {label: '2. Ticket Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎫 Ticket #T-12345</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Login Issue</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Status: In Progress</div><div style="font-size: 13px; opacity: 0.7;">Updated: 2 hours ago</div></div></div>`}]}
+            'check_in_appointment': {title: 'Check In', steps: [{label: '1. Appointment Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Appointment Tomorrow</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">10:00 AM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>✅</span> Check In</div></div>`}, {label: '2. Confirm Info', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✅ Check-In</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600;">Dr. Smith</div><div style="font-size: 13px; opacity: 0.7;">Nov 15, 10:00 AM</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Check In Now</div></div>`}, {label: '3. Checked In', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Checked In!</div><div style="opacity: 0.8;">Please arrive 10 min early</div></div>`}]},
+            'get_directions': {title: 'Get Directions', steps: [{label: '1. Appointment Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Dr. Smith Appointment</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">123 Medical Plaza</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🗺️</span> Directions</div></div>`}, {label: '2. Opening Maps', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🗺️ Directions</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px;"><div style="font-weight: 600; margin-bottom: 4px;">123 Medical Plaza</div><div style="font-size: 13px; opacity: 0.8;">Opening in Maps...</div></div></div>`}]},
+            'view_results': {title: 'View Results', steps: [{label: '1. Results Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Lab Results Available</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Blood Test - Complete</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>📋</span> View</div></div>`}, {label: '2. Verify Identity', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Secure Access</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">DOB</div><div>MM/DD/YYYY</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Verify</div></div>`}, {label: '3. View Results', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Lab Results</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Blood Test - Complete</div><div style="font-size: 13px; opacity: 0.7;">All values normal</div></div></div>`}]},
+            'download_results': {title: 'Download Results', steps: [{label: '1. Results Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Lab Results Ready</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Download PDF</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📥</span> Download</div></div>`}, {label: '2. PDF Preview', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📥 Results PDF</div><div style="background: rgba(255,255,255,0.95); padding: 16px; border-radius: 10px; margin-bottom: 12px; color: #000;"><div style="font-weight: 600;">Lab_Results_11-01-2025.pdf</div><div style="font-size: 12px; opacity: 0.7;">854 KB</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📥 Download</div></div>`}, {label: '3. Downloaded', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Downloaded!</div><div style="opacity: 0.8;">Results saved</div></div>`}]},
+            'reschedule_appointment': {title: 'Reschedule', steps: [{label: '1. Appointment Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Your Appointment</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Nov 15 @ 10:00 AM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📅</span> Reschedule</div></div>`}, {label: '2. Select Date', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 New Date</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(255, 149, 0, 0.4);"><div style="font-weight: 600;">Nov 16 @ 2:00 PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 17 @ 10:00 AM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Confirm</div><div style="background: rgba(255, 149, 0, 0.15); border: 2px solid rgba(255, 149, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">New: Nov 16 @ 2:00 PM</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm</div></div>`}, {label: '4. Rescheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Rescheduled!</div><div style="opacity: 0.8;">Confirmation sent</div></div>`}]},
+            'view_referral': {title: 'View Referral', steps: [{label: '1. Referral Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Specialist Referral</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Dr. Johnson - Cardiology</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>👨‍⚕️</span> View</div></div>`}, {label: '2. Referral Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">👨‍⚕️ Referral</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Dr. Sarah Johnson</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Cardiology</div><div style="font-size: 13px; opacity: 0.7;">📞 (555) 123-4567</div></div></div>`}]},
+            'schedule_test': {title: 'Schedule Test', steps: [{label: '1. Test Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Lab Work Ordered</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Blood Test Required</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🧪</span> Schedule</div></div>`}, {label: '2. Select Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🧪 Available Times</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(147, 51, 234, 0.4);"><div style="font-weight: 600;">Nov 15 @ 8:00 AM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 16 @ 9:00 AM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🧪 Confirm</div><div style="background: rgba(147, 51, 234, 0.15); border: 2px solid rgba(147, 51, 234, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Blood Test</div><div style="font-size: 13px; opacity: 0.8;">Nov 15 @ 8:00 AM</div></div><div style="background: rgba(147, 51, 234, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Schedule</div></div>`}, {label: '4. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Test Scheduled!</div><div style="opacity: 0.8;">Reminder sent</div></div>`}]},
+            'view_claim_status': {title: 'View Claim', steps: [{label: '1. Claim Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Insurance Claim Update</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Claim #C-12345</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💼</span> View</div></div>`}, {label: '2. Claim Tracker', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💼 Claim Status</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Claim #C-12345</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Status: Under Review</div><div style="font-size: 13px; opacity: 0.7;">Est. Decision: 5-7 days</div></div></div>`}]},
+            'schedule_interview': {title: 'Schedule Interview', steps: [{label: '1. Interview Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Interview Invitation</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Acme Corp - Software Engineer</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>🤝</span> Schedule</div></div>`}, {label: '2. Select Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🤝 Available Slots</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(52, 199, 89, 0.4);"><div style="font-weight: 600;">Nov 18 @ 2:00 PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 19 @ 10:00 AM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🤝 Confirm</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Software Engineer Interview</div><div style="font-size: 13px; opacity: 0.8;">Nov 18 @ 2:00 PM</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Schedule Interview</div></div>`}, {label: '4. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Interview Scheduled!</div><div style="opacity: 0.8;">Calendar invite sent</div></div>`}]},
+            'accept_offer': {title: 'Accept Offer', steps: [{label: '1. Offer Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Job Offer</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Software Engineer @ Acme Corp</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 215, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🎉</span> Review</div></div>`}, {label: '2. Review Terms', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎉 Job Offer</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600; margin-bottom: 8px;">Software Engineer</div><div style="font-size: 20px; color: #FFD700; margin: 8px 0;">$120,000/year</div><div style="font-size: 13px; opacity: 0.7;">Start: Dec 1, 2025</div></div></div>`}, {label: '3. Accept', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎉 Accept Offer</div><div style="background: rgba(255, 215, 0, 0.15); border: 2px solid rgba(255, 215, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Ready to accept?</div><div style="font-size: 13px; opacity: 0.8;">This action is binding</div></div><div style="background: rgba(255, 215, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Accept Offer</div></div>`}, {label: '4. Accepted', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Offer Accepted!</div><div style="opacity: 0.8;">Welcome aboard!</div></div>`}]},
+            'view_job_details': {title: 'View Job Details', steps: [{label: '1. Job Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Job Opening</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Software Engineer</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💼</span> View</div></div>`}, {label: '2. Full Description', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💼 Job Details</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Software Engineer</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">📍 San Francisco, CA</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">💰 $100k-150k</div><div style="font-size: 13px; opacity: 0.7;">⏰ Full-time</div></div></div>`}]},
+            'check_application_status': {title: 'Check Status', steps: [{label: '1. Application Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Application Update</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Software Engineer @ Acme</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📊</span> Check</div></div>`}, {label: '2. Status Tracker', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📊 Application Status</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Software Engineer</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Status: Under Review</div><div style="font-size: 13px; opacity: 0.7;">Applied: Oct 25, 2025</div></div></div>`}]},
+            'schedule_meeting': {title: 'Schedule Meeting', steps: [{label: '1. Meeting Request', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Meeting Request</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Project Discussion</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📅</span> Schedule</div></div>`}, {label: '2. Select Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Available Times</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(100, 149, 237, 0.4);"><div style="font-weight: 600;">Nov 15 @ 2:00 PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 16 @ 10:00 AM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Confirm</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Project Discussion</div><div style="font-size: 13px; opacity: 0.8;">Nov 15 @ 2:00 PM (30 min)</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Schedule</div></div>`}, {label: '4. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Meeting Scheduled!</div><div style="opacity: 0.8;">Calendar invite sent</div></div>`}]},
+            'register_to_vote': {title: 'Register to Vote', steps: [{label: '1. Registration Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Voter Registration</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Deadline: Nov 30, 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🗳️</span> Register</div></div>`}, {label: '2. Fill Form', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🗳️ Registration</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Name</div><div>John Smith</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Address</div><div>123 Main St</div></div></div>`}, {label: '3. Verify', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🗳️ Verify</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Review & Submit</div><div style="font-size: 13px; opacity: 0.8;">All information correct?</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Submit</div></div>`}, {label: '4. Registered', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Registered!</div><div style="opacity: 0.8;">Confirmation mailed</div></div>`}]},
+            'renew_license': {title: 'Renew License', steps: [{label: '1. Renewal Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">License Expiring</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Expires: Dec 31, 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🪪</span> Renew</div></div>`}, {label: '2. Upload Photo', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🪪 New Photo</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600; margin-bottom: 8px;">📸 Upload Photo</div><div style="font-size: 13px; opacity: 0.7;">Max 5MB, JPG/PNG</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📸 Take Photo</div></div>`}, {label: '3. Pay Fee', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🪪 Pay Fee</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 8px 0;">$35.00</div><div style="font-size: 13px; opacity: 0.7;">License Renewal Fee</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">💳 Pay Now</div></div>`}, {label: '4. Renewed', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">License Renewed!</div><div style="opacity: 0.8;">Arrives in 7-10 days</div></div>`}]},
+            'apply_for_permit': {title: 'Apply for Permit', steps: [{label: '1. Permit Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Permit Application</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Building Permit</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📋</span> Apply</div></div>`}, {label: '2. Application Form', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Application</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Property Address</div><div>123 Main St</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Project Type</div><div>Deck Addition</div></div></div>`}, {label: '3. Submit', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Submit</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Application Fee: $150</div><div style="font-size: 13px; opacity: 0.8;">Review time: 2-4 weeks</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📤 Submit & Pay</div></div>`}, {label: '4. Submitted', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Application Submitted!</div><div style="opacity: 0.8;">Tracking #P-12345</div></div>`}]},
+            'view_ballot': {title: 'View Ballot', steps: [{label: '1. Ballot Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Sample Ballot Available</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Nov 5, 2025 Election</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🗳️</span> View</div></div>`}, {label: '2. Ballot Preview', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🗳️ Sample Ballot</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Nov 5, 2025 Election</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">• Federal Offices</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">• State Propositions</div><div style="font-size: 13px; opacity: 0.7;">• Local Measures</div></div></div>`}]},
+            'confirm_court_appearance': {title: 'Confirm Appearance', steps: [{label: '1. Court Notice', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Court Appearance</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Dec 1, 2025 @ 9:00 AM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>⚖️</span> Confirm</div></div>`}, {label: '2. Confirm Attendance', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⚖️ Confirm</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Courtroom 4A</div><div style="font-size: 13px; opacity: 0.8;">Dec 1 @ 9:00 AM</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm Appearance</div></div>`}, {label: '3. Confirmed', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Appearance Confirmed!</div><div style="opacity: 0.8;">Arrive 15 min early</div></div>`}]},
+            'schedule_inspection': {title: 'Schedule Inspection', steps: [{label: '1. Inspection Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Inspection Required</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Home Inspection</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🏠</span> Schedule</div></div>`}, {label: '2. Select Date', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🏠 Available Dates</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(147, 51, 234, 0.4);"><div style="font-weight: 600;">Nov 18 @ 10:00 AM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Nov 19 @ 2:00 PM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🏠 Confirm</div><div style="background: rgba(147, 51, 234, 0.15); border: 2px solid rgba(147, 51, 234, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Home Inspection</div><div style="font-size: 13px; opacity: 0.8;">Nov 18 @ 10:00 AM</div></div><div style="background: rgba(147, 51, 234, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Schedule</div></div>`}, {label: '4. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Inspection Scheduled!</div><div style="opacity: 0.8;">Confirmation sent</div></div>`}]},
+            'reset_password': {title: 'Reset Password', steps: [{label: '1. Reset Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Reset Password</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Click to reset</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🔑</span> Reset</div></div>`}, {label: '2. New Password', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔑 New Password</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Password</div><div>••••••••</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">Confirm</div><div>••••••••</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Save Password</div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔑 Confirm</div><div style="background: rgba(255, 149, 0, 0.15); border: 2px solid rgba(255, 149, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Password meets requirements</div><div style="font-size: 13px; opacity: 0.8;">✓ At least 8 characters</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm</div></div>`}, {label: '4. Reset Complete', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Password Reset!</div><div style="opacity: 0.8;">You can now log in</div></div>`}]},
+            'verify_account': {title: 'Verify Account', steps: [{label: '1. Verification Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Verify Your Account</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Click to verify</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>✅</span> Verify</div></div>`}, {label: '2. Click Verify', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✅ Verify Email</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Confirm your email address</div><div style="font-size: 13px; opacity: 0.8;">john@example.com</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Verify Email</div></div>`}, {label: '3. Verified', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Account Verified!</div><div style="opacity: 0.8;">You're all set</div></div>`}]},
+            'verify_device': {title: 'Verify Device', steps: [{label: '1. Device Alert', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">New Device Login</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Was this you?</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📱</span> Verify</div></div>`}, {label: '2. Approve Device', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📱 New Device</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600; margin-bottom: 4px;">iPhone 15 Pro</div><div style="font-size: 13px; opacity: 0.7;">San Francisco, CA</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Approve</div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✗ Deny</div></div></div>`}, {label: '3. Verified', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Device Verified!</div><div style="opacity: 0.8;">Login approved</div></div>`}]},
+            'review_security': {title: 'Review Security', steps: [{label: '1. Security Alert', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Security Update</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Review recent activity</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🛡️</span> Review</div></div>`}, {label: '2. Activity Log', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🛡️ Recent Activity</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">Login - Nov 1, 3:00 PM</div><div style="font-size: 12px; opacity: 0.7;">San Francisco, CA</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">Password Changed - Oct 28</div></div></div>`}, {label: '3. Review Complete', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Security OK!</div><div style="opacity: 0.8;">All activity verified</div></div>`}]},
+            'revoke_secret': {title: 'Revoke Secret', steps: [{label: '1. Security Alert', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Exposed API Key</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Found in public repo</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 59, 48, 0.3); border-radius: 10px; font-size: 13px;"><span>🔐</span> Revoke</div></div>`}, {label: '2. Confirm Revoke', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔐 Revoke Key</div><div style="background: rgba(255, 59, 48, 0.15); border: 2px solid rgba(255, 59, 48, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">API Key: sk-••••••••</div><div style="font-size: 13px; opacity: 0.8;">This will stop all access</div></div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">🔐 Revoke Now</div></div>`}, {label: '3. Revoked', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Key Revoked!</div><div style="opacity: 0.8;">Generate new key</div></div>`}]},
+            'verify_social_account': {title: 'Verify Account', steps: [{label: '1. Verification Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Verify Social Account</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Confirm connection</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>✅</span> Verify</div></div>`}, {label: '2. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✅ Verify</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Link @username?</div><div style="font-size: 13px; opacity: 0.8;">This will connect your accounts</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm</div></div>`}, {label: '3. Verified', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Account Verified!</div><div style="opacity: 0.8;">Successfully linked</div></div>`}]},
+            'accept_social_invitation': {title: 'Accept Invitation', steps: [{label: '1. Invitation Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Network Invitation</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">From @username</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>🤝</span> Accept</div></div>`}, {label: '2. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🤝 Accept?</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Connect with @username?</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Accept</div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✗ Decline</div></div></div>`}, {label: '3. Connected', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Invitation Accepted!</div><div style="opacity: 0.8;">Now connected</div></div>`}]},
+            'view_social_message': {title: 'View Message', steps: [{label: '1. Message Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">New Message</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">From @username</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💬</span> Read</div></div>`}, {label: '2. Message View', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💬 Message</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">From: @username</div><div style="font-size: 14px; opacity: 0.9;">Hey, I wanted to connect about...</div></div></div>`}]},
+            'join_meeting': {title: 'Join Meeting', steps: [{label: '1. Meeting Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Meeting Starting</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Nov 15 @ 2:00 PM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>📹</span> Join</div></div>`}, {label: '2. Joining...', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📹 Joining Meeting</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px;"><div style="font-weight: 600; margin-bottom: 4px;">Opening Zoom...</div><div style="font-size: 13px; opacity: 0.8;">Meeting ID: 123-456-789</div></div></div>`}]},
+            'view_incident': {title: 'View Incident', steps: [{label: '1. Incident Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Service Incident</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Status: Investigating</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🚨</span> View</div></div>`}, {label: '2. Incident Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🚨 Incident #12345</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">API Performance Degradation</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Status: Investigating</div><div style="font-size: 13px; opacity: 0.7;">Started: 2:30 PM</div></div></div>`}]},
+            'register_event': {title: 'Register Event', steps: [{label: '1. Event Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Conference Registration</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Dec 10-12, 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🎫</span> Register</div></div>`}, {label: '2. Registration Form', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎫 Register</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Name</div><div>John Smith</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Email</div><div>john@example.com</div></div></div>`}, {label: '3. Review', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎫 Review</div><div style="background: rgba(147, 51, 234, 0.15); border: 2px solid rgba(147, 51, 234, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Conference Pass</div><div style="font-size: 13px; opacity: 0.8;">Dec 10-12, 2025</div></div><div style="background: rgba(147, 51, 234, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Complete Registration</div></div>`}, {label: '4. Registered', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Registered!</div><div style="opacity: 0.8;">Ticket sent to email</div></div>`}]},
+            'register_for_sports': {title: 'Register Sports', steps: [{label: '1. Registration Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Youth Soccer Registration</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Spring 2026 Season</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>⚽</span> Register</div></div>`}, {label: '2. Player Info', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⚽ Player Info</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Player Name</div><div>Sarah Smith</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-size: 12px; opacity: 0.7;">Age Group</div><div>U-10</div></div></div>`}, {label: '3. Pay Fee', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⚽ Registration Fee</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 8px 0;">$150.00</div><div style="font-size: 13px; opacity: 0.7;">Season Registration</div></div><div style="background: rgba(255, 149, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">💳 Pay & Register</div></div>`}, {label: '4. Registered', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Registered!</div><div style="opacity: 0.8;">Practice starts March 1</div></div>`}]},
+            'unsubscribe': {title: 'Unsubscribe', steps: [{label: '1. Newsletter Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Marketing Newsletter</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Don't want these?</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 59, 48, 0.3); border-radius: 10px; font-size: 13px;"><span>✉️</span> Unsubscribe</div></div>`}, {label: '2. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✉️ Unsubscribe?</div><div style="background: rgba(255, 59, 48, 0.15); border: 2px solid rgba(255, 59, 48, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Stop receiving emails?</div><div style="font-size: 13px; opacity: 0.8;">You can resubscribe anytime</div></div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Unsubscribe</div></div>`}, {label: '3. Unsubscribed', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Unsubscribed!</div><div style="opacity: 0.8;">You won't receive more emails</div></div>`}]},
+            'take_survey': {title: 'Take Survey', steps: [{label: '1. Survey Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Customer Survey</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">2 minutes</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📝</span> Start</div></div>`}, {label: '2. Answer Questions', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📝 Survey</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-weight: 600; margin-bottom: 8px;">How was your experience?</div><div style="font-size: 24px;">⭐⭐⭐⭐⭐</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">Next →</div></div>`}, {label: '3. Review', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📝 Review</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">3 questions answered</div></div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📤 Submit Survey</div></div>`}, {label: '4. Submitted', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Survey Complete!</div><div style="opacity: 0.8;">Thank you for your feedback</div></div>`}]},
+            'cancel_subscription_service': {title: 'Cancel Service', steps: [{label: '1. Subscription Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Your Subscription</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">$9.99/month</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 59, 48, 0.3); border-radius: 10px; font-size: 13px;"><span>❌</span> Cancel</div></div>`}, {label: '2. Confirm Cancel', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">❌ Cancel Subscription?</div><div style="background: rgba(255, 59, 48, 0.15); border: 2px solid rgba(255, 59, 48, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Premium Plan</div><div style="font-size: 13px; opacity: 0.8;">Active until Dec 1, 2025</div></div><div style="background: rgba(255, 59, 48, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm Cancellation</div></div>`}, {label: '3. Cancelled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Subscription Cancelled</div><div style="opacity: 0.8;">Access until Dec 1</div></div>`}]},
+            'extend_trial': {title: 'Extend Trial', steps: [{label: '1. Trial Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Trial Ending Soon</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Expires in 3 days</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 215, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>⏰</span> Extend</div></div>`}, {label: '2. Extend Options', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⏰ Extend Trial</div><div style="background: rgba(255, 215, 0, 0.15); border: 2px solid rgba(255, 215, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">7 More Days Free</div><div style="font-size: 13px; opacity: 0.8;">No credit card required</div></div><div style="background: rgba(255, 215, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Extend Trial</div></div>`}, {label: '3. Extended', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Trial Extended!</div><div style="opacity: 0.8;">New end date: Nov 22</div></div>`}]},
+            'view_usage': {title: 'View Usage', steps: [{label: '1. Usage Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Monthly Usage Report</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">October 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📊</span> View</div></div>`}, {label: '2. Usage Dashboard', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📊 Usage</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">API Calls</div><div style="font-weight: 600;">12,450 / 15,000</div></div><div style="margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">Storage</div><div style="font-weight: 600;">8.2 GB / 10 GB</div></div><div><div style="font-size: 12px; opacity: 0.7;">Bandwidth</div><div style="font-weight: 600;">45 GB / 100 GB</div></div></div></div>`}]},
+            'view_task': {title: 'View Task', steps: [{label: '1. Task Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Task Assignment</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Due Tomorrow</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📋</span> View</div></div>`}, {label: '2. Task Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Task Details</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Complete Q4 Report</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Due: Nov 15, 2025</div><div style="font-size: 13px; opacity: 0.7;">Priority: High</div></div></div>`}]},
+            'view_ticket': {title: 'View Ticket', steps: [{label: '1. Ticket Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Support Ticket Update</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Ticket #T-12345</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🎫</span> View</div></div>`}, {label: '2. Ticket Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎫 Ticket #T-12345</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Login Issue</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Status: In Progress</div><div style="font-size: 13px; opacity: 0.7;">Updated: 2 hours ago</div></div></div>`}]}
         };
 
         const COMPOUND_FLOWS = {
             'sign_form_with_payment': {
-                title: '✍️💳 Sign & Pay Permission Form',
+                title: 'Sign & Pay Permission Form',
                 isPremium: true,
                 requiresResponse: true,
                 endBehavior: 'emailComposer',
@@ -3144,7 +3346,7 @@
                 ]
             },
             'sign_form_with_calendar': {
-                title: '✍️📅 Sign Form & Add to Calendar',
+                title: 'Sign Form & Add to Calendar',
                 isPremium: true,
                 requiresResponse: true,
                 endBehavior: 'emailComposer',
@@ -3200,7 +3402,7 @@
                 ]
             },
             'pay_invoice_with_confirmation': {
-                title: '💳✉️ Pay Invoice & Send Confirmation',
+                title: 'Pay Invoice & Send Confirmation',
                 isPremium: true,
                 requiresResponse: true,
                 endBehavior: 'emailComposer',
@@ -3248,7 +3450,7 @@
                 ]
             },
             'track_with_calendar': {
-                title: '📦📅 Track Package & Schedule Delivery',
+                title: 'Track Package & Schedule Delivery',
                 isPremium: true,
                 requiresResponse: false,
                 endBehavior: 'returnToApp',
@@ -3296,7 +3498,7 @@
                 ]
             },
             'check_in_with_wallet': {
-                title: '✈️📲 Check In & Add Boarding Pass',
+                title: 'Check In & Add Boarding Pass',
                 isPremium: true,
                 requiresResponse: false,
                 endBehavior: 'returnToApp',
@@ -3343,7 +3545,7 @@
                 ]
             },
             'cancel_with_confirmation': {
-                title: '❌✉️ Cancel Subscription & Confirm',
+                title: 'Cancel Subscription & Confirm',
                 isPremium: false,
                 requiresResponse: true,
                 endBehavior: 'emailComposer',
@@ -3392,7 +3594,7 @@
                 ]
             },
             'schedule_purchase_with_reminder': {
-                title: '🛒📅 Schedule Purchase & Set Reminder',
+                title: 'Schedule Purchase & Set Reminder',
                 isPremium: true,
                 requiresResponse: false,
                 endBehavior: 'returnToApp',
@@ -3443,7 +3645,7 @@
                 ]
             },
             'calendar_with_reminder': {
-                title: '📅⏰ Add to Calendar & Set Reminder',
+                title: 'Add to Calendar & Set Reminder',
                 isPremium: false,
                 requiresResponse: false,
                 endBehavior: 'returnToApp',
@@ -3495,7 +3697,7 @@
             // ===== UTILITY SERVICES =====
 
             'prepare_for_outage': {
-                title: '⚠️ Prepare for Outage',
+                title: 'Prepare for Outage',
                 actionType: 'IN_APP',
                 actionCategory: 'utilities',
                 modalComponent: 'PrepareForOutageModal',
@@ -3536,7 +3738,7 @@
                 ]
             },
             'set_outage_reminder': {
-                title: '⏰ Set Outage Reminder',
+                title: 'Set Outage Reminder',
                 actionType: 'IN_APP',
                 actionCategory: 'utilities',
                 modalComponent: 'SetOutageReminderModal',
@@ -3573,7 +3775,7 @@
                 ]
             },
             'view_outage_details': {
-                title: '📍 View Outage Details',
+                title: 'View Outage Details',
                 actionType: 'IN_APP',
                 actionCategory: 'utilities',
                 modalComponent: 'ViewOutageDetailsModal',
@@ -3601,7 +3803,7 @@
                 ]
             },
             'change_delivery_preferences': {
-                title: '📦 Change Delivery Preferences',
+                title: 'Change Delivery Preferences',
                 actionType: 'GO_TO',
                 actionCategory: 'utilities',
                 steps: [
@@ -3629,7 +3831,7 @@
             // ===== REAL ESTATE =====
 
             'save_properties': {
-                title: '🏠 Save Properties',
+                title: 'Save Properties',
                 actionType: 'IN_APP',
                 actionCategory: 'real_estate',
                 modalComponent: 'SavePropertiesModal',
@@ -3671,7 +3873,7 @@
                 ]
             },
             'view_property_listings': {
-                title: '🏘️ View Property Listings',
+                title: 'View Property Listings',
                 actionType: 'GO_TO',
                 actionCategory: 'real_estate',
                 steps: [
@@ -3696,7 +3898,7 @@
                 ]
             },
             'schedule_showing': {
-                title: '🗓️ Schedule Showing',
+                title: 'Schedule Showing',
                 actionType: 'GO_TO',
                 actionCategory: 'real_estate',
                 steps: [
@@ -3721,7 +3923,7 @@
                 ]
             },
             'schedule_delivery_time': {
-                title: '🚚 Schedule Delivery Time',
+                title: 'Schedule Delivery Time',
                 actionType: 'IN_APP',
                 actionCategory: 'real_estate',
                 modalComponent: 'ScheduleDeliveryTimeModal',
@@ -3762,7 +3964,7 @@
             // ===== SOCIAL/COMMUNITY =====
 
             'read_community_post': {
-                title: '📰 Read Community Post',
+                title: 'Read Community Post',
                 actionType: 'IN_APP',
                 actionCategory: 'social',
                 modalComponent: 'ReadCommunityPostModal',
@@ -3800,7 +4002,7 @@
                 ]
             },
             'reply_to_post': {
-                title: '💬 Reply to Post',
+                title: 'Reply to Post',
                 actionType: 'IN_APP',
                 actionCategory: 'social',
                 modalComponent: 'ReplyToPostModal',
@@ -3836,7 +4038,7 @@
                 ]
             },
             'view_post_comments': {
-                title: '💭 View Comments',
+                title: 'View Comments',
                 actionType: 'IN_APP',
                 actionCategory: 'social',
                 modalComponent: 'ViewPostCommentsModal',
@@ -3868,7 +4070,7 @@
                 ]
             },
             'share_achievement': {
-                title: '🏆 Share Achievement',
+                title: 'Share Achievement',
                 actionType: 'IN_APP',
                 actionCategory: 'social',
                 modalComponent: 'ShareAchievementModal',
@@ -3909,7 +4111,7 @@
             // ===== ACTIVITIES/EVENTS =====
 
             'book_activity_tickets': {
-                title: '🎫 Book Activity Tickets',
+                title: 'Book Activity Tickets',
                 actionType: 'GO_TO',
                 actionCategory: 'activities',
                 steps: [
@@ -3934,7 +4136,7 @@
                 ]
             },
             'view_activity': {
-                title: '🎯 View Activity',
+                title: 'View Activity',
                 actionType: 'IN_APP',
                 actionCategory: 'activities',
                 modalComponent: 'ViewActivityModal',
@@ -3966,7 +4168,7 @@
                 ]
             },
             'view_activity_details': {
-                title: '📋 View Activity Details',
+                title: 'View Activity Details',
                 actionType: 'IN_APP',
                 actionCategory: 'activities',
                 modalComponent: 'ViewActivityDetailsModal',
@@ -4003,7 +4205,7 @@
                 ]
             },
             'add_activity_to_calendar': {
-                title: '📅 Add Activity to Calendar',
+                title: 'Add Activity to Calendar',
                 actionType: 'IN_APP',
                 actionCategory: 'activities',
                 modalComponent: 'AddActivityToCalendarModal',
@@ -4045,7 +4247,7 @@
             // ===== COMMUNICATION =====
 
             'reply_thanks': {
-                title: '🙏 Reply Thanks',
+                title: 'Reply Thanks',
                 actionType: 'IN_APP',
                 actionCategory: 'communication',
                 modalComponent: 'ReplyThanksModal',
@@ -4083,7 +4285,7 @@
                 ]
             },
             'provide_access_code': {
-                title: '🔑 Provide Access Code',
+                title: 'Provide Access Code',
                 actionType: 'IN_APP',
                 actionCategory: 'communication',
                 modalComponent: 'ProvideAccessCodeModal',
@@ -4115,7 +4317,7 @@
             // ===== NOTES =====
 
             'add_to_notes': {
-                title: '📝 Add to Notes',
+                title: 'Add to Notes',
                 actionType: 'IN_APP',
                 actionCategory: 'notes',
                 modalComponent: 'AddToNotesModal',
@@ -4160,7 +4362,7 @@
             // ===== GENERIC =====
 
             'open_link': {
-                title: '🔗 Open Link',
+                title: 'Open Link',
                 actionType: 'GO_TO',
                 actionCategory: 'generic',
                 steps: [
@@ -4188,6 +4390,7 @@
 
         let allActions = [];
         let showCompoundOnly = false;
+        let showNativeIOSOnly = false;
         let selectedIntent = 'all';
         let currentSearchTerm = '';
         let currentPage = 0;
@@ -4217,9 +4420,23 @@
             renderActions();
         }
 
+        function toggleNativeIOSFilter() {
+            showNativeIOSOnly = !showNativeIOSOnly;
+            const btn = document.getElementById('native-ios-toggle');
+            if (showNativeIOSOnly) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+            currentPage = 0;
+            document.getElementById('load-more-btn').textContent = 'Load More Actions';
+            renderActions();
+        }
+
         // Handle intent dropdown change
         function handleIntentChange() {
             selectedIntent = document.getElementById('intent-select').value;
+            console.log('🔄 Intent changed to:', selectedIntent);
             currentPage = 0;
             document.getElementById('load-more-btn').textContent = 'Load More Actions';
             renderActions();
@@ -4444,6 +4661,8 @@
         function populateIntentDropdown() {
             const dropdown = document.getElementById('intent-select');
 
+            console.log('📋 populateIntentDropdown called, emailsByIntent has', Object.keys(emailsByIntent).length, 'intents');
+
             // Clear existing options
             dropdown.innerHTML = '<option value="all">All Intents</option>';
 
@@ -4525,10 +4744,17 @@
             const withFlows = allActions.filter(a => a.modalComponent && MODAL_FLOWS[a.actionId]).length;
             const pendingFlows = allActions.filter(a => a.modalComponent && !MODAL_FLOWS[a.actionId]).length;
 
-            document.getElementById('total-actions').textContent = allActions.length;
-            document.getElementById('with-modals').textContent = withModals;
-            document.getElementById('with-flows').textContent = withFlows;
-            document.getElementById('pending-flows').textContent = pendingFlows;
+            const totalActionsEl = document.getElementById('total-actions');
+            if (totalActionsEl) totalActionsEl.textContent = allActions.length;
+
+            const withModalsEl = document.getElementById('with-modals');
+            if (withModalsEl) withModalsEl.textContent = withModals;
+
+            const withFlowsEl = document.getElementById('with-flows');
+            if (withFlowsEl) withFlowsEl.textContent = withFlows;
+
+            const pendingFlowsEl = document.getElementById('pending-flows');
+            if (pendingFlowsEl) pendingFlowsEl.textContent = pendingFlows;
         }
 
         function renderActions(appendMode = false) {
@@ -4537,10 +4763,16 @@
             const loadMoreBtn = document.getElementById('load-more-btn');
 
             let filtered = allActions;
+            console.log('🎨 Rendering actions - total:', allActions.length, 'intent:', selectedIntent);
 
             // Apply compound filter
             if (showCompoundOnly) {
                 filtered = filtered.filter(a => a.isCompound);
+            }
+
+            // Apply native iOS filter
+            if (showNativeIOSOnly) {
+                filtered = filtered.filter(a => a.usesNativeIOS === true);
             }
 
             // Apply intent filter using action-intent matrix
@@ -4549,6 +4781,7 @@
                     // Use the matrix to check if action is applicable to this intent
                     return isActionApplicableToIntent(a, selectedIntent);
                 });
+                console.log('🔍 Filtered to', filtered.length, 'actions for intent:', selectedIntent);
             }
 
             // Apply search filter
@@ -4716,11 +4949,19 @@
                     `;
                 }
 
+                // Add native iOS badge if applicable
+                const nativeIOSBadge = action.usesNativeIOS
+                    ? '<span style="background: linear-gradient(135deg, #007AFF, #5856D6); color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; margin-left: 8px; display: inline-flex; align-items: center; gap: 4px;"><span>📱</span><span>Native iOS</span></span>'
+                    : '';
+
                 return `
                     <div class="action-row">
                         <div class="action-item ${itemClass}" id="action-${action.actionId}" ${onclick}>
                             <div class="action-header">
-                                <div class="action-name">${action.displayName}</div>
+                                <div class="action-name" style="display: flex; align-items: center;">
+                                    ${action.displayName}
+                                    ${nativeIOSBadge}
+                                </div>
                                 <div class="action-badge ${badgeClass}">${badgeText}</div>
                             </div>
                             <div class="action-id">${action.actionId}</div>

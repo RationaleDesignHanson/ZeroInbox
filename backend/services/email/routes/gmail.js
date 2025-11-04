@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { google } = require('googleapis');
 const { convert } = require('html-to-text');
-const logger = require('../logger');
+const logger = require('../shared/config/logger');
 const { getUserTokens } = require('../auth');
-const { createOAuth2Client, getManagedOAuth2Client } = require('../../shared/utils/token-manager');
+const { createOAuth2Client, getManagedOAuth2Client } = require('../shared/utils/token-manager');
 
 // ============================================
 // THREAD METADATA - NO CACHING (ZERO-VISIBILITY ARCHITECTURE)

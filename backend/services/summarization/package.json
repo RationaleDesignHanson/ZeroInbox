@@ -1,0 +1,21 @@
+{
+  "name": "summarization-service",
+  "version": "1.0.0",
+  "description": "Email summarization service using Gemini 2.0 Flash",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "gcp-build": "echo 'Build step: copying shared dependencies' && cp -r ../../shared ./shared 2>/dev/null || echo 'Shared folder already in place'"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@google-cloud/vertexai": "^1.10.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "helmet": "^7.1.0",
+    "winston": "^3.11.0"
+  }
+}

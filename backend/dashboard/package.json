@@ -1,0 +1,15 @@
+{
+  "name": "zero-dashboard",
+  "version": "1.0.0",
+  "description": "Zero Email Dashboard - Service monitoring and management",
+  "main": "serve.js",
+  "scripts": {
+    "start": "node serve.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

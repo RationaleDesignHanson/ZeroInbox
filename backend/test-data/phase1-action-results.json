@@ -1,0 +1,19 @@
+{
+  "total": 138,
+  "tested": 138,
+  "passed": 138,
+  "failed": 0,
+  "byType": {
+    "GO_TO": {
+      "total": 96,
+      "passed": 96,
+      "failed": 0
+    },
+    "IN_APP": {
+      "total": 42,
+      "passed": 42,
+      "failed": 0
+    }
+  },
+  "failedActions": []
+}

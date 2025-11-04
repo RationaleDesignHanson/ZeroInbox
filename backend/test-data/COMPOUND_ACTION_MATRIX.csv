@@ -1,0 +1,10 @@
+compoundActionId,displayName,stepCount,steps,requiresResponse,isPremium,phase1_step_validation,phase1_sequencing_test,phase1_notes,phase2_modal_flow_test,phase2_end_behavior_test,phase2_notes,phase3_real_world_test,phase3_notes,overall_status
+calendar_with_reminder,Add to Calendar with Pre-Event Reminder,2,add_to_calendar;add_reminder,no,no,not_tested,not_tested,,not_tested,not_tested,,not_tested,,not_started
+cancel_with_confirmation,Cancel Subscription & Request Confirmation,2,cancel_subscription;email_composer,yes,no,not_tested,not_tested,,not_tested,not_tested,,not_tested,,not_started
+check_in_with_wallet,Check In & Add Boarding Pass to Wallet,2,check_in_flight;add_to_wallet,no,yes,not_tested,not_tested,,not_tested,not_tested,,not_tested,,not_started
+pay_invoice_with_confirmation,Pay Invoice & Send Confirmation,2,pay_invoice;email_composer,yes,yes,not_tested,not_tested,,not_tested,not_tested,,not_tested,,not_started
+schedule_purchase_with_reminder,Schedule Purchase with Calendar Reminder,2,schedule_purchase;add_to_calendar,no,yes,not_tested,not_tested,,not_tested,not_tested,,not_tested,,not_started
+sign_and_send,Sign & Send,2,sign_form;email_composer,yes,no,not_tested,not_tested,,not_tested,not_tested,,not_tested,,not_started
+sign_form_with_calendar,Sign Form & Add to Calendar,3,sign_form;add_to_calendar;email_composer,yes,yes,not_tested,not_tested,,not_tested,not_tested,,not_tested,,not_started
+sign_form_with_payment,Sign & Pay Permission Form,3,sign_form;pay_form_fee;email_composer,yes,yes,not_tested,not_tested,,not_tested,not_tested,,not_tested,,not_started
+track_with_calendar,Track Package & Schedule Delivery,2,track_package;add_to_calendar,no,yes,not_tested,not_tested,,not_tested,not_tested,,not_tested,,not_started

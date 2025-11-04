@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intent-Action Auditor with Live Testing - Zero Email</title>
+    <script src="js/config.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 10px;
+            border-radius: 15px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Browse Tab */
+        .browse-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+        }
+
+        .intents-list {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            max-height: 800px;
+            overflow-y: auto;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .intent-item {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .intent-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .intent-item.selected {
+            background: rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+        }
+
+        .intent-detail {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .intent-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .intent-id {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .intent-description {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .action-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .action-name {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .action-badges {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .badge-in-app {
+            background: rgba(76, 175, 80, 0.6);
+        }
+
+        .badge-go-to {
+            background: rgba(33, 150, 243, 0.6);
+        }
+
+        /* Live Test Tab */
+        .test-panel {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .test-input {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            color: #333;
+        }
+
+        .input-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        textarea.input-field {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .test-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .test-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .test-results {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            color: #333;
+        }
+
+        .result-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .result-section:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .result-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .confidence-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        .action-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .action-item {
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-item.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .comparison {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .comparison.match {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .comparison.mismatch {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .quick-tests {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quick-test-btn {
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .quick-test-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        .back-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 1200px) {
+            .browse-grid, .test-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Intent-Action Auditor with Live Testing</h1>
+            <p>Browse all intents and test classification in real-time</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('browse')">Browse Intents</button>
+            <button class="tab-btn" onclick="showTab('test')">Live Classification Test</button>
+            <button class="tab-btn" onclick="showTab('compare')">Compare & Validate</button>
+        </div>
+
+        <!-- Browse Tab -->
+        <div id="browse-tab" class="tab-content active">
+            <div class="browse-grid">
+                <div class="intents-list">
+                    <input type="search" class="search-box" id="intent-search" placeholder="Search intents...">
+                    <div id="intents-container"></div>
+                </div>
+                <div class="intent-detail" id="intent-detail">
+                    <div style="text-align: center; padding: 100px 20px; opacity: 0.7;">
+                        <div style="font-size: 4em;">🎯</div>
+                        <h2>Select an Intent</h2>
+                        <p>Choose any intent from the left to view its details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Test Tab -->
+        <div id="test-tab" class="tab-content">
+            <div class="test-panel">
+                <h2 style="margin-bottom: 20px;">Test Email Classification</h2>
+
+                <div class="quick-tests">
+                    <button class="quick-test-btn" onclick="loadQuickTest('package')">📦 Package Shipment</button>
+                    <button class="quick-test-btn" onclick="loadQuickTest('invoice')">💰 Invoice Due</button>
+                    <button class="quick-test-btn" onclick="loadQuickTest('school')">🏫 School Form</button>
+                    <button class="quick-test-btn" onclick="loadQuickTest('flight')">✈️ Flight Check-in</button>
+                    <button class="quick-test-btn" onclick="loadQuickTest('doctor')">🏥 Doctor Appointment</button>
+                    <button class="quick-test-btn" onclick="loadQuickTest('newsletter')">📰 Newsletter</button>
+                </div>
+
+                <div class="test-grid">
+                    <div class="test-input">
+                        <div class="input-label">Email Subject</div>
+                        <input type="text" class="input-field" id="test-subject" placeholder="Enter email subject...">
+
+                        <div class="input-label">From</div>
+                        <input type="text" class="input-field" id="test-from" placeholder="sender@example.com">
+
+                        <div class="input-label">Email Body</div>
+                        <textarea class="input-field" id="test-body" placeholder="Enter email body text..."></textarea>
+
+                        <button class="test-btn" onclick="runClassification()">🚀 Test Classification</button>
+                    </div>
+
+                    <div class="test-results" id="test-results">
+                        <div style="text-align: center; padding: 60px 20px; color: #999;">
+                            <div style="font-size: 3em;">🤖</div>
+                            <p>Enter an email and click "Test Classification" to see results</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Compare Tab -->
+        <div id="compare-tab" class="tab-content">
+            <div class="test-panel">
+                <h2 style="margin-bottom: 20px;">Compare Expected vs Actual Intent</h2>
+                <p style="margin-bottom: 20px; opacity: 0.9;">
+                    Select an expected intent from the taxonomy, then test an email to see if the classifier matches your expectation.
+                </p>
+
+                <div class="test-grid">
+                    <div class="test-input">
+                        <div class="input-label">Expected Intent</div>
+                        <select class="input-field" id="expected-intent">
+                            <option value="">Select expected intent...</option>
+                        </select>
+
+                        <div class="input-label">Test Email Subject</div>
+                        <input type="text" class="input-field" id="compare-subject" placeholder="Enter email subject...">
+
+                        <div class="input-label">From</div>
+                        <input type="text" class="input-field" id="compare-from" placeholder="sender@example.com">
+
+                        <div class="input-label">Email Body</div>
+                        <textarea class="input-field" id="compare-body" placeholder="Enter email body text..."></textarea>
+
+                        <button class="test-btn" onclick="runComparison()">🔍 Compare Results</button>
+                    </div>
+
+                    <div class="test-results" id="compare-results">
+                        <div style="text-align: center; padding: 60px 20px; color: #999;">
+                            <div style="font-size: 3em;">⚖️</div>
+                            <p>Select expected intent and test email to compare</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='index.html'">← Back to Dashboard</button>
+    </div>
+
+    <script>
+        // Use DashboardConfig for backend URLs
+        const API_BASE = DashboardConfig.services.gateway;
+        const CLASSIFIER_API = DashboardConfig.services.classifier;
+
+        // Comprehensive intent taxonomy (117 intents from classifier)
+        const INTENTS = {
+            // E-COMMERCE (11 intents)
+            'e-commerce.order.confirmation': 'Order placement confirmation',
+            'e-commerce.shipping.notification': 'Package shipped notification',
+            'e-commerce.delivery.completed': 'Package delivered confirmation',
+            'e-commerce.order.receipt': 'Order receipt or invoice',
+            'e-commerce.order.delayed': 'Order or shipment delayed',
+            'e-commerce.return.label': 'Return label or instructions',
+            'e-commerce.refund.processing': 'Refund being processed',
+            'e-commerce.backorder.notification': 'Item on backorder',
+            'e-commerce.price.drop': 'Price drop alert',
+            'e-commerce.restock.alert': 'Item back in stock',
+            'e-commerce.warranty.expiring': 'Warranty expiration notice',
+
+            // BILLING & FINANCE (14 intents)
+            'billing.invoice.due': 'Invoice due for payment',
+            'billing.payment.received': 'Payment confirmation',
+            'billing.subscription.renewal': 'Subscription renewal notice',
+            'finance.statement.ready': 'Financial statement available',
+            'finance.payment.reminder': 'Upcoming payment reminder',
+            'finance.payment.failed': 'Payment failed notification',
+            'finance.refund.processed': 'Refund issued notification',
+            'finance.credit.alert': 'Credit card alert',
+            'finance.tax.document': 'Tax document available',
+            'finance.investment.performance': 'Investment performance update',
+            'finance.fraud.alert': 'Fraud alert',
+            'finance.payment.sent': 'Payment sent confirmation',
+            'finance.mortgage': 'Mortgage statement or payment',
+            'finance.utility.bill': 'Utility bill due',
+
+            // SUBSCRIPTIONS (7 intents)
+            'subscription.trial.ending': 'Free trial ending',
+            'subscription.cancellation.confirmation': 'Subscription cancelled',
+            'subscription.upgrade.offer': 'Upgrade offer',
+            'subscription.usage.limit': 'Usage limit approaching',
+            'subscription.anniversary': 'Subscription anniversary',
+            'subscription.feature.update': 'New features available',
+            'finance.credit.available': 'Credit available notice',
+
+            // ACCOUNT & SECURITY (6 intents)
+            'account.device.login': 'New device login',
+            'account.password.reset': 'Password reset request',
+            'account.security.alert': 'Security alert',
+            'account.verification.required': 'Account verification needed',
+            'account.secret.exposed': 'Credentials exposed alert',
+
+            // EVENTS & MEETINGS (3 intents)
+            'event.meeting.invitation': 'Meeting invitation',
+            'event.webinar.invitation': 'Webinar invitation',
+            'event.meeting.reminder': 'Meeting reminder',
+
+            // EDUCATION (7 intents)
+            'education.assignment.due': 'Assignment due reminder',
+            'education.grade.posted': 'New grade posted',
+            'education.permission.form': 'Permission form to sign',
+            'education.announcement.general': 'School announcement',
+            'education.lms.message': 'Message from teacher/LMS',
+            'education.event.invitation': 'School event invitation',
+            'education.parent.teacher.communication': 'Parent-teacher communication',
+
+            // YOUTH SPORTS (4 intents)
+            'youth.sports.registration': 'Sports registration',
+            'youth.sports.game.schedule': 'Game schedule',
+            'youth.sports.practice.reminder': 'Practice reminder',
+            'youth.sports.team.announcement': 'Team announcement',
+
+            // HEALTHCARE (10 intents)
+            'healthcare.appointment.reminder': 'Medical appointment reminder',
+            'healthcare.prescription.ready': 'Prescription ready for pickup',
+            'healthcare.results.available': 'Test results available',
+            'healthcare.billing.superbill': 'Medical bill or superbill',
+            'healthcare.appointment.confirmation': 'Appointment confirmation',
+            'healthcare.appointment.cancellation': 'Appointment cancelled',
+            'healthcare.referral.request': 'Referral request',
+            'healthcare.insurance.claim': 'Insurance claim update',
+            'healthcare.test.order': 'Test order instructions',
+            'healthcare.follow-up.reminder': 'Follow-up appointment reminder',
+
+            // TRAVEL & DINING (4 intents)
+            'travel.flight.check-in': 'Flight check-in reminder',
+            'travel.reservation.confirmation': 'Travel reservation confirmed',
+            'travel.itinerary.update': 'Itinerary change',
+            'dining.reservation.confirmation': 'Restaurant reservation confirmed',
+
+            // DELIVERY & FOOD (1 intent)
+            'delivery.food.tracking': 'Food delivery tracking',
+
+            // FEEDBACK (2 intents)
+            'feedback.review.request': 'Review request',
+            'feedback.survey.invitation': 'Survey invitation',
+
+            // MARKETING (10 intents)
+            'marketing.promotion.flash-sale': 'Flash sale notification',
+            'marketing.promotion.discount': 'Discount or coupon',
+            'marketing.product.launch': 'Product launch announcement',
+            'marketing.cart.abandonment': 'Abandoned cart reminder',
+            'marketing.loyalty.reward': 'Loyalty reward notification',
+            'marketing.brand.announcement': 'Brand announcement',
+            'marketing.collection.new-arrivals': 'New collection announcement',
+            'marketing.seasonal.campaign': 'Seasonal campaign',
+            'marketing.brand.storytelling': 'Brand storytelling content',
+            'marketing.content.lifestyle': 'Lifestyle content',
+
+            // SHOPPING (2 intents)
+            'marketing.trending': 'Trending products',
+            'shopping.future_sale': 'Future sale announcement',
+
+            // SUPPORT & PROJECT (4 intents)
+            'support.ticket.confirmation': 'Support ticket created',
+            'support.ticket.update': 'Support ticket update',
+            'project.task.assigned': 'Task assigned',
+            'project.incident.alert': 'Incident alert',
+
+            // CIVIC (7 intents)
+            'civic.appointment.summons': 'Jury duty or court summons',
+            'civic.voting.registration': 'Voter registration',
+            'civic.license.renewal': 'License renewal reminder',
+            'civic.tax.assessment': 'Tax assessment notice',
+            'civic.permit.application': 'Permit application status',
+            'civic.court.notice': 'Court notice',
+            'civic.ballot.information': 'Ballot information',
+
+            // COMMUNICATION (3 intents)
+            'communication.thread.reply': 'Thread reply',
+            'communication.introduction': 'Professional introduction',
+            'communication.professional.inquiry': 'Professional inquiry',
+
+            // CAREER (6 intents)
+            'career.interview.invitation': 'Interview invitation',
+            'career.job.offer': 'Job offer',
+            'career.recruiter.outreach': 'Recruiter outreach',
+            'career.application.status': 'Application status update',
+            'career.rejection.notice': 'Job rejection notice',
+            'career.onboarding': 'Onboarding instructions',
+
+            // LEGAL & REAL ESTATE (2 intents)
+            'legal.document': 'Legal document',
+            'real-estate.service': 'Real estate service',
+
+            // SOCIAL (3 intents)
+            'social.notification': 'Social network notification',
+            'social.verification': 'Social verification request',
+            'social.invitation': 'Social invitation',
+
+            // PETS (2 intents)
+            'pets.service.grooming': 'Pet grooming appointment',
+            'pets.content.tips': 'Pet care tips',
+
+            // CONTENT/NEWSLETTERS (4 intents)
+            'content.newsletter.gaming': 'Gaming newsletter',
+            'content.newsletter.sports': 'Sports newsletter',
+            'content.newsletter.entertainment': 'Entertainment newsletter',
+            'content.newsletter.career': 'Career newsletter',
+
+            // GENERIC (2 intents)
+            'generic.transactional': 'Generic transactional email',
+            'generic.newsletter': 'Generic newsletter or digest'
+        };
+
+        // Quick test templates
+        const QUICK_TESTS = {
+            package: {
+                subject: 'Your Amazon order has shipped',
+                from: 'Amazon <ship-confirm@amazon.com>',
+                body: 'Order #123-4567890-1234567 has shipped. Tracking number: 1Z999AA10123456784. Estimated delivery: Oct 30.'
+            },
+            invoice: {
+                subject: 'Invoice #INV-2025-001 Due',
+                from: 'Acme Corp <billing@acme.com>',
+                body: 'Invoice INV-2025-001 is due on Nov 15, 2025. Amount due: $599.00. Pay at: https://pay.acme.com'
+            },
+            school: {
+                subject: 'Field Trip Permission Form - Please Sign',
+                from: 'Mrs. Johnson <teacher@school.edu>',
+                body: 'Please sign the permission form for the Science Museum field trip on Nov 10. Fee: $15. Deadline: Nov 1.'
+            },
+            flight: {
+                subject: 'Check in for flight UA 1234',
+                from: 'United Airlines <noreply@united.com>',
+                body: 'Your flight UA 1234 to SFO departs tomorrow at 9:00 AM. Check in now to get your boarding pass.'
+            },
+            doctor: {
+                subject: 'Appointment Reminder - Dr. Smith',
+                from: 'SF Medical Center <appointments@sfmedical.org>',
+                body: 'Your appointment with Dr. Smith is tomorrow at 10:30 AM. Please arrive 15 minutes early.'
+            },
+            newsletter: {
+                subject: 'This Week in Tech - Issue #47',
+                from: 'TechCrunch <newsletter@techcrunch.com>',
+                body: 'Top stories this week: AI breakthrough, new iPhone rumors, startup funding round...'
+            }
+        };
+
+        // Tab switching
+        function showTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(`${tab}-tab`).classList.add('active');
+        }
+
+        // Load intents list
+        function loadIntents() {
+            const container = document.getElementById('intents-container');
+            const expectedSelect = document.getElementById('expected-intent');
+
+            for (const [intentId, description] of Object.entries(INTENTS)) {
+                const item = document.createElement('div');
+                item.className = 'intent-item';
+                item.textContent = intentId;
+                item.onclick = () => showIntentDetail(intentId);
+                container.appendChild(item);
+
+                const option = document.createElement('option');
+                option.value = intentId;
+                option.textContent = `${intentId} - ${description}`;
+                expectedSelect.appendChild(option);
+            }
+        }
+
+        // Show intent detail with triggers and examples
+        async function showIntentDetail(intentId) {
+            document.querySelectorAll('.intent-item').forEach(item => {
+                item.classList.toggle('selected', item.textContent === intentId);
+            });
+
+            const detail = document.getElementById('intent-detail');
+
+            // Show loading state
+            detail.innerHTML = `
+                <div style="text-align: center; padding: 60px 20px;">
+                    <div style="font-size: 3em;">⏳</div>
+                    <p>Loading intent details...</p>
+                </div>
+            `;
+
+            try {
+                // Fetch full taxonomy data from classifier
+                const response = await fetch(`${CLASSIFIER_API}/api/intent-taxonomy/${encodeURIComponent(intentId)}`);
+
+                if (!response.ok) {
+                    // Fallback to basic display if API not available
+                    showBasicIntentDetail(intentId);
+                    return;
+                }
+
+                const intentData = await response.json();
+
+                // Display rich intent information
+                detail.innerHTML = `
+                    <div class="intent-header">
+                        <div class="intent-id">${intentId}</div>
+                        <div class="intent-description">${intentData.description || INTENTS[intentId]}</div>
+                    </div>
+
+                    ${intentData.triggers && intentData.triggers.length > 0 ? `
+                        <div class="section">
+                            <div class="section-title">🔍 Trigger Keywords</div>
+                            <p style="opacity: 0.9; margin-bottom: 15px; font-size: 14px;">
+                                Emails containing these phrases in the subject or body will likely match this intent:
+                            </p>
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                ${intentData.triggers.slice(0, 20).map(trigger => `
+                                    <span style="
+                                        background: rgba(255, 255, 255, 0.2);
+                                        padding: 6px 12px;
+                                        border-radius: 15px;
+                                        font-size: 13px;
+                                        font-family: monospace;
+                                    ">"${trigger}"</span>
+                                `).join('')}
+                                ${intentData.triggers.length > 20 ? `
+                                    <span style="opacity: 0.7; font-size: 13px; padding: 6px 12px;">
+                                        ...and ${intentData.triggers.length - 20} more
+                                    </span>
+                                ` : ''}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${intentData.examples ? `
+                        <div class="section">
+                            <div class="section-title">📧 Example Email</div>
+                            <div style="background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 10px; font-family: monospace; font-size: 13px;">
+                                <div style="margin-bottom: 10px;">
+                                    <strong>Subject:</strong> ${intentData.examples.subject || 'N/A'}
+                                </div>
+                                <div style="opacity: 0.9;">
+                                    <strong>Body:</strong><br/>
+                                    ${intentData.examples.body || 'N/A'}
+                                </div>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${intentData.entities ? `
+                        <div class="section">
+                            <div class="section-title">🏷️ Expected Data Fields</div>
+                            ${intentData.entities.required && intentData.entities.required.length > 0 ? `
+                                <div style="margin-bottom: 10px;">
+                                    <strong style="font-size: 14px;">Required:</strong>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px;">
+                                        ${intentData.entities.required.map(field => `
+                                            <span style="background: rgba(220, 53, 69, 0.3); padding: 4px 10px; border-radius: 12px; font-size: 12px;">
+                                                ${field}
+                                            </span>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            ${intentData.entities.optional && intentData.entities.optional.length > 0 ? `
+                                <div>
+                                    <strong style="font-size: 14px;">Optional:</strong>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px;">
+                                        ${intentData.entities.optional.map(field => `
+                                            <span style="background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 12px; font-size: 12px;">
+                                                ${field}
+                                            </span>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+
+                    <button class="test-btn" onclick="testThisIntent('${intentId}')">
+                        🧪 Test this Intent
+                    </button>
+                `;
+            } catch (error) {
+                // Fallback to basic display if fetch fails
+                showBasicIntentDetail(intentId);
+            }
+        }
+
+        // Fallback for when API is not available
+        function showBasicIntentDetail(intentId) {
+            const detail = document.getElementById('intent-detail');
+            detail.innerHTML = `
+                <div class="intent-header">
+                    <div class="intent-id">${intentId}</div>
+                    <div class="intent-description">${INTENTS[intentId]}</div>
+                </div>
+                <div class="section">
+                    <div class="section-title">ℹ️ Information</div>
+                    <p style="opacity: 0.8;">
+                        Full trigger details require the classifier service to be running.
+                        Start the classifier service on port 8082 to see trigger keywords and examples.
+                    </p>
+                </div>
+                <div class="section">
+                    <div class="section-title">Actions</div>
+                    <p>Complete action details available in Zero Sequence Generator tool</p>
+                </div>
+                <button class="test-btn" onclick="testThisIntent('${intentId}')">
+                    Test this Intent
+                </button>
+            `;
+        }
+
+        // Test specific intent
+        function testThisIntent(intentId) {
+            showTab({target: document.querySelectorAll('.tab-btn')[2]});
+            document.getElementById('expected-intent').value = intentId;
+        }
+
+        // Load quick test
+        function loadQuickTest(type) {
+            const test = QUICK_TESTS[type];
+            document.getElementById('test-subject').value = test.subject;
+            document.getElementById('test-from').value = test.from;
+            document.getElementById('test-body').value = test.body;
+        }
+
+        // Run classification
+        async function runClassification() {
+            const subject = document.getElementById('test-subject').value;
+            const from = document.getElementById('test-from').value;
+            const body = document.getElementById('test-body').value;
+
+            if (!subject || !body) {
+                alert('Please enter at least subject and body');
+                return;
+            }
+
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<div style="text-align: center; padding: 60px 20px;"><div style="font-size: 3em;">⏳</div><p>Classifying email...</p></div>';
+
+            try {
+                const response = await fetch(`${CLASSIFIER_API}/api/classify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: { subject, from, body, snippet: body.substring(0, 100) }
+                    })
+                });
+
+                const data = await response.json();
+
+                results.innerHTML = `
+                    <div class="result-section">
+                        <div class="result-label">Detected Intent</div>
+                        <div class="result-value">${data.intent || 'Unknown'}</div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: ${(data.intentConfidence * 100)}%"></div>
+                        </div>
+                        <div style="margin-top: 5px; font-size: 14px;">Confidence: ${(data.intentConfidence * 100).toFixed(0)}%</div>
+                    </div>
+
+                    <div class="result-section">
+                        <div class="result-label">Category</div>
+                        <div class="result-value">${data.category || 'Unknown'}</div>
+                    </div>
+
+                    <div class="result-section">
+                        <div class="result-label">Priority</div>
+                        <div class="result-value" style="text-transform: uppercase;">${data.priority || 'Medium'}</div>
+                    </div>
+
+                    <div class="result-section">
+                        <div class="result-label">Suggested Actions</div>
+                        <div class="action-list">
+                            ${data.suggestedActions?.map((action, idx) => `
+                                <div class="action-item ${idx === 0 ? 'primary' : ''}">
+                                    <span>${action.displayName}</span>
+                                    <span class="badge badge-${action.type === 'IN_APP' ? 'in-app' : 'go-to'}">${action.type}</span>
+                                </div>
+                            `).join('') || '<p>No actions suggested</p>'}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                results.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: #dc3545;">
+                        <div style="font-size: 3em;">❌</div>
+                        <p><strong>Classification Failed</strong></p>
+                        <p style="margin-top: 10px; font-size: 14px;">${error.message}</p>
+                        <p style="margin-top: 10px; font-size: 14px;">Make sure classifier service is running on port 8082</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Run comparison
+        async function runComparison() {
+            const expectedIntent = document.getElementById('expected-intent').value;
+            const subject = document.getElementById('compare-subject').value;
+            const from = document.getElementById('compare-from').value;
+            const body = document.getElementById('compare-body').value;
+
+            if (!expectedIntent) {
+                alert('Please select an expected intent');
+                return;
+            }
+
+            if (!subject || !body) {
+                alert('Please enter at least subject and body');
+                return;
+            }
+
+            const results = document.getElementById('compare-results');
+            results.innerHTML = '<div style="text-align: center; padding: 60px 20px;"><div style="font-size: 3em;">⏳</div><p>Comparing results...</p></div>';
+
+            try {
+                const response = await fetch(`${CLASSIFIER_API}/api/classify`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: { subject, from, body, snippet: body.substring(0, 100) }
+                    })
+                });
+
+                const data = await response.json();
+                const match = data.intent === expectedIntent;
+
+                results.innerHTML = `
+                    <div class="result-section">
+                        <div class="result-label">Expected Intent</div>
+                        <div class="result-value">${expectedIntent}</div>
+                    </div>
+
+                    <div class="result-section">
+                        <div class="result-label">Actual Intent</div>
+                        <div class="result-value">${data.intent || 'Unknown'}</div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" style="width: ${(data.intentConfidence * 100)}%"></div>
+                        </div>
+                        <div style="margin-top: 5px; font-size: 14px;">Confidence: ${(data.intentConfidence * 100).toFixed(0)}%</div>
+                    </div>
+
+                    <div class="comparison ${match ? 'match' : 'mismatch'}">
+                        <strong>${match ? '✅ MATCH' : '❌ MISMATCH'}</strong>
+                        <p style="margin-top: 10px;">
+                            ${match
+                                ? 'The classifier correctly identified the expected intent!'
+                                : 'The classifier detected a different intent. This may indicate the email triggers are not specific enough, or the email content better matches a different intent.'}
+                        </p>
+                    </div>
+
+                    <div class="result-section">
+                        <div class="result-label">Suggested Actions</div>
+                        <div class="action-list">
+                            ${data.suggestedActions?.map((action, idx) => `
+                                <div class="action-item ${idx === 0 ? 'primary' : ''}">
+                                    <span>${action.displayName}</span>
+                                    <span class="badge badge-${action.type === 'IN_APP' ? 'in-app' : 'go-to'}">${action.type}</span>
+                                </div>
+                            `).join('') || '<p>No actions suggested</p>'}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                results.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: #dc3545;">
+                        <div style="font-size: 3em;">❌</div>
+                        <p><strong>Comparison Failed</strong></p>
+                        <p style="margin-top: 10px; font-size: 14px;">${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize
+        loadIntents();
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
  * Protects API endpoints from abuse and DDoS attacks
  */
 
-const logger = require('../../shared/config/logger');
+const logger = require('./shared/config/logger');
 
 // In-memory rate limit store (for development)
 // In production, use Redis for distributed rate limiting

@@ -1,0 +1,10 @@
+actionId,displayName,stepCount,steps,endBehaviorType,requiresResponse,isPremium,description,category
+calendar_with_reminder,Add to Calendar with Pre-Event Reminder,2,add_to_calendar;add_reminder,returnToApp,no,no,"Add event to iOS Calendar, set reminder (default 15min before event start)",calendar
+sign_form_with_calendar,Sign Form & Add to Calendar,3,sign_form;add_to_calendar;email_composer,emailComposer,yes,yes,"Sign form (e.g., field trip), add event to calendar, confirm attendance with sender",education
+sign_form_with_payment,Sign & Pay Permission Form,3,sign_form;pay_form_fee;email_composer,emailComposer,yes,yes,"Sign permission form, pay associated fee, send email confirmation to sender",education
+sign_and_send,Sign & Send,2,sign_form;email_composer,emailComposer,yes,no,Sign permission form and send confirmation email to sender (basic permission form flow),other
+pay_invoice_with_confirmation,Pay Invoice & Send Confirmation,2,pay_invoice;email_composer,emailComposer,yes,yes,"Complete invoice payment, send confirmation email to merchant requesting receipt",payment
+schedule_purchase_with_reminder,Schedule Purchase with Calendar Reminder,2,schedule_purchase;add_to_calendar,returnToApp,no,yes,"Set reminder for product launch/sale, add notification to calendar 15min before",shopping
+track_with_calendar,Track Package & Schedule Delivery,2,track_package;add_to_calendar,returnToApp,no,yes,"View package tracking info, add estimated delivery date/time to calendar for planning",shopping
+cancel_with_confirmation,Cancel Subscription & Request Confirmation,2,cancel_subscription;email_composer,emailComposer,yes,no,"Cancel subscription, send confirmation request to service support team",subscription
+check_in_with_wallet,Check In & Add Boarding Pass to Wallet,2,check_in_flight;add_to_wallet,returnToApp,no,yes,"Check in for flight online, add boarding pass to Apple Wallet for easy access",travel

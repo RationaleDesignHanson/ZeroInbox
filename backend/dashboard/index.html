@@ -12,6 +12,7 @@
         }
 
         body {
+            padding-top: 60px;
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
             color: #ffffff;
@@ -24,7 +25,7 @@
             position: relative;
         }
 
-        /* Floating Spheres Background */
+        /* Firefly Shader Background */
         .floating-spheres {
             position: fixed;
             top: 0;
@@ -33,55 +34,65 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
+            overflow: hidden;
         }
 
-        .sphere {
+        .firefly {
             position: absolute;
             border-radius: 50%;
-            filter: blur(60px);
-            opacity: 0.3;
-            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+            will-change: transform, opacity;
+            animation: firefly-float ease-in-out infinite;
         }
 
-        .sphere:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.4), transparent);
-            top: 10%;
-            left: 10%;
-            animation-delay: 0s;
-            animation-duration: 25s;
+        /* Small fireflies */
+        .firefly.small {
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(147, 197, 253, 1), rgba(147, 197, 253, 0.5) 40%, transparent 70%);
+            box-shadow: 0 0 10px rgba(147, 197, 253, 0.8), 0 0 20px rgba(147, 197, 253, 0.4);
         }
 
-        .sphere:nth-child(2) {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.3), transparent);
-            top: 60%;
-            right: 10%;
-            animation-delay: 5s;
-            animation-duration: 30s;
+        /* Medium fireflies */
+        .firefly.medium {
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle, rgba(196, 181, 253, 1), rgba(196, 181, 253, 0.6) 40%, transparent 70%);
+            box-shadow: 0 0 15px rgba(196, 181, 253, 0.9), 0 0 30px rgba(196, 181, 253, 0.5);
         }
 
-        .sphere:nth-child(3) {
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(14, 165, 233, 0.35), transparent);
-            bottom: 15%;
-            left: 15%;
-            animation-delay: 10s;
-            animation-duration: 28s;
+        /* Warm amber/orange fireflies */
+        .firefly.warm {
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 1), rgba(251, 191, 36, 0.7) 40%, transparent 70%);
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.9), 0 0 25px rgba(251, 146, 60, 0.6);
         }
 
-        @keyframes float {
+        /* Large ambient glow orbs (fewer, subtle) */
+        .firefly.orb {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05) 40%, transparent 70%);
+            filter: blur(40px);
+        }
+
+        @keyframes firefly-float {
             0%, 100% {
-                transform: translate(0, 0) scale(1);
+                transform: translate3d(0, 0, 0);
+                opacity: 0.3;
             }
-            33% {
-                transform: translate(50px, -30px) scale(1.1);
+            25% {
+                transform: translate3d(var(--tx1), var(--ty1), 0);
+                opacity: 0.8;
             }
-            66% {
-                transform: translate(-30px, 50px) scale(0.9);
+            50% {
+                transform: translate3d(var(--tx2), var(--ty2), 0);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate3d(var(--tx3), var(--ty3), 0);
+                opacity: 0.9;
             }
         }
 
@@ -92,7 +103,7 @@
             display: flex;
             align-items: flex-start;
             justify-content: center;
-            padding-top: 120px;
+            padding-top: 240px;
             padding-bottom: 60px;
         }
 
@@ -175,8 +186,8 @@
 
         .zero-logo {
             position: relative;
-            width: 200px;
-            height: 140px;
+            width: 150px;
+            height: 105px;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -186,10 +197,10 @@
         /* Individual "0" letter styling */
         .logo-zero {
             position: absolute;
-            font-size: 140px;
+            font-size: 105px;
             font-weight: 900;
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            letter-spacing: -5px;
+            letter-spacing: -3.75px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -197,9 +208,9 @@
 
         /* Left faded "0" */
         .logo-zero-left {
-            left: -40px;
+            left: -30px;
             opacity: 0.15;
-            filter: blur(2px);
+            filter: blur(1.5px);
             color: white;
             z-index: 1;
         }
@@ -209,29 +220,29 @@
             z-index: 3;
             color: white;
             position: relative;
-            padding: 8px 12px;
+            padding: 6px 9px;
             background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
         }
 
         /* Envelope inside center "0" */
         .logo-envelope {
             position: absolute;
-            font-size: 48px;
+            font-size: 36px;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             filter: none;
             -webkit-text-fill-color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 1.5px 7.5px rgba(0, 0, 0, 0.3);
         }
 
         /* Right faded "0" */
         .logo-zero-right {
-            right: -40px;
+            right: -30px;
             opacity: 0.15;
-            filter: blur(2px);
+            filter: blur(1.5px);
             color: white;
             z-index: 1;
         }
@@ -239,8 +250,8 @@
         /* Pulsing glow behind logo */
         .logo-glow {
             position: absolute;
-            width: 250px;
-            height: 250px;
+            width: 187.5px;
+            height: 187.5px;
             background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
             border-radius: 50%;
             animation: pulse 3s ease-in-out infinite;
@@ -365,33 +376,91 @@
             transform: translateY(0);
         }
 
-        /* Bottom Utility Links */
-        .utility-links {
-            position: absolute;
-            /* Positioned by JavaScript */
+        /* Ellipses Menu and Back Button */
+        .menu-button, .back-button {
+            position: fixed;
+            bottom: 20px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
             display: flex;
-            gap: 12px;
-            z-index: 10;
-        }
-
-        .utility-link {
-            padding: 6px 12px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.6);
-            text-decoration: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             transition: all 0.3s ease;
-            white-space: nowrap;
+            z-index: 1000;
+            text-decoration: none;
         }
 
-        .utility-link:hover {
-            background: rgba(255, 255, 255, 0.08);
+        .menu-button {
+            left: 20px;
+        }
+
+        .back-button {
+            left: 78px; /* 20 + 48 + 10 spacing */
+        }
+
+        .menu-button:hover, .back-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        .menu-button-icon, .back-button-icon {
+            font-size: 20px;
+            color: white;
+        }
+
+        .menu-dropdown {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 8px 0;
+            min-width: 200px;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .menu-dropdown.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
             color: rgba(255, 255, 255, 0.9);
-            border-color: rgba(255, 255, 255, 0.2);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item-icon {
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 4px 0;
         }
 
         /* Simple Swipe Instruction */
@@ -407,59 +476,91 @@
         /* Navigation Labels */
         .nav-label {
             position: absolute;
-            padding: 12px 20px;
-            background: rgba(255, 255, 255, 0.08);
+            padding: 0;
+            background: rgba(0, 0, 0, 0.2);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 24px;
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
+            border: 2px solid rgba(158, 158, 158, 0.3);
+            border-radius: 10px;
             text-decoration: none;
             transition: all 0.3s ease;
-            white-space: nowrap;
             z-index: 10;
+            max-width: 240px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .nav-label:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        /* Top Navigation */
+        .nav-label-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            text-align: center;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-label-desc {
+            font-size: 12px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.4;
+            text-align: center;
+            padding: 14px 16px;
+        }
+
+        /* Top Navigation - Red/Shopping theme */
         .nav-top {
             /* Positioned by JavaScript */
+            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(239, 68, 68, 0.05);
         }
 
         .nav-top:hover {
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+            border-color: rgba(239, 68, 68, 0.8);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
-        /* Right Navigation */
+        /* Right Navigation - Blue/AI theme */
         .nav-right {
             /* Positioned by JavaScript */
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(59, 130, 246, 0.05);
         }
 
         .nav-right:hover {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            border-color: rgba(59, 130, 246, 0.8);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        /* Bottom Navigation */
+        /* Bottom Navigation - Green/Intent theme */
         .nav-bottom {
             /* Positioned by JavaScript */
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.05);
         }
 
         .nav-bottom:hover {
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            border-color: rgba(16, 185, 129, 0.8);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
-        /* Left Navigation */
+        /* Left Navigation - Purple/iOS theme */
         .nav-left {
             /* Positioned by JavaScript */
+            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.05);
         }
 
         .nav-left:hover {
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+            border-color: rgba(139, 92, 246, 0.8);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
         }
 
         /* Stacked Layout for Side Labels */
@@ -554,20 +655,194 @@
                 max-width: 700px;
             }
         }
+    
+        /* Beta Banner - Fixed Top */
+        .beta-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg,
+                rgba(26, 26, 46, 0.95) 0%,
+                rgba(45, 27, 78, 0.95) 30%,
+                rgba(74, 25, 66, 0.95) 60%,
+                rgba(31, 31, 58, 0.95) 100%
+            );
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15),
+                        0 0 40px rgba(139, 92, 246, 0.1);
+            padding: 12px 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .beta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(59, 130, 246, 0.05) 20%,
+                rgba(139, 92, 246, 0.05) 50%,
+                rgba(59, 130, 246, 0.05) 80%,
+                transparent 100%
+            );
+            pointer-events: none;
+            animation: shimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .beta-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .beta-banner-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .beta-banner-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .beta-banner-subtitle {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .beta-banner-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .beta-banner-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .beta-banner-btn.primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #6366f1 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3),
+                        0 0 20px rgba(139, 92, 246, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .beta-banner-btn.primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: button-shine 3s ease-in-out infinite;
+        }
+
+        @keyframes button-shine {
+            0%, 100% { transform: translateX(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .beta-banner-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5),
+                        0 0 40px rgba(139, 92, 246, 0.3);
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #4f46e5 100%);
+        }
+
+        .beta-banner-btn.secondary {
+            background: rgba(139, 92, 246, 0.1);
+            color: white;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);
+        }
+
+        .beta-banner-btn.secondary:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .beta-banner {
+                padding: 10px 16px;
+            }
+
+            .beta-banner-actions {
+                width: 100%;
+            }
+
+            .beta-banner-btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
     </style>
 </head>
 <body>
-    <!-- Floating Spheres Background -->
-    <div class="floating-spheres">
-        <div class="sphere"></div>
-        <div class="sphere"></div>
-        <div class="sphere"></div>
+    <!-- Beta Banner -->
+    <div class="beta-banner">
+        <div class="beta-banner-content">
+            <div class="beta-banner-text">
+                <div class="beta-banner-title">Ready to Experience ZerO Inbox?</div>
+                <div class="beta-banner-subtitle">Join hundreds of beta testers achieving inbox zero every day</div>
+            </div>
+            <div class="beta-banner-actions">
+                <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_blank" class="beta-banner-btn primary">
+                    Download TestFlight
+                </a>
+                <a href="mailto:zerobeta@rationale.work?subject=Zero%20Beta%20Access%20Request" class="beta-banner-btn secondary">
+                    Request Beta Access
+                </a>
+            </div>
+        </div>
     </div>
+
+
+    <!-- Firefly Shader Background -->
+    <div class="floating-spheres" id="fireflyContainer"></div>
 
     <div class="landing-container">
         <!-- Top Navigation -->
         <a href="shopping-cart.html" class="nav-label nav-top">
-            Shopping Cart
+            <div class="nav-label-title">Shopping Cart</div>
+            <div class="nav-label-desc">Track deals, prices, and expirations across all your shopping emails.</div>
         </a>
 
         <!-- Central Demo Card -->
@@ -591,78 +866,144 @@
 
                 <!-- Simple Swipe Instruction -->
                 <div class="swipe-instruction">
-                    Drag or swipe the card in any direction
+                    Click to Experience Zero • Swipe in any direction to explore
                 </div>
             </div>
         </div>
 
         <!-- Right Navigation -->
         <a href="zero-sequence-live.html" class="nav-label nav-right">
-            AI Intelligence
+            <div class="nav-label-title">AI Intelligence</div>
+            <div class="nav-label-desc">Test the email-to-action pipeline with 130 intent categories live.</div>
         </a>
 
         <!-- Bottom Navigation -->
         <a href="intent-action-explorer.html" class="nav-label nav-bottom">
-            Smart Actions
+            <div class="nav-label-title">Intent Categories</div>
+            <div class="nav-label-desc">130 categories classify emails from shipping to healthcare.</div>
         </a>
 
         <!-- Left Navigation -->
         <a href="action-modal-explorer.html" class="nav-label nav-left">
-            Native iOS
+            <div class="nav-label-title">Smart Actions</div>
+            <div class="nav-label-desc">130 actions to take depending on the context including native OS integrations and compound actions.</div>
         </a>
 
-        <!-- Features Grid -->
-        <div class="features-grid" id="features-grid">
-            <div class="feature-card">
-                <div class="feature-title">MAIL vs ADS</div>
-                <div class="feature-description">Real messages and promotions split into optimized streams. 43 intent types with context-aware classification.</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-title">Swipe to Zero</div>
-                <div class="feature-description">Card-based triage with gesture-first design. Get to inbox zero faster than any email client.</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-title">Smart Actions</div>
-                <div class="feature-description">35+ intelligent actions that understand what your email wants. One tap to complete.</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-title">Shopping Cart</div>
-                <div class="feature-description">Deals from different emails work together. Track prices, watch expirations, compare merchants.</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-title">Native iOS</div>
-                <div class="feature-description">Deep Calendar, Contacts, Wallet, and Messages integration. Real iOS actions, not web views.</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-title">AI Intelligence</div>
-                <div class="feature-description">Gemini-powered classification, summarization, and smart replies. Actions powered by entity extraction and contextual understanding.</div>
-            </div>
+        <!-- Back Button -->
+        <a href="app-demo.html" class="back-button">
+            <div class="back-button-icon">←</div>
+        </a>
+
+        <!-- Ellipses Menu Button -->
+        <div class="menu-button" id="menuButton" onclick="toggleMenu()">
+            <div class="menu-button-icon">⋯</div>
         </div>
 
-        <!-- TestFlight Beta Access (Bottom of page) -->
-        <div class="beta-access">
-            <div class="beta-title">Why Zero</div>
-            <div class="beta-buttons">
-                <a href="https://apps.apple.com/us/app/testflight/id899247664"
-                   target="_blank"
-                   class="testflight-button primary">
-                    Download TestFlight
-                </a>
-                <a href="mailto:thematthanson@gmail.com?subject=Zero%20TestFlight%20Access%20Request&body=I%20agree%20to%20the%20confidentiality%20terms%20and%20would%20like%20access%20to%20the%20Zero%20beta.%0A%0AMy%20Apple%20ID%20email%3A%20"
-                   class="testflight-button secondary">
-                    Request Access
-                </a>
+        <!-- Menu Dropdown -->
+        <div class="menu-dropdown" id="menuDropdown">
+            <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_blank" class="menu-item">
+                <span class="menu-item-icon">📱</span>
+                <span>Download TestFlight</span>
+            </a>
+            <a href="mailto:zerobeta@rationale.work?subject=Zero%20TestFlight%20Access%20Request&body=I%20agree%20to%20the%20confidentiality%20terms%20and%20would%20like%20access%20to%20the%20Zero%20beta.%0A%0AMy%20Apple%20ID%20email%3A%20" class="menu-item">
+                <span class="menu-item-icon">✉️</span>
+                <span>Request Access</span>
+            </a>
+            <div class="menu-divider"></div>
+            <a href="system-health.html" class="menu-item">
+                <span class="menu-item-icon">🏥</span>
+                <span>System Health</span>
+            </a>
+            <a href="design-system-renderer.html" class="menu-item">
+                <span class="menu-item-icon">🎨</span>
+                <span>Design System</span>
+            </a>
+            <div class="menu-divider"></div>
+            <div class="menu-item" id="logoutButton" onclick="logout()">
+                <span class="menu-item-icon">🚪</span>
+                <span>Logout</span>
             </div>
-        </div>
-
-        <!-- Utility Links -->
-        <div class="utility-links" id="utility-links">
-            <a href="system-health.html" class="utility-link">System Health</a>
-            <a href="design-system-renderer.html" class="utility-link">Design System</a>
         </div>
     </div>
 
     <script>
+        // Generate firefly shader background
+        (function initFireflies() {
+            const container = document.getElementById('fireflyContainer');
+            const fireflyCount = 40; // Doubled: small + medium + warm fireflies
+            const orbCount = 6; // Doubled: large ambient orbs
+
+            // Create small, medium, and warm fireflies
+            for (let i = 0; i < fireflyCount; i++) {
+                const firefly = document.createElement('div');
+                // Random selection between small, medium, and warm (amber/orange)
+                const rand = Math.random();
+                const variant = rand < 0.33 ? 'small' : rand < 0.66 ? 'medium' : 'warm';
+                firefly.className = `firefly ${variant}`;
+
+                // Random position
+                firefly.style.left = `${Math.random() * 100}%`;
+                firefly.style.top = `${Math.random() * 100}%`;
+
+                // Random animation duration (8-20 seconds for organic feel)
+                const duration = 8 + Math.random() * 12;
+                firefly.style.animationDuration = `${duration}s`;
+                firefly.style.animationDelay = `${Math.random() * -duration}s`;
+
+                // Random movement ranges (using CSS variables)
+                const moveRange = 60 + Math.random() * 80;
+                firefly.style.setProperty('--tx1', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty1', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--tx2', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty2', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--tx3', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty3', `${(Math.random() - 0.5) * moveRange}px`);
+
+                container.appendChild(firefly);
+            }
+
+            // Create large ambient orbs
+            for (let i = 0; i < orbCount; i++) {
+                const orb = document.createElement('div');
+                orb.className = 'firefly orb';
+
+                // Distribute orbs more evenly across the screen
+                orb.style.left = `${10 + (i * 15)}%`;
+                orb.style.top = `${15 + (i % 3) * 30}%`;
+
+                // Slower, subtle movement for orbs
+                const duration = 20 + Math.random() * 15;
+                orb.style.animationDuration = `${duration}s`;
+                orb.style.animationDelay = `${Math.random() * -duration}s`;
+
+                // Subtle movement for orbs
+                const moveRange = 80;
+                orb.style.setProperty('--tx1', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--ty1', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--tx2', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--ty2', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--tx3', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--ty3', `${(Math.random() - 0.5) * moveRange}px`);
+
+                container.appendChild(orb);
+            }
+        })();
+
+        // Menu toggle functionality
+        function toggleMenu() {
+            const dropdown = document.getElementById('menuDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menuButton = document.getElementById('menuButton');
+            const menuDropdown = document.getElementById('menuDropdown');
+            if (!menuButton.contains(e.target) && !menuDropdown.contains(e.target)) {
+                menuDropdown.classList.remove('show');
+            }
+        });
+
         // Position navigation labels with 50px gap from card
         function positionNavLabels() {
             const card = document.getElementById('demoCard');
@@ -673,9 +1014,6 @@
             const navBottom = document.querySelector('.nav-bottom');
             const navLeft = document.querySelector('.nav-left');
             const navRight = document.querySelector('.nav-right');
-            const betaAccess = document.querySelector('.beta-access');
-            const featuresGrid = document.getElementById('features-grid');
-            const utilityLinks = document.getElementById('utility-links');
 
             // Get label dimensions first
             const navTopRect = navTop.getBoundingClientRect();
@@ -702,26 +1040,6 @@
             navRight.style.left = `${cardRect.right + gap}px`;
             navRight.style.top = `${cardRect.top + (cardRect.height / 2)}px`;
             navRight.style.transform = 'translate(0, -50%)';
-
-            // Position features grid: centered horizontally, 50px gap below bottom label
-            const bottomLabelBottom = cardRect.bottom + gap + navBottomRect.height;
-            featuresGrid.style.left = '50%';
-            featuresGrid.style.top = `${bottomLabelBottom + gap}px`;
-            featuresGrid.style.transform = 'translateX(-50%)';
-
-            // Position beta access: left-aligned with features grid, 50px gap below
-            const featuresGridRect = featuresGrid.getBoundingClientRect();
-            const featuresBottom = featuresGridRect.bottom;
-            betaAccess.style.left = `${featuresGridRect.left}px`;
-            betaAccess.style.top = `${featuresBottom + gap}px`;
-            betaAccess.style.transform = 'none';
-
-            // Position utility links: centered horizontally, 20px gap below beta access
-            const betaAccessRect = betaAccess.getBoundingClientRect();
-            const betaBottom = betaAccessRect.bottom;
-            utilityLinks.style.left = '50%';
-            utilityLinks.style.top = `${betaBottom + 20}px`;
-            utilityLinks.style.transform = 'translateX(-50%)';
         }
 
         // Reset card position on page load
@@ -818,8 +1136,24 @@
             const diffX = touchEndX - touchStartX;
             const diffY = touchEndY - touchStartY;
             const threshold = 50;
+            const clickThreshold = 10; // Small movement allowed for clicks
 
-            // Determine direction and fly-off target
+            // Check if this is a click (minimal movement) vs swipe
+            const isClick = Math.abs(diffX) < clickThreshold && Math.abs(diffY) < clickThreshold;
+
+            if (isClick) {
+                // Click detected - navigate to app demo (the main showcase!)
+                card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                card.style.transform = 'scale(1.1)';
+                card.style.opacity = '0';
+
+                setTimeout(() => {
+                    window.location.href = 'app-demo.html';
+                }, 300);
+                return;
+            }
+
+            // Determine direction and fly-off target for swipe
             let flyOffX = 0, flyOffY = 0;
             let shouldNavigate = false;
             let targetURL = '';
@@ -834,7 +1168,7 @@
                 } else if (diffX < -threshold) {
                     // Fly left
                     flyOffX = -window.innerWidth;
-                    targetURL = 'design-system-renderer.html';
+                    targetURL = 'action-modal-explorer.html';
                     shouldNavigate = true;
                 }
             } else {
@@ -847,7 +1181,7 @@
                 } else if (diffY < -threshold) {
                     // Fly up
                     flyOffY = -window.innerHeight;
-                    targetURL = 'system-health.html';
+                    targetURL = 'shopping-cart.html';
                     shouldNavigate = true;
                 }
             }
@@ -867,9 +1201,37 @@
                 card.style.transform = 'translate(0, 0)';
             }
         }
-    </script>
+        // Logout function
+        async function logout() {
+            try {
+                const button = document.getElementById('logoutButton');
+                if (button) {
+                    const originalContent = button.innerHTML;
+                    button.innerHTML = '<span class="menu-item-icon">⏳</span><span>Logging out...</span>';
+                }
 
-    <!-- Logout functionality -->
-    <script src="/js/logout.js"></script>
+                const response = await fetch('/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    window.location.href = '/splash.html';
+                } else {
+                    alert('Logout failed. Please try again.');
+                    if (button) {
+                        button.innerHTML = '<span class="menu-item-icon">🚪</span><span>Logout</span>';
+                    }
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Connection error. Please refresh the page.');
+            }
+        }
+    </script>
 </body>
 </html>

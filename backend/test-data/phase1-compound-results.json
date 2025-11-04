@@ -1,0 +1,28 @@
+{
+  "total": 37,
+  "passed": 37,
+  "failed": 0,
+  "byType": {
+    "structure": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "sequencing": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "endBehavior": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "detection": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    }
+  },
+  "failedTests": []
+}

@@ -67,6 +67,27 @@ struct LinkifiedText: UIViewRepresentable {
     // MARK: - Coordinator for link handling
 
     class Coordinator: NSObject, UITextViewDelegate {
+        // iOS 17+ method - new delegate API
+        @available(iOS 17.0, *)
+        func textView(_ textView: UITextView, primaryActionFor textItem: UITextItem, defaultAction: UIAction) -> UIAction? {
+            // Handle link taps
+            if case .link(let url) = textItem.content {
+                // Return custom action that opens in Safari
+                return UIAction { [weak self] _ in
+                    self?.openLinkInSafari(url)
+
+                    // Haptic feedback
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.impactOccurred()
+                }
+            }
+
+            // Return default action for other items
+            return defaultAction
+        }
+
+        // iOS 16 and earlier - deprecated but needed for backward compatibility
+        @available(iOS, deprecated: 17.0, message: "Use textView(_:primaryActionFor:defaultAction:) instead")
         func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
             // Handle link tap with in-app Safari
             if interaction == .invokeDefaultAction {

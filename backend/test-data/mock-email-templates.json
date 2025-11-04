@@ -1,0 +1,606 @@
+{
+  "description": "Comprehensive mock email template library for testing intent classification, action routing, and compound flows - Phase 2 Task 2.2",
+  "version": "2.0.0",
+  "totalTemplates": 55,
+  "coverage": {
+    "intentCategories": 15,
+    "compoundActions": 9,
+    "edgeCases": 5
+  },
+  "templates": {
+    "ecommerce_shipping_01": {
+      "id": "ecommerce_shipping_01",
+      "subject": "Your Amazon order has shipped",
+      "from": "shipment-tracking@amazon.com",
+      "body": "Your order #112-7654321 has shipped. Tracking number: 1Z999AA10123456784. Carrier: UPS. Estimated delivery: January 15, 2025.",
+      "expectedIntent": "e-commerce.shipping.notification",
+      "expectedPrimaryAction": "track_package",
+      "expectedEntities": ["orderNumber", "trackingNumber", "carrier", "deliveryDate"],
+      "confidence": 0.95
+    },
+    "ecommerce_order_confirmation": {
+      "id": "ecommerce_order_confirmation",
+      "subject": "Order Confirmation #ORD-98765",
+      "from": "orders@shopify.com",
+      "body": "Thank you for your order! Order #ORD-98765. Total: $129.99. Estimated delivery: 3-5 business days.",
+      "expectedIntent": "e-commerce.order.confirmation",
+      "expectedPrimaryAction": "view_order",
+      "expectedEntities": ["orderNumber", "totalAmount", "estimatedDelivery"],
+      "confidence": 0.92
+    },
+    "ecommerce_delivery_completed": {
+      "id": "ecommerce_delivery_completed",
+      "subject": "Your package has been delivered",
+      "from": "delivery@fedex.com",
+      "body": "Your package was delivered today at 2:45 PM. Left at front door. Order #998877.",
+      "expectedIntent": "e-commerce.delivery.completed",
+      "expectedPrimaryAction": "buy_again",
+      "expectedEntities": ["orderNumber", "deliveryLocation", "deliveryTime"],
+      "confidence": 0.93
+    },
+    "ecommerce_return_label": {
+      "id": "ecommerce_return_label",
+      "subject": "Return label for order #445566",
+      "from": "returns@nordstrom.com",
+      "body": "Here's your return label for order #445566. Print and attach to package. Drop off at any UPS location by March 15.",
+      "expectedIntent": "e-commerce.return.label",
+      "expectedPrimaryAction": "print_return_label",
+      "expectedEntities": ["orderNumber", "returnDeadline", "labelUrl"],
+      "confidence": 0.91
+    },
+    "ecommerce_refund_processing": {
+      "id": "ecommerce_refund_processing",
+      "subject": "Refund initiated for order #778899",
+      "from": "refunds@amazon.com",
+      "body": "We've initiated your refund of $89.99. It will appear in your account within 5-7 business days.",
+      "expectedIntent": "e-commerce.refund.processing",
+      "expectedPrimaryAction": "view_refund_status",
+      "expectedEntities": ["refundAmount", "orderNumber", "processingDays"],
+      "confidence": 0.90
+    },
+    "ecommerce_price_drop": {
+      "id": "ecommerce_price_drop",
+      "subject": "Price drop alert: iPhone 15",
+      "from": "alerts@bestbuy.com",
+      "body": "The iPhone 15 you're watching is now $799 (was $999). Save $200! Shop now: https://bestbuy.com/iphone15",
+      "expectedIntent": "e-commerce.price.drop",
+      "expectedPrimaryAction": "view_product",
+      "expectedEntities": ["productName", "newPrice", "oldPrice", "savings", "productUrl"],
+      "confidence": 0.88
+    },
+    "healthcare_appointment_reminder": {
+      "id": "healthcare_appointment_reminder",
+      "subject": "Appointment Reminder - Dr. Smith",
+      "from": "appointments@healthcare.com",
+      "body": "Your appointment with Dr. Smith is scheduled for January 15, 2025 at 2:00 PM. Location: 123 Medical Plaza. Please arrive 15 minutes early.",
+      "expectedIntent": "healthcare.appointment.reminder",
+      "expectedPrimaryAction": "add_to_calendar",
+      "expectedEntities": ["provider", "dateTime", "location"],
+      "confidence": 0.96,
+      "compoundAction": "calendar_with_reminder"
+    },
+    "healthcare_appointment_booking": {
+      "id": "healthcare_appointment_booking",
+      "subject": "Time to schedule your annual checkup",
+      "from": "reminders@healthcare.com",
+      "body": "It's time to schedule your annual physical. Book online at https://scheduling.healthcare.com/book or call (555) 123-4567.",
+      "expectedIntent": "healthcare.appointment.booking-request",
+      "expectedPrimaryAction": "book_appointment",
+      "expectedEntities": ["schedulingUrl"],
+      "confidence": 0.89
+    },
+    "healthcare_prescription_ready": {
+      "id": "healthcare_prescription_ready",
+      "subject": "Your prescription is ready for pickup",
+      "from": "pharmacy@cvs.com",
+      "body": "Your prescription for Lisinopril is ready. Rx #12345. Pick up by March 10 at CVS on Main St.",
+      "expectedIntent": "healthcare.prescription.ready",
+      "expectedPrimaryAction": "pickup_prescription",
+      "expectedEntities": ["medication", "rxNumber", "pickupDeadline", "pharmacyLocation"],
+      "confidence": 0.94
+    },
+    "healthcare_test_results": {
+      "id": "healthcare_test_results",
+      "subject": "Lab results available",
+      "from": "results@labcorp.com",
+      "body": "Your lab results from January 10 are now available. View secure results: https://labcorp.com/results/abc123",
+      "expectedIntent": "healthcare.results.available",
+      "expectedPrimaryAction": "view_results",
+      "expectedEntities": ["resultType", "testDate", "resultsUrl"],
+      "confidence": 0.92
+    },
+    "billing_invoice_due": {
+      "id": "billing_invoice_due",
+      "subject": "Invoice #INV-2025-1234 Due",
+      "from": "billing@company.com",
+      "body": "Invoice INV-2025-1234 is due on October 30, 2025. Amount: $599.00. Pay online: https://pay.com/INV-2025-1234",
+      "expectedIntent": "billing.invoice.due",
+      "expectedPrimaryAction": "pay_invoice",
+      "expectedEntities": ["invoiceId", "amountDue", "dueDate", "paymentLink"],
+      "confidence": 0.93
+    },
+    "billing_payment_received": {
+      "id": "billing_payment_received",
+      "subject": "Payment received - Invoice #INV-5678",
+      "from": "accounting@company.com",
+      "body": "We received your payment of $599.00 for invoice INV-5678. Thank you!",
+      "expectedIntent": "billing.payment.received",
+      "expectedPrimaryAction": "download_receipt",
+      "expectedEntities": ["paymentAmount", "invoiceId"],
+      "confidence": 0.91
+    },
+    "billing_subscription_renewal": {
+      "id": "billing_subscription_renewal",
+      "subject": "Your subscription renews soon",
+      "from": "billing@service.com",
+      "body": "Your monthly subscription ($9.99) will renew on January 15, 2025. Update payment: https://service.com/billing",
+      "expectedIntent": "billing.subscription.renewal",
+      "expectedPrimaryAction": "manage_subscription",
+      "expectedEntities": ["amount", "renewalDate", "subscriptionUrl"],
+      "confidence": 0.87
+    },
+    "finance_fraud_alert": {
+      "id": "finance_fraud_alert",
+      "subject": "Unusual Activity Detected",
+      "from": "alerts@bank.com",
+      "body": "We detected a $500 charge at Electronics Store. If this wasn't you, verify immediately: https://bank.com/verify/alert123",
+      "expectedIntent": "finance.fraud.alert",
+      "expectedPrimaryAction": "verify_transaction",
+      "expectedEntities": ["accountId", "transactionAmount", "verificationUrl"],
+      "confidence": 0.95
+    },
+    "finance_statement_ready": {
+      "id": "finance_statement_ready",
+      "subject": "Your monthly statement is ready",
+      "from": "statements@chase.com",
+      "body": "Your credit card statement for February 2025 is now available. Account ending in 4567. View: https://chase.com/statements",
+      "expectedIntent": "finance.statement.ready",
+      "expectedPrimaryAction": "view_statement",
+      "expectedEntities": ["accountId", "statementPeriod", "statementUrl"],
+      "confidence": 0.90
+    },
+    "finance_payment_reminder": {
+      "id": "finance_payment_reminder",
+      "subject": "Payment due in 3 days",
+      "from": "reminders@amex.com",
+      "body": "Your minimum payment of $125.00 is due on March 15. Schedule payment: https://amex.com/pay",
+      "expectedIntent": "finance.payment.reminder",
+      "expectedPrimaryAction": "schedule_payment",
+      "expectedEntities": ["amountDue", "dueDate", "paymentUrl"],
+      "confidence": 0.92
+    },
+    "travel_flight_checkin": {
+      "id": "travel_flight_checkin",
+      "subject": "Check in for flight UA 123",
+      "from": "United Airlines <noreply@united.com>",
+      "body": "Flight UA 123 from SFO to ORD departs tomorrow at 10:30 AM. Check in now: https://united.com/checkin/ABC123",
+      "expectedIntent": "travel.flight.check-in",
+      "expectedPrimaryAction": "check_in_flight",
+      "expectedEntities": ["flightNumber", "departureDate", "confirmationCode", "checkInUrl"],
+      "confidence": 0.94,
+      "compoundAction": "check_in_with_wallet"
+    },
+    "travel_reservation_confirmation": {
+      "id": "travel_reservation_confirmation",
+      "subject": "Hotel Reservation Confirmed",
+      "from": "reservations@marriott.com",
+      "body": "Your reservation at Marriott Downtown is confirmed. Check-in: March 15. Confirmation: RES-999888. View details: https://marriott.com/res/RES-999888",
+      "expectedIntent": "travel.reservation.confirmation",
+      "expectedPrimaryAction": "view_itinerary",
+      "expectedEntities": ["confirmationCode", "checkInDate", "location"],
+      "confidence": 0.91
+    },
+    "education_permission_form": {
+      "id": "education_permission_form",
+      "subject": "Field Trip Permission Form - Please Sign",
+      "from": "teacher@school.edu",
+      "body": "Please sign the attached permission form for the field trip on January 20, 2025. Fee: $25. Return by Wednesday, January 10.",
+      "expectedIntent": "education.permission.form",
+      "expectedPrimaryAction": "sign_form",
+      "expectedEntities": ["formName", "eventDate", "amount", "dueDate"],
+      "confidence": 0.93,
+      "compoundAction": "sign_form_with_payment"
+    },
+    "education_assignment_due": {
+      "id": "education_assignment_due",
+      "subject": "Math homework due tomorrow",
+      "from": "google-classroom@school.edu",
+      "body": "Reminder: Math Chapter 5 homework is due tomorrow. Student: Emma Johnson. View assignment: https://classroom.google.com/assignment/123",
+      "expectedIntent": "education.assignment.due",
+      "expectedPrimaryAction": "view_assignment",
+      "expectedEntities": ["assignmentName", "dueDate", "studentName", "assignmentUrl"],
+      "confidence": 0.89
+    },
+    "education_lms_message": {
+      "id": "education_lms_message",
+      "subject": "Mrs. Davis sent you a message in Canvas",
+      "from": "canvas@school.edu",
+      "body": "Mrs. Davis commented on your submission: 'Great work on the essay! See feedback on page 2.' View message: https://canvas.school.edu/msg/456",
+      "expectedIntent": "education.lms.message",
+      "expectedPrimaryAction": "view_lms_message",
+      "expectedEntities": ["teacher", "messageUrl", "platform"],
+      "confidence": 0.90
+    },
+    "youth_sports_game_schedule": {
+      "id": "youth_sports_game_schedule",
+      "subject": "Soccer game schedule - This Saturday",
+      "from": "coach@youthsoccer.org",
+      "body": "Game this Saturday, March 15 at 9:00 AM. Location: Wilson Park Field 3. Opponent: Blue Thunder. Arrive 30 mins early.",
+      "expectedIntent": "youth.sports.game-schedule",
+      "expectedPrimaryAction": "view_game_schedule",
+      "expectedEntities": ["sport", "dateTime", "location", "opponent"],
+      "confidence": 0.92
+    },
+    "youth_sports_practice_reminder": {
+      "id": "youth_sports_practice_reminder",
+      "subject": "Basketball practice tomorrow",
+      "from": "coach@basketballleague.com",
+      "body": "Practice tomorrow at 5:00 PM at Central Gym. Bring water and basketball shoes. Duration: 1.5 hours.",
+      "expectedIntent": "youth.sports.practice-reminder",
+      "expectedPrimaryAction": "view_practice_details",
+      "expectedEntities": ["sport", "dateTime", "location", "duration"],
+      "confidence": 0.88
+    },
+    "event_meeting_invitation": {
+      "id": "event_meeting_invitation",
+      "subject": "Team Standup - Tomorrow 10am",
+      "from": "calendar@company.com",
+      "body": "You're invited to Team Standup on January 15, 2025 at 10:00 AM. Join: https://zoom.us/j/123456789",
+      "expectedIntent": "event.meeting.invitation",
+      "expectedPrimaryAction": "join_meeting",
+      "expectedEntities": ["meetingUrl", "dateTime"],
+      "confidence": 0.90
+    },
+    "event_webinar_invitation": {
+      "id": "event_webinar_invitation",
+      "subject": "Webinar: AI in Healthcare - March 20",
+      "from": "events@medtech.com",
+      "body": "Join our webinar on AI in Healthcare on March 20 at 2:00 PM. Register now: https://webinar.medtech.com/register",
+      "expectedIntent": "event.webinar.invitation",
+      "expectedPrimaryAction": "register_event",
+      "expectedEntities": ["eventDate", "registrationLink", "topic"],
+      "confidence": 0.87
+    },
+    "account_password_reset": {
+      "id": "account_password_reset",
+      "subject": "Reset your password",
+      "from": "security@service.com",
+      "body": "We received a request to reset your password. Click here to reset: https://service.com/reset/abc123. This link expires in 1 hour.",
+      "expectedIntent": "account.password.reset",
+      "expectedPrimaryAction": "reset_password",
+      "expectedEntities": ["resetLink"],
+      "confidence": 0.96
+    },
+    "account_security_alert": {
+      "id": "account_security_alert",
+      "subject": "New login from iPhone",
+      "from": "security@google.com",
+      "body": "New sign-in to your account from iPhone in San Francisco, CA. If this wasn't you, secure your account: https://google.com/security",
+      "expectedIntent": "account.security.alert",
+      "expectedPrimaryAction": "review_security",
+      "expectedEntities": ["device", "location", "securityUrl"],
+      "confidence": 0.94
+    },
+    "delivery_food_tracking": {
+      "id": "delivery_food_tracking",
+      "subject": "Your DoorDash order is on the way",
+      "from": "orders@doordash.com",
+      "body": "Your order from Chipotle is being prepared. Driver John will pick it up soon. ETA: 25 minutes. Track: https://doordash.com/track/xyz789",
+      "expectedIntent": "delivery.food.tracking",
+      "expectedPrimaryAction": "track_delivery",
+      "expectedEntities": ["restaurant", "driver", "eta", "trackingUrl"],
+      "confidence": 0.91
+    },
+    "delivery_tracking_alert": {
+      "id": "delivery_tracking_alert",
+      "subject": "Package arriving today",
+      "from": "mychoice@ups.com",
+      "body": "UPS My Choice: Your package is arriving today between 2-6 PM. Tracking: 1Z999. Change delivery preferences: https://ups.com/mychoice",
+      "expectedIntent": "delivery.tracking.alert",
+      "expectedPrimaryAction": "change_delivery_preferences",
+      "expectedEntities": ["trackingNumber", "carrier", "deliveryDate", "preferencesUrl"],
+      "confidence": 0.89
+    },
+    "marketing_promotion_flash_sale": {
+      "id": "marketing_promotion_flash_sale",
+      "subject": "Flash Sale: 50% Off Everything",
+      "from": "deals@store.com",
+      "body": "24-hour flash sale! Use code FLASH50 for 50% off your entire purchase. Ends tonight at midnight. Shop now: https://store.com/sale",
+      "expectedIntent": "marketing.promotion.flash-sale",
+      "expectedPrimaryAction": "claim_deal",
+      "expectedEntities": ["promoCode", "expiresAt", "dealUrl"],
+      "confidence": 0.85
+    },
+    "marketing_promotion_discount": {
+      "id": "marketing_promotion_discount",
+      "subject": "30% off your order",
+      "from": "promos@gap.com",
+      "body": "Save 30% on your purchase with code SAVE30. Valid through Sunday. Shop sale: https://gap.com/sale",
+      "expectedIntent": "marketing.promotion.discount",
+      "expectedPrimaryAction": "copy_promo_code",
+      "expectedEntities": ["promoCode", "discount", "expiresAt"],
+      "confidence": 0.83
+    },
+    "marketing_cart_abandonment": {
+      "id": "marketing_cart_abandonment",
+      "subject": "You left something in your cart",
+      "from": "cart@nike.com",
+      "body": "You left Nike Air Max shoes ($120) in your cart. Complete your order now: https://nike.com/cart/xyz789",
+      "expectedIntent": "marketing.cart.abandonment",
+      "expectedPrimaryAction": "complete_cart",
+      "expectedEntities": ["cartUrl", "items", "totalAmount"],
+      "confidence": 0.86
+    },
+    "marketing_loyalty_reward": {
+      "id": "marketing_loyalty_reward",
+      "subject": "You earned 500 points!",
+      "from": "rewards@sephora.com",
+      "body": "Congrats! You earned 500 points. Your balance: 2,000 points. Redeem for rewards: https://sephora.com/rewards",
+      "expectedIntent": "marketing.loyalty.reward",
+      "expectedPrimaryAction": "redeem_rewards",
+      "expectedEntities": ["pointsBalance", "rewardUrl"],
+      "confidence": 0.82
+    },
+    "career_interview_invitation": {
+      "id": "career_interview_invitation",
+      "subject": "Interview Invitation - Software Engineer",
+      "from": "recruiting@techcorp.com",
+      "body": "Congratulations! We'd like to interview you for the Software Engineer position. Schedule your interview: https://calendly.com/techcorp/interview",
+      "expectedIntent": "career.interview.invitation",
+      "expectedPrimaryAction": "schedule_interview",
+      "expectedEntities": ["company", "position", "interviewUrl"],
+      "confidence": 0.91
+    },
+    "career_job_offer": {
+      "id": "career_job_offer",
+      "subject": "Job Offer - Senior Developer",
+      "from": "hr@startup.com",
+      "body": "We're pleased to offer you the Senior Developer position! Salary: $150K. Start date: April 1. Review offer: https://startup.com/offers/abc123",
+      "expectedIntent": "career.job.offer",
+      "expectedPrimaryAction": "accept_offer",
+      "expectedEntities": ["company", "position", "salary", "startDate", "offerUrl"],
+      "confidence": 0.93
+    },
+    "career_rejection": {
+      "id": "career_rejection",
+      "subject": "Application Update",
+      "from": "recruiting@bigtech.com",
+      "body": "Thank you for your interest in the Product Manager role. Unfortunately, we've decided to move forward with other candidates. We'll keep your resume on file.",
+      "expectedIntent": "career.rejection.notice",
+      "expectedPrimaryAction": "check_application_status",
+      "expectedEntities": ["company", "position"],
+      "confidence": 0.88
+    },
+    "civic_voting_registration": {
+      "id": "civic_voting_registration",
+      "subject": "Register to Vote - Deadline Approaching",
+      "from": "elections@county.gov",
+      "body": "The voter registration deadline is October 15, 2025. Register online: https://vote.gov/register",
+      "expectedIntent": "civic.voting.registration",
+      "expectedPrimaryAction": "register_to_vote",
+      "expectedEntities": ["deadline", "registrationUrl"],
+      "confidence": 0.92
+    },
+    "civic_jury_duty": {
+      "id": "civic_jury_duty",
+      "subject": "Jury Duty Summons",
+      "from": "jury@county.gov",
+      "body": "You are summoned for jury duty on April 10, 2025 at 8:00 AM. Location: County Courthouse, Room 201. Juror #123456.",
+      "expectedIntent": "civic.appointment.summons",
+      "expectedPrimaryAction": "confirm_court_appearance",
+      "expectedEntities": ["dateTime", "location", "jurorNumber"],
+      "confidence": 0.95
+    },
+    "subscription_trial_ending": {
+      "id": "subscription_trial_ending",
+      "subject": "Your free trial ends in 3 days",
+      "from": "billing@spotify.com",
+      "body": "Your Spotify Premium trial ends on March 15. Continue with Premium for $9.99/month: https://spotify.com/upgrade",
+      "expectedIntent": "subscription.trial.ending",
+      "expectedPrimaryAction": "upgrade_subscription",
+      "expectedEntities": ["serviceName", "expirationDate", "upgradeUrl"],
+      "confidence": 0.87
+    },
+    "subscription_cancellation": {
+      "id": "subscription_cancellation",
+      "subject": "Subscription cancelled",
+      "from": "accounts@netflix.com",
+      "body": "Your Netflix subscription has been cancelled. You'll have access until March 31. Reactivate anytime: https://netflix.com/reactivate",
+      "expectedIntent": "subscription.cancellation.confirmation",
+      "expectedPrimaryAction": "cancel_subscription_service",
+      "expectedEntities": ["serviceName", "cancellationDate"],
+      "confidence": 0.90
+    },
+    "feedback_review_request": {
+      "id": "feedback_review_request",
+      "subject": "How was your recent purchase?",
+      "from": "reviews@amazon.com",
+      "body": "You recently purchased Wireless Headphones. Rate your purchase: https://amazon.com/review/prod123",
+      "expectedIntent": "feedback.review.request",
+      "expectedPrimaryAction": "write_review",
+      "expectedEntities": ["productName", "reviewLink"],
+      "confidence": 0.84
+    },
+    "newsletter_tech": {
+      "id": "newsletter_tech",
+      "subject": "This Week in Tech",
+      "from": "newsletter@techcrunch.com",
+      "body": "Top stories: 1) AI breakthrough in healthcare 2) New iPhone announced 3) Startup funding trends. Read more: https://techcrunch.com/newsletter",
+      "expectedIntent": "content.newsletter.tech",
+      "expectedPrimaryAction": "view_newsletter_summary",
+      "expectedEntities": ["newsUrl"],
+      "confidence": 0.80
+    },
+    "newsletter_sports": {
+      "id": "newsletter_sports",
+      "subject": "The Athletic: NBA Playoff Update",
+      "from": "newsletter@theathletic.com",
+      "body": "Lakers beat Warriors 118-112. Playoff picture shifts. Full recap and highlights inside.",
+      "expectedIntent": "content.newsletter.sports",
+      "expectedPrimaryAction": "view_newsletter_summary",
+      "expectedEntities": ["sport", "team", "newsUrl"],
+      "confidence": 0.79
+    },
+    "social_notification": {
+      "id": "social_notification",
+      "subject": "John Doe mentioned you in a comment",
+      "from": "notifications@linkedin.com",
+      "body": "John Doe mentioned you in a comment on his post. View comment: https://linkedin.com/notifications/abc123",
+      "expectedIntent": "social.notification.message",
+      "expectedPrimaryAction": "view_social_message",
+      "expectedEntities": ["platform", "sender", "messageUrl"],
+      "confidence": 0.85
+    },
+    "social_verification": {
+      "id": "social_verification",
+      "subject": "Verify your email address",
+      "from": "noreply@roblox.com",
+      "body": "Welcome to Roblox! Verify your email to activate your account: https://roblox.com/verify/xyz789",
+      "expectedIntent": "social.verification.required",
+      "expectedPrimaryAction": "verify_social_account",
+      "expectedEntities": ["platform", "verificationLink"],
+      "confidence": 0.88
+    },
+    "communication_professional_inquiry": {
+      "id": "communication_professional_inquiry",
+      "subject": "Quick question about your project",
+      "from": "sarah@agency.com",
+      "body": "Hi! I'm reaching out about a potential collaboration on your latest project. Would you be interested in discussing? Let me know your availability.",
+      "expectedIntent": "communication.professional.inquiry",
+      "expectedPrimaryAction": "reply_to_thread",
+      "expectedEntities": ["topic"],
+      "confidence": 0.75
+    },
+    "communication_self_note": {
+      "id": "communication_self_note",
+      "subject": "Reminder: Call dentist",
+      "from": "matthanson@gmail.com",
+      "to": "matthanson@gmail.com",
+      "body": "Don't forget to call dentist to schedule cleaning. Phone: (555) 123-4567. Before end of month.",
+      "expectedIntent": "communication.personal.self-note",
+      "expectedPrimaryAction": "add_to_notes",
+      "expectedEntities": [],
+      "confidence": 0.98
+    },
+    "dining_reservation": {
+      "id": "dining_reservation",
+      "subject": "Your OpenTable reservation is confirmed",
+      "from": "reservations@opentable.com",
+      "body": "Reservation confirmed at Bella Vista for party of 4 on Saturday, March 15 at 7:00 PM. Address: 123 Main St.",
+      "expectedIntent": "dining.reservation.confirmation",
+      "expectedPrimaryAction": "view_reservation",
+      "expectedEntities": ["restaurant", "dateTime", "partySize", "location"],
+      "confidence": 0.91
+    },
+    "utility_outage_alert": {
+      "id": "utility_outage_alert",
+      "subject": "Planned power outage notification",
+      "from": "alerts@pge.com",
+      "body": "Planned power shutoff in your area on March 20 from 9 AM - 3 PM due to maintenance. Prepare accordingly. Details: https://pge.com/outage/plan123",
+      "expectedIntent": "utility.service.alert",
+      "expectedPrimaryAction": "view_outage_details",
+      "expectedEntities": ["outageStart", "outageEnd", "provider", "outageUrl"],
+      "confidence": 0.93
+    },
+    "real_estate_listing": {
+      "id": "real_estate_listing",
+      "subject": "3 new homes match your search",
+      "from": "alerts@zillow.com",
+      "body": "New listings in San Francisco: 3 bed/2 bath homes from $850K-$1.2M. View homes: https://zillow.com/saved-search/abc123",
+      "expectedIntent": "real-estate.recommendation.listing",
+      "expectedPrimaryAction": "view_property_listings",
+      "expectedEntities": ["propertyCount", "location", "priceRange", "listingsUrl"],
+      "confidence": 0.86
+    },
+    "finance_mortgage": {
+      "id": "finance_mortgage",
+      "subject": "Your mortgage application update",
+      "from": "lending@quickenloans.com",
+      "body": "Good news! Your mortgage application has been approved. Loan amount: $400K at 6.5% APR. Next steps: https://quicken.com/loans/next-steps",
+      "expectedIntent": "finance.mortgage.communication",
+      "expectedPrimaryAction": "view_mortgage_details",
+      "expectedEntities": ["lender", "amount", "rate"],
+      "confidence": 0.89
+    },
+    "compound_sign_form_calendar": {
+      "id": "compound_sign_form_calendar",
+      "subject": "Field trip permission - Science Museum",
+      "from": "teacher@school.edu",
+      "body": "Please sign permission form for Science Museum field trip on April 15, 2025. No fee required. Exciting hands-on exhibits!",
+      "expectedIntent": "education.permission.form",
+      "expectedPrimaryAction": "sign_form",
+      "expectedCompoundAction": "sign_form_with_calendar",
+      "expectedSteps": ["sign_form", "add_to_calendar", "email_composer"],
+      "confidence": 0.90
+    },
+    "compound_track_with_calendar": {
+      "id": "compound_track_with_calendar",
+      "subject": "Your Wayfair order ships tomorrow",
+      "from": "shipping@wayfair.com",
+      "body": "Your furniture order ships tomorrow! Estimated delivery: March 20 between 10 AM - 2 PM. Tracking: WF-123456789.",
+      "expectedIntent": "e-commerce.shipping.notification",
+      "expectedPrimaryAction": "track_package",
+      "expectedCompoundAction": "track_with_calendar",
+      "expectedSteps": ["track_package", "add_to_calendar"],
+      "confidence": 0.87
+    },
+    "compound_pay_invoice_confirmation": {
+      "id": "compound_pay_invoice_confirmation",
+      "subject": "Invoice #2025-456 from Acme Services",
+      "from": "billing@acme.com",
+      "body": "Invoice #2025-456 for $1,200.00 is due March 31. Services rendered: Website maintenance. Pay: https://acme.com/pay/2025-456",
+      "expectedIntent": "billing.invoice.due",
+      "expectedPrimaryAction": "pay_invoice",
+      "expectedCompoundAction": "pay_invoice_with_confirmation",
+      "expectedSteps": ["pay_invoice", "email_composer"],
+      "confidence": 0.91
+    },
+    "edge_case_html_only": {
+      "id": "edge_case_html_only",
+      "subject": "Weekly Newsletter",
+      "from": "news@example.com",
+      "htmlBody": "<html><body><h1>Newsletter</h1><p>Top stories this week...</p></body></html>",
+      "body": "",
+      "expectedIntent": "generic.newsletter.content",
+      "expectedPrimaryAction": "view_newsletter_summary",
+      "confidence": 0.70
+    },
+    "edge_case_no_subject": {
+      "id": "edge_case_no_subject",
+      "subject": "",
+      "from": "sender@example.com",
+      "body": "This email has no subject line but contains important information.",
+      "expectedIntent": "generic.transactional.notification",
+      "expectedPrimaryAction": "quick_reply",
+      "confidence": 0.65
+    },
+    "edge_case_minimal_content": {
+      "id": "edge_case_minimal_content",
+      "subject": "ok",
+      "from": "colleague@company.com",
+      "body": "ok",
+      "expectedIntent": "communication.personal.message",
+      "expectedPrimaryAction": "quick_reply",
+      "confidence": 0.60
+    },
+    "edge_case_very_long_email": {
+      "id": "edge_case_very_long_email",
+      "subject": "Comprehensive Q4 Business Review and Strategic Planning Session",
+      "from": "exec@company.com",
+      "body": "Dear team, I wanted to share a comprehensive review of our Q4 performance... [imagine 5000 words of detailed business analysis, charts, projections, action items, etc.]",
+      "expectedIntent": "communication.professional.inquiry",
+      "expectedPrimaryAction": "view_details",
+      "confidence": 0.68
+    },
+    "edge_case_multiple_intents": {
+      "id": "edge_case_multiple_intents",
+      "subject": "Order shipped + Account security alert",
+      "from": "notifications@store.com",
+      "body": "Your order #123 has shipped (tracking: 1Z999). Also, we detected a login from a new device in New York. Verify: https://store.com/security",
+      "expectedIntent": "e-commerce.shipping.notification",
+      "secondaryIntent": "account.security.alert",
+      "expectedPrimaryAction": "track_package",
+      "confidence": 0.72
+    }
+  }
+}

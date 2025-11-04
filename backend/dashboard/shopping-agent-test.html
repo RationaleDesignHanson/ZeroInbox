@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Agent API Test Harness</title>
+  <script src="js/config.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 16px;
+    }
+
+    .status-bar {
+      background: white;
+      border-radius: 8px;
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .section {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1f2937;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-icon {
+      font-size: 24px;
+    }
+
+    .test-group {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .test-group:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .test-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #6b7280;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 5px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      font-family: 'Monaco', 'Courier New', monospace;
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .response-area {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 20px;
+    }
+
+    .response-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1f2937;
+    }
+
+    .response-content {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 15px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 600px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .response-empty {
+      color: #9ca3af;
+      font-style: italic;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .response-success {
+      color: #10b981;
+    }
+
+    .response-error {
+      color: #ef4444;
+    }
+
+    .example-btn {
+      background: #e5e7eb;
+      color: #374151;
+      padding: 6px 12px;
+      font-size: 12px;
+      margin-top: 5px;
+      width: auto;
+      display: inline-block;
+    }
+
+    .example-btn:hover {
+      background: #d1d5db;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .quick-btn {
+      flex: 1;
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+
+    .endpoint-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      background: #eff6ff;
+      color: #1e40af;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 10px;
+      font-family: 'Monaco', 'Courier New', monospace;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #ffffff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-left: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🛒 Shopping Agent API Test Harness</h1>
+      <p>Interactive testing tool for cart, products, and checkout endpoints</p>
+    </div>
+
+    <div class="status-bar">
+      <div class="status-indicator">
+        <div class="status-dot"></div>
+        <span><strong>Service:</strong> <span id="service-url"></span> <span id="env-badge"></span></span>
+      </div>
+      <div>
+        <button class="quick-btn" onclick="checkHealth()">Check Health</button>
+      </div>
+    </div>
+
+    <div class="sections">
+      <!-- Left Column: Test Forms -->
+      <div>
+        <!-- Cart Tests -->
+        <div class="section">
+          <h2 class="section-title">
+            <span class="section-icon">🛒</span>
+            Cart Operations
+          </h2>
+
+          <!-- Add to Cart -->
+          <div class="test-group">
+            <div class="test-title">Add Item to Cart <span class="endpoint-badge">POST /cart/add</span></div>
+            <div class="input-group">
+              <label>User ID</label>
+              <input type="text" id="cart-add-userId" value="test-user-123" />
+            </div>
+            <div class="input-group">
+              <label>Product Name</label>
+              <input type="text" id="cart-add-productName" value="iPhone 15 Pro" />
+            </div>
+            <div class="input-group">
+              <label>Price ($)</label>
+              <input type="number" step="0.01" id="cart-add-price" value="999.99" />
+            </div>
+            <div class="input-group">
+              <label>Quantity</label>
+              <input type="number" id="cart-add-quantity" value="1" />
+            </div>
+            <button onclick="addToCart()">Add to Cart</button>
+          </div>
+
+          <!-- Get Cart -->
+          <div class="test-group">
+            <div class="test-title">Get Cart <span class="endpoint-badge">GET /cart/:userId</span></div>
+            <div class="input-group">
+              <label>User ID</label>
+              <input type="text" id="cart-get-userId" value="test-user-123" />
+            </div>
+            <button onclick="getCart()">Get Cart</button>
+          </div>
+
+          <!-- Update Item -->
+          <div class="test-group">
+            <div class="test-title">Update Item Quantity <span class="endpoint-badge">PATCH /cart/:userId/:itemId</span></div>
+            <div class="input-group">
+              <label>User ID</label>
+              <input type="text" id="cart-update-userId" value="test-user-123" />
+            </div>
+            <div class="input-group">
+              <label>Item ID</label>
+              <input type="text" id="cart-update-itemId" placeholder="Get from cart first" />
+            </div>
+            <div class="input-group">
+              <label>New Quantity</label>
+              <input type="number" id="cart-update-quantity" value="2" />
+            </div>
+            <button onclick="updateCartItem()">Update Quantity</button>
+          </div>
+
+          <!-- Clear Cart -->
+          <div class="test-group">
+            <div class="test-title">Clear Cart <span class="endpoint-badge">DELETE /cart/:userId</span></div>
+            <div class="input-group">
+              <label>User ID</label>
+              <input type="text" id="cart-clear-userId" value="test-user-123" />
+            </div>
+            <button onclick="clearCart()">Clear Cart</button>
+          </div>
+        </div>
+
+        <!-- Product Tests -->
+        <div class="section">
+          <h2 class="section-title">
+            <span class="section-icon">🔍</span>
+            Product Intelligence
+          </h2>
+
+          <!-- Resolve Product -->
+          <div class="test-group">
+            <div class="test-title">Resolve Product from Email <span class="endpoint-badge">POST /products/resolve</span></div>
+            <div class="input-group">
+              <label>Email Content</label>
+              <textarea id="product-resolve-content">Check out the new iPhone 15 Pro!
+Now on sale for $999.99 (was $1,199.99).
+Available at https://apple.com/iphone-15-pro
+
+Limited time offer - save $200!</textarea>
+            </div>
+            <button onclick="resolveProduct()">Resolve Product</button>
+            <button class="example-btn" onclick="fillExampleEmail()">Load Example Email</button>
+          </div>
+
+          <!-- Analyze Deal -->
+          <div class="test-group">
+            <div class="test-title">Analyze Deal Quality <span class="endpoint-badge">POST /products/analyze</span></div>
+            <div class="input-group">
+              <label>Product JSON</label>
+              <textarea id="product-analyze-json">{
+  "productName": "iPhone 15 Pro",
+  "price": 999.99,
+  "originalPrice": 1199.99,
+  "merchant": "Apple",
+  "expiresAt": "2025-12-31T23:59:59Z"
+}</textarea>
+            </div>
+            <button onclick="analyzeProduct()">Analyze Deal</button>
+          </div>
+        </div>
+
+        <!-- Checkout Tests -->
+        <div class="section">
+          <h2 class="section-title">
+            <span class="section-icon">💳</span>
+            Checkout
+          </h2>
+
+          <!-- Generate Deep Link -->
+          <div class="test-group">
+            <div class="test-title">Generate Merchant Deep Link <span class="endpoint-badge">POST /checkout/generate-link</span></div>
+            <div class="input-group">
+              <label>Merchant</label>
+              <select id="checkout-link-merchant">
+                <option>Amazon</option>
+                <option>Target</option>
+                <option>Walmart</option>
+                <option>Best Buy</option>
+                <option>Unsupported Store</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>Product URL</label>
+              <input type="text" id="checkout-link-url" value="https://amazon.com/dp/B08N5WRWNW" />
+            </div>
+            <button onclick="generateDeepLink()">Generate Link</button>
+          </div>
+
+          <!-- Stripe Checkout -->
+          <div class="test-group">
+            <div class="test-title">Create Stripe Checkout <span class="endpoint-badge">POST /checkout/stripe</span></div>
+            <div class="input-group">
+              <label>User ID</label>
+              <input type="text" id="checkout-stripe-userId" value="test-user-123" />
+            </div>
+            <div class="input-group">
+              <label>Cart Items JSON</label>
+              <textarea id="checkout-stripe-items">[
+  {
+    "productName": "iPhone 15 Pro",
+    "price": 999.99,
+    "quantity": 1,
+    "merchant": "Apple"
+  }
+]</textarea>
+            </div>
+            <button onclick="createStripeCheckout()">Create Checkout Session</button>
+          </div>
+
+          <!-- Get Stripe Session -->
+          <div class="test-group">
+            <div class="test-title">Get Stripe Session <span class="endpoint-badge">GET /checkout/stripe/session/:id</span></div>
+            <div class="input-group">
+              <label>Session ID</label>
+              <input type="text" id="checkout-stripe-sessionId" placeholder="cs_test_..." />
+            </div>
+            <button onclick="getStripeSession()">Get Session Status</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Response Area -->
+      <div class="response-area">
+        <h3 class="response-title">Response</h3>
+        <div class="response-content" id="response">
+          <div class="response-empty">👈 Make a request to see the response here</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Use DashboardConfig for backend URLs
+    const API_BASE = DashboardConfig.services.shoppingCart + '/api';
+    let currentRequest = null;
+
+    // Update UI with service URL and environment
+    document.getElementById('service-url').textContent = DashboardConfig.services.shoppingCart;
+    document.getElementById('env-badge').innerHTML = DashboardConfig.getEnvironmentBadge();
+
+    // Utility: Display response
+    function displayResponse(data, status = 'success') {
+      const responseEl = document.getElementById('response');
+      const className = status === 'success' ? 'response-success' : 'response-error';
+      responseEl.innerHTML = `<div class="${className}">${JSON.stringify(data, null, 2)}</div>`;
+    }
+
+    // Utility: Make API request
+    async function apiRequest(endpoint, options = {}) {
+      const btn = event.target;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = originalText + '<span class="loading"></span>';
+      btn.disabled = true;
+
+      try {
+        const response = await fetch(`${API_BASE}${endpoint}`, {
+          headers: { 'Content-Type': 'application/json' },
+          ...options
+        });
+        const data = await response.json();
+        displayResponse(data, response.ok ? 'success' : 'error');
+        return data;
+      } catch (error) {
+        displayResponse({ error: error.message }, 'error');
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    // Health check
+    async function checkHealth() {
+      await apiRequest('/health', { method: 'GET' });
+    }
+
+    // Cart: Add item
+    async function addToCart() {
+      const body = {
+        userId: document.getElementById('cart-add-userId').value,
+        productName: document.getElementById('cart-add-productName').value,
+        price: parseFloat(document.getElementById('cart-add-price').value),
+        quantity: parseInt(document.getElementById('cart-add-quantity').value)
+      };
+      await apiRequest('/cart/add', { method: 'POST', body: JSON.stringify(body) });
+    }
+
+    // Cart: Get cart
+    async function getCart() {
+      const userId = document.getElementById('cart-get-userId').value;
+      await apiRequest(`/cart/${userId}`, { method: 'GET' });
+    }
+
+    // Cart: Update item
+    async function updateCartItem() {
+      const userId = document.getElementById('cart-update-userId').value;
+      const itemId = document.getElementById('cart-update-itemId').value;
+      const quantity = parseInt(document.getElementById('cart-update-quantity').value);
+      await apiRequest(`/cart/${userId}/${itemId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ quantity })
+      });
+    }
+
+    // Cart: Clear cart
+    async function clearCart() {
+      const userId = document.getElementById('cart-clear-userId').value;
+      await apiRequest(`/cart/${userId}`, { method: 'DELETE' });
+    }
+
+    // Products: Resolve
+    async function resolveProduct() {
+      const emailContent = document.getElementById('product-resolve-content').value;
+      await apiRequest('/products/resolve', {
+        method: 'POST',
+        body: JSON.stringify({ emailContent })
+      });
+    }
+
+    // Products: Analyze
+    async function analyzeProduct() {
+      const productJson = document.getElementById('product-analyze-json').value;
+      const product = JSON.parse(productJson);
+      await apiRequest('/products/analyze', {
+        method: 'POST',
+        body: JSON.stringify({ product })
+      });
+    }
+
+    // Checkout: Generate deep link
+    async function generateDeepLink() {
+      const merchant = document.getElementById('checkout-link-merchant').value;
+      const productUrl = document.getElementById('checkout-link-url').value;
+      await apiRequest('/checkout/generate-link', {
+        method: 'POST',
+        body: JSON.stringify({
+          merchant,
+          cartItems: [{ productUrl, quantity: 1 }]
+        })
+      });
+    }
+
+    // Checkout: Create Stripe session
+    async function createStripeCheckout() {
+      const userId = document.getElementById('checkout-stripe-userId').value;
+      const cartItems = JSON.parse(document.getElementById('checkout-stripe-items').value);
+      await apiRequest('/checkout/stripe', {
+        method: 'POST',
+        body: JSON.stringify({
+          userId,
+          cartItems,
+          successUrl: 'http://localhost:3000/success',
+          cancelUrl: 'http://localhost:3000/cancel'
+        })
+      });
+    }
+
+    // Checkout: Get Stripe session
+    async function getStripeSession() {
+      const sessionId = document.getElementById('checkout-stripe-sessionId').value;
+      await apiRequest(`/checkout/stripe/session/${sessionId}`, { method: 'GET' });
+    }
+
+    // Example: Fill example email
+    function fillExampleEmail() {
+      document.getElementById('product-resolve-content').value = `🎨 JAMES JEAN - SUN TAROT NEBULA RELEASE
+
+Avant Arte presents:
+James Jean's latest limited edition sculpture and print duo
+
+🗓️ Release Date: October 31st, 2025
+💰 Price: $295 (Edition of 500)
+⏰ Sale starts: 5 PM GMT / 12 PM EST
+
+This stunning piece features:
+- Hand-finished resin sculpture
+- Signed & numbered archival print
+- Certificate of authenticity
+
+🔗 https://avantarte.com/releases/james-jean-2025
+
+Don't miss this exclusive release!
+One week only - October 31 to November 7.`;
+    }
+  </script>
+</body>
+</html>

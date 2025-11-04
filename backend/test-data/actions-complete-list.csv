@@ -1,0 +1,139 @@
+actionId,displayName,actionType,description,requiredEntities,validIntents,priority,urlTemplate,isGeneric,category
+reset_password,Reset Password,GO_TO,Reset account password,resetLink,account.password.reset,1,{resetLink},no,account
+verify_account,Verify Account,GO_TO,Verify email or account,verificationLink,account.verification.required,1,{verificationLink},no,account
+verify_device,Verify Device,GO_TO,Verify new device login,,account.security.alert,1,{verificationUrl},no,account
+review_security,Review Security,GO_TO,Review security settings,,account.security.alert;account.secret.exposed,1,{securityUrl},no,account
+revoke_secret,Revoke Secret,GO_TO,Revoke exposed API key or secret,actionUrl,account.secret.exposed,1,{actionUrl},no,account
+pay_invoice,Pay Invoice,IN_APP,Pay outstanding invoice with IN_APP modal,invoiceId;amount,billing.invoice.due,1,,no,billing
+cancel_subscription,Cancel Subscription,IN_APP,Cancel unwanted subscription with AI assistance,,billing.subscription.renewal,1,,no,billing
+download_receipt,Download Receipt,GO_TO,Download payment receipt,receiptUrl,billing.payment.received;e-commerce.order.receipt,2,{receiptUrl},no,billing
+view_invoice,View Invoice,GO_TO,View invoice details,invoiceId,billing.invoice.due;billing.payment.received,2,{invoiceUrl},no,billing
+manage_subscription,Manage Subscription,GO_TO,Manage subscription settings,,billing.subscription.renewal,2,{subscriptionUrl},no,billing
+update_payment,Update Payment,GO_TO,Update payment method,,billing.subscription.renewal,2,{paymentUrl},no,billing
+set_payment_reminder,Set Reminder,IN_APP,Set reminder to pay invoice,dueDate,billing.invoice.due,3,,no,billing
+schedule_interview,Schedule Interview,GO_TO,Schedule interview time,company;position,career.interview.invitation,1,{interviewUrl},no,career
+accept_offer,Accept Offer,GO_TO,Accept job offer,company;position,career.job.offer,1,{offerUrl},no,career
+check_application_status,Check Status,GO_TO,Check application status,company;position,career.application.status;career.rejection.notice,1,{applicationUrl},no,career
+view_onboarding_info,View Onboarding Info,IN_APP,View new hire onboarding information,,career.onboarding,1,,no,career
+view_job_details,View Job Details,GO_TO,View detailed job description,,career.recruiter.outreach;career.job.offer;career.interview.invitation,2,{jobUrl},no,career
+register_to_vote,Register to Vote,GO_TO,Complete voter registration,deadline,civic.voting.registration,1,{registrationUrl},no,civic
+renew_license,Renew License,GO_TO,Renew driver license or ID,expirationDate,civic.license.renewal,1,{renewalUrl},no,civic
+pay_property_tax,Pay Property Tax,GO_TO,Pay property tax bill,amountDue,civic.tax.assessment,1,{paymentUrl},no,civic
+apply_for_permit,Apply for Permit,GO_TO,Apply for government permit,permitType,civic.permit.application,1,{applicationUrl},no,civic
+view_ballot,View Ballot,GO_TO,View sample ballot and voting guide,electionDate,civic.ballot.information,1,{guideUrl},no,civic
+confirm_court_appearance,Confirm Appearance,GO_TO,Confirm court appearance or jury duty,dateTime,civic.court.notice;civic.appointment.summons,1,{confirmationUrl},no,civic
+reply_to_thread,Reply,IN_APP,Reply to email thread,,communication.thread.reply;communication.professional.inquiry,1,,no,communication
+view_introduction,View Introduction,IN_APP,View introduction details,introducedPerson,communication.introduction,1,,no,communication
+add_to_notes,Add to Notes,IN_APP,Save email content to iOS Notes app,,communication.personal.self-note,1,,no,communication
+schedule_meeting,Schedule Meeting,GO_TO,Schedule a meeting with sender,,communication.introduction;communication.professional.inquiry,2,{calendarUrl},no,communication
+read_community_post,Read Post,GO_TO,Read community post,,community.post.notification,1,{postUrl},no,community
+view_post_comments,View Comments,GO_TO,Read post comments and discussion,,community.post.notification,2,{postUrl},no,community
+reply_to_post,Reply,GO_TO,Reply to community post,,community.post.notification,3,{postUrl},no,community
+track_delivery,Track Delivery,GO_TO,Track food delivery in real-time,trackingUrl,delivery.food.tracking,1,{trackingUrl},no,delivery
+contact_driver,Contact Driver,IN_APP,Contact delivery driver,driver,delivery.food.tracking,2,,no,delivery
+change_delivery_preferences,Change Preferences,GO_TO,Update delivery time or location preferences,,delivery.tracking.alert,2,{preferencesUrl},no,delivery
+provide_access_code,Provide Access Code,IN_APP,Provide building or gate access code for delivery,trackingNumber,delivery.tracking.alert,3,,no,delivery
+view_reservation,View Reservation,GO_TO,View restaurant reservation details,confirmationCode,dining.reservation.confirmation,1,{reservationUrl},no,dining
+modify_reservation,Modify Reservation,GO_TO,Modify restaurant reservation,confirmationCode,dining.reservation.confirmation,2,{reservationUrl},no,dining
+track_package,Track Package,GO_TO,Track package delivery status,trackingNumber;carrier,e-commerce.shipping.notification;e-commerce.delivery.completed;delivery.tracking.alert,1,{carrierTrackingUrl},no,e-commerce
+return_item,Return Item,GO_TO,Initiate return process,orderNumber,e-commerce.delivery.completed,1,{returnUrl},no,e-commerce
+track_return,Track Return,GO_TO,Track return shipment status,orderNumber,e-commerce.return.label;e-commerce.refund.processing,1,{returnUrl},no,e-commerce
+print_return_label,Print Label,GO_TO,Print return shipping label,orderNumber,e-commerce.return.label,1,{labelUrl},no,e-commerce
+view_refund_status,View Refund,GO_TO,View refund processing status,refundAmount,e-commerce.refund.processing;finance.refund.processed,1,{refundUrl},no,e-commerce
+reorder_item,Reorder,GO_TO,Reorder out-of-stock item,productName,e-commerce.restock.alert;e-commerce.backorder.notification,1,{productUrl},no,e-commerce
+view_warranty,View Warranty,GO_TO,View warranty details,productName,e-commerce.warranty.expiring,1,{extensionUrl},no,e-commerce
+schedule_delivery_time,Schedule Delivery,GO_TO,Choose delivery time window,,e-commerce.delivery.schedule,1,{schedulingUrl},no,e-commerce
+view_order,View Order,GO_TO,View order details,orderNumber,e-commerce.order.confirmation;e-commerce.shipping.notification;e-commerce.order.receipt,2,{orderUrl},no,e-commerce
+buy_again,Buy Again,GO_TO,Reorder the same items,orderNumber,e-commerce.delivery.completed;e-commerce.order.receipt,2,{reorderUrl},no,e-commerce
+set_price_alert,Set Price Alert,IN_APP,Get notified of price changes,productName,e-commerce.price.drop,2,,no,e-commerce
+notify_restock,Notify When Back,IN_APP,Get notified when item restocks,productName,e-commerce.backorder.notification,2,,no,e-commerce
+contact_support,Contact Support,GO_TO,Contact customer support,,e-commerce.shipping.notification;e-commerce.delivery.completed,4,{supportUrl},no,e-commerce
+view_assignment,View Assignment,GO_TO,View assignment details,assignmentUrl,education.assignment.due;education.grade.posted,1,{assignmentUrl},no,education
+check_grade,Check Grade,GO_TO,View grade details,gradeUrl,education.grade.posted,1,{gradeUrl},no,education
+sign_form,Sign Form,IN_APP,Sign permission form digitally,formName,education.permission.form,1,,no,education
+view_lms_message,View Message,GO_TO,View Canvas/Classroom message from teacher,messageUrl,education.lms.message,1,{messageUrl},no,education
+submit_assignment,Submit Assignment,GO_TO,Go to assignment submission page,assignmentUrl,education.lms.assignment.posted;education.assignment.due,1,{assignmentUrl},no,education
+accept_school_event,Accept Event,IN_APP,Accept school event invitation and add to calendar,event;dateTime,education.event.invitation,1,,no,education
+view_activity_details,View Activity,GO_TO,View educational activity details,,education.activity.announcement,1,{activityUrl},no,education
+pay_form_fee,Pay Fee,IN_APP,Pay associated form fee,amount,education.permission.form,2,,no,education
+reply_to_teacher,Reply to Teacher,GO_TO,Reply to teacher message,teacher,education.lms.message;education.parent.teacher.communication,2,{messageUrl},no,education
+rsvp_school_event,RSVP,GO_TO,RSVP for school event,,education.event.invitation,2,{rsvpUrl},no,education
+book_activity_tickets,Book Tickets,GO_TO,Book tickets for activity,,education.activity.announcement,2,{registrationUrl},no,education
+add_activity_to_calendar,Add to Calendar,IN_APP,Add activity to calendar,date,education.activity.announcement,3,,no,education
+join_meeting,Join Meeting,GO_TO,Join video meeting,meetingUrl,event.meeting.invitation;event.meeting.reminder,1,{meetingUrl},no,event
+rsvp_yes,RSVP Yes,IN_APP,Accept invitation,,event.meeting.invitation;event.webinar.invitation,1,,no,event
+register_event,Register,GO_TO,Register for event,registrationLink,event.webinar.invitation,1,{registrationLink},no,event
+add_to_calendar,Add to Calendar,IN_APP,Add event to calendar,dateTime,event.meeting.invitation;event.webinar.invitation;education.permission.form;healthcare.appointment.reminder;healthcare.appointment.booking_request;dining.reservation.confirmation;civic.appointment.summons,2,,no,event
+rsvp_no,RSVP No,IN_APP,Decline invitation,,event.meeting.invitation;event.webinar.invitation,3,,no,event
+write_review,Write Review,IN_APP,Write product review with IN_APP modal,productName,feedback.review.request,1,,no,feedback
+take_survey,Take Survey,GO_TO,Complete survey,surveyLink,feedback.survey.invitation,1,{surveyLink},no,feedback
+rate_product,Rate Product,IN_APP,Quick star rating,productName,feedback.review.request,2,,no,feedback
+view_statement,View Statement,GO_TO,View financial statement,accountId,finance.statement.ready,1,{statementUrl},no,finance
+update_payment_method,Update Payment,GO_TO,Update payment method,,finance.payment.failed;finance.payment.reminder;billing.subscription.renewal;account.payment.expiration,1,{paymentUrl},no,finance
+download_tax_document,Download Tax Form,GO_TO,Download tax document,taxYear,finance.tax.document,1,{downloadUrl},no,finance
+dispute_transaction,Dispute Transaction,GO_TO,Report fraudulent transaction,,finance.fraud.alert,1,{verificationUrl},no,finance
+view_credit_report,View Credit Report,GO_TO,View credit score and report,,finance.credit.alert,1,{reportUrl},no,finance
+view_portfolio,View Portfolio,GO_TO,View investment portfolio,accountId,finance.investment.performance,1,{portfolioUrl},no,finance
+verify_transaction,Verify Transaction,GO_TO,Verify suspicious transaction,,finance.fraud.alert,1,{verificationUrl},no,finance
+view_mortgage_details,View Mortgage Details,IN_APP,View mortgage or refinancing details,,finance.mortgage,1,,no,finance
+pay_utility_bill,Pay Bill,GO_TO,Pay utility bill online,,finance.utility.bill,1,{billUrl},no,finance
+schedule_payment,Schedule Payment,IN_APP,Schedule automatic payment,amountDue;dueDate,finance.payment.reminder;billing.invoice.due,2,,no,finance
+view_newsletter_summary,View Summary,IN_APP,View AI-generated newsletter summary with key links,,generic.newsletter;content.newsletter.sports;content.newsletter.gaming;content.newsletter.entertainment;content.newsletter.career;content.newsletter.tech;content.newsletter.finance;content.newsletter.lifestyle,1,,no,generic
+open_link,Open Link,GO_TO,Open URL in browser,url,,4,,yes,generic
+quick_reply,Quick Reply,IN_APP,Send quick reply,,,5,,yes,generic
+save_for_later,Save for Later,IN_APP,Archive for later review,,,6,,yes,generic
+view_details,View Details,IN_APP,View full email details,,,7,,yes,generic
+check_in_appointment,Check In,GO_TO,Check in for appointment online,checkInUrl,healthcare.appointment.reminder,1,{checkInUrl},no,healthcare
+view_pickup_details,View Pickup Details,IN_APP,View prescription pickup information,rxNumber,healthcare.prescription.ready,1,,no,healthcare
+view_results,View Results,GO_TO,View lab or test results,resultsUrl,healthcare.results.available,1,{resultsUrl},no,healthcare
+file_insurance_claim,File Insurance Claim,IN_APP,File insurance claim for medical bill reimbursement,,healthcare.billing.superbill,1,,no,healthcare
+book_appointment,Book Appointment,GO_TO,Schedule or book a new appointment,,healthcare.appointment.booking_request,1,{schedulingUrl},no,healthcare
+confirm_appointment,Confirm Appointment,GO_TO,Confirm medical appointment,,healthcare.appointment.confirmation;healthcare.appointment.reminder,1,{confirmationUrl},no,healthcare
+reschedule_appointment,Reschedule,GO_TO,Reschedule appointment,,healthcare.appointment.cancellation;healthcare.appointment.confirmation,1,{rescheduleUrl},no,healthcare
+download_results,Download Results,GO_TO,Download medical test results,resultsUrl,healthcare.results.available,1,{resultsUrl},no,healthcare
+pickup_prescription,Pickup Details,IN_APP,View prescription pickup information,medication,healthcare.prescription.ready,1,,no,healthcare
+view_referral,View Referral,GO_TO,View specialist referral details,,healthcare.referral.request,1,{referralUrl},no,healthcare
+schedule_test,Schedule Test,GO_TO,Schedule medical test or lab work,,healthcare.test.order;healthcare.follow-up.reminder,1,{schedulingUrl},no,healthcare
+view_claim_status,View Claim,GO_TO,View insurance claim status,claimNumber,healthcare.insurance.claim,1,{claimUrl},no,healthcare
+get_directions,Get Directions,GO_TO,Get directions to location,location,healthcare.appointment.reminder;healthcare.prescription.ready;dining.reservation.confirmation,2,https://maps.google.com/?q={location},no,healthcare
+view_legal_document,View Document,IN_APP,View legal document details,,legal.document,1,,no,legal
+claim_deal,Claim Deal,GO_TO,Claim promotional offer,,marketing.promotion.flash-sale;marketing.promotion.discount;marketing.product.launch,1,{dealUrl},no,marketing
+view_product,View Product,GO_TO,View product details,productUrl,marketing.product.launch,1,{productUrl},no,marketing
+complete_cart,Complete Order,GO_TO,Complete cart checkout,cartUrl,marketing.cart.abandonment,1,{cartUrl},no,marketing
+redeem_rewards,Redeem Rewards,GO_TO,Redeem loyalty points or rewards,,marketing.loyalty.reward,1,{rewardUrl},no,marketing
+view_announcement,View Announcement,GO_TO,View brand announcement details,,marketing.brand.announcement,1,{announcementUrl},no,marketing
+copy_promo_code,Copy Code,IN_APP,Copy promo code,promoCode,marketing.promotion.flash-sale;marketing.promotion.discount;marketing.cart.abandonment,2,,no,marketing
+unsubscribe,Unsubscribe,GO_TO,Unsubscribe from marketing emails and newsletters,,marketing.promotion.flash-sale;marketing.promotion.discount;marketing.product.launch;marketing.cart.abandonment;marketing.home-decor.products;marketing.content.lifestyle;marketing.brand.storytelling;e-commerce.order.receipt;e-commerce.delivery.completed;generic.newsletter;content.newsletter.sports;content.newsletter.gaming;content.newsletter.entertainment;content.newsletter.career;content.newsletter.tech;content.newsletter.finance;content.newsletter.lifestyle;social.content.recommendation,3,{unsubscribeUrl},no,marketing
+view_task,View Task,GO_TO,View task details,taskUrl,project.task.assigned,1,{taskUrl},no,project
+view_incident,View Incident,GO_TO,View incident details,incidentUrl,project.incident.alert,1,{incidentUrl},no,project
+view_property_listings,View Homes,GO_TO,View recommended property listings,,real-estate.recommendation,1,{listingsUrl},no,real-estate
+schedule_inspection,Schedule Inspection,GO_TO,Schedule real estate inspection,,real-estate.service,1,{schedulingUrl},no,real-estate
+save_properties,Save Favorites,GO_TO,Save properties to favorites,,real-estate.recommendation,2,{listingsUrl},no,real-estate
+schedule_showing,Schedule Tour,GO_TO,Schedule property showing,,real-estate.recommendation,2,{schedulingUrl},no,real-estate
+schedule_purchase,Buy on {saleDateShort},IN_APP,Schedule automated purchase for future sale date,saleDate;productUrl,shopping.future_sale,1,,no,shopping
+set_reminder,Remind me on {saleDateShort},IN_APP,Set reminder for future sale date,saleDate,shopping.future_sale,2,,no,shopping
+view_social_message,View Message,GO_TO,View social platform message,,social.notification,1,{messageUrl},no,social
+view_activity,View Activity,GO_TO,View fitness activity that received kudos,,social.notification.kudos,1,{activityUrl},no,social
+verify_social_account,Verify Account,GO_TO,Verify social platform account,platform,social.verification,1,{verificationLink},no,social
+accept_social_invitation,Accept Invitation,GO_TO,Accept social platform invitation,,social.invitation,1,{invitationLink},no,social
+reply_thanks,Say Thanks,IN_APP,Send quick thank you reply,sender,social.notification.kudos,2,,no,social
+share_achievement,Share Activity,GO_TO,Share fitness achievement on social media,,social.notification.kudos,3,{activityUrl},no,social
+upgrade_subscription,Upgrade Now,GO_TO,Upgrade subscription plan,serviceName,subscription.upgrade.offer;subscription.trial.ending;subscription.usage.limit,1,{upgradeUrl},no,subscription
+view_usage,View Usage,GO_TO,View subscription usage details,serviceName,subscription.usage.limit,1,{usageUrl},no,subscription
+view_benefits,View Benefits,IN_APP,View subscription benefits and rewards,serviceName,subscription.anniversary,1,,no,subscription
+cancel_subscription_service,Cancel Service,GO_TO,Cancel subscription service,serviceName,subscription.cancellation.confirmation;billing.subscription.renewal,2,{cancellationUrl},no,subscription
+extend_trial,Extend Trial,GO_TO,Extend free trial period,serviceName,subscription.trial.ending,2,{extensionUrl},no,subscription
+view_ticket,View Ticket,GO_TO,View support ticket,ticketUrl,support.ticket.confirmation;support.ticket.update,1,{ticketUrl},no,support
+reply_to_ticket,Reply,IN_APP,Reply to support ticket,ticketId,support.ticket.update,2,,no,support
+check_in_flight,Check In,IN_APP,Check in for flight with IN_APP modal,flightNumber;airline,travel.flight.check-in,1,,no,travel
+view_itinerary,View Itinerary,GO_TO,View travel itinerary,confirmationCode,travel.reservation.confirmation;travel.itinerary.update,2,{itineraryUrl},no,travel
+add_to_wallet,Add to Wallet,IN_APP,Add boarding pass to wallet,confirmationCode,travel.flight.check-in,2,,no,travel
+manage_booking,Manage Booking,GO_TO,Manage reservation,confirmationCode,travel.reservation.confirmation;travel.itinerary.update,3,{bookingUrl},no,travel
+view_outage_details,View Outage Info,GO_TO,View power outage details and affected areas,,utility.service.alert,1,{outageUrl},no,utility
+prepare_for_outage,View Preparation Tips,IN_APP,View tips to prepare for power outage,,utility.service.alert,2,,no,utility
+set_outage_reminder,Set Reminder,IN_APP,Remind before planned outage,outageStart,utility.service.alert,3,,no,utility
+register_for_sports,Register,GO_TO,Register for youth sports or activity,registrationUrl,youth.sports.registration,1,{registrationUrl},no,youth
+view_game_schedule,View Schedule,GO_TO,View game schedule,,youth.sports.game.schedule,1,{scheduleUrl},no,youth
+view_practice_details,View Practice Info,IN_APP,View practice details,sport;dateTime,youth.sports.practice.reminder,1,,no,youth
+view_team_announcement,View Announcement,IN_APP,View team announcement details,sport;team,youth.sports.team.announcement,1,,no,youth
+rsvp_game,RSVP,GO_TO,RSVP for game attendance,,youth.sports.game.schedule,2,{rsvpUrl},no,youth

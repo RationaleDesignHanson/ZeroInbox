@@ -1,0 +1,139 @@
+actionId,displayName,actionType,category,phase1_classification,phase1_notes,phase2_mock_mode,phase2_ios_integration,phase2_notes,phase3_corpus_testing,phase3_notes,phase4_performance,phase4_analytics,phase4_notes,overall_status,priority
+accept_offer,Accept Offer,GO_TO,career,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+accept_school_event,Accept Event,IN_APP,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+accept_social_invitation,Accept Invitation,GO_TO,social,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+add_activity_to_calendar,Add to Calendar,IN_APP,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,3
+add_to_calendar,Add to Calendar,IN_APP,event,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+add_to_notes,Add to Notes,IN_APP,communication,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+add_to_wallet,Add to Wallet,IN_APP,travel,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+apply_for_permit,Apply for Permit,GO_TO,civic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+book_activity_tickets,Book Tickets,GO_TO,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+book_appointment,Book Appointment,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+buy_again,Buy Again,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+cancel_subscription,Cancel Subscription,IN_APP,billing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+cancel_subscription_service,Cancel Service,GO_TO,subscription,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+change_delivery_preferences,Change Preferences,GO_TO,delivery,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+check_application_status,Check Status,GO_TO,career,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+check_grade,Check Grade,GO_TO,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+check_in_appointment,Check In,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+check_in_flight,Check In,IN_APP,travel,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+claim_deal,Claim Deal,GO_TO,marketing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+complete_cart,Complete Order,GO_TO,marketing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+confirm_appointment,Confirm Appointment,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+confirm_court_appearance,Confirm Appearance,GO_TO,civic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+contact_driver,Contact Driver,IN_APP,delivery,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+contact_support,Contact Support,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,4
+copy_promo_code,Copy Code,IN_APP,marketing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+dispute_transaction,Dispute Transaction,GO_TO,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+download_receipt,Download Receipt,GO_TO,billing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+download_results,Download Results,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+download_tax_document,Download Tax Form,GO_TO,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+extend_trial,Extend Trial,GO_TO,subscription,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+file_insurance_claim,File Insurance Claim,IN_APP,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+get_directions,Get Directions,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+join_meeting,Join Meeting,GO_TO,event,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+manage_booking,Manage Booking,GO_TO,travel,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,3
+manage_subscription,Manage Subscription,GO_TO,billing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+modify_reservation,Modify Reservation,GO_TO,dining,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+notify_restock,Notify When Back,IN_APP,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+open_link,Open Link,GO_TO,generic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,4
+pay_form_fee,Pay Fee,IN_APP,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+pay_invoice,Pay Invoice,IN_APP,billing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+pay_property_tax,Pay Property Tax,GO_TO,civic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+pay_utility_bill,Pay Bill,GO_TO,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+pickup_prescription,Pickup Details,IN_APP,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+prepare_for_outage,View Preparation Tips,IN_APP,utility,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+print_return_label,Print Label,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+provide_access_code,Provide Access Code,IN_APP,delivery,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,3
+quick_reply,Quick Reply,IN_APP,generic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,5
+rate_product,Rate Product,IN_APP,feedback,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+read_community_post,Read Post,GO_TO,community,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+redeem_rewards,Redeem Rewards,GO_TO,marketing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+register_event,Register,GO_TO,event,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+register_for_sports,Register,GO_TO,youth,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+register_to_vote,Register to Vote,GO_TO,civic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+renew_license,Renew License,GO_TO,civic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+reorder_item,Reorder,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+reply_thanks,Say Thanks,IN_APP,social,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+reply_to_post,Reply,GO_TO,community,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,3
+reply_to_teacher,Reply to Teacher,GO_TO,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+reply_to_thread,Reply,IN_APP,communication,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+reply_to_ticket,Reply,IN_APP,support,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+reschedule_appointment,Reschedule,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+reset_password,Reset Password,GO_TO,account,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+return_item,Return Item,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+review_security,Review Security,GO_TO,account,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+revoke_secret,Revoke Secret,GO_TO,account,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+rsvp_game,RSVP,GO_TO,youth,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+rsvp_no,RSVP No,IN_APP,event,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,3
+rsvp_school_event,RSVP,GO_TO,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+rsvp_yes,RSVP Yes,IN_APP,event,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+save_for_later,Save for Later,IN_APP,generic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,6
+save_properties,Save Favorites,GO_TO,real-estate,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+schedule_delivery_time,Schedule Delivery,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+schedule_inspection,Schedule Inspection,GO_TO,real-estate,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+schedule_interview,Schedule Interview,GO_TO,career,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+schedule_meeting,Schedule Meeting,GO_TO,communication,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+schedule_payment,Schedule Payment,IN_APP,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+schedule_purchase,Buy on {saleDateShort},IN_APP,shopping,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+schedule_showing,Schedule Tour,GO_TO,real-estate,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+schedule_test,Schedule Test,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+set_outage_reminder,Set Reminder,IN_APP,utility,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,3
+set_payment_reminder,Set Reminder,IN_APP,billing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,3
+set_price_alert,Set Price Alert,IN_APP,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+set_reminder,Remind me on {saleDateShort},IN_APP,shopping,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+share_achievement,Share Activity,GO_TO,social,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,3
+sign_form,Sign Form,IN_APP,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+submit_assignment,Submit Assignment,GO_TO,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+take_survey,Take Survey,GO_TO,feedback,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+track_delivery,Track Delivery,GO_TO,delivery,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+track_package,Track Package,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+track_return,Track Return,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+unsubscribe,Unsubscribe,GO_TO,marketing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,3
+update_payment,Update Payment,GO_TO,billing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+update_payment_method,Update Payment,GO_TO,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+upgrade_subscription,Upgrade Now,GO_TO,subscription,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+verify_account,Verify Account,GO_TO,account,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+verify_device,Verify Device,GO_TO,account,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+verify_social_account,Verify Account,GO_TO,social,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+verify_transaction,Verify Transaction,GO_TO,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_activity,View Activity,GO_TO,social,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_activity_details,View Activity,GO_TO,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_announcement,View Announcement,GO_TO,marketing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_assignment,View Assignment,GO_TO,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_ballot,View Ballot,GO_TO,civic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_benefits,View Benefits,IN_APP,subscription,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_claim_status,View Claim,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_credit_report,View Credit Report,GO_TO,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_details,View Details,IN_APP,generic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,7
+view_game_schedule,View Schedule,GO_TO,youth,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_incident,View Incident,GO_TO,project,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_introduction,View Introduction,IN_APP,communication,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_invoice,View Invoice,GO_TO,billing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+view_itinerary,View Itinerary,GO_TO,travel,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+view_job_details,View Job Details,GO_TO,career,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+view_legal_document,View Document,IN_APP,legal,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_lms_message,View Message,GO_TO,education,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_mortgage_details,View Mortgage Details,IN_APP,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_newsletter_summary,View Summary,IN_APP,generic,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_onboarding_info,View Onboarding Info,IN_APP,career,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_order,View Order,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+view_outage_details,View Outage Info,GO_TO,utility,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_pickup_details,View Pickup Details,IN_APP,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_portfolio,View Portfolio,GO_TO,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_post_comments,View Comments,GO_TO,community,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,2
+view_practice_details,View Practice Info,IN_APP,youth,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_product,View Product,GO_TO,marketing,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_property_listings,View Homes,GO_TO,real-estate,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_referral,View Referral,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_refund_status,View Refund,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_reservation,View Reservation,GO_TO,dining,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_results,View Results,GO_TO,healthcare,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_social_message,View Message,GO_TO,social,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_statement,View Statement,GO_TO,finance,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_task,View Task,GO_TO,project,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_team_announcement,View Announcement,IN_APP,youth,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_ticket,View Ticket,GO_TO,support,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_usage,View Usage,GO_TO,subscription,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+view_warranty,View Warranty,GO_TO,e-commerce,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1
+write_review,Write Review,IN_APP,feedback,not_tested,,not_tested,not_tested,,not_tested,,not_tested,not_tested,,not_started,1

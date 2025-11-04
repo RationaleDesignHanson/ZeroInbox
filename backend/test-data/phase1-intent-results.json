@@ -1,0 +1,227 @@
+{
+  "total": 133,
+  "passed": 122,
+  "failed": 11,
+  "skipped": 1,
+  "byCategory": {
+    "e-commerce": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    "billing": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "finance": {
+      "total": 14,
+      "passed": 14,
+      "failed": 0
+    },
+    "subscription": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "account": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "event": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "education": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0
+    },
+    "youth": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0
+    },
+    "healthcare": {
+      "total": 11,
+      "passed": 11,
+      "failed": 0
+    },
+    "travel": {
+      "total": 3,
+      "passed": 2,
+      "failed": 1
+    },
+    "dining": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "delivery": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "feedback": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "marketing": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    "social": {
+      "total": 5,
+      "passed": 2,
+      "failed": 3
+    },
+    "shopping": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "support": {
+      "total": 2,
+      "passed": 1,
+      "failed": 1
+    },
+    "project": {
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    "civic": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    "utility": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "communication": {
+      "total": 5,
+      "passed": 4,
+      "failed": 1
+    },
+    "career": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    "legal": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "real-estate": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0
+    },
+    "community": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    },
+    "pets": {
+      "total": 2,
+      "passed": 1,
+      "failed": 1
+    },
+    "content": {
+      "total": 7,
+      "passed": 3,
+      "failed": 4
+    },
+    "generic": {
+      "total": 1,
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "failedIntents": [
+    {
+      "intentId": "travel.itinerary.update",
+      "trigger": "itinerary change",
+      "actualIntent": "travel.reservation.confirmation",
+      "confidence": 0.75,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"travel.itinerary.update\"\nReceived: \"travel.reservation.confirmation\""
+    },
+    {
+      "intentId": "social.content.recommendation",
+      "trigger": "we think you might like",
+      "actualIntent": "marketing.brand.storytelling",
+      "confidence": 1,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"social.content.recommendation\"\nReceived: \"marketing.brand.storytelling\""
+    },
+    {
+      "intentId": "support.ticket.confirmation",
+      "trigger": "ticket created",
+      "actualIntent": "education.activity.announcement",
+      "confidence": 0.75,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"support.ticket.confirmation\"\nReceived: \"education.activity.announcement\""
+    },
+    {
+      "intentId": "communication.introduction",
+      "trigger": "meet",
+      "actualIntent": "marketing.brand.storytelling",
+      "confidence": 0.75,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"communication.introduction\"\nReceived: \"marketing.brand.storytelling\""
+    },
+    {
+      "intentId": "social.notification",
+      "trigger": "sent you a message",
+      "actualIntent": "education.lms.message",
+      "confidence": 0.93,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"social.notification\"\nReceived: \"education.lms.message\""
+    },
+    {
+      "intentId": "social.invitation",
+      "trigger": "invited you to",
+      "actualIntent": "event.meeting.invitation",
+      "confidence": 0.75,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"social.invitation\"\nReceived: \"event.meeting.invitation\""
+    },
+    {
+      "intentId": "pets.content.tips",
+      "trigger": "pet tips",
+      "actualIntent": "marketing.content.lifestyle",
+      "confidence": 0.75,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"pets.content.tips\"\nReceived: \"marketing.content.lifestyle\""
+    },
+    {
+      "intentId": "content.newsletter.career",
+      "trigger": "jobs posted",
+      "actualIntent": "social.notification",
+      "confidence": 0.75,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"content.newsletter.career\"\nReceived: \"social.notification\""
+    },
+    {
+      "intentId": "content.newsletter.tech",
+      "trigger": "tech news",
+      "actualIntent": "communication.personal",
+      "confidence": 0.6,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"content.newsletter.tech\"\nReceived: \"communication.personal\""
+    },
+    {
+      "intentId": "content.newsletter.finance",
+      "trigger": "market news",
+      "actualIntent": "communication.personal",
+      "confidence": 0.6,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"content.newsletter.finance\"\nReceived: \"communication.personal\""
+    },
+    {
+      "intentId": "content.newsletter.lifestyle",
+      "trigger": "lifestyle",
+      "actualIntent": "marketing.content.lifestyle",
+      "confidence": 0.75,
+      "error": "expect(received).toBe(expected) // Object.is equality\n\nExpected: \"content.newsletter.lifestyle\"\nReceived: \"marketing.content.lifestyle\""
+    }
+  ]
+}

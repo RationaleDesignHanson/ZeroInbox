@@ -335,7 +335,7 @@ enum ActionType: String, Codable {
     case inApp = "IN_APP"
 }
 
-struct SenderInfo: Codable {
+struct SenderInfo: Codable, Hashable {
     let name: String
     let initial: String
     let email: String?

@@ -169,6 +169,41 @@ struct EmailThreadView: View {
                 .font(.title2.bold())
                 .foregroundColor(.white)
 
+            // Participant grid (2×2)
+            if thread.allMessages.count > 1 {
+                let participants = Array(Set(thread.allMessages.compactMap { $0.sender })).prefix(4)
+                if participants.count > 1 {
+                    LazyVGrid(columns: [
+                        GridItem(.flexible(), spacing: 16),
+                        GridItem(.flexible(), spacing: 16)
+                    ], spacing: 16) {
+                        ForEach(Array(participants.enumerated()), id: \.element.email) { index, sender in
+                            // TODO: AvatarBadge not in Xcode project - using placeholder
+                            VStack {
+                                Text(sender.initial)
+                                    .font(.caption.bold())
+                                    .foregroundColor(.white)
+                                    .frame(width: 40, height: 40)
+                                    .background(
+                                        LinearGradient(
+                                            colors: [.blue, .cyan],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .cornerRadius(8)
+                                if index == 0 {
+                                    Text("\(thread.messageCount)")
+                                        .font(.caption2)
+                                        .foregroundColor(.white.opacity(0.7))
+                                }
+                            }
+                        }
+                    }
+                    .frame(maxWidth: 200)
+                }
+            }
+
             // Thread stats
             HStack(spacing: 16) {
                 // Message count

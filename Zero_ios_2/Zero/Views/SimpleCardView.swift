@@ -146,11 +146,22 @@ struct SimpleCardView: View {
 
             // CONTENT
 
-            // Title
+            // Title (reduced to 80% of original size)
             Text(card.title)
-                .font(.title2.bold())
+                .font(DesignTokens.Typography.cardTitle)
                 .foregroundColor(DesignTokens.Colors.textPrimary)
                 .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
+
+            // Email Summary Text - HIDDEN to avoid duplication with AIPreviewView
+            // Web demo only shows the structured summary in AI Preview section
+            // if !card.summary.isEmpty {
+            //     Text(card.summary)
+            //         .font(.system(size: 15))
+            //         .foregroundColor(Color.white.opacity(0.85))
+            //         .lineSpacing(1.5)
+            //         .fixedSize(horizontal: false, vertical: true)
+            //         .padding(.top, 4)
+            // }
 
             // Product image (shopping only) - appears after title
             if let imageUrl = card.productImageUrl {
@@ -171,17 +182,9 @@ struct SimpleCardView: View {
                 .padding(.bottom, hasPricing ? 0 : 8) // Extra spacing when no pricing follows
             }
 
-            // Summary - AI-generated from backend (structured with action coherence)
-            // Newsletter-aware: shows keyLinks and keyTopics if available
-            VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
-                // Standard structured summary
-                StructuredSummaryView(card: card, lineLimit: summaryLineLimit)
-
-                // Newsletter-specific UI (if applicable)
-                if let newsletterView = NewsletterSummaryView(card: card, lineLimit: summaryLineLimit) {
-                    newsletterView
-                }
-            }
+            // AI Preview Section (liquid glass with streamlined header)
+            AIPreviewView(card: card)
+                .padding(.top, 8)
 
             // Metrics panel (sales only)
             if let value = card.value, let probability = card.probability, let score = card.score {
@@ -447,7 +450,12 @@ struct SimpleCardView: View {
     
     var squareViewButton: some View {
         Button {
-            showingDetail = true
+            // If email is part of a thread, show thread view; otherwise show single email detail
+            if let threadLength = card.threadLength, threadLength > 1 {
+                onThreadTap?()
+            } else {
+                showingDetail = true
+            }
         } label: {
             VStack(spacing: 4) {
                 // Show thread icon if this email is part of a thread
@@ -528,6 +536,32 @@ struct SimpleCardView: View {
         switch modern {
         case .mail: return "envelope.fill"
         case .ads: return "cart.fill"
+        }
+    }
+
+    /// Handle action badge tap - route to appropriate modal or action
+    private func handleActionBadgeTap(action: EmailAction) {
+        Logger.info("🎬 Action badge tapped: \(action.displayName) (\(action.actionId))", category: .ui)
+
+        switch action.actionType {
+        case .inApp:
+            // Show in-app modal (signature, payment, etc.)
+            // Trigger the existing onSignatureTap callback to show action modal
+            if action.actionId.contains("sign") {
+                onSignatureTap?()
+            } else {
+                // For other in-app actions, we can show a generic modal
+                onSignatureTap?()
+            }
+
+        case .goTo:
+            // Open URL (if context has url)
+            if let context = action.context,
+               let urlString = context["url"] ?? context["storeUrl"],
+               let url = URL(string: urlString) {
+                UIApplication.shared.open(url)
+                Logger.info("🌐 Opening URL: \(urlString)", category: .ui)
+            }
         }
     }
 

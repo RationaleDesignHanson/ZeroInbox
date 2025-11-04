@@ -52,6 +52,7 @@ struct ContentView: View {
     @State private var folderPickerCard: EmailCard? = nil
     @State private var showFolderPicker = false
     @State private var showSavedMail = false
+    @State private var totalInitialCards = 0  // Track initial card count for progress meter
 
     var body: some View {
         ZStack {
@@ -126,6 +127,13 @@ struct ContentView: View {
                 viewModel.loadCards()
             }
         }
+        .onChange(of: viewModel.cards.count) { oldCount, newCount in
+            // Capture initial card count when cards first load (for progress meter)
+            if totalInitialCards == 0 && newCount > 0 {
+                totalInitialCards = newCount
+                Logger.info("📊 Initial card count captured: \(totalInitialCards)", category: .ui)
+            }
+        }
         .onAppear {
             // Handle UI testing flag to skip onboarding
             if ProcessInfo.processInfo.environment["SKIP_ONBOARDING"] == "true" {
@@ -173,12 +181,11 @@ struct ContentView: View {
 
                     Spacer()
                 }
-                .padding(.bottom, 100) // Clearance for new nav design
+                .padding(.bottom, 100) // Clearance for floating island nav
             } else {
-                // Card stack with swipe gestures - positioned 8px below Dynamic Island
+                // Card stack with swipe gestures - centered vertically like web demo
                 VStack(spacing: 0) {
-                    Spacer()
-                        .frame(height: 8)  // Just 8px from Dynamic Island - clean and tight!
+                    Spacer()  // Equal weight spacer for vertical centering
 
                     ZStack(alignment: .bottom) {
                         CardStackView(
@@ -222,24 +229,25 @@ struct ContentView: View {
 
                     Spacer()
                 }
-                .padding(.bottom, 100) // Clearance for reduced nav height
+                .padding(.bottom, 80) // Match web demo nav clearance
             }
 
-            // Bottom Navigation Bar
-            BottomNavigationBar(
-                viewModel: viewModel,
-                showSplayView: $showSplayView,
-                showArchetypeSheet: $showArchetypeSheet,
-                showShoppingCart: $showShoppingCart,
-                showSettings: $showSettings,
-                showSearch: $showSearch,
-                showSavedMail: $showSavedMail,
-                cartItemCount: cartItemCount,
-                onRefresh: {
-                    await viewModel.refreshEmails()
-                }
-            )
-            .environmentObject(navState)
+            // Bottom Navigation Bar - Liquid Glass Design (pinned to bottom, matching web demo)
+            VStack {
+                Spacer()
+                LiquidGlassBottomNav(
+                    viewModel: viewModel,
+                    showShoppingCart: $showShoppingCart,
+                    cartItemCount: cartItemCount,
+                    mailCount: viewModel.cards.filter { $0.type == .mail && $0.state != .dismissed }.count,
+                    adsCount: viewModel.cards.filter { $0.type == .ads && $0.state != .dismissed }.count,
+                    totalInitialCards: totalInitialCards,
+                    onRefresh: {
+                        await viewModel.refreshEmails()
+                    }
+                )
+                .edgesIgnoringSafeArea(.bottom)  // Match web demo positioning at absolute bottom
+            }
 
             // Debug overlay (toggleable from settings or feature flags)
             if services.featureGating.isEnabled(.debugOverlays) {
@@ -1125,6 +1133,148 @@ struct ContentView: View {
 
         case .fallback(let card):
             EmailComposerModal(card: card, isPresented: $showActionModal)
+
+        // Phase 3A: Newly wired modals
+        case .addReminder(let card):
+            AddReminderModal(card: card, isPresented: $showActionModal)
+
+        case .addToWallet(let card):
+            AddToWalletModal(card: card, isPresented: $showActionModal)
+
+        case .browseShopping(let card):
+            BrowseShoppingModal(card: card, context: [:], isPresented: $showActionModal)
+
+        case .cancelSubscription(let card):
+            CancelSubscriptionModal(card: card, onComplete: { showActionModal = false })
+
+        case .checkInFlight(let card):
+            CheckInFlightModal(
+                card: card,
+                flightNumber: card.title.components(separatedBy: " ").last ?? "",
+                airline: card.company?.name ?? "Airline",
+                checkInUrl: "",
+                context: [:],
+                isPresented: $showActionModal
+            )
+
+        case .contactDriver(let card):
+            ContactDriverModal(card: card, driverInfo: [:], isPresented: $showActionModal)
+
+        case .newsletterSummary(let card):
+            NewsletterSummaryModal(card: card, context: [:], isPresented: $showActionModal)
+
+        case .payInvoice(let card):
+            PayInvoiceModal(
+                card: card,
+                invoiceId: card.title.components(separatedBy: " ").last ?? "INV-001",
+                amount: card.paymentAmount != nil ? String(format: "$%.2f", card.paymentAmount!) : "$0.00",
+                merchant: card.company?.name ?? "Merchant",
+                context: [:],
+                isPresented: $showActionModal
+            )
+
+        case .pickupDetails(let card):
+            PickupDetailsModal(
+                card: card,
+                rxNumber: "N/A",
+                pharmacy: "Pharmacy",
+                context: [:],
+                isPresented: $showActionModal
+            )
+
+        case .quickReply(let card):
+            QuickReplyModal(
+                card: card,
+                recipientEmail: card.sender?.email ?? "",
+                subject: "Re: \(card.title)",
+                context: [:],
+                isPresented: $showActionModal
+            )
+
+        case .reservation(let card):
+            ReservationModal(card: card, context: [:], isPresented: $showActionModal)
+
+        case .saveContact(let card):
+            SaveContactModal(card: card, isPresented: $showActionModal)
+
+        case .sendMessage(let card):
+            SendMessageModal(card: card, isPresented: $showActionModal)
+
+        case .share(let card):
+            let shareContent = generateShareContentForModal(from: card, context: [:])
+            ShareModal(card: card, content: shareContent, isPresented: $showActionModal)
+
+        case .snooze(let card):
+            SnoozePickerModal(
+                isPresented: $showActionModal,
+                selectedDuration: $snoozeDuration
+            ) {
+                viewModel.setRememberedSnoozeDuration(snoozeDuration)
+                viewModel.handleSwipe(direction: .down, card: card)
+                undoActionText = "Snoozed for \(snoozeDuration)h"
+                showUndoToast = true
+                showActionModal = false
+            }
+
+        case .trackPackage(let card):
+            TrackPackageModal(
+                card: card,
+                trackingNumber: "Unknown",
+                carrier: "Carrier",
+                trackingUrl: "",
+                context: [:],
+                isPresented: $showActionModal
+            )
+
+        case .unsubscribe(let card):
+            UnsubscribeModal(
+                card: card,
+                unsubscribeUrl: "",
+                isPresented: $showActionModal,
+                onUnsubscribeComplete: {}
+            )
+
+        case .writeReview(let card):
+            WriteReviewModal(
+                card: card,
+                productName: "Product",
+                reviewLink: "",
+                context: [:],
+                isPresented: $showActionModal
+            )
+
+        // Phase 3B: New high-priority modals
+        case .addToNotes(let card):
+            AddToNotesModal(card: card, isPresented: $showActionModal)
+
+        case .provideAccessCode(let card):
+            ProvideAccessCodeModal(card: card, isPresented: $showActionModal)
+
+        case .viewActivity(let card):
+            ViewActivityModal(card: card, isPresented: $showActionModal)
+
+        case .saveProperties(let card):
+            SavePropertiesModal(card: card, isPresented: $showActionModal)
+
+        // Phase 3D: MEDIUM priority modals
+        case .scheduleDeliveryTime(let card):
+            ScheduleDeliveryTimeModal(card: card, isPresented: $showActionModal)
+
+        case .prepareForOutage(let card):
+            PrepareForOutageModal(card: card, isPresented: $showActionModal)
+
+        case .viewActivityDetails(let card):
+            ViewActivityDetailsModal(card: card, isPresented: $showActionModal)
+
+        case .readCommunityPost(let card):
+            ReadCommunityPostModal(card: card, isPresented: $showActionModal)
+
+        // Phase 3E: LOW priority modals
+        case .viewOutageDetails(let card):
+            ViewOutageDetailsModal(card: card, isPresented: $showActionModal)
+
+        case .viewPostComments(let card):
+            ViewPostCommentsModal(card: card, isPresented: $showActionModal)
         }
     }
     

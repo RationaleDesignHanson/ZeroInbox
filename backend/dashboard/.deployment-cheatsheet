@@ -1,0 +1,31 @@
+╔═══════════════════════════════════════════════════════════╗
+║     ZERO DASHBOARD - DEPLOYMENT CHEAT SHEET              ║
+╚═══════════════════════════════════════════════════════════╝
+
+🚀 DEPLOY (RECOMMENDED):
+   cd /Users/matthanson/Zer0_Inbox/backend/dashboard
+   ./deploy.sh
+
+📝 MANUAL DEPLOY:
+   gcloud run deploy zero-dashboard --source . --region us-central1 --allow-unauthenticated
+   gcloud run services update-traffic zero-dashboard --region us-central1 --to-latest
+
+🔍 CHECK WHAT'S LIVE:
+   gcloud run services describe zero-dashboard --region us-central1 \
+     --format='value(status.traffic[0].revisionName,status.traffic[0].percent)'
+
+🔙 ROLLBACK:
+   gcloud run services update-traffic zero-dashboard --region us-central1 \
+     --to-revisions=<REVISION_NAME>=100
+
+📊 LIST REVISIONS:
+   gcloud run revisions list --service zero-dashboard --region us-central1
+
+🌐 URLS:
+   Dashboard:      https://zero-dashboard-514014482017.us-central1.run.app/
+   Design System:  https://zero-dashboard-514014482017.us-central1.run.app/design-system-renderer.html
+
+⚠️  ROOT CAUSE: Service has automatic-updates: false
+    → Always route traffic explicitly after deploy!
+
+💡 TIP: Hard refresh with Cmd+Shift+R after deployment
