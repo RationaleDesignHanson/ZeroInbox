@@ -703,8 +703,174 @@
                 grid-template-columns: repeat(2, 1fr);
                 max-width: 700px;
             }
+
+            /* Hide swipe instruction and arrows on mobile */
+            .swipe-instruction {
+                display: none;
+            }
+
+            .nav-arrow {
+                display: none !important;
+            }
+
+            /* Show mobile options selector on mobile only */
+            .mobile-options-selector {
+                display: flex !important;
+            }
         }
-    
+
+        /* Mobile Options Selector (Hidden on Desktop) */
+        .mobile-options-selector {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .mobile-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .mobile-option-button {
+            padding: 14px 12px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            text-align: center;
+        }
+
+        .mobile-option-button:active {
+            transform: scale(0.95);
+        }
+
+        .mobile-option-button.selected {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-option-icon {
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .mobile-option-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            line-height: 1.2;
+        }
+
+        /* Themed option buttons */
+        .mobile-option-button.shopping {
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .mobile-option-button.shopping.selected {
+            border-color: rgba(239, 68, 68, 0.8);
+            background: rgba(239, 68, 68, 0.15);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .mobile-option-button.ai {
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .mobile-option-button.ai.selected {
+            border-color: rgba(59, 130, 246, 0.8);
+            background: rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .mobile-option-button.intent {
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .mobile-option-button.intent.selected {
+            border-color: rgba(16, 185, 129, 0.8);
+            background: rgba(16, 185, 129, 0.15);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .mobile-option-button.actions {
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .mobile-option-button.actions.selected {
+            border-color: rgba(139, 92, 246, 0.8);
+            background: rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Mobile Details Panel */
+        .mobile-details-panel {
+            display: none;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-details-panel.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-details-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .mobile-details-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .mobile-go-button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .mobile-go-button:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+        }
+
         /* Beta Banner - Fixed Top */
         .beta-banner {
             position: fixed;
@@ -921,6 +1087,35 @@
                     <!-- Simple Swipe Instruction -->
                     <div class="swipe-instruction">
                         Click to Experience Zero • Swipe in any direction to explore
+                    </div>
+
+                    <!-- Mobile Options Selector (Mobile Only) -->
+                    <div class="mobile-options-selector" id="mobileOptionsSelector">
+                        <div class="mobile-options-grid">
+                            <div class="mobile-option-button shopping" data-target="shopping-cart.html">
+                                <div class="mobile-option-icon">🛒</div>
+                                <div class="mobile-option-title">Shopping Cart</div>
+                            </div>
+                            <div class="mobile-option-button ai" data-target="zero-sequence-live.html">
+                                <div class="mobile-option-icon">🤖</div>
+                                <div class="mobile-option-title">AI Intelligence</div>
+                            </div>
+                            <div class="mobile-option-button intent" data-target="intent-action-explorer.html">
+                                <div class="mobile-option-icon">🎯</div>
+                                <div class="mobile-option-title">Intent Categories</div>
+                            </div>
+                            <div class="mobile-option-button actions" data-target="action-modal-explorer.html">
+                                <div class="mobile-option-icon">⚡</div>
+                                <div class="mobile-option-title">Smart Actions</div>
+                            </div>
+                        </div>
+
+                        <!-- Details Panel (Shows when option selected) -->
+                        <div class="mobile-details-panel" id="mobileDetailsPanel">
+                            <div class="mobile-details-title" id="mobileDetailsTitle"></div>
+                            <div class="mobile-details-desc" id="mobileDetailsDesc"></div>
+                            <button class="mobile-go-button" id="mobileGoButton">Go →</button>
+                        </div>
                     </div>
                 </div>
 
@@ -1164,6 +1359,68 @@
             }
         });
 
+        // Mobile Options Selector Logic
+        (function initMobileOptions() {
+            const isMobile = window.innerWidth <= 768;
+            if (!isMobile) return; // Only run on mobile
+
+            const optionButtons = document.querySelectorAll('.mobile-option-button');
+            const detailsPanel = document.getElementById('mobileDetailsPanel');
+            const detailsTitle = document.getElementById('mobileDetailsTitle');
+            const detailsDesc = document.getElementById('mobileDetailsDesc');
+            const goButton = document.getElementById('mobileGoButton');
+
+            const optionDetails = {
+                'shopping-cart.html': {
+                    title: 'Shopping Cart',
+                    desc: 'Track deals, prices, and expirations across all your shopping emails.'
+                },
+                'zero-sequence-live.html': {
+                    title: 'AI Intelligence',
+                    desc: 'Test the email-to-action pipeline with 137 intent categories live.'
+                },
+                'intent-action-explorer.html': {
+                    title: 'Intent Categories',
+                    desc: '137 categories classify emails from shipping to healthcare.'
+                },
+                'action-modal-explorer.html': {
+                    title: 'Smart Actions',
+                    desc: '143 actions to take depending on the context including native OS integrations and compound actions.'
+                }
+            };
+
+            let selectedTarget = null;
+
+            optionButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+
+                    // Remove selected class from all buttons
+                    optionButtons.forEach(btn => btn.classList.remove('selected'));
+
+                    // Add selected class to clicked button
+                    button.classList.add('selected');
+
+                    // Get target URL and details
+                    selectedTarget = button.getAttribute('data-target');
+                    const details = optionDetails[selectedTarget];
+
+                    // Update details panel
+                    detailsTitle.textContent = details.title;
+                    detailsDesc.textContent = details.desc;
+
+                    // Show details panel
+                    detailsPanel.classList.add('show');
+                });
+            });
+
+            goButton.addEventListener('click', () => {
+                if (selectedTarget) {
+                    window.location.href = selectedTarget;
+                }
+            });
+        })();
+
         // Swipe Gesture Detection
         const card = document.getElementById('demoCard');
         let touchStartX = 0;
@@ -1171,13 +1428,17 @@
         let touchEndX = 0;
         let touchEndY = 0;
 
-        card.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-            card.style.transition = 'none';
-        });
+        // Disable swipe gestures on mobile
+        const isMobile = window.innerWidth <= 768;
+        if (!isMobile) {
+            // Only enable swipe gestures on desktop
+            card.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                card.style.transition = 'none';
+            });
 
-        card.addEventListener('touchmove', (e) => {
+            card.addEventListener('touchmove', (e) => {
             e.preventDefault(); // Prevent scroll during swipe
             const currentX = e.touches[0].clientX;
             const currentY = e.touches[0].clientY;
@@ -1227,6 +1488,7 @@
                 mouseDown = false;
             }
         });
+        }
 
         // Update swipe preview content based on direction
         function updateSwipePreview(diffX, diffY) {
