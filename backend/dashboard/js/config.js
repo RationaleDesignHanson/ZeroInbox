@@ -5,8 +5,8 @@
  */
 
 const DashboardConfig = {
-  // Environment (can be overridden by query param ?env=production)
-  environment: new URLSearchParams(window.location.search).get('env') === 'production' ? 'production' : 'development',
+  // Environment (defaults to production for public demos, use ?env=development for localhost testing)
+  environment: new URLSearchParams(window.location.search).get('env') === 'development' ? 'development' : 'production',
 
   // Backend Services - Development (localhost)
   development: {
