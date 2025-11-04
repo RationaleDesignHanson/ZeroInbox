@@ -6626,27 +6626,36 @@
             }
 
             if (swipeDirection) {
-                // Swipe completed - execute action and fly card off screen
-                topCard.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+                // Special handling for UP swipe - don't dismiss card, just show action sheet
+                if (swipeDirection === 'up') {
+                    // Snap back to position
+                    topCard.style.transition = 'transform 0.3s ease';
+                    topCard.style.transform = 'translate(0, 0) scale(1)';
 
-                // Determine final position based on direction
-                let finalX = currentX * 5;
-                let finalY = currentY * 5;
-
-                if (swipeDirection === 'right') finalX = 800;
-                else if (swipeDirection === 'left') finalX = -800;
-                else if (swipeDirection === 'down') finalY = 800;
-                else if (swipeDirection === 'up') finalY = -800;
-
-                topCard.style.transform = `translate(${finalX}px, ${finalY}px) rotate(${currentX}deg) scale(1)`;
-                topCard.style.opacity = '0';
-
-                // Execute action based on direction
-                setTimeout(() => {
+                    // Execute action (show action sheet) but don't advance card
                     executeSwipeAction(swipeDirection, emailData);
-                    currentTopCardIndex++;
-                    updateStack();
-                }, 200); // Execute before card disappears for instant feedback
+                } else {
+                    // All other swipes: fly card off screen and advance to next
+                    topCard.style.transition = 'transform 0.4s ease, opacity 0.4s ease';
+
+                    // Determine final position based on direction
+                    let finalX = currentX * 5;
+                    let finalY = currentY * 5;
+
+                    if (swipeDirection === 'right') finalX = 800;
+                    else if (swipeDirection === 'left') finalX = -800;
+                    else if (swipeDirection === 'down') finalY = 800;
+
+                    topCard.style.transform = `translate(${finalX}px, ${finalY}px) rotate(${currentX}deg) scale(1)`;
+                    topCard.style.opacity = '0';
+
+                    // Execute action based on direction
+                    setTimeout(() => {
+                        executeSwipeAction(swipeDirection, emailData);
+                        currentTopCardIndex++;
+                        updateStack();
+                    }, 200); // Execute before card disappears for instant feedback
+                }
 
             } else {
                 // Snap back to position
