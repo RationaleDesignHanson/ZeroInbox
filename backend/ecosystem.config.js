@@ -28,7 +28,7 @@ module.exports = {
       max_memory_restart: '500M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3000
+        PORT: 3001
       },
       error_file: './services/logs/gateway-error.log',
       out_file: './services/logs/gateway-out.log',
@@ -51,7 +51,7 @@ module.exports = {
       max_memory_restart: '1G',
       env: {
         NODE_ENV: 'production',
-        PORT: 3001
+        PORT: 8082
       },
       error_file: './services/logs/classifier-error.log',
       out_file: './services/logs/classifier-out.log',
@@ -74,7 +74,7 @@ module.exports = {
       max_memory_restart: '500M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3002
+        PORT: 8081
       },
       error_file: './services/logs/email-error.log',
       out_file: './services/logs/email-out.log',
@@ -97,7 +97,7 @@ module.exports = {
       max_memory_restart: '800M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3003
+        PORT: 8086
       },
       error_file: './services/logs/smart-replies-error.log',
       out_file: './services/logs/smart-replies-out.log',
@@ -120,7 +120,8 @@ module.exports = {
       max_memory_restart: '800M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3004
+        PORT: 8084,
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY || 'mock-key-for-testing'
       },
       error_file: './services/logs/shopping-agent-error.log',
       out_file: './services/logs/shopping-agent-out.log',
@@ -143,7 +144,7 @@ module.exports = {
       max_memory_restart: '500M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3005
+        PORT: 8090
       },
       error_file: './services/logs/analytics-error.log',
       out_file: './services/logs/analytics-out.log',
@@ -166,7 +167,7 @@ module.exports = {
       max_memory_restart: '800M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3006
+        PORT: 8083
       },
       error_file: './services/logs/summarization-error.log',
       out_file: './services/logs/summarization-out.log',
@@ -189,7 +190,7 @@ module.exports = {
       max_memory_restart: '500M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3007
+        PORT: 8085
       },
       error_file: './services/logs/scheduled-purchase-error.log',
       out_file: './services/logs/scheduled-purchase-out.log',
@@ -212,7 +213,7 @@ module.exports = {
       max_memory_restart: '500M',
       env: {
         NODE_ENV: 'production',
-        PORT: 3008
+        PORT: 8089
       },
       error_file: './services/logs/actions-error.log',
       out_file: './services/logs/actions-out.log',
@@ -235,7 +236,7 @@ module.exports = {
       max_memory_restart: '1G',
       env: {
         NODE_ENV: 'production',
-        PORT: 3009
+        PORT: 8087
       },
       error_file: './services/logs/steel-agent-error.log',
       out_file: './services/logs/steel-agent-out.log',

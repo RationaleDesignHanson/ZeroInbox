@@ -478,6 +478,440 @@
             }
         }
 
+        /* Interactive Demo Styles */
+        .demo-section {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(220, 38, 38, 0.05) 100%);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .demo-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .demo-btn-primary {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .demo-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+        }
+
+        .demo-btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .demo-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .demo-btn-checkout {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            width: 100%;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .demo-btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .cart-summary-badge {
+            margin-left: auto;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .cart-count {
+            color: #fbbf24;
+        }
+
+        .email-preview {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .email-preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .email-preview-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .email-preview-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 20px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .email-preview-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .email-preview-content {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 16px;
+            white-space: pre-wrap;
+        }
+
+        .cart-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+            min-height: 200px;
+        }
+
+        .cart-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+        }
+
+        .cart-empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .cart-empty-text {
+            font-size: 20px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+        }
+
+        .cart-empty-subtext {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .cart-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            animation: slideIn 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .cart-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .cart-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .cart-item-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .cart-item-merchant {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #93c5fd;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .cart-item-price {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .cart-item-current-price {
+            font-size: 24px;
+            font-weight: 900;
+            color: #10b981;
+        }
+
+        .cart-item-original-price {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: line-through;
+        }
+
+        .cart-item-savings {
+            display: inline-block;
+            padding: 4px 8px;
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6ee7b7;
+            margin-bottom: 12px;
+        }
+
+        .cart-item-expiry {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #fbbf24;
+            margin-bottom: 12px;
+        }
+
+        .cart-item-expiry.urgent {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .cart-item-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 4px;
+        }
+
+        .quantity-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .quantity-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .quantity-value {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 600;
+            color: white;
+        }
+
+        .remove-btn {
+            margin-left: auto;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .remove-btn:hover {
+            background: rgba(239, 68, 68, 0.3);
+            border-color: rgba(239, 68, 68, 0.6);
+        }
+
+        .checkout-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .checkout-summary {
+            margin-bottom: 20px;
+        }
+
+        .checkout-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .checkout-row.savings {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .checkout-row.total {
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .merchant-links {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .merchant-link {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .merchant-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .cart-summary-badge {
+                margin-left: 0;
+                text-align: center;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -533,6 +967,65 @@
                     you're interested in, the Shopping Agent keeps everything organized in one place. It monitors price
                     changes, alerts you when deals expire, and even provides smart recommendations based on your shopping patterns.
                 </p>
+            </div>
+        </div>
+
+        <!-- Interactive Demo Section -->
+        <div class="section demo-section">
+            <h2 class="section-title">
+                <span>🎮</span>
+                <span>Try It Live</span>
+            </h2>
+            <div class="demo-controls">
+                <button class="demo-btn demo-btn-primary" onclick="addSampleProduct()">
+                    📧 Add from Email
+                </button>
+                <button class="demo-btn demo-btn-secondary" onclick="clearDemoCart()">
+                    🗑️ Clear Cart
+                </button>
+                <div class="cart-summary-badge">
+                    <span class="cart-count">0</span> items • $<span class="cart-total">0.00</span>
+                </div>
+            </div>
+
+            <div class="email-preview" id="emailPreview" style="display: none;">
+                <div class="email-preview-header">
+                    <span class="email-preview-title">📬 Incoming Email</span>
+                    <button class="email-preview-close" onclick="closeEmailPreview()">✕</button>
+                </div>
+                <div class="email-preview-content" id="emailPreviewContent"></div>
+                <button class="demo-btn demo-btn-primary" onclick="extractFromEmail()">
+                    ✨ Extract Product
+                </button>
+            </div>
+
+            <div class="cart-container" id="cartContainer">
+                <div class="cart-empty" id="cartEmpty">
+                    <div class="cart-empty-icon">🛒</div>
+                    <div class="cart-empty-text">Your cart is empty</div>
+                    <div class="cart-empty-subtext">Click "Add from Email" to see the magic happen!</div>
+                </div>
+            </div>
+
+            <div class="checkout-panel" id="checkoutPanel" style="display: none;">
+                <div class="checkout-summary">
+                    <div class="checkout-row">
+                        <span>Subtotal:</span>
+                        <span>$<span id="checkoutSubtotal">0.00</span></span>
+                    </div>
+                    <div class="checkout-row savings">
+                        <span>💰 You Save:</span>
+                        <span>$<span id="checkoutSavings">0.00</span></span>
+                    </div>
+                    <div class="checkout-row total">
+                        <span>Total:</span>
+                        <span>$<span id="checkoutTotal">0.00</span></span>
+                    </div>
+                </div>
+                <button class="demo-btn demo-btn-checkout" onclick="proceedToCheckout()">
+                    💳 Proceed to Checkout
+                </button>
+                <div class="merchant-links" id="merchantLinks"></div>
             </div>
         </div>
 
@@ -714,5 +1207,357 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Demo State
+        let demoCart = [];
+        let sampleProductIndex = 0;
+
+        // Sample Products from "Emails"
+        const sampleProducts = [
+            {
+                id: 'prod-1',
+                productName: 'iPhone 15 Pro Max',
+                price: 999.99,
+                originalPrice: 1199.99,
+                merchant: 'Apple',
+                category: 'Electronics',
+                icon: '📱',
+                expiresAt: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(),
+                emailPreview: `🍎 Apple Store Sale Alert
+
+The new iPhone 15 Pro Max is now available!
+
+Special Launch Pricing:
+Was: $1,199.99
+Now: $999.99 💰 SAVE $200
+
+✨ Features:
+- A17 Pro chip
+- Titanium design
+- ProRAW camera
+- All-day battery
+
+⏰ Limited time offer - ends in 48 hours!
+🔗 https://apple.com/iphone-15-pro`
+            },
+            {
+                id: 'prod-2',
+                productName: 'Sony WH-1000XM5 Headphones',
+                price: 349.99,
+                originalPrice: 399.99,
+                merchant: 'Amazon',
+                category: 'Audio',
+                icon: '🎧',
+                expiresAt: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString(),
+                emailPreview: `Amazon Daily Deal 🔥
+
+Sony WH-1000XM5 Wireless Noise-Canceling Headphones
+
+Today Only: $349.99 (Reg. $399.99)
+Save $50 on the best noise-canceling headphones!
+
+⭐ Features:
+- Industry-leading noise cancellation
+- 30-hour battery life
+- Premium comfort design
+- Multipoint connection
+
+⏰ Deal ends in 6 hours!
+🛒 Add to cart: https://amazon.com/dp/B09XS7JWHH`
+            },
+            {
+                id: 'prod-3',
+                productName: 'AirPods Pro (2nd Gen)',
+                price: 199.99,
+                originalPrice: 249.99,
+                merchant: 'Target',
+                category: 'Audio',
+                icon: '🎵',
+                expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+                emailPreview: `Target Weekly Ad 🎯
+
+AirPods Pro (2nd Generation)
+
+Black Friday Early Access:
+$199.99 (Save $50!)
+
+✨ What's New:
+- Adaptive Audio
+- Conversation Awareness
+- USB-C charging
+- 2x better noise cancellation
+
+Valid 11/4 - 11/5 only!
+Shop now: https://target.com/airpods-pro`
+            },
+            {
+                id: 'prod-4',
+                productName: 'Samsung 55" OLED TV',
+                price: 1299.99,
+                originalPrice: 1799.99,
+                merchant: 'Best Buy',
+                category: 'Electronics',
+                icon: '📺',
+                expiresAt: new Date(Date.now() + 72 * 60 * 60 * 1000).toISOString(),
+                emailPreview: `Best Buy Mega Sale Event
+
+Samsung 55" OLED 4K Smart TV
+
+MEGA SAVINGS: $1,299.99
+Regular Price: $1,799.99
+YOU SAVE: $500 💰
+
+Specs:
+- OLED 4K display
+- 120Hz refresh rate
+- HDR10+ support
+- Smart TV features
+
+Sale ends Sunday!
+Shop: https://bestbuy.com/samsung-oled-tv`
+            },
+            {
+                id: 'prod-5',
+                productName: 'Nintendo Switch OLED',
+                price: 299.99,
+                originalPrice: 349.99,
+                merchant: 'Walmart',
+                category: 'Gaming',
+                icon: '🎮',
+                expiresAt: new Date(Date.now() + 12 * 60 * 60 * 1000).toISOString(),
+                emailPreview: `Walmart Flash Sale ⚡
+
+Nintendo Switch OLED Model
+
+Flash Deal: $299.99 (Save $50!)
+
+Perfect for:
+- Gaming on the go
+- Family game nights
+- 7" OLED screen
+- Enhanced audio
+
+🔥 Only 12 hours left!
+Hurry: https://walmart.com/nintendo-switch-oled`
+            }
+        ];
+
+        // Add Sample Product from Email
+        function addSampleProduct() {
+            const product = sampleProducts[sampleProductIndex];
+            sampleProductIndex = (sampleProductIndex + 1) % sampleProducts.length;
+
+            // Show email preview
+            showEmailPreview(product);
+        }
+
+        // Show Email Preview
+        function showEmailPreview(product) {
+            const emailPreview = document.getElementById('emailPreview');
+            const emailContent = document.getElementById('emailPreviewContent');
+
+            emailContent.textContent = product.emailPreview;
+            emailPreview.style.display = 'block';
+
+            // Store current product for extraction
+            window.currentEmailProduct = product;
+        }
+
+        // Close Email Preview
+        function closeEmailPreview() {
+            const emailPreview = document.getElementById('emailPreview');
+            emailPreview.style.display = 'none';
+            window.currentEmailProduct = null;
+        }
+
+        // Extract Product from Email
+        function extractFromEmail() {
+            if (!window.currentEmailProduct) return;
+
+            const product = window.currentEmailProduct;
+
+            // Add to cart
+            demoCart.push({
+                ...product,
+                quantity: 1
+            });
+
+            // Close email preview
+            closeEmailPreview();
+
+            // Update cart display
+            renderCart();
+            updateCartSummary();
+        }
+
+        // Render Cart
+        function renderCart() {
+            const cartContainer = document.getElementById('cartContainer');
+            const cartEmpty = document.getElementById('cartEmpty');
+
+            if (demoCart.length === 0) {
+                cartEmpty.style.display = 'block';
+                cartContainer.querySelectorAll('.cart-item').forEach(el => el.remove());
+                document.getElementById('checkoutPanel').style.display = 'none';
+                return;
+            }
+
+            cartEmpty.style.display = 'none';
+            document.getElementById('checkoutPanel').style.display = 'block';
+
+            // Clear existing items
+            cartContainer.querySelectorAll('.cart-item').forEach(el => el.remove());
+
+            // Render each item
+            demoCart.forEach((item, index) => {
+                const itemEl = createCartItemElement(item, index);
+                cartContainer.appendChild(itemEl);
+            });
+
+            updateCheckoutPanel();
+        }
+
+        // Create Cart Item Element
+        function createCartItemElement(item, index) {
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+
+            const savings = item.originalPrice ? (item.originalPrice - item.price) : 0;
+            const savingsPercent = item.originalPrice ? Math.round((savings / item.originalPrice) * 100) : 0;
+
+            const hoursUntilExpiry = item.expiresAt ?
+                Math.floor((new Date(item.expiresAt) - new Date()) / (1000 * 60 * 60)) : null;
+            const isUrgent = hoursUntilExpiry !== null && hoursUntilExpiry < 24;
+
+            div.innerHTML = `
+                <div class="cart-item-image">${item.icon}</div>
+                <div class="cart-item-name">${item.productName}</div>
+                <div class="cart-item-merchant">${item.merchant}</div>
+                <div class="cart-item-price">
+                    <span class="cart-item-current-price">$${item.price.toFixed(2)}</span>
+                    ${item.originalPrice ? `<span class="cart-item-original-price">$${item.originalPrice.toFixed(2)}</span>` : ''}
+                </div>
+                ${savings > 0 ? `<div class="cart-item-savings">💰 Save $${savings.toFixed(2)} (${savingsPercent}% off)</div>` : ''}
+                ${hoursUntilExpiry !== null ? `
+                    <div class="cart-item-expiry ${isUrgent ? 'urgent' : ''}">
+                        ⏰ ${hoursUntilExpiry}h remaining
+                    </div>
+                ` : ''}
+                <div class="cart-item-controls">
+                    <div class="quantity-control">
+                        <button class="quantity-btn" onclick="updateQuantity(${index}, -1)">−</button>
+                        <span class="quantity-value">${item.quantity}</span>
+                        <button class="quantity-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                    </div>
+                    <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+                </div>
+            `;
+
+            return div;
+        }
+
+        // Update Quantity
+        function updateQuantity(index, delta) {
+            if (!demoCart[index]) return;
+
+            const newQuantity = demoCart[index].quantity + delta;
+            if (newQuantity < 1) {
+                removeItem(index);
+                return;
+            }
+
+            demoCart[index].quantity = newQuantity;
+            renderCart();
+            updateCartSummary();
+        }
+
+        // Remove Item
+        function removeItem(index) {
+            demoCart.splice(index, 1);
+            renderCart();
+            updateCartSummary();
+        }
+
+        // Clear Cart
+        function clearDemoCart() {
+            if (demoCart.length === 0) return;
+
+            if (confirm('Clear all items from cart?')) {
+                demoCart = [];
+                renderCart();
+                updateCartSummary();
+            }
+        }
+
+        // Update Cart Summary Badge
+        function updateCartSummary() {
+            const totalItems = demoCart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = demoCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            document.querySelector('.cart-count').textContent = totalItems;
+            document.querySelector('.cart-total').textContent = totalPrice.toFixed(2);
+        }
+
+        // Update Checkout Panel
+        function updateCheckoutPanel() {
+            const subtotal = demoCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const originalTotal = demoCart.reduce((sum, item) => {
+                const original = item.originalPrice || item.price;
+                return sum + (original * item.quantity);
+            }, 0);
+            const savings = originalTotal - subtotal;
+
+            document.getElementById('checkoutSubtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('checkoutSavings').textContent = savings.toFixed(2);
+            document.getElementById('checkoutTotal').textContent = subtotal.toFixed(2);
+
+            // Update merchant links
+            const merchantGroups = {};
+            demoCart.forEach(item => {
+                if (!merchantGroups[item.merchant]) {
+                    merchantGroups[item.merchant] = [];
+                }
+                merchantGroups[item.merchant].push(item);
+            });
+
+            const merchantLinksEl = document.getElementById('merchantLinks');
+            merchantLinksEl.innerHTML = Object.keys(merchantGroups).length > 0 ?
+                '<div style="font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 12px;">Quick Checkout by Merchant:</div>' : '';
+
+            Object.keys(merchantGroups).forEach(merchant => {
+                const items = merchantGroups[merchant];
+                const merchantTotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+                const linkEl = document.createElement('a');
+                linkEl.className = 'merchant-link';
+                linkEl.href = '#';
+                linkEl.onclick = (e) => {
+                    e.preventDefault();
+                    alert(`Opening ${merchant} checkout with ${items.length} item(s)...`);
+                };
+                linkEl.innerHTML = `
+                    <span>${merchant} (${items.length} item${items.length > 1 ? 's' : ''})</span>
+                    <span style="font-weight: 600;">$${merchantTotal.toFixed(2)} →</span>
+                `;
+                merchantLinksEl.appendChild(linkEl);
+            });
+        }
+
+        // Proceed to Checkout
+        function proceedToCheckout() {
+            if (demoCart.length === 0) return;
+
+            alert(`🎉 Checkout Demo!\n\nYou would now be redirected to complete your purchase:\n\n${demoCart.map(item =>
+                `• ${item.productName} (${item.quantity}x) - $${(item.price * item.quantity).toFixed(2)}`
+            ).join('\n')}\n\nTotal: $${demoCart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}`);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCart();
+            updateCartSummary();
+        });
+    </script>
 </body>
 </html>
