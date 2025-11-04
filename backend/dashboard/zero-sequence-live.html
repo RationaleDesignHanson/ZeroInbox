@@ -1595,6 +1595,46 @@
                     processingTime: `${classifyTime}ms`
                 };
 
+                // Map production API response to expected debug format for Steps 2-4
+                // Extract entities from root-level fields in production response
+                const entities = {
+                    deadline: data.deadline ? { text: data.deadline, isUrgent: data.urgent || false } : null,
+                    prices: data.paymentAmount ? { original: `$${data.paymentAmount}` } : {},
+                    trackingNumbers: data.trackingNumber ? [data.trackingNumber] : [],
+                    companies: data.company?.name ? [data.company.name] : [],
+                    children: [],
+                    stores: [],
+                    promoCodes: [],
+                    accounts: [],
+                    flights: [],
+                    hotels: []
+                };
+
+                // Create expected data structure for Steps 2-4
+                data.entityExtraction = {
+                    extractedEntities: entities,
+                    processingTime: '0ms'
+                };
+
+                data.mailAdsClassification = {
+                    finalCategory: data.type || 'mail',
+                    accuracy: { confidence: data.confidence >= 0.8 ? 'high' : 'medium' },
+                    signals: {
+                        unsubscribeLink: false,
+                        promoKeywords: { count: 0, matches: [] },
+                        marketingSender: false,
+                        intentBased: data.intent?.startsWith('marketing.') || data.intent?.startsWith('e-commerce.promotion')
+                    }
+                };
+
+                data.actualClassifierOutput = {
+                    suggestedActions: data.suggestedActions || []
+                };
+
+                data.rulesEngine = {
+                    suggestedActions: data.suggestedActions || []
+                };
+
                 // Populate Step 1: Intent Classification
                 const detectedIntentEl = document.getElementById('detected-intent');
                 const intentConfidenceEl = document.getElementById('intent-confidence');
