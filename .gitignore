@@ -204,6 +204,7 @@ database.json
 
 ## OAuth tokens
 .oauth-tokens
+backend/services/gateway/data/tokens/*.json
 
 # ==========================================
 # Google Cloud Platform
