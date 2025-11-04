@@ -11,12 +11,19 @@
             box-sizing: border-box;
         }
 
+        html {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
             position: relative;
             padding-top: 60px;
         }
@@ -2035,12 +2042,17 @@
                 flex-direction: column;
                 gap: 12px;
                 padding: 0 16px;
+                max-width: 100%;
             }
 
             .tab-button {
                 width: 100%;
+                max-width: 100%;
                 padding: 16px 24px;
                 font-size: 15px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
         }
 
