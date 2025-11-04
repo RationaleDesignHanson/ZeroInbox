@@ -24,15 +24,15 @@ const DashboardConfig = {
 
   // Backend Services - Production (Google Cloud Run)
   production: {
-    gateway: 'https://emailshortform-gateway-hqdlmnyzrq-uc.a.run.app',
-    email: 'https://emailshortform-email-hqdlmnyzrq-uc.a.run.app',
-    classifier: 'https://emailshortform-classifier-hqdlmnyzrq-uc.a.run.app',
-    summarization: 'https://emailshortform-summarization-hqdlmnyzrq-uc.a.run.app',
-    shoppingCart: 'https://shopping-agent-service-hqdlmnyzrq-uc.a.run.app',
-    actions: 'https://scheduled-purchase-service-hqdlmnyzrq-uc.a.run.app',
-    smartReplies: 'https://smart-replies-service-hqdlmnyzrq-uc.a.run.app',
-    steelAgent: 'https://steel-agent-service-hqdlmnyzrq-uc.a.run.app',
-    analytics: 'https://analytics-service-hqdlmnyzrq-uc.a.run.app'
+    gateway: 'https://emailshortform-gateway-514014482017.us-central1.run.app',
+    email: 'https://emailshortform-email-514014482017.us-central1.run.app',
+    classifier: 'https://emailshortform-classifier-514014482017.us-central1.run.app',
+    summarization: 'https://emailshortform-summarization-514014482017.us-central1.run.app',
+    shoppingCart: 'https://shopping-agent-service-514014482017.us-central1.run.app',
+    actions: 'https://scheduled-purchase-service-514014482017.us-central1.run.app',
+    smartReplies: 'https://smart-replies-service-514014482017.us-central1.run.app',
+    steelAgent: 'https://steel-agent-service-514014482017.us-central1.run.app',
+    analytics: 'https://analytics-service-514014482017.us-central1.run.app'
   },
 
   // Active services (based on environment)
