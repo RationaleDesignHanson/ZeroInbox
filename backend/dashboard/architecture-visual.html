@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Architecture - Interactive Visualization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Firefly Background */
+        .floating-spheres {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .firefly {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            will-change: transform, opacity;
+            animation: firefly-float ease-in-out infinite;
+        }
+
+        .firefly.small {
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(147, 197, 253, 1), rgba(147, 197, 253, 0.5) 40%, transparent 70%);
+            box-shadow: 0 0 10px rgba(147, 197, 253, 0.8);
+        }
+
+        .firefly.medium {
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle, rgba(196, 181, 253, 1), rgba(196, 181, 253, 0.6) 40%, transparent 70%);
+            box-shadow: 0 0 15px rgba(196, 181, 253, 0.9);
+        }
+
+        .firefly.warm {
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 1), rgba(251, 191, 36, 0.7) 40%, transparent 70%);
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.9);
+        }
+
+        @keyframes firefly-float {
+            0%, 100% {
+                transform: translate3d(0, 0, 0);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translate3d(var(--tx1), var(--ty1), 0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate3d(var(--tx2), var(--ty2), 0);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate3d(var(--tx3), var(--ty3), 0);
+                opacity: 0.9;
+            }
+        }
+
+        /* Main Container */
+        .architecture-container {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 1400px;
+            height: 90vh;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* Header */
+        .arch-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .arch-title {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .arch-subtitle {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        /* Architecture Layers */
+        .arch-layers {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* Layer Row */
+        .layer {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .layer:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .layer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .layer-title {
+            font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .layer-icon {
+            font-size: 32px;
+        }
+
+        .layer-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card.expanded {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-1), var(--color-2));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .service-emoji {
+            font-size: 24px;
+        }
+
+        .service-info {
+            flex: 1;
+        }
+
+        .service-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .service-port {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: 'SF Mono', 'Courier New', monospace;
+        }
+
+        .service-desc {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            margin-top: 8px;
+        }
+
+        .service-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, margin-top 0.4s ease;
+            margin-top: 0;
+        }
+
+        .service-card.expanded .service-details {
+            max-height: 500px;
+            margin-top: 16px;
+        }
+
+        .details-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .details-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .details-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .details-content {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .details-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .details-list li {
+            padding: 4px 0;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .details-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: rgba(139, 92, 246, 0.7);
+        }
+
+        .expand-indicator {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card.expanded .expand-indicator {
+            transform: rotate(180deg);
+        }
+
+        .service-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: #10b981;
+            margin-top: 8px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% {
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+            }
+            50% {
+                opacity: 0.7;
+                box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+            }
+        }
+
+        /* Data Flow Connector */
+        .flow-connector {
+            text-align: center;
+            padding: 16px 0;
+            position: relative;
+        }
+
+        .flow-line {
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.5), rgba(139, 92, 246, 0.5));
+            margin: 0 auto;
+            position: relative;
+            animation: flow-pulse 2s ease-in-out infinite;
+        }
+
+        .flow-arrow {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            color: rgba(139, 92, 246, 0.8);
+            animation: arrow-bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes flow-pulse {
+            0%, 100% {
+                opacity: 0.5;
+                box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+            }
+            50% {
+                opacity: 1;
+                box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
+            }
+        }
+
+        @keyframes arrow-bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(5px);
+            }
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            text-decoration: none;
+            color: white;
+            font-size: 20px;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        /* Color themes for different services */
+        .service-card[data-type="gateway"] {
+            --color-1: #3b82f6;
+            --color-2: #0ea5e9;
+        }
+
+        .service-card[data-type="email"] {
+            --color-1: #8b5cf6;
+            --color-2: #a78bfa;
+        }
+
+        .service-card[data-type="ai"] {
+            --color-1: #10b981;
+            --color-2: #34d399;
+        }
+
+        .service-card[data-type="action"] {
+            --color-1: #f59e0b;
+            --color-2: #fbbf24;
+        }
+
+        .service-card[data-type="analytics"] {
+            --color-1: #ef4444;
+            --color-2: #f87171;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .architecture-container {
+                width: 95%;
+                height: auto;
+            }
+
+            .arch-title {
+                font-size: 32px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .layer-title {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Firefly Background -->
+    <div class="floating-spheres" id="fireflyContainer"></div>
+
+    <!-- Back Button -->
+    <a href="index.html" class="back-button">←</a>
+
+    <!-- Main Container -->
+    <div class="architecture-container">
+        <!-- Header -->
+        <div class="arch-header">
+            <div class="arch-title">System Architecture</div>
+            <div class="arch-subtitle">Complete System Overview • 10 Microservices • 100% Coverage</div>
+        </div>
+
+        <!-- Architecture Layers -->
+        <div class="arch-layers">
+
+            <!-- Layer 1: iOS Client -->
+            <div class="layer">
+                <div class="layer-header">
+                    <div class="layer-title">
+                        <span class="layer-icon">📱</span>
+                        <span>iOS Client Layer</span>
+                    </div>
+                    <div class="layer-badge">Swift/SwiftUI</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card" data-type="email">
+                        <div class="service-header">
+                            <span class="service-emoji">🔐</span>
+                            <div class="service-info">
+                                <div class="service-name">OAuth Authentication</div>
+                                <div class="service-port">Gmail • Outlook • Yahoo</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Secure login with major email providers</div>
+                    </div>
+                    <div class="service-card" data-type="email">
+                        <div class="service-header">
+                            <span class="service-emoji">📧</span>
+                            <div class="service-info">
+                                <div class="service-name">Card UI</div>
+                                <div class="service-port">ContentView.swift</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Swipe-based email interactions</div>
+                    </div>
+                    <div class="service-card" data-type="action">
+                        <div class="service-header">
+                            <span class="service-emoji">⚡</span>
+                            <div class="service-info">
+                                <div class="service-name">Action Router</div>
+                                <div class="service-port">143 Actions</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Routes all actions to native modals or Safari</div>
+                    </div>
+                    <div class="service-card" data-type="analytics">
+                        <div class="service-header">
+                            <span class="service-emoji">📊</span>
+                            <div class="service-info">
+                                <div class="service-name">Analytics Client</div>
+                                <div class="service-port">Event Tracking</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Tracks user actions and engagement</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flow Connector -->
+            <div class="flow-connector">
+                <div class="flow-line"></div>
+                <div class="flow-arrow">↓</div>
+            </div>
+
+            <!-- Layer 2: API Gateway -->
+            <div class="layer">
+                <div class="layer-header">
+                    <div class="layer-title">
+                        <span class="layer-icon">🚪</span>
+                        <span>API Gateway Layer</span>
+                    </div>
+                    <div class="layer-badge">Port 3001</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card" data-type="gateway">
+                        <div class="service-header">
+                            <span class="service-emoji">🛡️</span>
+                            <div class="service-info">
+                                <div class="service-name">Gateway</div>
+                                <div class="service-port">Port 3001</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Central routing, OAuth, JWT auth, rate limiting (1000/15min)</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flow Connector -->
+            <div class="flow-connector">
+                <div class="flow-line"></div>
+                <div class="flow-arrow">↓</div>
+            </div>
+
+            <!-- Layer 3: Core Services -->
+            <div class="layer">
+                <div class="layer-header">
+                    <div class="layer-title">
+                        <span class="layer-icon">⚙️</span>
+                        <span>Core Services Layer</span>
+                    </div>
+                    <div class="layer-badge">10 Microservices</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card" data-type="email">
+                        <div class="service-header">
+                            <span class="service-emoji">📬</span>
+                            <div class="service-info">
+                                <div class="service-name">Email Service</div>
+                                <div class="service-port">Port 8081</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Gmail, Outlook, Yahoo, iCloud API integration</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-type="ai">
+                        <div class="service-header">
+                            <span class="service-emoji">🤖</span>
+                            <div class="service-info">
+                                <div class="service-name">Classifier</div>
+                                <div class="service-port">Port 8082</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">AI intent detection (143 intents), entity extraction</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-type="ai">
+                        <div class="service-header">
+                            <span class="service-emoji">📝</span>
+                            <div class="service-info">
+                                <div class="service-name">Summarization</div>
+                                <div class="service-port">Port 8083</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Email & newsletter summaries with key links</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-type="action">
+                        <div class="service-header">
+                            <span class="service-emoji">🛒</span>
+                            <div class="service-info">
+                                <div class="service-name">Shopping Agent</div>
+                                <div class="service-port">Port 8084</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Cart management, price tracking, buy again</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-type="action">
+                        <div class="service-header">
+                            <span class="service-emoji">⏰</span>
+                            <div class="service-info">
+                                <div class="service-name">Scheduled Purchase</div>
+                                <div class="service-port">Port 8085</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Schedule future purchases & reminders</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-type="ai">
+                        <div class="service-header">
+                            <span class="service-emoji">💬</span>
+                            <div class="service-info">
+                                <div class="service-name">Smart Replies</div>
+                                <div class="service-port">Port 8086</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">AI-powered contextual reply suggestions</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-type="action">
+                        <div class="service-header">
+                            <span class="service-emoji">🌐</span>
+                            <div class="service-info">
+                                <div class="service-name">Steel Agent</div>
+                                <div class="service-port">Port 8087</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Browser automation for subscriptions</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-type="action">
+                        <div class="service-header">
+                            <span class="service-emoji">⚡</span>
+                            <div class="service-info">
+                                <div class="service-name">Actions</div>
+                                <div class="service-port">Port 8089</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Action catalog (143 actions) & validation</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-type="analytics">
+                        <div class="service-header">
+                            <span class="service-emoji">📊</span>
+                            <div class="service-info">
+                                <div class="service-name">Analytics</div>
+                                <div class="service-port">Port 8090</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Usage tracking, A/B tests, dashboards</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+
+                    <div class="service-card" data-type="ai">
+                        <div class="service-header">
+                            <span class="service-emoji">🔍</span>
+                            <div class="service-info">
+                                <div class="service-name">Thread Finder</div>
+                                <div class="service-port">Integrated</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Canvas & Classroom API for link-only emails</div>
+                        <div class="service-status">
+                            <span class="status-dot"></span>
+                            <span>Operational</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flow Connector -->
+            <div class="flow-connector">
+                <div class="flow-line"></div>
+                <div class="flow-arrow">↓</div>
+            </div>
+
+            <!-- Layer 4: External Services -->
+            <div class="layer">
+                <div class="layer-header">
+                    <div class="layer-title">
+                        <span class="layer-icon">🌍</span>
+                        <span>External Services Layer</span>
+                    </div>
+                    <div class="layer-badge">6 Integrations</div>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card" data-type="email">
+                        <div class="service-header">
+                            <span class="service-emoji">📧</span>
+                            <div class="service-info">
+                                <div class="service-name">Gmail API</div>
+                                <div class="service-port">Google OAuth</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Email fetching & OAuth authentication</div>
+                    </div>
+
+                    <div class="service-card" data-type="email">
+                        <div class="service-header">
+                            <span class="service-emoji">📬</span>
+                            <div class="service-info">
+                                <div class="service-name">Outlook Graph</div>
+                                <div class="service-port">Microsoft OAuth</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Outlook email via Graph API</div>
+                    </div>
+
+                    <div class="service-card" data-type="ai">
+                        <div class="service-header">
+                            <span class="service-emoji">✨</span>
+                            <div class="service-info">
+                                <div class="service-name">Google Gemini</div>
+                                <div class="service-port">gemini-2.0-flash</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">AI classification & entity extraction</div>
+                    </div>
+
+                    <div class="service-card" data-type="action">
+                        <div class="service-header">
+                            <span class="service-emoji">🎓</span>
+                            <div class="service-info">
+                                <div class="service-name">Canvas LMS</div>
+                                <div class="service-port">Canvas API</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Course assignments & announcements</div>
+                    </div>
+
+                    <div class="service-card" data-type="action">
+                        <div class="service-header">
+                            <span class="service-emoji">📚</span>
+                            <div class="service-info">
+                                <div class="service-name">Google Classroom</div>
+                                <div class="service-port">Classroom API</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Coursework & class announcements</div>
+                    </div>
+
+                    <div class="service-card" data-type="action">
+                        <div class="service-header">
+                            <span class="service-emoji">🌐</span>
+                            <div class="service-info">
+                                <div class="service-name">Steel Browser</div>
+                                <div class="service-port">Steel API</div>
+                            </div>
+                        </div>
+                        <div class="service-desc">Headless browser automation</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flow to User Experience -->
+            <div class="flow-connector">
+                <div class="flow-line"></div>
+                <div class="flow-arrow">↓</div>
+            </div>
+
+            <!-- CTA to User Experience -->
+            <div class="layer" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1)); border-color: rgba(139, 92, 246, 0.3);">
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 24px; font-weight: 700; margin-bottom: 12px;">
+                        See It In Action
+                    </div>
+                    <div style="font-size: 14px; color: rgba(255, 255, 255, 0.7); margin-bottom: 24px;">
+                        Experience how these services power the Zero Inbox card interface
+                    </div>
+                    <a href="zero-sequence-live.html" style="display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); color: white; padding: 14px 28px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 16px; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);">
+                        <span>View Live Demo</span>
+                        <span style="font-size: 20px;">→</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Generate firefly background
+        (function initFireflies() {
+            const container = document.getElementById('fireflyContainer');
+            const fireflyCount = 30;
+
+            for (let i = 0; i < fireflyCount; i++) {
+                const firefly = document.createElement('div');
+                const rand = Math.random();
+                const variant = rand < 0.33 ? 'small' : rand < 0.66 ? 'medium' : 'warm';
+                firefly.className = `firefly ${variant}`;
+
+                firefly.style.left = `${Math.random() * 100}%`;
+                firefly.style.top = `${Math.random() * 100}%`;
+
+                const duration = 8 + Math.random() * 12;
+                firefly.style.animationDuration = `${duration}s`;
+                firefly.style.animationDelay = `${Math.random() * -duration}s`;
+
+                const moveRange = 60 + Math.random() * 80;
+                firefly.style.setProperty('--tx1', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty1', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--tx2', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty2', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--tx3', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty3', `${(Math.random() - 0.5) * moveRange}px`);
+
+                container.appendChild(firefly);
+            }
+        })();
+
+        // Service details data
+        const serviceDetails = {
+            'OAuth Authentication': {
+                endpoints: ['/auth/google', '/auth/outlook', '/auth/yahoo'],
+                features: ['OAuth 2.0 flow', 'Token refresh', 'Multi-provider support'],
+                tech: 'Google/Microsoft/Yahoo OAuth APIs'
+            },
+            'Card UI': {
+                endpoints: ['ContentView.swift', 'SwipeCardView'],
+                features: ['Swipe gestures', 'Action buttons', 'Modal routing'],
+                tech: 'SwiftUI + Custom Gestures'
+            },
+            'Action Router': {
+                endpoints: ['inAppActionModalView switch'],
+                features: ['143 action IDs', 'Three-tier fallback', 'URL extraction', 'Safari integration'],
+                tech: 'Swift pattern matching'
+            },
+            'Analytics Client': {
+                endpoints: ['POST /api/analytics/event'],
+                features: ['Action tracking', 'Swipe events', 'Modal opens', 'Time-based metrics'],
+                tech: 'REST API calls'
+            },
+            'Gateway': {
+                endpoints: ['/api/*', '/auth/*', '/health'],
+                features: ['Central routing', 'JWT validation', 'Rate limiting (1000/15min)', 'CORS handling'],
+                tech: 'Express.js + JWT'
+            },
+            'Email Service': {
+                endpoints: ['/api/emails/fetch', '/api/emails/send', '/api/emails/oauth'],
+                features: ['Gmail API integration', 'Outlook Graph API', 'Yahoo/iCloud support', 'Batch fetching'],
+                tech: 'Gmail API, Graph API, Node.js'
+            },
+            'Classifier': {
+                endpoints: ['/api/classify', '/api/classify/batch', '/api/classify/debug'],
+                features: ['143 intent detection', 'Entity extraction', 'Priority assignment', 'Thread Finder integration'],
+                tech: 'Google Gemini 2.0 Flash'
+            },
+            'Summarization': {
+                endpoints: ['/api/summarize', '/api/summarize/newsletter'],
+                features: ['Email summaries', 'Newsletter digests', 'Key link extraction', 'Action suggestions'],
+                tech: 'Gemini 2.0 + Custom prompts'
+            },
+            'Shopping Agent': {
+                endpoints: ['/api/cart/add', '/api/cart/view', '/api/price-alert'],
+                features: ['Cart management', 'Price tracking', 'Buy again', 'Product detection'],
+                tech: 'PostgreSQL + Cron jobs'
+            },
+            'Scheduled Purchase': {
+                endpoints: ['/api/schedule/create', '/api/schedule/list'],
+                features: ['Future purchase scheduling', 'Reminder system', 'One-click checkout'],
+                tech: 'Node-cron + PostgreSQL'
+            },
+            'Smart Replies': {
+                endpoints: ['/api/replies/generate'],
+                features: ['3 contextual suggestions', 'Tone detection', 'Professional/casual/friendly modes'],
+                tech: 'GPT-4 + Custom prompts'
+            },
+            'Steel Agent': {
+                endpoints: ['/api/steel/cancel', '/api/steel/manage'],
+                features: ['Browser automation', 'Subscription cancellation', 'Form filling', 'Screenshot capture'],
+                tech: 'Steel Browser API'
+            },
+            'Actions': {
+                endpoints: ['/api/actions/catalog', '/api/actions/validate'],
+                features: ['143 action catalog', 'Action metadata', 'Validation endpoints'],
+                tech: 'Express.js + JSON catalog'
+            },
+            'Analytics': {
+                endpoints: ['/api/analytics/event', '/api/analytics/dashboard'],
+                features: ['Event tracking', 'A/B testing', 'Usage metrics', 'Dashboard data'],
+                tech: 'PostgreSQL + TimescaleDB'
+            },
+            'Thread Finder': {
+                endpoints: ['Integrated in Classifier'],
+                features: ['Canvas LMS API', 'Google Classroom API', 'Link-only email enrichment', 'Assignment fetching'],
+                tech: 'Canvas API + Classroom API'
+            },
+            'Gmail API': {
+                endpoints: ['Gmail REST API v1'],
+                features: ['Email fetching', 'OAuth 2.0', 'Label management', 'Thread support'],
+                tech: 'Google Cloud Platform'
+            },
+            'Outlook Graph': {
+                endpoints: ['Microsoft Graph API'],
+                features: ['Email fetching', 'OAuth 2.0', 'Calendar integration', 'Contacts'],
+                tech: 'Microsoft Azure'
+            },
+            'Google Gemini': {
+                endpoints: ['Gemini 2.0 Flash API'],
+                features: ['Intent classification', 'Entity extraction', 'Summarization', 'Smart replies'],
+                tech: 'Google AI Studio'
+            },
+            'Canvas LMS': {
+                endpoints: ['Canvas REST API'],
+                features: ['Assignment fetching', 'Announcement retrieval', 'Course data', 'Due dates'],
+                tech: 'Canvas API OAuth'
+            },
+            'Google Classroom': {
+                endpoints: ['Classroom REST API'],
+                features: ['Coursework fetching', 'Announcement retrieval', 'Grade sync', 'Class roster'],
+                tech: 'Google Cloud Platform'
+            },
+            'Steel Browser': {
+                endpoints: ['Steel API v1'],
+                features: ['Headless browser', 'JavaScript execution', 'Screenshot capture', 'Form automation'],
+                tech: 'Chromium-based automation'
+            }
+        };
+
+        // Add expand indicators and details to all service cards
+        document.querySelectorAll('.service-card').forEach(card => {
+            const name = card.querySelector('.service-name').textContent;
+            const details = serviceDetails[name];
+
+            if (details) {
+                // Add expand indicator
+                const indicator = document.createElement('div');
+                indicator.className = 'expand-indicator';
+                indicator.textContent = '▼';
+                card.appendChild(indicator);
+
+                // Create details section
+                const detailsDiv = document.createElement('div');
+                detailsDiv.className = 'service-details';
+
+                // Endpoints section
+                if (details.endpoints && details.endpoints.length > 0) {
+                    const endpointsSection = document.createElement('div');
+                    endpointsSection.className = 'details-section';
+                    endpointsSection.innerHTML = `
+                        <div class="details-title">Endpoints</div>
+                        <ul class="details-list">
+                            ${details.endpoints.map(ep => `<li>${ep}</li>`).join('')}
+                        </ul>
+                    `;
+                    detailsDiv.appendChild(endpointsSection);
+                }
+
+                // Features section
+                if (details.features && details.features.length > 0) {
+                    const featuresSection = document.createElement('div');
+                    featuresSection.className = 'details-section';
+                    featuresSection.innerHTML = `
+                        <div class="details-title">Key Features</div>
+                        <ul class="details-list">
+                            ${details.features.map(f => `<li>${f}</li>`).join('')}
+                        </ul>
+                    `;
+                    detailsDiv.appendChild(featuresSection);
+                }
+
+                // Technology section
+                if (details.tech) {
+                    const techSection = document.createElement('div');
+                    techSection.className = 'details-section';
+                    techSection.innerHTML = `
+                        <div class="details-title">Technology</div>
+                        <div class="details-content">${details.tech}</div>
+                    `;
+                    detailsDiv.appendChild(techSection);
+                }
+
+                card.appendChild(detailsDiv);
+            }
+
+            // Toggle expansion on click
+            card.addEventListener('click', () => {
+                // Close other expanded cards
+                document.querySelectorAll('.service-card.expanded').forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.classList.remove('expanded');
+                    }
+                });
+
+                // Toggle current card
+                card.classList.toggle('expanded');
+            });
+        });
+    </script>
+</body>
+</html>

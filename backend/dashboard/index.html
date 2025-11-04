@@ -910,6 +910,10 @@
                 <span>Request Access</span>
             </a>
             <div class="menu-divider"></div>
+            <a href="architecture-visual.html" class="menu-item">
+                <span class="menu-item-icon">🏗️</span>
+                <span>System Architecture</span>
+            </a>
             <a href="system-health.html" class="menu-item">
                 <span class="menu-item-icon">🏥</span>
                 <span>System Health</span>
@@ -918,6 +922,10 @@
                 <span class="menu-item-icon">🎨</span>
                 <span>Design System</span>
             </a>
+            <div class="menu-item" id="regenerateSummariesButton" onclick="regenerateSummaries()">
+                <span class="menu-item-icon">🔄</span>
+                <span>Regenerate Summaries</span>
+            </div>
             <div class="menu-divider"></div>
             <div class="menu-item" id="logoutButton" onclick="logout()">
                 <span class="menu-item-icon">🚪</span>
@@ -1201,6 +1209,82 @@
                 card.style.transform = 'translate(0, 0)';
             }
         }
+        // Regenerate Summaries function
+        async function regenerateSummaries() {
+            const button = document.getElementById('regenerateSummariesButton');
+            const menuDropdown = document.getElementById('menuDropdown');
+
+            if (button) {
+                const originalContent = button.innerHTML;
+                button.innerHTML = '<span class="menu-item-icon">⏳</span><span>Regenerating...</span>';
+                button.style.pointerEvents = 'none';
+
+                try {
+                    // Get user ID from session or prompt
+                    let userId = sessionStorage.getItem('userId');
+                    if (!userId) {
+                        userId = prompt('Enter your User ID (or leave blank to use authenticated user):');
+                        if (!userId) {
+                            // Use authenticated user endpoint instead
+                            button.innerHTML = '<span class="menu-item-icon">❌</span><span>Cancelled</span>';
+                            setTimeout(() => {
+                                button.innerHTML = originalContent;
+                                button.style.pointerEvents = 'auto';
+                            }, 2000);
+                            return;
+                        }
+                        sessionStorage.setItem('userId', userId);
+                    }
+
+                    // Ask for number of emails to process
+                    const maxEmails = prompt('How many emails to process? (default: 50)', '50');
+                    const emailCount = parseInt(maxEmails) || 50;
+
+                    button.innerHTML = '<span class="menu-item-icon">🔄</span><span>Processing ' + emailCount + ' emails...</span>';
+
+                    // Call the gateway API to fetch and process emails
+                    // This will automatically trigger classification and summarization
+                    const response = await fetch('/api/emails?maxResults=' + emailCount, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch emails: ' + response.statusText);
+                    }
+
+                    const result = await response.json();
+                    const processedCount = result.emails ? result.emails.length : 0;
+
+                    button.innerHTML = '<span class="menu-item-icon">✅</span><span>Done! ' + processedCount + ' emails</span>';
+
+                    // Show success message
+                    setTimeout(() => {
+                        alert('✨ Successfully regenerated summaries for ' + processedCount + ' emails!\n\n' +
+                              'Fresh AI summaries with:\n' +
+                              '• Actions (15px, 100% white)\n' +
+                              '• Why (14px, 80% white, italic)\n' +
+                              '• Context (13px, 70% white)\n\n' +
+                              'Your iOS app will receive these on next sync.');
+
+                        button.innerHTML = originalContent;
+                        button.style.pointerEvents = 'auto';
+                        menuDropdown.classList.remove('show');
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('Regenerate summaries error:', error);
+                    button.innerHTML = '<span class="menu-item-icon">❌</span><span>Error: ' + error.message + '</span>';
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                        button.style.pointerEvents = 'auto';
+                    }, 3000);
+                }
+            }
+        }
+
         // Logout function
         async function logout() {
             try {

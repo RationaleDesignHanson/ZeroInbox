@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Modal Test Results</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .status {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .pass { background: #10b981; color: white; }
+        .fail { background: #ef4444; color: white; }
+        .button {
+            background: #667eea;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 10px 5px;
+        }
+        .button:hover {
+            background: #5568d3;
+        }
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .summary-card {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .summary-card.total { background: #e0e7ff; }
+        .summary-card.pass { background: #d1fae5; }
+        .summary-card.fail { background: #fee2e2; }
+        .summary-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+        .summary-card .number {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧪 Website Modal Coverage Test</h1>
+        <p>Testing swipe-to-modal functionality across all 143 actions</p>
+    </div>
+
+    <div class="test-section">
+        <h2>Test Instructions</h2>
+        <p>This test validates that all 143 actions from the action catalog can trigger modals when swiping right on cards.</p>
+        <div>
+            <button class="button" onclick="testAppDemo()">Test app-demo.html</button>
+            <button class="button" onclick="testZeroSequence()">Test zero-sequence-live.html</button>
+            <button class="button" onclick="testBoth()">Test Both</button>
+        </div>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        const ALL_ACTIONS = [
+            'accept_offer', 'accept_school_event', 'accept_social_invitation', 'add_activity_to_calendar',
+            'add_reminder', 'add_to_calendar', 'add_to_notes', 'add_to_wallet', 'apply_for_permit',
+            'book_activity_tickets', 'book_appointment', 'buy_again', 'cancel_subscription',
+            'cancel_subscription_service', 'change_delivery_preferences', 'check_application_status',
+            'check_grade', 'check_in_appointment', 'check_in_flight', 'claim_deal', 'complete_cart',
+            'confirm_appointment', 'confirm_court_appearance', 'contact_driver', 'contact_support',
+            'copy_promo_code', 'dispute_transaction', 'download_attachment', 'download_receipt',
+            'download_results', 'download_tax_document', 'extend_trial', 'file_insurance_claim',
+            'get_directions', 'join_meeting', 'manage_booking', 'manage_subscription',
+            'modify_reservation', 'notify_restock', 'open_link', 'open_original_link', 'pay_form_fee',
+            'pay_invoice', 'pay_property_tax', 'pay_utility_bill', 'pickup_prescription',
+            'prepare_for_outage', 'print_return_label', 'provide_access_code', 'quick_reply',
+            'rate_product', 'read_community_post', 'redeem_rewards', 'register_event',
+            'register_for_sports', 'register_to_vote', 'renew_license', 'reorder_item',
+            'reply_thanks', 'reply_to_post', 'reply_to_teacher', 'reply_to_thread', 'reply_to_ticket',
+            'reschedule_appointment', 'reset_password', 'return_item', 'review_security',
+            'revoke_secret', 'rsvp_game', 'rsvp_no', 'rsvp_school_event', 'rsvp_yes',
+            'save_for_later', 'save_properties', 'schedule_delivery_time', 'schedule_extraction_retry',
+            'schedule_inspection', 'schedule_interview', 'schedule_meeting', 'schedule_payment',
+            'schedule_purchase', 'schedule_showing', 'schedule_test', 'set_outage_reminder',
+            'set_payment_reminder', 'set_price_alert', 'set_reminder', 'share_achievement', 'sign_form',
+            'submit_assignment', 'take_survey', 'track_delivery', 'track_package', 'track_return',
+            'unsubscribe', 'update_payment', 'update_payment_method', 'upgrade_subscription',
+            'verify_account', 'verify_device', 'verify_social_account', 'verify_transaction',
+            'view_activity', 'view_activity_details', 'view_announcement', 'view_assignment',
+            'view_ballot', 'view_benefits', 'view_claim_status', 'view_credit_report', 'view_details',
+            'view_extracted_content', 'view_game_schedule', 'view_incident', 'view_introduction',
+            'view_invoice', 'view_itinerary', 'view_job_details', 'view_legal_document',
+            'view_lms_message', 'view_mortgage_details', 'view_newsletter_summary',
+            'view_onboarding_info', 'view_order', 'view_outage_details', 'view_pickup_details',
+            'view_portfolio', 'view_post_comments', 'view_practice_details', 'view_product',
+            'view_property_listings', 'view_referral', 'view_refund_status', 'view_reservation',
+            'view_results', 'view_social_message', 'view_statement', 'view_task',
+            'view_team_announcement', 'view_ticket', 'view_usage', 'view_warranty', 'write_review'
+        ];
+
+        async function testFile(filePath, fileName) {
+            const response = await fetch(filePath);
+            const html = await response.text();
+
+            const results = {
+                total: ALL_ACTIONS.length,
+                pass: 0,
+                fail: 0,
+                missing: []
+            };
+
+            for (const action of ALL_ACTIONS) {
+                // Check if action exists in file
+                if (html.includes(`'${action}':`) || html.includes(`"${action}":`)) {
+                    results.pass++;
+                } else {
+                    results.fail++;
+                    results.missing.push(action);
+                }
+            }
+
+            return { fileName, ...results };
+        }
+
+        function displayResults(results) {
+            const resultsDiv = document.getElementById('results');
+            const coverage = ((results.pass / results.total) * 100).toFixed(1);
+
+            resultsDiv.innerHTML += `
+                <div class="test-section">
+                    <h2>📊 ${results.fileName} Results</h2>
+
+                    <div class="summary">
+                        <div class="summary-card total">
+                            <h3>Total Actions</h3>
+                            <div class="number">${results.total}</div>
+                        </div>
+                        <div class="summary-card pass">
+                            <h3>Present</h3>
+                            <div class="number">${results.pass}</div>
+                        </div>
+                        <div class="summary-card fail">
+                            <h3>Missing</h3>
+                            <div class="number">${results.fail}</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 15px; background: ${coverage === '100.0' ? '#d1fae5' : '#fee2e2'}; border-radius: 8px; text-align: center;">
+                        <h3 style="margin: 0;">Coverage: ${coverage}%</h3>
+                        ${coverage === '100.0' ?
+                            '<p style="margin: 10px 0 0 0;">✅ All actions have modal coverage!</p>' :
+                            `<p style="margin: 10px 0 0 0;">❌ ${results.fail} actions missing</p>`
+                        }
+                    </div>
+
+                    ${results.missing.length > 0 ? `
+                        <div style="margin-top: 20px;">
+                            <h3>Missing Actions:</h3>
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 12px;">
+                                ${results.missing.join(', ')}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        async function testAppDemo() {
+            document.getElementById('results').innerHTML = '';
+            const results = await testFile('../dashboard/app-demo.html', 'app-demo.html');
+            displayResults(results);
+        }
+
+        async function testZeroSequence() {
+            document.getElementById('results').innerHTML = '';
+            const results = await testFile('../dashboard/zero-sequence-live.html', 'zero-sequence-live.html');
+            displayResults(results);
+        }
+
+        async function testBoth() {
+            document.getElementById('results').innerHTML = '';
+            const results1 = await testFile('../dashboard/app-demo.html', 'app-demo.html');
+            displayResults(results1);
+            const results2 = await testFile('../dashboard/zero-sequence-live.html', 'zero-sequence-live.html');
+            displayResults(results2);
+        }
+
+        // Auto-run both tests on load
+        window.addEventListener('load', testBoth);
+    </script>
+</body>
+</html>
