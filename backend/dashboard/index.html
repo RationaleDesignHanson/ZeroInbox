@@ -116,6 +116,7 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             cursor: pointer;
             transition: transform 0.3s ease;
+            touch-action: none;
         }
 
         .demo-card:hover {
@@ -614,6 +615,62 @@
             line-height: 1.5;
         }
 
+        /* Directional Arrows for Mobile */
+        .nav-arrow {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: none; /* Hidden by default, shown on mobile */
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .nav-arrow.highlight {
+            transform: scale(1.2);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Swipe Preview Content */
+        .swipe-preview {
+            display: none;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .swipe-preview.active {
+            display: block;
+        }
+
+        .swipe-preview-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .swipe-preview-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+
+        .default-content {
+            transition: opacity 0.2s ease;
+        }
+
+        .default-content.hidden {
+            display: none;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .demo-card {
@@ -621,25 +678,14 @@
                 height: 500px;
             }
 
+            /* Hide full nav labels on mobile */
             .nav-label {
-                font-size: 14px;
-                padding: 10px 16px;
+                display: none;
             }
 
-            .nav-top {
-                top: 40px;
-            }
-
-            .nav-right {
-                right: 20px;
-            }
-
-            .nav-bottom {
-                bottom: 40px;
-            }
-
-            .nav-left {
-                left: 20px;
+            /* Show directional arrows on mobile */
+            .nav-arrow {
+                display: flex;
             }
 
             .zero-logo {
@@ -849,44 +895,74 @@
         <div class="demo-card" id="demoCard">
             <div class="card-glass"></div>
             <div class="card-content">
-                <div class="zero-logo">
-                    <div class="logo-glow"></div>
-                    <div class="logo-zero logo-zero-left">10</div>
-                    <div class="logo-zero logo-zero-center">0</div>
-                    <div class="logo-zero logo-zero-right">00</div>
-                </div>
-                <div class="logo-text">zero</div>
-                <p class="subtitle">Email Intelligence Platform</p>
+                <!-- Default Content -->
+                <div class="default-content" id="defaultContent">
+                    <div class="zero-logo">
+                        <div class="logo-glow"></div>
+                        <div class="logo-zero logo-zero-left">10</div>
+                        <div class="logo-zero logo-zero-center">0</div>
+                        <div class="logo-zero logo-zero-right">00</div>
+                    </div>
+                    <div class="logo-text">zero</div>
+                    <p class="subtitle">Email Intelligence Platform</p>
 
-                <div class="value-prop">
-                    <p class="value-statement">
-                        Email made easy. Zero helps you take action and gets you as close to inbox zero as you have time for.
-                    </p>
+                    <div class="value-prop">
+                        <p class="value-statement">
+                            Email made easy. Zero helps you take action and gets you as close to inbox zero as you have time for.
+                        </p>
+                    </div>
+
+                    <!-- Simple Swipe Instruction -->
+                    <div class="swipe-instruction">
+                        Click to Experience Zero • Swipe in any direction to explore
+                    </div>
                 </div>
 
-                <!-- Simple Swipe Instruction -->
-                <div class="swipe-instruction">
-                    Click to Experience Zero • Swipe in any direction to explore
+                <!-- Swipe Preview Content (Hidden by default) -->
+                <div class="swipe-preview" id="swipePreviewUp">
+                    <div class="swipe-preview-title">Shopping Cart</div>
+                    <div class="swipe-preview-desc">Track deals, prices, and expirations across all your shopping emails.</div>
+                </div>
+
+                <div class="swipe-preview" id="swipePreviewRight">
+                    <div class="swipe-preview-title">AI Intelligence</div>
+                    <div class="swipe-preview-desc">Test the email-to-action pipeline with 137 intent categories live.</div>
+                </div>
+
+                <div class="swipe-preview" id="swipePreviewDown">
+                    <div class="swipe-preview-title">Intent Categories</div>
+                    <div class="swipe-preview-desc">137 categories classify emails from shipping to healthcare.</div>
+                </div>
+
+                <div class="swipe-preview" id="swipePreviewLeft">
+                    <div class="swipe-preview-title">Smart Actions</div>
+                    <div class="swipe-preview-desc">143 actions to take depending on the context including native OS integrations and compound actions.</div>
                 </div>
             </div>
         </div>
 
+        <!-- Directional Arrows (Mobile Only) -->
+        <div class="nav-arrow" id="arrowUp" style="top: 120px; left: 50%; transform: translateX(-50%);">↑</div>
+        <div class="nav-arrow" id="arrowRight" style="top: 50%; right: 40px; transform: translateY(-50%);">→</div>
+        <div class="nav-arrow" id="arrowDown" style="bottom: 120px; left: 50%; transform: translateX(-50%);">↓</div>
+        <div class="nav-arrow" id="arrowLeft" style="top: 50%; left: 40px; transform: translateY(-50%);">←</div>
+
         <!-- Right Navigation -->
         <a href="zero-sequence-live.html" class="nav-label nav-right">
             <div class="nav-label-title">AI Intelligence</div>
-            <div class="nav-label-desc">Test the email-to-action pipeline with 130 intent categories live.</div>
+            <div class="nav-label-desc">Test the email-to-action pipeline with 137 intent categories live.</div>
         </a>
 
         <!-- Bottom Navigation -->
         <a href="intent-action-explorer.html" class="nav-label nav-bottom">
             <div class="nav-label-title">Intent Categories</div>
-            <div class="nav-label-desc">130 categories classify emails from shipping to healthcare.</div>
+            <div class="nav-label-desc">137 categories classify emails from shipping to healthcare.</div>
         </a>
 
         <!-- Left Navigation -->
         <a href="action-modal-explorer.html" class="nav-label nav-left">
             <div class="nav-label-title">Smart Actions</div>
-            <div class="nav-label-desc">130 actions to take depending on the context including native OS integrations and compound actions.</div>
+            <div class="nav-label-desc">143 actions to take depending on the context including native OS integrations and compound actions.</div>
         </a>
 
         <!-- Back Button -->
@@ -1096,17 +1172,23 @@
         });
 
         card.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Prevent scroll during swipe
             const currentX = e.touches[0].clientX;
             const currentY = e.touches[0].clientY;
             const diffX = currentX - touchStartX;
             const diffY = currentY - touchStartY;
             card.style.transform = `translate(${diffX}px, ${diffY}px)`;
-        });
+
+            // Update preview content based on swipe direction
+            updateSwipePreview(diffX, diffY);
+        }, { passive: false });
 
         card.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].clientX;
             touchEndY = e.changedTouches[0].clientY;
             handleSwipe();
+            // Reset preview on touch end
+            resetSwipePreview();
         });
 
         // Mouse drag support for desktop
@@ -1139,6 +1221,65 @@
                 mouseDown = false;
             }
         });
+
+        // Update swipe preview content based on direction
+        function updateSwipePreview(diffX, diffY) {
+            const previewThreshold = 20; // Minimum movement to show preview
+            const defaultContent = document.getElementById('defaultContent');
+            const previews = {
+                up: document.getElementById('swipePreviewUp'),
+                right: document.getElementById('swipePreviewRight'),
+                down: document.getElementById('swipePreviewDown'),
+                left: document.getElementById('swipePreviewLeft')
+            };
+            const arrows = {
+                up: document.getElementById('arrowUp'),
+                right: document.getElementById('arrowRight'),
+                down: document.getElementById('arrowDown'),
+                left: document.getElementById('arrowLeft')
+            };
+
+            // Determine dominant direction
+            let direction = null;
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                // Horizontal swipe
+                if (Math.abs(diffX) > previewThreshold) {
+                    direction = diffX > 0 ? 'right' : 'left';
+                }
+            } else {
+                // Vertical swipe
+                if (Math.abs(diffY) > previewThreshold) {
+                    direction = diffY > 0 ? 'down' : 'up';
+                }
+            }
+
+            // Update content visibility
+            if (direction) {
+                defaultContent.classList.add('hidden');
+                Object.keys(previews).forEach(key => {
+                    if (key === direction) {
+                        previews[key].classList.add('active');
+                        arrows[key].classList.add('highlight');
+                    } else {
+                        previews[key].classList.remove('active');
+                        arrows[key].classList.remove('highlight');
+                    }
+                });
+            } else {
+                resetSwipePreview();
+            }
+        }
+
+        // Reset swipe preview to default state
+        function resetSwipePreview() {
+            const defaultContent = document.getElementById('defaultContent');
+            const previews = document.querySelectorAll('.swipe-preview');
+            const arrows = document.querySelectorAll('.nav-arrow');
+
+            defaultContent.classList.remove('hidden');
+            previews.forEach(preview => preview.classList.remove('active'));
+            arrows.forEach(arrow => arrow.classList.remove('highlight'));
+        }
 
         function handleSwipe() {
             const diffX = touchEndX - touchStartX;

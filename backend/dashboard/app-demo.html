@@ -863,21 +863,21 @@
         .ai-header-top {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 8px;
         }
 
         .ai-label {
             font-size: 11px;
             font-weight: 500;
             color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
+            margin-right: auto;
         }
 
         .ai-percentage {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: white;
+            opacity: 0.9;
         }
 
         .ai-progress-bar {
@@ -1644,10 +1644,7 @@
         .feature-stat {
             font-size: 48px;
             font-weight: 900;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: rgba(255, 255, 255, 0.95);
             margin-top: 16px;
         }
 
@@ -1732,90 +1729,6 @@
             color: white;
             display: block;
             margin-bottom: 4px;
-        }
-
-        /* Onboarding Overlay */
-        .onboarding-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .onboarding-content {
-            text-align: center;
-            max-width: 500px;
-            padding: 40px;
-        }
-
-        .onboarding-title {
-            font-size: 36px;
-            font-weight: 900;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .onboarding-subtitle {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 48px;
-            line-height: 1.5;
-        }
-
-        .swipe-hint-demo {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 32px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(139, 92, 246, 0.2));
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
-            margin-bottom: 32px;
-            transition: transform 0.5s ease-out;
-        }
-
-        .hint-chevrons {
-            font-size: 20px;
-            font-weight: 900;
-            color: white;
-        }
-
-        .hint-label {
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
-        }
-
-        .skip-button {
-            padding: 12px 32px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .skip-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
         }
 
         /* Bottom Navigation - Inside iPhone */
@@ -2116,6 +2029,18 @@
 
             .section-title {
                 font-size: 36px;
+            }
+
+            .tab-switcher {
+                flex-direction: column;
+                gap: 12px;
+                padding: 0 16px;
+            }
+
+            .tab-button {
+                width: 100%;
+                padding: 16px 24px;
+                font-size: 15px;
             }
         }
 
@@ -2693,24 +2618,6 @@
         </div>
     </div>
 
-    <!-- Onboarding Overlay -->
-    <div class="onboarding-overlay" id="onboardingOverlay">
-        <div class="onboarding-content">
-            <h1 class="onboarding-title">Learn to Swipe</h1>
-            <p class="onboarding-subtitle">
-                Zero uses swipe gestures to help you achieve inbox zero faster.
-                Watch the tutorial below to learn the 4 directions.
-            </p>
-
-            <div class="swipe-hint-demo" id="swipeHintDemo">
-                <span class="hint-chevrons" id="hintChevrons">>>></span>
-                <span class="hint-label" id="hintLabel">Take Action</span>
-            </div>
-
-            <button class="skip-button" onclick="skipOnboarding()">Skip Tutorial</button>
-        </div>
-    </div>
-
     <!-- Firefly Background -->
     <div class="firefly-background" id="fireflyBg"></div>
 
@@ -2897,7 +2804,7 @@
 
                 <div class="feature-card intents">
 
-                    <h3 class="feature-title">130 Intents</h3>
+                    <h3 class="feature-title">137 Intents</h3>
                     <p class="feature-description">
                         From shipping updates to healthcare appointments, travel bookings to bill payments.
                         Our AI understands every type of email, from simple to complex.
@@ -2921,7 +2828,7 @@
                         Multi-step tasks in one swipe. Sign a school form, pay the fee, and add the event to your
                         calendar automatically. Intelligent workflows that save hours.
                     </p>
-                    <div class="feature-stat">130 Actions</div>
+                    <div class="feature-stat">143 Actions</div>
                 </div>
             </div>
         </div>
@@ -5374,7 +5281,33 @@
             'view_usage': {title: 'View Usage', steps: [{label: '1. Usage Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Monthly Usage Report</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">October 2025</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📊</span> View</div></div>`}, {label: '2. Usage Dashboard', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📊 Usage</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">API Calls</div><div style="font-weight: 600;">12,450 / 15,000</div></div><div style="margin-bottom: 12px;"><div style="font-size: 12px; opacity: 0.7;">Storage</div><div style="font-weight: 600;">8.2 GB / 10 GB</div></div><div><div style="font-size: 12px; opacity: 0.7;">Bandwidth</div><div style="font-weight: 600;">45 GB / 100 GB</div></div></div></div>`}]},
             'view_task': {title: 'View Task', steps: [{label: '1. Task Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Task Assignment</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Due Tomorrow</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📋</span> View</div></div>`}, {label: '2. Task Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📋 Task Details</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Complete Q4 Report</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Due: Nov 15, 2025</div><div style="font-size: 13px; opacity: 0.7;">Priority: High</div></div></div>`}]},
             'view_ticket': {title: 'View Ticket', steps: [{label: '1. Ticket Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Support Ticket Update</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Ticket #T-12345</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🎫</span> View</div></div>`}, {label: '2. Ticket Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎫 Ticket #T-12345</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Login Issue</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Status: In Progress</div><div style="font-size: 13px; opacity: 0.7;">Updated: 2 hours ago</div></div></div>`}]}
-        };
+,
+            'add_to_notes': {title: 'Add to Notes', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Important Info</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Save for later</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 204, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📝</span> Save</div></div>`}, {label: '2. Save', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📝 Add to Notes</div><div style="background: rgba(255, 204, 0, 0.15); border: 2px solid rgba(255, 204, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Content copied</div><div style="font-size: 13px; opacity: 0.8;">Save to Notes app?</div></div><div style="background: rgba(255, 204, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Save</div></div>`}, {label: '3. Saved', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Saved to Notes!</div><div style="opacity: 0.8;">Opened in Notes app</div></div>`}]},
+            'add_reminder': {title: 'Add Reminder', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Follow Up</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Set reminder</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>⏰</span> Remind</div></div>`}, {label: '2. Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⏰ When?</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(255, 149, 0, 0.4);"><div style="font-weight: 600;">Tomorrow @ 9 AM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Next Week</div></div></div>`}, {label: '3. Set', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Reminder Set!</div><div style="opacity: 0.8;">Tomorrow @ 9 AM</div></div>`}]},
+            'add_activity_to_calendar': {title: 'Add Activity', steps: [{label: '1. Activity', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Yoga Class</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Sat @ 10 AM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>📅</span> Add</div></div>`}, {label: '2. Calendar', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Add Event</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Yoga Class</div><div style="font-size: 13px; opacity: 0.8;">Sat, Nov 16 @ 10:00 AM</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Add to Calendar</div></div>`}, {label: '3. Added', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Event Added!</div><div style="opacity: 0.8;">Reminder set</div></div>`}]},
+            'book_activity_tickets': {title: 'Book Tickets', steps: [{label: '1. Event', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Concert Tickets</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">$45 each</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🎫</span> Book</div></div>`}, {label: '2. Quantity', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎫 How Many?</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(147, 51, 234, 0.4);"><div style="font-weight: 600;">2 Tickets</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>4 Tickets</div></div></div>`}, {label: '3. Payment', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎫 Pay</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px;"><div style="font-size: 24px; font-weight: 700; color: #FFD700;">$90.00</div><div style="font-size: 13px; opacity: 0.7;">2 tickets</div></div><div style="background: rgba(147, 51, 234, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">💳 Pay Now</div></div>`}, {label: '4. Booked', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Tickets Booked!</div><div style="opacity: 0.8;">Added to Wallet</div></div>`}]},
+            'book_appointment': {title: 'Book Appointment', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Book with Dr. Smith</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Available times</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>📅</span> Book</div></div>`}, {label: '2. Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Select Time</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(52, 199, 89, 0.4);"><div style="font-weight: 600;">Mon @ 10 AM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Tue @ 2 PM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📅 Confirm</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">Dr. Smith</div><div style="font-size: 13px; opacity: 0.8;">Mon, Nov 18 @ 10 AM</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Book</div></div>`}, {label: '4. Booked', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Booked!</div><div style="opacity: 0.8;">Added to calendar</div></div>`}]},
+            'change_delivery_preferences': {title: 'Change Delivery', steps: [{label: '1. Order', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Delivery Preferences</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Update delivery</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📦</span> Change</div></div>`}, {label: '2. Options', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📦 Preferences</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(255, 149, 0, 0.4);"><div style="font-weight: 600;">Leave at door</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Signature required</div></div></div>`}, {label: '3. Updated', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Preferences Updated!</div><div style="opacity: 0.8;">Changes saved</div></div>`}]},
+            'download_attachment': {title: 'Download File', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Document.pdf</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">2.4 MB</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📥</span> Download</div></div>`}, {label: '2. Downloading', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📥 Downloading</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px;"><div style="font-weight: 600;">Document.pdf</div><div style="font-size: 13px; opacity: 0.8; margin-top: 8px;">2.4 MB</div></div></div>`}, {label: '3. Downloaded', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Downloaded!</div><div style="opacity: 0.8;">Saved to Files</div></div>`}]},
+            'open_link': {title: 'Open Link', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">View Page</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">External link</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🔗</span> Open</div></div>`}, {label: '2. Opening', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔗 Opening Link</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px;"><div style="font-size: 13px; opacity: 0.8;">Opening in Safari...</div></div></div>`}]},
+            'open_original_link': {title: 'Open Original', steps: [{label: '1. Link', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Shortened Link</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">View original URL</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>🔗</span> Open</div></div>`}, {label: '2. Opening', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔗 Opening</div><div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px;"><div style="font-size: 13px; opacity: 0.8;">Bypassing redirect...</div></div></div>`}]},
+            'prepare_for_outage': {title: 'Prepare for Outage', steps: [{label: '1. Alert', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Planned Outage</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Sat 2-4 PM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>⚡</span> Prepare</div></div>`}, {label: '2. Tips', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⚡ Preparation</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">• Charge devices</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">• Fill water containers</div><div style="font-size: 13px; opacity: 0.7;">• Check flashlights</div></div></div>`}]},
+            'provide_access_code': {title: 'Access Code', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Your Access Code</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Gate code</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>🔑</span> View</div></div>`}, {label: '2. Code', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔑 Access Code</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px;"><div style="font-size: 32px; font-weight: 700; letter-spacing: 8px; color: #FFD700;">1234</div><div style="font-size: 13px; opacity: 0.8; margin-top: 8px;">Valid until Dec 1</div></div></div>`}]},
+            'read_community_post': {title: 'Read Post', steps: [{label: '1. Notification', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">New Community Post</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">From Admin</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💬</span> Read</div></div>`}, {label: '2. Post', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💬 Community Post</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Important Update</div><div style="font-size: 13px; opacity: 0.7;">Posted by Admin • 2 hours ago</div></div></div>`}]},
+            'reply_thanks': {title: 'Reply Thanks', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Thank You</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Send thanks</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(52, 199, 89, 0.3); border-radius: 10px; font-size: 13px;"><span>🙏</span> Reply</div></div>`}, {label: '2. Send', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🙏 Send Thanks</div><div style="background: rgba(52, 199, 89, 0.15); border: 2px solid rgba(52, 199, 89, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">"Thank you!"</div></div><div style="background: rgba(52, 199, 89, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📤 Send</div></div>`}, {label: '3. Sent', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Thanks Sent!</div><div style="opacity: 0.8;">Message delivered</div></div>`}]},
+            'reply_to_post': {title: 'Reply to Post', steps: [{label: '1. Post', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Community Discussion</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Add your reply</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💬</span> Reply</div></div>`}, {label: '2. Compose', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💬 Write Reply</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px; margin-bottom: 12px; min-height: 80px; color: rgba(255,255,255,0.5); font-style: italic;">Type your reply...</div><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">📤 Post Reply</div></div>`}, {label: '3. Posted', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Reply Posted!</div><div style="opacity: 0.8;">Added to thread</div></div>`}]},
+            'save_properties': {title: 'Save Properties', steps: [{label: '1. Listings', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">3 New Properties</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">In your area</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🏠</span> Save</div></div>`}, {label: '2. Select', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🏠 Select Properties</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(255, 149, 0, 0.4);"><div style="font-weight: 600;">123 Main St - $450k</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>456 Oak Ave - $520k</div></div></div>`}, {label: '3. Saved', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Properties Saved!</div><div style="opacity: 0.8;">Added to favorites</div></div>`}]},
+            'schedule_delivery_time': {title: 'Schedule Delivery', steps: [{label: '1. Order', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Choose Delivery Time</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Select a window</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📦</span> Schedule</div></div>`}, {label: '2. Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📦 Pick Time</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(255, 149, 0, 0.4);"><div style="font-weight: 600;">Sat 10AM - 2PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Sat 2PM - 6PM</div></div></div>`}, {label: '3. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Delivery Scheduled!</div><div style="opacity: 0.8;">Sat 10AM - 2PM</div></div>`}]},
+            'schedule_extraction_retry': {title: 'Retry Extraction', steps: [{label: '1. Failed', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Extraction Failed</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Try again?</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🔄</span> Retry</div></div>`}, {label: '2. Retrying', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔄 Retrying</div><div style="background: rgba(255, 149, 0, 0.15); border: 2px solid rgba(255, 149, 0, 0.4); padding: 16px; border-radius: 12px;"><div style="font-weight: 600;">Processing...</div><div style="font-size: 13px; opacity: 0.8;">This may take a moment</div></div></div>`}, {label: '3. Complete', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Extraction Complete!</div><div style="opacity: 0.8;">Data ready</div></div>`}]},
+            'schedule_showing': {title: 'Schedule Showing', steps: [{label: '1. Property', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Schedule Showing</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">123 Main St</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🏠</span> Schedule</div></div>`}, {label: '2. Time', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🏠 Pick Time</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(147, 51, 234, 0.4);"><div style="font-weight: 600;">Sat @ 2 PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Sun @ 10 AM</div></div></div>`}, {label: '3. Confirm', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🏠 Confirm</div><div style="background: rgba(147, 51, 234, 0.15); border: 2px solid rgba(147, 51, 234, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-weight: 600;">123 Main St</div><div style="font-size: 13px; opacity: 0.8;">Sat @ 2 PM</div></div><div style="background: rgba(147, 51, 234, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">✓ Confirm</div></div>`}, {label: '4. Scheduled', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Showing Scheduled!</div><div style="opacity: 0.8;">Agent notified</div></div>`}]},
+            'set_outage_reminder': {title: 'Outage Reminder', steps: [{label: '1. Alert', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Planned Outage</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Sat 2-4 PM</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>⏰</span> Remind Me</div></div>`}, {label: '2. When', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⏰ Remind When?</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px; border: 2px solid rgba(255, 149, 0, 0.4);"><div style="font-weight: 600;">1 hour before</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>1 day before</div></div></div>`}, {label: '3. Set', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Reminder Set!</div><div style="opacity: 0.8;">1 hour before outage</div></div>`}]},
+            'share_achievement': {title: 'Share Achievement', steps: [{label: '1. Achievement', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">You earned a badge!</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">🏆 Expert Level</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 215, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>📤</span> Share</div></div>`}, {label: '2. Share', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📤 Share</div><div style="background: rgba(255, 215, 0, 0.15); border: 2px solid rgba(255, 215, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;"><div style="font-size: 48px; margin-bottom: 8px;">🏆</div><div style="font-weight: 600;">Expert Level</div></div><div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"><div style="background: rgba(100, 149, 237, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">Twitter</div><div style="background: rgba(147, 51, 234, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">LinkedIn</div></div></div>`}, {label: '3. Shared', html: `<div class="modal-success-state"><div class="modal-success-icon">✓</div><div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Shared!</div><div style="opacity: 0.8;">Posted successfully</div></div>`}]},
+            'view_activity': {title: 'View Activity', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Recent Activity</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Last 30 days</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📊</span> View</div></div>`}, {label: '2. Activity', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📊 Activity Log</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">Login - Today @ 3 PM</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div>Settings Changed - Yesterday</div></div></div>`}]},
+            'view_activity_details': {title: 'Activity Details', steps: [{label: '1. Summary', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Activity Summary</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">View details</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📊</span> Details</div></div>`}, {label: '2. Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📊 Full Details</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Total Actions: 42</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Most Active: Mon-Fri</div><div style="font-size: 13px; opacity: 0.7;">Peak Time: 10 AM</div></div></div>`}]},
+            'view_extracted_content': {title: 'View Content', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Extracted Data</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">View extracted info</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>📄</span> View</div></div>`}, {label: '2. Content', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">📄 Extracted Data</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Date: Nov 15, 2025</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Amount: $599.00</div><div style="font-size: 13px; opacity: 0.7;">Vendor: Acme Corp</div></div></div>`}]},
+            'view_outage_details': {title: 'Outage Details', steps: [{label: '1. Alert', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Service Outage</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">View details</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 149, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>⚡</span> Details</div></div>`}, {label: '2. Details', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">⚡ Outage Info</div><div style="background: rgba(255,255,255,0.08); padding: 16px; border-radius: 10px;"><div style="font-weight: 600; margin-bottom: 8px;">Planned Maintenance</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">When: Sat 2-4 PM</div><div style="font-size: 13px; opacity: 0.7; margin-bottom: 4px;">Area: Downtown</div><div style="font-size: 13px; opacity: 0.7;">Impact: 2,500 customers</div></div></div>`}]},
+            'view_post_comments': {title: 'View Comments', steps: [{label: '1. Post', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">12 New Comments</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">On your post</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(100, 149, 237, 0.3); border-radius: 10px; font-size: 13px;"><span>💬</span> View</div></div>`}, {label: '2. Comments', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">💬 Comments</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">@user1</div><div style="font-size: 13px; opacity: 0.7;">Great post!</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">@user2</div><div style="font-size: 13px; opacity: 0.7;">Thanks for sharing</div></div></div>`}]},
+            'view_property_listings': {title: 'View Listings', steps: [{label: '1. Email', html: `<div class="modal-email-card"><div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">5 New Listings</div><div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Matching your criteria</div><div style="display: inline-flex; padding: 8px 14px; background: rgba(147, 51, 234, 0.3); border-radius: 10px; font-size: 13px;"><span>🏠</span> View</div></div>`}, {label: '2. Listings', html: `<div class="modal-preview-card"><div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🏠 Properties</div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">123 Main St</div><div style="font-size: 13px; opacity: 0.7;">3 bed, 2 bath • $450k</div></div><div style="background: rgba(255,255,255,0.08); padding: 12px; border-radius: 10px; margin-bottom: 8px;"><div style="font-weight: 600;">456 Oak Ave</div><div style="font-size: 13px; opacity: 0.7;">4 bed, 3 bath • $520k</div></div></div>`}]}        };
 
         // Global application state
         const appState = {
@@ -5679,110 +5612,7 @@
             setTimeout(() => {
                 // Metrics removed - focus on demo experience
             }, 500);
-
-            // Start onboarding tutorial
-            startOnboardingTutorial();
         });
-
-        // Onboarding Tutorial Animation
-        const swipeDirections = [
-            { chevrons: '>>>', label: 'Take Action', offset: '15px, 0px' },
-            { chevrons: '<<<', label: 'Dismiss', offset: '-15px, 0px' },
-            { chevrons: 'vvv', label: 'Snooze', offset: '0px, 10px' },
-            { chevrons: '^^^', label: 'Change Action', offset: '0px, -10px' }
-        ];
-
-        let currentDirectionIndex = 0;
-        let animationCount = 0;
-        const maxAnimations = 4; // 1 cycle through all 4 directions
-
-        function startOnboardingTutorial() {
-            // Check if user has seen onboarding
-            if (localStorage.getItem('hasSeenOnboarding') === 'true') {
-                skipOnboarding();
-                return;
-            }
-
-            animateDirection();
-        }
-
-        function animateDirection() {
-            const direction = swipeDirections[currentDirectionIndex];
-            const hintDemo = document.getElementById('swipeHintDemo');
-            const chevrons = document.getElementById('hintChevrons');
-            const label = document.getElementById('hintLabel');
-
-            // Update content
-            chevrons.textContent = direction.chevrons;
-            label.textContent = direction.label;
-
-            // PHASE 1: Bump out (0.5s)
-            hintDemo.style.transform = `translate(${direction.offset})`;
-            hintDemo.style.transition = 'transform 0.5s ease-out';
-
-            // PHASE 2: Hold at peak (0.7s)
-            setTimeout(() => {
-                // PHASE 3: Return to center (0.4s)
-                setTimeout(() => {
-                    hintDemo.style.transform = 'translate(0px, 0px)';
-                    hintDemo.style.transition = 'transform 0.4s ease-in';
-
-                    // PHASE 4: Hold at center (0.3s) - ensures centered before next animation
-                    setTimeout(() => {
-                        animationCount++;
-
-                        // Check if we've completed all directions
-                        if (animationCount >= maxAnimations) {
-                            completeOnboarding();
-                            return;
-                        }
-
-                        // Move to next direction
-                        currentDirectionIndex = (currentDirectionIndex + 1) % swipeDirections.length;
-
-                        // Repeat animation
-                        setTimeout(() => {
-                            animateDirection();
-                        }, 100); // Small pause before next direction
-
-                    }, 300);
-                }, 700);
-            }, 500);
-        }
-
-        function completeOnboarding() {
-            // Mark as seen
-            localStorage.setItem('hasSeenOnboarding', 'true');
-
-            // Fade out onboarding overlay
-            const overlay = document.getElementById('onboardingOverlay');
-            overlay.style.opacity = '0';
-            overlay.style.transition = 'opacity 0.5s ease-out';
-
-            setTimeout(() => {
-                overlay.style.display = 'none';
-
-                // Show bottom nav
-                const bottomNav = document.getElementById('bottomNav');
-                bottomNav.style.display = 'flex';
-                bottomNav.style.opacity = '0';
-                setTimeout(() => {
-                    bottomNav.style.transition = 'opacity 0.3s ease-in';
-                    bottomNav.style.opacity = '1';
-                }, 50);
-            }, 500);
-        }
-
-        function skipOnboarding() {
-            localStorage.setItem('hasSeenOnboarding', 'true');
-
-            const overlay = document.getElementById('onboardingOverlay');
-            overlay.style.display = 'none';
-
-            // Show bottom nav immediately
-            const bottomNav = document.getElementById('bottomNav');
-            bottomNav.style.display = 'flex';
-        }
 
         // Archetype Switching (Mail vs Ads)
         let currentArchetype = 'mail';
@@ -6579,12 +6409,10 @@
                 <div class="ai-preview-section">
                     <div class="ai-header-streamlined">
                         <div class="ai-header-top">
-                            <span class="ai-label">
-                                <svg width="12" height="12" viewBox="0 0 16 16" fill="white" opacity="0.8" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
-                                    <path d="M8 0l2.5 5.5L16 6.5l-4 4 1 5.5L8 13.5 3 16l1-5.5-4-4 5.5-1L8 0z"/>
-                                </svg>
-                                Analysis Confidence
-                            </span>
+                            <svg width="12" height="12" viewBox="0 0 16 16" fill="white" opacity="0.8" style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+                                <path d="M8 0l2.5 5.5L16 6.5l-4 4 1 5.5L8 13.5 3 16l1-5.5-4-4 5.5-1L8 0z"/>
+                            </svg>
+                            <span class="ai-label">Analysis Confidence</span>
                             <span class="ai-percentage">${Math.round(email.intentConfidence * 100)}%</span>
                         </div>
                         <div class="ai-progress-bar">
@@ -6924,10 +6752,41 @@
             trackSwipeAction(direction, emailData, actionDetails);
         }
 
+        // Touch event handlers (with scroll prevention)
+        function handleTouchStart(e) {
+            // Prevent page scrolling while swiping cards
+            if (e.target.closest('.email-card')) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                handleMouseDown({ clientX: touch.clientX, clientY: touch.clientY });
+            }
+        }
+
+        function handleTouchMove(e) {
+            if (isDragging) {
+                // Prevent page scrolling during card swipe
+                e.preventDefault();
+                const touch = e.touches[0];
+                handleMouseMove({ clientX: touch.clientX, clientY: touch.clientY });
+            }
+        }
+
+        function handleTouchEnd(e) {
+            if (isDragging) {
+                e.preventDefault();
+                handleMouseUp();
+            }
+        }
+
         // Attach event listeners
         emailFeed.addEventListener('mousedown', handleMouseDown);
         document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('mouseup', handleMouseUp);
+
+        // Attach touch event listeners with passive: false to allow preventDefault
+        emailFeed.addEventListener('touchstart', handleTouchStart, { passive: false });
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        document.addEventListener('touchend', handleTouchEnd, { passive: false });
 
         // Initialize stack visual state
         updateStack();
@@ -6981,6 +6840,12 @@
                 modalHTML = buildSaveToCartModal(context);
             } else if (actionId === 'schedule_art_purchase') {
                 modalHTML = buildSchedulePurchaseModal(context);
+            } else if (actionId === 'archive_grade_notification') {
+                modalHTML = buildArchiveGradeModal(context);
+            } else if (actionId === 'archive_newsletter') {
+                modalHTML = buildArchiveNewsletterModal(context);
+            } else if (actionId === 'save_newsletter_for_later') {
+                modalHTML = buildSaveNewsletterModal(context);
             } else {
                 // Generic modal for unknown actions
                 modalHTML = buildGenericModal(displayName, context);
@@ -7245,6 +7110,117 @@
                 <div class="modal-actions">
                     <button class="modal-btn primary" onclick="showToast('✓ ${displayName} completed'); closeModal();">
                         Execute Action
+                    </button>
+                    <button class="modal-btn secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            `;
+        }
+
+        function buildArchiveGradeModal(context) {
+            return `
+                <div class="modal-header">
+                    <h2 class="modal-title">Archive Grade Notification</h2>
+                    <button class="modal-close" onclick="closeModal()">×</button>
+                </div>
+                <div class="modal-content">
+                    <div class="modal-section">
+                        <div class="modal-section-title">Notification Details</div>
+                        <div class="modal-info-grid">
+                            <div class="modal-info-item">
+                                <div class="modal-info-label">Student</div>
+                                <div class="modal-info-value">${context.studentName}</div>
+                            </div>
+                            <div class="modal-info-item">
+                                <div class="modal-info-label">Category</div>
+                                <div class="modal-info-value">${context.category}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-section">
+                        <p style="font-size: 14px; color: rgba(255, 255, 255, 0.8);">
+                            📂 Archive this grade notification? You can always find it in your archived items.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn primary" onclick="showToast('✓ Grade notification archived'); closeModal();">
+                        📂 Archive
+                    </button>
+                    <button class="modal-btn secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            `;
+        }
+
+        function buildArchiveNewsletterModal(context) {
+            return `
+                <div class="modal-header">
+                    <h2 class="modal-title">Archive Newsletter</h2>
+                    <button class="modal-close" onclick="closeModal()">×</button>
+                </div>
+                <div class="modal-content">
+                    <div class="modal-section">
+                        <div class="modal-section-title">Newsletter Details</div>
+                        <div class="modal-info-grid">
+                            <div class="modal-info-item">
+                                <div class="modal-info-label">Category</div>
+                                <div class="modal-info-value">${context.category}</div>
+                            </div>
+                            <div class="modal-info-item">
+                                <div class="modal-info-label">Auto-Archive After</div>
+                                <div class="modal-info-value">${context.autoArchiveAfter}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-section">
+                        <p style="font-size: 14px; color: rgba(255, 255, 255, 0.8);">
+                            📂 Archive this newsletter? It will be moved to your archived newsletters folder.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn primary" onclick="showToast('✓ Newsletter archived'); closeModal();">
+                        📂 Archive
+                    </button>
+                    <button class="modal-btn secondary" onclick="closeModal()">Cancel</button>
+                </div>
+            `;
+        }
+
+        function buildSaveNewsletterModal(context) {
+            return `
+                <div class="modal-header">
+                    <h2 class="modal-title">Save Newsletter for Later</h2>
+                    <button class="modal-close" onclick="closeModal()">×</button>
+                </div>
+                <div class="modal-content">
+                    <div class="modal-section">
+                        <div class="modal-section-title">Newsletter Information</div>
+                        <div class="modal-info-grid">
+                            <div class="modal-info-item">
+                                <div class="modal-info-label">Publication</div>
+                                <div class="modal-info-value">${context.publication}</div>
+                            </div>
+                            <div class="modal-info-item">
+                                <div class="modal-info-label">Category</div>
+                                <div class="modal-info-value">${context.category}</div>
+                            </div>
+                            ${context.tags ? `
+                            <div class="modal-info-item">
+                                <div class="modal-info-label">Tags</div>
+                                <div class="modal-info-value">${context.tags.join(', ')}</div>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div class="modal-section">
+                        <p style="font-size: 14px; color: rgba(255, 255, 255, 0.8);">
+                            💾 Save this newsletter to your reading list? You'll get a reminder to read it later.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-btn primary" onclick="showToast('✓ Newsletter saved for later'); closeModal();">
+                        💾 Save for Later
                     </button>
                     <button class="modal-btn secondary" onclick="closeModal()">Cancel</button>
                 </div>
