@@ -1601,7 +1601,7 @@
                     deadline: data.deadline ? { text: data.deadline, isUrgent: data.urgent || false } : null,
                     prices: data.paymentAmount ? { original: `$${data.paymentAmount}` } : {},
                     trackingNumbers: data.trackingNumber ? [data.trackingNumber] : [],
-                    companies: data.company?.name ? [data.company.name] : [],
+                    companies: (data.company && data.company.name) ? [data.company.name] : [],
                     children: [],
                     stores: [],
                     promoCodes: [],
@@ -1623,7 +1623,7 @@
                         unsubscribeLink: false,
                         promoKeywords: { count: 0, matches: [] },
                         marketingSender: false,
-                        intentBased: data.intent?.startsWith('marketing.') || data.intent?.startsWith('e-commerce.promotion')
+                        intentBased: (data.intent && (data.intent.startsWith('marketing.') || data.intent.startsWith('e-commerce.promotion'))) || false
                     }
                 };
 
