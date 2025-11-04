@@ -1566,7 +1566,8 @@
                 setStepStatus('classification', 'processing');
                 await new Promise(resolve => setTimeout(resolve, 500));
 
-                const response = await fetch(`${API_BASE_URL}/classify/debug`, {
+                const classifyStartTime = Date.now();
+                const response = await fetch(`${API_BASE_URL}/classify`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -1579,11 +1580,20 @@
                 }
 
                 const data = await response.json();
+                const classifyTime = Date.now() - classifyStartTime;
 
                 // Validate response structure
-                if (!data || !data.intentClassification) {
-                    throw new Error('Invalid response from classifier: missing intentClassification data');
+                if (!data || !data.intent) {
+                    throw new Error('Invalid response from classifier: missing intent data');
                 }
+
+                // Map API response to intentClassification structure
+                const intentClassification = {
+                    detectedIntent: data.intent,
+                    confidence: data.intentConfidence || data.confidence || 0,
+                    source: data._classificationSource || 'classifier',
+                    processingTime: `${classifyTime}ms`
+                };
 
                 // Populate Step 1: Intent Classification
                 const detectedIntentEl = document.getElementById('detected-intent');
@@ -1592,15 +1602,15 @@
                 const intentSourceEl = document.getElementById('intent-source');
                 const intentTimeEl = document.getElementById('intent-time');
 
-                if (detectedIntentEl) detectedIntentEl.textContent = data.intentClassification.detectedIntent || 'Unknown';
-                const confidence = Math.round((data.intentClassification.confidence || 0) * 100);
+                if (detectedIntentEl) detectedIntentEl.textContent = intentClassification.detectedIntent || 'Unknown';
+                const confidence = Math.round((intentClassification.confidence || 0) * 100);
                 if (intentConfidenceEl) intentConfidenceEl.textContent = `${confidence}%`;
                 if (intentConfidenceBarEl) intentConfidenceBarEl.style.width = `${confidence}%`;
-                if (intentSourceEl) intentSourceEl.textContent = data.intentClassification.source || 'unknown';
-                if (intentTimeEl) intentTimeEl.textContent = data.intentClassification.processingTime || '0ms';
+                if (intentSourceEl) intentSourceEl.textContent = intentClassification.source || 'unknown';
+                if (intentTimeEl) intentTimeEl.textContent = intentClassification.processingTime || '0ms';
 
                 // Populate intent details panel
-                const intentId = data.intentClassification.detectedIntent;
+                const intentId = intentClassification.detectedIntent;
                 const normalizedIntentId = normalizeIntentId(intentId);
                 const intentInfo = INTENT_DATA[normalizedIntentId];
                 if (intentInfo) {
@@ -1645,7 +1655,7 @@
                             <div style="color: rgba(255,255,255,0.7); margin-top: 8px; line-height: 1.6;">
                                 • The intent may be new or not yet added to INTENT_DATA<br>
                                 • Check if <code style="background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 3px;">${intentId}</code> exists in the intent registry<br>
-                                • Confidence: ${confidence}% (Source: ${data.intentClassification.source || 'unknown'})
+                                • Confidence: ${confidence}% (Source: ${intentClassification.source || 'unknown'})
                             </div>
                         </div>
                     `;
@@ -1787,7 +1797,7 @@
                     setStepStatus('modal', 'complete', 'No primary action');
                 }
 
-                showStatus(`✅ Zero Sequence Complete! Intent: ${data.intentClassification.detectedIntent} → ${primaryAction?.displayName || 'No action'}`, 'success');
+                showStatus(`✅ Zero Sequence Complete! Intent: ${intentClassification.detectedIntent} → ${primaryAction?.displayName || 'No action'}`, 'success');
 
             } catch (error) {
                 console.error('Error:', error);
