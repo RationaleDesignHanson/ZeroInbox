@@ -1554,11 +1554,8 @@
             showStatus('Checking services...', 'loading');
 
             try {
-                // Health check in background (non-blocking for mobile)
-                checkServiceHealth().catch(err => {
-                    console.warn('⚠️ Service health check failed:', err.message);
-                    console.log('Continuing anyway - services may be starting up');
-                });
+                // Health check before starting
+                await checkServiceHealth();
 
                 // Fetch action catalog (cached after first call)
                 await fetchActionCatalog();
@@ -5420,6 +5417,21 @@
         </div>
     </div>
 
+
+            console.log('🚀 Initializing Zero Sequence Live...');
+
+            try {
+                // Load intent taxonomy from API (all 137 intents)
+                await loadIntentTaxonomy();
+                console.log(`✅ Ready! ${Object.keys(INTENT_DATA).length} intents loaded`);
+
+                // Update status banner
+                showStatus(`Ready! ${Object.keys(INTENT_DATA).length} intents loaded from taxonomy`, 'success');
+            } catch (error) {
+                console.error('❌ Initialization error:', error);
+                showStatus(`Error loading intent taxonomy: ${error.message}. Some features may not work.`, 'error');
+            }
+        });
 
     </script>
 </body>
