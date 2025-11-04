@@ -2526,8 +2526,8 @@
         }
 
         .modal-flow-step {
-            min-width: 250px;
-            max-width: 250px;
+            min-width: 180px;
+            max-width: 180px;
             flex-shrink: 0;
         }
 
@@ -7382,7 +7382,7 @@
                     ${emailData.suggestedActions.map((action, index) => `
                         <div class="action-option ${action.actionId === currentPrimaryAction.actionId ? 'selected' : ''}"
                              data-action-index="${index}"
-                             onclick="selectAction(${index}, '${emailData.subject.replace(/'/g, "\\'")}')">
+                             onclick="event.stopPropagation(); selectAction(event, ${index}, '${emailData.subject.replace(/'/g, "\\'")}')">
                             <div class="action-option-content">
                                 <div class="action-option-name">${action.displayName}</div>
                                 <div class="action-option-type">${action.actionType}</div>
@@ -7525,7 +7525,13 @@
             return btn;
         }
 
-        function selectAction(actionIndex, emailSubject) {
+        function selectAction(event, actionIndex, emailSubject) {
+            // Prevent event propagation to avoid triggering swipe handlers
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
             const sheet = document.getElementById('actionSheet');
             if (!sheet || !sheet.emailData) return;
 
