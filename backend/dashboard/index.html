@@ -12,7 +12,7 @@
         }
 
         body {
-            padding-top: 60px;
+            padding-top: 40px;
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
             color: #ffffff;
@@ -928,12 +928,12 @@
             border-bottom: 2px solid rgba(139, 92, 246, 0.4);
             box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15),
                         0 0 40px rgba(139, 92, 246, 0.1);
-            padding: 12px 20px;
+            padding: 6px 20px;
             z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
@@ -972,19 +972,18 @@
 
         .beta-banner-text {
             display: flex;
-            flex-direction: column;
-            gap: 2px;
+            align-items: center;
+            gap: 8px;
         }
 
         .beta-banner-title {
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             color: white;
         }
 
         .beta-banner-subtitle {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
+            display: none;
         }
 
         .beta-banner-actions {
@@ -1056,10 +1055,10 @@
 
         @media (max-width: 768px) {
             body {
-                padding-top: 120px;
+                padding-top: 40px;
             }
             .beta-banner {
-                padding: 10px 16px;
+                padding: 6px 12px;
             }
 
             .beta-banner-actions {
@@ -1079,15 +1078,14 @@
     <div class="beta-banner">
         <div class="beta-banner-content">
             <div class="beta-banner-text">
-                <div class="beta-banner-title">Ready to Experience ZerO Inbox?</div>
-                <div class="beta-banner-subtitle">Join hundreds of beta testers achieving inbox zero every day</div>
+                <div class="beta-banner-title">Get Beta Access</div>
             </div>
             <div class="beta-banner-actions">
-                <a href="mailto:zerobeta@rationale.work?subject=Zero%20Beta%20Access%20Request" class="beta-banner-btn primary">
-                    Request Beta Access
-                </a>
                 <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_blank" class="beta-banner-btn secondary">
                     Download TestFlight
+                </a>
+                <a href="mailto:zerobeta@rationale.work?subject=Zero%20Beta%20Access%20Request" class="beta-banner-btn primary">
+                    Request Access
                 </a>
             </div>
         </div>

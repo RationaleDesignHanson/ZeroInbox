@@ -25,7 +25,7 @@
             width: 100%;
             max-width: 100vw;
             position: relative;
-            padding-top: 60px;
+            padding-top: 40px;
         }
 
         /* Beta Banner - Fixed Top */
@@ -44,12 +44,12 @@
             border-bottom: 2px solid rgba(139, 92, 246, 0.4);
             box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15),
                         0 0 40px rgba(139, 92, 246, 0.1);
-            padding: 12px 20px;
+            padding: 6px 20px;
             z-index: 9999;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
@@ -89,19 +89,18 @@
 
         .beta-banner-text {
             display: flex;
-            flex-direction: column;
-            gap: 2px;
+            align-items: center;
+            gap: 8px;
         }
 
         .beta-banner-title {
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             color: white;
         }
 
         .beta-banner-subtitle {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.7);
+            display: none;
         }
 
         .beta-banner-actions {
@@ -199,13 +198,11 @@
 
         @media (max-width: 768px) {
             body {
-                padding-top: 100px;
+                padding-top: 40px;
             }
 
             .beta-banner {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 12px 16px;
+                padding: 6px 12px;
             }
 
             .beta-banner-actions {
@@ -302,7 +299,7 @@
             z-index: 1;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 40px 24px;
+            padding: 20px 24px;
         }
 
         /* Header */
@@ -348,12 +345,12 @@
         }
 
         .main-subtitle {
-            font-size: 24px;
-            font-weight: 700;
+            font-size: 18px;
+            font-weight: 600;
             color: rgba(255, 255, 255, 0.85);
-            max-width: 800px;
+            max-width: 600px;
             margin: 8px auto 16px;
-            line-height: 1.5;
+            line-height: 1.4;
             text-align: center;
         }
 
@@ -2588,15 +2585,14 @@
     <div class="beta-banner">
         <div class="beta-banner-content">
             <div class="beta-banner-text">
-                <div class="beta-banner-title">Beta Available Now - Download & Use Today!</div>
-                <div class="beta-banner-subtitle">Join early adopters achieving inbox zero • Built and ready for testing</div>
+                <div class="beta-banner-title">Get Beta Access</div>
             </div>
             <div class="beta-banner-actions">
                 <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_blank" class="beta-banner-btn secondary">
                     Download TestFlight
                 </a>
                 <button onclick="openBetaAccessForm()" class="beta-banner-btn primary">
-                    Request Beta Access
+                    Request Access
                 </button>
             </div>
         </div>
@@ -2668,8 +2664,7 @@
             <h1 class="main-title">ZerO Inbox</h1>
 
             <p class="main-subtitle">
-                Short-form email, powered by AI.<br>
-                Swipe, reply, and move on — inbox zero in minutes.
+                Short-form email, powered by AI. Swipe, reply, and move on.
             </p>
         </div>
 
