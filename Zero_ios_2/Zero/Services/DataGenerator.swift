@@ -607,7 +607,7 @@ struct DataGenerator {
             score: nil
         ))
 
-        // MARK: - SHOPPING (7 actions)
+        // MARK: - SHOPPING (10 actions)
 
         // claim_deal
         cards.append(EmailCard(
@@ -683,7 +683,7 @@ struct DataGenerator {
             intent: "e-commerce.promotional.deal",
             intentConfidence: 0.95,
             suggestedActions: [
-                EmailAction(actionId: "claim_deal", displayName: "Claim Deal", actionType: .goTo, isPrimary: true, priority: 1, context: ["productUrl": "https://bestbuy.com/sony-wh1000xm5"]),
+                EmailAction(actionId: "claim_deal", displayName: "Claim Deal", actionType: .goTo, isPrimary: true, priority: 1, context: ["productUrl": "https://www.bestbuy.com/site/sony-wh1000xm5-wireless-noise-canceling-over-the-ear-headphones-black/6505727.p"]),
                 EmailAction(actionId: "save_deal", displayName: "Save for Later", actionType: .inApp, isPrimary: false, priority: 2),
                 EmailAction(actionId: "compare", displayName: "Compare Prices", actionType: .goTo, isPrimary: false, priority: 3, context: ["comparisonUrl": "https://camelcamelcamel.com/product/sony-wh1000xm5"]),
                 EmailAction(actionId: "unsubscribe", displayName: "Unsubscribe", actionType: .goTo, isPrimary: false, priority: 4, context: ["unsubscribeUrl": "https://bestbuy.com/unsubscribe"])
@@ -1309,6 +1309,298 @@ struct DataGenerator {
             originalPrice: nil,
             salePrice: nil,
             discount: nil,
+            urgent: false,
+            expiresIn: nil,
+            requiresSignature: nil,
+            paymentAmount: nil,
+            paymentDescription: nil,
+            value: nil,
+            probability: nil,
+            score: nil
+        ))
+
+        // Amazon - AirPods Pro Deal
+        cards.append(EmailCard(
+            id: "shop8_amazon",
+            type: .ads,
+            state: .unseen,
+            priority: .high,
+            hpa: "Shop Deal",
+            timeAgo: "2h ago",
+            title: "AirPods Pro (2nd Gen) - Limited Offer",
+            summary: "",
+
+            aiGeneratedSummary: """
+            **Actions:**
+            • Get AirPods Pro for **$199** (save $50, 20% off)
+
+            **Why:**
+            Prime member exclusive pricing on Apple's latest AirPods.
+
+            **Context:**
+            • Active Noise Cancellation, USB-C charging
+            • Free Prime delivery
+            """,
+            body: """
+            Prime Member Deal - Save $50 Today!
+
+            Apple AirPods Pro (2nd Generation)
+
+            Limited time Prime exclusive: Get the all-new AirPods Pro (2nd Generation) with USB-C charging for just $199 - that's $50 off the regular price!
+
+            SALE PRICE: $199.00 (was $249.00)
+            SAVINGS: $50.00 (20% off)
+            PRIME DELIVERY: FREE - Arrives tomorrow
+
+            What's New in 2nd Generation:
+            ⭐ Up to 2X more Active Noise Cancellation
+            ⭐ Adaptive Transparency mode
+            ⭐ Personalized Spatial Audio with head tracking
+            ⭐ USB-C charging case (works with iPhone 15)
+            ⭐ Extra-small, small, medium, and large ear tips
+            ⭐ Touch control for volume adjustment
+            ⭐ Up to 6 hours listening time (30 hours with case)
+
+            Perfect For:
+            • Music lovers who demand the best audio
+            • Commuters and frequent travelers
+            • iPhone users (seamless pairing)
+            • Fitness enthusiasts (sweat and water resistant)
+
+            What's in the Box:
+            ✓ AirPods Pro (2nd generation)
+            ✓ USB-C charging case
+            ✓ 4 sizes of silicone ear tips
+            ✓ Lightning to USB-C cable
+            ✓ Documentation
+
+            Why Buy from Amazon:
+            • Fulfilled by Amazon - 100% authentic
+            • Free Prime delivery
+            • Easy returns within 30 days
+            • 1-year Apple warranty included
+
+            This deal won't last - grab yours while supplies last!
+
+            SHOP NOW: amazon.com/airpods-pro
+
+            Amazon Electronics
+            """,
+
+            htmlBody: nil,
+            metaCTA: "Swipe Right: Shop Amazon Deal",
+            threadLength: 1,
+            intent: "e-commerce.promotional.deal",
+            intentConfidence: 0.96,
+            suggestedActions: [
+                EmailAction(actionId: "claim_deal", displayName: "Shop Deal", actionType: .goTo, isPrimary: true, priority: 1, context: ["productUrl": "https://www.amazon.com/Apple-AirPods-Pro-2nd-Generation/dp/B0CHWRXH8B"]),
+                EmailAction(actionId: "save_deal", displayName: "Save for Later", actionType: .inApp, isPrimary: false, priority: 2)
+            ],
+            sender: SenderInfo(name: "Amazon", initial: "A", email: nil),
+            kid: nil,
+            company: nil,
+            store: "Amazon",
+            airline: nil,
+            productImageUrl: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400",
+            brandName: "Apple",
+            originalPrice: 249.00,
+            salePrice: 199.00,
+            discount: 20,
+            urgent: true,
+            expiresIn: "12 hours",
+            requiresSignature: nil,
+            paymentAmount: nil,
+            paymentDescription: nil,
+            value: nil,
+            probability: nil,
+            score: nil
+        ))
+
+        // Target - AirPods Pro Deal
+        cards.append(EmailCard(
+            id: "shop9_target",
+            type: .ads,
+            state: .unseen,
+            priority: .high,
+            hpa: "Add to Cart",
+            timeAgo: "4h ago",
+            title: "Target Deal: AirPods Pro 2nd Gen",
+            summary: "",
+
+            aiGeneratedSummary: """
+            **Actions:**
+            • Claim Circle offer for **$209.99** (16% off + $10 gift card)
+
+            **Why:**
+            Target Circle exclusive with bonus gift card.
+
+            **Context:**
+            • Save $40 + get $10 Target gift card
+            • Order pickup or same-day delivery available
+            """,
+            body: """
+            Circle Week Deal - Ends Tonight!
+
+            Apple AirPods Pro (2nd Generation)
+
+            Target Circle members save big on Apple's latest AirPods Pro! Get them for $209.99 PLUS receive a $10 Target gift card with purchase.
+
+            SALE PRICE: $209.99 (was $249.99)
+            BONUS: $10 Target gift card
+            TOTAL SAVINGS: $50+ value
+            CIRCLE WEEK: Deal ends tonight at midnight
+
+            Premium Features:
+            ⭐ Active Noise Cancellation - block out the world
+            ⭐ Adaptive Audio - automatically adjusts to your environment
+            ⭐ Personalized Spatial Audio with dynamic head tracking
+            ⭐ Transparency mode - hear what you need to
+            ⭐ USB-C charging case (compatible with iPhone 15)
+            ⭐ Sweat and water resistant (IPX4)
+
+            Target Benefits:
+            • Order Pickup - ready in 2 hours
+            • Same Day Delivery with Shipt
+            • Free shipping on orders $35+
+            • Extended holiday returns through January 25
+            • 5% off with Target RedCard
+
+            What Customers Love:
+            ⭐⭐⭐⭐⭐ 4.8/5 stars (12,450 reviews)
+            "Best earbuds I've ever owned!" - Sarah M.
+            "The noise cancellation is incredible" - Mike T.
+            "Worth every penny for the sound quality" - Jessica R.
+
+            In Stock Now:
+            Available for immediate pickup at your local Target or get same-day delivery.
+
+            Don't miss out - this Circle Week deal ends at midnight!
+
+            ADD TO CART: target.com/airpods-pro
+
+            Target
+            Expect More. Pay Less.
+            """,
+
+            htmlBody: nil,
+            metaCTA: "Swipe Right: Add to Cart",
+            threadLength: 1,
+            intent: "e-commerce.promotional.deal",
+            intentConfidence: 0.95,
+            suggestedActions: [
+                EmailAction(actionId: "claim_deal", displayName: "Add to Cart", actionType: .goTo, isPrimary: true, priority: 1, context: ["productUrl": "https://www.target.com/p/airpods-pro-2nd-generation/-/A-85978622"]),
+                EmailAction(actionId: "find_store", displayName: "Find in Store", actionType: .goTo, isPrimary: false, priority: 2, context: ["storeUrl": "https://www.target.com/store-locator"])
+            ],
+            sender: SenderInfo(name: "Target", initial: "T", email: nil),
+            kid: nil,
+            company: nil,
+            store: "Target",
+            airline: nil,
+            productImageUrl: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400",
+            brandName: "Apple",
+            originalPrice: 249.99,
+            salePrice: 209.99,
+            discount: 16,
+            urgent: true,
+            expiresIn: "8 hours",
+            requiresSignature: nil,
+            paymentAmount: nil,
+            paymentDescription: nil,
+            value: nil,
+            probability: nil,
+            score: nil
+        ))
+
+        // Walmart - AirPods Pro Deal
+        cards.append(EmailCard(
+            id: "shop10_walmart",
+            type: .ads,
+            state: .unseen,
+            priority: .medium,
+            hpa: "Shop Now",
+            timeAgo: "6h ago",
+            title: "Rollback: AirPods Pro 2nd Gen $219",
+            summary: "",
+
+            aiGeneratedSummary: """
+            **Actions:**
+            • Get AirPods Pro for **$219** (save $30)
+
+            **Why:**
+            Walmart Rollback pricing with free shipping.
+
+            **Context:**
+            • Free 2-day shipping or pickup today
+            • Walmart+ members get free delivery from store
+            """,
+            body: """
+            Rollback Alert - Save $30!
+
+            Apple AirPods Pro (2nd Generation) with MagSafe Case (USB-C)
+
+            We've rolled back the price on Apple's newest AirPods Pro! Get premium wireless earbuds with advanced noise cancellation for just $219.
+
+            ROLLBACK PRICE: $219.00 (was $249.00)
+            SAVINGS: $30.00
+            FREE 2-DAY SHIPPING or Pickup Today
+
+            Advanced Features:
+            ⭐ Up to 2x more Active Noise Cancellation
+            ⭐ Transparency mode - stay aware of surroundings
+            ⭐ Adaptive Audio - seamless listening experience
+            ⭐ Personalized Spatial Audio
+            ⭐ USB-C charging (works with your iPhone 15)
+            ⭐ Up to 6 hours listening time
+            ⭐ Up to 30 hours total with charging case
+            ⭐ Sweat and water resistant
+
+            Why Shop Walmart:
+            • Everyday Low Prices
+            • Free pickup today at your local store
+            • Free 2-day shipping
+            • Walmart+ members: Free delivery from store
+            • Easy returns - 90 days
+            • Protection plans available
+
+            Customer Reviews:
+            ⭐⭐⭐⭐⭐ 4.7/5 (8,234 reviews)
+            "Amazing sound quality and noise cancellation!"
+            "Best investment for daily commute"
+            "The USB-C case is a game changer"
+
+            Shipping & Pickup Options:
+            • FREE Pickup Today - Check local availability
+            • FREE 2-Day Shipping
+            • FREE Delivery from Store (Walmart+ members)
+            • Express Delivery available
+
+            In Stock Online and In Stores!
+
+            SHOP NOW: walmart.com/airpods-pro
+
+            Walmart
+            Save Money. Live Better.
+            """,
+
+            htmlBody: nil,
+            metaCTA: "Swipe Right: Shop Walmart",
+            threadLength: 1,
+            intent: "e-commerce.promotional.deal",
+            intentConfidence: 0.94,
+            suggestedActions: [
+                EmailAction(actionId: "claim_deal", displayName: "Shop Now", actionType: .goTo, isPrimary: true, priority: 1, context: ["productUrl": "https://www.walmart.com/ip/Apple-AirPods-Pro-2nd-Generation-with-MagSafe-Case-USB-C/1752657021"]),
+                EmailAction(actionId: "check_inventory", displayName: "Check Store", actionType: .goTo, isPrimary: false, priority: 2, context: ["storeUrl": "https://www.walmart.com/store-finder"])
+            ],
+            sender: SenderInfo(name: "Walmart", initial: "W", email: nil),
+            kid: nil,
+            company: nil,
+            store: "Walmart",
+            airline: nil,
+            productImageUrl: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400",
+            brandName: "Apple",
+            originalPrice: 249.00,
+            salePrice: 219.00,
+            discount: 12,
             urgent: false,
             expiresIn: nil,
             requiresSignature: nil,

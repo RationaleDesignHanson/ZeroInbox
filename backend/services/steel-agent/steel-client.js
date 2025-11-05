@@ -1,10 +1,11 @@
 /**
- * Steel.dev AI Agent Client
- * Browser automation for subscription cancellation assistance
+ * Steel.dev AI Agent Client (Puppeteer Version)
+ * Browser automation using Puppeteer over WebSocket
  * Documentation: https://docs.steel.dev
  */
 
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
+const puppeteer = require('puppeteer');
 const logger = require('../../shared/config/logger');
 
 const STEEL_API_KEY = process.env.STEEL_API_KEY;
@@ -23,13 +24,13 @@ async function createSession(options = {}) {
   const response = await fetch(`${STEEL_API_BASE}/sessions`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${STEEL_API_KEY}`,
+      'Steel-Api-Key': STEEL_API_KEY,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       ...options,
-      useProxy: true, // Use residential proxy for anti-bot protection
-      solveCaptchas: true // Auto-solve CAPTCHAs
+      useProxy: true,
+      solveCaptchas: true
     })
   });
 
@@ -44,207 +45,220 @@ async function createSession(options = {}) {
 
   const data = await response.json();
   logger.info('Steel.dev session created', {
-    sessionId: data.sessionId
+    sessionId: data.id
   });
 
   return data;
 }
 
 /**
- * Navigate browser to URL and extract page content
- * @param {string} sessionId - Active session ID
- * @param {string} url - URL to navigate to
- * @returns {Promise<Object>} Page content and metadata
+ * Connect to Steel session via Puppeteer
+ * @param {string} sessionId - Session ID
+ * @returns {Promise<{browser: Browser, page: Page}>} Connected browser and page
  */
-async function navigateToUrl(sessionId, url) {
+async function connectToSession(sessionId) {
   if (!STEEL_API_KEY) {
     throw new Error('STEEL_API_KEY not configured');
   }
 
-  const response = await fetch(`${STEEL_API_BASE}/sessions/${sessionId}/navigate`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${STEEL_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ url })
+  const wsEndpoint = `wss://connect.steel.dev?apiKey=${STEEL_API_KEY}&sessionId=${sessionId}`;
+
+  logger.info('Connecting to Steel session via WebSocket', { sessionId });
+
+  const browser = await puppeteer.connect({
+    browserWSEndpoint: wsEndpoint
   });
 
-  if (!response.ok) {
-    const error = await response.text();
+  const pages = await browser.pages();
+  const page = pages.length > 0 ? pages[0] : await browser.newPage();
+
+  logger.info('Connected to Steel browser session', { sessionId });
+
+  return { browser, page };
+}
+
+/**
+ * Navigate browser to URL
+ * @param {string} sessionId - Active session ID
+ * @param {string} url - URL to navigate to
+ * @returns {Promise<Object>} Navigation result
+ */
+async function navigateToUrl(sessionId, url) {
+  let browser, page;
+
+  try {
+    ({ browser, page } = await connectToSession(sessionId));
+
+    await page.goto(url, {
+      waitUntil: 'domcontentloaded',
+      timeout: 60000
+    });
+
+    // Wait a bit more for dynamic content to load
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const title = await page.title();
+
+    logger.info('Steel.dev navigation successful', {
+      sessionId,
+      url,
+      title
+    });
+
+    await browser.disconnect();
+
+    return { success: true, title, url };
+  } catch (error) {
+    if (browser) await browser.disconnect();
+
     logger.error('Steel.dev navigation failed', {
       sessionId,
       url,
-      status: response.status,
-      error
+      error: error.message
     });
-    throw new Error(`Failed to navigate: ${response.statusText}`);
+    throw new Error(`Failed to navigate: ${error.message}`);
   }
+}
 
-  const data = await response.json();
-  logger.info('Steel.dev navigation successful', {
-    sessionId,
-    url,
-    title: data.title
-  });
+/**
+ * Click element using CSS selector or text
+ * @param {string} sessionId - Active session ID
+ * @param {string} selector - CSS selector or text to click
+ * @returns {Promise<Object>} Click result
+ */
+async function clickElement(sessionId, selector) {
+  let browser, page;
 
-  return data;
+  try {
+    ({ browser, page } = await connectToSession(sessionId));
+
+    // Try as CSS selector first
+    try {
+      await page.waitForSelector(selector, { timeout: 5000 });
+      await page.click(selector);
+    } catch {
+      // If CSS fails, try as text content using XPath
+      const clicked = await page.evaluate((text) => {
+        const xpath = `//*[contains(text(), '${text}') or @aria-label='${text}' or @title='${text}']`;
+        const result = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null);
+        if (result.singleNodeValue) {
+          result.singleNodeValue.click();
+          return true;
+        }
+        return false;
+      }, selector);
+
+      if (!clicked) {
+        throw new Error(`Element not found: ${selector}`);
+      }
+    }
+
+    logger.info('Steel.dev element clicked', {
+      sessionId,
+      selector,
+      success: true
+    });
+
+    await browser.disconnect();
+
+    return { success: true };
+  } catch (error) {
+    if (browser) await browser.disconnect();
+
+    logger.error('Steel.dev click failed', {
+      sessionId,
+      selector,
+      error: error.message
+    });
+    throw new Error(`Failed to click element: ${error.message}`);
+  }
+}
+
+/**
+ * Take screenshot of current page
+ * @param {string} sessionId - Active session ID
+ * @returns {Promise<string>} Screenshot as base64
+ */
+async function takeScreenshot(sessionId) {
+  let browser, page;
+
+  try {
+    ({ browser, page } = await connectToSession(sessionId));
+
+    const screenshot = await page.screenshot({
+      encoding: 'base64',
+      fullPage: false
+    });
+
+    logger.info('Steel.dev screenshot captured', { sessionId });
+
+    await browser.disconnect();
+
+    return screenshot;
+  } catch (error) {
+    if (browser) await browser.disconnect();
+
+    logger.error('Steel.dev screenshot failed', {
+      sessionId,
+      error: error.message
+    });
+    throw new Error(`Failed to take screenshot: ${error.message}`);
+  }
 }
 
 /**
  * Execute JavaScript in the browser context
  * @param {string} sessionId - Active session ID
  * @param {string} code - JavaScript code to execute
- * @returns {Promise<Object>} Execution result
+ * @returns {Promise<any>} Execution result
  */
 async function executeScript(sessionId, code) {
-  if (!STEEL_API_KEY) {
-    throw new Error('STEEL_API_KEY not configured');
-  }
+  let browser, page;
 
-  const response = await fetch(`${STEEL_API_BASE}/sessions/${sessionId}/execute`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${STEEL_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ code })
-  });
+  try {
+    ({ browser, page } = await connectToSession(sessionId));
 
-  if (!response.ok) {
-    const error = await response.text();
+    const result = await page.evaluate(code);
+
+    logger.info('Steel.dev script executed', {
+      sessionId,
+      success: true
+    });
+
+    await browser.disconnect();
+
+    return result;
+  } catch (error) {
+    if (browser) await browser.disconnect();
+
     logger.error('Steel.dev script execution failed', {
       sessionId,
-      status: response.status,
-      error
+      error: error.message
     });
-    throw new Error(`Failed to execute script: ${response.statusText}`);
+    throw new Error(`Failed to execute script: ${error.message}`);
   }
-
-  const data = await response.json();
-  logger.info('Steel.dev script executed', {
-    sessionId,
-    success: data.success
-  });
-
-  return data;
 }
 
 /**
- * Take screenshot of current page
+ * Get current URL
  * @param {string} sessionId - Active session ID
- * @returns {Promise<Object>} Screenshot data (base64)
+ * @returns {Promise<string>} Current URL
  */
-async function takeScreenshot(sessionId) {
-  if (!STEEL_API_KEY) {
-    throw new Error('STEEL_API_KEY not configured');
+async function getCurrentUrl(sessionId) {
+  let browser, page;
+
+  try {
+    ({ browser, page } = await connectToSession(sessionId));
+
+    const url = await page.url();
+
+    await browser.disconnect();
+
+    return url;
+  } catch (error) {
+    if (browser) await browser.disconnect();
+    throw new Error(`Failed to get current URL: ${error.message}`);
   }
-
-  const response = await fetch(`${STEEL_API_BASE}/sessions/${sessionId}/screenshot`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${STEEL_API_KEY}`
-    }
-  });
-
-  if (!response.ok) {
-    const error = await response.text();
-    logger.error('Steel.dev screenshot failed', {
-      sessionId,
-      status: response.status,
-      error
-    });
-    throw new Error(`Failed to take screenshot: ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  logger.info('Steel.dev screenshot captured', {
-    sessionId
-  });
-
-  return data;
-}
-
-/**
- * Get visible text from page using natural language query
- * @param {string} sessionId - Active session ID
- * @param {string} query - Natural language query (e.g., "Find the cancel button")
- * @returns {Promise<Object>} Query result with element info
- */
-async function queryPage(sessionId, query) {
-  if (!STEEL_API_KEY) {
-    throw new Error('STEEL_API_KEY not configured');
-  }
-
-  const response = await fetch(`${STEEL_API_BASE}/sessions/${sessionId}/query`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${STEEL_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ query })
-  });
-
-  if (!response.ok) {
-    const error = await response.text();
-    logger.error('Steel.dev page query failed', {
-      sessionId,
-      query,
-      status: response.status,
-      error
-    });
-    throw new Error(`Failed to query page: ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  logger.info('Steel.dev page query successful', {
-    sessionId,
-    query,
-    found: data.found
-  });
-
-  return data;
-}
-
-/**
- * Click element using natural language description
- * @param {string} sessionId - Active session ID
- * @param {string} description - Natural language element description
- * @returns {Promise<Object>} Click result
- */
-async function clickElement(sessionId, description) {
-  if (!STEEL_API_KEY) {
-    throw new Error('STEEL_API_KEY not configured');
-  }
-
-  const response = await fetch(`${STEEL_API_BASE}/sessions/${sessionId}/click`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${STEEL_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ description })
-  });
-
-  if (!response.ok) {
-    const error = await response.text();
-    logger.error('Steel.dev click failed', {
-      sessionId,
-      description,
-      status: response.status,
-      error
-    });
-    throw new Error(`Failed to click element: ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  logger.info('Steel.dev element clicked', {
-    sessionId,
-    description,
-    success: data.success
-  });
-
-  return data;
 }
 
 /**
@@ -260,7 +274,7 @@ async function closeSession(sessionId) {
   const response = await fetch(`${STEEL_API_BASE}/sessions/${sessionId}`, {
     method: 'DELETE',
     headers: {
-      'Authorization': `Bearer ${STEEL_API_KEY}`
+      'Steel-Api-Key': STEEL_API_KEY
     }
   });
 
@@ -274,114 +288,13 @@ async function closeSession(sessionId) {
   }
 }
 
-/**
- * Guided cancellation flow
- * Navigates to cancellation page and provides step-by-step guidance
- * @param {Object} service - Service object with cancellation info
- * @param {string} userSessionId - User's session identifier (for tracking)
- * @returns {Promise<Object>} Cancellation guidance with screenshots
- */
-async function guideCancellation(service, userSessionId) {
-  if (!service) {
-    throw new Error('Service information required');
-  }
-
-  logger.info('Starting guided cancellation', {
-    userSessionId,
-    service: service.name
-  });
-
-  let session = null;
-  const steps = [];
-
-  try {
-    // Create browser session
-    session = await createSession({
-      sessionName: `cancel-${service.name.replace(/\s+/g, '-').toLowerCase()}-${userSessionId}`
-    });
-
-    const { sessionId } = session;
-
-    // Step 1: Navigate to account/cancellation page
-    const targetUrl = service.cancellationUrl || service.accountPageUrl;
-    const pageData = await navigateToUrl(sessionId, targetUrl);
-
-    steps.push({
-      step: 1,
-      action: 'navigate',
-      description: `Navigate to ${service.name} cancellation page`,
-      url: targetUrl,
-      pageTitle: pageData.title,
-      success: true
-    });
-
-    // Step 2: Take screenshot for user reference
-    const screenshot = await takeScreenshot(sessionId);
-    steps.push({
-      step: 2,
-      action: 'screenshot',
-      description: 'Capture current page state',
-      screenshot: screenshot.data, // base64 image
-      success: true
-    });
-
-    // Step 3: Look for cancellation-related elements
-    const cancelQuery = await queryPage(
-      sessionId,
-      'Find buttons or links related to canceling subscription, membership, or plan'
-    );
-
-    steps.push({
-      step: 3,
-      action: 'detect_elements',
-      description: 'Identify cancellation options on page',
-      found: cancelQuery.found,
-      elements: cancelQuery.elements || [],
-      success: true
-    });
-
-    // Return guidance to user
-    return {
-      success: true,
-      sessionId, // User can continue in their own browser
-      serviceName: service.name,
-      steps,
-      nextSteps: service.cancellationSteps,
-      requiresLogin: service.requiresLogin,
-      note: service.note || null
-    };
-
-  } catch (error) {
-    logger.error('Guided cancellation failed', {
-      userSessionId,
-      service: service.name,
-      error: error.message,
-      stack: error.stack
-    });
-
-    return {
-      success: false,
-      error: error.message,
-      serviceName: service.name,
-      steps,
-      fallbackUrl: service.accountPageUrl
-    };
-
-  } finally {
-    // Always close session to avoid charges
-    if (session && session.sessionId) {
-      await closeSession(session.sessionId);
-    }
-  }
-}
-
 module.exports = {
   createSession,
+  connectToSession,
   navigateToUrl,
-  executeScript,
-  takeScreenshot,
-  queryPage,
   clickElement,
-  closeSession,
-  guideCancellation
+  takeScreenshot,
+  executeScript,
+  getCurrentUrl,
+  closeSession
 };

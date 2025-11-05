@@ -790,19 +790,19 @@ class ActionRegistry {
                 description: "Open shopping link"
             ),
 
-            // Claim Deal
+            // Claim Deal (Shopping Automation)
             ActionConfig(
                 actionId: "claim_deal",
                 displayName: "Claim Deal",
-                actionType: .goTo,
+                actionType: .inApp,
                 mode: .ads,
-                modalComponent: nil,
-                requiredContextKeys: ["dealUrl"],
-                optionalContextKeys: ["promoCode"],
+                modalComponent: "ShoppingAutomationModal",
+                requiredContextKeys: ["productUrl"],
+                optionalContextKeys: ["productName", "dealUrl", "promoCode"],
                 fallbackBehavior: .showError,
                 analyticsEvent: "action_claim_deal",
                 priority: 80,
-                description: "Claim promotional deal"
+                description: "Automatically add product to cart using Steel.dev browser automation"
             ),
 
             // Cancel Subscription

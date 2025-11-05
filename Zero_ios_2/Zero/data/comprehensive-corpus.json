@@ -4408,5 +4408,89 @@
     "body": "{company} is hiring! {numJobs} open roles including: {roles}",
     "intent": "content.newsletter.career",
     "generated": true
+  },
+  {
+    "subject": "Flash Sale: AirPods Pro - 30% Off Today Only",
+    "from": "Amazon <deals@amazon.com>",
+    "body": "Prime Member Deal! Apple AirPods Pro (2nd Gen) now $199 (was $249). Save $50 on the best noise-cancelling earbuds. USB-C charging, Adaptive Audio, up to 6hr battery. Free delivery. Shop now: https://www.amazon.com/dp/B0CHWRXH8B",
+    "intent": "e-commerce.promotional.deal",
+    "generated": true
+  },
+  {
+    "subject": "Circle Deal: AirPods Pro + $10 Gift Card",
+    "from": "Target <deals@target.com>",
+    "body": "Target Circle members save big! AirPods Pro 2nd Gen for $209.99 + get $10 Target gift card. Active Noise Cancellation, USB-C charging. Order Pickup ready in 2 hours or Same Day Delivery. Deal ends tonight: https://www.target.com/p/airpods-pro-2nd-generation/-/A-85978622",
+    "intent": "e-commerce.promotional.deal",
+    "generated": true
+  },
+  {
+    "subject": "Rollback: AirPods Pro Now $219",
+    "from": "Walmart <savings@walmart.com>",
+    "body": "We rolled back the price! Apple AirPods Pro (2nd Generation) with USB-C for $219 (was $249). Up to 2x more Active Noise Cancellation. FREE 2-day shipping or Pickup Today at your local store. Shop: https://www.walmart.com/ip/Apple-AirPods-Pro-2nd-Generation-with-MagSafe-Case-USB-C/1752657021",
+    "intent": "e-commerce.promotional.deal",
+    "generated": true
+  },
+  {
+    "subject": "LAST CHANCE: Sony WH-1000XM5 - $120 Off (6 hours left)",
+    "from": "Best Buy <deals@bestbuy.com>",
+    "body": "Final hours! Sony WH-1000XM5 Wireless Noise-Cancelling Headphones $279.99 (reg $399.99). Industry-leading noise cancellation, 30hr battery, Hi-Res Audio. FREE shipping + 30-day returns. Sale ends midnight: https://www.bestbuy.com/site/sony-wh1000xm5-wireless-noise-canceling-over-the-ear-headphones-black/6505727.p",
+    "intent": "e-commerce.promotional.deal",
+    "generated": true
+  },
+  {
+    "subject": "Your Wishlist Item is On Sale - iPhone 15 Pro",
+    "from": "Amazon <wishlist@amazon.com>",
+    "body": "Great news! An item on your wishlist dropped in price. Apple iPhone 15 Pro 256GB now $999 (was $1,099). Save $100 on the latest iPhone with A17 Pro chip, titanium design, USB-C. Prime delivery available. Act fast - limited stock: https://www.amazon.com/dp/B0CHX3TJ4N",
+    "intent": "e-commerce.price-drop.alert",
+    "generated": true
+  },
+  {
+    "subject": "Price Drop Alert: Samsung Galaxy Watch 6 - Save $80",
+    "from": "Best Buy <price-drop@bestbuy.com>",
+    "body": "The Samsung Galaxy Watch 6 you viewed is now on sale! $269.99 (was $349.99). Advanced health tracking, 40mm, GPS + Bluetooth. Available in Graphite, Silver, Gold. Free store pickup today: https://www.bestbuy.com/site/samsung-galaxy-watch-6-aluminum-smartwatch-40mm-bt-graphite/6546686.p",
+    "intent": "e-commerce.price-drop.alert",
+    "generated": true
+  },
+  {
+    "subject": "Back in Stock: PlayStation 5 Console",
+    "from": "Target <availability@target.com>",
+    "body": "The item you wanted is back! PlayStation 5 Console (Disc Version) now in stock for $499.99. Includes DualSense controller, 1TB storage. Order Pickup available at select stores or get Same Day Delivery. Don't wait - selling fast: https://www.target.com/p/playstation-5-console/-/A-81114595",
+    "intent": "e-commerce.stock.alert",
+    "generated": true
+  },
+  {
+    "subject": "Exclusive Early Access: Black Friday Deals Start NOW",
+    "from": "Best Buy <vip@bestbuy.com>",
+    "body": "My Best Buy members get early access! Shop Black Friday deals 48 hours before everyone else. Up to 50% off TVs, laptops, gaming, audio, appliances. FREE shipping on thousands of items. Browse exclusive deals: https://www.bestbuy.com/site/black-friday/sale/pcmcat748300503045.c",
+    "intent": "e-commerce.promotional.event",
+    "generated": true
+  },
+  {
+    "subject": "Limited Edition: Nike Air Max Release - 24 Hours",
+    "from": "Nike <sneakers@nike.com>",
+    "body": "Just dropped! Limited Edition Air Max 1 '86 Original - Big Bubble. Only 24 hours to grab yours. $140. Classic design meets modern comfort. SNKRS exclusive. Shop before they're gone: https://www.nike.com/launch/t/air-max-1-86-original-big-bubble",
+    "intent": "e-commerce.product.launch",
+    "generated": true
+  },
+  {
+    "subject": "Complete Your Cart - 15% Off Waiting Inside",
+    "from": "Target <cart@target.com>",
+    "body": "You left something behind! Complete your cart and save 15% with code CART15. Items in your cart: Apple Magic Keyboard, USB-C to Lightning Cable. Offer expires in 24 hours. Free shipping on orders $35+: https://www.target.com/cart",
+    "intent": "e-commerce.cart.abandoned",
+    "generated": true
+  },
+  {
+    "subject": "Your Reserved Items Expire Soon - MacBook Pro M3",
+    "from": "Apple <store@apple.com>",
+    "body": "The items in your bag won't be reserved forever. MacBook Pro 14-inch M3 Pro, Space Black - $1,999. Your saved configuration expires in 3 hours. Complete your purchase now or you'll need to rebuild. Shop: https://www.apple.com/shop/bag",
+    "intent": "e-commerce.cart.abandoned",
+    "generated": true
+  },
+  {
+    "subject": "Buy Now, Pay Later: Get Your Dyson Airwrap for $25/mo",
+    "from": "Dyson <offers@dyson.com>",
+    "body": "Transform your hair routine. Dyson Airwrap Complete Long (Nickel/Copper) - $599.99 or just $25/month with Affirm. 0% APR. Includes 6 attachments, storage case. Free shipping + 30-day guarantee. Learn more: https://www.dyson.com/hair-care/dyson-airwrap-complete-long",
+    "intent": "e-commerce.financing.offer",
+    "generated": true
   }
 ]

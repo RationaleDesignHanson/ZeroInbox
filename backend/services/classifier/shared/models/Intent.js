@@ -2579,6 +2579,88 @@ const IntentTaxonomy = {
     optionalEntities: ['topic', 'contentUrl']
   },
 
+  // THREAD FINDER - LINK-HEAVY EMAILS (LMS, School Portals, Sports)
+  'education.lms.link-only': {
+    category: 'education',
+    subCategory: 'lms',
+    action: 'link-only',
+    description: 'LMS email with minimal content, primarily a link (Canvas, Google Classroom)',
+    triggers: [
+      'check canvas',
+      'view in canvas',
+      'see canvas for',
+      'visit canvas',
+      'click here to view',
+      'view assignment',
+      'view message',
+      'log in to',
+      'access your',
+      'open in canvas',
+      'canvas notification',
+      'view in google classroom',
+      'see google classroom',
+      'classroom notification',
+      'new post in canvas',
+      'new assignment in',
+      'view details in',
+      'full details at',
+      'see more at'
+    ],
+    requiredEntities: ['link'],
+    optionalEntities: ['platform', 'teacher', 'course', 'extractedContent']
+  },
+  'education.school-portal.link-only': {
+    category: 'education',
+    subCategory: 'school-portal',
+    action: 'link-only',
+    description: 'School portal email with minimal content, primarily a link',
+    triggers: [
+      'view announcement',
+      'read more',
+      'full details',
+      'portal',
+      'login to view',
+      'access portal',
+      'check the portal',
+      'visit our website',
+      'school website',
+      'view online',
+      'click here for more',
+      'see full announcement',
+      'visit the portal',
+      'access the',
+      'log in to see'
+    ],
+    requiredEntities: ['link'],
+    optionalEntities: ['schoolName', 'announcementType', 'extractedContent']
+  },
+  'youth.sports.link-only': {
+    category: 'youth',
+    subCategory: 'sports',
+    action: 'link-only',
+    description: 'Sports platform email with minimal content, primarily a link (SportsEngine, TeamSnap)',
+    triggers: [
+      'view schedule',
+      'check sportsengine',
+      'login to see',
+      'visit team page',
+      'see details',
+      'full schedule',
+      'game details',
+      'practice details',
+      'team information',
+      'visit our team',
+      'sportsengine',
+      'teamsnap',
+      'view game',
+      'see game',
+      'check schedule',
+      'access schedule'
+    ],
+    requiredEntities: ['link', 'sport'],
+    optionalEntities: ['team', 'organization', 'extractedContent']
+  },
+
   // GENERIC/FALLBACK
   'generic.transactional.notification': {
     category: 'generic',

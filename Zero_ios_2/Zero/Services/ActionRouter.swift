@@ -21,9 +21,6 @@ class ActionRouter: ObservableObject {
     // Current mode for mode validation
     @Published var currentMode: CardType = .mail
 
-    // Fallback URL when action context is missing - shows obvious debug content
-    private let fallbackURL = "https://www.google.com/search?q=peanutbutter+jelly+time+ad+free&sca_esv=600443117005ddc0&rlz=1C5CHFA_enUS1129US1130&ei=4Cn9aIufMvL_ptQPu7OCQQ&ved=0ahUKEwiLj4vCj8CQAxXyv4kEHbuZIAgQ4dUDCBA&uact=5&oq=peanutbutter+jelly+time+ad+free&gs_lp=Egxnd3Mtd2l6LXNlcnAiH3BlYW51dGJ1dHRlciBqZWxseSB0aW1lIGFkIGZyZWUyBhAAGBYYHjIGEAAYFhgeMgsQABiABBiKBRiGAzILEAAYgAQYigUYhgMyCxAAGIAEGIoFGIYDMgsQABiABBiKBRiGAzIIEAAYgAQYogQyBRAAGO8FMgUQABjvBTIFEAAY7wVIgw9Q9QNY6w1wAXgAkAEAmAGaAaAB6gaqAQM2LjO4AQPIAQD4AQGYAgmgAvAGwgIKEAAYRxjWBBiwA8ICDRAAGIAEGIoFGEMYsAPCAg4QABjkAhjWBBiwA9gBAcICExAuGIAEGIoFGEMYyAMYsAPYAQHCAhMQLhhDGIAEGIoFGMgDGLAD2AEBwgIKEAAYgAQYigUYQ8ICBxAuGAoYgATCAgcQABiABBgKwgIHEC4YgAQYCsICBxAAGIAEGA3CAgkQLhgNGIAEGArCAggQABgWGB4YCpgDAOIDBRIBMSBAiAYBkAYTugYGCAEQARgJkgcDNi4zoAfAZLIHAzUuM7gH5gbCBwcwLjEuNy4xyAcr&sclient=gws-wiz-serp#fpstate=ive&vld=cid:864ba420,vid:Z3ZAGBL6UBA,st:0#debug=incorrect_link"
-
     // ActionRegistry reference
     private let registry = ActionRegistry.shared
 
@@ -56,18 +53,43 @@ class ActionRouter: ObservableObject {
             return
         }
 
-        // Step 3: Validate required context
+        // Step 3: Validate required context (with placeholder fallback)
         let validation = registry.validateAction(action.actionId, context: action.context)
         if !validation.isValid {
-            Logger.error("Action '\(action.actionId)' missing required context: \(validation.missingKeys.joined(separator: ", "))", category: .action)
-            showError("Missing information: \(validation.missingKeys.joined(separator: ", "))")
+            Logger.warning("Action '\(action.actionId)' missing required context: \(validation.missingKeys.joined(separator: ", ")) - Attempting placeholder fill", category: .action)
 
-            // Analytics: Track context validation failure
-            AnalyticsService.shared.log("action_context_validation_failed", properties: [
+            // Try to apply placeholders to fill missing context
+            let actionWithPlaceholders = ActionPlaceholders.applyPlaceholders(to: action)
+
+            // Validate again after applying placeholders
+            let revalidation = registry.validateAction(action.actionId, context: actionWithPlaceholders.context)
+            if !revalidation.isValid {
+                Logger.error("Action '\(action.actionId)' still invalid after applying placeholders", category: .action)
+                showError("Missing information: \(validation.missingKeys.joined(separator: ", "))")
+
+                // Analytics: Track validation failure even with placeholders
+                AnalyticsService.shared.log("action_context_validation_failed", properties: [
+                    "action_id": action.actionId,
+                    "missing_keys": validation.missingKeys.joined(separator: ", "),
+                    "error": validation.error ?? "Unknown error",
+                    "placeholders_attempted": true
+                ])
+                return
+            }
+
+            // Success! Continue with placeholder-filled action
+            Logger.info("✅ Action '\(action.actionId)' validated after applying placeholders", category: .action)
+
+            // Analytics: Track placeholder usage
+            AnalyticsService.shared.log("action_used_placeholder", properties: [
                 "action_id": action.actionId,
-                "missing_keys": validation.missingKeys.joined(separator: ", "),
-                "error": validation.error ?? "Unknown error"
+                "action_display_name": action.displayName,
+                "missing_keys_filled": validation.missingKeys.joined(separator: ", "),
+                "placeholder_context_applied": true
             ])
+
+            // Execute with placeholders
+            executeWithPlaceholders(actionWithPlaceholders, card: card, from: viewController)
             return
         }
 
@@ -97,8 +119,27 @@ class ActionRouter: ObservableObject {
         }
     }
     
+    /**
+     * Execute action with placeholders (when original validation failed)
+     * Shows user feedback that placeholder data is being used
+     */
+    private func executeWithPlaceholders(_ action: EmailAction, card: EmailCard, from viewController: UIViewController?) {
+        Logger.info("Executing action '\(action.actionId)' with placeholder data", category: .action)
+
+        // Show user that we're using placeholder/sample data
+        showError("Using sample data for '\(action.displayName)'")
+
+        // Execute normally - placeholders are already applied to context
+        switch action.actionType {
+        case .goTo:
+            executeGoToAction(action, card: card, from: viewController)
+        case .inApp:
+            executeInAppAction(action, card: card)
+        }
+    }
+
     // MARK: - GO_TO Actions (External URLs)
-    
+
     private func executeGoToAction(_ action: EmailAction, card: EmailCard, from viewController: UIViewController?) {
         // Check if this action should show a preview modal first
         if shouldShowPreview(for: action.actionId) {
@@ -260,19 +301,31 @@ class ActionRouter: ObservableObject {
             }
         }
 
-        // Open URL (with fallback for missing URLs)
+        // Open URL (with placeholder fallback for missing URLs)
         if let urlString = urlString, let url = URL(string: urlString) {
             openURL(url, from: viewController)
         } else {
-            // Use fallback URL when context is missing - makes bug obvious
-            Logger.error("❌ MISSING URL CONTEXT for action: \(action.actionId) - Opening fallback URL", category: .action)
-            Logger.error("Context keys available: \(context.keys.joined(separator: ", "))", category: .action)
-            Logger.error("Action details: \(action.displayName) (\(action.actionType == .goTo ? "GO_TO" : "IN_APP"))", category: .action)
+            // Use ActionPlaceholders when URL is missing
+            Logger.warning("⚠️ MISSING URL CONTEXT for action: \(action.actionId) - Using placeholder URL", category: .action)
+            Logger.info("Context keys available: \(context.keys.joined(separator: ", "))", category: .action)
 
-            if let url = URL(string: fallbackURL) {
-                showError("⚠️ URL Missing - Opening Debug Link")
+            let placeholderUrl = ActionPlaceholders.getPlaceholderURL(for: action.actionId)
+
+            if let url = URL(string: placeholderUrl) {
+                Logger.info("📦 Using placeholder URL for \(action.actionId): \(placeholderUrl)", category: .action)
+
+                // Analytics: Track placeholder usage
+                AnalyticsService.shared.log("action_used_placeholder", properties: [
+                    "action_id": action.actionId,
+                    "action_display_name": action.displayName,
+                    "placeholder_url": placeholderUrl,
+                    "missing_url": true
+                ])
+
+                showError("Using sample data for '\(action.displayName)'")
                 openURL(url, from: viewController)
             } else {
+                Logger.error("❌ Failed to generate placeholder URL for \(action.actionId)", category: .action)
                 showError("Unable to open link for \(action.displayName)")
             }
         }
@@ -451,6 +504,11 @@ class ActionRouter: ObservableObject {
 
         case "ScheduledPurchaseModal":
             return .scheduledPurchase(card: card, context: context)
+
+        case "ShoppingAutomationModal":
+            let productUrl = context["productUrl"] ?? context["url"] ?? ""
+            let productName = context["productName"] ?? "Product"
+            return .automatedAddToCart(card: card, productUrl: productUrl, productName: productName, context: context)
 
         case "NewsletterSummaryModal":
             return .viewNewsletterSummary(card: card, context: context)
@@ -763,6 +821,9 @@ enum ActionModal: Identifiable {
     // Attachment Viewing
     case viewAttachments(card: EmailCard, context: [String: Any])
 
+    // Shopping Automation
+    case automatedAddToCart(card: EmailCard, productUrl: String, productName: String, context: [String: Any])
+
     var id: String {
         switch self {
         case .signForm(let card, _): return "sign_\(card.id)"
@@ -806,6 +867,7 @@ enum ActionModal: Identifiable {
         case .cancelSubscription(let card, _): return "cancel_subscription_\(card.id)"
         case .unsubscribe(let card, _, _): return "unsubscribe_\(card.id)"
         case .viewAttachments(let card, _): return "attachments_\(card.id)"
+        case .automatedAddToCart(let card, _, _, _): return "automated_add_to_cart_\(card.id)"
         }
     }
 }

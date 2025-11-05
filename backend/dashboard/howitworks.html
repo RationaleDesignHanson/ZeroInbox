@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zero - Email Intelligence Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding-top: 40px;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Firefly Shader Background */
+        .floating-spheres {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .firefly {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            will-change: transform, opacity;
+            animation: firefly-float ease-in-out infinite;
+        }
+
+        /* Small fireflies */
+        .firefly.small {
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(147, 197, 253, 1), rgba(147, 197, 253, 0.5) 40%, transparent 70%);
+            box-shadow: 0 0 10px rgba(147, 197, 253, 0.8), 0 0 20px rgba(147, 197, 253, 0.4);
+        }
+
+        /* Medium fireflies */
+        .firefly.medium {
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle, rgba(196, 181, 253, 1), rgba(196, 181, 253, 0.6) 40%, transparent 70%);
+            box-shadow: 0 0 15px rgba(196, 181, 253, 0.9), 0 0 30px rgba(196, 181, 253, 0.5);
+        }
+
+        /* Warm amber/orange fireflies */
+        .firefly.warm {
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 1), rgba(251, 191, 36, 0.7) 40%, transparent 70%);
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.9), 0 0 25px rgba(251, 146, 60, 0.6);
+        }
+
+        /* Large ambient glow orbs (fewer, subtle) */
+        .firefly.orb {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05) 40%, transparent 70%);
+            filter: blur(40px);
+        }
+
+        @keyframes firefly-float {
+            0%, 100% {
+                transform: translate3d(0, 0, 0);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translate3d(var(--tx1), var(--ty1), 0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate3d(var(--tx2), var(--ty2), 0);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate3d(var(--tx3), var(--ty3), 0);
+                opacity: 0.9;
+            }
+        }
+
+        .landing-container {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            gap: 0px;
+        }
+
+        /* Header - Same as app-demo */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .main-title {
+            font-size: 60px;
+            font-weight: 900;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .main-subtitle {
+            font-size: 18px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.85);
+            max-width: 600px;
+            margin: 0 auto 8px;
+            line-height: 1.3;
+            text-align: center;
+        }
+
+        /* How It Works Section - Grid Layout for Desktop */
+        .howitworks-section {
+            position: relative;
+            display: grid;
+            grid-template-columns: 240px 345px 240px;
+            grid-template-rows: auto 1fr auto;
+            gap: 50px;
+            width: fit-content;
+            margin: 0 auto;
+            min-height: 600px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        /* Central Demo Card */
+        .demo-card {
+            position: relative;
+            width: 345px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            touch-action: none;
+            /* Grid positioning for desktop */
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+        }
+
+        .demo-card:hover {
+            transform: scale(1.02);
+        }
+
+        /* Animated Gradient Background (Blue-Cyan like MAIL cards) */
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+            z-index: 1;
+        }
+
+        .demo-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #3b82f6 0%, #0ea5e9 100%);
+            opacity: 0.5;
+            transform-origin: center;
+            animation: gradient-breathe 25s ease-in-out infinite;
+            filter: blur(30px);
+            z-index: 2;
+        }
+
+        @keyframes gradient-breathe {
+            0%, 100% {
+                transform: scale(1) translate(0, 0);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1.2) translate(50px, 30px);
+                opacity: 0.7;
+            }
+        }
+
+        /* Glassmorphic Overlay */
+        .card-glass {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            z-index: 3;
+        }
+
+        /* Card Content */
+        .card-content {
+            position: relative;
+            z-index: 4;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .zero-logo {
+            position: relative;
+            width: 150px;
+            height: 105px;
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Individual "0" letter styling */
+        .logo-zero {
+            position: absolute;
+            font-size: 105px;
+            font-weight: 900;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            letter-spacing: -3.75px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Left faded "0" */
+        .logo-zero-left {
+            left: -30px;
+            opacity: 0.15;
+            filter: blur(1.5px);
+            color: white;
+            z-index: 1;
+        }
+
+        /* Center main "0" with envelope - in a gradient box */
+        .logo-zero-center {
+            z-index: 3;
+            color: white;
+            position: relative;
+            padding: 6px 9px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 12px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Envelope inside center "0" */
+        .logo-envelope {
+            position: absolute;
+            font-size: 36px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: none;
+            -webkit-text-fill-color: white;
+            text-shadow: 0 1.5px 7.5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Right faded "0" */
+        .logo-zero-right {
+            right: -30px;
+            opacity: 0.15;
+            filter: blur(1.5px);
+            color: white;
+            z-index: 1;
+        }
+
+        /* Pulsing glow behind logo */
+        .logo-glow {
+            position: absolute;
+            width: 187.5px;
+            height: 187.5px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3), transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+        }
+
+        /* "zero" text below logo */
+        .logo-text {
+            font-size: 36px;
+            font-weight: 700;
+            color: white;
+            margin-top: 8px;
+            letter-spacing: -1px;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        /* Value Proposition */
+        .value-prop {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+            margin-bottom: 20px;
+        }
+
+        .value-statement {
+            font-size: 14px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+            max-width: 320px;
+        }
+
+        .value-statement strong {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        /* Beta Access Section */
+        .beta-access {
+            position: absolute;
+            /* Positioned by JavaScript */
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 24px;
+            z-index: 10;
+        }
+
+        .beta-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .beta-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+        }
+
+        .testflight-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .testflight-button.primary {
+            background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .testflight-button.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+            background: linear-gradient(135deg, #2563eb, #0284c7);
+        }
+
+        .testflight-button.secondary {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .testflight-button.secondary:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+        }
+
+        .testflight-button:active {
+            transform: translateY(0);
+        }
+
+        /* Ellipses Menu and Back Button */
+        .menu-button, .back-button {
+            position: fixed;
+            bottom: 20px;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            text-decoration: none;
+        }
+
+        .menu-button {
+            left: 20px;
+        }
+
+        .back-button {
+            left: 78px; /* 20 + 48 + 10 spacing */
+        }
+
+        .menu-button:hover, .back-button:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        .menu-button-icon, .back-button-icon {
+            font-size: 20px;
+            color: white;
+        }
+
+        .menu-dropdown {
+            position: fixed;
+            bottom: 80px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 8px 0;
+            min-width: 200px;
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .menu-dropdown.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item-icon {
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 4px 0;
+        }
+
+        /* Simple Swipe Instruction */
+        .swipe-instruction {
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        /* Navigation Labels */
+        .nav-label {
+            position: relative;
+            padding: 0;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(158, 158, 158, 0.3);
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 10;
+            width: 240px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .nav-label:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-label-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            line-height: 1.2;
+            text-align: center;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-label-desc {
+            font-size: 12px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.75);
+            line-height: 1.4;
+            text-align: center;
+            padding: 14px 16px;
+        }
+
+        /* Top Navigation - Red/Shopping theme */
+        .nav-top {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .nav-top:hover {
+            border-color: rgba(239, 68, 68, 0.8);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Right Navigation - Blue/AI theme */
+        .nav-right {
+            grid-column: 3 / 4;
+            grid-row: 2 / 3;
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .nav-right:hover {
+            border-color: rgba(59, 130, 246, 0.8);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Bottom Navigation - Green/Intent theme */
+        .nav-bottom {
+            grid-column: 2 / 3;
+            grid-row: 3 / 4;
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .nav-bottom:hover {
+            border-color: rgba(16, 185, 129, 0.8);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Left Navigation - Purple/iOS theme */
+        .nav-left {
+            grid-column: 1 / 2;
+            grid-row: 2 / 3;
+            border-color: rgba(139, 92, 246, 0.5);
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .nav-left:hover {
+            border-color: rgba(139, 92, 246, 0.8);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Stacked Layout for Side Labels */
+        .nav-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .nav-stack-item {
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            position: absolute;
+            /* Positioned by JavaScript */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 1000px;
+            z-index: 10;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .feature-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .feature-description {
+            font-size: 11px;
+            opacity: 0.8;
+            line-height: 1.5;
+        }
+
+        /* Directional Arrows for Mobile */
+        .nav-arrow {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: none; /* Hidden by default, shown on mobile */
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .nav-arrow.highlight {
+            transform: scale(1.2);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Swipe Preview Content */
+        .swipe-preview {
+            display: none;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .swipe-preview.active {
+            display: block;
+        }
+
+        .swipe-preview-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .swipe-preview-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+
+        .default-content {
+            transition: opacity 0.2s ease;
+        }
+
+        .default-content.hidden {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 120px;
+            }
+
+            .landing-container {
+                padding-top: 40px;
+                gap: 20px;
+            }
+
+            .header {
+                margin-bottom: 50px;
+            }
+
+            .main-title {
+                font-size: 48px;
+            }
+
+            .main-subtitle {
+                font-size: 18px;
+                margin: 16px auto 0;
+            }
+
+            /* Switch to flex layout on mobile */
+            .howitworks-section {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .demo-card {
+                width: 320px;
+            }
+
+            .card-content {
+                justify-content: center;
+                width: 100%;
+            }
+
+            .zero-logo {
+                margin: 0 auto 12px;
+                font-size: 40px;
+            }
+
+            /* Hide positioned nav labels on mobile */
+            .nav-label {
+                display: none !important;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 700px;
+            }
+
+            /* Hide swipe instruction on mobile */
+            .swipe-instruction {
+                display: none;
+            }
+
+            /* Show mobile options selector on mobile only */
+            .mobile-options-selector {
+                display: flex !important;
+            }
+        }
+
+        /* Mobile Options Selector (Hidden on Desktop) */
+        .mobile-options-selector {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .mobile-options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .mobile-option-button {
+            padding: 14px 12px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            text-align: center;
+        }
+
+        .mobile-option-button:active {
+            transform: scale(0.95);
+        }
+
+        .mobile-option-button.selected {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-option-icon {
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .mobile-option-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            line-height: 1.2;
+        }
+
+        /* Themed option buttons */
+        .mobile-option-button.shopping {
+            border-color: rgba(239, 68, 68, 0.4);
+        }
+
+        .mobile-option-button.shopping.selected {
+            border-color: rgba(239, 68, 68, 0.8);
+            background: rgba(239, 68, 68, 0.15);
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .mobile-option-button.ai {
+            border-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .mobile-option-button.ai.selected {
+            border-color: rgba(59, 130, 246, 0.8);
+            background: rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .mobile-option-button.intent {
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .mobile-option-button.intent.selected {
+            border-color: rgba(16, 185, 129, 0.8);
+            background: rgba(16, 185, 129, 0.15);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .mobile-option-button.actions {
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
+        .mobile-option-button.actions.selected {
+            border-color: rgba(139, 92, 246, 0.8);
+            background: rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Mobile Details Panel */
+        .mobile-details-panel {
+            display: none;
+            padding: 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            animation: slideDown 0.3s ease;
+        }
+
+        .mobile-details-panel.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-details-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .mobile-details-desc {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .mobile-go-button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #3b82f6, #0ea5e9);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .mobile-go-button:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Beta Banner - Fixed Top */
+        .beta-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg,
+                rgba(26, 26, 46, 0.95) 0%,
+                rgba(45, 27, 78, 0.95) 30%,
+                rgba(74, 25, 66, 0.95) 60%,
+                rgba(31, 31, 58, 0.95) 100%
+            );
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15),
+                        0 0 40px rgba(139, 92, 246, 0.1);
+            padding: 6px 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .beta-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(59, 130, 246, 0.05) 20%,
+                rgba(139, 92, 246, 0.05) 50%,
+                rgba(59, 130, 246, 0.05) 80%,
+                transparent 100%
+            );
+            pointer-events: none;
+            animation: shimmer 8s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .beta-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .beta-banner-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .beta-banner-title {
+            display: none;
+        }
+
+        .beta-banner-subtitle {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .beta-banner-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .beta-banner-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .beta-banner-btn.primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #6366f1 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3),
+                        0 0 20px rgba(139, 92, 246, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .beta-banner-btn.primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: button-shine 3s ease-in-out infinite;
+        }
+
+        @keyframes button-shine {
+            0%, 100% { transform: translateX(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .beta-banner-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(59, 130, 246, 0.5),
+                        0 0 40px rgba(139, 92, 246, 0.3);
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #4f46e5 100%);
+        }
+
+        .beta-banner-btn.secondary {
+            background: rgba(139, 92, 246, 0.1);
+            color: white;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);
+        }
+
+        .beta-banner-btn.secondary:hover {
+            background: rgba(139, 92, 246, 0.2);
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 40px;
+            }
+            .beta-banner {
+                padding: 6px 12px;
+            }
+
+            .beta-banner-actions {
+                width: 100%;
+            }
+
+            .beta-banner-btn {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Beta Banner -->
+    <div class="beta-banner">
+        <div class="beta-banner-content">
+            <div class="beta-banner-text">
+                <div class="beta-banner-subtitle">Join hundreds of beta testers achieving inbox zero every day</div>
+            </div>
+            <div class="beta-banner-actions">
+                <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_blank" class="beta-banner-btn secondary">
+                    Download TestFlight
+                </a>
+                <a href="mailto:zerobeta@rationale.work?subject=Zero%20Beta%20Access%20Request" class="beta-banner-btn primary">
+                    Request Access
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firefly Shader Background -->
+    <div class="floating-spheres" id="fireflyContainer"></div>
+
+    <div class="landing-container">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="main-title">ZerO Inbox</h1>
+            <p class="main-subtitle">
+                Short-form email, swipe and move on.
+            </p>
+        </div>
+
+        <!-- How It Works Section -->
+        <div class="howitworks-section">
+        <!-- Central Demo Card -->
+        <div class="demo-card" id="demoCard">
+            <div class="card-glass"></div>
+            <div class="card-content">
+                <!-- Default Content -->
+                <div class="default-content" id="defaultContent">
+                    <div class="zero-logo">
+                        <div class="logo-glow"></div>
+                        <div class="logo-zero logo-zero-left">10</div>
+                        <div class="logo-zero logo-zero-center">0</div>
+                        <div class="logo-zero logo-zero-right">00</div>
+                    </div>
+                    <div class="logo-text">zero</div>
+                    <p class="subtitle">Email Intelligence Platform</p>
+
+                    <div class="value-prop">
+                        <p class="value-statement">
+                            See how Zero helps you take action and get close to inbox zero
+                        </p>
+                    </div>
+
+                    <!-- Simple Swipe Instruction -->
+                    <div class="swipe-instruction">
+                        Swipe in any direction to explore
+                    </div>
+
+                    <!-- Mobile Options Selector (Mobile Only) -->
+                    <div class="mobile-options-selector" id="mobileOptionsSelector">
+                        <div class="mobile-options-grid">
+                            <div class="mobile-option-button shopping" data-target="shopping-cart.html">
+                                <div class="mobile-option-title">Shopping Cart</div>
+                            </div>
+                            <div class="mobile-option-button ai" data-target="zero-sequence-live.html">
+                                <div class="mobile-option-title">Intent->Action Demo</div>
+                            </div>
+                            <div class="mobile-option-button intent" data-target="intent-action-explorer.html">
+                                <div class="mobile-option-title">Intent Categories</div>
+                            </div>
+                            <div class="mobile-option-button actions" data-target="action-modal-explorer.html">
+                                <div class="mobile-option-title">Smart Actions</div>
+                            </div>
+                        </div>
+
+                        <!-- Details Panel (Shows when option selected) -->
+                        <div class="mobile-details-panel" id="mobileDetailsPanel">
+                            <div class="mobile-details-title" id="mobileDetailsTitle"></div>
+                            <div class="mobile-details-desc" id="mobileDetailsDesc"></div>
+                            <button class="mobile-go-button" id="mobileGoButton">Go →</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Swipe Preview Content (Hidden by default) -->
+                <div class="swipe-preview" id="swipePreviewUp">
+                    <div class="swipe-preview-title">Shopping Cart</div>
+                    <div class="swipe-preview-desc">Track deals, prices, and expirations across all your shopping emails.</div>
+                </div>
+
+                <div class="swipe-preview" id="swipePreviewRight">
+                    <div class="swipe-preview-title">Intent->Action Demo</div>
+                    <div class="swipe-preview-desc">Test the email-to-action pipeline with 137 intent categories live.</div>
+                </div>
+
+                <div class="swipe-preview" id="swipePreviewDown">
+                    <div class="swipe-preview-title">Intent Categories</div>
+                    <div class="swipe-preview-desc">137 categories classify emails from shipping to healthcare.</div>
+                </div>
+
+                <div class="swipe-preview" id="swipePreviewLeft">
+                    <div class="swipe-preview-title">Smart Actions</div>
+                    <div class="swipe-preview-desc">143 actions to take depending on the context including native OS integrations and compound actions.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Navigation -->
+        <a href="shopping-cart.html" class="nav-label nav-top">
+            <div class="nav-label-title">Shopping Cart</div>
+            <div class="nav-label-desc">Track deals, prices, and expirations across all your shopping emails.</div>
+        </a>
+
+        <!-- Right Navigation -->
+        <a href="zero-sequence-live.html" class="nav-label nav-right">
+            <div class="nav-label-title">Intent->Action Demo</div>
+            <div class="nav-label-desc">Test the email-to-action pipeline with 137 intent categories live.</div>
+        </a>
+
+        <!-- Bottom Navigation -->
+        <a href="intent-action-explorer.html" class="nav-label nav-bottom">
+            <div class="nav-label-title">Intent Categories</div>
+            <div class="nav-label-desc">137 categories classify emails from shipping to healthcare.</div>
+        </a>
+
+        <!-- Left Navigation -->
+        <a href="action-modal-explorer.html" class="nav-label nav-left">
+            <div class="nav-label-title">Smart Actions</div>
+            <div class="nav-label-desc">143 actions to take depending on the context including native OS integrations and compound actions.</div>
+        </a>
+        </div><!-- End howitworks-section -->
+
+        <!-- Back Button -->
+        <a href="app-demo.html" class="back-button">
+            <div class="back-button-icon">←</div>
+        </a>
+
+        <!-- Ellipses Menu Button -->
+        <div class="menu-button" id="menuButton" onclick="toggleMenu()">
+            <div class="menu-button-icon">⋯</div>
+        </div>
+
+        <!-- Menu Dropdown -->
+        <div class="menu-dropdown" id="menuDropdown">
+            <a href="https://apps.apple.com/us/app/testflight/id899247664" target="_blank" class="menu-item">
+                <span class="menu-item-icon">📱</span>
+                <span>Download TestFlight</span>
+            </a>
+            <a href="mailto:zerobeta@rationale.work?subject=Zero%20TestFlight%20Access%20Request&body=I%20agree%20to%20the%20confidentiality%20terms%20and%20would%20like%20access%20to%20the%20Zero%20beta.%0A%0AMy%20Apple%20ID%20email%3A%20" class="menu-item">
+                <span class="menu-item-icon">✉️</span>
+                <span>Request Access</span>
+            </a>
+            <div class="menu-divider"></div>
+            <a href="architecture-visual.html" class="menu-item">
+                <span class="menu-item-icon">🏗️</span>
+                <span>System Architecture</span>
+            </a>
+            <a href="system-health.html" class="menu-item">
+                <span class="menu-item-icon">🏥</span>
+                <span>System Health</span>
+            </a>
+            <a href="design-system-renderer.html" class="menu-item">
+                <span class="menu-item-icon">🎨</span>
+                <span>Design System</span>
+            </a>
+            <div class="menu-item" id="regenerateSummariesButton" onclick="regenerateSummaries()">
+                <span class="menu-item-icon">🔄</span>
+                <span>Regenerate Summaries</span>
+            </div>
+            <div class="menu-divider"></div>
+            <div class="menu-item" id="logoutButton" onclick="logout()">
+                <span class="menu-item-icon">🚪</span>
+                <span>Logout</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate firefly shader background
+        (function initFireflies() {
+            const container = document.getElementById('fireflyContainer');
+            const fireflyCount = 40; // Doubled: small + medium + warm fireflies
+            const orbCount = 6; // Doubled: large ambient orbs
+
+            // Create small, medium, and warm fireflies
+            for (let i = 0; i < fireflyCount; i++) {
+                const firefly = document.createElement('div');
+                // Random selection between small, medium, and warm (amber/orange)
+                const rand = Math.random();
+                const variant = rand < 0.33 ? 'small' : rand < 0.66 ? 'medium' : 'warm';
+                firefly.className = `firefly ${variant}`;
+
+                // Random position
+                firefly.style.left = `${Math.random() * 100}%`;
+                firefly.style.top = `${Math.random() * 100}%`;
+
+                // Random animation duration (8-20 seconds for organic feel)
+                const duration = 8 + Math.random() * 12;
+                firefly.style.animationDuration = `${duration}s`;
+                firefly.style.animationDelay = `${Math.random() * -duration}s`;
+
+                // Random movement ranges (using CSS variables)
+                const moveRange = 60 + Math.random() * 80;
+                firefly.style.setProperty('--tx1', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty1', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--tx2', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty2', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--tx3', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty3', `${(Math.random() - 0.5) * moveRange}px`);
+
+                container.appendChild(firefly);
+            }
+
+            // Create large ambient orbs
+            for (let i = 0; i < orbCount; i++) {
+                const orb = document.createElement('div');
+                orb.className = 'firefly orb';
+
+                // Distribute orbs more evenly across the screen
+                orb.style.left = `${10 + (i * 15)}%`;
+                orb.style.top = `${15 + (i % 3) * 30}%`;
+
+                // Slower, subtle movement for orbs
+                const duration = 20 + Math.random() * 15;
+                orb.style.animationDuration = `${duration}s`;
+                orb.style.animationDelay = `${Math.random() * -duration}s`;
+
+                // Subtle movement for orbs
+                const moveRange = 80;
+                orb.style.setProperty('--tx1', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--ty1', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--tx2', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--ty2', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--tx3', `${(Math.random() - 0.5) * moveRange}px`);
+                orb.style.setProperty('--ty3', `${(Math.random() - 0.5) * moveRange}px`);
+
+                container.appendChild(orb);
+            }
+        })();
+
+        // Menu toggle functionality
+        function toggleMenu() {
+            const dropdown = document.getElementById('menuDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const menuButton = document.getElementById('menuButton');
+            const menuDropdown = document.getElementById('menuDropdown');
+            if (!menuButton.contains(e.target) && !menuDropdown.contains(e.target)) {
+                menuDropdown.classList.remove('show');
+            }
+        });
+
+        // Reset card position on page load
+        function resetCard() {
+            const card = document.getElementById('demoCard');
+            card.style.transition = 'none';
+            card.style.transform = 'translate(0, 0)';
+            card.style.opacity = '1';
+            // Force reflow
+            card.offsetHeight;
+            card.style.transition = '';
+        }
+
+        // Reset card on load
+        window.addEventListener('load', () => {
+            resetCard();
+        });
+
+        // Reset card when page becomes visible (back button)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                resetCard();
+            }
+        });
+
+        // Reset on pageshow (handles back/forward cache)
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                resetCard();
+            }
+        });
+
+        // Mobile Options Selector Logic
+        (function initMobileOptions() {
+            const isMobile = window.innerWidth <= 768;
+            if (!isMobile) return; // Only run on mobile
+
+            const optionButtons = document.querySelectorAll('.mobile-option-button');
+            const detailsPanel = document.getElementById('mobileDetailsPanel');
+            const detailsTitle = document.getElementById('mobileDetailsTitle');
+            const detailsDesc = document.getElementById('mobileDetailsDesc');
+            const goButton = document.getElementById('mobileGoButton');
+
+            const optionDetails = {
+                'shopping-cart.html': {
+                    title: 'Shopping Cart',
+                    desc: 'Track deals, prices, and expirations across all your shopping emails.'
+                },
+                'zero-sequence-live.html': {
+                    title: 'Intent->Action Demo',
+                    desc: 'Test the email-to-action pipeline with 137 intent categories live.'
+                },
+                'intent-action-explorer.html': {
+                    title: 'Intent Categories',
+                    desc: '137 categories classify emails from shipping to healthcare.'
+                },
+                'action-modal-explorer.html': {
+                    title: 'Smart Actions',
+                    desc: '143 actions to take depending on the context including native OS integrations and compound actions.'
+                }
+            };
+
+            let selectedTarget = null;
+
+            optionButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+
+                    // Remove selected class from all buttons
+                    optionButtons.forEach(btn => btn.classList.remove('selected'));
+
+                    // Add selected class to clicked button
+                    button.classList.add('selected');
+
+                    // Get target URL and details
+                    selectedTarget = button.getAttribute('data-target');
+                    const details = optionDetails[selectedTarget];
+
+                    // Update details panel
+                    detailsTitle.textContent = details.title;
+                    detailsDesc.textContent = details.desc;
+
+                    // Show details panel
+                    detailsPanel.classList.add('show');
+                });
+            });
+
+            goButton.addEventListener('click', () => {
+                if (selectedTarget) {
+                    window.location.href = selectedTarget;
+                }
+            });
+        })();
+
+        // Swipe Gesture Detection
+        const card = document.getElementById('demoCard');
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchEndX = 0;
+        let touchEndY = 0;
+
+        // Disable swipe gestures on mobile
+        const isMobile = window.innerWidth <= 768;
+        if (!isMobile) {
+            // Only enable swipe gestures on desktop
+            card.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+                card.style.transition = 'none';
+            });
+
+            card.addEventListener('touchmove', (e) => {
+            e.preventDefault(); // Prevent scroll during swipe
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const diffX = currentX - touchStartX;
+            const diffY = currentY - touchStartY;
+            card.style.transform = `translate(${diffX}px, ${diffY}px)`;
+
+            // Update preview content based on swipe direction
+            updateSwipePreview(diffX, diffY);
+        }, { passive: false });
+
+        card.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].clientX;
+            touchEndY = e.changedTouches[0].clientY;
+            handleSwipe();
+            // Reset preview on touch end
+            resetSwipePreview();
+        });
+
+        // Mouse drag support for desktop
+        let mouseDown = false;
+        card.addEventListener('mousedown', (e) => {
+            mouseDown = true;
+            touchStartX = e.clientX;
+            touchStartY = e.clientY;
+            touchEndX = e.clientX;
+            touchEndY = e.clientY;
+            card.style.transition = 'none';
+            e.preventDefault(); // Prevent text selection
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (mouseDown) {
+                touchEndX = e.clientX;
+                touchEndY = e.clientY;
+                const diffX = touchEndX - touchStartX;
+                const diffY = touchEndY - touchStartY;
+                card.style.transform = `translate(${diffX}px, ${diffY}px)`;
+            }
+        });
+
+        document.addEventListener('mouseup', (e) => {
+            if (mouseDown) {
+                touchEndX = e.clientX;
+                touchEndY = e.clientY;
+                handleSwipe();
+                mouseDown = false;
+            }
+        });
+        }
+
+        // Update swipe preview content based on direction
+        function updateSwipePreview(diffX, diffY) {
+            const previewThreshold = 20; // Minimum movement to show preview
+            const defaultContent = document.getElementById('defaultContent');
+            const previews = {
+                up: document.getElementById('swipePreviewUp'),
+                right: document.getElementById('swipePreviewRight'),
+                down: document.getElementById('swipePreviewDown'),
+                left: document.getElementById('swipePreviewLeft')
+            };
+            const arrows = {
+                up: document.getElementById('arrowUp'),
+                right: document.getElementById('arrowRight'),
+                down: document.getElementById('arrowDown'),
+                left: document.getElementById('arrowLeft')
+            };
+
+            // Determine dominant direction
+            let direction = null;
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                // Horizontal swipe
+                if (Math.abs(diffX) > previewThreshold) {
+                    direction = diffX > 0 ? 'right' : 'left';
+                }
+            } else {
+                // Vertical swipe
+                if (Math.abs(diffY) > previewThreshold) {
+                    direction = diffY > 0 ? 'down' : 'up';
+                }
+            }
+
+            // Update content visibility
+            if (direction) {
+                defaultContent.classList.add('hidden');
+                Object.keys(previews).forEach(key => {
+                    if (key === direction) {
+                        previews[key].classList.add('active');
+                        arrows[key].classList.add('highlight');
+                    } else {
+                        previews[key].classList.remove('active');
+                        arrows[key].classList.remove('highlight');
+                    }
+                });
+            } else {
+                resetSwipePreview();
+            }
+        }
+
+        // Reset swipe preview to default state
+        function resetSwipePreview() {
+            const defaultContent = document.getElementById('defaultContent');
+            const previews = document.querySelectorAll('.swipe-preview');
+            const arrows = document.querySelectorAll('.nav-arrow');
+
+            defaultContent.classList.remove('hidden');
+            previews.forEach(preview => preview.classList.remove('active'));
+            arrows.forEach(arrow => arrow.classList.remove('highlight'));
+        }
+
+        function handleSwipe() {
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            const threshold = 50;
+            const clickThreshold = 10; // Small movement allowed for clicks
+
+            // Check if this is a click (minimal movement) vs swipe
+            const isClick = Math.abs(diffX) < clickThreshold && Math.abs(diffY) < clickThreshold;
+
+            if (isClick) {
+                // Click detected - navigate to app demo (the main showcase!)
+                card.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+                card.style.transform = 'scale(1.1)';
+                card.style.opacity = '0';
+
+                setTimeout(() => {
+                    window.location.href = 'app-demo.html';
+                }, 300);
+                return;
+            }
+
+            // Determine direction and fly-off target for swipe
+            let flyOffX = 0, flyOffY = 0;
+            let shouldNavigate = false;
+            let targetURL = '';
+
+            if (Math.abs(diffX) > Math.abs(diffY)) {
+                // Horizontal swipe
+                if (diffX > threshold) {
+                    // Fly right
+                    flyOffX = window.innerWidth;
+                    targetURL = 'zero-sequence-live.html';
+                    shouldNavigate = true;
+                } else if (diffX < -threshold) {
+                    // Fly left
+                    flyOffX = -window.innerWidth;
+                    targetURL = 'action-modal-explorer.html';
+                    shouldNavigate = true;
+                }
+            } else {
+                // Vertical swipe
+                if (diffY > threshold) {
+                    // Fly down
+                    flyOffY = window.innerHeight;
+                    targetURL = 'intent-action-explorer.html';
+                    shouldNavigate = true;
+                } else if (diffY < -threshold) {
+                    // Fly up
+                    flyOffY = -window.innerHeight;
+                    targetURL = 'shopping-cart.html';
+                    shouldNavigate = true;
+                }
+            }
+
+            if (shouldNavigate) {
+                // Fly off animation with fade
+                card.style.transition = 'transform 0.4s ease-in, opacity 0.4s ease-in';
+                card.style.transform = `translate(${flyOffX}px, ${flyOffY}px)`;
+                card.style.opacity = '0';
+
+                setTimeout(() => {
+                    window.location.href = targetURL;
+                }, 400);
+            } else {
+                // Snap back if below threshold
+                card.style.transition = 'transform 0.3s ease';
+                card.style.transform = 'translate(0, 0)';
+            }
+        }
+        // Regenerate Summaries function
+        async function regenerateSummaries() {
+            const button = document.getElementById('regenerateSummariesButton');
+            const menuDropdown = document.getElementById('menuDropdown');
+
+            if (button) {
+                const originalContent = button.innerHTML;
+                button.innerHTML = '<span class="menu-item-icon">⏳</span><span>Regenerating...</span>';
+                button.style.pointerEvents = 'none';
+
+                try {
+                    // Get user ID from session or prompt
+                    let userId = sessionStorage.getItem('userId');
+                    if (!userId) {
+                        userId = prompt('Enter your User ID (or leave blank to use authenticated user):');
+                        if (!userId) {
+                            // Use authenticated user endpoint instead
+                            button.innerHTML = '<span class="menu-item-icon">❌</span><span>Cancelled</span>';
+                            setTimeout(() => {
+                                button.innerHTML = originalContent;
+                                button.style.pointerEvents = 'auto';
+                            }, 2000);
+                            return;
+                        }
+                        sessionStorage.setItem('userId', userId);
+                    }
+
+                    // Ask for number of emails to process
+                    const maxEmails = prompt('How many emails to process? (default: 50)', '50');
+                    const emailCount = parseInt(maxEmails) || 50;
+
+                    button.innerHTML = '<span class="menu-item-icon">🔄</span><span>Processing ' + emailCount + ' emails...</span>';
+
+                    // Call the gateway API to fetch and process emails
+                    // This will automatically trigger classification and summarization
+                    const response = await fetch('/api/emails?maxResults=' + emailCount, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch emails: ' + response.statusText);
+                    }
+
+                    const result = await response.json();
+                    const processedCount = result.emails ? result.emails.length : 0;
+
+                    button.innerHTML = '<span class="menu-item-icon">✅</span><span>Done! ' + processedCount + ' emails</span>';
+
+                    // Show success message
+                    setTimeout(() => {
+                        alert('✨ Successfully regenerated summaries for ' + processedCount + ' emails!\n\n' +
+                              'Fresh AI summaries with:\n' +
+                              '• Actions (15px, 100% white)\n' +
+                              '• Why (14px, 80% white, italic)\n' +
+                              '• Context (13px, 70% white)\n\n' +
+                              'Your iOS app will receive these on next sync.');
+
+                        button.innerHTML = originalContent;
+                        button.style.pointerEvents = 'auto';
+                        menuDropdown.classList.remove('show');
+                    }, 1500);
+
+                } catch (error) {
+                    console.error('Regenerate summaries error:', error);
+                    button.innerHTML = '<span class="menu-item-icon">❌</span><span>Error: ' + error.message + '</span>';
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                        button.style.pointerEvents = 'auto';
+                    }, 3000);
+                }
+            }
+        }
+
+        // Logout function
+        async function logout() {
+            try {
+                const button = document.getElementById('logoutButton');
+                if (button) {
+                    const originalContent = button.innerHTML;
+                    button.innerHTML = '<span class="menu-item-icon">⏳</span><span>Logging out...</span>';
+                }
+
+                const response = await fetch('/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    window.location.href = '/splash.html';
+                } else {
+                    alert('Logout failed. Please try again.');
+                    if (button) {
+                        button.innerHTML = '<span class="menu-item-icon">🚪</span><span>Logout</span>';
+                    }
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Connection error. Please refresh the page.');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -7,6 +7,7 @@ const EmailCard = require('./EmailCard');
 const { classifyEmailEnhanced } = require('./enhanced-classifier');
 const { classifyEmailActionFirst } = require('./action-first-classifier');
 const { classifyEmailMock, getAllTemplateIds } = require('./mock-classifier');
+const { enrichWithThreadFinder, isThreadFinderEnabled } = require('./thread-finder-middleware');
 
 const app = express();
 const PORT = process.env.PORT || process.env.CLASSIFIER_SERVICE_PORT || 8082;
@@ -20,7 +21,25 @@ app.use(express.json());
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'classifier-service', timestamp: new Date().toISOString() });
+  // Check Thread Finder configuration
+  const threadFinderStatus = {
+    enabled: process.env.USE_THREAD_FINDER === 'true',
+    steelApiConfigured: !!process.env.STEEL_API_KEY,
+    canvasApiConfigured: !!process.env.CANVAS_API_TOKEN,
+    googleClassroomConfigured: !!process.env.GOOGLE_CLASSROOM_TOKEN,
+    apiFirstStrategy: {
+      canvas: !!process.env.CANVAS_API_TOKEN,
+      googleClassroom: !!process.env.GOOGLE_CLASSROOM_TOKEN,
+      steelFallback: !!process.env.STEEL_API_KEY
+    }
+  };
+
+  res.json({
+    status: 'ok',
+    service: 'classifier-service',
+    timestamp: new Date().toISOString(),
+    threadFinder: threadFinderStatus
+  });
 });
 
 /**
@@ -73,6 +92,11 @@ app.post('/api/classify', async (req, res) => {
       classification = classifyEmailEnhanced(email);
     } else {
       classification = classifyEmail(email);
+    }
+
+    // THREAD FINDER: Enrich link-only emails with extracted content
+    if (isThreadFinderEnabled()) {
+      classification = await enrichWithThreadFinder(classification, email);
     }
 
     // TELEMETRY: Log classification metrics
@@ -135,6 +159,15 @@ app.post('/api/classify/batch', async (req, res) => {
       classifications = emails.map(email => classifyEmailEnhanced(email));
     } else {
       classifications = emails.map(email => classifyEmail(email));
+    }
+
+    // THREAD FINDER: Enrich link-only emails with extracted content
+    if (isThreadFinderEnabled()) {
+      classifications = await Promise.all(
+        classifications.map((classification, index) =>
+          enrichWithThreadFinder(classification, emails[index])
+        )
+      );
     }
 
     // TELEMETRY: Aggregate batch metrics

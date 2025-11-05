@@ -22,14 +22,14 @@ function extractAllEntities(email, fullText, intentId = null) {
     });
     return {};
   }
-  
+
   if (typeof fullText !== 'string') {
     logger.error('Invalid fullText provided to extractAllEntities', {
       fullTextType: typeof fullText
     });
     return {};
   }
-  
+
   if (intentId !== null && typeof intentId !== 'string') {
     logger.warn('Invalid intentId type, ignoring intent-specific extraction', {
       intentIdType: typeof intentId
@@ -39,14 +39,17 @@ function extractAllEntities(email, fullText, intentId = null) {
   const entities = {
     // Existing entities
     ...extractBasicEntities(email, fullText),
-    
+
     // Enhanced entities for action-first model
     ...extractOrderEntities(fullText),
     ...extractTrackingEntities(fullText),
     ...extractPaymentEntities(fullText),
     ...extractMeetingEntities(email, fullText),
     ...extractAccountEntities(fullText),
-    ...extractTravelEntities(fullText)
+    ...extractTravelEntities(fullText),
+
+    // Product image extraction for shopping/ads emails
+    ...extractProductImage(email)
   };
 
   // Intent-specific extraction
@@ -471,6 +474,86 @@ function extractTravelEntities(text) {
   const departureDateMatch = text.match(/depart(?:ure|ing)?\s*(?:date|time)?\s*:?\s*(\w+\s+\d{1,2}(?:,\s*\d{4})?)/i);
   if (departureDateMatch) {
     entities.departureDate = departureDateMatch[1];
+  }
+
+  return entities;
+}
+
+/**
+ * Extract product image URL from HTML email
+ * Looks for prominent product images in ADS/shopping emails
+ * @param {Object} email - Email object with htmlBody
+ * @returns {Object} Object with productImageUrl if found
+ */
+function extractProductImage(email) {
+  const entities = {};
+
+  // Only extract from emails with HTML body
+  if (!email || !email.htmlBody || typeof email.htmlBody !== 'string') {
+    return entities;
+  }
+
+  const html = email.htmlBody;
+
+  // Extract all img tags with src attributes
+  const imgPattern = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+  const images = [];
+  let match;
+
+  while ((match = imgPattern.exec(html)) !== null) {
+    const imgTag = match[0];
+    const src = match[1];
+
+    // Skip tracking pixels, logos, and icons
+    if (
+      src.includes('tracking') ||
+      src.includes('pixel') ||
+      src.includes('logo') ||
+      src.includes('icon') ||
+      src.includes('1x1') ||
+      src.match(/\d+x\d+/) && src.match(/\d+x\d+/)[0].split('x').some(d => parseInt(d) < 50) ||
+      src.endsWith('.gif') && src.includes('spacer')
+    ) {
+      continue;
+    }
+
+    // Check if image has width/height attributes suggesting it's a product image
+    const widthMatch = imgTag.match(/width=["']?(\d+)/i);
+    const heightMatch = imgTag.match(/height=["']?(\d+)/i);
+    const width = widthMatch ? parseInt(widthMatch[1]) : 0;
+    const height = heightMatch ? parseInt(heightMatch[1]) : 0;
+
+    // Product images are typically larger (width > 100px)
+    if (width > 100 || height > 100 || (!width && !height)) {
+      // Check alt text for product-related keywords
+      const altMatch = imgTag.match(/alt=["']([^"']*)["']/i);
+      const alt = altMatch ? altMatch[1].toLowerCase() : '';
+
+      const isProductImage =
+        alt.includes('product') ||
+        alt.includes('item') ||
+        alt.includes('buy') ||
+        alt.includes('shop') ||
+        alt.includes('deal') ||
+        alt.includes('sale') ||
+        !alt; // No alt text often means product image
+
+      images.push({
+        src,
+        width: width || 999, // Unknown width gets high priority
+        height: height || 999,
+        isProductImage,
+        score: (width + height) * (isProductImage ? 2 : 1)
+      });
+    }
+  }
+
+  // Sort by score (prefer larger product images)
+  images.sort((a, b) => b.score - a.score);
+
+  // Return the first (highest-scoring) image
+  if (images.length > 0) {
+    entities.productImageUrl = images[0].src;
   }
 
   return entities;
@@ -1297,6 +1380,7 @@ module.exports = {
   extractMeetingEntities,
   extractAccountEntities,
   extractTravelEntities,
+  extractProductImage,
   extractIntentSpecificEntities
 };
 

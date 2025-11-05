@@ -201,6 +201,59 @@ const COMPOUND_ACTIONS = {
     requiresResponse: true,  // Cancellation requests need confirmation from service
     isPremium: false,  // Keep unsubscribe/cancel flow free (customer-friendly)
     description: 'Cancel subscription, send confirmation request to service support team'
+  },
+
+  // ==========================================
+  // THREAD FINDER COMPOUND FLOWS
+  // Link-heavy emails with extracted content
+  // ==========================================
+
+  extract_and_calendar: {
+    actionId: 'extract_and_calendar',
+    displayName: 'Extract Content & Add to Calendar',
+    steps: ['view_extracted_content', 'add_to_calendar'],
+    endBehavior: {
+      type: END_BEHAVIORS.RETURN_TO_APP
+    },
+    requiresResponse: false,  // No response needed - personal planning
+    isPremium: true,
+    description: 'View automatically extracted content from link (Canvas, school portal), add due date/event to calendar'
+  },
+
+  extract_and_reminder: {
+    actionId: 'extract_and_reminder',
+    displayName: 'Extract Content & Set Reminder',
+    steps: ['view_extracted_content', 'add_reminder'],
+    endBehavior: {
+      type: END_BEHAVIORS.RETURN_TO_APP
+    },
+    requiresResponse: false,  // No response needed - personal planning
+    isPremium: true,
+    description: 'View automatically extracted content from link, set reminder for due date (default 2 days before)'
+  },
+
+  extract_calendar_and_reminder: {
+    actionId: 'extract_calendar_and_reminder',
+    displayName: 'Extract, Calendar & Reminder',
+    steps: ['view_extracted_content', 'add_to_calendar', 'add_reminder'],
+    endBehavior: {
+      type: END_BEHAVIORS.RETURN_TO_APP
+    },
+    requiresResponse: false,  // No response needed - personal planning
+    isPremium: true,
+    description: 'Full Thread Finder flow: View extracted content, add to calendar, set pre-event reminder'
+  },
+
+  extract_download_and_calendar: {
+    actionId: 'extract_download_and_calendar',
+    displayName: 'Extract, Download & Calendar',
+    steps: ['view_extracted_content', 'download_attachment', 'add_to_calendar'],
+    endBehavior: {
+      type: END_BEHAVIORS.RETURN_TO_APP
+    },
+    requiresResponse: false,  // No response needed - personal planning
+    isPremium: true,
+    description: 'Complete parent workflow: View assignment details, download materials (PDFs/worksheets), add due date to calendar'
   }
 };
 
@@ -406,6 +459,43 @@ class CompoundActionRegistry {
       return 'cancel_with_confirmation';
     }
 
+    // Thread Finder link-only emails with extracted content
+    // Prioritize download flow if attachments present, otherwise calendar/reminder flow
+    if ((intent === 'education.lms.link-only' ||
+         intent === 'education.school-portal.link-only' ||
+         intent === 'youth.sports.link-only') &&
+        entities.extractedContent) {
+
+      const hasCalendarData = entities.extractedContent.dueDate || entities.extractedContent.date;
+      const hasAttachments = entities.extractedContent.attachments &&
+                             entities.extractedContent.attachments.length > 0;
+
+      // Prioritize download + calendar flow if attachments present
+      if (hasAttachments && hasCalendarData) {
+        logger.info('Detected Thread Finder email with attachments and calendar data → extract_download_and_calendar', {
+          intent,
+          hasExtractedContent: !!entities.extractedContent,
+          hasAttachments,
+          hasDueDate: !!entities.extractedContent.dueDate,
+          attachmentCount: entities.extractedContent.attachments.length
+        });
+        return 'extract_download_and_calendar';
+      } else if (hasCalendarData) {
+        logger.info('Detected Thread Finder email with calendar data → extract_calendar_and_reminder', {
+          intent,
+          hasExtractedContent: !!entities.extractedContent,
+          hasDueDate: !!entities.extractedContent.dueDate
+        });
+        return 'extract_calendar_and_reminder';
+      } else {
+        logger.info('Detected Thread Finder email → extract_and_reminder', {
+          intent,
+          hasExtractedContent: !!entities.extractedContent
+        });
+        return 'extract_and_reminder';
+      }
+    }
+
     // No compound action detected
     return null;
   }
@@ -425,7 +515,10 @@ class CompoundActionRegistry {
       'e-commerce.promotion': ['schedule_purchase_with_reminder'],
       'billing.invoice.due': ['pay_invoice_with_confirmation'],
       'travel.flight.check-in': ['check_in_with_wallet'],
-      'subscription.cancellation': ['cancel_with_confirmation']
+      'subscription.cancellation': ['cancel_with_confirmation'],
+      'education.lms.link-only': ['extract_download_and_calendar', 'extract_calendar_and_reminder', 'extract_and_calendar', 'extract_and_reminder'],
+      'education.school-portal.link-only': ['extract_download_and_calendar', 'extract_calendar_and_reminder', 'extract_and_calendar', 'extract_and_reminder'],
+      'youth.sports.link-only': ['extract_download_and_calendar', 'extract_calendar_and_reminder', 'extract_and_calendar', 'extract_and_reminder']
     };
 
     const compoundIds = intentMapping[intent] || [];

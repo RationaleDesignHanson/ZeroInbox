@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Intelligence | Zero</title>
+    <title>Intent->Action Demo | Zero</title>
     <script src="js/config.js"></script>
     <script src="js/graceful-degradation.js"></script>
     <style>
@@ -979,7 +979,7 @@
     <div class="main-container">
         <div class="page-header">
             <div class="header-nav">
-                <a href="index.html" class="btn-home">Home</a>
+                <a href="howitworks.html" class="btn-home">Home</a>
             </div>
             <h1 class="page-title">🧠 AI Intelligence</h1>
             <p class="page-subtitle">
@@ -1250,13 +1250,13 @@
 
         <div class="timeline-connector">↓</div>
 
-        <!-- Step 4: Modal Router (Full Width with Interactive Flows) -->
+        <!-- Step 4: Action Flow (Full Width with Interactive Flows) -->
         <div class="flow-step" id="step-modal">
             <div class="step-number">4</div>
             <div class="step-header">
                 <div class="step-title">
                     <span>📱</span>
-                    <span>Modal Router</span>
+                    <span>Action Flow</span>
                 </div>
                 <div class="step-status status-pending" id="status-modal">Pending</div>
             </div>
@@ -1712,44 +1712,44 @@
                 const entitiesGrid = document.getElementById('entities-grid');
                 entitiesGrid.innerHTML = '';
 
-                const entities = data.entityExtraction.extractedEntities;
+                const extractedEntities = data.entityExtraction.extractedEntities;
                 let entityCount = 0;
 
-                if (entities.deadline) {
+                if (extractedEntities.deadline) {
                     entitiesGrid.innerHTML += `
                         <div class="entity-chip">
                             <div class="entity-label">Deadline</div>
-                            <div class="entity-value">${entities.deadline.text}</div>
+                            <div class="entity-value">${extractedEntities.deadline.text}</div>
                         </div>
                     `;
                     entityCount++;
                 }
 
-                if (entities.prices?.original) {
+                if (extractedEntities.prices?.original) {
                     entitiesGrid.innerHTML += `
                         <div class="entity-chip">
                             <div class="entity-label">Price</div>
-                            <div class="entity-value">${entities.prices.original}</div>
+                            <div class="entity-value">${extractedEntities.prices.original}</div>
                         </div>
                     `;
                     entityCount++;
                 }
 
-                if (entities.trackingNumbers?.length > 0) {
+                if (extractedEntities.trackingNumbers?.length > 0) {
                     entitiesGrid.innerHTML += `
                         <div class="entity-chip">
                             <div class="entity-label">Tracking Number</div>
-                            <div class="entity-value">${entities.trackingNumbers[0]}</div>
+                            <div class="entity-value">${extractedEntities.trackingNumbers[0]}</div>
                         </div>
                     `;
                     entityCount++;
                 }
 
-                if (entities.companies?.length > 0) {
+                if (extractedEntities.companies?.length > 0) {
                     entitiesGrid.innerHTML += `
                         <div class="entity-chip">
                             <div class="entity-label">Company</div>
-                            <div class="entity-value">${entities.companies[0]}</div>
+                            <div class="entity-value">${extractedEntities.companies[0]}</div>
                         </div>
                     `;
                     entityCount++;
@@ -1823,13 +1823,13 @@
 
                 await new Promise(resolve => setTimeout(resolve, 300));
 
-                // Step 4: Modal Router
+                // Step 4: Action Flow
                 setStepStatus('modal', 'processing');
                 await new Promise(resolve => setTimeout(resolve, 500));
 
                 if (primaryAction) {
-                    // Automatically show modal flow for P1 action with extracted entity data
-                    // showModalFlow() will handle setting the final status and displaying the modal
+                    // Automatically show action flow for P1 action with extracted entity data
+                    // showModalFlow() will handle setting the final status and displaying the flow
                     await new Promise(resolve => setTimeout(resolve, 300));
                     showModalFlow(primaryAction.actionId, entities);
                 } else {
@@ -3369,36 +3369,68 @@
                 ]
             },
             'claim_deal': {
-                title: 'Claim Deal',
+                title: 'Claim Deal (Shopping Automation)',
                 steps: [
                     {
-                        label: '1. Promo Email',
+                        label: '1. Product Deal Email',
                         html: `<div class="modal-email-card">
-                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Special Offer!</div>
-                            <div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 10px 0;">50% OFF</div>
-                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Limited time only</div>
-                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 215, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🎁</span> Claim</div>
+                            <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px; opacity: 0.7;">Amazon</div>
+                            <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">AirPods Pro (2nd Gen)</div>
+                            <div style="font-size: 24px; font-weight: 700; color: #FFD700; margin: 10px 0;">$199 <span style="font-size: 14px; opacity: 0.7; text-decoration: line-through;">$249</span></div>
+                            <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Save $50 • Limited time</div>
+                            <div style="display: inline-flex; padding: 8px 14px; background: rgba(255, 215, 0, 0.3); border-radius: 10px; font-size: 13px;"><span>🛒</span> Claim Deal</div>
                         </div>`
                     },
                     {
-                        label: '2. Confirm Claim',
+                        label: '2. Platform Detection',
                         html: `<div class="modal-preview-card">
-                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🎁 Claim Your Deal</div>
-                            <div style="background: rgba(255, 215, 0, 0.15); border: 2px solid rgba(255, 215, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
-                                <div style="font-weight: 600; margin-bottom: 4px;">50% OFF Your Order</div>
-                                <div style="font-size: 13px; opacity: 0.8;">Valid for 24 hours</div>
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🔍 Detecting Platform...</div>
+                            <div style="background: rgba(255, 153, 0, 0.15); border: 2px solid rgba(255, 153, 0, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px; text-align: center;">
+                                <div style="font-size: 40px; margin-bottom: 8px;">📦</div>
+                                <div style="font-weight: 600; margin-bottom: 4px;">Amazon Detected</div>
+                                <div style="font-size: 13px; opacity: 0.8;">Preparing automation...</div>
                             </div>
-                            <div style="background: rgba(255, 215, 0, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">
-                                ✓ Activate Deal
-                            </div>
+                            <div style="font-size: 11px; opacity: 0.6; text-align: center;">Powered by Steel.dev</div>
                         </div>`
                     },
                     {
-                        label: '3. Code Received',
+                        label: '3. Adding to Cart',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">🛒 Adding to Cart...</div>
+                            <div style="background: rgba(100, 149, 237, 0.15); border: 2px solid rgba(100, 149, 237, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+                                <div style="font-weight: 600; margin-bottom: 8px;">AirPods Pro (2nd Generation)</div>
+                                <div style="font-size: 13px; opacity: 0.8; margin-bottom: 12px;">Finding "Add to Cart" button...</div>
+                                <div style="display: flex; gap: 4px; align-items: center;">
+                                    <div style="width: 60%; height: 4px; background: rgba(100, 149, 237, 0.5); border-radius: 2px; overflow: hidden;">
+                                        <div style="width: 70%; height: 100%; background: #6495ED;"></div>
+                                    </div>
+                                    <div style="font-size: 12px; opacity: 0.7;">70%</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 11px; opacity: 0.6; text-align: center;">Powered by Steel.dev</div>
+                        </div>`
+                    },
+                    {
+                        label: '4. Navigating to Checkout',
+                        html: `<div class="modal-preview-card">
+                            <div style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">✅ Item Added!</div>
+                            <div style="background: rgba(34, 197, 94, 0.15); border: 2px solid rgba(34, 197, 94, 0.4); padding: 16px; border-radius: 12px; margin-bottom: 12px;">
+                                <div style="font-weight: 600; margin-bottom: 4px;">AirPods Pro added to cart</div>
+                                <div style="font-size: 13px; opacity: 0.8;">Opening checkout page...</div>
+                            </div>
+                            <div style="background: rgba(34, 197, 94, 0.3); padding: 12px; border-radius: 10px; text-align: center; font-weight: 600;">
+                                🚀 Open Checkout
+                            </div>
+                            <div style="font-size: 11px; opacity: 0.6; text-align: center; margin-top: 8px;">Powered by Steel.dev</div>
+                        </div>`
+                    },
+                    {
+                        label: '5. Success',
                         html: `<div class="modal-success-state">
                             <div class="modal-success-icon">✓</div>
-                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Deal Claimed!</div>
-                            <div style="opacity: 0.8;">Code: SAVE50</div>
+                            <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Ready to Checkout!</div>
+                            <div style="opacity: 0.8; margin-bottom: 4px;">AirPods Pro in your Amazon cart</div>
+                            <div style="font-size: 11px; opacity: 0.5;">amazon.com/cart</div>
                         </div>`
                     }
                 ]
@@ -4490,6 +4522,46 @@
                 emailsProcessed: 0
             }
         };
+
+        // Show modal flow for a given action
+        function showModalFlow(actionId, entities) {
+            console.log('📱 showModalFlow called:', actionId, entities);
+
+            // Get the modal flow data for this action
+            const flow = MODAL_FLOWS[actionId];
+
+            if (!flow) {
+                console.warn(`No modal flow defined for action: ${actionId}`);
+                setStepStatus('modal', 'complete', 'Flow not available');
+                return;
+            }
+
+            // Show the modal flow container
+            const container = document.getElementById('modal-flow-container');
+            const display = document.getElementById('modal-flow-display');
+
+            if (!container || !display) {
+                console.error('Modal flow elements not found');
+                setStepStatus('modal', 'error', 'UI Error');
+                return;
+            }
+
+            // Build the horizontal flow visualization
+            let flowHTML = flow.steps.map((step, idx) => `
+                <div class="modal-step-card">
+                    <div class="modal-step-label">${step.label}</div>
+                    ${step.html}
+                    ${idx < flow.steps.length - 1 ? '<div class="modal-arrow">→</div>' : ''}
+                </div>
+            `).join('');
+
+            display.innerHTML = flowHTML;
+            container.style.display = 'block';
+
+            // Mark step as complete
+            setStepStatus('modal', 'complete', `${flow.title} flow displayed`);
+            console.log('✅ Modal flow displayed successfully');
+        }
 
         // Initialize the page: Load intent taxonomy on page load
         document.addEventListener('DOMContentLoaded', async () => {

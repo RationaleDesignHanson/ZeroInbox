@@ -3,16 +3,17 @@
  * Provides AI-powered subscription cancellation assistance
  */
 
-require('dotenv').config();
+require('dotenv').config({ path: '../../.env' });
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const logger = require('../../shared/config/logger');
 const { findService, detectServiceFromEmail, supportsAIAssistance } = require('./subscription-helper');
 const { guideCancellation } = require('./steel-client');
+const { automateAddToCart, getPlatformInfo } = require('./shopping-automation');
 
 const app = express();
-const PORT = process.env.PORT || process.env.STEEL_AGENT_PORT || 8087;
+const PORT = process.env.STEEL_AGENT_PORT || 8087;
 
 // Middleware
 app.use(helmet());
@@ -229,6 +230,163 @@ app.post('/api/subscription/cancel/direct', (req, res) => {
       error: error.message
     });
     res.status(500).json({ error: 'Failed to get cancellation link' });
+  }
+});
+
+// ===================================================================
+// SHOPPING AUTOMATION ENDPOINTS
+// ===================================================================
+
+/**
+ * POST /api/shopping/add-to-cart
+ * Automate adding product to cart and navigate to checkout
+ *
+ * Request body:
+ * {
+ *   productUrl: string (required) - URL of product page
+ *   productName: string (required) - Name of product
+ *   userSessionId: string (optional) - User session ID for tracking
+ * }
+ *
+ * Response:
+ * {
+ *   success: boolean,
+ *   checkoutUrl: string | null,
+ *   cartUrl: string | null,
+ *   screenshots: Array<{step: string, data: string, timestamp: string}>,
+ *   steps: Array<{step: string, success: boolean, ...}>,
+ *   error: string | null
+ * }
+ */
+app.post('/api/shopping/add-to-cart', async (req, res) => {
+  try {
+    const { productUrl, productName, userSessionId } = req.body;
+
+    // Validation
+    if (!productUrl) {
+      return res.status(400).json({
+        error: 'Product URL is required',
+        field: 'productUrl'
+      });
+    }
+
+    if (!productName) {
+      return res.status(400).json({
+        error: 'Product name is required',
+        field: 'productName'
+      });
+    }
+
+    // Check if Steel API is configured
+    if (!process.env.STEEL_API_KEY) {
+      return res.status(503).json({
+        success: false,
+        error: 'Steel.dev API not configured',
+        fallbackMode: true,
+        productUrl,
+        message: 'AI shopping automation temporarily unavailable. Opening product page instead.'
+      });
+    }
+
+    logger.info('Starting shopping automation', {
+      userSessionId,
+      productName,
+      productUrl
+    });
+
+    // Start automation
+    const result = await automateAddToCart(
+      productUrl,
+      productName,
+      userSessionId || 'anonymous'
+    );
+
+    if (!result.success) {
+      logger.warn('Shopping automation failed, returning fallback', {
+        productName,
+        error: result.error
+      });
+
+      return res.status(200).json({
+        success: false,
+        error: result.error,
+        fallbackMode: true,
+        productUrl,
+        steps: result.steps,
+        screenshots: result.screenshots,
+        message: 'Automation failed. Opening product page for manual checkout.'
+      });
+    }
+
+    logger.info('Shopping automation succeeded', {
+      productName,
+      checkoutUrl: result.checkoutUrl
+    });
+
+    res.json({
+      success: true,
+      checkoutUrl: result.checkoutUrl,
+      cartUrl: result.cartUrl,
+      productName,
+      steps: result.steps,
+      screenshots: result.screenshots,
+      message: `Successfully added ${productName} to cart!`
+    });
+
+  } catch (error) {
+    logger.error('Error in shopping automation', {
+      error: error.message,
+      stack: error.stack
+    });
+
+    res.status(500).json({
+      success: false,
+      error: 'Shopping automation failed',
+      message: error.message,
+      fallbackMode: true
+    });
+  }
+});
+
+/**
+ * GET /api/shopping/platform-info
+ * Get platform detection info for a product URL (diagnostic)
+ *
+ * Query params:
+ * - url: Product URL
+ *
+ * Response:
+ * {
+ *   url: string,
+ *   platform: string,
+ *   platformId: string,
+ *   addToCartSelectors: string[],
+ *   checkoutSelectors: string[]
+ * }
+ */
+app.get('/api/shopping/platform-info', (req, res) => {
+  try {
+    const { url } = req.query;
+
+    if (!url) {
+      return res.status(400).json({
+        error: 'URL parameter required',
+        example: '/api/shopping/platform-info?url=https://amazon.com/product/123'
+      });
+    }
+
+    const platformInfo = getPlatformInfo(url);
+
+    res.json(platformInfo);
+
+  } catch (error) {
+    logger.error('Error getting platform info', {
+      error: error.message
+    });
+    res.status(500).json({
+      error: 'Failed to get platform info',
+      message: error.message
+    });
   }
 });
 

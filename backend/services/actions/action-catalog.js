@@ -617,6 +617,24 @@ const ActionCatalog = {
     priority: 1,
     urlTemplate: '{productUrl}'
   },
+  automated_add_to_cart: {
+    actionId: 'automated_add_to_cart',
+    displayName: 'Add to Cart & Checkout',
+    actionType: 'IN_APP',
+    description: 'AI agent adds item to cart and opens checkout',
+    requiredEntities: ['productUrl', 'productName'],
+    validIntents: [
+      'marketing.promotion.flash-sale',
+      'marketing.promotion.discount',
+      'marketing.product.launch',
+      'e-commerce.restock.alert',
+      'shopping.product.future-sale',
+      'e-commerce.price.drop'
+    ],
+    priority: 1,
+    usesNativeIOS: false,
+    usesSteelAgent: true
+  },
   complete_cart: {
     actionId: 'complete_cart',
     displayName: 'Complete Order',
@@ -1392,6 +1410,63 @@ const ActionCatalog = {
     validIntents: ['social.invitation.request'],
     priority: 1,
     urlTemplate: '{invitationLink}'
+  },
+
+  // THREAD FINDER ACTIONS - For link-heavy emails with extracted content
+  view_extracted_content: {
+    actionId: 'view_extracted_content',
+    displayName: 'View Extracted Content',
+    actionType: 'IN_APP',
+    description: 'View automatically extracted data from link (Thread Finder)',
+    requiredEntities: ['extractedContent'],
+    validIntents: [
+      'education.lms.link-only',
+      'education.school-portal.link-only',
+      'youth.sports.link-only'
+    ],
+    priority: 1
+  },
+  open_original_link: {
+    actionId: 'open_original_link',
+    displayName: 'Open Original Link',
+    actionType: 'GO_TO',
+    description: 'Open the original link in browser',
+    requiredEntities: ['link'],
+    validIntents: [
+      'education.lms.link-only',
+      'education.school-portal.link-only',
+      'youth.sports.link-only'
+    ],
+    priority: 2,
+    urlTemplate: '{link}'
+  },
+  schedule_extraction_retry: {
+    actionId: 'schedule_extraction_retry',
+    displayName: 'Retry Extraction',
+    actionType: 'IN_APP',
+    description: 'Retry automatic data extraction (Thread Finder)',
+    requiredEntities: ['link'],
+    validIntents: [
+      'education.lms.link-only',
+      'education.school-portal.link-only',
+      'youth.sports.link-only'
+    ],
+    priority: 3
+  },
+  download_attachment: {
+    actionId: 'download_attachment',
+    displayName: 'Download Attachment',
+    actionType: 'GO_TO',
+    description: 'Download assignment attachment (PDF, worksheet, rubric)',
+    requiredEntities: ['extractedContent'],
+    optionalEntities: ['attachmentIndex'],
+    validIntents: [
+      'education.lms.link-only',
+      'education.school-portal.link-only',
+      'youth.sports.link-only'
+    ],
+    priority: 2,
+    urlTemplate: '{extractedContent.attachments[0]}'
   },
 
   // GENERIC ACTIONS
