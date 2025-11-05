@@ -101,10 +101,34 @@
             width: 100%;
             min-height: 100vh;
             display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            padding-top: 240px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 100px;
             padding-bottom: 60px;
+            gap: 30px;
+        }
+
+        /* Header Text Styling */
+        .header-text {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .header-title {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-purple), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header-subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
         }
 
         /* Central Demo Card */
@@ -474,21 +498,32 @@
             line-height: 1.4;
         }
 
+        /* Navigation Buttons Row */
+        .nav-buttons-row {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            z-index: 10;
+        }
+
         /* Navigation Labels */
         .nav-label {
-            position: absolute;
-            padding: 0;
-            background: rgba(0, 0, 0, 0.2);
+            position: relative;
+            padding: 14px 24px;
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
-            border: 2px solid rgba(158, 158, 158, 0.3);
-            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
             text-decoration: none;
             transition: all 0.3s ease;
             z-index: 10;
-            max-width: 240px;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            align-items: center;
+            min-width: 180px;
         }
 
         .nav-label:hover {
@@ -497,23 +532,15 @@
         }
 
         .nav-label-title {
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 15px;
+            font-weight: 600;
             color: white;
-            line-height: 1.2;
+            line-height: 1.3;
             text-align: center;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-label-desc {
-            font-size: 12px;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.75);
-            line-height: 1.4;
-            text-align: center;
-            padding: 14px 16px;
+            display: none; /* Hide descriptions in horizontal layout */
         }
 
         /* Top Navigation - Red/Shopping theme */
@@ -678,14 +705,20 @@
             }
 
             .landing-container {
-                padding-top: 180px;
+                padding-top: 140px;
+                gap: 20px;
+            }
+
+            .header-title {
+                font-size: 36px;
+            }
+
+            .header-subtitle {
+                font-size: 16px;
             }
 
             .demo-card {
-                width: 345px;
-                height: 640px;
-                display: flex;
-                align-items: center;
+                width: 320px;
             }
 
             .card-content {
@@ -695,24 +728,20 @@
 
             .zero-logo {
                 margin: 0 auto 12px;
-            }
-
-            /* Hide full nav labels on mobile */
-            .nav-label {
-                display: none;
-            }
-
-            /* Show directional arrows on mobile */
-            .nav-arrow {
-                display: flex;
-            }
-
-            .zero-logo {
                 font-size: 40px;
             }
 
-            .step-label {
-                font-size: 10px;
+            /* Make nav buttons stack on very small screens */
+            .nav-buttons-row {
+                gap: 10px;
+                max-width: 100%;
+                padding: 0 16px;
+            }
+
+            .nav-label {
+                min-width: 140px;
+                font-size: 13px;
+                padding: 12px 18px;
             }
 
             .features-grid {
@@ -720,13 +749,9 @@
                 max-width: 700px;
             }
 
-            /* Hide swipe instruction and arrows on mobile */
+            /* Hide swipe instruction on mobile */
             .swipe-instruction {
                 display: none;
-            }
-
-            .nav-arrow {
-                display: none !important;
             }
 
             /* Show mobile options selector on mobile only */
@@ -1068,16 +1093,15 @@
         </div>
     </div>
 
-
     <!-- Firefly Shader Background -->
     <div class="floating-spheres" id="fireflyContainer"></div>
 
     <div class="landing-container">
-        <!-- Top Navigation -->
-        <a href="shopping-cart.html" class="nav-label nav-top">
-            <div class="nav-label-title">Shopping Cart</div>
-            <div class="nav-label-desc">Track deals, prices, and expirations across all your shopping emails.</div>
-        </a>
+        <!-- Header Text -->
+        <div class="header-text">
+            <div class="header-title">zero</div>
+            <div class="header-subtitle">Shortform Email Powered by AI</div>
+        </div>
 
         <!-- Central Demo Card -->
         <div class="demo-card" id="demoCard">
@@ -1112,7 +1136,7 @@
                                 <div class="mobile-option-title">Shopping Cart</div>
                             </div>
                             <div class="mobile-option-button ai" data-target="zero-sequence-live.html">
-                                <div class="mobile-option-title">AI Intelligence</div>
+                                <div class="mobile-option-title">Intent->Action Demo</div>
                             </div>
                             <div class="mobile-option-button intent" data-target="intent-action-explorer.html">
                                 <div class="mobile-option-title">Intent Categories</div>
@@ -1138,7 +1162,7 @@
                 </div>
 
                 <div class="swipe-preview" id="swipePreviewRight">
-                    <div class="swipe-preview-title">AI Intelligence</div>
+                    <div class="swipe-preview-title">Intent->Action Demo</div>
                     <div class="swipe-preview-desc">Test the email-to-action pipeline with 137 intent categories live.</div>
                 </div>
 
@@ -1154,29 +1178,21 @@
             </div>
         </div>
 
-        <!-- Directional Arrows (Mobile Only) -->
-        <div class="nav-arrow" id="arrowUp" style="top: 120px; left: 50%; transform: translateX(-50%);">↑</div>
-        <div class="nav-arrow" id="arrowRight" style="top: 50%; right: 40px; transform: translateY(-50%);">→</div>
-        <div class="nav-arrow" id="arrowDown" style="bottom: 120px; left: 50%; transform: translateX(-50%);">↓</div>
-        <div class="nav-arrow" id="arrowLeft" style="top: 50%; left: 40px; transform: translateY(-50%);">←</div>
-
-        <!-- Right Navigation -->
-        <a href="zero-sequence-live.html" class="nav-label nav-right">
-            <div class="nav-label-title">AI Intelligence</div>
-            <div class="nav-label-desc">Test the email-to-action pipeline with 137 intent categories live.</div>
-        </a>
-
-        <!-- Bottom Navigation -->
-        <a href="intent-action-explorer.html" class="nav-label nav-bottom">
-            <div class="nav-label-title">Intent Categories</div>
-            <div class="nav-label-desc">137 categories classify emails from shipping to healthcare.</div>
-        </a>
-
-        <!-- Left Navigation -->
-        <a href="action-modal-explorer.html" class="nav-label nav-left">
-            <div class="nav-label-title">Smart Actions</div>
-            <div class="nav-label-desc">143 actions to take depending on the context including native OS integrations and compound actions.</div>
-        </a>
+        <!-- Navigation Buttons Row (Below Phone) -->
+        <div class="nav-buttons-row">
+            <a href="app-demo.html" class="nav-label">
+                <div class="nav-label-title">Demo</div>
+            </a>
+            <a href="landing.html" class="nav-label">
+                <div class="nav-label-title">The Zero Difference</div>
+            </a>
+            <a href="intent-action-explorer.html" class="nav-label">
+                <div class="nav-label-title">Unique Capabilities</div>
+            </a>
+            <a href="zero-sequence-live.html" class="nav-label">
+                <div class="nav-label-title">How It Works</div>
+            </a>
+        </div>
 
         <!-- Back Button -->
         <a href="app-demo.html" class="back-button">
@@ -1301,43 +1317,8 @@
             }
         });
 
-        // Position navigation labels with 50px gap from card
-        function positionNavLabels() {
-            const card = document.getElementById('demoCard');
-            const cardRect = card.getBoundingClientRect();
-            const gap = 50;
-
-            const navTop = document.querySelector('.nav-top');
-            const navBottom = document.querySelector('.nav-bottom');
-            const navLeft = document.querySelector('.nav-left');
-            const navRight = document.querySelector('.nav-right');
-
-            // Get label dimensions first
-            const navTopRect = navTop.getBoundingClientRect();
-            const navBottomRect = navBottom.getBoundingClientRect();
-            const navLeftRect = navLeft.getBoundingClientRect();
-            const navRightRect = navRight.getBoundingClientRect();
-
-            // Position top label: centered horizontally, 50px gap above card top
-            navTop.style.left = `${cardRect.left + (cardRect.width / 2)}px`;
-            navTop.style.top = `${cardRect.top - gap - navTopRect.height}px`;
-            navTop.style.transform = 'translate(-50%, 0)';
-
-            // Position bottom label: centered horizontally, 50px gap below card bottom
-            navBottom.style.left = `${cardRect.left + (cardRect.width / 2)}px`;
-            navBottom.style.top = `${cardRect.bottom + gap}px`;
-            navBottom.style.transform = 'translate(-50%, 0)';
-
-            // Position left label: centered vertically, 50px gap left of card
-            navLeft.style.left = `${cardRect.left - gap - navLeftRect.width}px`;
-            navLeft.style.top = `${cardRect.top + (cardRect.height / 2)}px`;
-            navLeft.style.transform = 'translate(0, -50%)';
-
-            // Position right label: centered vertically, 50px gap right of card
-            navRight.style.left = `${cardRect.right + gap}px`;
-            navRight.style.top = `${cardRect.top + (cardRect.height / 2)}px`;
-            navRight.style.transform = 'translate(0, -50%)';
-        }
+        // Navigation labels are now in a fixed horizontal row below the card
+        // No dynamic positioning needed
 
         // Reset card position on page load
         function resetCard() {
@@ -1349,12 +1330,10 @@
             card.style.transition = '';
         }
 
-        // Position labels on load and resize
+        // Reset card on load
         window.addEventListener('load', () => {
             resetCard();
-            positionNavLabels();
         });
-        window.addEventListener('resize', positionNavLabels);
 
         // Reset card when page becomes visible (back button)
         document.addEventListener('visibilitychange', () => {
@@ -1367,7 +1346,6 @@
         window.addEventListener('pageshow', (event) => {
             if (event.persisted) {
                 resetCard();
-                positionNavLabels();
             }
         });
 
@@ -1388,7 +1366,7 @@
                     desc: 'Track deals, prices, and expirations across all your shopping emails.'
                 },
                 'zero-sequence-live.html': {
-                    title: 'AI Intelligence',
+                    title: 'Intent->Action Demo',
                     desc: 'Test the email-to-action pipeline with 137 intent categories live.'
                 },
                 'intent-action-explorer.html': {
