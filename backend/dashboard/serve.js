@@ -118,6 +118,17 @@ app.get('/api/actions/catalog', (req, res) => {
 
 console.log('✅ API endpoints configured');
 
+// Health endpoint - used by demo pages to check service availability
+// In production, dashboard serves classifier/actions as static data
+app.get('/health', (req, res) => {
+  res.json({
+    status: 'healthy',
+    service: 'zero-dashboard',
+    timestamp: new Date().toISOString(),
+    provides: ['classifier', 'actions', 'static-data']
+  });
+});
+
 // Protected routes - require authentication
 // Public pages (accessible without auth)
 const PUBLIC_PAGES = [

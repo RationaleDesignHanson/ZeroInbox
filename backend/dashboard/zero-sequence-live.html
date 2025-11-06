@@ -1779,8 +1779,11 @@
             showStatus('Checking services...', 'loading');
 
             try {
-                // Health check before starting
-                await checkServiceHealth();
+                // Health check in background (non-blocking for mobile)
+                checkServiceHealth().catch(err => {
+                    console.warn('⚠️ Service health check failed:', err.message);
+                    console.log('Continuing anyway - services may be starting up');
+                });
 
                 // Fetch action catalog (cached after first call)
                 await fetchActionCatalog();
