@@ -342,10 +342,10 @@ struct SimpleCardView: View {
                 RichCardBackground(for: card.type, animationSpeed: 30)
 
                 // Ultra-thin liquid glass material overlay (Apple's design guideline)
-                // Ads cards use lighter opacity (0.15) for more transparent glassy effect
+                // Ads cards use lighter opacity (0.05) for more transparent glassy effect
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .opacity(card.type == .ads ? 0.15 : 0.3)
+                    .opacity(card.type == .ads ? 0.05 : 0.3)
             }
         )
         .overlay(shimmerOverlay)
@@ -1275,12 +1275,12 @@ struct ScenicBackground: View {
 
     var body: some View {
         ZStack {
-            // Warm base (cream/warm white gradient)
+            // Lighter glassy base (more transparent warm gradient)
             LinearGradient(
                 colors: [
-                    Color(red: 0.98, green: 0.97, blue: 0.94), // Warm cream white
-                    Color(red: 0.96, green: 0.96, blue: 0.92), // Soft warm beige
-                    Color(red: 0.97, green: 0.95, blue: 0.90)  // Light warm sand
+                    Color(red: 0.99, green: 0.98, blue: 0.96), // Ultra-light cream white
+                    Color(red: 0.98, green: 0.98, blue: 0.95), // Very soft warm beige
+                    Color(red: 0.98, green: 0.97, blue: 0.94)  // Light warm sand
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing

@@ -97,6 +97,18 @@ struct LiquidGlassBottomNav: View {
         totalInitialCards > 0  // Show progress bar as long as we have cards
     }
 
+    private func validProgressWidth(geometryWidth: CGFloat) -> CGFloat {
+        // Ensure geometry width is valid
+        guard geometryWidth.isFinite, geometryWidth > 0 else { return 0 }
+
+        // Calculate progress width with safety checks
+        let progressWidth = geometryWidth * CGFloat(progressPercentage)
+
+        // Ensure result is valid and within bounds
+        guard progressWidth.isFinite else { return 0 }
+        return max(0, min(geometryWidth, progressWidth))
+    }
+
     // MARK: - Left Section: Archetype Toggle
 
     private var archetypeToggleSection: some View {
@@ -285,7 +297,7 @@ struct LiquidGlassBottomNav: View {
                                 endPoint: .trailing
                             )
                         )
-                        .frame(width: max(0, min(geometry.size.width, geometry.size.width * CGFloat(progressPercentage))), height: 4)
+                        .frame(width: validProgressWidth(geometryWidth: geometry.size.width), height: 4)
                         .shadow(color: Color.cyan.opacity(0.6), radius: 4, x: 0, y: 0)
                 }
             }
