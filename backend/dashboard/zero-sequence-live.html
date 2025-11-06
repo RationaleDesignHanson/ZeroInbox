@@ -1808,13 +1808,15 @@
                 const classifyTime = Date.now() - classifyStartTime;
 
                 // Validate response structure
-                if (!data || !data.intent) {
-                    throw new Error('Invalid response from classifier: missing intent data');
+                // Handle both new format (intent) and old format (type/hpa)
+                const detectedIntent = data.intent || data.hpa || data.type || 'unknown';
+                if (!data || !detectedIntent) {
+                    throw new Error('Invalid response from classifier: missing classification data');
                 }
 
                 // Map API response to intentClassification structure
                 const intentClassification = {
-                    detectedIntent: data.intent,
+                    detectedIntent: detectedIntent,
                     confidence: data.intentConfidence || data.confidence || 0,
                     source: data._classificationSource || 'classifier',
                     processingTime: `${classifyTime}ms`
