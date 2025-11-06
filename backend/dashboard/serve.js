@@ -116,6 +116,29 @@ app.get('/api/actions/catalog', (req, res) => {
   }
 });
 
+// Helper function to get action objects from ActionCatalog
+function getActionObjects(actionIds) {
+  const { ActionCatalog } = require('./action-catalog');
+  return actionIds.map(actionId => {
+    const action = ActionCatalog[actionId];
+    if (!action) {
+      console.warn(`Action not found in catalog: ${actionId}`);
+      return null;
+    }
+    // Return full action object with all properties
+    return {
+      actionId: action.actionId,
+      displayName: action.displayName,
+      actionType: action.actionType,
+      description: action.description,
+      priority: action.priority,
+      requiredEntities: action.requiredEntities,
+      validIntents: action.validIntents,
+      isPrimary: false // Will be set for first action
+    };
+  }).filter(a => a !== null);
+}
+
 // Classify endpoint for production demo (static mock response)
 app.post('/api/classify', (req, res) => {
   try {
@@ -124,7 +147,7 @@ app.post('/api/classify', (req, res) => {
     // Mock classification based on email subject patterns
     let intent = 'general.inquiry';
     let confidence = 0.85;
-    let suggestedActions = ['quick_reply', 'save_for_later'];
+    let actionIds = ['quick_reply', 'save_for_later'];
     let entities = {};
 
     const subject = (email.subject || '').toLowerCase();
@@ -133,14 +156,14 @@ app.post('/api/classify', (req, res) => {
     // Pattern matching for demo purposes with entity extraction
     if (subject.includes('meeting') || subject.includes('calendar')) {
       intent = 'scheduling.meeting-request';
-      suggestedActions = ['add_to_calendar', 'quick_reply'];
+      actionIds = ['add_to_calendar', 'quick_reply'];
       confidence = 0.92;
       // Add meeting entities
       entities.deadline = 'Tomorrow at 2 PM';
       entities.dateTime = 'Tomorrow at 2:00 PM';
     } else if (subject.includes('shipped') || subject.includes('tracking') || body.includes('track')) {
       intent = 'e-commerce.shipping';
-      suggestedActions = ['track_package', 'save_for_later'];
+      actionIds = ['track_package', 'save_for_later'];
       confidence = 0.95;
       // Add shipping entities
       entities.trackingNumber = '1Z999AA10123456784';
@@ -149,12 +172,19 @@ app.post('/api/classify', (req, res) => {
       entities.company = { name: 'UPS', type: 'carrier' };
     } else if (subject.includes('invoice') || subject.includes('payment')) {
       intent = 'transactions.invoice';
-      suggestedActions = ['pay_invoice', 'save_for_later'];
+      actionIds = ['pay_invoice', 'save_for_later'];
       confidence = 0.90;
       // Add invoice entities
       entities.paymentAmount = 149.99;
       entities.prices = { original: 149.99, currency: 'USD' };
       entities.invoiceId = 'INV-2024-001234';
+    }
+
+    // Convert action IDs to full action objects from ActionCatalog
+    const suggestedActions = getActionObjects(actionIds);
+    // Mark first action as primary
+    if (suggestedActions.length > 0) {
+      suggestedActions[0].isPrimary = true;
     }
 
     res.json({
