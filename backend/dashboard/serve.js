@@ -39,6 +39,10 @@ app.use(compression({
 // Parse JSON request bodies
 app.use(express.json());
 
+// IP Theft Protection: Request logging and monitoring
+const requestLogger = require('../shared/middleware/request-logger');
+app.use(requestLogger('dashboard-web-server'));
+
 // Enable CORS for API calls
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');

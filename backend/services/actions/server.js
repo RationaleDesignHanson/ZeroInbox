@@ -24,6 +24,10 @@ const cache = new ActionRegistryCache(24 * 60 * 60 * 1000);
 app.use(cors());
 app.use(express.json());
 
+// IP Theft Protection: Request logging and monitoring
+const requestLogger = require('../../shared/middleware/request-logger');
+app.use(requestLogger('actions-service'));
+
 // ============================================================================
 // HEALTH CHECK
 // ============================================================================

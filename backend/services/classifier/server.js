@@ -19,6 +19,10 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+// IP Theft Protection: Request logging and monitoring
+const requestLogger = require('../../shared/middleware/request-logger');
+app.use(requestLogger('classifier-service'));
+
 // Health check
 app.get('/health', (req, res) => {
   // Check Thread Finder configuration
