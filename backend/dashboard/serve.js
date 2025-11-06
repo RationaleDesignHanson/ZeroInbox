@@ -39,9 +39,14 @@ app.use(compression({
 // Parse JSON request bodies
 app.use(express.json());
 
-// IP Theft Protection: Request logging and monitoring
-const requestLogger = require('../shared/middleware/request-logger');
-app.use(requestLogger('dashboard-web-server'));
+// IP Theft Protection: Request logging and monitoring (optional in production)
+try {
+  const requestLogger = require('../shared/middleware/request-logger');
+  app.use(requestLogger('dashboard-web-server'));
+  console.log('✅ Request logger middleware loaded');
+} catch (error) {
+  console.log('ℹ️  Request logger not available (production mode)');
+}
 
 // Enable CORS for API calls
 app.use((req, res, next) => {
