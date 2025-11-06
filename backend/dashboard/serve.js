@@ -119,9 +119,24 @@ app.get('/api/actions/catalog', (req, res) => {
 console.log('✅ API endpoints configured');
 
 // Protected routes - require authentication
-// Splash page (login) is accessible without auth
+// Public pages (accessible without auth)
+const PUBLIC_PAGES = [
+  'splash.html',
+  'zero-sequence-live.html',
+  'zero-sequence-live-with-64.html'
+];
+
 app.get('/splash.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'splash.html'));
+});
+
+// Zero Sequence Live demo pages - public access
+app.get('/zero-sequence-live.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'zero-sequence-live.html'));
+});
+
+app.get('/zero-sequence-live-with-64.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'zero-sequence-live-with-64.html'));
 });
 
 // All other HTML pages require authentication
