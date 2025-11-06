@@ -29,28 +29,16 @@ struct DataGenerator {
             hpa: "View Summary",
             timeAgo: "2h ago",
             title: "The Download: This Week in AI - Issue #47",
-            summary: """
-            **Actions:**
-            None
-
-            **Why:**
-            Weekly AI & tech newsletter with industry updates.
-
-            **Context:**
-            • GPT-5 speculation, EU AI Act goes live, GitHub Copilot X upgrade
-            • 67% of devs use AI assistants daily, $21B invested this quarter
-            """,
+            summary: "Weekly AI and tech newsletter featuring GPT-5 speculation, EU AI Act launch, and GitHub Copilot X upgrade. Industry stats show 67% of developers now use AI assistants daily with $21B invested this quarter.",
 
             aiGeneratedSummary: """
             **Actions:**
             None
 
-            **Why:**
-            Weekly AI & tech newsletter with industry updates.
-
             **Context:**
             • GPT-5 speculation, EU AI Act goes live, GitHub Copilot X upgrade
             • 67% of devs use AI assistants daily, $21B invested this quarter
+            • Weekly digest with top stories, tools, and learning resources
             """,
 
             body: "THE DOWNLOAD\nYour weekly AI & tech newsletter\nIssue #47 - October 23, 2025\n\n📰 TOP STORIES THIS WEEK\n\n1. GPT-5 Speculation Heats Up\nOpenAI hints at next-generation model with improved reasoning capabilities. Sources say training began in Q3 2025. Expected launch: early 2026.\n\n2. EU AI Act Goes Into Effect\nNew regulations require transparency in AI-generated content and model training data disclosure. US companies scramble to comply.\n\n3. GitHub Copiloh X Gets Major Upgrade\nNew features include voice-to-code, AI code reviews, and context-aware suggestions across entire codebases.\n\n🔧 TOOLS & RESOURCES\n\n• LangChain 0.3 released with improved streaming\n• New Anthropic Claude API features\n• Open-source alternatives to ChatGPT gaining traction\n• Vector database comparison guide\n\n🎓 LEARNING\n\n• Free course: Building production LLM apps\n• Prompt engineering best practices 2025\n• Fine-tuning vs RAG: When to use which\n\n📊 BY THE NUMBERS\n\n• 67% of developers now use AI coding assistants daily\n• $21B invested in AI startups this quarter\n• 3.2M AI-related jobs posted in October\n\n🔮 WHAT'S NEXT\n\nNext week: Interview with Anthropic's CEO on Claude's future, plus a deep dive into multi-modal AI applications.\n\nHappy coding!\nThe TechCrunch Team",
@@ -110,28 +98,16 @@ struct DataGenerator {
             hpa: "View Summary",
             timeAgo: "5h ago",
             title: "Avant Arte Weekly: New Drops & Artist Spotlights",
-            summary: """
-            **Actions:**
-            None
-
-            **Why:**
-            Weekly art newsletter with new releases and artist spotlights.
-
-            **Context:**
-            • James Jean ($850), KAWS ($650), Murakami ($450) dropping this week
-            • Premium early access available tomorrow
-            """,
+            summary: "Weekly art newsletter featuring new limited edition releases from James Jean ($850), KAWS ($650), and Takashi Murakami ($450). Premium early access starts tomorrow for members.",
 
             aiGeneratedSummary: """
             **Actions:**
             None
 
-            **Why:**
-            Weekly art newsletter with new releases and artist spotlights.
-
             **Context:**
             • James Jean ($850), KAWS ($650), Murakami ($450) dropping this week
             • Premium early access available tomorrow
+            • Collector's Corner guide and market trends included
             """,
 
             body: "AVANT ARTE WEEKLY\nYour curated art newsletter\nOctober 23, 2025\n\n🎨 THIS WEEK'S DROPS\n\n1. James Jean - \"Celestial Mechanics\" Series\nLaunching Thursday, October 31 at 12 PM EST\nLimited edition print + sculpture duo\nEdition of 100 | $850\nJames discusses his inspiration from astrophysics and ancient mythology. This collection bridges science and spirituality through intricate linework and cosmic imagery.\n→ Set your alarm | Schedule purchase\n\n2. KAWS - \"Companion Floral\" Prints\nReleasing Friday, November 1 at 10 AM EST  \nSilkscreen print on archival paper\nEdition of 200 | $650\nThe iconic Companion reimagined in a field of wildflowers. KAWS explores themes of solitude and natural beauty in urban environments.\n→ Preview collection\n\n3. Takashi Murakami - \"Rainbow Flower\" Editions\nDropping Saturday, November 2 at 11 AM EST\nGiclee print with hand-finished details  \nEdition of 300 | $450\nMurakami's signature flower motif in vibrant new colorways. Each print includes artist's embossed seal.\n→ View artist statement\n\n📚 ARTIST SPOTLIGHT\n\nIn Conversation with Kehinde Wiley\nThe renowned portrait artist discusses his latest body of work exploring Black excellence and classical European painting traditions. Read the full interview about his process, inspiration, and upcoming museum exhibitions.\n→ Read interview (8 min)\n\n💡 COLLECTOR'S CORNER\n\n• How to properly frame limited edition prints\n• Investment potential of emerging artists\n• Understanding edition sizes and artist proofs\n• Climate-controlled storage tips\n→ Read collector's guide\n\n📊 MARKET WATCH\n\nTrending Artists This Month:\n• Loish - Fantasy illustration (↑ 45%)\n• Daniel Arsham - Contemporary sculpture (↑ 32%)\n• Yoshitomo Nara - Japanese pop art (↑ 28%)\n\n🎁 MEMBER EXCLUSIVE\n\nEarly access to November drops starts tomorrow for Premium members. Upgrade today for 48-hour advance notice on all releases.\n→ Upgrade to Premium | Learn more\n\n---\n\nHappy collecting!\nThe Avant Arte Team\n\nManage preferences | Unsubscribe",
@@ -192,28 +168,16 @@ struct DataGenerator {
             hpa: "View Summary",
             timeAgo: "1d ago",
             title: "Team Bulletin: October Edition - Q4 Updates",
-            summary: """
-            **Actions:**
-            • RSVP for Lake Tahoe offsite by **October 28**
-
-            **Why:**
-            Monthly company newsletter with Q3 results and Q4 updates.
-
-            **Context:**
-            • Q3 exceeded targets by 18% ($12.4M revenue)
-            • Company offsite Nov 5-6, All-Hands Nov 15
-            """,
+            summary: "Company exceeded Q3 targets by 18% with $12.4M revenue. Annual offsite at Lake Tahoe Nov 5-6 - RSVP required by October 28.",
 
             aiGeneratedSummary: """
             **Actions:**
             • RSVP for Lake Tahoe offsite by **October 28**
 
-            **Why:**
-            Monthly company newsletter with Q3 results and Q4 updates.
-
             **Context:**
             • Q3 exceeded targets by 18% ($12.4M revenue)
             • Company offsite Nov 5-6, All-Hands Nov 15
+            • New hires, Q4 goals, and learning opportunities included
             """,
 
             body: "TEAM BULLETIN\nOctober 2025 Edition\n\n📊 COMPANY HIGHLIGHTS\n\nQ3 Results Are In!\nWe exceeded our quarterly targets by 18% - our strongest quarter yet. Revenue hit $12.4M with 2,400 new customers added.\n\nKey Metrics:\n• Customer growth: +32% YoY\n• Employee satisfaction: 4.6/5.0\n• Product uptime: 99.97%\n• Net Promoter Score: 72 (Industry avg: 45)\n\n🏆 TEAM ACHIEVEMENTS\n\nEngineering:\n• Shipped AI-powered search feature (2 weeks ahead of schedule)\n• Reduced page load times by 40%\n• Zero critical bugs in production this quarter\n\nSales:\n• Closed 3 enterprise deals ($1.2M total ARR)\n• Expanded into EMEA region\n• Hit 120% of quarterly quota\n\nCustomer Success:\n• Maintained 98% customer retention rate\n• NPS increased from 68 to 72\n• Reduced average response time to 2.3 hours\n\n👏 SPOTLIGHT: Employee of the Month\n\nCongratulations to Sarah Chen (Engineering) for her exceptional work leading the AI search project. Sarah worked cross-functionally with Product, Design, and Data teams to deliver a feature that's already driving 25% more user engagement.\n\n📅 UPCOMING EVENTS\n\nNov 5-6: Annual Company Offsite\nLocation: Lake Tahoe\nActivities: Strategic planning, team building, celebration dinner\nRSVP by Oct 28\n→ Register here\n\nNov 15: All-Hands Q&A with CEO\nFormat: Virtual town hall\nTime: 2:00 PM PST\nSubmit questions in advance\n→ Submit questions\n\nNov 22: Thanksgiving Week - Office Closed\nEnjoy time with family!\n\n🎯 Q4 GOALS\n\n1. Launch mobile app (iOS & Android)\n2. Reach 3,000 total customers\n3. Expand engineering team by 5 hires\n4. Achieve SOC 2 Type II certification\n5. Ship real-time collaboration features\n\nProgress tracking dashboards available on company intranet.\n\n💼 NEW HIRES\n\nWelcome to the team:\n• Alex Rodriguez - Senior Product Designer\n• Priya Patel - Data Scientist\n• Marcus Johnson - Account Executive\n• Emily Zhang - DevOps Engineer\n\n🎓 LEARNING & DEVELOPMENT\n\nNew courses available:\n• Advanced React patterns (Engineering)\n• Negotiation skills workshop (Sales)\n• Leadership fundamentals (All managers)\n• AI/ML fundamentals (All employees)\n\nEducation budget: $1,500/year per employee\n→ Browse course catalog\n\n🎉 SOCIAL\n\nTeam Happy Hour - This Friday!\nLocation: The Local Tap\nTime: 5:00 PM\nFirst round on the company\nRSVP appreciated\n\n---\n\nQuestions? Feedback? Reply to this email or ping People Ops on Slack.\n\nCheers,\nThe Leadership Team\n\nRead previous editions | Update preferences",
@@ -275,18 +239,16 @@ struct DataGenerator {
             hpa: "Sign & Send",
             timeAgo: "2h ago",
             title: "Field Trip Permission - Due Wednesday",
-            summary: "",
+            summary: "Emma's 3rd grade class is going to the Natural History Museum this Friday. Permission form and $25 fee due by Wednesday at 5 PM.",
 
             aiGeneratedSummary: """
             **Actions:**
             • Sign permission form by **Wednesday 5 PM**
             • Pay $25 trip fee online
 
-            **Why:**
-            Emma's class needs signed approval for Natural History Museum field trip this Friday.
-
             **Context:**
             • Trip includes dinosaur exhibits and planetarium show
+            • Departure 8:30 AM, return 2:30 PM
             • Pack lunch and water bottle
             """,
 

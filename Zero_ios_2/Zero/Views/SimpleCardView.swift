@@ -342,9 +342,10 @@ struct SimpleCardView: View {
                 RichCardBackground(for: card.type, animationSpeed: 30)
 
                 // Ultra-thin liquid glass material overlay (Apple's design guideline)
+                // Ads cards use lighter opacity (0.15) for more transparent glassy effect
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .opacity(0.3)
+                    .opacity(card.type == .ads ? 0.15 : 0.3)
             }
         )
         .overlay(shimmerOverlay)

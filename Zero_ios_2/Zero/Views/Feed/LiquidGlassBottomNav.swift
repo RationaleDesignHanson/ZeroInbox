@@ -283,7 +283,7 @@ struct LiquidGlassBottomNav: View {
                                 endPoint: .trailing
                             )
                         )
-                        .frame(width: geometry.size.width * CGFloat(progressPercentage), height: 4)
+                        .frame(width: max(0, min(geometry.size.width, geometry.size.width * CGFloat(progressPercentage))), height: 4)
                         .shadow(color: Color.cyan.opacity(0.6), radius: 4, x: 0, y: 0)
                 }
             }
