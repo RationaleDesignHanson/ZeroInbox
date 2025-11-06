@@ -124,24 +124,37 @@ app.post('/api/classify', (req, res) => {
     // Mock classification based on email subject patterns
     let intent = 'general.inquiry';
     let confidence = 0.85;
-    let suggestedActions = ['reply', 'archive'];
+    let suggestedActions = ['quick_reply', 'save_for_later'];
+    let entities = {};
 
     const subject = (email.subject || '').toLowerCase();
     const body = (email.body || '').toLowerCase();
 
-    // Pattern matching for demo purposes
+    // Pattern matching for demo purposes with entity extraction
     if (subject.includes('meeting') || subject.includes('calendar')) {
       intent = 'scheduling.meeting-request';
-      suggestedActions = ['add-to-calendar', 'reply'];
+      suggestedActions = ['add_to_calendar', 'quick_reply'];
       confidence = 0.92;
+      // Add meeting entities
+      entities.deadline = 'Tomorrow at 2 PM';
+      entities.dateTime = 'Tomorrow at 2:00 PM';
     } else if (subject.includes('shipped') || subject.includes('tracking') || body.includes('track')) {
       intent = 'e-commerce.shipping';
-      suggestedActions = ['track-package', 'archive'];
+      suggestedActions = ['track_package', 'save_for_later'];
       confidence = 0.95;
+      // Add shipping entities
+      entities.trackingNumber = '1Z999AA10123456784';
+      entities.trackingNumbers = ['1Z999AA10123456784'];
+      entities.companies = [{ name: 'UPS', type: 'carrier' }];
+      entities.company = { name: 'UPS', type: 'carrier' };
     } else if (subject.includes('invoice') || subject.includes('payment')) {
       intent = 'transactions.invoice';
-      suggestedActions = ['pay-invoice', 'archive'];
+      suggestedActions = ['pay_invoice', 'save_for_later'];
       confidence = 0.90;
+      // Add invoice entities
+      entities.paymentAmount = 149.99;
+      entities.prices = { original: 149.99, currency: 'USD' };
+      entities.invoiceId = 'INV-2024-001234';
     }
 
     res.json({
@@ -149,6 +162,16 @@ app.post('/api/classify', (req, res) => {
       intentConfidence: confidence,
       confidence: confidence,
       suggestedActions: suggestedActions,
+      // Entity extraction data
+      trackingNumber: entities.trackingNumber,
+      trackingNumbers: entities.trackingNumbers,
+      companies: entities.companies,
+      company: entities.company,
+      deadline: entities.deadline,
+      dateTime: entities.dateTime,
+      paymentAmount: entities.paymentAmount,
+      prices: entities.prices,
+      invoiceId: entities.invoiceId,
       _classificationSource: 'demo-mock',
       type: 'mail'
     });
