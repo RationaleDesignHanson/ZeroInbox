@@ -88,7 +88,9 @@ struct LiquidGlassBottomNav: View {
     private var progressPercentage: Double {
         guard totalInitialCards > 0 else { return 0.0 }
         let processed = totalInitialCards - remainingCards
-        return Double(processed) / Double(totalInitialCards)
+        let percentage = Double(processed) / Double(totalInitialCards)
+        // Clamp between 0 and 1 to prevent invalid frame dimensions
+        return max(0.0, min(1.0, percentage.isNaN ? 0.0 : percentage))
     }
 
     private var showProgressMeter: Bool {
