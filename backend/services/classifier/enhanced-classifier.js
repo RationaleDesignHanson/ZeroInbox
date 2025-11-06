@@ -223,6 +223,19 @@ function multiSignalClassification({ email, subject, body, from, snippet, fullTe
   if (from.includes('github') || from.includes('gitguardian')) scores.mail += 25;
   if (snippet.includes('publicly accessible') || snippet.includes('leaked')) scores.mail += 30;
 
+  // === TRAVEL & TRANSPORTATION SIGNALS (Personal travel) ===
+
+  // Boarding passes and flight confirmations should go to MAIL (personal, actionable)
+  if (subject.includes('check-in') || subject.includes('check in')) scores.mail += 50;
+  if (subject.includes('boarding') || subject.includes('boarding pass')) scores.mail += 55;
+  if (subject.includes('flight confirmation') || subject.includes('itinerary')) scores.mail += 50;
+  if (entities.flights.length > 0 && (subject.includes('confirmation') || subject.includes('check-in'))) scores.mail += 45;
+  if (from.includes('airline') || from.includes('airways') || from.includes('united') || from.includes('delta') || from.includes('southwest')) scores.mail += 40;
+
+  // Hotel/reservation confirmations (personal) go to MAIL
+  if (subject.includes('reservation confirmed') || subject.includes('booking confirmed')) scores.mail += 45;
+  if (entities.hotels.length > 0 && subject.includes('confirmation')) scores.mail += 40;
+
   // === ADS SIGNALS (Marketing, Promotions, Shopping Deals) ===
 
   // Shopping/E-commerce signals
@@ -239,13 +252,9 @@ function multiSignalClassification({ email, subject, body, from, snippet, fullTe
   if (entities.stores.length > 0) scores.ads += 35;
   if (entities.promoCodes.length > 0) scores.ads += 30;
 
-  // Travel/Flight signals
-  if (subject.includes('check-in') || subject.includes('check in')) scores.ads += 50;
-  if (subject.includes('boarding') || subject.includes('flight')) scores.ads += 45;
-  if (subject.includes('reservation') || subject.includes('booking')) scores.ads += 40;
-  if (entities.flights.length > 0) scores.ads += 50;
-  if (entities.hotels.length > 0) scores.ads += 40;
-  if (from.includes('airline') || from.includes('airways') || from.includes('united') || from.includes('delta') || from.includes('southwest')) scores.ads += 40;
+  // Promotional travel deals (not personal confirmations) go to ADS
+  if (subject.includes('flight deal') || subject.includes('travel sale')) scores.ads += 45;
+  if (subject.includes('hotel deal') || subject.includes('vacation package')) scores.ads += 40;
 
   // Marketing/Newsletter promotional signals
   if (snippet.includes('unsubscribe') && (subject.includes('sale') || subject.includes('deal'))) scores.ads += 25;

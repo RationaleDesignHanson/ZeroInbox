@@ -22,10 +22,12 @@ struct ModalContextHeader: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
-            // Left: Action icon + name
+            // Left: Action icon + name (SF Symbol instead of emoji)
             HStack(spacing: 8) {
-                Text(getIconForAction(actionName))
-                    .font(.system(size: 20))
+                Image(systemName: getIconForAction(actionName))
+                    .font(.system(size: 18, weight: .medium))
+                    .foregroundColor(.white.opacity(0.9))
+                    .frame(width: 20, height: 20)
 
                 Text(actionName)
                     .font(.system(size: 15, weight: .semibold))
@@ -67,85 +69,85 @@ struct ModalContextHeader: View {
         )
     }
 
-    /// Get emoji icon for action type
+    /// Get SF Symbol icon name for action type
     private func getIconForAction(_ action: String) -> String {
         let lowercasedAction = action.lowercased()
 
         // Education/School
         if lowercasedAction.contains("grade") || lowercasedAction.contains("assignment") {
-            return "📊"
+            return "chart.bar.fill"
         }
         if lowercasedAction.contains("homework") || lowercasedAction.contains("study") {
-            return "📝"
+            return "pencil.and.outline"
         }
 
         // Forms & Signatures
         if lowercasedAction.contains("sign") || lowercasedAction.contains("form") {
-            return "✍️"
+            return "signature"
         }
 
         // Shopping
-        if lowercasedAction.contains("shop") || lowercasedAction.contains("browse") || lowercasedAction.contains("deal") {
-            return "🛍️"
+        if lowercasedAction.contains("shop") || lowercasedAction.contains("browse") || lowercasedAction.contains("deal") || lowercasedAction.contains("cart") {
+            return "cart.fill"
         }
         if lowercasedAction.contains("track") || lowercasedAction.contains("package") || lowercasedAction.contains("delivery") {
-            return "📦"
+            return "shippingbox.fill"
         }
         if lowercasedAction.contains("pay") || lowercasedAction.contains("invoice") || lowercasedAction.contains("bill") {
-            return "💳"
+            return "creditcard.fill"
         }
 
         // Travel
         if lowercasedAction.contains("flight") || lowercasedAction.contains("check in") || lowercasedAction.contains("boarding") {
-            return "✈️"
+            return "airplane"
         }
         if lowercasedAction.contains("hotel") || lowercasedAction.contains("reservation") || lowercasedAction.contains("booking") {
-            return "🏨"
+            return "building.2.fill"
         }
 
         // Work/Business
         if lowercasedAction.contains("meeting") || lowercasedAction.contains("schedule") || lowercasedAction.contains("demo") || lowercasedAction.contains("calendar") {
-            return "📅"
+            return "calendar"
         }
         if lowercasedAction.contains("document") || lowercasedAction.contains("review") || lowercasedAction.contains("approve") {
-            return "📄"
+            return "doc.text.fill"
         }
         if lowercasedAction.contains("spreadsheet") || lowercasedAction.contains("report") {
-            return "📊"
+            return "tablecells.fill"
         }
 
         // Healthcare/Appointments
         if lowercasedAction.contains("appointment") || lowercasedAction.contains("doctor") || lowercasedAction.contains("prescription") || lowercasedAction.contains("pickup") {
-            return "🏥"
+            return "cross.case.fill"
         }
 
         // Food/Restaurants
         if lowercasedAction.contains("restaurant") || lowercasedAction.contains("menu") || lowercasedAction.contains("order food") {
-            return "🍽️"
+            return "fork.knife"
         }
 
         // Security/Account
         if lowercasedAction.contains("security") || lowercasedAction.contains("verify") || lowercasedAction.contains("password") {
-            return "🔒"
+            return "lock.shield.fill"
         }
 
         // Social/Events
         if lowercasedAction.contains("event") || lowercasedAction.contains("rsvp") || lowercasedAction.contains("invitation") {
-            return "🎉"
+            return "party.popper.fill"
         }
 
         // Newsletter
         if lowercasedAction.contains("newsletter") || lowercasedAction.contains("summary") {
-            return "📰"
+            return "newspaper.fill"
         }
 
         // Generic actions
         if lowercasedAction.contains("view") || lowercasedAction.contains("detail") {
-            return "👁️"
+            return "eye.fill"
         }
 
         // Generic link/browser
-        return "🔗"
+        return "link"
     }
 }
 

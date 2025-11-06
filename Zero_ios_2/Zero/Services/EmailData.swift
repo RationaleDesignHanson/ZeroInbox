@@ -89,69 +89,86 @@ extension DataGenerator {
             EmailCard(id: "cc8", type: .mail, state: .unseen, priority: .low, hpa: "Volunteer", timeAgo: "2d ago", title: "Classroom Helper Signup", summary: "Need volunteers for Halloween party next week", body: nil, htmlBody: nil, metaCTA: "Swipe Right: Sign Up", intent: "education.volunteer.request", intentConfidence: 0.93, suggestedActions: [EmailAction(actionId: "reply", displayName: "Volunteer", actionType: .inApp, isPrimary: true, priority: 1), EmailAction(actionId: "add_to_calendar", displayName: "Add to Calendar", actionType: .inApp, isPrimary: false, priority: 2, context: ["eventDate": "Next week", "eventTitle": "Halloween Party"])], sender: nil, kid: KidInfo(name: "Zoe Chen", initial: "Z", grade: "Kindergarten"), company: nil, store: nil, airline: nil, productImageUrl: nil, brandName: nil, originalPrice: nil, salePrice: nil, discount: nil, urgent: nil, expiresIn: nil, requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil)
         ])
         
-        // SHOP - Shopping, Deals, Travel (9 emails)
+        // SHOP - Shopping, Deals, Travel (5 emails) - ROBUST FALLBACK SET
+        // Updated 2025-01-05 with verified products from ROBUST_FALLBACK_SUMMARY.md
         emails.append(contentsOf: [
-            EmailCard(id: "ds1", type: .ads, state: .unseen, priority: .high, hpa: "Claim Deal", timeAgo: "1h ago", title: "Sony WH-1000XM5 Headphones", summary: """
-            **Actions:**
-            • Claim deal before **midnight tonight** (ends in 6 hours)
-            • Shop at bestbuy.com/headphones/sony-wh1000xm5 or pick up in store today
-
-            **Why:**
-            Sony WH-1000XM5 Wireless Noise Cancelling Headphones on flash sale - save **$120.00 (30%)**
-
-            **Context:**
-            • Was: **$399.99** → NOW: **$279.99**
-            • Features: Industry-leading noise cancellation, 30-hour battery, exceptional call quality, premium comfort
-            • Free shipping on orders over $35
-            • Best Buy - Expert Service. Unbeatable Price.
-            """, body: "🎧 FLASH SALE - ENDS TONIGHT!\n\nSony WH-1000XM5 Wireless Noise Cancelling Headphones\n\nWas: $399.99\nNOW: $279.99\nYou Save: $120.00 (30%)\n\n✨ Industry-Leading Noise Cancellation\n✨ 30-Hour Battery Life\n✨ Exceptional Call Quality\n✨ Premium Comfort\n\n⏰ HURRY! Sale ends in 6 hours at midnight.\n\nFree shipping on orders over $35.\nPick up in store today at your local Best Buy.\n\nShop Now: bestbuy.com/headphones/sony-wh1000xm5\n\nBest Buy - Expert Service. Unbeatable Price.", htmlBody: nil, metaCTA: "Swipe Right: Claim Deal Now", sender: nil, kid: nil, company: nil, store: "Best Buy", airline: nil, productImageUrl: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400", brandName: "Sony", originalPrice: 399.99, salePrice: 279.99, discount: 30, urgent: true, expiresIn: "6 hours", requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil),
-
-            EmailCard(id: "ds2", type: .ads, state: .unseen, priority: .medium, hpa: "Claim Deal", timeAgo: "3h ago", title: "KitchenAid Stand Mixer", summary: """
-            **Actions:**
-            • Claim deal before sale ends in **2 days**
-            • Shop at williams-sonoma.com/kitchenaid-mixer or pick up curbside
-
-            **Why:**
-            KitchenAid Artisan Series 5-Quart Stand Mixer on sale - save **$170.00 (38% OFF)**
-
-            **Context:**
-            • REG: **$449.99** → SALE: **$279.99**
-            • Perfect for baking season: 10 speeds, includes flat beater/dough hook/wire whip
-            • Available in 20+ colors, dishwasher-safe attachments
-            • Trusted by professional chefs, built to last, compatible with 15+ attachments, Made in Ohio USA
-            • Free shipping or curbside pickup
-            """, body: "The Kitchen Tool You've Been Waiting For\n\nKitchenAid Artisan Series 5-Quart Stand Mixer\n\nREG: $449.99\nSALE: $279.99\nSAVE: $170.00 (38% OFF)\n\n🍰 Perfect for baking season\n🍰 10 speeds for precision mixing\n🍰 Includes flat beater, dough hook, and wire whip\n🍰 Available in 20+ colors\n🍰 Dishwasher-safe attachments\n\nWhy KitchenAid?\n- Trusted by professional chefs\n- Built to last a lifetime\n- Compatible with 15+ attachments\n- Made in Ohio, USA\n\nSale ends in 2 days. Free shipping or pick up curbside.\n\nShop the sale: williams-sonoma.com/kitchenaid-mixer\n\nWilliams Sonoma - Cook with Confidence", htmlBody: nil, metaCTA: "Swipe Right: Claim Deal", sender: nil, kid: nil, company: nil, store: "Williams Sonoma", airline: nil, productImageUrl: "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=400", brandName: "KitchenAid", originalPrice: 449.99, salePrice: 279.99, discount: 38, urgent: false, expiresIn: "2 days", requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil),
-
-            EmailCard(id: "ds3", type: .ads, state: .unseen, priority: .low, hpa: "Browse Sale", timeAgo: "1d ago", title: "Patagonia Jacket Sale", summary: """
-            **Actions:**
-            • Shop spring sale before **March 20th** at rei.com/patagonia-nano-puff
-            • REI Members save extra 10% (join for $30 lifetime membership)
-
-            **Why:**
-            Patagonia Nano Puff Insulated Jacket on sale - **30% OFF** with free shipping on orders $75+
-
-            **Context:**
-            • Original: **$249.00** → Sale: **$174.30**
-            • Lightweight warmth without bulk, water-resistant, 100% recycled polyester
-            • Fair Trade Certified, packs into own pocket
-            • Available in Men's/Women's sizes: Black, Classic Navy, Forge Grey, Smolder Blue
-            • Patagonia Quality Guarantee: Not satisfied? Return it. Gear breaks? We'll fix it.
-            """, body: "Spring Sale - Gear Up for Adventure\n\nPatagonia Nano Puff Insulated Jacket\n\nOriginal: $249.00\nSale Price: $174.30\nDiscount: 30% OFF\n\n❄️ Lightweight warmth without bulk\n❄️ Water-resistant P.U.R.E. coating\n❄️ 100% recycled polyester insulation\n❄️ Fair Trade Certified sewn\n❄️ Packs into its own pocket\n\nAvailable in Men's and Women's sizes\nColors: Black, Classic Navy, Forge Grey, Smolder Blue\n\nPatagonia Quality Guarantee:\nIf you're not satisfied, return it. If our gear breaks, we'll fix it.\n\nSale runs through March 20th\nFree shipping on orders $75+\n\nREI Members save an extra 10%\nNot a member? Join today for $30 lifetime membership.\n\nShop Now: rei.com/patagonia-nano-puff\n\nREI - Where Adventure Begins", htmlBody: nil, metaCTA: "Swipe Right: Browse", sender: nil, kid: nil, company: nil, store: "REI", airline: nil, productImageUrl: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=400", brandName: "Patagonia", originalPrice: 249.00, salePrice: 174.30, discount: 30, urgent: false, expiresIn: "5 days", requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil),
-
-            EmailCard(id: "ds4", type: .ads, state: .unseen, priority: .medium, hpa: "Claim Deal", timeAgo: "4h ago", title: "Apple AirPods Pro", summary: """
+            // PRODUCT 1: Target AirPods Pro (VERIFIED WORKING)
+            EmailCard(id: "ds1", type: .ads, state: .unseen, priority: .high, hpa: "Claim Deal", timeAgo: "1h ago", title: "AirPods Pro (2nd Generation)", summary: """
             **Actions:**
             • Claim deal before it ends in **7 days** or while supplies last
-            • Shop at target.com/airpods-pro-gen2 or pick up today at local Target store
+            • Shop at target.com/p/airpods-pro-2nd-generation/-/A-85978622
 
             **Why:**
-            Apple AirPods Pro (2nd Generation) on sale - save **$50.00**
+            AirPods Pro (2nd Generation) on sale - save **$50.00**
 
             **Context:**
             • Regular: **$249.99** → Target Deal: **$199.99**
-            • What's New in Gen 2: 2x more noise cancellation, touch volume control, extra small ear tips, Find My speaker, IP54 dust & water resistant
-            • Features: Active Noise Cancellation, Adaptive Transparency Mode, Personalized Spatial Audio, 6-hour listening time, MagSafe & wireless charging
-            • Free 2-day shipping with Target RedCard, AppleCare+ available for $29
-            """, body: "Upgrade Your Audio Experience\n\nApple AirPods Pro (2nd Generation)\n\nRegular Price: $249.99\nTarget Deal: $199.99\nYour Savings: $50.00\n\n🎵 Active Noise Cancellation\n🎵 Adaptive Transparency Mode\n🎵 Personalized Spatial Audio\n🎵 Up to 6 hours listening time\n🎵 MagSafe & wireless charging case\n\nWhat's New in Gen 2:\n- 2x more noise cancellation\n- Touch control for volume\n- Extra small ear tips included\n- Find My speaker in case\n- IP54 dust & water resistant\n\nFree 2-day shipping with Target RedCard\nOr pick up today at your local Target store\n\nAppleCare+ available for $29\n\nDeal valid for 7 more days or while supplies last\n\nShop Now: target.com/airpods-pro-gen2\n\nTarget - Expect More. Pay Less.", htmlBody: nil, metaCTA: "Swipe Right: Claim Deal", sender: nil, kid: nil, company: nil, store: "Target", airline: nil, productImageUrl: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400", brandName: "Apple", originalPrice: 249.99, salePrice: 199.99, discount: 20, urgent: false, expiresIn: "7 days", requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil)
+            • Features: Adaptive Audio, Active Noise Cancellation, USB-C charging, Up to 6 hours listening time
+            • Free 2-day shipping with Target RedCard
+            • Target - Expect More. Pay Less.
+            """, body: "🎯 Target Deal Alert\n\nAirPods Pro (2nd Generation)\n\nSpecial Price: $199.99 (Save $50!)\nReg. Price: $249.99\n\n✨ Features:\n- Adaptive Audio\n- Active Noise Cancellation\n- USB-C charging\n- Up to 6 hours listening time\n\n⏰ Limited time offer!\nShop now: https://www.target.com/p/-/A-85978622\n\nFree 2-day shipping with Target RedCard\nOr pick up today at your local Target store\n\nTarget - Expect More. Pay Less.", htmlBody: nil, metaCTA: "Swipe Right: Claim Deal", sender: nil, kid: nil, company: nil, store: "Target", airline: nil, productImageUrl: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400", brandName: "Apple", originalPrice: 249.99, salePrice: 199.99, discount: 20, urgent: false, expiresIn: "7 days", requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil),
+
+            // PRODUCT 2: Amazon Fire TV Stick 4K
+            EmailCard(id: "ds2", type: .ads, state: .unseen, priority: .medium, hpa: "Claim Deal", timeAgo: "2h ago", title: "Fire TV Stick 4K", summary: """
+            **Actions:**
+            • Claim Prime Member Price **$49.99** (Save $10)
+            • Shop at amazon.com/dp/B0BP9SNVH9
+
+            **Why:**
+            Fire TV Stick 4K on Prime Day Early Access - Amazon's own device with stable availability
+
+            **Context:**
+            • Was: **$59.99** → Prime Member Price: **$49.99**
+            • Features: 4K Ultra HD streaming, Wi-Fi 6 support, Alexa Voice Remote, Free with Prime benefits
+            • Stream thousands of channels
+            """, body: "📦 Amazon Prime Day Early Access\n\nFire TV Stick 4K\n\nPrime Member Price: $49.99\nWas: $59.99 💰 SAVE $10\n\n✨ Features:\n- 4K Ultra HD streaming\n- Wi-Fi 6 support\n- Alexa Voice Remote\n- Free with Prime membership benefits\n\n🎬 Stream thousands of channels!\nAdd to cart: https://www.amazon.com/dp/B0BP9SNVH9\n\nAmazon - Work Hard. Have Fun. Make History.", htmlBody: nil, metaCTA: "Swipe Right: Add to Cart", sender: nil, kid: nil, company: nil, store: "Amazon", airline: nil, productImageUrl: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400", brandName: "Amazon", originalPrice: 59.99, salePrice: 49.99, discount: 17, urgent: false, expiresIn: "3 days", requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil),
+
+            // PRODUCT 3: Etsy Personalized Necklace
+            EmailCard(id: "ds3", type: .ads, state: .unseen, priority: .medium, hpa: "Customize", timeAgo: "5h ago", title: "Personalized Name Necklace", summary: """
+            **Actions:**
+            • Customize yours at etsy.com/listing/265284352
+            • Sale ends in **2 days**
+
+            **Why:**
+            Personalized Name Necklace on sale - **22% OFF** from CaitlynMinimalist shop
+
+            **Context:**
+            • Original: **$44.99** → Sale Price: **$34.99**
+            • Custom hand-stamped names, 14k gold filled or sterling silver
+            • 4.9★ rating (127,000+ reviews)
+            • Ships in 1-2 business days
+            • Most gifted item this month
+            """, body: "✨ Etsy Featured Shop - CaitlynMinimalist\n\nPersonalized Name Necklace\n\nSale Price: $34.99 (22% OFF!)\nOriginal: $44.99\n\n💝 Perfect Gift:\n- Custom hand-stamped names\n- 14k gold filled or sterling silver\n- 4.9★ rating (127,000+ reviews)\n- Ships in 1-2 business days\n\n🎁 Most gifted item this month!\nCustomize yours: https://www.etsy.com/listing/265284352\n\nEtsy - Keep Commerce Human", htmlBody: nil, metaCTA: "Swipe Right: Customize", sender: nil, kid: nil, company: nil, store: "Etsy", airline: nil, productImageUrl: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400", brandName: "CaitlynMinimalist", originalPrice: 44.99, salePrice: 34.99, discount: 22, urgent: false, expiresIn: "2 days", requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil),
+
+            // PRODUCT 4: Target Nintendo Switch OLED
+            EmailCard(id: "ds4", type: .ads, state: .unseen, priority: .high, hpa: "Buy Now", timeAgo: "3h ago", title: "Nintendo Switch OLED Model", summary: """
+            **Actions:**
+            • Buy now at target.com/p/nintendo-switch-oled-model-white/-/A-83887445
+            • In stock - limited quantities
+
+            **Why:**
+            Nintendo Switch OLED Model back in stock - limited quantities available
+
+            **Context:**
+            • In Stock: **$349.99**
+            • Features: 7" OLED screen, 64 GB internal storage, Enhanced audio, Includes dock & Joy-Con controllers
+            • Back in stock after high demand
+            """, body: "🎮 Target Gaming Weekly\n\nNintendo Switch OLED Model\n\nIn Stock: $349.99\n\n✨ Features:\n- 7\" OLED screen\n- 64 GB internal storage\n- Enhanced audio\n- Includes dock & Joy-Con controllers\n\n🔥 Back in stock - limited quantities!\nBuy now: https://www.target.com/p/-/A-83887445\n\nFree 2-day shipping with Target RedCard\nOr pick up today at your local Target store\n\nTarget - Expect More. Pay Less.", htmlBody: nil, metaCTA: "Swipe Right: Buy Now", sender: nil, kid: nil, company: nil, store: "Target", airline: nil, productImageUrl: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?w=400", brandName: "Nintendo", originalPrice: 349.99, salePrice: 349.99, discount: 0, urgent: false, expiresIn: nil, requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil),
+
+            // PRODUCT 5: Amazon Echo Dot (5th Gen)
+            EmailCard(id: "ds5", type: .ads, state: .unseen, priority: .low, hpa: "Add to Cart", timeAgo: "8h ago", title: "Echo Dot (5th Gen)", summary: """
+            **Actions:**
+            • Add to cart at amazon.com/dp/B09B8V1LZ3
+            • Prime shipping available
+
+            **Why:**
+            Echo Dot (5th Gen) - Amazon's best-selling smart speaker
+
+            **Context:**
+            • Price: **$49.99**
+            • Features: Improved audio, Alexa built-in, Smart home control, Music streaming
+            • Free Prime shipping
+            """, body: "🔊 Amazon Smart Home Deals\n\nEcho Dot (5th Gen)\n\nPrice: $49.99\n\n✨ Features:\n- Improved audio over previous generation\n- Alexa built-in for voice control\n- Control your smart home devices\n- Stream music from Amazon Music, Spotify, Apple Music, and more\n\n📦 Free Prime shipping!\nAdd to cart: https://www.amazon.com/dp/B09B8V1LZ3\n\nAmazon - Work Hard. Have Fun. Make History.", htmlBody: nil, metaCTA: "Swipe Right: Add to Cart", sender: nil, kid: nil, company: nil, store: "Amazon", airline: nil, productImageUrl: "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?w=400", brandName: "Amazon", originalPrice: 49.99, salePrice: 49.99, discount: 0, urgent: false, expiresIn: nil, requiresSignature: nil, paymentAmount: nil, paymentDescription: nil, value: nil, probability: nil, score: nil)
         ])
 
         // WORK - Billing, Sales, Projects (10 emails)

@@ -164,7 +164,25 @@ class UserPreferencesService: ObservableObject {
     }
     
     func getEffectiveAction(for card: EmailCard) -> String {
-        return customActions[card.id] ?? card.suggestedAction
+        let effectiveAction = customActions[card.id] ?? card.suggestedAction
+
+        // Filter out reply actions for ads/promotional emails (they should not be replied to)
+        if card.type == .ads {
+            let replyActions = ["email_back", "quick_reply", "reply", "respond", "reply_all"]
+            if replyActions.contains(where: { effectiveAction.lowercased().contains($0) }) {
+                // Fallback to an appropriate non-reply action for ads
+                // Priority: shopping actions > viewing actions > dismiss
+                if card.isShoppingEmail == true {
+                    return "claim_deal"  // Shopping emails should claim/view deals
+                } else if card.isNewsletter == true {
+                    return "view_details"  // Newsletters should be viewed
+                } else {
+                    return "view_offer"  // Default promotional action
+                }
+            }
+        }
+
+        return effectiveAction
     }
     
     func getActionLabel(for actionId: String) -> String {

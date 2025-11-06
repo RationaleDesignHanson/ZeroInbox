@@ -86,7 +86,7 @@ gcloud run services update zero-dashboard \
 - **URL:** https://zero-dashboard-514014482017.us-central1.run.app
 
 ### Key Pages
-- **Dashboard:** https://zero-dashboard-514014482017.us-central1.run.app/index.html
+- **Dashboard:** https://zero-dashboard-514014482017.us-central1.run.app/howitworks.html
 - **Design System:** https://zero-dashboard-514014482017.us-central1.run.app/design-system-renderer.html
 - **System Health:** https://zero-dashboard-514014482017.us-central1.run.app/system-health.html
 

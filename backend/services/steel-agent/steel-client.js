@@ -4,9 +4,26 @@
  * Documentation: https://docs.steel.dev
  */
 
-require('dotenv').config({ path: '../../.env' });
+require('dotenv').config();
 const puppeteer = require('puppeteer');
-const logger = require('../../shared/config/logger');
+const winston = require('winston');
+
+// Create logger directly in this file for Cloud Run compatibility
+const logger = winston.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      )
+    })
+  ]
+});
 
 const STEEL_API_KEY = process.env.STEEL_API_KEY;
 const STEEL_API_BASE = 'https://api.steel.dev/v1';

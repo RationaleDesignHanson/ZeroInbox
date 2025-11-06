@@ -152,16 +152,15 @@ struct SimpleCardView: View {
                 .foregroundColor(DesignTokens.Colors.textPrimary)
                 .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
 
-            // Email Summary Text - HIDDEN to avoid duplication with AIPreviewView
-            // Web demo only shows the structured summary in AI Preview section
-            // if !card.summary.isEmpty {
-            //     Text(card.summary)
-            //         .font(.system(size: 15))
-            //         .foregroundColor(Color.white.opacity(0.85))
-            //         .lineSpacing(1.5)
-            //         .fixedSize(horizontal: false, vertical: true)
-            //         .padding(.top, 4)
-            // }
+            // Email Summary Text - Preview text between title and AI analysis (matches web demo)
+            if !card.summary.isEmpty {
+                Text(parseMarkdown(card.summary))
+                    .font(.system(size: 15))
+                    .foregroundColor(Color.white.opacity(0.85))
+                    .lineSpacing(2.0) // Increased from 1.5 for better readability
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 4)
+            }
 
             // Product image (shopping only) - appears after title
             if let imageUrl = card.productImageUrl {
@@ -225,11 +224,11 @@ struct SimpleCardView: View {
             if let salePrice = card.salePrice, let originalPrice = card.originalPrice {
                 HStack(spacing: DesignTokens.Spacing.component) {
                     Text("$\(String(format: "%.0f", salePrice))")
-                        .font(.largeTitle.bold())  // Larger for emphasis (design system: 28px+)
+                        .font(.system(size: 24, weight: .bold))  // 60% of largeTitle (~40px) = 24px
                         .foregroundColor(.white)
 
                     Text("$\(String(format: "%.0f", originalPrice))")
-                        .font(.title2)
+                        .font(.system(size: 17, weight: .regular))  // 60% of title2 (~28px) = 17px
                         .foregroundColor(.white.opacity(0.5))
                         .strikethrough()
 
@@ -333,14 +332,20 @@ struct SimpleCardView: View {
         .padding(.top, 4)  // Reduced from 8 to prevent header crop on dense cards
         .padding(.bottom, DesignTokens.Spacing.section) // Ensure bottom padding
         .frame(width: UIScreen.main.bounds.width - 48)
-        // REMOVED minHeight - let content determine height naturally
+        .frame(maxHeight: UIScreen.main.bounds.height - 180, alignment: .top)
+        // maxHeight prevents overflow past bottom nav (accounts for status bar ~50px + bottom nav ~90px + spacing ~40px)
+        // alignment: .top ensures cards are top-aligned and size to fit content dynamically
         .background(
-            AnimatedGradientBackground(
-                for: card.type,
-                animationSpeed: 25
-            )
+            ZStack {
+                // Rich visual background (nebula for MAIL, scenic for ADS)
+                RichCardBackground(for: card.type, animationSpeed: 30)
+
+                // Ultra-thin liquid glass material overlay (Apple's design guideline)
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .opacity(0.3)
+            }
         )
-        .glassmorphic(opacity: 0.03, cornerRadius: DesignTokens.Radius.card)
         .overlay(shimmerOverlay)
         .overlay(stackOverlay)
         .overlay(classificationFeedbackButton, alignment: .bottomLeading)
@@ -397,6 +402,21 @@ struct SimpleCardView: View {
         // Return nil to allow flexible summary length based on content
         // This allows the AI-generated summaries to show their full structured content
         return nil
+    }
+
+    /// Parse markdown in summary text for rich formatting (bold, italic, links, etc.)
+    private func parseMarkdown(_ text: String) -> AttributedString {
+        do {
+            // Parse markdown with inline-only syntax (no block elements like headers)
+            let options = AttributedString.MarkdownParsingOptions(
+                interpretedSyntax: .inlineOnlyPreservingWhitespace
+            )
+            return try AttributedString(markdown: text, options: options)
+        } catch {
+            // Fallback to plain text if markdown parsing fails
+            Logger.warning("Failed to parse markdown in summary: \(error.localizedDescription)", category: .ui)
+            return AttributedString(text)
+        }
     }
 
     // MARK: - Computed Views
@@ -1076,6 +1096,228 @@ struct SwipeShimmer: View {
                 startPoint = UnitPoint(x: 1.0, y: 0.5)
                 endPoint = UnitPoint(x: 1.5, y: 0.5)
             }
+        }
+    }
+}
+
+// MARK: - Rich Card Background Component
+
+/// Rich card background with visually stunning effects
+/// MAIL: Nebula/galaxy with animated particles and color shifting
+/// ADS: Scenic nature backgrounds (forest, mountains, etc.)
+struct RichCardBackground: View {
+    let cardType: CardType
+    let animationSpeed: Double
+
+    @State private var animationPhase: CGFloat = 0
+    @State private var particleOffsets: [CGSize] = []
+    @State private var particleOpacities: [Double] = []
+
+    init(for cardType: CardType, animationSpeed: Double = 30) {
+        self.cardType = cardType
+        self.animationSpeed = animationSpeed
+    }
+
+    var body: some View {
+        ZStack {
+            switch cardType {
+            case .mail:
+                // Nebula/Galaxy background with animated particles
+                NebulaBackground(
+                    animationPhase: animationPhase,
+                    particleOffsets: $particleOffsets,
+                    particleOpacities: $particleOpacities
+                )
+
+            case .ads:
+                // Scenic nature background (forest/mountain aesthetic)
+                ScenicBackground(animationPhase: animationPhase)
+            }
+        }
+        .onAppear {
+            // Initialize particles for nebula
+            if cardType == .mail {
+                particleOffsets = (0..<40).map { _ in
+                    CGSize(
+                        width: CGFloat.random(in: -150...150),
+                        height: CGFloat.random(in: -200...200)
+                    )
+                }
+                particleOpacities = (0..<40).map { _ in
+                    Double.random(in: 0.1...0.5)
+                }
+            }
+
+            // Start animation
+            withAnimation(
+                .easeInOut(duration: animationSpeed)
+                .repeatForever(autoreverses: true)
+            ) {
+                animationPhase = 1.0
+            }
+        }
+    }
+}
+
+// MARK: - Nebula Background (MAIL)
+
+/// Deep space nebula effect with glowing particles and color shifts
+struct NebulaBackground: View {
+    let animationPhase: CGFloat
+    @Binding var particleOffsets: [CGSize]
+    @Binding var particleOpacities: [Double]
+
+    var body: some View {
+        ZStack {
+            // Deep space base
+            Color.black.opacity(0.9)
+
+            // Nebula clouds - layered gradients with different colors
+            RadialGradient(
+                colors: [
+                    Color(red: 0.2, green: 0.1, blue: 0.4, opacity: 0.6), // Deep purple
+                    Color(red: 0.1, green: 0.15, blue: 0.3, opacity: 0.3), // Dark blue
+                    Color.clear
+                ],
+                center: .init(x: 0.3, y: 0.4),
+                startRadius: 0,
+                endRadius: 300
+            )
+            .scaleEffect(1.0 + animationPhase * 0.1)
+            .blur(radius: 60)
+
+            RadialGradient(
+                colors: [
+                    Color(red: 0.4, green: 0.2, blue: 0.6, opacity: 0.5), // Bright purple
+                    Color(red: 0.2, green: 0.3, blue: 0.7, opacity: 0.3), // Blue-purple
+                    Color.clear
+                ],
+                center: .init(x: 0.7, y: 0.6),
+                startRadius: 0,
+                endRadius: 250
+            )
+            .scaleEffect(1.0 + animationPhase * 0.15)
+            .blur(radius: 50)
+            .offset(x: animationPhase * 20, y: animationPhase * -15)
+
+            RadialGradient(
+                colors: [
+                    Color(red: 0.1, green: 0.4, blue: 0.7, opacity: 0.4), // Cyan-blue
+                    Color.clear
+                ],
+                center: .init(x: 0.5, y: 0.2),
+                startRadius: 0,
+                endRadius: 200
+            )
+            .scaleEffect(1.0 + animationPhase * 0.12)
+            .blur(radius: 40)
+            .offset(x: animationPhase * -15, y: animationPhase * 20)
+
+            // Stars/particles
+            GeometryReader { geometry in
+                ForEach(0..<particleOffsets.count, id: \.self) { i in
+                    Circle()
+                        .fill(Color.white.opacity(particleOpacities.indices.contains(i) ? particleOpacities[i] : 0.3))
+                        .frame(width: CGFloat.random(in: 1...3), height: CGFloat.random(in: 1...3))
+                        .offset(particleOffsets.indices.contains(i) ? particleOffsets[i] : .zero)
+                        .blur(radius: 0.5)
+                }
+            }
+
+            // Glowing nebula highlights
+            RadialGradient(
+                colors: [
+                    Color(red: 0.6, green: 0.3, blue: 0.8, opacity: 0.3), // Bright magenta
+                    Color.clear
+                ],
+                center: .init(x: 0.2, y: 0.7),
+                startRadius: 0,
+                endRadius: 150
+            )
+            .scaleEffect(1.0 + animationPhase * 0.2)
+            .blur(radius: 30)
+            .blendMode(.screen)
+        }
+    }
+}
+
+// MARK: - Scenic Background (ADS)
+
+/// Light galaxy theme for shopping/promotional content
+/// Uses white/blue/orange colors instead of mail's purple/pink for better legibility
+struct ScenicBackground: View {
+    let animationPhase: CGFloat
+
+    var body: some View {
+        ZStack {
+            // Light base (white with subtle blue tint)
+            LinearGradient(
+                colors: [
+                    Color(red: 0.95, green: 0.96, blue: 0.98), // Nearly white with blue tint
+                    Color(red: 0.93, green: 0.95, blue: 0.99), // Very light sky blue
+                    Color(red: 0.94, green: 0.94, blue: 0.97)  // Light neutral blue
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+
+            // Blue nebula clouds
+            RadialGradient(
+                colors: [
+                    Color(red: 0.4, green: 0.6, blue: 0.9, opacity: 0.3), // Bright blue
+                    Color(red: 0.5, green: 0.7, blue: 0.95, opacity: 0.2), // Sky blue
+                    Color.clear
+                ],
+                center: .init(x: 0.3, y: 0.4),
+                startRadius: 0,
+                endRadius: 300
+            )
+            .scaleEffect(1.0 + animationPhase * 0.1)
+            .blur(radius: 60)
+
+            // Orange accent nebula
+            RadialGradient(
+                colors: [
+                    Color(red: 0.95, green: 0.6, blue: 0.3, opacity: 0.25), // Bright orange
+                    Color(red: 0.98, green: 0.7, blue: 0.4, opacity: 0.15), // Light orange
+                    Color.clear
+                ],
+                center: .init(x: 0.7, y: 0.6),
+                startRadius: 0,
+                endRadius: 250
+            )
+            .scaleEffect(1.0 + animationPhase * 0.15)
+            .blur(radius: 50)
+            .offset(x: animationPhase * 20, y: animationPhase * -15)
+
+            // Cyan-blue highlight
+            RadialGradient(
+                colors: [
+                    Color(red: 0.3, green: 0.7, blue: 0.95, opacity: 0.2), // Bright cyan-blue
+                    Color.clear
+                ],
+                center: .init(x: 0.5, y: 0.2),
+                startRadius: 0,
+                endRadius: 200
+            )
+            .scaleEffect(1.0 + animationPhase * 0.12)
+            .blur(radius: 40)
+            .offset(x: animationPhase * -15, y: animationPhase * 20)
+
+            // White glow highlight (shopping accent)
+            RadialGradient(
+                colors: [
+                    Color.white.opacity(0.4),
+                    Color(red: 0.9, green: 0.95, blue: 1.0, opacity: 0.2),
+                    Color.clear
+                ],
+                center: .init(x: 0.2, y: 0.7),
+                startRadius: 0,
+                endRadius: 150
+            )
+            .scaleEffect(1.0 + animationPhase * 0.2)
+            .blur(radius: 30)
+            .blendMode(.screen)
         }
     }
 }

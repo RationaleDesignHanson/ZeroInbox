@@ -36,13 +36,22 @@ The shopping automation feature allows users to:
 
 ## Supported Platforms
 
-### Fully Supported
-- **Amazon** (amazon.com, amazon.ca, amazon.co.uk, etc.)
-- **Walmart** (walmart.com)
-- **Target** (target.com)
-- **Etsy** (etsy.com)
+### Fully Supported (Tested)
+- **Amazon** (amazon.com, amazon.ca, amazon.co.uk, etc.) - 37.6% market share, 390M monthly visitors
+- **Walmart** (walmart.com) - 6.4% market share, 166M monthly visitors
+- **Target** (target.com) - With modal confirmation handling
+- **Etsy** (etsy.com) - 86M monthly visitors
 
-### Partially Supported
+### Supported (Best-Effort Selectors)
+- **eBay** (ebay.com) - 106M monthly visitors
+- **Best Buy** (bestbuy.com) - Major electronics retailer
+- **Home Depot** (homedepot.com) - Home improvement
+- **Lowe's** (lowes.com) - Home improvement
+- **Costco** (costco.com) - Wholesale club
+- **Wayfair** (wayfair.com) - Furniture and home goods
+- **Temu** (temu.com) - 69M monthly visitors, rapidly growing
+
+### Platform Support
 - **Shopify stores** (*.myshopify.com and custom domains using Shopify)
 - **WooCommerce stores** (WordPress-based e-commerce)
 

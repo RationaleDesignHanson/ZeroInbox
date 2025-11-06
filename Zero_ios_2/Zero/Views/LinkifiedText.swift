@@ -54,11 +54,11 @@ struct LinkifiedText: UIViewRepresentable {
         // Set delegate for custom link handling
         textView.delegate = context.coordinator
 
-        // Elegant pill-style links (no underline, subtle background)
+        // Enhanced pill-style links with better visibility
         textView.linkTextAttributes = [
-            .foregroundColor: UIColor(red: 0.578, green: 0.769, blue: 0.992, alpha: 1.0), // #93c5fd
-            .underlineStyle: 0, // No underline
-            .backgroundColor: UIColor(red: 0.578, green: 0.769, blue: 0.992, alpha: 0.15)
+            .foregroundColor: UIColor(red: 0.4, green: 0.7, blue: 1.0, alpha: 1.0), // Brighter, more vibrant blue
+            .underlineStyle: 0, // No underline for cleaner look
+            .backgroundColor: UIColor(red: 0.4, green: 0.7, blue: 1.0, alpha: 0.22) // More visible background
         ]
 
         return textView

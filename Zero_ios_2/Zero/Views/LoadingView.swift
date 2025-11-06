@@ -20,6 +20,9 @@ struct LoadingView: View {
             )
             .ignoresSafeArea(.all, edges: .all)
 
+            // Floating particles matching SplashView
+            FloatingParticles(particleCount: 20, particleSize: 4, speed: 3)
+
             VStack(spacing: 40) {
                 Spacer()
 

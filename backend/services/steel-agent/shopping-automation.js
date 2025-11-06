@@ -14,6 +14,52 @@
 
 const steelClient = require('./steel-client');
 
+// Store active sessions with timeouts for cleanup
+const activeSessions = new Map();
+
+// Session timeout: 30 minutes
+const SESSION_TIMEOUT_MS = 30 * 60 * 1000;
+
+/**
+ * Schedule session cleanup after timeout
+ * @param {string} sessionId - Session ID to clean up
+ */
+function scheduleSessionCleanup(sessionId) {
+  const timeoutId = setTimeout(async () => {
+    try {
+      await steelClient.closeSession(sessionId);
+      activeSessions.delete(sessionId);
+      console.log(`[Shopping Automation] Session ${sessionId} cleaned up after timeout`);
+    } catch (error) {
+      console.warn(`[Shopping Automation] Error cleaning up session ${sessionId}:`, error);
+    }
+  }, SESSION_TIMEOUT_MS);
+
+  activeSessions.set(sessionId, {
+    timeoutId,
+    createdAt: new Date().toISOString()
+  });
+}
+
+/**
+ * Manually close a session before timeout
+ * @param {string} sessionId - Session ID to close
+ */
+async function closeSessionEarly(sessionId) {
+  const sessionData = activeSessions.get(sessionId);
+  if (sessionData) {
+    clearTimeout(sessionData.timeoutId);
+    activeSessions.delete(sessionId);
+  }
+
+  try {
+    await steelClient.closeSession(sessionId);
+    console.log(`[Shopping Automation] Session ${sessionId} closed manually`);
+  } catch (error) {
+    console.warn(`[Shopping Automation] Error closing session ${sessionId}:`, error);
+  }
+}
+
 /**
  * Platform Detection
  * Identifies e-commerce platform from product URL
@@ -23,20 +69,41 @@ const PLATFORMS = {
     name: 'Amazon',
     domains: ['amazon.com', 'amazon.ca', 'amazon.co.uk', 'amazon.de', 'amazon.fr', 'amazon.co.jp'],
     addToCartSelectors: [
+      // Modern Amazon selectors (2024+)
       '#add-to-cart-button',
       '#add-to-basket-button',
       'input[name="submit.add-to-cart"]',
-      'Add to Cart',  // Text fallback
-      'Add to Basket'
+      'button[name="submit.add-to-cart"]',
+      'span[id="submit.add-to-cart"]',
+      // One-click and alternative buttons
+      '#buy-now-button',
+      'input[name="submit.buy-now"]',
+      // Fallback by aria-label
+      'button[aria-label*="Add to Cart"]',
+      'button[aria-label*="Add to Basket"]',
+      'input[aria-label*="Add to Cart"]',
+      // Text-based fallbacks
+      'Add to Cart',
+      'Add to Basket',
+      'Add to Shopping Cart'
     ],
     checkoutSelectors: [
-      'a[href*="/cart"]',
+      // Cart icon in nav
       '#nav-cart',
+      '#nav-cart-count',
+      'a[href="/gp/cart/view.html"]',
+      'a[href*="/cart"]',
       '[data-csa-c-content-id="nav_cart"]',
+      // Proceed to checkout buttons
+      'input[name="proceedToCheckout"]',
+      'button[name="proceedToCheckout"]',
+      'a[href*="/checkout"]',
+      // Text-based
       'Proceed to checkout',
-      'Go to Cart'
+      'Go to Cart',
+      'View Cart'
     ],
-    cartUrl: '/cart'
+    cartUrl: '/gp/cart/view.html'
   },
   SHOPIFY: {
     name: 'Shopify',
@@ -80,16 +147,43 @@ const PLATFORMS = {
     name: 'Target',
     domains: ['target.com'],
     addToCartSelectors: [
-      'button[id^="addToCartButtonOrTextIdFor"]',
-      'button[data-test="orderPickupButton"]',
+      // Priority: Ship It button (adds directly to cart, no modal)
+      'button[data-test="shipItButton"]',
+      'button[data-test="shippingButton"]',
+      'button:has-text("Ship it")',
+      'Ship it',
+      // Legacy direct add to cart buttons
+      'button[id^="addToCartButton"]',
+      'button[id*="addToCart"]',
+      'button[data-test="addToCartButton"]',
       'button[aria-label*="Add to cart"]',
+      'button[aria-label*="add to cart"]',
+      'Add to cart',
+      // Lower priority: Order Pickup (requires modal confirmation)
+      'button[data-test="orderPickupButton"]'
+    ],
+    // Modal confirmation selectors for Order Pickup flow
+    modalConfirmSelectors: [
+      'button[data-test="orderPickupButton"]', // After selecting store
+      'button[data-test="storePickupButton"]',
+      'button[data-test="fulfillmentAddToCartButton"]',
+      'button:has-text("Add to cart")',
       'Add to cart'
     ],
     checkoutSelectors: [
+      // Cart link in header
       'a[data-test="@web/CartLink"]',
+      'a[data-test="cart-link"]',
       'a[href="/cart"]',
-      '[aria-label*="cart"]',
-      'View cart & check out'
+      'a[href*="/cart"]',
+      // Cart icon/count
+      '[data-test="@web/CartIcon"]',
+      'button[aria-label*="cart"]',
+      '[aria-label*="View cart"]',
+      // Text-based
+      'View cart',
+      'View cart & check out',
+      'Go to cart'
     ],
     cartUrl: '/cart'
   },
@@ -107,6 +201,178 @@ const PLATFORMS = {
       '.cart-link',
       '[data-selector="cart-icon"]',
       'Proceed to checkout'
+    ],
+    cartUrl: '/cart'
+  },
+  EBAY: {
+    name: 'eBay',
+    domains: ['ebay.com'],
+    addToCartSelectors: [
+      // Modern eBay selectors
+      'a[data-testid="ux-call-to-action"]',
+      '#atcBtn_btn_1',
+      'button[data-test-id="add-to-cart-button"]',
+      'a.ux-call-to-action',
+      // Legacy selectors
+      'a#atcRedesignId_btn',
+      'button[data-testid="x-atc-action"]',
+      // Text-based
+      'Add to cart',
+      'Add to watchlist' // Some items only have watchlist
+    ],
+    checkoutSelectors: [
+      // Cart icon/link
+      'a[href*="/sh/cart"]',
+      'i.gh-eb-Minicart',
+      '[data-testid="cart-icon"]',
+      '#gh-cart-n',
+      // Text-based
+      'Go to cart',
+      'View in cart'
+    ],
+    cartUrl: '/sh/cart'
+  },
+  BESTBUY: {
+    name: 'Best Buy',
+    domains: ['bestbuy.com'],
+    addToCartSelectors: [
+      // Modern Best Buy selectors
+      'button[data-button-state="ADD_TO_CART"]',
+      'button.add-to-cart-button',
+      'button[data-track="Add to Cart"]',
+      'button.c-button-primary:has-text("Add to Cart")',
+      // Legacy selectors
+      '.add-to-cart-button',
+      'button[type="button"]:has-text("Add to Cart")',
+      // Text-based
+      'Add to Cart'
+    ],
+    checkoutSelectors: [
+      // Cart icon/link
+      'a[href*="/cart"]',
+      'a.c-button-cart',
+      '[aria-label*="Cart"]',
+      'button[aria-label*="Cart"]',
+      // Text-based
+      'Go to cart',
+      'Checkout'
+    ],
+    cartUrl: '/cart'
+  },
+  HOMEDEPOT: {
+    name: 'Home Depot',
+    domains: ['homedepot.com'],
+    addToCartSelectors: [
+      // Modern Home Depot selectors
+      'button[data-testid="add-to-cart"]',
+      'button#add-to-cart',
+      'button.bttn__primary--large',
+      'button[data-automation-id="atc-button"]',
+      // Legacy selectors
+      '.add-to-cart',
+      'button:has-text("Add to Cart")',
+      // Text-based
+      'Add to Cart'
+    ],
+    checkoutSelectors: [
+      // Cart icon/link
+      'a[data-testid="cart-icon"]',
+      'a[href*="/mycart"]',
+      '#headerMyCart',
+      // Text-based
+      'View Cart',
+      'Checkout'
+    ],
+    cartUrl: '/mycart/home'
+  },
+  LOWES: {
+    name: "Lowe's",
+    domains: ['lowes.com'],
+    addToCartSelectors: [
+      // Modern Lowe's selectors
+      'button[aria-label*="Add to Cart"]',
+      'button.btn-primary:has-text("Add to Cart")',
+      '#add-to-cart-btn',
+      'button[data-selector="add-to-cart"]',
+      // Text-based
+      'Add to Cart'
+    ],
+    checkoutSelectors: [
+      // Cart icon/link
+      'a[href*="/cart"]',
+      'a.cart-link',
+      '[aria-label*="Cart"]',
+      // Text-based
+      'View Cart',
+      'Proceed to Checkout'
+    ],
+    cartUrl: '/cart'
+  },
+  COSTCO: {
+    name: 'Costco',
+    domains: ['costco.com'],
+    addToCartSelectors: [
+      // Costco selectors
+      'button#add-to-cart-btn',
+      'input[name="add-to-cart"]',
+      'button.add-to-cart',
+      'button[aria-label*="Add to Cart"]',
+      // Text-based
+      'Add to Cart',
+      'Add'
+    ],
+    checkoutSelectors: [
+      // Cart icon/link
+      'a[href*="/CheckoutCartView"]',
+      '#shopping-cart-link',
+      'a.cart-link',
+      // Text-based
+      'View Cart',
+      'Checkout'
+    ],
+    cartUrl: '/CheckoutCartView'
+  },
+  WAYFAIR: {
+    name: 'Wayfair',
+    domains: ['wayfair.com'],
+    addToCartSelectors: [
+      // Wayfair selectors
+      'button[data-enzyme-id="addToCart"]',
+      'button.Button--primary:has-text("Add to Cart")',
+      '[data-hb-id="AddToCart"]',
+      // Text-based
+      'Add to Cart'
+    ],
+    checkoutSelectors: [
+      // Cart icon/link
+      'a[href*="/v/cart"]',
+      'a[data-hb-id="MiniCartLink"]',
+      '[aria-label*="Cart"]',
+      // Text-based
+      'View Cart',
+      'Checkout'
+    ],
+    cartUrl: '/v/cart'
+  },
+  TEMU: {
+    name: 'Temu',
+    domains: ['temu.com'],
+    addToCartSelectors: [
+      // Temu selectors (app-based, may be challenging)
+      'button[data-testid="beast-core-button-add-to-cart"]',
+      'button:has-text("Add to Cart")',
+      '.add-to-cart-btn',
+      // Text-based
+      'Add to Cart',
+      'Add to Bag'
+    ],
+    checkoutSelectors: [
+      // Cart icon/link
+      'a[href*="/cart"]',
+      '[data-testid="cart-icon"]',
+      // Text-based
+      'View Cart',
+      'Checkout'
     ],
     cartUrl: '/cart'
   },
@@ -180,10 +446,13 @@ function detectPlatform(url) {
  */
 async function automateAddToCart(productUrl, productName, userSessionId) {
   let sessionId = null;
+  let sessionViewerUrl = null;
   const result = {
     success: false,
     checkoutUrl: null,
     cartUrl: null,
+    sessionId: null,
+    sessionViewerUrl: null,
     screenshots: [],
     steps: [],
     error: null
@@ -205,9 +474,13 @@ async function automateAddToCart(productUrl, productName, userSessionId) {
       solveCaptcha: true,
       useProxy: true
     });
-    sessionId = session.id;  // Extract just the session ID
+    sessionId = session.id;
+    sessionViewerUrl = session.viewerUrl || session.liveViewUrl || `https://app.steel.dev/sessions/${sessionId}`;
     console.log(`[Shopping Automation] Session created: ${sessionId}`);
-    result.steps.push({ step: 'create_session', sessionId, success: true });
+    console.log(`[Shopping Automation] Session viewer URL: ${sessionViewerUrl}`);
+    result.sessionId = sessionId;
+    result.sessionViewerUrl = sessionViewerUrl;
+    result.steps.push({ step: 'create_session', sessionId, sessionViewerUrl, success: true });
 
     // Step 3: Navigate to product page
     console.log(`[Shopping Automation] Navigating to product page...`);
@@ -225,36 +498,71 @@ async function automateAddToCart(productUrl, productName, userSessionId) {
 
     // Step 4: Find and click "Add to Cart" button
     console.log('[Shopping Automation] Looking for "Add to Cart" button...');
+    console.log(`[Shopping Automation] Platform: ${platform.name}, trying ${platform.addToCartSelectors.length} selectors`);
     let addToCartSuccess = false;
     let lastError = null;
+    let attemptedSelectors = [];
 
     for (const selector of platform.addToCartSelectors) {
       try {
-        console.log(`[Shopping Automation] Trying selector: ${selector}`);
+        console.log(`[Shopping Automation] [${attemptedSelectors.length + 1}/${platform.addToCartSelectors.length}] Trying selector: ${selector}`);
+        attemptedSelectors.push(selector);
+
         const clickResult = await steelClient.clickElement(sessionId, selector);
 
         if (clickResult && clickResult.success) {
-          console.log('[Shopping Automation] Successfully clicked "Add to Cart"');
+          console.log(`[Shopping Automation] ✅ SUCCESS! Clicked "Add to Cart" using selector: ${selector}`);
           addToCartSuccess = true;
           result.steps.push({
             step: 'click_add_to_cart',
             selector,
-            success: true
+            success: true,
+            attemptedSelectors: attemptedSelectors.length
           });
           break;
+        } else {
+          console.log(`[Shopping Automation] ❌ Selector found but click failed: ${selector}`);
         }
       } catch (error) {
-        console.warn(`[Shopping Automation] Selector failed: ${selector}`, error.message);
+        console.warn(`[Shopping Automation] ❌ Selector not found or error: ${selector} - ${error.message}`);
         lastError = error;
       }
     }
 
     if (!addToCartSuccess) {
-      throw new Error(`Could not find "Add to Cart" button. Last error: ${lastError?.message || 'Unknown'}`);
+      const errorMsg = `Could not find "Add to Cart" button after trying ${attemptedSelectors.length} selectors. Last error: ${lastError?.message || 'Unknown'}`;
+      console.error(`[Shopping Automation] ${errorMsg}`);
+      console.error(`[Shopping Automation] Attempted selectors: ${attemptedSelectors.join(', ')}`);
+      throw new Error(errorMsg);
     }
 
-    // Wait for cart update (2 seconds)
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    // Wait for cart update or modal (3 seconds)
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // Step 4.5: Handle modal confirmations (for Target Order Pickup, etc.)
+    if (platform.modalConfirmSelectors && platform.modalConfirmSelectors.length > 0) {
+      console.log('[Shopping Automation] Checking for modal confirmation dialogs...');
+      for (const modalSelector of platform.modalConfirmSelectors) {
+        try {
+          console.log(`[Shopping Automation] Looking for modal button: ${modalSelector}`);
+          const modalClickResult = await steelClient.clickElement(sessionId, modalSelector);
+          if (modalClickResult && modalClickResult.success) {
+            console.log(`[Shopping Automation] ✅ Clicked modal confirmation: ${modalSelector}`);
+            result.steps.push({
+              step: 'click_modal_confirm',
+              selector: modalSelector,
+              success: true
+            });
+            // Wait for modal action to complete
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            break;
+          }
+        } catch (error) {
+          // Modal not found, continue
+          console.log(`[Shopping Automation] No modal found for: ${modalSelector}`);
+        }
+      }
+    }
 
     // Take screenshot after adding to cart
     const cartAddedScreenshot = await steelClient.takeScreenshot(sessionId);
@@ -265,27 +573,39 @@ async function automateAddToCart(productUrl, productName, userSessionId) {
     });
 
     // Step 5: Find and click checkout/cart button
-    console.log('[Shopping Automation] Looking for checkout button...');
+    console.log('[Shopping Automation] Looking for checkout/cart button...');
+    console.log(`[Shopping Automation] Trying ${platform.checkoutSelectors.length} checkout selectors`);
     let checkoutSuccess = false;
+    let attemptedCheckoutSelectors = [];
 
     for (const selector of platform.checkoutSelectors) {
       try {
-        console.log(`[Shopping Automation] Trying selector: ${selector}`);
+        console.log(`[Shopping Automation] [${attemptedCheckoutSelectors.length + 1}/${platform.checkoutSelectors.length}] Trying selector: ${selector}`);
+        attemptedCheckoutSelectors.push(selector);
+
         const clickResult = await steelClient.clickElement(sessionId, selector);
 
         if (clickResult && clickResult.success) {
-          console.log('[Shopping Automation] Successfully clicked checkout button');
+          console.log(`[Shopping Automation] ✅ SUCCESS! Clicked checkout button using selector: ${selector}`);
           checkoutSuccess = true;
           result.steps.push({
             step: 'click_checkout',
             selector,
-            success: true
+            success: true,
+            attemptedSelectors: attemptedCheckoutSelectors.length
           });
           break;
+        } else {
+          console.log(`[Shopping Automation] ❌ Selector found but click failed: ${selector}`);
         }
       } catch (error) {
-        console.warn(`[Shopping Automation] Selector failed: ${selector}`, error.message);
+        console.warn(`[Shopping Automation] ❌ Checkout selector not found or error: ${selector} - ${error.message}`);
       }
+    }
+
+    if (!checkoutSuccess) {
+      console.warn(`[Shopping Automation] ⚠️ Could not click checkout after ${attemptedCheckoutSelectors.length} attempts`);
+      console.warn(`[Shopping Automation] Will try to navigate to cart URL directly`);
     }
 
     // Wait for navigation (2 seconds)
@@ -307,14 +627,26 @@ async function automateAddToCart(productUrl, productName, userSessionId) {
     const urlObj = new URL(productUrl);
     const baseUrl = `${urlObj.protocol}//${urlObj.hostname}`;
 
-    if (checkoutSuccess || finalUrl.includes('checkout') || finalUrl.includes('cart')) {
+    // Success if:
+    // 1. We clicked checkout/cart button successfully
+    // 2. URL contains 'checkout' or 'cart'
+    // 3. We added to cart successfully (even if still on product page)
+    if (checkoutSuccess || finalUrl.includes('checkout') || finalUrl.includes('cart') || addToCartSuccess) {
       result.success = true;
-      result.checkoutUrl = finalUrl;
-      result.cartUrl = finalUrl.includes('cart') ? finalUrl : `${baseUrl}${platform.cartUrl}`;
+      // If URL is cart/checkout, use it. Otherwise construct cart URL
+      if (finalUrl.includes('cart') || finalUrl.includes('checkout')) {
+        result.checkoutUrl = finalUrl;
+        result.cartUrl = finalUrl;
+      } else {
+        // Still on product page but item was added - link to cart
+        result.cartUrl = `${baseUrl}${platform.cartUrl}`;
+        result.checkoutUrl = result.cartUrl;
+      }
       result.steps.push({
         step: 'complete',
         success: true,
-        finalUrl
+        finalUrl,
+        note: finalUrl.includes('cart') ? 'Navigated to cart' : 'Item added to cart successfully'
       });
     } else {
       // Fallback: construct cart URL
@@ -353,16 +685,22 @@ async function automateAddToCart(productUrl, productName, userSessionId) {
         console.warn('[Shopping Automation] Could not capture error screenshot:', screenshotError);
       }
     }
-  } finally {
-    // Clean up Steel session
+
+    // If automation failed, close session immediately instead of keeping it alive
     if (sessionId) {
       try {
         await steelClient.closeSession(sessionId);
-        console.log('[Shopping Automation] Steel session closed');
+        console.log('[Shopping Automation] Steel session closed due to error');
       } catch (closeError) {
         console.warn('[Shopping Automation] Error closing session:', closeError);
       }
     }
+  }
+
+  // Schedule session cleanup after timeout (only if automation succeeded)
+  if (result.success && sessionId) {
+    scheduleSessionCleanup(sessionId);
+    console.log(`[Shopping Automation] Session ${sessionId} will be cleaned up in ${SESSION_TIMEOUT_MS / 60000} minutes`);
   }
 
   return result;
@@ -387,5 +725,6 @@ function getPlatformInfo(url) {
 module.exports = {
   automateAddToCart,
   getPlatformInfo,
+  closeSessionEarly,
   PLATFORMS
 };

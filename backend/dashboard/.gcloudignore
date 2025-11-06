@@ -1,0 +1,55 @@
+# This file specifies files that are *not* uploaded to Google Cloud
+# using gcloud. It follows the same syntax as .gitignore.
+#
+# IMPORTANT: This file is configured to ensure the data/ directory
+# and comprehensive-corpus.json are included in deployments.
+
+# Exclude backup files
+*.backup
+*.bak
+*.bak2
+*.html.backup
+*.html.bak
+*.js.backup
+
+# Exclude development/debugging files
+.deployment-cheatsheet
+SESSION_SUMMARY.md
+MODAL_COVERAGE_ANALYSIS.md
+
+# Exclude node_modules (npm install runs in Dockerfile)
+node_modules/
+.npm/
+
+# Exclude git files
+.git/
+.gitignore
+.github/
+
+# Exclude IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Exclude logs
+*.log
+npm-debug.log*
+
+# Exclude temporary files
+temp_corpus.json
+url-health-results.json
+
+# EXPLICITLY INCLUDE CRITICAL FILES
+# These lines ensure data directory is deployed
+!data/
+!data/comprehensive-corpus.json
+
+# EXPLICITLY INCLUDE DEPLOYMENT FILES
+!Dockerfile
+!serve.js
+!package.json
+!package-lock.json
+!auth-middleware.js
+!auth-routes.js

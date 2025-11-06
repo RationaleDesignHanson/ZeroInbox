@@ -181,20 +181,22 @@ struct MapLocation: Identifiable {
     let name: String
 }
 
-#Preview {
-    VStack {
-        MapPreviewView(
-            locationName: "CVS Pharmacy",
-            address: "123 Main Street, San Francisco, CA 94102",
-            height: 220
+struct MapPreviewView_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            MapPreviewView(
+                locationName: "CVS Pharmacy",
+                address: "123 Main Street, San Francisco, CA 94102",
+                height: 220
+            )
+            .padding()
+        }
+        .background(
+            LinearGradient(
+                gradient: Gradient(colors: [Color(hex: "#1a1a2e"), Color(hex: "#16213e")]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
         )
-        .padding()
     }
-    .background(
-        LinearGradient(
-            gradient: Gradient(colors: [Color(hex: "#1a1a2e"), Color(hex: "#16213e")]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    )
 }

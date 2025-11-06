@@ -121,13 +121,13 @@ class ActionRouter: ObservableObject {
     
     /**
      * Execute action with placeholders (when original validation failed)
-     * Shows user feedback that placeholder data is being used
+     * Shows user feedback that simulation/sample data is being used
      */
     private func executeWithPlaceholders(_ action: EmailAction, card: EmailCard, from viewController: UIViewController?) {
-        Logger.info("Executing action '\(action.actionId)' with placeholder data", category: .action)
+        Logger.info("Executing action '\(action.actionId)' with simulated data", category: .action)
 
-        // Show user that we're using placeholder/sample data
-        showError("Using sample data for '\(action.displayName)'")
+        // Show user that we're providing a simulated experience
+        showError("Showing simulation for '\(action.displayName)' (using sample data)")
 
         // Execute normally - placeholders are already applied to context
         switch action.actionType {
@@ -147,10 +147,12 @@ class ActionRouter: ObservableObject {
             return
         }
 
-        guard let context = action.context else {
-            showError("Unable to complete action - missing information")
-            Logger.warning("No context provided for GO_TO action: \(action.actionId)", category: .action)
-            return
+        // Get context or use empty dict (placeholders will fill in missing data)
+        let context = action.context ?? [:]
+
+        // If no context provided, log warning but continue with placeholder fallback
+        if action.context == nil {
+            Logger.warning("⚠️ No context provided for GO_TO action: \(action.actionId) - Will use simulation", category: .action)
         }
 
         var urlString: String?
@@ -305,28 +307,34 @@ class ActionRouter: ObservableObject {
         if let urlString = urlString, let url = URL(string: urlString) {
             openURL(url, from: viewController)
         } else {
-            // Use ActionPlaceholders when URL is missing
-            Logger.warning("⚠️ MISSING URL CONTEXT for action: \(action.actionId) - Using placeholder URL", category: .action)
+            // Use ActionPlaceholders when URL is missing - ALWAYS provide fallback simulation
+            Logger.warning("⚠️ MISSING URL CONTEXT for action: \(action.actionId) - Using simulated experience", category: .action)
             Logger.info("Context keys available: \(context.keys.joined(separator: ", "))", category: .action)
 
             let placeholderUrl = ActionPlaceholders.getPlaceholderURL(for: action.actionId)
 
+            // Force unwrap URL creation - ActionPlaceholders guarantees valid URL strings
+            // If URL creation fails, use absolute fallback
             if let url = URL(string: placeholderUrl) {
-                Logger.info("📦 Using placeholder URL for \(action.actionId): \(placeholderUrl)", category: .action)
+                Logger.info("✅ Using simulated experience for \(action.actionId): \(placeholderUrl)", category: .action)
 
-                // Analytics: Track placeholder usage
-                AnalyticsService.shared.log("action_used_placeholder", properties: [
+                // Analytics: Track simulation usage
+                AnalyticsService.shared.log("action_simulated", properties: [
                     "action_id": action.actionId,
                     "action_display_name": action.displayName,
                     "placeholder_url": placeholderUrl,
                     "missing_url": true
                 ])
 
-                showError("Using sample data for '\(action.displayName)'")
+                showError("Showing simulation for '\(action.displayName)' (using sample data)")
                 openURL(url, from: viewController)
             } else {
-                Logger.error("❌ Failed to generate placeholder URL for \(action.actionId)", category: .action)
-                showError("Unable to open link for \(action.displayName)")
+                // Final fallback: Use generic example.com if URL parsing fails (should never happen)
+                Logger.warning("⚠️ URL parsing failed for placeholder, using generic simulation", category: .action)
+                let genericUrl = URL(string: "https://example.com/simulation/\(action.actionId.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? "action")")!
+
+                showError("Showing simulation for '\(action.displayName)' (sample experience)")
+                openURL(genericUrl, from: viewController)
             }
         }
     }

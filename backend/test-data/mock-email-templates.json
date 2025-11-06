@@ -1,11 +1,12 @@
 {
-  "description": "Comprehensive mock email template library for testing intent classification, action routing, and compound flows - Phase 2 Task 2.2",
-  "version": "2.0.0",
-  "totalTemplates": 55,
+  "description": "Comprehensive mock email template library for testing intent classification, action routing, and compound flows - Phase 2 Task 2.2 + Thread Finder templates",
+  "version": "2.1.0",
+  "totalTemplates": 63,
   "coverage": {
     "intentCategories": 15,
-    "compoundActions": 9,
-    "edgeCases": 5
+    "compoundActions": 11,
+    "edgeCases": 5,
+    "threadFinderTemplates": 8
   },
   "templates": {
     "ecommerce_shipping_01": {
@@ -601,6 +602,94 @@
       "secondaryIntent": "account.security.alert",
       "expectedPrimaryAction": "track_package",
       "confidence": 0.72
+    },
+    "canvas_link_only_01": {
+      "id": "canvas_link_only_01",
+      "subject": "Canvas Notification",
+      "from": "River Vale Public Schools <notifications@instructure.com>",
+      "body": "View in Canvas: https://pascack.instructure.com/courses/11077/assignments/607384",
+      "expectedIntent": "education.lms.link-only",
+      "expectedPrimaryAction": "view_extracted_content",
+      "expectedEntities": ["link", "platform", "teacher", "course", "extractedContent"],
+      "confidence": 0.92,
+      "compoundAction": "extract_download_and_calendar"
+    },
+    "canvas_link_only_02": {
+      "id": "canvas_link_only_02",
+      "subject": "Assignment Due Date Changed",
+      "from": "Instructure Canvas <notifications@instructure.com>",
+      "body": "Assignment Due Date Changed: \"Community\" reflection, CP English II (Slockett/ Chakansky 2025-26)\n\ndue: Oct 17 at 11:59pm\n\nhttps://pascack.instructure.com/courses/11285/assignments/607249\n\nYou can change your notification settings by visiting the following page:\nhttps://pascack.instructure.com/profile/communication",
+      "expectedIntent": "education.lms.link-only",
+      "expectedPrimaryAction": "view_extracted_content",
+      "expectedEntities": ["link", "platform", "course", "extractedContent"],
+      "confidence": 0.90,
+      "compoundAction": "extract_download_and_calendar"
+    },
+    "canvas_link_only_with_attachment": {
+      "id": "canvas_link_only_with_attachment",
+      "subject": "New Assignment Posted - Math Worksheet",
+      "from": "Canvas Notifications <notifications@instructure.com>",
+      "body": "A new assignment has been posted in Math 101.\n\nTitle: Chapter 5 Practice Problems\nDue: November 10, 2025 at 11:59 PM\n\nView assignment details and download worksheet:\nhttps://rivervaleschools.instructure.com/courses/6790/assignments/249702",
+      "expectedIntent": "education.lms.link-only",
+      "expectedPrimaryAction": "view_extracted_content",
+      "expectedEntities": ["link", "platform", "course", "extractedContent"],
+      "confidence": 0.94,
+      "compoundAction": "extract_download_and_calendar"
+    },
+    "google_classroom_link_only": {
+      "id": "google_classroom_link_only",
+      "subject": "New assignment posted in Math",
+      "from": "Google Classroom <classroom-noreply@google.com>",
+      "body": "Your teacher posted a new assignment: Math Homework Chapter 3\n\nView in Google Classroom:\nhttps://classroom.google.com/c/MTIzNDU2Nzg5MDEy/a/MTIzNDU2Nzg5MDEy\n\nDue: Nov 10, 2025 at 11:59 PM\n\nDon't reply to this email. To respond, view this assignment in Google Classroom.",
+      "expectedIntent": "education.lms.link-only",
+      "expectedPrimaryAction": "view_extracted_content",
+      "expectedEntities": ["link", "platform", "teacher", "course", "extractedContent"],
+      "confidence": 0.91,
+      "compoundAction": "extract_view_and_calendar"
+    },
+    "google_classroom_link_only_02": {
+      "id": "google_classroom_link_only_02",
+      "subject": "Mrs. Smith posted a new announcement",
+      "from": "Google Classroom <classroom-noreply@google.com>",
+      "body": "Mrs. Smith posted in Science Class:\n\n\"Reminder: Lab report due Friday. Check the assignment for details.\"\n\nView in Classroom: https://classroom.google.com/c/98765/p/12345\n\nThis is an automated message from Google Classroom.",
+      "expectedIntent": "education.lms.link-only",
+      "expectedPrimaryAction": "view_extracted_content",
+      "expectedEntities": ["link", "platform", "teacher", "course", "extractedContent"],
+      "confidence": 0.88,
+      "compoundAction": "extract_view_and_calendar"
+    },
+    "sportsengine_link_only": {
+      "id": "sportsengine_link_only",
+      "subject": "Game Schedule Update - River Vale Raiders",
+      "from": "River Vale Raiders <no-reply@mailer.sportsengine.com>",
+      "body": "Your team has an upcoming game:\n\nSaturday, November 9, 2025\nKickoff: 10:00 AM\nLocation: River Vale Field #3\nOpponent: Westwood Warriors\n\nView full schedule and game details:\nhttps://www.sportsengine.com/team_page/12345/schedule\n\nGo Raiders!",
+      "expectedIntent": "youth.sports.link-only",
+      "expectedPrimaryAction": "view_extracted_content",
+      "expectedEntities": ["link", "sport", "team", "extractedContent"],
+      "confidence": 0.89,
+      "compoundAction": "extract_view_and_calendar"
+    },
+    "sportsengine_practice_link_only": {
+      "id": "sportsengine_practice_link_only",
+      "subject": "Practice Schedule - This Week",
+      "from": "Youth Soccer League <notifications@sportsengine.com>",
+      "body": "Practice schedule for this week:\n\nTuesday & Thursday at 5:30 PM\nWilson Park - Field 2\n\nFor full calendar and updates, visit:\nhttps://www.sportsengine.com/team_page/67890/calendar\n\nQuestions? Contact Coach Miller.",
+      "expectedIntent": "youth.sports.link-only",
+      "expectedPrimaryAction": "view_extracted_content",
+      "expectedEntities": ["link", "sport", "team", "extractedContent"],
+      "confidence": 0.87,
+      "compoundAction": "extract_view_and_calendar"
+    },
+    "teamsnap_link_only": {
+      "id": "teamsnap_link_only",
+      "subject": "Game availability - Please respond",
+      "from": "TeamSnap <noreply@teamsnap.com>",
+      "body": "Coach has requested your availability for the upcoming game:\n\nSaturday, Nov 16 at 9:00 AM vs. Blue Thunder\n\nPlease respond by Thursday:\nhttps://www.teamsnap.com/teams/12345/availability/67890\n\nThanks,\nTeamSnap",
+      "expectedIntent": "youth.sports.link-only",
+      "expectedPrimaryAction": "view_extracted_content",
+      "expectedEntities": ["link", "sport", "team", "extractedContent"],
+      "confidence": 0.86,
+      "compoundAction": "extract_view_and_calendar"
     }
   }
 }

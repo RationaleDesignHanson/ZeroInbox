@@ -27,25 +27,30 @@ struct StructuredSummaryView: View {
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
             } else {
-                // Group Why and Context into single box, show other sections separately
+                // Display order matches web demo: Actions → Why → Context
+                let actionsSection = sections.first { $0.title == "Actions" }
                 let whySection = sections.first { $0.title == "Why" }
                 let contextSection = sections.first { $0.title == "Context" }
-                let otherSections = sections.filter { $0.title != "Why" && $0.title != "Context" }
+                let otherSections = sections.filter { $0.title != "Actions" && $0.title != "Why" && $0.title != "Context" }
 
-                // Combined Why + Context box (if both exist)
-                if let why = whySection, let context = contextSection {
-                    CombinedInfoCard(whySection: why, contextSection: context, lineLimit: intelligentLineLimit)
-                } else if let why = whySection {
-                    // Only Why exists
-                    InfoCard(content: why.content, lineLimit: intelligentLineLimit)
-                } else if let context = contextSection {
-                    // Only Context exists
-                    InfoCard(content: context.content, lineLimit: intelligentLineLimit)
+                // 1. Actions section (shown first, most prominent)
+                if let actions = actionsSection {
+                    SectionCard(section: actions, lineLimit: intelligentLineLimit, isActions: true)
                 }
 
-                // Other sections (Actions, etc.)
+                // 2. Why section (second, explains importance)
+                if let why = whySection {
+                    InfoCard(content: why.content, lineLimit: intelligentLineLimit, opacity: 0.80, isItalic: true)
+                }
+
+                // 3. Context section (third, additional details)
+                if let context = contextSection {
+                    InfoCard(content: context.content, lineLimit: intelligentLineLimit, opacity: 0.70, isItalic: false)
+                }
+
+                // 4. Any other sections (rare, shown last)
                 ForEach(otherSections) { section in
-                    SectionCard(section: section, lineLimit: intelligentLineLimit)
+                    SectionCard(section: section, lineLimit: intelligentLineLimit, isActions: false)
                 }
             }
         }
@@ -64,45 +69,19 @@ struct StructuredSummaryView: View {
     }
 }
 
-// MARK: - Combined Info Card (Why + Context)
-
-private struct CombinedInfoCard: View {
-    let whySection: SummarySection
-    let contextSection: SummarySection
-    let lineLimit: Int?
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            // Why content (no label, no background)
-            Text((try? AttributedString(markdown: whySection.content)) ?? AttributedString(whySection.content))
-                .font(DesignTokens.Typography.cardSummary)
-                .foregroundColor(.white.opacity(0.85))
-                .lineSpacing(5)
-                .lineLimit(lineLimit)
-                .textSelection(.enabled)
-
-            // Context content (no label, no background, spaced below)
-            Text((try? AttributedString(markdown: contextSection.content)) ?? AttributedString(contextSection.content))
-                .font(DesignTokens.Typography.cardSummary)
-                .foregroundColor(.white.opacity(0.85))
-                .lineSpacing(5)
-                .lineLimit(lineLimit)
-                .textSelection(.enabled)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
-
-// MARK: - Single Info Card (Why or Context only)
+// MARK: - Single Info Card (Why or Context)
 
 private struct InfoCard: View {
     let content: String
     let lineLimit: Int?
+    var opacity: Double = 0.85
+    var isItalic: Bool = false
 
     var body: some View {
         Text((try? AttributedString(markdown: content)) ?? AttributedString(content))
-            .font(DesignTokens.Typography.cardSummary)
-            .foregroundColor(.white.opacity(0.85))
+            .font(.system(size: opacity > 0.75 ? 14 : 13))  // 14px for Why, 13px for Context
+            .foregroundColor(.white.opacity(opacity))
+            .italic(isItalic)
             .lineSpacing(5)
             .lineLimit(lineLimit)
             .textSelection(.enabled)
@@ -115,11 +94,12 @@ private struct InfoCard: View {
 private struct SectionCard: View {
     let section: SummarySection
     let lineLimit: Int?
+    var isActions: Bool = false
 
     var body: some View {
-        // Vertical layout for sections like Actions - no background box
-        VStack(alignment: .leading, spacing: 8) {
-            // Section header
+        // Vertical layout for sections like Actions
+        VStack(alignment: .leading, spacing: isActions ? 8 : 6) {
+            // Section header (only for Actions and other sections, not Why/Context)
             HStack(spacing: 6) {
                 Text(section.title.uppercased())
                     .font(DesignTokens.Typography.cardSectionHeader)
@@ -128,9 +108,11 @@ private struct SectionCard: View {
             }
 
             // Section content with markdown rendering
+            // Actions: 15px, white (100% opacity), matches web demo
+            // Other sections: 14px, 85% opacity
             Text((try? AttributedString(markdown: section.content)) ?? AttributedString(section.content))
-                .font(DesignTokens.Typography.cardSummary)
-                .foregroundColor(.white.opacity(0.85))
+                .font(.system(size: isActions ? 15 : 14))
+                .foregroundColor(.white.opacity(isActions ? 1.0 : 0.85))
                 .lineSpacing(5)
                 .lineLimit(lineLimit)
                 .textSelection(.enabled)

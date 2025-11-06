@@ -88,18 +88,43 @@ class ShoppingAutomationService {
                 let result = try JSONDecoder().decode(ShoppingAutomationResponse.self, from: data)
 
                 if result.success {
-                    // Success! Return checkout URL
-                    Logger.info("✅ Shopping automation succeeded: \(result.checkoutUrl ?? "unknown")", category: .action)
+                    // Success! Use sessionViewerUrl to show actual browser session with item in cart
+                    let finalUrl = result.sessionViewerUrl ?? result.checkoutUrl ?? result.cartUrl ?? productUrl
+                    Logger.info("✅ Shopping automation succeeded: \(finalUrl)", category: .action)
 
                     let automationResult = ShoppingAutomationResult(
                         success: true,
-                        checkoutUrl: result.checkoutUrl ?? result.cartUrl ?? productUrl,
+                        checkoutUrl: finalUrl,
                         productUrl: productUrl,
                         productName: productName,
                         fallbackMode: false,
                         message: result.message,
                         steps: result.steps
                     )
+
+                    // Sync with Zero's internal shopping cart
+                    Task {
+                        do {
+                            _ = try await ShoppingCartService.shared.addToCart(
+                                userId: "user-123", // TODO: Replace with actual user ID
+                                emailId: nil,
+                                productUrl: productUrl,
+                                productName: productName,
+                                productImage: nil,
+                                price: 0.0, // TODO: Extract actual price from automation result
+                                originalPrice: nil,
+                                quantity: 1,
+                                merchant: result.steps?.first?.platform,
+                                sku: nil,
+                                category: nil,
+                                expiresAt: nil
+                            )
+                            Logger.info("✅ Product synced to Zero cart: \(productName)", category: .shopping)
+                        } catch {
+                            Logger.error("Failed to sync product to Zero cart: \(error.localizedDescription)", category: .shopping)
+                            // Don't fail the automation if cart sync fails
+                        }
+                    }
 
                     completion(.success(automationResult))
                 } else {
@@ -199,6 +224,7 @@ struct ShoppingAutomationResponse: Codable {
     let success: Bool
     let checkoutUrl: String?
     let cartUrl: String?
+    let sessionViewerUrl: String?  // Steel viewer URL with browser session
     let productUrl: String?
     let productName: String?
     let message: String?

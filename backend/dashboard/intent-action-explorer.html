@@ -36,7 +36,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
             min-height: 100vh;
-            padding: 80px 20px 40px 20px;
+            padding: 110px 20px 40px 20px;
             color: #fff;
         }
 
@@ -1959,6 +1959,208 @@
             }
         }
 
+        /* Navigation Bar - Below Beta Banner */
+        .main-nav {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.92);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            z-index: 9998;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            padding: 8px 0;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            background: rgba(139, 92, 246, 0.2);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+            color: white;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 10000;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(139, 92, 246, 0.9));
+            border: none;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Mobile Drawer */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(45, 27, 78, 0.98));
+            backdrop-filter: blur(20px);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10001;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 80px 20px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-drawer.open {
+            right: 0;
+        }
+
+        .mobile-drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .mobile-drawer-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .mobile-drawer-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            padding: 16px 20px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: translateX(4px);
+        }
+
+        .mobile-nav-link.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        /* Mobile Backdrop */
+        .mobile-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-backdrop.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 120px;
+            }
+
+            .beta-banner {
+                padding: 10px 16px;
+            }
+
+            .beta-banner-actions {
+                width: 100%;
+            }
+
+            .beta-banner-btn {
+                flex: 1;
+                text-align: center;
+            }
+
+            .main-nav {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1980,12 +2182,51 @@
         </div>
     </div>
 
+    <!-- Main Navigation (Desktop) -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="landing.html" class="nav-link">Home</a></li>
+                <li><a href="app-demo.html" class="nav-link">Live Demo</a></li>
+                <li><a href="zero-sequence-live.html" class="nav-link">AI Intelligence</a></li>
+                <li><a href="action-modal-explorer.html" class="nav-link">Actions</a></li>
+                <li><a href="intent-action-explorer.html" class="nav-link active">Intents</a></li>
+                <li><a href="shopping-cart.html" class="nav-link">Shopping</a></li>
+                <li><a href="architecture-visual.html" class="nav-link">System Architecture</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu">
+        ☰
+    </button>
+
+    <!-- Mobile Backdrop -->
+    <div class="mobile-backdrop" id="mobileBackdrop" onclick="closeMobileMenu()"></div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="mobile-drawer-header">
+            <span class="mobile-drawer-title">Navigation</span>
+            <button class="mobile-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="landing.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="app-demo.html" class="mobile-nav-link">Live Demo</a></li>
+            <li><a href="zero-sequence-live.html" class="mobile-nav-link">AI Intelligence</a></li>
+            <li><a href="action-modal-explorer.html" class="mobile-nav-link">Actions</a></li>
+            <li><a href="intent-action-explorer.html" class="mobile-nav-link active">Intents</a></li>
+            <li><a href="shopping-cart.html" class="mobile-nav-link">Shopping</a></li>
+            <li><a href="architecture-visual.html" class="mobile-nav-link">System Architecture</a></li>
+        </ul>
+    </div>
 
     <div class="container">
         <!-- Header -->
         <div class="header">
             <div class="header-nav">
-                <a href="index.html" class="btn">Home</a>
+                <a href="landing.html" class="btn">Home</a>
             </div>
             <h1>Intent Categories</h1>
             <p>Interactive Intent-Action Auditor | Select any intent to view its complete zero sequence with all actions and metadata</p>
@@ -3426,7 +3667,7 @@
 
                 // Load corpus data (optional)
                 try {
-                    const response = await fetch('./data/comprehensive-corpus.json');
+                    const response = await fetch('/data/comprehensive-corpus.json');
                     corpusData = await response.json();
                     console.log(`Loaded ${corpusData.length} corpus emails`);
 
@@ -3450,7 +3691,20 @@
 
             } catch (error) {
                 console.error('Error loading data from API:', error);
-                alert(`Failed to load intent data from API: ${error.message}\n\nPlease ensure the classifier service is running on port 8082.`);
+
+                // Build detailed error message
+                const errorDetails = `
+                    <div style="margin-bottom: 12px;"><strong>Error:</strong> ${error.message}</div>
+                    <div style="margin-bottom: 12px;"><strong>Environment:</strong> ${DashboardConfig.environment} mode</div>
+                    <div style="margin-bottom: 12px;">This page requires the following localhost services:</div>
+                    <ul style="margin: 0 0 12px 20px; line-height: 1.8;">
+                        <li><code style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 3px;">Classifier</code> on port <strong>8082</strong></li>
+                        <li><code style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 3px;">Actions</code> on port <strong>8089</strong></li>
+                    </ul>
+                    <div style="font-size: 13px; margin-top: 12px; opacity: 0.9;">Check services: <code style="background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 3px;">lsof -ti:8082 8089</code></div>
+                `;
+
+                showErrorMessage(errorDetails, () => location.reload());
             }
         }
 
@@ -3737,8 +3991,10 @@
 
         // Load corpus emails
         async function loadCorpusEmails() {
+            const loadingIndicator = showLoadingIndicator('Loading intent data...');
+
             try {
-                const response = await fetch('data/comprehensive-corpus.json');
+                const response = await fetch('/data/comprehensive-corpus.json');
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -3756,11 +4012,121 @@
                 console.log('✅ Loaded corpus emails:', corpusEmails.length, 'total emails');
                 console.log('✅ Grouped into', Object.keys(emailsByIntent).length, 'intents');
                 console.log('✅ Intents:', Object.keys(emailsByIntent).slice(0, 5).join(', '), '...');
+                hideLoadingIndicator(loadingIndicator);
             } catch (error) {
                 console.error('❌ Error loading corpus emails:', error);
                 // Initialize empty so dropdown still works
                 emailsByIntent = {};
+                hideLoadingIndicator(loadingIndicator);
+                showErrorMessage(
+                    'Failed to load corpus data (comprehensive-corpus.json). Email examples and intent categories may not display correctly. This file should be available in the /data directory.',
+                    () => location.reload()
+                );
             }
+        }
+
+        // Show loading indicator
+        function showLoadingIndicator(message) {
+            const indicator = document.createElement('div');
+            indicator.id = 'loading-indicator';
+            indicator.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(59, 130, 246, 0.95);
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 600;
+                box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                backdrop-filter: blur(10px);
+            `;
+            indicator.innerHTML = `
+                <div style="width: 20px; height: 20px; border: 3px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+                <span>${message}</span>
+                <style>
+                    @keyframes spin {
+                        to { transform: rotate(360deg); }
+                    }
+                </style>
+            `;
+            document.body.appendChild(indicator);
+            return indicator;
+        }
+
+        // Hide loading indicator
+        function hideLoadingIndicator(indicator) {
+            if (indicator && indicator.parentElement) {
+                indicator.remove();
+            }
+        }
+
+        // Show error message with retry option
+        function showErrorMessage(message, onRetry) {
+            const errorDiv = document.createElement('div');
+            errorDiv.id = 'error-message';
+            errorDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 69, 0, 0.95);
+                color: white;
+                padding: 20px 24px;
+                border-radius: 12px;
+                font-size: 14px;
+                max-width: 400px;
+                box-shadow: 0 4px 20px rgba(255, 69, 0, 0.4);
+                z-index: 10000;
+                backdrop-filter: blur(10px);
+            `;
+            errorDiv.innerHTML = `
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <div style="font-size: 24px; line-height: 1;">⚠️</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; margin-bottom: 8px;">Data Loading Error</div>
+                        <div style="margin-bottom: 12px; opacity: 0.95; line-height: 1.4;">${message}</div>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" style="
+                                background: rgba(255, 255, 255, 0.2);
+                                border: none;
+                                color: white;
+                                padding: 8px 16px;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                font-weight: 600;
+                                font-size: 13px;
+                            ">Dismiss</button>
+                            <button id="retry-button" style="
+                                background: white;
+                                border: none;
+                                color: #ff4500;
+                                padding: 8px 16px;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                font-weight: 600;
+                                font-size: 13px;
+                            ">Retry</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(errorDiv);
+
+            if (onRetry) {
+                document.getElementById('retry-button').addEventListener('click', onRetry);
+            }
+
+            // Auto-dismiss after 10 seconds
+            setTimeout(() => {
+                if (errorDiv.parentElement) {
+                    errorDiv.remove();
+                }
+            }, 10000);
         }
 
         // Render corpus emails for selected intent
@@ -4541,6 +4907,28 @@
 
         // Initialize on page load
         init();
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const backdrop = document.getElementById('mobileBackdrop');
+            drawer.classList.toggle('open');
+            backdrop.classList.toggle('visible');
+        }
+
+        function closeMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const backdrop = document.getElementById('mobileBackdrop');
+            drawer.classList.remove('open');
+            backdrop.classList.remove('visible');
+        }
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                setTimeout(closeMobileMenu, 300);
+            });
+        });
     </script>
 </body>
 </html>

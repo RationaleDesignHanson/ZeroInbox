@@ -493,7 +493,7 @@ struct SplashView: View {
 
 // MARK: - Floating Particles Component
 
-/// Ambient floating particles for splash screen
+/// Ambient floating particles for backgrounds
 /// Creates subtle animated white dots that drift across the screen
 struct FloatingParticles: View {
     let particleCount: Int
@@ -543,4 +543,3 @@ struct FloatingParticles: View {
         }
     }
 }
-

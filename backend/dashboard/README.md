@@ -14,8 +14,8 @@ The Dashboard Control Center provides a beautiful, responsive web interface for 
 
 ## 🌐 Pages
 
-### 1. Main Dashboard (`index.html`)
-**URL**: `/dashboard/index.html`
+### 1. Main Dashboard (`howitworks.html`)
+**URL**: `/dashboard/howitworks.html`
 
 The central navigation hub providing:
 - System status overview
@@ -178,7 +178,7 @@ python3 -m http.server 8088
 ### 2. Open in Browser
 
 ```
-http://localhost:8088/index.html
+http://localhost:8088/howitworks.html
 http://localhost:8088/action-modal-explorer.html
 http://localhost:8088/intent-action-explorer.html
 http://localhost:8088/shopping-cart.html
@@ -259,7 +259,7 @@ From the main dashboard:
 ### File Structure
 ```
 backend/dashboard/
-├── index.html              # Main homepage
+├── howitworks.html              # Main homepage
 ├── service-monitor.html    # Service monitoring
 ├── system-health.html      # Health testing
 ├── analytics.html          # Analytics dashboard
@@ -287,7 +287,7 @@ backend/dashboard/
 <body>
     <div class="container">
         <div class="header">
-            <a href="index.html" class="btn">← Back to Dashboard</a>
+            <a href="howitworks.html" class="btn">← Back to Dashboard</a>
         </div>
         <!-- Your content here -->
     </div>
@@ -310,7 +310,7 @@ router.get('/new-endpoint', async (req, res) => {
 
 **3. Add to Main Navigation**:
 ```html
-<!-- In index.html -->
+<!-- In howitworks.html -->
 <a href="new-page.html" class="nav-card">
     <div class="nav-card-icon">🆕</div>
     <div class="nav-card-title">New Feature</div>

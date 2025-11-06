@@ -5,8 +5,20 @@
  */
 
 const DashboardConfig = {
-  // Environment (defaults to production for public demos, use ?env=development for localhost testing)
-  environment: new URLSearchParams(window.location.search).get('env') === 'development' ? 'development' : 'production',
+  // Environment - Auto-detect production on Cloud Run, allow manual override with ?env=
+  environment: (() => {
+    const urlParam = new URLSearchParams(window.location.search).get('env');
+    if (urlParam) return urlParam; // Manual override via URL parameter
+
+    // Auto-detect Cloud Run (production)
+    const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+    if (hostname.includes('.run.app') || hostname.includes('zero-dashboard')) {
+      return 'production';
+    }
+
+    // Default to development for localhost
+    return 'development';
+  })(),
 
   // Backend Services - Development (localhost)
   development: {
@@ -26,10 +38,11 @@ const DashboardConfig = {
   production: {
     gateway: 'https://emailshortform-gateway-514014482017.us-central1.run.app',
     email: 'https://emailshortform-email-514014482017.us-central1.run.app',
-    classifier: 'https://emailshortform-classifier-514014482017.us-central1.run.app',
+    // Classifier and Actions served by dashboard itself (static data)
+    classifier: typeof window !== 'undefined' ? window.location.origin : 'https://zero-dashboard-hqdlmnyzrq-uc.a.run.app',
+    actions: typeof window !== 'undefined' ? window.location.origin : 'https://zero-dashboard-hqdlmnyzrq-uc.a.run.app',
     summarization: 'https://emailshortform-summarization-514014482017.us-central1.run.app',
     shoppingCart: 'https://shopping-agent-service-514014482017.us-central1.run.app',
-    actions: 'https://scheduled-purchase-service-514014482017.us-central1.run.app',
     smartReplies: 'https://smart-replies-service-514014482017.us-central1.run.app',
     steelAgent: 'https://steel-agent-service-514014482017.us-central1.run.app',
     analytics: 'https://analytics-service-514014482017.us-central1.run.app'

@@ -1,18 +1,24 @@
 /**
  * Dashboard Authentication Middleware
  * Protects dashboard routes with session-based authentication
+ *
+ * SECURITY: Integrated with audit logging (2025-11-06)
+ * All authentication events are tracked for compliance
  */
 
 const crypto = require('crypto');
+const auditLogger = require('./audit-logger');
 
 // In-memory session store (for development)
 // In production, use Redis or Firestore for distributed sessions
 const sessions = new Map();
 
 // Access codes (in production, move to Google Secret Manager or Firestore)
+// SECURITY: Rotated on 2025-11-06 - Old codes: ZERO2024, ZEROADMIN
+// Store these in 1Password and share securely
 const ACCESS_CODES = {
-  'ZERO2024': { level: 'user', description: 'Beta tester access' },
-  'ZEROADMIN': { level: 'admin', description: 'Admin access' }
+  'ZERO451296': { level: 'user', description: 'Beta tester access', createdAt: '2025-11-06' },
+  'ADMIN820876': { level: 'admin', description: 'Admin access with audit logging', createdAt: '2025-11-06' }
 };
 
 // Session configuration
@@ -29,7 +35,7 @@ function generateSessionId() {
 /**
  * Create new session
  */
-function createSession(accessLevel = 'user', email = null) {
+function createSession(accessLevel = 'user', email = null, req = null) {
   const sessionId = generateSessionId();
   const session = {
     id: sessionId,
@@ -41,13 +47,17 @@ function createSession(accessLevel = 'user', email = null) {
   };
 
   sessions.set(sessionId, session);
+
+  // Audit log: Session created
+  auditLogger.auditSessionCreated(sessionId, accessLevel, email, req);
+
   return session;
 }
 
 /**
  * Get session by ID
  */
-function getSession(sessionId) {
+function getSession(sessionId, req = null) {
   const session = sessions.get(sessionId);
 
   if (!session) {
@@ -57,6 +67,10 @@ function getSession(sessionId) {
   // Check if session expired
   if (Date.now() > session.expiresAt) {
     sessions.delete(sessionId);
+
+    // Audit log: Session expired
+    auditLogger.auditSessionExpired(sessionId, req);
+
     return null;
   }
 
@@ -77,10 +91,20 @@ function deleteSession(sessionId) {
  */
 function cleanupSessions() {
   const now = Date.now();
+  let cleanedCount = 0;
+
   for (const [sessionId, session] of sessions.entries()) {
     if (now > session.expiresAt) {
       sessions.delete(sessionId);
+      cleanedCount++;
+
+      // Audit log: Session expired during cleanup
+      auditLogger.auditSessionExpired(sessionId, null);
     }
+  }
+
+  if (cleanedCount > 0) {
+    console.log(`🧹 Cleaned up ${cleanedCount} expired session(s)`);
   }
 }
 
@@ -116,12 +140,25 @@ function requireAuth(req, res, next) {
   const sessionId = getSessionIdFromCookie(req);
 
   if (!sessionId) {
+    // Audit log: No session cookie
+    auditLogger.logAuditEvent('auth.no_session', {
+      path: req.path,
+      method: req.method
+    }, req);
+
     return res.status(401).sendFile(__dirname + '/splash.html');
   }
 
-  const session = getSession(sessionId);
+  const session = getSession(sessionId, req);
 
   if (!session) {
+    // Audit log: Invalid or expired session
+    auditLogger.logAuditEvent('auth.invalid_session', {
+      sessionId: sessionId.substring(0, 8) + '...',
+      path: req.path,
+      method: req.method
+    }, req);
+
     // Clear invalid cookie
     res.setHeader('Set-Cookie', `${COOKIE_NAME}=; Path=/; Max-Age=0; HttpOnly; SameSite=Strict`);
     return res.status(401).sendFile(__dirname + '/splash.html');
@@ -138,11 +175,21 @@ function requireAuth(req, res, next) {
  */
 function requireAdmin(req, res, next) {
   if (!req.session || req.session.accessLevel !== 'admin') {
+    // Audit log: Admin access denied
+    auditLogger.auditAccessDenied('admin_endpoint', 'Insufficient privileges', req);
+
     return res.status(403).json({
       error: 'Admin access required',
       message: 'This tool requires administrator privileges'
     });
   }
+
+  // Audit log: Admin action (record which endpoint was accessed)
+  auditLogger.auditAdminAction('admin_endpoint_access', {
+    path: req.path,
+    method: req.method
+  }, req);
+
   next();
 }
 
@@ -154,7 +201,7 @@ function optionalAuth(req, res, next) {
   const sessionId = getSessionIdFromCookie(req);
 
   if (sessionId) {
-    const session = getSession(sessionId);
+    const session = getSession(sessionId, req);
     if (session) {
       req.session = session;
     }

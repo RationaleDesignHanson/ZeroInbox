@@ -10,8 +10,8 @@ struct AIPreviewView: View {
         VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
             // Analysis Confidence Header with Progress Bar
             VStack(alignment: .leading, spacing: 6) {
-                // Label and percentage
-                HStack {
+                // Label and percentage on one row
+                HStack(spacing: 8) {
                     Image(systemName: "sparkles")
                         .font(.system(size: 11, weight: .medium))
                         .foregroundColor(.white.opacity(0.8))
@@ -24,8 +24,8 @@ struct AIPreviewView: View {
 
                     if let confidence = card.intentConfidence {
                         Text("\(Int(confidence * 100))%")
-                            .font(.system(size: 12, weight: .semibold))
-                            .foregroundColor(.white)
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.9))
                     }
                 }
 

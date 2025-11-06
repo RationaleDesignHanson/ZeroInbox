@@ -169,58 +169,31 @@ struct ShoppingAutomationModal: View {
                         .cornerRadius(DesignTokens.Radius.container)
                     }
 
-                    // Action buttons
+                    // Action buttons - Simplified for fastest purchase decision
                     VStack(spacing: DesignTokens.Spacing.component) {
-                        if automationState == .success || automationState == .fallback {
+                        if automationState == .success || automationState == .fallback || automationState == .error {
                             Button {
                                 openCheckoutPage()
                             } label: {
                                 HStack {
                                     Image(systemName: automationState == .success ? "cart.badge.plus" : "safari")
-                                    Text(automationState == .success ? "Open Checkout" : "Open Product Page")
+                                    Text(automationState == .success ? "Complete Purchase" : "View Product")
                                         .font(.headline)
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(automationState == .success ? Color.green : Color.blue)
+                                .background(
+                                    LinearGradient(
+                                        colors: automationState == .success ?
+                                            [Color.green, Color.green.opacity(0.8)] :
+                                            [Color.blue, Color.blue.opacity(0.8)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
                                 .foregroundColor(.white)
                                 .cornerRadius(DesignTokens.Radius.button)
-                            }
-                        }
-
-                        if automationState == .error {
-                            Button {
-                                // Retry automation
-                                startAutomation()
-                            } label: {
-                                HStack {
-                                    Image(systemName: "arrow.clockwise")
-                                    Text("Retry")
-                                        .font(.headline)
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(DesignTokens.Radius.button)
-                            }
-
-                            Button {
-                                // Fallback: open product page manually
-                                checkoutUrl = productUrl
-                                automationState = .fallback
-                                openCheckoutPage()
-                            } label: {
-                                HStack {
-                                    Image(systemName: "safari")
-                                    Text("Open Product Page")
-                                        .font(.headline)
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(Color.gray)
-                                .foregroundColor(.white)
-                                .cornerRadius(DesignTokens.Radius.button)
+                                .shadow(color: (automationState == .success ? Color.green : Color.blue).opacity(0.3), radius: 8, x: 0, y: 4)
                             }
                         }
                     }

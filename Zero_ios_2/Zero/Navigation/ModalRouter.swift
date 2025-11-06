@@ -59,6 +59,9 @@ class ModalRouter {
         // Phase 3E: LOW priority modals
         case viewOutageDetails(card: EmailCard)
         case viewPostComments(card: EmailCard)
+
+        // Shopping Automation
+        case shoppingAutomation(card: EmailCard, productUrl: String, productName: String)
     }
 
     /// Route an action to the appropriate modal
@@ -245,6 +248,21 @@ class ModalRouter {
         if normalizedAction.contains("unsubscribe") {
             Logger.info("Routing to UnsubscribeModal", category: .modal)
             return .unsubscribe(card: card)
+        }
+
+        // Shopping Automation (AI-powered cart addition)
+        if normalizedAction.contains("automated_add_to_cart") || normalizedAction.contains("add_to_cart_checkout") {
+            Logger.info("Routing to ShoppingAutomationModal", category: .modal)
+            // Extract productUrl and productName from action context
+            if let action = card.suggestedActions?.first(where: { $0.actionId == "automated_add_to_cart" }),
+               let context = action.context {
+                let productUrl = context["productUrl"] ?? context["url"] ?? ""
+                let productName = context["productName"] ?? card.title
+                return .shoppingAutomation(card: card, productUrl: productUrl, productName: productName)
+            } else {
+                Logger.warning("Missing context for automated_add_to_cart, using fallback", category: .modal)
+                return .shoppingPurchase(card: card, selectedAction: selectedActionId)
+            }
         }
 
         // Browse Shopping

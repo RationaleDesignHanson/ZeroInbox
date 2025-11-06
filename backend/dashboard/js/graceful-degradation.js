@@ -111,6 +111,8 @@ const GracefulDegradation = {
     if (url.includes('/actions/catalog') || url.includes('/actions/registry')) return this.cache.ttl.actionCatalog;
     if (url.includes('/classify')) return this.cache.ttl.classification;
     if (url.includes('/health')) return this.cache.ttl.health;
+    // Static data files (like corpus) should be cached for 24 hours
+    if (url.includes('data/') && url.endsWith('.json')) return 24 * 60 * 60 * 1000;
     return 60 * 60 * 1000; // Default: 1 hour
   },
 
@@ -266,7 +268,7 @@ const GracefulDegradation = {
     const self = this;
 
     window.fetch = async function(url, options = {}) {
-      // Only cache GET requests to our backend services
+      // Only cache GET requests to our backend services and static data files
       const method = options.method || 'GET';
       const isBackendRequest = typeof url === 'string' && (
         url.includes('localhost:8') ||
@@ -274,7 +276,12 @@ const GracefulDegradation = {
         url.includes('.run.app')
       );
 
-      if (method === 'GET' && isBackendRequest) {
+      // Also cache static data JSON files (like comprehensive-corpus.json)
+      const isStaticData = typeof url === 'string' && (
+        url.includes('data/') && url.endsWith('.json')
+      );
+
+      if (method === 'GET' && (isBackendRequest || isStaticData)) {
         const cacheKey = self.getCacheKey(url, options);
         const ttl = self.getTTL(url);
 

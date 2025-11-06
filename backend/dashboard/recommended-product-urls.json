@@ -1,0 +1,99 @@
+{
+  "products": [
+    {
+      "id": "prod-1",
+      "productName": "MacBook Air M2",
+      "merchant": "Apple",
+      "category": "Electronics",
+      "icon": "💻",
+      "productUrl": "https://www.apple.com/shop/buy-mac/macbook-air/13-inch-m2",
+      "alternativeUrl": "https://www.apple.com/macbook-air-13-and-15-m2/",
+      "reason": "Current model, less likely to redirect than specific iPhone SKU",
+      "stability": "HIGH"
+    },
+    {
+      "id": "prod-2",
+      "productName": "Fire TV Stick 4K",
+      "merchant": "Amazon",
+      "category": "Electronics",
+      "icon": "📺",
+      "productUrl": "https://www.amazon.com/dp/B0BP9SNVH9",
+      "alternativeUrl": "https://www.amazon.com/fire-tv-stick-4k/dp/B0BP9SNVH9",
+      "reason": "Amazon's own product, permanent ASIN, bestseller",
+      "stability": "VERY_HIGH"
+    },
+    {
+      "id": "prod-3",
+      "productName": "AirPods Pro (2nd Gen)",
+      "merchant": "Target",
+      "category": "Audio",
+      "icon": "🎵",
+      "productUrl": "https://www.target.com/p/airpods-pro-2nd-generation/-/A-85978622",
+      "alternativeUrl": "https://www.target.com/p/-/A-85978622",
+      "reason": "Currently working, stable product ID",
+      "stability": "HIGH"
+    },
+    {
+      "id": "prod-4",
+      "productName": "Apple AirTag 4 Pack",
+      "merchant": "Best Buy",
+      "category": "Accessories",
+      "icon": "🏷️",
+      "productUrl": "https://www.bestbuy.com/site/apple-airtag-4-pack/6461348.p",
+      "alternativeUrl": "https://www.bestbuy.com/site/apple-airtag-4-pack/6461348.p?skuId=6461348",
+      "reason": "Popular Apple product, simpler product ID",
+      "stability": "MEDIUM"
+    },
+    {
+      "id": "prod-5",
+      "productName": "Duracell AA Batteries",
+      "merchant": "Walmart",
+      "category": "Household",
+      "icon": "🔋",
+      "productUrl": "https://www.walmart.com/ip/Duracell-Coppertop-AA-Batteries-20-Pack/10535009",
+      "alternativeUrl": "https://www.walmart.com/ip/10535009",
+      "reason": "Evergreen product, simple SKU, always in stock",
+      "stability": "VERY_HIGH"
+    }
+  ],
+  "recommendations": {
+    "general": [
+      "Use products that are evergreen (always available)",
+      "Prefer manufacturer's own products (less likely to be discontinued)",
+      "Use simple, short SKU/product IDs when possible",
+      "Avoid season-specific or promotional items",
+      "Choose bestsellers that rarely go out of stock"
+    ],
+    "amazon": [
+      "Use ASINs starting with B0 (more stable)",
+      "Prefer Amazon's own brands (Fire, Echo, Kindle)",
+      "Avoid third-party seller products"
+    ],
+    "apple": [
+      "Use current generation products",
+      "Link to product family pages, not specific configurations",
+      "Avoid linking to discontinued models"
+    ],
+    "walmart": [
+      "Use simple numeric SKU IDs",
+      "Prefer household staples over electronics",
+      "Avoid marketplace sellers"
+    ],
+    "bestbuy": [
+      "Use 7-digit SKU IDs",
+      "Stick with major brand products",
+      "Test URLs regularly as they change frequently"
+    ],
+    "target": [
+      "Use A-XXXXXXXX format product IDs",
+      "Target's URLs are generally stable",
+      "Works well with automation"
+    ]
+  },
+  "testSchedule": {
+    "frequency": "daily",
+    "preferredTime": "06:00 UTC",
+    "alertThreshold": "50% health",
+    "command": "node health-check-product-urls.js"
+  }
+}

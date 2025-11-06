@@ -12,8 +12,14 @@
             box-sizing: border-box;
         }
 
+        /* iOS Safari tap fix - make all clickable elements tappable */
+        [onclick], button, [role="button"], .clickable {
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+            -webkit-touch-callout: none;
+        }
+
         body {
-            padding-top: 60px;
+            padding-top: 110px;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
             color: white;
@@ -22,7 +28,7 @@
         }
 
         .main-container {
-            max-width: 1400px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 40px 24px;
         }
@@ -479,6 +485,195 @@
             .beta-banner-btn {
                 flex: 1;
                 text-align: center;
+            }
+        }
+
+        /* Navigation Bar - Below Beta Banner */
+        .main-nav {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.92);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            z-index: 9998;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            padding: 8px 0;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            background: rgba(139, 92, 246, 0.2);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+            color: white;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 10000;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(139, 92, 246, 0.9));
+            border: none;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Mobile Drawer */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(45, 27, 78, 0.98));
+            backdrop-filter: blur(20px);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10001;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 80px 20px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-drawer.open {
+            right: 0;
+        }
+
+        .mobile-drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .mobile-drawer-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .mobile-drawer-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            padding: 16px 20px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: translateX(4px);
+        }
+
+        .mobile-nav-link.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        /* Mobile Backdrop */
+        .mobile-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-backdrop.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 120px;
+            }
+
+            .main-nav {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 
@@ -990,6 +1185,45 @@
             }
         }
 
+        /* Side-by-side layout for demo and guide */
+        .demo-and-guide-container {
+            display: grid;
+            grid-template-columns: 55% 43%;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* On mobile, stack vertically */
+        @media (max-width: 1024px) {
+            .demo-and-guide-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .button-loading {
+            opacity: 0.7;
+            cursor: not-allowed !important;
+            pointer-events: none;
+        }
+
     </style>
 </head>
 <body>
@@ -1011,17 +1245,55 @@
         </div>
     </div>
 
+    <!-- Main Navigation (Desktop) -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="landing.html" class="nav-link">Home</a></li>
+                <li><a href="app-demo.html" class="nav-link">Live Demo</a></li>
+                <li><a href="zero-sequence-live.html" class="nav-link">AI Intelligence</a></li>
+                <li><a href="action-modal-explorer.html" class="nav-link">Actions</a></li>
+                <li><a href="intent-action-explorer.html" class="nav-link">Intents</a></li>
+                <li><a href="shopping-cart.html" class="nav-link active">Shopping</a></li>
+                <li><a href="architecture-visual.html" class="nav-link">System Architecture</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu">
+        ☰
+    </button>
+
+    <!-- Mobile Backdrop -->
+    <div class="mobile-backdrop" id="mobileBackdrop" onclick="closeMobileMenu()"></div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="mobile-drawer-header">
+            <span class="mobile-drawer-title">Navigation</span>
+            <button class="mobile-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="landing.html" class="mobile-nav-link">Home</a></li>
+            <li><a href="app-demo.html" class="mobile-nav-link">Live Demo</a></li>
+            <li><a href="zero-sequence-live.html" class="mobile-nav-link">AI Intelligence</a></li>
+            <li><a href="action-modal-explorer.html" class="mobile-nav-link">Actions</a></li>
+            <li><a href="intent-action-explorer.html" class="mobile-nav-link">Intents</a></li>
+            <li><a href="shopping-cart.html" class="mobile-nav-link active">Shopping</a></li>
+            <li><a href="architecture-visual.html" class="mobile-nav-link">System Architecture</a></li>
+        </ul>
+    </div>
 
     <div class="main-container">
         <div class="page-header">
             <div class="header-nav">
-                <a href="howitworks.html" class="btn-home">
+                <a href="landing.html" class="btn-home">
                     <span>Home</span>
                 </a>
             </div>
             <h1 class="page-title">
                 <span>Shopping Cart</span>
-                <span>🛒</span>
             </h1>
             <p class="page-subtitle">
                 Intelligent shopping assistant that tracks products, monitors prices, and manages your cart across multiple emails
@@ -1031,7 +1303,6 @@
         <!-- Overview Section -->
         <div class="section">
             <h2 class="section-title">
-                <span>📋</span>
                 <span>Overview</span>
             </h2>
             <div class="section-content">
@@ -1048,71 +1319,133 @@
             </div>
         </div>
 
-        <!-- Interactive Demo Section -->
-        <div class="section demo-section">
-            <h2 class="section-title">
-                <span>🎮</span>
-                <span>Try It Live</span>
-            </h2>
-            <div class="demo-controls">
-                <button class="demo-btn demo-btn-primary" onclick="addSampleProduct()">
-                    📧 Add from Email
-                </button>
-                <button class="demo-btn demo-btn-secondary" onclick="clearDemoCart()">
-                    🗑️ Clear Cart
-                </button>
-                <div class="cart-summary-badge">
-                    <span class="cart-count">0</span> items • $<span class="cart-total">0.00</span>
+        <!-- Demo and Guide Container -->
+        <div class="demo-and-guide-container">
+            <!-- Interactive Demo Section -->
+            <div class="section demo-section">
+                <h2 class="section-title">
+                    <span>Try It Live</span>
+                </h2>
+                <div class="demo-controls">
+                    <button class="demo-btn demo-btn-primary" onclick="addSampleProduct()">
+                        Add from Email
+                    </button>
+                    <button class="demo-btn demo-btn-secondary" onclick="clearDemoCart()">
+                        Clear Cart
+                    </button>
+                    <div class="cart-summary-badge">
+                        <span class="cart-count">0</span> items • $<span class="cart-total">0.00</span>
+                    </div>
+                </div>
+
+                <div class="email-preview" id="emailPreview" style="display: none;">
+                    <div class="email-preview-header">
+                        <span class="email-preview-title">Incoming Email</span>
+                        <button class="email-preview-close" onclick="closeEmailPreview()">✕</button>
+                    </div>
+                    <div class="email-preview-content" id="emailPreviewContent"></div>
+                    <button class="demo-btn demo-btn-primary" onclick="extractFromEmail()">
+                        Extract Product
+                    </button>
+                </div>
+
+                <div class="cart-container" id="cartContainer">
+                    <div class="cart-empty" id="cartEmpty">
+                        <div class="cart-empty-text">Your cart is empty</div>
+                        <div class="cart-empty-subtext">Click "Add from Email" to see the magic happen!</div>
+                    </div>
+                </div>
+
+                <div class="checkout-panel" id="checkoutPanel" style="display: none;">
+                    <div class="checkout-summary">
+                        <div class="checkout-row">
+                            <span>Subtotal:</span>
+                            <span>$<span id="checkoutSubtotal">0.00</span></span>
+                        </div>
+                        <div class="checkout-row savings">
+                            <span>You Save:</span>
+                            <span>$<span id="checkoutSavings">0.00</span></span>
+                        </div>
+                        <div class="checkout-row total">
+                            <span>Total:</span>
+                            <span>$<span id="checkoutTotal">0.00</span></span>
+                        </div>
+                    </div>
+                    <div class="merchant-links" id="merchantLinks"></div>
                 </div>
             </div>
 
-            <div class="email-preview" id="emailPreview" style="display: none;">
-                <div class="email-preview-header">
-                    <span class="email-preview-title">📬 Incoming Email</span>
-                    <button class="email-preview-close" onclick="closeEmailPreview()">✕</button>
-                </div>
-                <div class="email-preview-content" id="emailPreviewContent"></div>
-                <button class="demo-btn demo-btn-primary" onclick="extractFromEmail()">
-                    ✨ Extract Product
-                </button>
-            </div>
+            <!-- How It Works Section -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span>How It Works</span>
+                </h2>
+                <div class="steps-list">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Email Detection</h3>
+                            <p class="step-description">
+                                The system continuously monitors your emails for shopping-related content.
+                                When products, prices, or promotional offers are detected, they're automatically extracted and analyzed.
+                            </p>
+                        </div>
+                    </div>
 
-            <div class="cart-container" id="cartContainer">
-                <div class="cart-empty" id="cartEmpty">
-                    <div class="cart-empty-icon">🛒</div>
-                    <div class="cart-empty-text">Your cart is empty</div>
-                    <div class="cart-empty-subtext">Click "Add from Email" to see the magic happen!</div>
-                </div>
-            </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Product Resolution</h3>
+                            <p class="step-description">
+                                Each detected product is enriched with additional information including current pricing,
+                                availability, merchant details, and product specifications. Duplicates are identified and merged.
+                            </p>
+                        </div>
+                    </div>
 
-            <div class="checkout-panel" id="checkoutPanel" style="display: none;">
-                <div class="checkout-summary">
-                    <div class="checkout-row">
-                        <span>Subtotal:</span>
-                        <span>$<span id="checkoutSubtotal">0.00</span></span>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Cart Management</h3>
+                            <p class="step-description">
+                                Products are automatically added to your unified cart. You can review, modify quantities,
+                                remove items, and organize your shopping list across all your email accounts.
+                            </p>
+                        </div>
                     </div>
-                    <div class="checkout-row savings">
-                        <span>💰 You Save:</span>
-                        <span>$<span id="checkoutSavings">0.00</span></span>
+
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Price Tracking (Coming Soon)</h3>
+                            <p class="step-description">
+                                The system tracks price information for items in your cart. Future updates will include
+                                automated price monitoring and alerts when prices drop at alternative merchants.
+                            </p>
+                        </div>
                     </div>
-                    <div class="checkout-row total">
-                        <span>Total:</span>
-                        <span>$<span id="checkoutTotal">0.00</span></span>
+
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h3 class="step-title">Checkout Assistance</h3>
+                            <p class="step-description">
+                                When you're ready to purchase, the system generates optimized checkout links for each merchant,
+                                pre-filled with your cart items for a seamless buying experience.
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="merchant-links" id="merchantLinks"></div>
             </div>
         </div>
 
         <!-- Key Features Section -->
         <div class="section">
             <h2 class="section-title">
-                <span>✨</span>
                 <span>Key Features</span>
             </h2>
             <div class="features-grid">
                 <div class="feature-card">
-                    <span class="feature-icon">📧</span>
                     <h3 class="feature-title">Multi-Email Cart Management</h3>
                     <p class="feature-description">
                         Consolidate products from all your email accounts into a single, unified shopping cart.
@@ -1121,16 +1454,14 @@
                 </div>
 
                 <div class="feature-card">
-                    <span class="feature-icon">💰</span>
-                    <h3 class="feature-title">Price Tracking & Comparisons</h3>
+                    <h3 class="feature-title">Price Tracking & Comparisons (Coming Soon)</h3>
                     <p class="feature-description">
-                        Automatically monitor price changes and compare products across different merchants.
-                        Get notified when prices drop or when better deals become available.
+                        Track price information and compare products across different merchants.
+                        Future updates will include automated notifications when better deals become available.
                     </p>
                 </div>
 
                 <div class="feature-card">
-                    <span class="feature-icon">⏰</span>
                     <h3 class="feature-title">Expiration Monitoring</h3>
                     <p class="feature-description">
                         Track promotional offers and deal expiration dates. Receive timely alerts before
@@ -1139,7 +1470,6 @@
                 </div>
 
                 <div class="feature-card">
-                    <span class="feature-icon">🏪</span>
                     <h3 class="feature-title">Merchant Analysis</h3>
                     <p class="feature-description">
                         Get insights into merchant reliability, shipping times, and customer reviews.
@@ -1148,7 +1478,6 @@
                 </div>
 
                 <div class="feature-card">
-                    <span class="feature-icon">🔍</span>
                     <h3 class="feature-title">Smart Product Resolution</h3>
                     <p class="feature-description">
                         Advanced AI identifies and resolves duplicate products from different sources,
@@ -1157,7 +1486,6 @@
                 </div>
 
                 <div class="feature-card">
-                    <span class="feature-icon">🔗</span>
                     <h3 class="feature-title">Quick Checkout Links</h3>
                     <p class="feature-description">
                         Generate instant checkout links for your cart items. One-click access to complete
@@ -1166,8 +1494,7 @@
                 </div>
 
                 <div class="feature-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%); border-color: rgba(16, 185, 129, 0.3);">
-                    <span class="feature-icon">🤖</span>
-                    <h3 class="feature-title">AI-Powered "Add to Cart & Checkout" ✨ NEW!</h3>
+                    <h3 class="feature-title">AI-Powered "Add to Cart & Checkout" - NEW!</h3>
                     <p class="feature-description">
                         Revolutionary AI automation that clicks "Add to Cart" buttons FOR YOU! Using Steel.dev browser automation,
                         the system navigates to product pages, finds buttons using natural language AI, adds items to cart,
@@ -1177,74 +1504,9 @@
             </div>
         </div>
 
-        <!-- How It Works Section -->
-        <div class="section">
-            <h2 class="section-title">
-                <span>⚙️</span>
-                <span>How It Works</span>
-            </h2>
-            <div class="steps-list">
-                <div class="step-item">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Email Detection</h3>
-                        <p class="step-description">
-                            The system continuously monitors your emails for shopping-related content.
-                            When products, prices, or promotional offers are detected, they're automatically extracted and analyzed.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="step-item">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Product Resolution</h3>
-                        <p class="step-description">
-                            Each detected product is enriched with additional information including current pricing,
-                            availability, merchant details, and product specifications. Duplicates are identified and merged.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="step-item">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Cart Management</h3>
-                        <p class="step-description">
-                            Products are automatically added to your unified cart. You can review, modify quantities,
-                            remove items, and organize your shopping list across all your email accounts.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="step-item">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Price Monitoring</h3>
-                        <p class="step-description">
-                            The system continuously tracks price changes for items in your cart. When prices drop
-                            or when better deals are found at alternative merchants, you're automatically notified.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="step-item">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h3 class="step-title">Checkout Assistance</h3>
-                        <p class="step-description">
-                            When you're ready to purchase, the system generates optimized checkout links for each merchant,
-                            pre-filled with your cart items for a seamless buying experience.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- API Endpoints Section -->
         <div class="section">
             <h2 class="section-title">
-                <span>🔌</span>
                 <span>API Endpoints</span>
             </h2>
             <div class="endpoints-list">
@@ -1293,13 +1555,13 @@
                 <div class="endpoint-item" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3);">
                     <span class="endpoint-method post">POST</span>
                     <code class="endpoint-path">/api/shopping/add-to-cart</code>
-                    <span class="endpoint-description">🤖 NEW: AI-powered automation - automatically adds product to cart and navigates to checkout</span>
+                    <span class="endpoint-description">NEW: AI-powered automation - automatically adds product to cart and navigates to checkout</span>
                 </div>
 
                 <div class="endpoint-item" style="background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3);">
                     <span class="endpoint-method get">GET</span>
                     <code class="endpoint-path">/api/shopping/platform-info</code>
-                    <span class="endpoint-description">🤖 NEW: Get platform detection info for a product URL (diagnostic)</span>
+                    <span class="endpoint-description">NEW: Get platform detection info for a product URL (diagnostic)</span>
                 </div>
             </div>
         </div>
@@ -1541,10 +1803,10 @@ Order today: https://www.amazon.com/dp/B09B8V1LZ3`
                     <span class="cart-item-current-price">$${item.price.toFixed(2)}</span>
                     ${item.originalPrice ? `<span class="cart-item-original-price">$${item.originalPrice.toFixed(2)}</span>` : ''}
                 </div>
-                ${savings > 0 ? `<div class="cart-item-savings">💰 Save $${savings.toFixed(2)} (${savingsPercent}% off)</div>` : ''}
+                ${savings > 0 ? `<div class="cart-item-savings">Save $${savings.toFixed(2)} (${savingsPercent}% off)</div>` : ''}
                 ${hoursUntilExpiry !== null ? `
                     <div class="cart-item-expiry ${isUrgent ? 'urgent' : ''}">
-                        ⏰ ${hoursUntilExpiry}h remaining
+                        ${hoursUntilExpiry}h remaining
                     </div>
                 ` : ''}
                 <div class="cart-item-controls">
@@ -1640,7 +1902,7 @@ Order today: https://www.amazon.com/dp/B09B8V1LZ3`
                     await automateCheckout(e, merchant, items);
                 };
                 linkEl.innerHTML = `
-                    <span class="merchant-link-label">🤖 ${merchant} (${items.length} item${items.length > 1 ? 's' : ''})</span>
+                    <span class="merchant-link-label">${merchant} (${items.length} item${items.length > 1 ? 's' : ''})</span>
                     <span class="merchant-link-price">$${merchantTotal.toFixed(2)} →</span>
                 `;
                 merchantLinksEl.appendChild(linkEl);
@@ -1659,17 +1921,18 @@ Order today: https://www.amazon.com/dp/B09B8V1LZ3`
                 return;
             }
 
-            // Show loading state
+            // Show loading state with spinner
             const button = event.currentTarget;
             const originalText = button.innerHTML;
-            button.innerHTML = '<span>🤖 Running AI automation...</span>';
+            button.classList.add('button-loading');
+            button.innerHTML = '<span class="loading-spinner"></span><span>AI Processing...</span>';
             button.style.pointerEvents = 'none';
 
             try {
                 console.log(`🤖 Calling shopping automation API for ${item.productName}...`);
 
-                // Call the real API
-                const response = await fetch('http://localhost:8087/api/shopping/add-to-cart', {
+                // Call the real API (production Steel Agent)
+                const response = await fetch('https://steel-agent-514014482017.us-central1.run.app/api/shopping/add-to-cart', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1702,7 +1965,8 @@ Order today: https://www.amazon.com/dp/B09B8V1LZ3`
                 console.error('Shopping automation error:', error);
                 alert(`❌ API Error\n\n${error.message}\n\nMake sure the Steel Agent service is running on port 8087.`);
             } finally {
-                // Restore button
+                // Restore button state
+                button.classList.remove('button-loading');
                 button.innerHTML = originalText;
                 button.style.pointerEvents = 'auto';
             }
@@ -1721,6 +1985,28 @@ Order today: https://www.amazon.com/dp/B09B8V1LZ3`
         document.addEventListener('DOMContentLoaded', () => {
             renderCart();
             updateCartSummary();
+        });
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const backdrop = document.getElementById('mobileBackdrop');
+            drawer.classList.toggle('open');
+            backdrop.classList.toggle('visible');
+        }
+
+        function closeMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const backdrop = document.getElementById('mobileBackdrop');
+            drawer.classList.remove('open');
+            backdrop.classList.remove('visible');
+        }
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                setTimeout(closeMobileMenu, 300);
+            });
         });
     </script>
 </body>

@@ -118,6 +118,8 @@
             letter-spacing: -5px;
             margin-bottom: 20px;
             animation: pulse 3s ease-in-out infinite;
+            display: inline-block;
+            padding: 0 10px;
         }
 
         .hero h1 {
@@ -568,6 +570,7 @@
         .beta-banner-content {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 20px;
             flex-wrap: wrap;
             flex: 1;
@@ -659,10 +662,184 @@
             box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
         }
 
+        /* Navigation Bar - Below Beta Banner */
+        .main-nav {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.92);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            z-index: 9998;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            list-style: none;
+            padding: 8px 0;
+        }
+
+        .nav-link {
+            padding: 10px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            background: rgba(139, 92, 246, 0.2);
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+            color: white;
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 10000;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(139, 92, 246, 0.9));
+            border: none;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Mobile Drawer */
+        .mobile-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(45, 27, 78, 0.98));
+            backdrop-filter: blur(20px);
+            box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 10001;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 80px 20px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-drawer.open {
+            right: 0;
+        }
+
+        .mobile-drawer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .mobile-drawer-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .mobile-drawer-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-nav-link {
+            display: block;
+            padding: 16px 20px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .mobile-nav-link:hover {
+            background: rgba(139, 92, 246, 0.2);
+            transform: translateX(4px);
+        }
+
+        .mobile-nav-link.active {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+            border: 1px solid rgba(139, 92, 246, 0.4);
+        }
+
+        /* Mobile Backdrop */
+        .mobile-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .mobile-backdrop.visible {
+            display: block;
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             body {
                 padding-top: 120px;
             }
+
             .beta-banner {
                 padding: 10px 16px;
             }
@@ -674,6 +851,16 @@
             .beta-banner-btn {
                 flex: 1;
                 text-align: center;
+            }
+
+            .main-nav {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
 
@@ -698,6 +885,45 @@
         </div>
     </div>
 
+    <!-- Main Navigation (Desktop) -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="landing.html" class="nav-link active">Home</a></li>
+                <li><a href="app-demo.html" class="nav-link">Live Demo</a></li>
+                <li><a href="zero-sequence-live.html" class="nav-link">AI Intelligence</a></li>
+                <li><a href="action-modal-explorer.html" class="nav-link">Actions</a></li>
+                <li><a href="intent-action-explorer.html" class="nav-link">Intents</a></li>
+                <li><a href="shopping-cart.html" class="nav-link">Shopping</a></li>
+                <li><a href="architecture-visual.html" class="nav-link">System Architecture</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Menu">
+        ☰
+    </button>
+
+    <!-- Mobile Backdrop -->
+    <div class="mobile-backdrop" id="mobileBackdrop" onclick="closeMobileMenu()"></div>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <div class="mobile-drawer-header">
+            <span class="mobile-drawer-title">Navigation</span>
+            <button class="mobile-drawer-close" onclick="closeMobileMenu()" aria-label="Close">✕</button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="landing.html" class="mobile-nav-link active">Home</a></li>
+            <li><a href="app-demo.html" class="mobile-nav-link">Live Demo</a></li>
+            <li><a href="zero-sequence-live.html" class="mobile-nav-link">AI Intelligence</a></li>
+            <li><a href="action-modal-explorer.html" class="mobile-nav-link">Actions</a></li>
+            <li><a href="intent-action-explorer.html" class="mobile-nav-link">Intents</a></li>
+            <li><a href="shopping-cart.html" class="mobile-nav-link">Shopping</a></li>
+            <li><a href="architecture-visual.html" class="mobile-nav-link">System Architecture</a></li>
+        </ul>
+    </div>
 
     <!-- Floating Spheres Background -->
     <div class="floating-spheres">
@@ -714,7 +940,7 @@
             <p>AI-powered email intelligence that surfaces what matters and handles everything else with one-tap actions</p>
             <div class="cta-buttons">
                 <a href="/splash.html" class="btn btn-primary">Join Beta</a>
-                <a href="#zero-sequence" class="btn btn-secondary">See How It Works</a>
+                <a href="app-demo.html" class="btn btn-secondary">See How It Works</a>
             </div>
         </section>
 
@@ -757,14 +983,14 @@
 
             <div class="sequence-result">
                 <h3>Result: Hours Saved, Stress Eliminated</h3>
-                <p>Average user processes 200+ emails in under 10 minutes. Inbox zero, every day.</p>
+                <p>Clear your inbox in a fraction of the time. Inbox zero, every day.</p>
             </div>
         </section>
 
         <!-- Action Shots Section -->
         <section class="action-shots">
             <h2 class="section-title">One-Tap Actions for Everything</h2>
-            <p class="section-subtitle">See how Zero handles your most common email tasks</p>
+            <p class="section-subtitle"><a href="action-modal-explorer.html" style="color: rgba(255, 255, 255, 0.7); text-decoration: none; transition: color 0.3s ease;" onmouseover="this.style.color='rgba(59, 130, 246, 1)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.7)'">See how Zero handles your most common email tasks →</a></p>
 
             <div class="action-grid">
                 <div class="action-card">
@@ -813,7 +1039,7 @@
 
         <!-- Value Props Section -->
         <section class="value-props">
-            <h2 class="section-title">Why Users Love Zero</h2>
+            <h2 class="section-title">Why You'll Love Zero</h2>
             <p class="section-subtitle">Real benefits from our beta testers</p>
 
             <div class="value-grid">
@@ -872,7 +1098,7 @@
             </div>
 
             <div style="margin-top: 40px;">
-                <a href="/SECURITY.md" class="btn btn-secondary">Read Full Security Architecture</a>
+                <a href="architecture-visual.html" class="btn btn-secondary">Read Full Security Architecture</a>
             </div>
         </section>
 
@@ -947,14 +1173,14 @@
             <p>Join 100 beta testers experiencing the future of email</p>
             <div class="cta-buttons">
                 <a href="/splash.html" class="btn btn-primary">Request Beta Access</a>
-                <a href="/" class="btn btn-secondary">View Live Dashboard</a>
+                <a href="app-demo.html" class="btn btn-secondary">View Live Demo</a>
             </div>
         </section>
 
         <!-- Footer -->
         <footer>
             <div class="footer-links">
-                <a href="/SECURITY.md">Security</a>
+                <a href="architecture-visual.html">Security</a>
                 <a href="mailto:zerobeta@rationale.work">Contact</a>
                 <a href="/">Dashboard</a>
                 <a href="/design-system-renderer.html">Design System</a>
@@ -966,6 +1192,28 @@
     </div>
 
     <script>
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const backdrop = document.getElementById('mobileBackdrop');
+            drawer.classList.toggle('open');
+            backdrop.classList.toggle('visible');
+        }
+
+        function closeMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            const backdrop = document.getElementById('mobileBackdrop');
+            drawer.classList.remove('open');
+            backdrop.classList.remove('visible');
+        }
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                setTimeout(closeMobileMenu, 300);
+            });
+        });
+
         function toggleFAQ(element) {
             element.classList.toggle('active');
             const icon = element.querySelector('.faq-question span');

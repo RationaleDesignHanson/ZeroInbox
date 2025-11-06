@@ -81,11 +81,17 @@ class SafariWrapperViewController: UIViewController {
         blurView.translatesAutoresizingMaskIntoConstraints = false
         headerView.addSubview(blurView)
 
-        // Action icon
-        let iconLabel = UILabel()
-        iconLabel.translatesAutoresizingMaskIntoConstraints = false
-        iconLabel.text = getIconForAction(actionName)
-        iconLabel.font = .systemFont(ofSize: 20)
+        // Action icon (SF Symbol instead of emoji)
+        let iconImageView = UIImageView()
+        iconImageView.translatesAutoresizingMaskIntoConstraints = false
+        iconImageView.image = UIImage(systemName: getIconForAction(actionName))
+        iconImageView.tintColor = .white.withAlphaComponent(0.9)
+        iconImageView.contentMode = .scaleAspectFit
+
+        NSLayoutConstraint.activate([
+            iconImageView.widthAnchor.constraint(equalToConstant: 20),
+            iconImageView.heightAnchor.constraint(equalToConstant: 20)
+        ])
 
         // Action name label
         let actionLabel = UILabel()
@@ -114,7 +120,7 @@ class SafariWrapperViewController: UIViewController {
         contextLabel.lineBreakMode = .byTruncatingTail
 
         // Single horizontal stack with all elements
-        let mainStack = UIStackView(arrangedSubviews: [iconLabel, actionLabel, separatorLabel, contextLabel])
+        let mainStack = UIStackView(arrangedSubviews: [iconImageView, actionLabel, separatorLabel, contextLabel])
         mainStack.axis = .horizontal
         mainStack.spacing = 8
         mainStack.alignment = .center
@@ -187,69 +193,69 @@ class SafariWrapperViewController: UIViewController {
         }
     }
 
-    /// Get emoji icon for action type
+    /// Get SF Symbol icon name for action type
     private func getIconForAction(_ action: String) -> String {
         let lowercasedAction = action.lowercased()
 
         // Education/School
         if lowercasedAction.contains("grade") || lowercasedAction.contains("assignment") {
-            return "📊"
+            return "chart.bar.fill"
         }
         if lowercasedAction.contains("homework") || lowercasedAction.contains("study") {
-            return "📝"
+            return "pencil.and.outline"
         }
 
         // Shopping
-        if lowercasedAction.contains("shop") || lowercasedAction.contains("browse") || lowercasedAction.contains("deal") {
-            return "🛍️"
+        if lowercasedAction.contains("shop") || lowercasedAction.contains("browse") || lowercasedAction.contains("deal") || lowercasedAction.contains("cart") {
+            return "cart.fill"
         }
         if lowercasedAction.contains("track") || lowercasedAction.contains("package") || lowercasedAction.contains("delivery") {
-            return "📦"
+            return "shippingbox.fill"
         }
         if lowercasedAction.contains("pay") || lowercasedAction.contains("invoice") || lowercasedAction.contains("bill") {
-            return "💳"
+            return "creditcard.fill"
         }
 
         // Travel
         if lowercasedAction.contains("flight") || lowercasedAction.contains("check in") || lowercasedAction.contains("boarding") {
-            return "✈️"
+            return "airplane"
         }
         if lowercasedAction.contains("hotel") || lowercasedAction.contains("reservation") || lowercasedAction.contains("booking") {
-            return "🏨"
+            return "building.2.fill"
         }
 
         // Work/Business
         if lowercasedAction.contains("meeting") || lowercasedAction.contains("schedule") || lowercasedAction.contains("demo") {
-            return "📅"
+            return "calendar"
         }
         if lowercasedAction.contains("document") || lowercasedAction.contains("review") || lowercasedAction.contains("approve") {
-            return "📄"
+            return "doc.text.fill"
         }
         if lowercasedAction.contains("spreadsheet") || lowercasedAction.contains("report") {
-            return "📊"
+            return "tablecells.fill"
         }
 
         // Healthcare/Appointments
         if lowercasedAction.contains("appointment") || lowercasedAction.contains("doctor") || lowercasedAction.contains("prescription") {
-            return "🏥"
+            return "cross.case.fill"
         }
 
         // Food/Restaurants
         if lowercasedAction.contains("restaurant") || lowercasedAction.contains("menu") || lowercasedAction.contains("order food") {
-            return "🍽️"
+            return "fork.knife"
         }
 
         // Security/Account
         if lowercasedAction.contains("security") || lowercasedAction.contains("verify") || lowercasedAction.contains("password") {
-            return "🔒"
+            return "lock.shield.fill"
         }
 
         // Social/Events
         if lowercasedAction.contains("event") || lowercasedAction.contains("rsvp") || lowercasedAction.contains("invitation") {
-            return "🎉"
+            return "party.popper.fill"
         }
 
         // Generic link/browser
-        return "🔗"
+        return "link"
     }
 }

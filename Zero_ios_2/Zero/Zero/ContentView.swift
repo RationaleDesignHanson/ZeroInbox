@@ -129,9 +129,14 @@ struct ContentView: View {
         }
         .onChange(of: viewModel.cards.count) { oldCount, newCount in
             // Capture initial card count when cards first load (for progress meter)
+            // IMPORTANT: Reset totalInitialCards if newCount increases significantly (card refresh/reload)
             if totalInitialCards == 0 && newCount > 0 {
                 totalInitialCards = newCount
                 Logger.info("📊 Initial card count captured: \(totalInitialCards)", category: .ui)
+            } else if newCount > totalInitialCards {
+                // Cards were refreshed/reloaded - update totalInitialCards
+                Logger.info("📊 Cards refreshed: updating total from \(totalInitialCards) to \(newCount)", category: .ui)
+                totalInitialCards = newCount
             }
         }
         .onAppear {
@@ -149,14 +154,20 @@ struct ContentView: View {
                 viewModel.currentAppState = .feed
                 viewModel.loadCards()
             }
+
+            // Initialize totalInitialCards if cards are already loaded
+            // This fixes cases where .onChange doesn't trigger properly
+            if totalInitialCards == 0 && !viewModel.cards.isEmpty {
+                totalInitialCards = viewModel.cards.count
+                Logger.info("📊 Initialized totalInitialCards in onAppear: \(totalInitialCards)", category: .ui)
+            }
         }
     }
     
     var mainFeedView: some View {
         ZStack {
-            // Gradient background
-            ArchetypeConfig.config(for: viewModel.currentArchetype).gradient
-                .ignoresSafeArea()
+            // Firefly background matching website design
+            FireflyBackground()
 
             // Show loading screen while fetching emails OR if we have 0 cards and no error
             // This prevents premature showing of empty state
@@ -806,7 +817,7 @@ struct ContentView: View {
             case "open_app":
                 OpenAppModal(card: card, isPresented: $showActionModal)
 
-            case "archive", "save_later", "snooze":
+            case "archive", "save_later", "save_for_later", "snooze":
                 SnoozePickerModal(
                     isPresented: $showActionModal,
                     selectedDuration: $snoozeDuration
@@ -1018,6 +1029,549 @@ struct ContentView: View {
                         .onAppear {
                             Logger.warning("view_reservation missing context", category: .action)
                         }
+                }
+
+            // TIER 1: High-priority missing actions
+            case "add_to_notes":
+                AddToNotesModal(card: card, isPresented: $showActionModal)
+
+            case "track_delivery":
+                // Same as track_package
+                if let context = action.context {
+                    TrackPackageModal(
+                        card: card,
+                        trackingNumber: context["trackingNumber"] ?? context["deliveryNumber"] ?? "Unknown",
+                        carrier: context["carrier"] ?? context["courier"] ?? "Carrier",
+                        trackingUrl: context["url"] ?? context["trackingUrl"] ?? context["deliveryUrl"] ?? "",
+                        context: context,
+                        isPresented: $showActionModal
+                    )
+                } else {
+                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                        .onAppear {
+                            Logger.warning("track_delivery missing context", category: .action)
+                        }
+                }
+
+            case "schedule_payment", "set_payment_reminder":
+                // Payment scheduling - use calendar or reminder
+                AddReminderModal(card: card, isPresented: $showActionModal)
+
+            case "join_meeting", "open_link", "open_original_link":
+                // These should be GO_TO actions, but if marked as IN_APP, open in Safari
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                        .onAppear {
+                            Logger.warning("\(action.actionId) missing valid URL", category: .action)
+                        }
+                }
+
+            case "reschedule_appointment", "confirm_appointment", "book_appointment", "check_in_appointment":
+                // Appointment actions - use calendar
+                AddToCalendarModal(card: card, isPresented: $showActionModal)
+
+            // TIER 2: Medium-priority missing actions
+            case "verify_account":
+                AccountVerificationModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    verificationType: .account,
+                    verifyUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) }
+                )
+
+            case "verify_device":
+                AccountVerificationModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    verificationType: .device,
+                    verifyUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) }
+                )
+
+            case "verify_social_account":
+                AccountVerificationModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    verificationType: .social,
+                    verifyUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) }
+                )
+
+            case "reset_password":
+                // Password reset - open link or show detail
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                }
+
+            case "update_payment_method", "update_payment":
+                // Payment update - use dedicated payment modal
+                UpdatePaymentModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    updateUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
+                    context: action.context ?? [:]
+                )
+
+            case "download_attachment", "download_receipt", "download_results":
+                // Document download - show document viewer
+                DocumentViewerModal(card: card, isPresented: $showActionModal)
+
+            case "view_invoice", "view_order", "view_statement":
+                // View financial documents
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    DocumentViewerModal(card: card, isPresented: $showActionModal)
+                }
+
+            case "manage_subscription", "upgrade_subscription", "extend_trial":
+                // Subscription management
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                }
+
+            case "complete_cart", "return_item", "reorder_item", "buy_again":
+                // Shopping actions
+                ShoppingPurchaseModal(card: card, isPresented: $showActionModal, selectedAction: action.actionId)
+                    .environmentObject(viewModel)
+
+            // School & Education actions
+            case "accept_school_event", "rsvp_school_event", "reply_to_teacher", "submit_assignment",
+                 "view_assignment", "check_grade", "view_lms_message", "view_announcement", "view_team_announcement":
+                // School actions - open link or show detail
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                }
+
+            // Social & RSVP actions
+            case "rsvp_yes":
+                RSVPModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    response: .yes,
+                    context: action.context ?? [:]
+                )
+
+            case "rsvp_no":
+                RSVPModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    response: .no,
+                    context: action.context ?? [:]
+                )
+
+            case "accept_social_invitation", "rsvp_game":
+                // Generic invitations - use dedicated RSVP modal with yes response
+                RSVPModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    response: .yes,
+                    context: action.context ?? [:]
+                )
+
+            // Event & Activity actions
+            case "add_activity_to_calendar", "book_activity_tickets", "register_event",
+                 "register_for_sports", "view_game_schedule", "view_practice_details":
+                // Activity registration - open link or add to calendar
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    AddToCalendarModal(card: card, isPresented: $showActionModal)
+                }
+
+            // Legal & Government actions
+            case "apply_for_permit", "register_to_vote", "confirm_court_appearance", "renew_license",
+                 "pay_property_tax", "view_ballot", "view_legal_document":
+                // Government/legal actions - open link or show document
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    DocumentViewerModal(card: card, isPresented: $showActionModal)
+                }
+
+            // Financial & Insurance actions
+            case "file_insurance_claim", "view_claim_status", "dispute_transaction", "view_credit_report",
+                 "view_mortgage_details", "view_portfolio", "view_benefits":
+                // Financial documents - open link or show document
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    DocumentViewerModal(card: card, isPresented: $showActionModal)
+                }
+
+            // Healthcare actions
+            case "pickup_prescription", "schedule_inspection", "schedule_test":
+                // Healthcare actions - add reminder or open link
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    AddReminderModal(card: card, isPresented: $showActionModal)
+                }
+
+            // Utilities & Services actions
+            case "pay_utility_bill", "prepare_for_outage", "set_outage_reminder", "view_outage_details",
+                 "change_delivery_preferences", "schedule_delivery_time", "notify_restock":
+                // Utility actions - open link or set reminder
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    AddReminderModal(card: card, isPresented: $showActionModal)
+                }
+
+            // Shopping & Rewards actions
+            case "redeem_rewards", "rate_product", "set_price_alert", "accept_offer", "view_product",
+                 "view_refund_status", "view_warranty", "view_usage":
+                // Shopping/rewards - open link or browse shopping
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    ShoppingPurchaseModal(card: card, isPresented: $showActionModal, selectedAction: action.actionId)
+                        .environmentObject(viewModel)
+                }
+
+            // Real Estate & Property actions
+            case "save_properties", "view_property_listings", "schedule_showing", "view_introduction":
+                // Real estate - use dedicated modal or open link
+                if action.actionId == "save_properties" {
+                    SavePropertiesModal(card: card, isPresented: $showActionModal)
+                } else if let context = action.context,
+                          let urlString = extractURL(from: context, actionId: action.actionId),
+                          let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                }
+
+            // Job & Career actions
+            case "view_job_details", "schedule_interview", "check_application_status":
+                // Job actions - open link or show detail
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                }
+
+            // Travel & Booking actions
+            case "manage_booking", "view_itinerary", "get_directions":
+                // Travel actions - use dedicated itinerary modal
+                let itineraryType: ViewItineraryModal.ItineraryType = {
+                    if let type = action.context?["type"] {
+                        switch type.lowercased() {
+                        case "flight": return .flight
+                        case "hotel": return .hotel
+                        case "rental", "car": return .rental
+                        case "restaurant": return .restaurant
+                        default: return .general
+                        }
+                    }
+                    return .general
+                }()
+
+                ViewItineraryModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    itineraryType: itineraryType,
+                    bookingUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
+                    context: action.context ?? [:]
+                )
+
+            case "print_return_label", "track_return":
+                // Return/label actions - open link or show details
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                }
+
+            // Support & Communication actions
+            case "contact_support", "view_ticket", "reply_to_ticket", "reply_to_thread", "reply_to_post":
+                // Support/communication - reply or view details
+                if action.actionId.contains("reply") || action.actionId == "reply_thanks" {
+                    EmailComposerModal(
+                        card: card,
+                        isPresented: $showActionModal,
+                        recipientOverride: action.context?["recipientEmail"] ?? card.sender?.email,
+                        subjectOverride: action.context?["subject"] ?? "Re: \(card.title)"
+                    )
+                } else if let context = action.context,
+                          let urlString = extractURL(from: context, actionId: action.actionId),
+                          let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                }
+
+            // Community & Social actions
+            case "read_community_post", "view_post_comments", "view_social_message", "share_achievement":
+                // Community actions - use dedicated modals or open link
+                if action.actionId == "read_community_post" {
+                    ReadCommunityPostModal(card: card, isPresented: $showActionModal)
+                } else if action.actionId == "view_post_comments" {
+                    ViewPostCommentsModal(card: card, isPresented: $showActionModal)
+                } else if let context = action.context,
+                          let urlString = extractURL(from: context, actionId: action.actionId),
+                          let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                }
+
+            // Activity & Analytics actions
+            case "view_activity", "view_activity_details", "view_results", "view_extracted_content",
+                 "view_incident", "view_onboarding_info", "view_referral":
+                // Activity/analytics actions - use dedicated modals or show details
+                if action.actionId == "view_activity" {
+                    ViewActivityModal(card: card, isPresented: $showActionModal)
+                } else if action.actionId == "view_activity_details" {
+                    ViewActivityDetailsModal(card: card, isPresented: $showActionModal)
+                } else if let context = action.context,
+                          let urlString = extractURL(from: context, actionId: action.actionId),
+                          let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
+                }
+
+            // Security actions
+            case "review_security":
+                ReviewSecurityModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    securityType: .reviewActivity,
+                    actionUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
+                    context: action.context ?? [:]
+                )
+
+            case "revoke_secret":
+                ReviewSecurityModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    securityType: .revokeAccess,
+                    actionUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
+                    context: action.context ?? [:]
+                )
+
+            case "verify_transaction":
+                ReviewSecurityModal(
+                    card: card,
+                    isPresented: $showActionModal,
+                    securityType: .verifyTransaction,
+                    actionUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
+                    context: action.context ?? [:]
+                )
+
+            case "provide_access_code":
+                ProvideAccessCodeModal(card: card, isPresented: $showActionModal)
+
+            // Document & Tax actions
+            case "download_tax_document", "pay_form_fee", "take_survey":
+                // Document/tax actions - download or open link
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    DocumentViewerModal(card: card, isPresented: $showActionModal)
+                }
+
+            // Scheduling actions (general)
+            case "schedule_extraction_retry":
+                // Internal scheduling action - show detail
+                EmailDetailView(card: card)
+
+            // Catch-all for remaining backend actions
+            case "cancel_subscription_service":
+                // Miscellaneous actions - try to open link or show detail
+                if let context = action.context,
+                   let urlString = extractURL(from: context, actionId: action.actionId),
+                   let url = validateURL(urlString) {
+                    SafariViewWithContext(
+                        url: url,
+                        actionName: action.displayName,
+                        cardTitle: card.title,
+                        cardType: card.type,
+                        onDismiss: {
+                            showActionModal = false
+                        }
+                    )
+                } else {
+                    EmailDetailView(card: card)
                 }
 
             default:
@@ -1275,6 +1829,16 @@ struct ContentView: View {
 
         case .viewPostComments(let card):
             ViewPostCommentsModal(card: card, isPresented: $showActionModal)
+
+        case .shoppingAutomation(let card, let productUrl, let productName):
+            ShoppingAutomationModal(
+                card: card,
+                productUrl: productUrl,
+                productName: productName,
+                context: [:],
+                isPresented: $showActionModal
+            )
+            .environmentObject(viewModel)
         }
     }
     
@@ -1510,5 +2074,179 @@ struct ContentView: View {
             // Silently fail - cart badge just won't update
             Logger.warning("Failed to load cart count: \(error.localizedDescription)", category: .shopping)
         }
+    }
+}
+
+// MARK: - FireflyBackground Component
+
+/// Firefly background matching the website design
+/// Creates floating particles with subtle glow effects on a multi-color gradient
+struct FireflyBackground: View {
+    @State private var fireflies: [Firefly] = []
+
+    var body: some View {
+        ZStack {
+            // Base gradient matching website colors
+            // linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%)
+            LinearGradient(
+                colors: [
+                    Color(hex: "1a1a2e"),
+                    Color(hex: "2d1b4e"),
+                    Color(hex: "4a1942"),
+                    Color(hex: "1f1f3a")
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+
+            // Firefly particles
+            ForEach(fireflies) { firefly in
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                firefly.color.opacity(firefly.opacity),
+                                firefly.color.opacity(firefly.opacity * 0.5),
+                                firefly.color.opacity(0)
+                            ],
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: firefly.size
+                        )
+                    )
+                    .frame(width: firefly.size, height: firefly.size)
+                    .blur(radius: firefly.blur)
+                    .position(firefly.position)
+                    .opacity(firefly.currentOpacity)
+        }
+        }
+        .ignoresSafeArea()
+        .onAppear {
+            generateFireflies()
+            startAnimation()
+        }
+    }
+
+    private func generateFireflies() {
+        // Generate 40 small/medium fireflies + 6 large orbs
+        var newFireflies: [Firefly] = []
+
+        // Small, medium, and warm fireflies (40 total)
+        for i in 0..<40 {
+            let rand = Double.random(in: 0...1)
+            let type: FireflyType = rand < 0.33 ? .small : rand < 0.66 ? .medium : .warm
+            newFireflies.append(Firefly(type: type, index: i))
+        }
+
+        // Large ambient orbs (6 total)
+        for i in 0..<6 {
+            newFireflies.append(Firefly(type: .orb, index: i + 40))
+        }
+
+        fireflies = newFireflies
+    }
+
+    private func startAnimation() {
+        for i in 0..<fireflies.count {
+            animateFirefly(index: i)
+        }
+    }
+
+    private func animateFirefly(index: Int) {
+        guard index < fireflies.count else { return }
+
+        let duration = fireflies[index].duration
+        let delay = Double.random(in: 0...duration)
+
+        // Animate opacity
+        withAnimation(
+            .easeInOut(duration: duration)
+            .repeatForever(autoreverses: true)
+            .delay(delay)
+        ) {
+            fireflies[index].currentOpacity = Double.random(in: 0.3...0.9)
+        }
+
+        // Animate position
+        Timer.scheduledTimer(withTimeInterval: duration, repeats: true) { _ in
+            guard index < fireflies.count else { return }
+
+            withAnimation(.easeInOut(duration: duration)) {
+                let moveRange = fireflies[index].type == .orb ? 80.0 : 70.0
+                fireflies[index].position.x += CGFloat.random(in: -moveRange...moveRange)
+                fireflies[index].position.y += CGFloat.random(in: -moveRange...moveRange)
+
+                // Keep within screen bounds
+                fireflies[index].position.x = max(0, min(UIScreen.main.bounds.width, fireflies[index].position.x))
+                fireflies[index].position.y = max(0, min(UIScreen.main.bounds.height, fireflies[index].position.y))
+            }
+        }
+    }
+}
+
+// MARK: - Firefly Model
+
+enum FireflyType {
+    case small, medium, warm, orb
+}
+
+struct Firefly: Identifiable {
+    let id = UUID()
+    let type: FireflyType
+    let color: Color
+    let size: CGFloat
+    let blur: CGFloat
+    let opacity: Double
+    let duration: Double
+    var position: CGPoint
+    var currentOpacity: Double
+
+    init(type: FireflyType, index: Int) {
+        self.type = type
+
+        // Set properties based on type (matching website CSS)
+        switch type {
+        case .small:
+            // rgba(147, 197, 253, 1) - blue fireflies
+            self.color = Color(red: 147/255, green: 197/255, blue: 253/255)
+            self.size = 3
+            self.blur = 5
+            self.opacity = 0.8
+
+        case .medium:
+            // rgba(196, 181, 253, 1) - purple fireflies
+            self.color = Color(red: 196/255, green: 181/255, blue: 253/255)
+            self.size = 5
+            self.blur = 7.5
+            self.opacity = 0.9
+
+        case .warm:
+            // rgba(251, 191, 36, 1) - amber/orange fireflies
+            self.color = Color(red: 251/255, green: 191/255, blue: 36/255)
+            self.size = 4
+            self.blur = 6
+            self.opacity = 0.9
+
+        case .orb:
+            // rgba(139, 92, 246, 0.15) - large purple orbs
+            self.color = Color(red: 139/255, green: 92/255, blue: 246/255)
+            self.size = 200
+            self.blur = 40
+            self.opacity = 0.15
+        }
+
+        // Random initial position
+        self.position = CGPoint(
+            x: CGFloat.random(in: 0...UIScreen.main.bounds.width),
+            y: CGFloat.random(in: 0...UIScreen.main.bounds.height)
+        )
+
+        // Random animation duration (8-20s for organic feel, longer for orbs)
+        self.duration = type == .orb
+            ? Double.random(in: 20...35)
+            : Double.random(in: 8...20)
+
+        // Start with random opacity
+        self.currentOpacity = Double.random(in: 0.3...0.9)
     }
 }

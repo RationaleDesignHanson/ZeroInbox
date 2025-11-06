@@ -219,6 +219,16 @@ extension View {
 
         case .viewPostComments(let card):
             ViewPostCommentsModal(card: card, isPresented: isPresented)
+
+        case .shoppingAutomation(let card, let productUrl, let productName):
+            ShoppingAutomationModal(
+                card: card,
+                productUrl: productUrl,
+                productName: productName,
+                context: [:],
+                isPresented: isPresented
+            )
+            .environmentObject(viewModel)
         }
     }
 }

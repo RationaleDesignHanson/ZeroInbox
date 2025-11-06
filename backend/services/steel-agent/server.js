@@ -3,17 +3,35 @@
  * Provides AI-powered subscription cancellation assistance
  */
 
-require('dotenv').config({ path: '../../.env' });
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const logger = require('../../shared/config/logger');
+const winston = require('winston');
+
+// Create logger directly in this file for Cloud Run compatibility
+const logger = winston.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.colorize(),
+        winston.format.simple()
+      )
+    })
+  ]
+});
+
 const { findService, detectServiceFromEmail, supportsAIAssistance } = require('./subscription-helper');
 const { guideCancellation } = require('./steel-client');
-const { automateAddToCart, getPlatformInfo } = require('./shopping-automation');
+const { automateAddToCart, getPlatformInfo, closeSessionEarly } = require('./shopping-automation');
 
 const app = express();
-const PORT = process.env.STEEL_AGENT_PORT || 8087;
+const PORT = process.env.PORT || process.env.STEEL_AGENT_PORT || 8087;
 
 // Middleware
 app.use(helmet());
@@ -320,17 +338,21 @@ app.post('/api/shopping/add-to-cart', async (req, res) => {
 
     logger.info('Shopping automation succeeded', {
       productName,
-      checkoutUrl: result.checkoutUrl
+      checkoutUrl: result.checkoutUrl,
+      sessionId: result.sessionId
     });
 
     res.json({
       success: true,
       checkoutUrl: result.checkoutUrl,
       cartUrl: result.cartUrl,
+      sessionId: result.sessionId,
+      sessionViewerUrl: result.sessionViewerUrl,
       productName,
       steps: result.steps,
       screenshots: result.screenshots,
-      message: `Successfully added ${productName} to cart!`
+      message: `Successfully added ${productName} to cart! Open the session viewer URL to complete your purchase with cart state preserved.`,
+      note: 'Use sessionViewerUrl to view the browser session with the item in cart. Session will remain active for 30 minutes.'
     });
 
   } catch (error) {
@@ -385,6 +407,48 @@ app.get('/api/shopping/platform-info', (req, res) => {
     });
     res.status(500).json({
       error: 'Failed to get platform info',
+      message: error.message
+    });
+  }
+});
+
+/**
+ * DELETE /api/shopping/session/:sessionId
+ * Manually close a Steel session before the automatic timeout
+ *
+ * Response:
+ * {
+ *   success: boolean,
+ *   message: string
+ * }
+ */
+app.delete('/api/shopping/session/:sessionId', async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    if (!sessionId) {
+      return res.status(400).json({
+        error: 'Session ID required'
+      });
+    }
+
+    logger.info('Manually closing shopping session', { sessionId });
+
+    await closeSessionEarly(sessionId);
+
+    res.json({
+      success: true,
+      message: `Session ${sessionId} closed successfully`
+    });
+
+  } catch (error) {
+    logger.error('Error closing session', {
+      sessionId: req.params.sessionId,
+      error: error.message
+    });
+    res.status(500).json({
+      success: false,
+      error: 'Failed to close session',
       message: error.message
     });
   }
