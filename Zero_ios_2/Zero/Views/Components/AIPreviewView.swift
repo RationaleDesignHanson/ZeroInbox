@@ -5,6 +5,23 @@ import SwiftUI
 struct AIPreviewView: View {
     let card: EmailCard
 
+    // Conditional text colors based on card type
+    private var headerTextColor: Color {
+        card.type == .ads ? DesignTokens.Colors.adsTextSecondary : Color.white.opacity(0.8)
+    }
+
+    private var headerTextColorStrong: Color {
+        card.type == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white.opacity(0.9)
+    }
+
+    private var progressBarBackground: Color {
+        card.type == .ads ? DesignTokens.Colors.adsTextSubtle.opacity(0.3) : Color.white.opacity(0.2)
+    }
+
+    private var progressBarFill: Color {
+        card.type == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white
+    }
+
     var body: some View {
         // Single unified container matching web demo - purple gradient background
         VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -14,18 +31,18 @@ struct AIPreviewView: View {
                 HStack(spacing: 8) {
                     Image(systemName: "sparkles")
                         .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(headerTextColor)
 
                     Text("Analysis Confidence")
                         .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(headerTextColor)
 
                     Spacer()
 
                     if let confidence = card.intentConfidence {
                         Text("\(Int(confidence * 100))%")
                             .font(.system(size: 11, weight: .semibold))
-                            .foregroundColor(.white.opacity(0.9))
+                            .foregroundColor(headerTextColorStrong)
                     }
                 }
 
@@ -35,12 +52,12 @@ struct AIPreviewView: View {
                         ZStack(alignment: .leading) {
                             // Background bar
                             RoundedRectangle(cornerRadius: 3)
-                                .fill(Color.white.opacity(0.2))
+                                .fill(progressBarBackground)
                                 .frame(height: 6)
 
                             // Filled percentage
                             RoundedRectangle(cornerRadius: 3)
-                                .fill(Color.white)
+                                .fill(progressBarFill)
                                 .frame(width: geometry.size.width * CGFloat(confidence), height: 6)
                         }
                     }
@@ -54,9 +71,12 @@ struct AIPreviewView: View {
         }
         .padding(DesignTokens.Spacing.component)
         .background(
-            // Purple gradient background matching web demo
+            // Gradient background: purple for mail, green for ads
             LinearGradient(
-                colors: [
+                colors: card.type == .ads ? [
+                    DesignTokens.Colors.adsGradientStart.opacity(0.2),
+                    DesignTokens.Colors.adsGradientEnd.opacity(0.15)
+                ] : [
                     Color.purple.opacity(0.2),
                     Color.purple.opacity(0.15)
                 ],
@@ -67,7 +87,12 @@ struct AIPreviewView: View {
         .cornerRadius(DesignTokens.Radius.button)
         .overlay(
             RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                .strokeBorder(Color.purple.opacity(0.4), lineWidth: 1.5)
+                .strokeBorder(
+                    card.type == .ads ?
+                        DesignTokens.Colors.adsGradientEnd.opacity(0.4) :
+                        Color.purple.opacity(0.4),
+                    lineWidth: 1.5
+                )
         )
     }
 }

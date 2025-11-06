@@ -24,7 +24,7 @@
         }
 
         body {
-            padding-top: 60px;
+            padding-top: 120px;
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, var(--dark-bg-1) 0%, var(--dark-bg-2) 30%, var(--dark-bg-3) 60%, #1f1f3a 100%);
             color: #ffffff;
@@ -146,7 +146,7 @@
 
         .btn {
             padding: 16px 32px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             border: none;
             border-radius: 12px;
@@ -510,13 +510,10 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            body {
-                padding-top: 120px;
-            }
             .hero h1 { font-size: 40px; }
             .hero p { font-size: 18px; }
             .section-title { font-size: 36px; }
-            .logo-hero { font-size: 80px; }
+            .logo-hero { font-size: 70px; margin-bottom: 12px; }
         }
     
         /* Beta Banner - Fixed Top */
@@ -718,7 +715,7 @@
         .mobile-menu-toggle {
             display: none;
             position: fixed;
-            top: 70px;
+            top: 130px;
             right: 20px;
             z-index: 10000;
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(139, 92, 246, 0.9));
@@ -837,7 +834,12 @@
 
         @media (max-width: 768px) {
             body {
-                padding-top: 120px;
+                padding-top: 0;
+            }
+
+            .hero {
+                padding: 60px 20px;
+                min-height: 100vh;
             }
 
             .beta-banner {
@@ -862,6 +864,200 @@
                 align-items: center;
                 justify-content: center;
             }
+        }
+
+        /* Beta Modal */
+        .beta-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 10002;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .beta-modal-overlay.visible {
+            display: flex;
+        }
+
+        .beta-modal {
+            position: relative;
+            width: 90%;
+            max-width: 480px;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.98), rgba(45, 27, 78, 0.98));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 24px;
+            padding: 40px 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .beta-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+            -webkit-touch-callout: none;
+        }
+
+        .beta-modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .beta-modal-logo {
+            font-size: 36px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .beta-modal-subtitle {
+            font-size: 12px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 24px;
+        }
+
+        .beta-modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .beta-modal-description {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .beta-form-group {
+            margin-bottom: 20px;
+        }
+
+        .beta-form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 8px;
+        }
+
+        .beta-form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .beta-form-group input:focus {
+            border-color: #3b82f6;
+            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .beta-form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .beta-modal-button {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0.2);
+            -webkit-touch-callout: none;
+        }
+
+        .beta-modal-button.primary {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            margin-bottom: 12px;
+        }
+
+        .beta-modal-button.primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .beta-modal-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .beta-modal-message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+
+        .beta-modal-message.success {
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+            display: block;
+        }
+
+        .beta-modal-message.error {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            display: block;
+        }
+
+        .beta-modal-footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .beta-modal-footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .beta-modal-footer a:hover {
+            text-decoration: underline;
         }
 
     </style>
@@ -891,7 +1087,7 @@
             <ul class="nav-links">
                 <li><a href="landing.html" class="nav-link active">Home</a></li>
                 <li><a href="app-demo.html" class="nav-link">Live Demo</a></li>
-                <li><a href="zero-sequence-live.html" class="nav-link">AI Intelligence</a></li>
+                <li><a href="zero-sequence-live.html" class="nav-link">Intent-Action Demo</a></li>
                 <li><a href="action-modal-explorer.html" class="nav-link">Actions</a></li>
                 <li><a href="intent-action-explorer.html" class="nav-link">Intents</a></li>
                 <li><a href="shopping-cart.html" class="nav-link">Shopping</a></li>
@@ -917,7 +1113,7 @@
         <ul class="mobile-nav-links">
             <li><a href="landing.html" class="mobile-nav-link active">Home</a></li>
             <li><a href="app-demo.html" class="mobile-nav-link">Live Demo</a></li>
-            <li><a href="zero-sequence-live.html" class="mobile-nav-link">AI Intelligence</a></li>
+            <li><a href="zero-sequence-live.html" class="mobile-nav-link">Intent-Action Demo</a></li>
             <li><a href="action-modal-explorer.html" class="mobile-nav-link">Actions</a></li>
             <li><a href="intent-action-explorer.html" class="mobile-nav-link">Intents</a></li>
             <li><a href="shopping-cart.html" class="mobile-nav-link">Shopping</a></li>
@@ -939,8 +1135,8 @@
             <h1>Your Inbox, Simplified to Zero</h1>
             <p>AI-powered email intelligence that surfaces what matters and handles everything else with one-tap actions</p>
             <div class="cta-buttons">
-                <a href="/splash.html" class="btn btn-primary">Join Beta</a>
                 <a href="app-demo.html" class="btn btn-secondary">See How It Works</a>
+                <button onclick="openBetaModal()" class="btn btn-primary">Contact to Try App</button>
             </div>
         </section>
 
@@ -1172,8 +1368,8 @@
             <h2>Ready for Inbox Zero?</h2>
             <p>Join 100 beta testers experiencing the future of email</p>
             <div class="cta-buttons">
-                <a href="/splash.html" class="btn btn-primary">Request Beta Access</a>
-                <a href="app-demo.html" class="btn btn-secondary">View Live Demo</a>
+                <a href="app-demo.html" class="btn btn-secondary">See How It Works</a>
+                <button onclick="openBetaModal()" class="btn btn-primary">Contact to Try App</button>
             </div>
         </section>
 
@@ -1189,6 +1385,62 @@
                 © 2025 Zero Email. Beta access by invitation only.
             </p>
         </footer>
+    </div>
+
+    <!-- Beta Modal -->
+    <div id="betaModalOverlay" class="beta-modal-overlay" onclick="closeBetaModal()">
+        <div class="beta-modal" onclick="event.stopPropagation()">
+            <button class="beta-modal-close" onclick="closeBetaModal()">✕</button>
+
+            <div class="beta-modal-logo">zero</div>
+            <div class="beta-modal-subtitle">Email Intelligence Platform</div>
+
+            <h3 class="beta-modal-title">Join the Beta</h3>
+            <p class="beta-modal-description">Get early access to Zero and help shape the future of email management</p>
+
+            <div id="betaMessage" class="beta-modal-message"></div>
+
+            <form id="betaForm" onsubmit="submitBetaRequest(event)">
+                <div class="beta-form-group">
+                    <label for="betaEmail">Email Address *</label>
+                    <input
+                        type="email"
+                        id="betaEmail"
+                        placeholder="your@email.com"
+                        required
+                        autocomplete="email"
+                    >
+                </div>
+
+                <div class="beta-form-group">
+                    <label for="betaName">Full Name</label>
+                    <input
+                        type="text"
+                        id="betaName"
+                        placeholder="Your name"
+                        autocomplete="name"
+                    >
+                </div>
+
+                <div class="beta-form-group">
+                    <label for="betaCompany">Company (Optional)</label>
+                    <input
+                        type="text"
+                        id="betaCompany"
+                        placeholder="Your company"
+                        autocomplete="organization"
+                    >
+                </div>
+
+                <button type="submit" id="betaSubmitBtn" class="beta-modal-button primary">
+                    Request Access
+                </button>
+            </form>
+
+            <div class="beta-modal-footer">
+                Already have an access code? <a href="/splash.html">Login here</a>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1218,6 +1470,76 @@
             element.classList.toggle('active');
             const icon = element.querySelector('.faq-question span');
             icon.textContent = element.classList.contains('active') ? '−' : '+';
+        }
+
+        // Beta Modal Functions
+        function openBetaModal() {
+            const overlay = document.getElementById('betaModalOverlay');
+            overlay.classList.add('visible');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+
+        function closeBetaModal() {
+            const overlay = document.getElementById('betaModalOverlay');
+            overlay.classList.remove('visible');
+            document.body.style.overflow = ''; // Restore scrolling
+
+            // Reset form and message
+            document.getElementById('betaForm').reset();
+            const message = document.getElementById('betaMessage');
+            message.className = 'beta-modal-message';
+            message.textContent = '';
+        }
+
+        async function submitBetaRequest(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('betaSubmitBtn');
+            const message = document.getElementById('betaMessage');
+            const email = document.getElementById('betaEmail').value;
+            const name = document.getElementById('betaName').value;
+            const company = document.getElementById('betaCompany').value;
+
+            // Disable button during submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const response = await fetch('/auth/waitlist', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        name: name || null,
+                        company: company || null
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    message.className = 'beta-modal-message success';
+                    message.textContent = result.message || 'Success! Check your email for next steps.';
+                    document.getElementById('betaForm').reset();
+
+                    // Auto-close after 3 seconds
+                    setTimeout(() => {
+                        closeBetaModal();
+                    }, 3000);
+                } else {
+                    message.className = 'beta-modal-message error';
+                    message.textContent = result.error || 'Failed to submit. Please try again.';
+                }
+            } catch (error) {
+                console.error('Beta request error:', error);
+                message.className = 'beta-modal-message error';
+                message.textContent = 'Connection error. Please try again later.';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Request Access';
+            }
         }
 
         // Smooth scroll for anchor links

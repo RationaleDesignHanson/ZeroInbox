@@ -72,6 +72,11 @@ struct URLShortener {
                 continue
             }
 
+            // Skip if this is a file path, not a real URL
+            if isFilePath(url) {
+                continue
+            }
+
             let urlString = url.absoluteString
 
             // Check if we have extracted anchor text from HTML
@@ -113,6 +118,11 @@ struct URLShortener {
                 continue
             }
 
+            // Skip if this is a file path, not a real URL
+            if isFilePath(url) {
+                continue
+            }
+
             // Generate smart label based on URL
             let label = generateLabel(for: url, linkNumber: &linkCount)
 
@@ -146,6 +156,48 @@ struct URLShortener {
             if context.contains("](\(text[range])") {
                 return true
             }
+        }
+
+        return false
+    }
+
+    /// Check if URL is actually a file path that should not be linkified
+    /// Filters out local file paths like /Users/..., /System/..., file://...
+    private static func isFilePath(_ url: URL) -> Bool {
+        let urlString = url.absoluteString
+        let path = url.path
+
+        // Filter out file:// scheme
+        if url.scheme == "file" {
+            return true
+        }
+
+        // Filter out absolute UNIX paths
+        if urlString.hasPrefix("/Users/") ||
+           urlString.hasPrefix("/System/") ||
+           urlString.hasPrefix("/Library/") ||
+           urlString.hasPrefix("/Applications/") ||
+           urlString.hasPrefix("/tmp/") ||
+           urlString.hasPrefix("/var/") ||
+           path.hasPrefix("/Users/") ||
+           path.hasPrefix("/System/") ||
+           path.hasPrefix("/Library/") ||
+           path.hasPrefix("/Applications/") {
+            return true
+        }
+
+        // Filter out paths with typical file extensions without a proper scheme
+        if url.scheme == nil || url.scheme!.isEmpty {
+            let pathExtensions = [".png", ".jpg", ".jpeg", ".gif", ".pdf", ".doc", ".docx", ".txt", ".zip"]
+            if pathExtensions.contains(where: { urlString.lowercased().hasSuffix($0) }) {
+                return true
+            }
+        }
+
+        // Must have a valid web scheme
+        let validSchemes = ["http", "https", "mailto", "tel", "sms"]
+        if let scheme = url.scheme?.lowercased(), !validSchemes.contains(scheme) {
+            return true
         }
 
         return false

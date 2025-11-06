@@ -60,18 +60,18 @@ struct SimpleCardView: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(displayName)
                         .font(.headline)
-                        .foregroundColor(DesignTokens.Colors.textPrimary)
+                        .foregroundColor(textColorPrimary)
 
                     // Recipient email (only show when multiple accounts)
                     if hasMultipleAccounts, let recipientEmail = card.recipientEmail {
                         Text(recipientEmail)
                             .font(.caption2)
-                            .foregroundColor(DesignTokens.Colors.textSubtle)
+                            .foregroundColor(textColorSubtle)
                     }
 
                     Text(card.timeAgo)
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(textColorTertiary)
                 }
 
                 Spacer()
@@ -149,14 +149,15 @@ struct SimpleCardView: View {
             // Title (reduced to 80% of original size)
             Text(card.title)
                 .font(DesignTokens.Typography.cardTitle)
-                .foregroundColor(DesignTokens.Colors.textPrimary)
-                .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
+                .foregroundColor(textColorPrimary)
+                .shadow(color: card.type == .ads ? .white.opacity(0.5) : .black.opacity(0.3), radius: 2, y: 1)
 
-            // Email Summary Text - Preview text between title and AI analysis (matches web demo)
+            // Email Summary Text - AI-generated 2-3 line narrative (always shown)
+            // Provides quick context before the detailed AI analysis section
             if !card.summary.isEmpty {
                 Text(parseMarkdown(card.summary))
                     .font(.system(size: 15))
-                    .foregroundColor(Color.white.opacity(0.85))
+                    .foregroundColor(textColorSecondary)
                     .lineSpacing(2.0) // Increased from 1.5 for better readability
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.top, 4)
@@ -225,11 +226,11 @@ struct SimpleCardView: View {
                 HStack(spacing: DesignTokens.Spacing.component) {
                     Text("$\(String(format: "%.0f", salePrice))")
                         .font(.system(size: 24, weight: .bold))  // 60% of largeTitle (~40px) = 24px
-                        .foregroundColor(.white)
+                        .foregroundColor(textColorPrimary)
 
                     Text("$\(String(format: "%.0f", originalPrice))")
                         .font(.system(size: 17, weight: .regular))  // 60% of title2 (~28px) = 17px
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(textColorSubtle)
                         .strikethrough()
 
                     if let discount = card.discount {
@@ -383,6 +384,29 @@ struct SimpleCardView: View {
     }
     
     // MARK: - Computed Properties
+
+    /// Returns appropriate text color based on card type
+    /// Mail cards: White text on dark nebula background
+    /// Ads cards: Dark teal text on light scenic background
+    private var textColorPrimary: Color {
+        card.type == .ads ? DesignTokens.Colors.adsTextPrimary : DesignTokens.Colors.textPrimary
+    }
+
+    private var textColorSecondary: Color {
+        card.type == .ads ? DesignTokens.Colors.adsTextSecondary : DesignTokens.Colors.textSecondary
+    }
+
+    private var textColorTertiary: Color {
+        card.type == .ads ? DesignTokens.Colors.adsTextTertiary : DesignTokens.Colors.textTertiary
+    }
+
+    private var textColorSubtle: Color {
+        card.type == .ads ? DesignTokens.Colors.adsTextSubtle : DesignTokens.Colors.textSubtle
+    }
+
+    private var textColorFaded: Color {
+        card.type == .ads ? DesignTokens.Colors.adsTextFaded : DesignTokens.Colors.textFaded
+    }
 
     /// Determines if this email is "shoppable" - can be directly added to cart
     var isShoppable: Bool {
@@ -850,25 +874,25 @@ struct HolographicShimmer: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Multi-layered gradient for liquid glass effect
+                // Multi-layered gradient for liquid glass effect (green theme for ads/shopping)
                 LinearGradient(
                     colors: [
+                        DesignTokens.Colors.adsGradientStart.opacity(0.2),  // Teal
+                        DesignTokens.Colors.adsGradientEnd.opacity(0.15),   // Green
                         Color.cyan.opacity(0.2),
-                        Color.purple.opacity(0.15),
-                        Color.pink.opacity(0.2),
-                        Color.blue.opacity(0.15)
+                        DesignTokens.Colors.adsGradientStart.opacity(0.15)  // Teal
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
 
-                // Animated shimmer sweep
+                // Animated shimmer sweep (green tones)
                 LinearGradient(
                     colors: [
                         Color.white.opacity(0),
                         Color.white.opacity(0.4),
-                        Color.cyan.opacity(0.6),
-                        Color.purple.opacity(0.4),
+                        DesignTokens.Colors.adsGradientEnd.opacity(0.6),     // Green
+                        Color.cyan.opacity(0.4),
                         Color.white.opacity(0.4),
                         Color.white.opacity(0)
                     ],
@@ -879,12 +903,12 @@ struct HolographicShimmer: View {
                 .offset(x: shimmerOffset)
                 .blur(radius: 20)
 
-                // Iridescent spots
+                // Iridescent spots (green tones)
                 Circle()
                     .fill(
                         RadialGradient(
                             colors: [
-                                Color.cyan.opacity(0.4),
+                                DesignTokens.Colors.adsGradientStart.opacity(0.4),  // Teal
                                 Color.cyan.opacity(0)
                             ],
                             center: .center,
@@ -899,8 +923,8 @@ struct HolographicShimmer: View {
                     .fill(
                         RadialGradient(
                             colors: [
-                                Color.purple.opacity(0.3),
-                                Color.purple.opacity(0)
+                                DesignTokens.Colors.adsGradientEnd.opacity(0.3),  // Green
+                                Color.green.opacity(0)
                             ],
                             center: .center,
                             startRadius: 0,
@@ -1243,29 +1267,29 @@ struct NebulaBackground: View {
 
 // MARK: - Scenic Background (ADS)
 
-/// Light galaxy theme for shopping/promotional content
-/// Uses white/blue/orange colors instead of mail's purple/pink for better legibility
+/// Warm gradient background for shopping/promotional content
+/// Uses warm white/green/orange colors for better text legibility
 struct ScenicBackground: View {
     let animationPhase: CGFloat
 
     var body: some View {
         ZStack {
-            // Light base (white with subtle blue tint)
+            // Warm base (cream/warm white gradient)
             LinearGradient(
                 colors: [
-                    Color(red: 0.95, green: 0.96, blue: 0.98), // Nearly white with blue tint
-                    Color(red: 0.93, green: 0.95, blue: 0.99), // Very light sky blue
-                    Color(red: 0.94, green: 0.94, blue: 0.97)  // Light neutral blue
+                    Color(red: 0.98, green: 0.97, blue: 0.94), // Warm cream white
+                    Color(red: 0.96, green: 0.96, blue: 0.92), // Soft warm beige
+                    Color(red: 0.97, green: 0.95, blue: 0.90)  // Light warm sand
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
 
-            // Blue nebula clouds
+            // Green nebula clouds (teal-green)
             RadialGradient(
                 colors: [
-                    Color(red: 0.4, green: 0.6, blue: 0.9, opacity: 0.3), // Bright blue
-                    Color(red: 0.5, green: 0.7, blue: 0.95, opacity: 0.2), // Sky blue
+                    Color(red: 0.35, green: 0.75, blue: 0.65, opacity: 0.25), // Soft teal-green
+                    Color(red: 0.45, green: 0.80, blue: 0.70, opacity: 0.15), // Light green
                     Color.clear
                 ],
                 center: .init(x: 0.3, y: 0.4),
@@ -1275,11 +1299,11 @@ struct ScenicBackground: View {
             .scaleEffect(1.0 + animationPhase * 0.1)
             .blur(radius: 60)
 
-            // Orange accent nebula
+            // Warm orange accent nebula
             RadialGradient(
                 colors: [
-                    Color(red: 0.95, green: 0.6, blue: 0.3, opacity: 0.25), // Bright orange
-                    Color(red: 0.98, green: 0.7, blue: 0.4, opacity: 0.15), // Light orange
+                    Color(red: 0.95, green: 0.65, blue: 0.35, opacity: 0.30), // Warm orange
+                    Color(red: 0.98, green: 0.75, blue: 0.50, opacity: 0.18), // Light peach-orange
                     Color.clear
                 ],
                 center: .init(x: 0.7, y: 0.6),
@@ -1290,10 +1314,10 @@ struct ScenicBackground: View {
             .blur(radius: 50)
             .offset(x: animationPhase * 20, y: animationPhase * -15)
 
-            // Cyan-blue highlight
+            // Green-cyan highlight
             RadialGradient(
                 colors: [
-                    Color(red: 0.3, green: 0.7, blue: 0.95, opacity: 0.2), // Bright cyan-blue
+                    Color(red: 0.30, green: 0.70, blue: 0.60, opacity: 0.20), // Green-cyan
                     Color.clear
                 ],
                 center: .init(x: 0.5, y: 0.2),
@@ -1304,11 +1328,11 @@ struct ScenicBackground: View {
             .blur(radius: 40)
             .offset(x: animationPhase * -15, y: animationPhase * 20)
 
-            // White glow highlight (shopping accent)
+            // Warm white glow highlight
             RadialGradient(
                 colors: [
-                    Color.white.opacity(0.4),
-                    Color(red: 0.9, green: 0.95, blue: 1.0, opacity: 0.2),
+                    Color(red: 1.0, green: 0.98, blue: 0.92, opacity: 0.35), // Warm white
+                    Color(red: 0.98, green: 0.95, blue: 0.88, opacity: 0.18),
                     Color.clear
                 ],
                 center: .init(x: 0.2, y: 0.7),

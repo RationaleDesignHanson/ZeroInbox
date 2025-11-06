@@ -6,15 +6,26 @@ struct StructuredSummaryView: View {
     let summary: String
     let primaryAction: String?  // e.g., "Sign & Send" from card.hpa
     let lineLimit: Int?
+    let cardType: CardType  // Card type for conditional styling
 
-    init(summary: String, primaryAction: String? = nil, lineLimit: Int? = nil) {
+    init(summary: String, primaryAction: String? = nil, lineLimit: Int? = nil, cardType: CardType = .mail) {
         self.summary = summary
         self.primaryAction = primaryAction
         self.lineLimit = lineLimit
+        self.cardType = cardType
     }
 
     private var sections: [SummarySection] {
         SummaryParser.parse(summary, primaryAction: primaryAction)
+    }
+
+    // Conditional text colors based on card type
+    private var textColorPrimary: Color {
+        cardType == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white.opacity(0.9)
+    }
+
+    private var textColorPlaceholder: Color {
+        cardType == .ads ? DesignTokens.Colors.adsTextSubtle : Color.white.opacity(0.5)
     }
 
     var body: some View {
@@ -23,34 +34,50 @@ struct StructuredSummaryView: View {
             if summary.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 Text("No summary available")
                     .font(DesignTokens.Typography.cardSummary)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(textColorPlaceholder)
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
             } else {
-                // Display order matches web demo: Actions → Why → Context
+                // Action-oriented display with context - show Actions + Context sections
                 let actionsSection = sections.first { $0.title == "Actions" }
-                let whySection = sections.first { $0.title == "Why" }
                 let contextSection = sections.first { $0.title == "Context" }
-                let otherSections = sections.filter { $0.title != "Actions" && $0.title != "Why" && $0.title != "Context" }
+                let whySection = sections.first { $0.title == "Why" }
 
-                // 1. Actions section (shown first, most prominent)
-                if let actions = actionsSection {
-                    SectionCard(section: actions, lineLimit: intelligentLineLimit, isActions: true)
+                // Merge Why into Context if both exist
+                let finalContext: SummarySection? = {
+                    if let context = contextSection {
+                        if let why = whySection {
+                            // Merge why into context
+                            let combined = "\(why.content)\n\n\(context.content)"
+                            return SummarySection(id: context.id, title: "Context", content: combined)
+                        }
+                        return context
+                    } else if let why = whySection {
+                        // Use Why as Context if Context doesn't exist
+                        return SummarySection(id: why.id, title: "Context", content: why.content)
+                    }
+                    return nil
+                }()
+
+                // Display Actions section
+                if let actions = actionsSection, !actions.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    SectionCard(section: actions, lineLimit: intelligentLineLimit, isActions: true, cardType: cardType)
                 }
 
-                // 2. Why section (second, explains importance)
-                if let why = whySection {
-                    InfoCard(content: why.content, lineLimit: intelligentLineLimit, opacity: 0.80, isItalic: true)
+                // Display Context section
+                if let context = finalContext, !context.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    SectionCard(section: context, lineLimit: intelligentLineLimit, isActions: false, cardType: cardType)
                 }
 
-                // 3. Context section (third, additional details)
-                if let context = contextSection {
-                    InfoCard(content: context.content, lineLimit: intelligentLineLimit, opacity: 0.70, isItalic: false)
-                }
-
-                // 4. Any other sections (rare, shown last)
-                ForEach(otherSections) { section in
-                    SectionCard(section: section, lineLimit: intelligentLineLimit, isActions: false)
+                // Fallback: If no sections found, show raw summary
+                if actionsSection == nil && finalContext == nil {
+                    Text((try? AttributedString(markdown: summary)) ?? AttributedString(summary))
+                        .font(.system(size: 14))
+                        .foregroundColor(textColorPrimary)
+                        .lineSpacing(4)
+                        .lineLimit(intelligentLineLimit)
+                        .textSelection(.enabled)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
         }
@@ -69,50 +96,37 @@ struct StructuredSummaryView: View {
     }
 }
 
-// MARK: - Single Info Card (Why or Context)
-
-private struct InfoCard: View {
-    let content: String
-    let lineLimit: Int?
-    var opacity: Double = 0.85
-    var isItalic: Bool = false
-
-    var body: some View {
-        Text((try? AttributedString(markdown: content)) ?? AttributedString(content))
-            .font(.system(size: opacity > 0.75 ? 14 : 13))  // 14px for Why, 13px for Context
-            .foregroundColor(.white.opacity(opacity))
-            .italic(isItalic)
-            .lineSpacing(5)
-            .lineLimit(lineLimit)
-            .textSelection(.enabled)
-            .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
-
 // MARK: - Section Card
 
 private struct SectionCard: View {
     let section: SummarySection
     let lineLimit: Int?
     var isActions: Bool = false
+    var cardType: CardType = .mail
 
     var body: some View {
+        // Conditional text colors
+        let headerColor = cardType == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white
+        let contentColor = cardType == .ads ?
+            (isActions ? DesignTokens.Colors.adsTextPrimary : DesignTokens.Colors.adsTextSecondary) :
+            Color.white.opacity(isActions ? 1.0 : 0.85)
+
         // Vertical layout for sections like Actions
         VStack(alignment: .leading, spacing: isActions ? 8 : 6) {
             // Section header (only for Actions and other sections, not Why/Context)
             HStack(spacing: 6) {
                 Text(section.title.uppercased())
                     .font(DesignTokens.Typography.cardSectionHeader)
-                    .foregroundColor(.white)
+                    .foregroundColor(headerColor)
                     .fontWeight(.bold)
             }
 
             // Section content with markdown rendering
-            // Actions: 15px, white (100% opacity), matches web demo
-            // Other sections: 14px, 85% opacity
+            // Actions: 15px, primary text color
+            // Other sections: 14px, secondary text color
             Text((try? AttributedString(markdown: section.content)) ?? AttributedString(section.content))
                 .font(.system(size: isActions ? 15 : 14))
-                .foregroundColor(.white.opacity(isActions ? 1.0 : 0.85))
+                .foregroundColor(contentColor)
                 .lineSpacing(5)
                 .lineLimit(lineLimit)
                 .textSelection(.enabled)
@@ -141,6 +155,7 @@ extension StructuredSummaryView {
 
         self.primaryAction = card.hpa  // Highest priority action
         self.lineLimit = lineLimit
+        self.cardType = card.type
 
         // Debug logging to verify summary data
         Logger.info("📝 StructuredSummaryView init for card: \(card.id)", category: .ui)

@@ -140,6 +140,13 @@ enum DesignTokens {
         static let adsGradientStart = Color(red: 0.09, green: 0.73, blue: 0.61)     // #16bbaa - teal/cyan
         static let adsGradientEnd = Color(red: 0.31, green: 0.82, blue: 0.62)       // #4fd19e - green
 
+        // Ads-specific text colors (dark text for light backgrounds)
+        static let adsTextPrimary = Color(red: 0.05, green: 0.35, blue: 0.30)       // Dark teal - primary text
+        static let adsTextSecondary = Color(red: 0.08, green: 0.45, blue: 0.38)     // Medium teal - secondary text
+        static let adsTextTertiary = Color(red: 0.10, green: 0.52, blue: 0.45)      // Lighter teal - tertiary text
+        static let adsTextSubtle = Color(red: 0.15, green: 0.60, blue: 0.52)        // Subtle teal - muted text
+        static let adsTextFaded = Color(red: 0.20, green: 0.65, blue: 0.57).opacity(0.7)  // Faded teal - very subtle
+
         // Semantic colors (for alerts, states, etc)
         static let errorPrimary = Color.red
         static let errorBackground = Color.red.opacity(0.15)
