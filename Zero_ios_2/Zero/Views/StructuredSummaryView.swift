@@ -49,12 +49,12 @@ struct StructuredSummaryView: View {
                         if let why = whySection {
                             // Merge why into context
                             let combined = "\(why.content)\n\n\(context.content)"
-                            return SummarySection(id: context.id, title: "Context", content: combined)
+                            return SummarySection(title: "Context", icon: "📋", color: .purple, content: combined)
                         }
                         return context
                     } else if let why = whySection {
                         // Use Why as Context if Context doesn't exist
-                        return SummarySection(id: why.id, title: "Context", content: why.content)
+                        return SummarySection(title: "Context", icon: "📋", color: .purple, content: why.content)
                     }
                     return nil
                 }()
