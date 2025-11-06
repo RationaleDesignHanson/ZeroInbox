@@ -326,7 +326,7 @@ struct DataGenerator {
             hpa: "Pay Fee",
             timeAgo: "5h ago",
             title: "Yearbook Fee Due - $35",
-            summary: "",
+            summary: "Last chance to order Lucas's 2025 yearbook at early-bird price of $35. Orders close next Friday before price increases to $45.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -410,7 +410,7 @@ struct DataGenerator {
             hpa: "View Assignment",
             timeAgo: "8h ago",
             title: "Assignment Past Due - Math Homework",
-            summary: "",
+            summary: "Lucas's Chapter 5 math homework is past due and must be submitted by Friday 3 PM to avoid a 10% late penalty. Covers fractions, decimals, and word problems.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -495,7 +495,7 @@ struct DataGenerator {
             hpa: "Check Grade",
             timeAgo: "1d ago",
             title: "Science Project Graded - 95/100",
-            summary: "",
+            summary: "Emma earned an excellent 95/100 on her solar system project. Teacher praised her planet research and detailed Saturn's rings recreation.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -580,7 +580,7 @@ struct DataGenerator {
             hpa: "Claim Deal",
             timeAgo: "1h ago",
             title: "Sony WH-1000XM5 Headphones",
-            summary: "",
+            summary: "Flash sale on Sony WH-1000XM5 noise-cancelling headphones - 30% off at $279.99 (save $120). Industry-leading audio with 30-hour battery, ends tonight at midnight.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -679,7 +679,7 @@ struct DataGenerator {
             hpa: "Copy Code",
             timeAgo: "3h ago",
             title: "Extra 20% Off - Code: SAVE20",
-            summary: "",
+            summary: "Target flash sale offering extra 20% off everything with code SAVE20. Stacks with clearance prices on home, clothing, and electronics - ends midnight tonight.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -778,7 +778,7 @@ struct DataGenerator {
             hpa: "Complete Cart",
             timeAgo: "4h ago",
             title: "Complete Your Order - 3 Items Waiting",
-            summary: "",
+            summary: "Your REI cart has 3 items waiting: trail running shoes, insulated water bottle, and premium yoga mat for $156.97 total. Items are selling fast.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -881,7 +881,7 @@ struct DataGenerator {
             hpa: "Track Package",
             timeAgo: "30m ago",
             title: "Package Shipped - Arriving Tomorrow",
-            summary: "",
+            summary: "Your Amazon order has shipped and is arriving tomorrow by 8 PM. Track with UPS using tracking number 1Z999AA10123456784.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -976,7 +976,7 @@ struct DataGenerator {
             hpa: "View Product",
             timeAgo: "1d ago",
             title: "New Arrival: Patagonia Nano Puff Jacket",
-            summary: "",
+            summary: "New Patagonia Nano Puff Jacket now available for $249. Lightweight insulated jacket perfect for fall layering with recycled materials and PrimaLoft insulation.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -1077,7 +1077,7 @@ struct DataGenerator {
             hpa: "Buy on Oct 31",
             timeAgo: "2h ago",
             title: "James Jean - Sculpture and print duo",
-            summary: "",
+            summary: "James Jean's Sun Tarot Nebula collection launches October 31 for one week only. Limited edition of 500 sets includes hand-painted sculpture and signed print.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -1186,7 +1186,7 @@ struct DataGenerator {
             hpa: "Preview Deals",
             timeAgo: "2d ago",
             title: "Black Friday Preview - Coming Nov 29",
-            summary: "",
+            summary: "Best Buy's Black Friday sale preview showing deals across all tech categories. Massive savings on smartphones, laptops, TVs, and gaming starting November 29.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -1290,7 +1290,7 @@ struct DataGenerator {
             hpa: "Shop Deal",
             timeAgo: "2h ago",
             title: "AirPods Pro (2nd Gen) - Limited Offer",
-            summary: "",
+            summary: "Prime exclusive deal on AirPods Pro 2nd Gen for $199 (save $50). Features 2X noise cancellation, USB-C charging, and free Prime delivery arriving tomorrow.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -1387,7 +1387,7 @@ struct DataGenerator {
             hpa: "Add to Cart",
             timeAgo: "4h ago",
             title: "Target Deal: AirPods Pro 2nd Gen",
-            summary: "",
+            summary: "Target Circle Week deal on AirPods Pro for $209.99 plus $10 gift card. Order pickup ready in 2 hours or same-day delivery - ends tonight at midnight.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -1482,7 +1482,7 @@ struct DataGenerator {
             hpa: "Shop Now",
             timeAgo: "6h ago",
             title: "Rollback: AirPods Pro 2nd Gen $219",
-            summary: "",
+            summary: "Walmart Rollback on AirPods Pro 2nd Gen for $219 (save $30). Free 2-day shipping or pickup today with advanced noise cancellation and USB-C charging.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -1584,7 +1584,7 @@ struct DataGenerator {
             hpa: "Pay Invoice",
             timeAgo: "1h ago",
             title: "Invoice #INV-2025-1234 Due Oct 30",
-            summary: "",
+            summary: "Acme Corp invoice for $599 due October 30 (3 days away). Covers 20 hours of strategic planning and implementation services - late fees apply after due date.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -1693,7 +1693,7 @@ struct DataGenerator {
             hpa: "Download Receipt",
             timeAgo: "2h ago",
             title: "Payment Received - $1,250.00",
-            summary: "",
+            summary: "Stripe payment of $1,250 successfully processed on October 23. Account balance now $0 - receipt available for download and tax records.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -1807,7 +1807,7 @@ struct DataGenerator {
             hpa: "View Invoice",
             timeAgo: "1d ago",
             title: "New Invoice Available - $299/month",
-            summary: "",
+            summary: "Adobe Creative Cloud monthly subscription invoice for $299 is now available. Payment will be processed automatically from your saved payment method.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -1922,7 +1922,7 @@ struct DataGenerator {
             hpa: "Manage Subscription",
             timeAgo: "3h ago",
             title: "Subscription Renewal Tomorrow",
-            summary: "",
+            summary: "GitHub Team annual subscription auto-renews tomorrow for $999. Includes unlimited repos, Actions, and advanced security - update payment or cancel if needed.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -2042,7 +2042,7 @@ struct DataGenerator {
             hpa: "Cancel Subscription",
             timeAgo: "1d ago",
             title: "Hulu Subscription Renews in 3 Days",
-            summary: "",
+            summary: "Hulu (No Ads) subscription auto-renews October 29 for $17.99/month. Cancel before then to avoid charge - access continues until end of current period.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -2163,7 +2163,7 @@ struct DataGenerator {
             hpa: "Schedule Meeting",
             timeAgo: "2h ago",
             title: "Product Demo Request - Acme Solutions",
-            summary: "",
+            summary: "Acme Solutions requesting product demo this week for 50-75 licenses. High-value lead worth $50k with lead score of 85 - evaluating solutions this month.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -2282,7 +2282,7 @@ struct DataGenerator {
             hpa: "View Proposal",
             timeAgo: "5h ago",
             title: "Enterprise Proposal - $125k/year",
-            summary: "",
+            summary: "TechCorp enterprise proposal for 500 users at $125k/year with 3-year contract. Includes SSO, dedicated support, and on-site training - 60% win probability.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -2428,7 +2428,7 @@ struct DataGenerator {
             hpa: "Join Meeting",
             timeAgo: "5m ago",
             title: "Sprint Planning - Starting in 10 min",
-            summary: "",
+            summary: "Q4 sprint planning meeting starting in 10 minutes at 10:00 AM PST. Join Zoom for 90-minute session covering velocity, backlog refinement, and sprint commitment.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -2550,7 +2550,7 @@ struct DataGenerator {
             hpa: "View Task",
             timeAgo: "2h ago",
             title: "Task Assigned: API Integration",
-            summary: "",
+            summary: "New Jira task PROJ-123 assigned for Stripe payment gateway integration. Due Friday with 16-hour estimate - supports credit cards, Apple Pay, and Google Pay.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -2681,7 +2681,7 @@ struct DataGenerator {
             hpa: "View Incident",
             timeAgo: "10m ago",
             title: "🚨 Production Incident - Database Slow",
-            summary: "",
+            summary: "Critical incident #12345: Database performance degraded with 5-8 second page loads affecting 500-800 users. Query response time at 5,000ms - immediate response required.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -2814,7 +2814,7 @@ struct DataGenerator {
             hpa: "Add to Calendar",
             timeAgo: "1d ago",
             title: "Team All-Hands - Friday 2 PM",
-            summary: "",
+            summary: "Q4 All-Hands meeting this Friday at 2 PM PST. CEO sharing Q3 results, Q4 roadmap, and department updates with live Q&A session.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -2953,7 +2953,7 @@ struct DataGenerator {
             hpa: "Register",
             timeAgo: "4h ago",
             title: "Free Webinar: AI for Developers",
-            summary: "",
+            summary: "Free AI webinar Thursday Oct 26 at 11 AM PST covering LLMs, prompt engineering, and integration patterns. Includes live coding demo and Q&A with OpenAI and Anthropic experts.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -3105,7 +3105,7 @@ struct DataGenerator {
             hpa: "Take Survey",
             timeAgo: "2d ago",
             title: "We'd Love Your Feedback",
-            summary: "",
+            summary: "Quick 2-minute product feedback survey to help shape future features. Enter to win one of five $100 Amazon gift cards - closes November 10.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -3229,7 +3229,7 @@ struct DataGenerator {
             hpa: "Check In",
             timeAgo: "1h ago",
             title: "Check In Now - Flight UA 123",
-            summary: "",
+            summary: "United Airlines flight UA 123 to San Francisco departs tomorrow at 9:00 AM from LAX. Check in now to select your seat and get mobile boarding pass.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -3369,7 +3369,7 @@ struct DataGenerator {
             hpa: "View Itinerary",
             timeAgo: "3h ago",
             title: "Trip Confirmation - San Francisco",
-            summary: "",
+            summary: "San Francisco trip confirmed October 25-28 with United Airlines flights and Hyatt Regency hotel. Total cost $1,247.89 - check in Friday at 3 PM.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -3538,7 +3538,7 @@ struct DataGenerator {
             hpa: "Add to Wallet",
             timeAgo: "1d ago",
             title: "Your Boarding Pass is Ready",
-            summary: "",
+            summary: "Delta flight DL 567 boarding pass ready for Monday Oct 30 at 6:00 PM from Atlanta to LAX. Add to Apple Wallet for easy airport access and real-time updates.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -3704,7 +3704,7 @@ struct DataGenerator {
             hpa: "Reset Password",
             timeAgo: "30m ago",
             title: "Password Reset Request",
-            summary: "",
+            summary: "Password reset link sent for sarah.chen@email.com. Complete reset within 1 hour before link expires - ignore if you didn't request this.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -3838,7 +3838,7 @@ struct DataGenerator {
             hpa: "Verify Account",
             timeAgo: "15m ago",
             title: "Verify Your Email Address",
-            summary: "",
+            summary: "Complete Slack account setup by verifying sarah.chen@email.com. Click verification link within 24 hours to activate account and start collaborating with your team.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4007,7 +4007,7 @@ struct DataGenerator {
             hpa: "Verify Device",
             timeAgo: "1h ago",
             title: "New Device Sign-In Detected",
-            summary: "",
+            summary: "Security alert: New sign-in from iPhone 15 Pro in San Francisco detected at 9:00 AM. Verify if this was you or secure your account immediately.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4165,7 +4165,7 @@ struct DataGenerator {
             hpa: "Review Security",
             timeAgo: "10m ago",
             title: "🔐 Security Alert: Unusual Activity",
-            summary: "",
+            summary: "Critical: 5 failed login attempts to your Apple ID from Moscow, Russia. Account temporarily locked for protection - review security and change password immediately.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4365,7 +4365,7 @@ struct DataGenerator {
             hpa: "Revoke Access",
             timeAgo: "5m ago",
             title: "⚠️ API Key Exposed in Public Repo",
-            summary: "",
+            summary: "Critical: AWS access key exposed in public GitHub repo sarah-chen/my-project. Revoke key immediately to prevent unauthorized access to your AWS resources.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4593,7 +4593,7 @@ struct DataGenerator {
             hpa: "View Reservation",
             timeAgo: "2h ago",
             title: "Reservation Confirmed - The French Laundry",
-            summary: "",
+            summary: "Dinner reservation confirmed at The French Laundry for Friday, November 1st at 7:30 PM. Party of 2 with window seat - arrive 10 minutes early, business casual.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4646,7 +4646,7 @@ struct DataGenerator {
             hpa: "Track Delivery",
             timeAgo: "5m ago",
             title: "Your DoorDash Order is On the Way!",
-            summary: "",
+            summary: "Your Chipotle order is arriving in 15 minutes. Marcus is delivering your chicken burrito bowl and chips - track in real-time.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4699,7 +4699,7 @@ struct DataGenerator {
             hpa: "Review & Approve",
             timeAgo: "1h ago",
             title: "Q4 Budget Proposal - Urgent Approval Needed",
-            summary: "",
+            summary: "Q4 budget proposal for $2.4M across all departments requires approval by 5 PM today. Review 24-page document covering engineering, marketing, sales, and operations spending.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4752,7 +4752,7 @@ struct DataGenerator {
             hpa: "Review Spreadsheet",
             timeAgo: "3h ago",
             title: "October Department Spending Report",
-            summary: "",
+            summary: "October spending report shows $87,340 spent (8.1% under budget). Review detailed breakdown by November 5 - YTD spending at $856,200.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4805,7 +4805,7 @@ struct DataGenerator {
             hpa: "View Results",
             timeAgo: "1h ago",
             title: "Lab Results Ready - Annual Physical",
-            summary: "",
+            summary: "Annual physical lab results from October 18 are ready. All tests within normal ranges - Dr. Martinez reviewed and added notes to your chart.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4858,7 +4858,7 @@ struct DataGenerator {
             hpa: "Route to CRM",
             timeAgo: "10m ago",
             title: "🔥 Hot Lead: Enterprise Customer Inquiry",
-            summary: "",
+            summary: "GlobalCorp VP requesting enterprise demo for 5,000-user deployment worth $485K ARR. Lead score 95/100 - schedule discovery call within 24 hours.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4912,7 +4912,7 @@ struct DataGenerator {
             hpa: "Save for Later",
             timeAgo: "1d ago",
             title: "FYI: New Feature Launch - Q1 2025",
-            summary: "",
+            summary: "Product roadmap preview for Q1 2025 featuring AI search, real-time collaboration, and advanced analytics. Beta testing starts December - no immediate action needed.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -4968,7 +4968,7 @@ struct DataGenerator {
             hpa: "Return Item",
             timeAgo: "2h ago",
             title: "Easy Returns - 30 Day Window",
-            summary: "",
+            summary: "Amazon order from October 10 eligible for free returns with 28 days remaining. Wireless headphones, USB-C cables, and phone case can be returned hassle-free.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5106,7 +5106,7 @@ struct DataGenerator {
             hpa: "Buy Again",
             timeAgo: "1d ago",
             title: "Loved It? Order Again with One Click",
-            summary: "",
+            summary: "Blue Bottle Ethiopian coffee you love is ready to reorder at $16.99. One-click purchase with free Prime delivery or save 15% with Subscribe & Save.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5208,7 +5208,7 @@ struct DataGenerator {
             hpa: "Check In",
             timeAgo: "3h ago",
             title: "Appointment Tomorrow at 2:00 PM",
-            summary: "",
+            summary: "Annual physical with Dr. Martinez tomorrow at 2:00 PM at Kaiser San Francisco. Check in online now to complete questionnaires and skip the waiting room line.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5308,7 +5308,7 @@ struct DataGenerator {
             hpa: "View Pickup Details",
             timeAgo: "1h ago",
             title: "Prescription Ready for Pickup",
-            summary: "",
+            summary: "Lisinopril 10mg prescription ready at CVS Market Street. $12.50 copay - drive-thru available, open 8 AM to 10 PM, held for 10 days.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5408,7 +5408,7 @@ struct DataGenerator {
             hpa: "View Ticket",
             timeAgo: "30m ago",
             title: "Support Ticket #12345 - In Progress",
-            summary: "",
+            summary: "Support ticket for account access issue is being investigated by Marcus Johnson. 2FA settings being reset - new setup instructions coming within 2 hours.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5504,7 +5504,7 @@ struct DataGenerator {
             hpa: "Write Review",
             timeAgo: "2d ago",
             title: "How Was Your Recent Purchase?",
-            summary: "",
+            summary: "Best Buy requesting review of Sony WH-1000XM5 headphones purchased October 15. Quick star rating or detailed review - earn 5 rewards points.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5593,7 +5593,7 @@ struct DataGenerator {
             hpa: "RSVP",
             timeAgo: "4h ago",
             title: "Team Happy Hour - Friday 5 PM",
-            summary: "",
+            summary: "Team happy hour invitation this Friday at 5 PM at The Corner Office Bar & Grill. First 2 drinks on company plus appetizers - RSVP by Wednesday.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5675,7 +5675,7 @@ struct DataGenerator {
             hpa: "Manage Booking",
             timeAgo: "1d ago",
             title: "Hotel Reservation Confirmed - Nov 15-18",
-            summary: "",
+            summary: "Marriott Marquis New York reservation confirmed November 15-18 for 3 nights. King room with city view on 21st floor - total $669.33 including taxes.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5771,7 +5771,7 @@ struct DataGenerator {
             hpa: "Contact Support",
             timeAgo: "4h ago",
             title: "Package Delivery Issue - Need Help?",
-            summary: "",
+            summary: "Amazon package delayed at shipping facility due to high volume. Kitchen mixer and bowls rescheduled for delivery October 27 - contact support if needed.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5862,7 +5862,7 @@ struct DataGenerator {
             hpa: "Quick Reply",
             timeAgo: "1h ago",
             title: "Quick Question About Tomorrow's Meeting",
-            summary: "",
+            summary: "Mike asking if you can review Q3 presentation deck before Friday's board meeting. Need feedback on financial projections section - takes 15-20 minutes.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -5930,7 +5930,7 @@ struct DataGenerator {
             hpa: "Modify Reservation",
             timeAgo: "3h ago",
             title: "Reminder: Dinner Reservation Tonight at 8 PM",
-            summary: "",
+            summary: "State Bird Provisions reservation reminder for tomorrow at 8 PM for party of 4. Arrive within 15 minutes or table may be released - can modify up to 2 hours before.",
 
             aiGeneratedSummary: """
             **Actions:**
@@ -6024,7 +6024,7 @@ struct DataGenerator {
             hpa: "Contact Driver",
             timeAgo: "10m ago",
             title: "Your Uber Eats Order is 2 Minutes Away",
-            summary: "",
+            summary: "Your Chipotle order with Ahmed is arriving in 2 minutes. Chicken burrito bowl and sides - watch for black Honda Civic, total $24.50.",
 
             aiGeneratedSummary: """
             **Actions:**
