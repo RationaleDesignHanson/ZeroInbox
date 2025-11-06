@@ -509,6 +509,11 @@
         }
 
         /* Responsive */
+        /* Hide "Contact to Try App" buttons - beta banner handles this */
+        .btn-primary[onclick="openBetaModal()"] {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 40px; }
             .hero p { font-size: 18px; }
