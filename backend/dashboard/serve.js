@@ -116,6 +116,48 @@ app.get('/api/actions/catalog', (req, res) => {
   }
 });
 
+// Classify endpoint for production demo (static mock response)
+app.post('/api/classify', (req, res) => {
+  try {
+    const email = req.body.email || {};
+
+    // Mock classification based on email subject patterns
+    let intent = 'general.inquiry';
+    let confidence = 0.85;
+    let suggestedActions = ['reply', 'archive'];
+
+    const subject = (email.subject || '').toLowerCase();
+    const body = (email.body || '').toLowerCase();
+
+    // Pattern matching for demo purposes
+    if (subject.includes('meeting') || subject.includes('calendar')) {
+      intent = 'scheduling.meeting-request';
+      suggestedActions = ['add-to-calendar', 'reply'];
+      confidence = 0.92;
+    } else if (subject.includes('shipped') || subject.includes('tracking') || body.includes('track')) {
+      intent = 'e-commerce.shipping';
+      suggestedActions = ['track-package', 'archive'];
+      confidence = 0.95;
+    } else if (subject.includes('invoice') || subject.includes('payment')) {
+      intent = 'transactions.invoice';
+      suggestedActions = ['pay-invoice', 'archive'];
+      confidence = 0.90;
+    }
+
+    res.json({
+      intent: intent,
+      intentConfidence: confidence,
+      confidence: confidence,
+      suggestedActions: suggestedActions,
+      _classificationSource: 'demo-mock',
+      type: 'mail'
+    });
+  } catch (error) {
+    console.error('Error in classify endpoint:', error);
+    res.status(500).json({ error: 'Classification failed' });
+  }
+});
+
 console.log('✅ API endpoints configured');
 
 // Health endpoint - used by demo pages to check service availability
