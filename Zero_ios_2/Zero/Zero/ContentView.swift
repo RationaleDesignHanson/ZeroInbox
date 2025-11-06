@@ -130,7 +130,15 @@ struct ContentView: View {
         .onChange(of: viewModel.cards.count) { oldCount, newCount in
             // Capture initial card count when cards first load (for progress meter)
             // IMPORTANT: Reset totalInitialCards if newCount increases significantly (card refresh/reload)
-            if totalInitialCards == 0 && newCount > 0 {
+
+            // Calculate remaining undismissed cards
+            let remainingCards = viewModel.cards.filter { $0.state != .dismissed }.count
+
+            // Reset progress when all cards are dismissed
+            if remainingCards == 0 && totalInitialCards > 0 {
+                Logger.info("📊 All cards dismissed, resetting progress tracker", category: .ui)
+                totalInitialCards = 0
+            } else if totalInitialCards == 0 && newCount > 0 {
                 totalInitialCards = newCount
                 Logger.info("📊 Initial card count captured: \(totalInitialCards)", category: .ui)
             } else if newCount > totalInitialCards {
@@ -249,6 +257,8 @@ struct ContentView: View {
                 LiquidGlassBottomNav(
                     viewModel: viewModel,
                     showShoppingCart: $showShoppingCart,
+                    showSettings: $showSettings,
+                    showSearch: $showSearch,
                     cartItemCount: cartItemCount,
                     mailCount: viewModel.cards.filter { $0.type == .mail && $0.state != .dismissed }.count,
                     adsCount: viewModel.cards.filter { $0.type == .ads && $0.state != .dismissed }.count,

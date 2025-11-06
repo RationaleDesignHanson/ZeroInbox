@@ -90,7 +90,7 @@ struct ViewItineraryModal: View {
 
                                 Button {
                                     UIPasteboard.general.string = confirmationNumber
-                                    HapticManager.impact(style: .medium)
+                                    HapticService.shared.mediumImpact()
                                     copiedField = "confirmation"
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                         copiedField = nil
@@ -111,7 +111,7 @@ struct ViewItineraryModal: View {
                         // Dates
                         if let startDate = context["startDate"] ?? context["checkInDate"] ?? context["departureDate"],
                            !startDate.isEmpty {
-                            DetailRow(
+                            ItineraryDetailRow(
                                 icon: "calendar",
                                 label: itineraryType == .flight ? "Departure" : "Check-in",
                                 value: startDate
@@ -120,7 +120,7 @@ struct ViewItineraryModal: View {
 
                         if let endDate = context["endDate"] ?? context["checkOutDate"] ?? context["returnDate"],
                            !endDate.isEmpty {
-                            DetailRow(
+                            ItineraryDetailRow(
                                 icon: "calendar",
                                 label: itineraryType == .flight ? "Return" : "Check-out",
                                 value: endDate
@@ -130,7 +130,7 @@ struct ViewItineraryModal: View {
                         // Location/Destination
                         if let destination = context["destination"] ?? context["location"] ?? context["address"],
                            !destination.isEmpty {
-                            DetailRow(
+                            ItineraryDetailRow(
                                 icon: "mappin.circle.fill",
                                 label: "Location",
                                 value: destination,
@@ -142,49 +142,49 @@ struct ViewItineraryModal: View {
                         // Flight-specific
                         if itineraryType == .flight {
                             if let flightNumber = context["flightNumber"], !flightNumber.isEmpty {
-                                DetailRow(icon: "airplane", label: "Flight", value: flightNumber)
+                                ItineraryDetailRow(icon: "airplane", label: "Flight", value: flightNumber)
                             }
                             if let airline = context["airline"], !airline.isEmpty {
-                                DetailRow(icon: "building.2", label: "Airline", value: airline)
+                                ItineraryDetailRow(icon: "building.2", label: "Airline", value: airline)
                             }
                         }
 
                         // Hotel-specific
                         if itineraryType == .hotel {
                             if let hotelName = context["hotelName"] ?? context["propertyName"], !hotelName.isEmpty {
-                                DetailRow(icon: "building.2.fill", label: "Hotel", value: hotelName)
+                                ItineraryDetailRow(icon: "building.2.fill", label: "Hotel", value: hotelName)
                             }
                             if let roomType = context["roomType"], !roomType.isEmpty {
-                                DetailRow(icon: "bed.double", label: "Room", value: roomType)
+                                ItineraryDetailRow(icon: "bed.double", label: "Room", value: roomType)
                             }
                         }
 
                         // Rental-specific
                         if itineraryType == .rental {
                             if let vehicleType = context["vehicleType"] ?? context["carType"], !vehicleType.isEmpty {
-                                DetailRow(icon: "car", label: "Vehicle", value: vehicleType)
+                                ItineraryDetailRow(icon: "car", label: "Vehicle", value: vehicleType)
                             }
                             if let pickupLocation = context["pickupLocation"], !pickupLocation.isEmpty {
-                                DetailRow(icon: "location", label: "Pickup", value: pickupLocation)
+                                ItineraryDetailRow(icon: "location", label: "Pickup", value: pickupLocation)
                             }
                         }
 
                         // Restaurant-specific
                         if itineraryType == .restaurant {
                             if let restaurantName = context["restaurantName"], !restaurantName.isEmpty {
-                                DetailRow(icon: "fork.knife.circle.fill", label: "Restaurant", value: restaurantName)
+                                ItineraryDetailRow(icon: "fork.knife.circle.fill", label: "Restaurant", value: restaurantName)
                             }
                             if let partySize = context["partySize"] ?? context["guests"], !partySize.isEmpty {
-                                DetailRow(icon: "person.2", label: "Party Size", value: partySize)
+                                ItineraryDetailRow(icon: "person.2", label: "Party Size", value: partySize)
                             }
                             if let time = context["time"] ?? context["reservationTime"], !time.isEmpty {
-                                DetailRow(icon: "clock", label: "Time", value: time)
+                                ItineraryDetailRow(icon: "clock", label: "Time", value: time)
                             }
                         }
 
                         // Price
                         if let price = context["price"] ?? context["totalPrice"] ?? context["amount"], !price.isEmpty {
-                            DetailRow(icon: "dollarsign.circle", label: "Total", value: price)
+                            ItineraryDetailRow(icon: "dollarsign.circle", label: "Total", value: price)
                         }
                     }
                     .padding()
@@ -279,14 +279,14 @@ struct ViewItineraryModal: View {
                 mapItem.name = context["hotelName"] ?? context["restaurantName"] ?? context["destination"]
                 mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
 
-                HapticManager.notification(type: .success)
+                HapticService.shared.success()
                 Logger.info("Opened directions to: \(address)", category: .action)
             } else {
                 // Fallback: try Apple Maps URL scheme
                 if let encodedAddress = address.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
                    let url = URL(string: "http://maps.apple.com/?daddr=\(encodedAddress)") {
                     UIApplication.shared.open(url)
-                    HapticManager.notification(type: .success)
+                    HapticService.shared.success()
                 }
             }
         }
@@ -294,15 +294,15 @@ struct ViewItineraryModal: View {
 
     private func addToCalendar() {
         // Open AddToCalendarModal or use system calendar
-        HapticManager.impact(style: .medium)
+        HapticService.shared.mediumImpact()
         Logger.info("Add to calendar tapped for itinerary", category: .action)
         // TODO: Implement calendar integration
     }
 }
 
-// MARK: - DetailRow Component
+// MARK: - ItineraryDetailRow Component
 
-struct DetailRow: View {
+struct ItineraryDetailRow: View {
     let icon: String
     let label: String
     let value: String
@@ -337,7 +337,7 @@ struct DetailRow: View {
             if copyable {
                 Button {
                     UIPasteboard.general.string = value
-                    HapticManager.impact(style: .light)
+                    HapticService.shared.lightImpact()
                     copiedField = label
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         copiedField = nil

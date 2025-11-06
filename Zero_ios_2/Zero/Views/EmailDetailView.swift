@@ -21,63 +21,118 @@ struct EmailDetailView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    // Header section
+                VStack(alignment: .leading, spacing: 12) {
+                    // Header section with frosted glass
                     headerSection
+                        .padding(16)
+                        .background(
+                            ZStack {
+                                Color.white.opacity(0.08)
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
+                                    .opacity(0.4)
+                            }
+                        )
+                        .cornerRadius(16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
+                        )
 
-                    Divider()
-                        .background(Color.white.opacity(0.3))
-
-                    // Subject
+                    // Subject in frosted glass panel
                     Text(card.title)
                         .font(.title2.bold())
                         .foregroundColor(.white)
                         .fixedSize(horizontal: false, vertical: true)
-
-                    // Full Email Body (HTML or plain text)
-                    emailBodyContent
+                        .padding(16)
                         .frame(maxWidth: .infinity, alignment: .leading)
-
-                    if let body = card.body, !body.isEmpty, card.htmlBody == nil || card.htmlBody!.isEmpty {
-                        // Show plain text body with intelligent formatting
-                        let _ = Logger.info("Rendering plain text body with formatting & URL detection, length: \(body.count)", category: .app)
-
-                        // Apply intelligent formatting (lists, quotes, signatures)
-                        let formattedBody = PlainTextFormatter.format(body)
-
-                        // Shorten URLs to readable link text
-                        let processedBody = URLShortener.shortenURLs(in: formattedBody, htmlBody: card.htmlBody)
-
-                        LinkifiedText(
-                            processedBody,
-                            font: .body,
-                            color: .white.opacity(0.9),
-                            lineSpacing: 4
+                        .background(
+                            ZStack {
+                                Color.white.opacity(0.06)
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
+                                    .opacity(0.3)
+                            }
                         )
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    } else {
-                        // Fallback to summary
-                        let _ = Logger.info("No body content, showing summary", category: .app)
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("Summary")
-                                .font(.headline)
-                                .foregroundColor(.white.opacity(0.7))
-
-                            StructuredSummaryView(card: card)
-
-                            Text("Note: Full email content not available")
-                                .font(.caption)
-                                .foregroundColor(.yellow.opacity(0.8))
-                                .padding(.top, 8)
-                        }
-                        .padding()
-                        .background(Color.white.opacity(0.1))
                         .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                        )
+
+                    // Full Email Body (HTML or plain text) in frosted glass panel
+                    VStack(alignment: .leading, spacing: 0) {
+                        emailBodyContent
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
+                        if let body = card.body, !body.isEmpty, card.htmlBody == nil || card.htmlBody!.isEmpty {
+                            // Show plain text body with intelligent formatting
+                            let _ = Logger.info("Rendering plain text body with formatting & URL detection, length: \(body.count)", category: .app)
+
+                            // Apply intelligent formatting (lists, quotes, signatures)
+                            let formattedBody = PlainTextFormatter.format(body)
+
+                            // Shorten URLs to readable link text
+                            let processedBody = URLShortener.shortenURLs(in: formattedBody, htmlBody: card.htmlBody)
+
+                            LinkifiedText(
+                                processedBody,
+                                font: .body,
+                                color: .white.opacity(0.92),
+                                lineSpacing: 6
+                            )
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(16)
+                        } else {
+                            // Fallback to summary
+                            let _ = Logger.info("No body content, showing summary", category: .app)
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("Summary")
+                                    .font(.caption.bold())
+                                    .foregroundColor(.white.opacity(0.75))
+                                    .tracking(0.5)
+
+                                StructuredSummaryView(card: card)
+
+                                Text("Note: Full email content not available")
+                                    .font(.caption)
+                                    .foregroundColor(.yellow.opacity(0.8))
+                                    .padding(.top, 4)
+                            }
+                            .padding(16)
+                        }
                     }
+                    .background(
+                        ZStack {
+                            Color.white.opacity(0.06)
+                            Rectangle()
+                                .fill(.ultraThinMaterial)
+                                .opacity(0.3)
+                        }
+                    )
+                    .cornerRadius(12)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                    )
 
                     // Thread indicator (if part of thread)
                     if let threadLength = card.threadLength, threadLength > 1 {
                         threadIndicator(count: threadLength)
+                            .padding(12)
+                            .background(
+                                ZStack {
+                                    Color.white.opacity(0.06)
+                                    Rectangle()
+                                        .fill(.ultraThinMaterial)
+                                        .opacity(0.3)
+                                }
+                            )
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                            )
                     }
 
                     // Calendar Invite section (if present)
@@ -102,7 +157,20 @@ struct EmailDetailView: View {
                                 }
                             } : nil
                         )
-                        .padding(.vertical, 8)
+                        .padding(12)
+                        .background(
+                            ZStack {
+                                Color.white.opacity(0.06)
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
+                                    .opacity(0.3)
+                            }
+                        )
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                        )
                     }
 
                     // Attachments section (if present)
@@ -111,17 +179,58 @@ struct EmailDetailView: View {
                             selectedAttachment = attachment
                             showAttachmentPreview = true
                         }
-                        .padding(.vertical, 8)
+                        .padding(12)
+                        .background(
+                            ZStack {
+                                Color.white.opacity(0.06)
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
+                                    .opacity(0.3)
+                            }
+                        )
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                        )
                     }
 
                     // Thread context badges (if loaded)
                     if let threadData = threadData {
                         threadContextSection(context: threadData.context)
+                            .padding(12)
+                            .background(
+                                ZStack {
+                                    Color.white.opacity(0.06)
+                                    Rectangle()
+                                        .fill(.ultraThinMaterial)
+                                        .opacity(0.3)
+                                }
+                            )
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                            )
                     }
 
                     // Thread messages (collapsed by default)
                     if let threadData = threadData {
                         threadMessagesSection(messages: threadData.messages)
+                            .padding(12)
+                            .background(
+                                ZStack {
+                                    Color.white.opacity(0.06)
+                                    Rectangle()
+                                        .fill(.ultraThinMaterial)
+                                        .opacity(0.3)
+                                }
+                            )
+                            .cornerRadius(12)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                            )
                     }
 
                     // Loading indicator
@@ -130,15 +239,41 @@ struct EmailDetailView: View {
                             ProgressView()
                             Text("Loading conversation...")
                                 .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.white.opacity(0.8))
                         }
                         .frame(maxWidth: .infinity)
-                        .padding()
+                        .padding(12)
+                        .background(
+                            ZStack {
+                                Color.white.opacity(0.06)
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
+                                    .opacity(0.3)
+                            }
+                        )
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                        )
                     }
 
                     // Contextual Actions (smart suggestions)
                     ContextualActionsView(card: card)
-                        .padding(.vertical, 8)
+                        .padding(12)
+                        .background(
+                            ZStack {
+                                Color.white.opacity(0.06)
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
+                                    .opacity(0.3)
+                            }
+                        )
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                        )
 
                     // AI Draft Composer button (only for unseen/seen emails)
                     if card.state == .unseen || card.state == .seen {
@@ -146,7 +281,7 @@ struct EmailDetailView: View {
                             HStack(spacing: 12) {
                                 Image(systemName: "sparkles")
                                     .font(.title3)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.white)
 
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Draft a Reply with AI")
@@ -155,34 +290,31 @@ struct EmailDetailView: View {
 
                                     Text("Generate a complete, context-aware draft")
                                         .font(.caption)
-                                        .foregroundColor(.white.opacity(0.6))
+                                        .foregroundColor(.white.opacity(0.7))
                                 }
 
                                 Spacer()
 
                                 Image(systemName: "arrow.right.circle.fill")
                                     .font(.title2)
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.white.opacity(0.8))
                             }
-                            .padding()
+                            .padding(12)
                             .background(
-                                LinearGradient(
-                                    colors: [
-                                        Color.blue.opacity(0.15),
-                                        Color.purple.opacity(0.1)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
+                                ZStack {
+                                    Color.white.opacity(0.08)
+                                    Rectangle()
+                                        .fill(.ultraThinMaterial)
+                                        .opacity(0.4)
+                                }
                             )
                             .cornerRadius(12)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
                             )
                         }
                         .buttonStyle(PlainButtonStyle())
-                        .padding(.vertical, 8)
                     }
 
                     // Smart Replies (only for unseen/seen emails)
@@ -191,22 +323,73 @@ struct EmailDetailView: View {
                             replyText = selectedReply
                             showReplyComposer = true
                         }
-                        .padding(.vertical, 12)
+                        .padding(12)
+                        .background(
+                            ZStack {
+                                Color.white.opacity(0.06)
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
+                                    .opacity(0.3)
+                            }
+                        )
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                        )
                     }
 
                     // Archetype-specific details
                     archetypeDetails
+                        .padding(12)
+                        .background(
+                            ZStack {
+                                Color.white.opacity(0.06)
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
+                                    .opacity(0.3)
+                            }
+                        )
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                        )
                     
-                    // Action buttons
+                    // Action buttons in frosted glass panel
                     actionButtons
+                        .padding(16)
+                        .background(
+                            ZStack {
+                                Color.white.opacity(0.08)
+                                Rectangle()
+                                    .fill(.ultraThinMaterial)
+                                    .opacity(0.4)
+                            }
+                        )
+                        .cornerRadius(16)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 16)
+                                .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
+                        )
                 }
                 .padding(.horizontal, 16)
-                .padding(.vertical, 24)
+                .padding(.vertical, 16)
                 .frame(maxWidth: .infinity)
             }
             .background(
-                ArchetypeConfig.config(for: card.type).gradient
+                ZStack {
+                    // Dark subtle background
+                    LinearGradient(
+                        colors: [
+                            Color(red: 0x1a/255, green: 0x1a/255, blue: 0x2e/255),
+                            Color(red: 0x2d/255, green: 0x1b/255, blue: 0x4e/255).opacity(0.8)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
                     .ignoresSafeArea()
+                }
             )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -464,11 +647,7 @@ struct EmailDetailView: View {
                 Image(systemName: threadExpanded ? "chevron.up.circle.fill" : "chevron.down.circle.fill")
                     .font(.system(size: 16))
             }
-            .foregroundColor(.white.opacity(0.7))
-            .padding(.horizontal, 12)
-            .padding(.vertical, 8)
-            .background(Color.white.opacity(0.1))
-            .cornerRadius(12)
+            .foregroundColor(.white.opacity(0.9))
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -479,7 +658,7 @@ struct EmailDetailView: View {
             HStack {
                 Text("CONTEXT")
                     .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(0.75))
                 Spacer()
             }
 
@@ -518,7 +697,6 @@ struct EmailDetailView: View {
                 )
             }
         }
-        .padding(.vertical, 12)
     }
 
     func threadMessagesSection(messages: [ThreadMessage]) -> some View {
@@ -532,17 +710,17 @@ struct EmailDetailView: View {
                 HStack {
                     Text("CONVERSATION")
                         .font(.system(size: 13, weight: .bold))
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(0.75))
 
                     Text("(\(messages.filter { !$0.isLatest }.count) previous)")
                         .font(.system(size: 12))
-                        .foregroundColor(.white.opacity(0.4))
+                        .foregroundColor(.white.opacity(0.55))
 
                     Spacer()
 
                     Image(systemName: threadExpanded ? "chevron.up" : "chevron.down")
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(0.75))
                 }
             }
 
@@ -560,26 +738,26 @@ struct EmailDetailView: View {
                             Spacer()
                             SwiftUI.Text(message.date)
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.5))
+                                .foregroundColor(.white.opacity(0.6))
                         }
                         SwiftUI.Text(message.body)
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(.white.opacity(0.85))
                             .lineLimit(3)
                     }
                     .padding()
                     .background(Color.white.opacity(0.05))
-                    .cornerRadius(12)
+                    .cornerRadius(8)
                 }
             } else {
                 Text("[Tap to expand]")
                     .font(.system(size: 13))
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(0.6))
+                    .italic()
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
             }
         }
-        .padding(.vertical, 12)
     }
 
     // MARK: - Email Body Rendering
@@ -655,10 +833,10 @@ struct EmailDetailView: View {
                     Text("From: \(senderName)")
                         .font(.headline)
                         .foregroundColor(.white)
-                    
+
                     Text(card.timeAgo)
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(0.75))
                 }
             }
             
@@ -791,23 +969,23 @@ struct EmailDetailView: View {
     func detailRow(icon: String, label: String, value: String) -> some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(0.8))
                 .frame(width: 24)
-            
+
             Text(label + ":")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
-            
+                .foregroundColor(.white.opacity(0.8))
+
             Text(value)
                 .font(.subheadline.bold())
                 .foregroundColor(.white)
-            
+
             Spacer()
         }
     }
     
     var actionButtons: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 10) {
             // Primary action - wired to ActionRouter
             Button {
                 // Get effective action and execute through ActionRouter
@@ -829,14 +1007,14 @@ struct EmailDetailView: View {
                         .font(.headline)
                 }
                 .frame(maxWidth: .infinity)
-                .padding()
+                .padding(.vertical, 14)
                 .background(Color.white)
                 .foregroundColor(.blue)
-                .cornerRadius(12)
+                .cornerRadius(10)
             }
 
             // Secondary actions
-            HStack(spacing: 12) {
+            HStack(spacing: 10) {
                 Button {
                     // Mark as seen
                     Task {
@@ -851,36 +1029,35 @@ struct EmailDetailView: View {
                         }
                     }
                 } label: {
-                    HStack {
+                    HStack(spacing: 6) {
                         Image(systemName: "eye.fill")
                         Text("Mark Seen")
                             .font(.subheadline)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.white.opacity(0.2))
+                    .padding(.vertical, 12)
+                    .background(Color.white.opacity(0.15))
                     .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .cornerRadius(10)
                 }
 
                 Button {
                     // Show snooze picker
                     showSnoozePicker = true
                 } label: {
-                    HStack {
+                    HStack(spacing: 6) {
                         Image(systemName: "moon.zzz.fill")
                         Text("Snooze")
                             .font(.subheadline)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.white.opacity(0.2))
+                    .padding(.vertical, 12)
+                    .background(Color.white.opacity(0.15))
                     .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .cornerRadius(10)
                 }
             }
         }
-        .padding(.top, 20)
     }
 
     // MARK: - Helper Methods

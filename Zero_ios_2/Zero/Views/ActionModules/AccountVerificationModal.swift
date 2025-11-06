@@ -79,8 +79,8 @@ struct AccountVerificationModal: View {
                             Text(sender.name)
                                 .font(.headline)
                                 .foregroundColor(.white)
-                            if !sender.email.isEmpty {
-                                Text(sender.email)
+                            if let email = sender.email, !email.isEmpty {
+                                Text(email)
                                     .font(.caption)
                                     .foregroundColor(.white.opacity(0.8))
                             }
@@ -107,7 +107,7 @@ struct AccountVerificationModal: View {
 
                             Button {
                                 UIPasteboard.general.string = code
-                                HapticManager.impact(style: .medium)
+                                HapticService.shared.mediumImpact()
                             } label: {
                                 HStack {
                                     Image(systemName: "doc.on.doc")
@@ -247,7 +247,7 @@ struct AccountVerificationModal: View {
     private func markAsVerified() {
         isVerifying = true
 
-        HapticManager.notification(type: .success)
+        HapticService.shared.success()
 
         withAnimation {
             showSuccess = true

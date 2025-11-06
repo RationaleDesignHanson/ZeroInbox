@@ -5,6 +5,8 @@ import SwiftUI
 struct LiquidGlassBottomNav: View {
     @ObservedObject var viewModel: EmailViewModel
     @Binding var showShoppingCart: Bool
+    @Binding var showSettings: Bool
+    @Binding var showSearch: Bool
     var cartItemCount: Int
     var mailCount: Int = 0  // Number of remaining mail emails
     var adsCount: Int = 0   // Number of remaining ads emails
@@ -196,12 +198,12 @@ struct LiquidGlassBottomNav: View {
 
             // Settings
             navIcon(systemImage: "gearshape.fill") {
-                // TODO: Wire up settings action
+                showSettings = true
             }
 
             // Search
             navIcon(systemImage: "magnifyingglass") {
-                // TODO: Wire up search action
+                showSearch = true
             }
 
             // Refresh

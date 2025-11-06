@@ -133,7 +133,7 @@ struct UpdatePaymentModal: View {
                         ForEach(PaymentType.allCases, id: \.self) { type in
                             Button {
                                 selectedPaymentType = type
-                                HapticManager.impact(style: .light)
+                                HapticService.shared.lightImpact()
                             } label: {
                                 HStack(spacing: 16) {
                                     Image(systemName: type.icon)
@@ -182,7 +182,7 @@ struct UpdatePaymentModal: View {
                             Button {
                                 if let urlObj = URL(string: url) {
                                     UIApplication.shared.open(urlObj)
-                                    HapticManager.notification(type: .success)
+                                    HapticService.shared.success()
                                     Logger.info("Opening payment update URL: \(url)", category: .action)
                                 }
                             } label: {
@@ -258,7 +258,7 @@ struct UpdatePaymentModal: View {
         if let url = URL(string: "shoebox://") {
             if UIApplication.shared.canOpenURL(url) {
                 UIApplication.shared.open(url)
-                HapticManager.notification(type: .success)
+                HapticService.shared.success()
                 Logger.info("Opened Apple Wallet", category: .action)
             }
         }
@@ -269,7 +269,7 @@ struct UpdatePaymentModal: View {
         if let email = context["supportEmail"] ?? card.sender?.email {
             if let url = URL(string: "mailto:\(email)?subject=Payment%20Method%20Update") {
                 UIApplication.shared.open(url)
-                HapticManager.impact(style: .medium)
+                HapticService.shared.mediumImpact()
                 Logger.info("Opening email to contact support: \(email)", category: .action)
             }
         }

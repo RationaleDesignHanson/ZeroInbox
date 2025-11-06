@@ -236,7 +236,7 @@ struct ReviewSecurityModal: View {
                         Button {
                             if let urlObj = URL(string: url) {
                                 UIApplication.shared.open(urlObj)
-                                HapticManager.notification(type: .success)
+                                HapticService.shared.success()
                                 Logger.info("Opening security action URL: \(url)", category: .action)
                             }
                         } label: {
@@ -356,7 +356,7 @@ struct ReviewSecurityModal: View {
     }
 
     private func performSecurityAction() {
-        HapticManager.notification(type: .success)
+        HapticService.shared.success()
         Logger.info("Security action performed: \(securityType.title)", category: .action)
 
         withAnimation {
@@ -369,7 +369,7 @@ struct ReviewSecurityModal: View {
         if let supportEmail = context["supportEmail"] ?? context["securityEmail"] {
             if let url = URL(string: "mailto:\(supportEmail)?subject=Security%20Concern") {
                 UIApplication.shared.open(url)
-                HapticManager.impact(style: .medium)
+                HapticService.shared.mediumImpact()
                 Logger.info("Opening email to security team: \(supportEmail)", category: .action)
             }
         } else {
@@ -377,7 +377,7 @@ struct ReviewSecurityModal: View {
             if let senderEmail = card.sender?.email {
                 if let url = URL(string: "mailto:\(senderEmail)?subject=Security%20Concern") {
                     UIApplication.shared.open(url)
-                    HapticManager.impact(style: .medium)
+                    HapticService.shared.mediumImpact()
                 }
             }
         }

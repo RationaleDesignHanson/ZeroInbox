@@ -314,7 +314,7 @@ struct RSVPModal: View {
     }
 
     private func confirmRSVP() {
-        HapticManager.notification(type: .success)
+        HapticService.shared.success()
 
         // Log analytics
         Logger.info("RSVP confirmed: \(response.responseText) for event: \(context["eventName"] ?? "unknown")", category: .action)
@@ -333,12 +333,12 @@ struct RSVPModal: View {
 
     private func addEventToCalendar() {
         addingToCalendar = true
-        HapticManager.impact(style: .medium)
+        HapticService.shared.mediumImpact()
 
         let eventStore = EKEventStore()
 
-        // Request calendar access
-        eventStore.requestAccess(to: .event) { granted, error in
+        // Request calendar access (iOS 17+)
+        eventStore.requestWriteOnlyAccessToEvents { granted, error in
             DispatchQueue.main.async {
                 addingToCalendar = false
 
@@ -347,7 +347,7 @@ struct RSVPModal: View {
                     event.title = context["eventName"] ?? context["subject"] ?? card.title
 
                     // Parse date/time (simplified - would need proper date parsing in production)
-                    if let dateString = context["date"] ?? context["eventDate"] {
+                    if context["date"] != nil || context["eventDate"] != nil {
                         // For demo, use a default future date
                         event.startDate = Date().addingTimeInterval(86400) // Tomorrow
                         event.endDate = event.startDate.addingTimeInterval(3600) // 1 hour duration
@@ -362,7 +362,7 @@ struct RSVPModal: View {
 
                     do {
                         try eventStore.save(event, span: .thisEvent)
-                        HapticManager.notification(type: .success)
+                        HapticService.shared.success()
                         Logger.info("Event added to calendar successfully", category: .action)
                     } catch {
                         Logger.error("Failed to add event to calendar: \(error.localizedDescription)", category: .action)

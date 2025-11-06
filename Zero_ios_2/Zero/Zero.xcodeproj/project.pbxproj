@@ -107,6 +107,11 @@
 		C55C822B2EBBBA3700967C85 /* ActionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C822A2EBBBA3700967C85 /* ActionRouter.swift */; };
 		C55C822D2EBC00C700967C85 /* ShoppingAutomationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C822C2EBC00C700967C85 /* ShoppingAutomationService.swift */; };
 		C55C822F2EBC00E000967C85 /* ShoppingAutomationModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C822E2EBC00E000967C85 /* ShoppingAutomationModal.swift */; };
+		C55C82652EBC508500967C85 /* AccountVerificationModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C82642EBC508500967C85 /* AccountVerificationModal.swift */; };
+		C55C82672EBC603E00967C85 /* UpdatePaymentModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C82662EBC603E00967C85 /* UpdatePaymentModal.swift */; };
+		C55C82692EBC606F00967C85 /* RSVPModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C82682EBC606F00967C85 /* RSVPModal.swift */; };
+		C55C826B2EBC60A000967C85 /* ViewItineraryModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C826A2EBC60A000967C85 /* ViewItineraryModal.swift */; };
+		C55C826D2EBC614C00967C85 /* ReviewSecurityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C826C2EBC614C00967C85 /* ReviewSecurityModal.swift */; };
 		C5D87E302EA451FA007DE0AD /* DataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D87E2E2EA451FA007DE0AD /* DataGenerator.swift */; };
 		C5D87E312EA451FA007DE0AD /* EmailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D87E2C2EA451FA007DE0AD /* EmailCard.swift */; };
 		C5D87E322EA451FA007DE0AD /* ArchetypeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D87E2B2EA451FA007DE0AD /* ArchetypeConfig.swift */; };
@@ -336,6 +341,11 @@
 		C55C822A2EBBBA3700967C85 /* ActionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionRouter.swift; sourceTree = "<group>"; };
 		C55C822C2EBC00C700967C85 /* ShoppingAutomationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingAutomationService.swift; sourceTree = "<group>"; };
 		C55C822E2EBC00E000967C85 /* ShoppingAutomationModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingAutomationModal.swift; sourceTree = "<group>"; };
+		C55C82642EBC508500967C85 /* AccountVerificationModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountVerificationModal.swift; sourceTree = "<group>"; };
+		C55C82662EBC603E00967C85 /* UpdatePaymentModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePaymentModal.swift; sourceTree = "<group>"; };
+		C55C82682EBC606F00967C85 /* RSVPModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSVPModal.swift; sourceTree = "<group>"; };
+		C55C826A2EBC60A000967C85 /* ViewItineraryModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItineraryModal.swift; sourceTree = "<group>"; };
+		C55C826C2EBC614C00967C85 /* ReviewSecurityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSecurityModal.swift; sourceTree = "<group>"; };
 		C5D87DFE2EA4516B007DE0AD /* Zero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5D87E0E2EA4516C007DE0AD /* ZeroTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeroTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5D87E182EA4516C007DE0AD /* ZeroUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeroUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -753,6 +763,11 @@
 		C5D87E612EA490DC007DE0AD /* ActionModules */ = {
 			isa = PBXGroup;
 			children = (
+				C55C826C2EBC614C00967C85 /* ReviewSecurityModal.swift */,
+				C55C826A2EBC60A000967C85 /* ViewItineraryModal.swift */,
+				C55C82682EBC606F00967C85 /* RSVPModal.swift */,
+				C55C82662EBC603E00967C85 /* UpdatePaymentModal.swift */,
+				C55C82642EBC508500967C85 /* AccountVerificationModal.swift */,
 				C55C822E2EBC00E000967C85 /* ShoppingAutomationModal.swift */,
 				C55C82132EB80E3700967C85 /* ViewOutageDetailsModal.swift */,
 				C55C82142EB80E3700967C85 /* ViewPostCommentsModal.swift */,
@@ -1058,6 +1073,7 @@
 				C5FCB47E2EA681C000DC7DB9 /* ContextBadge.swift in Sources */,
 				C5D87E6E2EA4A00A007DE0AD /* SpreadsheetViewerModal.swift in Sources */,
 				C5FCB4CE2EA6A11500DC7DB9 /* SearchModal.swift in Sources */,
+				C55C82692EBC606F00967C85 /* RSVPModal.swift in Sources */,
 				C55C82002EB6F9F900967C85 /* ActionsBottomSheet.swift in Sources */,
 				C5FCB4F22EA6BAC600DC7DB9 /* ContextualActionService.swift in Sources */,
 				C5FCB5112EA6DCA700DC7DB9 /* SmartReplyService.swift in Sources */,
@@ -1088,9 +1104,11 @@
 				C520A8D22EABCA9500CF3854 /* EmailPersistenceService.swift in Sources */,
 				C5FCB56B2EA7293400DC7DB9 /* ModalRouter.swift in Sources */,
 				C5FCB56C2EA7293400DC7DB9 /* ModalViewBuilder.swift in Sources */,
+				C55C82652EBC508500967C85 /* AccountVerificationModal.swift in Sources */,
 				C5FCB56D2EA7293400DC7DB9 /* EmailServiceProtocol.swift in Sources */,
 				C5FCB56E2EA7293400DC7DB9 /* Environment.swift in Sources */,
 				C5FCB56F2EA7293400DC7DB9 /* Logger.swift in Sources */,
+				C55C826D2EBC614C00967C85 /* ReviewSecurityModal.swift in Sources */,
 				C520ABB82EAD97B300CF3854 /* ClassificationFeedbackSheet.swift in Sources */,
 				C520A8CA2EAB3A8900CF3854 /* SiriShortcutsService.swift in Sources */,
 				C520A8CB2EAB3A8900CF3854 /* WalletService.swift in Sources */,
@@ -1107,6 +1125,7 @@
 				C5D87E382EA453EC007DE0AD /* SimpleCardView.swift in Sources */,
 				C5D87E422EA47767007DE0AD /* EmailData.swift in Sources */,
 				C5FCB5192EA7114200DC7DB9 /* OnboardingView.swift in Sources */,
+				C55C826B2EBC60A000967C85 /* ViewItineraryModal.swift in Sources */,
 				C520AECE2EAEB4CA00CF3854 /* ActionRegistry.swift in Sources */,
 				C5FCB51C2EA7115900DC7DB9 /* AdminFeedbackView.swift in Sources */,
 				D3CB814051A5464F9AE041FDAA8AF017 /* CleverPlaceholders.swift in Sources */,
@@ -1217,6 +1236,7 @@
 				2E824B8E8A77661E1461C5A9 /* FeatureFlag.swift in Sources */,
 				DCAA4E80883D96D3625BCE3F /* AppLifecycleObserver.swift in Sources */,
 				118C4D98AB4D67D81B44C82B /* ErrorReporting.swift in Sources */,
+				C55C82672EBC603E00967C85 /* UpdatePaymentModal.swift in Sources */,
 				EBD2C9F6B9034F388CA770CE /* PlainTextFormatter.swift in Sources */,
 				568DB271CF794F92B2C803E9 /* AttachmentViewerModal.swift in Sources */,
 				610A5F94937C4BAC81F6326B /* SaveForLaterModal.swift in Sources */,

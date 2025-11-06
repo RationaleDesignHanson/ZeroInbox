@@ -68,14 +68,9 @@ struct OnboardingView: View {
                 }
                 
                 Spacer()
-                
+
                 // Step content
                 stepContent
-                
-                Spacer()
-
-                // Why You'll Love Zero Section
-                whyYouLoveZeroSection
 
                 Spacer()
 
@@ -253,77 +248,6 @@ struct OnboardingView: View {
         }
     }
 
-    @ViewBuilder
-    var whyYouLoveZeroSection: some View {
-        VStack(spacing: 20) {
-            Text("Why You'll Love Zero")
-                .font(.title2.bold())
-                .foregroundColor(.white)
-
-            HStack(spacing: 16) {
-                // Save Time
-                VStack(spacing: 8) {
-                    Text("⏰")
-                        .font(.system(size: 36))
-                    Text("Save Time")
-                        .font(.caption.bold())
-                        .foregroundColor(.white)
-                    Text("2 hrs")
-                        .font(.title3.bold())
-                        .foregroundColor(.blue)
-                    Text("saved daily")
-                        .font(.caption2)
-                        .foregroundColor(.white.opacity(0.7))
-                        .multilineTextAlignment(.center)
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(12)
-
-                // Reduce Stress
-                VStack(spacing: 8) {
-                    Text("🧘")
-                        .font(.system(size: 36))
-                    Text("Reduce Stress")
-                        .font(.caption.bold())
-                        .foregroundColor(.white)
-                    Text("Zero")
-                        .font(.title3.bold())
-                        .foregroundColor(.green)
-                    Text("anxiety")
-                        .font(.caption2)
-                        .foregroundColor(.white.opacity(0.7))
-                        .multilineTextAlignment(.center)
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(12)
-
-                // Stay Secure
-                VStack(spacing: 8) {
-                    Text("🔒")
-                        .font(.system(size: 36))
-                    Text("Stay Secure")
-                        .font(.caption.bold())
-                        .foregroundColor(.white)
-                    Text("100%")
-                        .font(.title3.bold())
-                        .foregroundColor(.purple)
-                    Text("private")
-                        .font(.caption2)
-                        .foregroundColor(.white.opacity(0.7))
-                        .multilineTextAlignment(.center)
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(12)
-            }
-            .padding(.horizontal, 20)
-        }
-    }
 }
 
 // MARK: - Onboarding Card Animation

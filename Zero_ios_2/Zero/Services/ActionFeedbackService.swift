@@ -8,6 +8,20 @@ class ActionFeedbackService {
     // Admin endpoints deployed to Cloud Run
     private let baseURL = "https://emailshortform-classifier-514014482017.us-central1.run.app/api"
 
+    // MARK: - Comprehensive Corpus
+
+    /// Cached comprehensive corpus data (loaded once)
+    private var cachedCorpus: [CorpusEmail]?
+
+    /// Corpus email structure matching comprehensive-corpus.json
+    struct CorpusEmail: Codable {
+        let subject: String
+        let from: String
+        let body: String
+        let intent: String
+        let generated: Bool
+    }
+
     // MARK: - Fetch Next Email for Action Review
 
     /// Fetches the next email with suggested actions for review
@@ -67,80 +81,287 @@ class ActionFeedbackService {
         }
     }
 
-    // MARK: - Generate Sample Email
+    // MARK: - Comprehensive Corpus Loading
 
-    /// Generates a sample email with actions for testing the feedback interface
-    func generateSampleEmailWithActions() async throws -> ClassifiedEmailWithActions {
-        // Sample emails with realistic action suggestions
-        let samples: [(String, String, String, String, [EmailAction])] = [
-            (
-                "tracking@amazon.com",
-                "Your package has shipped - Track your order",
-                "Order #123-456789 has shipped via UPS. Tracking number: 1Z999AA10123456784. Estimated delivery: Oct 28, 2025.",
-                "e-commerce.shipping.notification",
-                [
+    /// Loads comprehensive email corpus from JSON file
+    /// Caches result for performance
+    private func loadComprehensiveCorpus() -> [CorpusEmail] {
+        // Return cached corpus if already loaded
+        if let cached = cachedCorpus {
+            return cached
+        }
+
+        // Load from bundle
+        guard let url = Bundle.main.url(forResource: "comprehensive-corpus", withExtension: "json", subdirectory: "data") else {
+            Logger.error("Could not find comprehensive-corpus.json in bundle", category: .app)
+            return []
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let corpus = try decoder.decode([CorpusEmail].self, from: data)
+
+            // Cache the loaded corpus
+            cachedCorpus = corpus
+
+            Logger.info("Loaded comprehensive corpus: \(corpus.count) emails, \(Set(corpus.map { $0.intent }).count) unique intents", category: .app)
+            return corpus
+        } catch {
+            Logger.error("Failed to load comprehensive corpus: \(error)", category: .app)
+            return []
+        }
+    }
+
+    // MARK: - Intent to Action Mapping
+
+    /// Maps email intent to appropriate suggested actions using ActionRegistry
+    private func mapIntentToActions(_ intent: String) -> [EmailAction] {
+        let components = intent.split(separator: ".")
+        guard !components.isEmpty else { return [] }
+
+        let category = String(components[0])
+        let subcategory = components.count > 1 ? String(components[1]) : nil
+
+        var actions: [EmailAction] = []
+
+        // Map intents to action IDs based on hierarchical patterns
+        switch category {
+        case "e-commerce":
+            switch subcategory {
+            case "return":
+                actions = [
+                    EmailAction(actionId: "view_order", displayName: "View Order", actionType: .goTo, isPrimary: false, priority: 2),
+                    EmailAction(actionId: "track_package", displayName: "Track Package", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "open_link", displayName: "View Return Label", actionType: .goTo, isPrimary: false, priority: 3)
+                ]
+            case "shipping":
+                actions = [
                     EmailAction(actionId: "track_package", displayName: "Track Package", actionType: .goTo, isPrimary: true, priority: 1),
                     EmailAction(actionId: "view_order", displayName: "View Order", actionType: .goTo, isPrimary: false, priority: 2),
-                    EmailAction(actionId: "contact_carrier", displayName: "Contact Carrier", actionType: .goTo, isPrimary: false, priority: 3)
+                    EmailAction(actionId: "add_to_calendar", displayName: "Add Delivery Date", actionType: .inApp, isPrimary: false, priority: 3)
                 ]
-            ),
-            (
-                "teacher@school.edu",
-                "Field Trip Permission Form - Please Sign by Oct 25",
-                "Please sign the attached permission form for the field trip to the Science Museum on Nov 15. Fee: $12 per student.",
-                "education.permission.form",
-                [
+            case "refund", "cart":
+                actions = [
+                    EmailAction(actionId: "view_order", displayName: "View Order", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "open_link", displayName: "Complete Purchase", actionType: .goTo, isPrimary: false, priority: 2)
+                ]
+            default:
+                actions = [
+                    EmailAction(actionId: "shop_now", displayName: "Shop Now", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "view_order", displayName: "View Order", actionType: .goTo, isPrimary: false, priority: 2)
+                ]
+            }
+
+        case "education":
+            switch subcategory {
+            case "permission":
+                actions = [
                     EmailAction(actionId: "sign_form", displayName: "Sign Form", actionType: .inApp, isPrimary: true, priority: 1),
-                    EmailAction(actionId: "pay_form_fee", displayName: "Pay Fee ($12)", actionType: .goTo, isPrimary: false, priority: 2),
-                    EmailAction(actionId: "add_to_calendar", displayName: "Add to Calendar", actionType: .inApp, isPrimary: false, priority: 3)
+                    EmailAction(actionId: "add_to_calendar", displayName: "Add to Calendar", actionType: .inApp, isPrimary: false, priority: 2),
+                    EmailAction(actionId: "view_document", displayName: "View Details", actionType: .inApp, isPrimary: false, priority: 3)
                 ]
-            ),
-            (
-                "billing@acme.com",
-                "Invoice #INV-2025-1234 Due October 30",
-                "Invoice INV-2025-1234 for $599.00 is due Oct 30, 2025. Pay online: https://pay.acme.com/INV-2025-1234",
-                "billing.invoice.due",
-                [
-                    EmailAction(actionId: "pay_invoice", displayName: "Pay Invoice", actionType: .goTo, isPrimary: true, priority: 1),
-                    EmailAction(actionId: "view_invoice", displayName: "View Invoice", actionType: .goTo, isPrimary: false, priority: 2),
-                    EmailAction(actionId: "download_receipt", displayName: "Download Receipt", actionType: .goTo, isPrimary: false, priority: 3)
+            case "assignment":
+                actions = [
+                    EmailAction(actionId: "view_assignment", displayName: "View Assignment", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "add_to_calendar", displayName: "Add Due Date", actionType: .inApp, isPrimary: false, priority: 2),
+                    EmailAction(actionId: "set_reminder", displayName: "Set Reminder", actionType: .inApp, isPrimary: false, priority: 3)
                 ]
-            ),
-            (
-                "noreply@united.com",
-                "Flight UA 123 Check-In Now Available",
-                "Check in for flight UA 123 departing tomorrow at 9:00 AM from SFO to LAX. Check in: https://united.com/checkin/ABC123",
-                "travel.flight.check-in",
-                [
+            case "grade":
+                actions = [
+                    EmailAction(actionId: "check_grade", displayName: "Check Grade", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "view_lms", displayName: "View LMS", actionType: .goTo, isPrimary: false, priority: 2)
+                ]
+            default:
+                actions = [
+                    EmailAction(actionId: "view_lms", displayName: "View LMS", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "reply", displayName: "Reply", actionType: .inApp, isPrimary: false, priority: 2)
+                ]
+            }
+
+        case "billing":
+            actions = [
+                EmailAction(actionId: "pay_invoice", displayName: "Pay Invoice", actionType: .goTo, isPrimary: true, priority: 1),
+                EmailAction(actionId: "view_order", displayName: "View Invoice", actionType: .goTo, isPrimary: false, priority: 2),
+                EmailAction(actionId: "add_to_calendar", displayName: "Add Due Date", actionType: .inApp, isPrimary: false, priority: 3)
+            ]
+
+        case "travel":
+            switch subcategory {
+            case "flight":
+                actions = [
                     EmailAction(actionId: "check_in_flight", displayName: "Check In", actionType: .goTo, isPrimary: true, priority: 1),
                     EmailAction(actionId: "view_itinerary", displayName: "View Itinerary", actionType: .goTo, isPrimary: false, priority: 2),
                     EmailAction(actionId: "add_to_wallet", displayName: "Add to Wallet", actionType: .inApp, isPrimary: false, priority: 3)
                 ]
-            ),
-            (
-                "deals@avantarte.com",
-                "Limited Edition Print by Banksy - Launching Oct 31, 5pm UK",
-                "New limited edition print \"Girl with Balloon\" launching Oct 31 at 5pm UK time. 100 prints available. Price: £595.",
-                "shopping.scheduled-purchase",
-                [
-                    EmailAction(actionId: "schedule_purchase", displayName: "Set Purchase Reminder", actionType: .inApp, isPrimary: true, priority: 1),
-                    EmailAction(actionId: "view_product", displayName: "View Product", actionType: .goTo, isPrimary: false, priority: 2),
+            case "hotel", "booking":
+                actions = [
+                    EmailAction(actionId: "view_reservation", displayName: "View Reservation", actionType: .inApp, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "get_directions", displayName: "Get Directions", actionType: .goTo, isPrimary: false, priority: 2),
                     EmailAction(actionId: "add_to_calendar", displayName: "Add to Calendar", actionType: .inApp, isPrimary: false, priority: 3)
                 ]
-            )
-        ]
+            default:
+                actions = [
+                    EmailAction(actionId: "view_itinerary", displayName: "View Itinerary", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "add_to_calendar", displayName: "Add to Calendar", actionType: .inApp, isPrimary: false, priority: 2)
+                ]
+            }
 
-        let sample = samples.randomElement()!
+        case "healthcare":
+            switch subcategory {
+            case "prescription":
+                actions = [
+                    EmailAction(actionId: "view_pickup_details", displayName: "View Pickup Details", actionType: .inApp, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "view_prescription", displayName: "View Prescription", actionType: .goTo, isPrimary: false, priority: 2),
+                    EmailAction(actionId: "get_directions", displayName: "Get Directions", actionType: .goTo, isPrimary: false, priority: 3)
+                ]
+            case "appointment":
+                actions = [
+                    EmailAction(actionId: "check_in_appointment", displayName: "Check In", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "add_to_calendar", displayName: "Add to Calendar", actionType: .inApp, isPrimary: false, priority: 2),
+                    EmailAction(actionId: "get_directions", displayName: "Get Directions", actionType: .goTo, isPrimary: false, priority: 3)
+                ]
+            case "results":
+                actions = [
+                    EmailAction(actionId: "view_results", displayName: "View Results", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "schedule_appointment", displayName: "Schedule Follow-up", actionType: .goTo, isPrimary: false, priority: 2)
+                ]
+            default:
+                actions = [
+                    EmailAction(actionId: "schedule_appointment", displayName: "Schedule Appointment", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "view_results", displayName: "View Portal", actionType: .goTo, isPrimary: false, priority: 2)
+                ]
+            }
+
+        case "shopping":
+            switch subcategory {
+            case "scheduled-purchase":
+                actions = [
+                    EmailAction(actionId: "schedule_purchase", displayName: "Set Purchase Reminder", actionType: .inApp, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "add_to_calendar", displayName: "Add to Calendar", actionType: .inApp, isPrimary: false, priority: 2),
+                    EmailAction(actionId: "open_link", displayName: "View Product", actionType: .goTo, isPrimary: false, priority: 3)
+                ]
+            default:
+                actions = [
+                    EmailAction(actionId: "shop_now", displayName: "Shop Now", actionType: .goTo, isPrimary: true, priority: 1),
+                    EmailAction(actionId: "claim_deal", displayName: "Claim Deal", actionType: .inApp, isPrimary: false, priority: 2)
+                ]
+            }
+
+        case "account":
+            actions = [
+                EmailAction(actionId: "open_link", displayName: "Review Activity", actionType: .goTo, isPrimary: true, priority: 1),
+                EmailAction(actionId: "reply", displayName: "Contact Support", actionType: .inApp, isPrimary: false, priority: 2)
+            ]
+
+        case "civic":
+            actions = [
+                EmailAction(actionId: "view_tax_notice", displayName: "View Notice", actionType: .goTo, isPrimary: true, priority: 1),
+                EmailAction(actionId: "add_to_calendar", displayName: "Add Deadline", actionType: .inApp, isPrimary: false, priority: 2),
+                EmailAction(actionId: "set_reminder", displayName: "Set Reminder", actionType: .inApp, isPrimary: false, priority: 3)
+            ]
+
+        case "career":
+            actions = [
+                EmailAction(actionId: "reply", displayName: "Reply", actionType: .inApp, isPrimary: true, priority: 1),
+                EmailAction(actionId: "add_to_calendar", displayName: "Add to Calendar", actionType: .inApp, isPrimary: false, priority: 2),
+                EmailAction(actionId: "open_link", displayName: "View Details", actionType: .goTo, isPrimary: false, priority: 3)
+            ]
+
+        case "dining":
+            actions = [
+                EmailAction(actionId: "track_package", displayName: "Track Delivery", actionType: .goTo, isPrimary: true, priority: 1),
+                EmailAction(actionId: "write_review", displayName: "Write Review", actionType: .inApp, isPrimary: false, priority: 2),
+                EmailAction(actionId: "contact_driver", displayName: "Contact Driver", actionType: .inApp, isPrimary: false, priority: 3)
+            ]
+
+        case "content":
+            actions = [
+                EmailAction(actionId: "view_newsletter_summary", displayName: "View Summary", actionType: .inApp, isPrimary: true, priority: 1),
+                EmailAction(actionId: "unsubscribe", displayName: "Unsubscribe", actionType: .goTo, isPrimary: false, priority: 2)
+            ]
+
+        case "communication":
+            actions = [
+                EmailAction(actionId: "reply", displayName: "Reply", actionType: .inApp, isPrimary: true, priority: 1),
+                EmailAction(actionId: "add_to_calendar", displayName: "Schedule Meeting", actionType: .inApp, isPrimary: false, priority: 2)
+            ]
+
+        default:
+            // Generic fallback actions
+            actions = [
+                EmailAction(actionId: "view_details", displayName: "View Details", actionType: .inApp, isPrimary: true, priority: 1),
+                EmailAction(actionId: "reply", displayName: "Reply", actionType: .inApp, isPrimary: false, priority: 2),
+                EmailAction(actionId: "save_for_later", displayName: "Save for Later", actionType: .inApp, isPrimary: false, priority: 3)
+            ]
+        }
+
+        // Validate actions exist in ActionRegistry
+        let registry = ActionRegistry.shared
+        let validActions = actions.filter { action in
+            registry.getAction(action.actionId) != nil
+        }
+
+        if validActions.count < actions.count {
+            let invalidIds = actions.filter { action in
+                registry.getAction(action.actionId) == nil
+            }.map { $0.actionId }
+            Logger.warning("Some action IDs not found in ActionRegistry for intent \(intent): \(invalidIds)", category: .app)
+        }
+
+        return validActions
+    }
+
+    // MARK: - Generate Sample Email
+
+    /// Generates a sample email with actions from comprehensive corpus
+    /// Loads from 642 email corpus and maps intents to actions using ActionRegistry
+    func generateSampleEmailWithActions() async throws -> ClassifiedEmailWithActions {
+        // Load comprehensive corpus (cached after first load)
+        let corpus = loadComprehensiveCorpus()
+
+        // If corpus failed to load, provide helpful error
+        guard !corpus.isEmpty else {
+            throw NSError(domain: "ActionFeedbackService", code: -1, userInfo: [
+                NSLocalizedDescriptionKey: "Could not load email corpus. Ensure comprehensive-corpus.json is included in the app bundle under data/ directory."
+            ])
+        }
+
+        // Randomly select an email from the corpus
+        guard let selectedEmail = corpus.randomElement() else {
+            throw NSError(domain: "ActionFeedbackService", code: -1, userInfo: [
+                NSLocalizedDescriptionKey: "Failed to select random email from corpus"
+            ])
+        }
+
+        // Map intent to suggested actions using ActionRegistry
+        let suggestedActions = mapIntentToActions(selectedEmail.intent)
+
+        // Generate realistic confidence score
         let confidence = Double.random(in: 0.60...0.95)
+
+        // Generate random time ago
+        let hoursAgo = Int.random(in: 1...48)
+        let timeAgo: String
+        if hoursAgo == 1 {
+            timeAgo = "1 hour ago"
+        } else if hoursAgo < 24 {
+            timeAgo = "\(hoursAgo) hours ago"
+        } else {
+            let daysAgo = hoursAgo / 24
+            timeAgo = daysAgo == 1 ? "1 day ago" : "\(daysAgo) days ago"
+        }
+
+        Logger.info("Generated sample email from corpus - Intent: \(selectedEmail.intent), Actions: \(suggestedActions.count)", category: .app)
 
         return ClassifiedEmailWithActions(
             id: UUID().uuidString,
-            from: sample.0,
-            subject: sample.1,
-            snippet: sample.2,
-            timeAgo: "\(Int.random(in: 1...24)) hours ago",
-            intent: sample.3,
-            suggestedActions: sample.4,
+            from: selectedEmail.from,
+            subject: selectedEmail.subject,
+            snippet: selectedEmail.body,
+            timeAgo: timeAgo,
+            intent: selectedEmail.intent,
+            suggestedActions: suggestedActions,
             confidence: confidence
         )
     }
