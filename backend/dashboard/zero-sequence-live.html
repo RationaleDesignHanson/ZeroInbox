@@ -2006,8 +2006,17 @@
                 await new Promise(resolve => setTimeout(resolve, 500));
 
                 // Use actualClassifierOutput.suggestedActions as primary source (contains all actions)
-                // Fall back to rulesEngine.suggestedActions if needed
-                const actions = data.actualClassifierOutput?.suggestedActions || data.rulesEngine?.suggestedActions || [];
+                // Fall back to rulesEngine.suggestedActions, then root-level suggestedActions (old format)
+                let actions = data.actualClassifierOutput?.suggestedActions || data.rulesEngine?.suggestedActions || data.suggestedActions || [];
+
+                // Normalize old format actions to new format
+                actions = actions.map(a => ({
+                    actionId: a.actionId || a.type || a.id,
+                    displayName: a.displayName || a.label || a.name,
+                    isPrimary: a.isPrimary || a.primary || false,
+                    ...a
+                }));
+
                 document.getElementById('suggested-actions-count').textContent = `${actions.length} action${actions.length !== 1 ? 's' : ''}`;
                 const primaryAction = actions.find(a => a.isPrimary) || actions[0];
                 document.getElementById('primary-action').textContent = primaryAction?.displayName || 'None';
