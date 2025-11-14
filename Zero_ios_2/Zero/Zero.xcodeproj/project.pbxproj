@@ -39,7 +39,6 @@
 		985821DDA2654AB3A7E184C9 /* PriorityPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2EB0113235A462E85817FB8 /* PriorityPickerView.swift */; };
 		A30F2BDA2FCD4476B3D1B714 /* ErrorStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A547FF017245AF8C46E9DC /* ErrorStates.swift */; };
 		A5F1FE4D11724A20BC2613864F7BD88F /* ActionPlaceholders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A4F4179651476BACCB323279F01373 /* ActionPlaceholders.swift */; };
-		A8FD98C611384128BB2CBF47 /* CorpusEmails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337FC85E5CAB430E821FC2C3 /* CorpusEmails.swift */; };
 		B3474DC2836C140D4D21B4F8 /* SnoozeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B71C4ADFACB3DE32852AD600 /* SnoozeService.swift */; };
 		C520A7F62EAB0DE400CF3854 /* EmailSendingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C520A7F32EAB0DE400CF3854 /* EmailSendingService.swift */; };
 		C520A7F82EAB0DE400CF3854 /* SignedDocumentGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C520A7F52EAB0DE400CF3854 /* SignedDocumentGenerator.swift */; };
@@ -221,7 +220,6 @@
 		C5FCB6B62EAA896F00DC7DB9 /* Services/ModelTuningRewardsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10AD514CFE466DB3610B8F /* Services/ModelTuningRewardsService.swift */; };
 		C5FCB7882EAA8FD400DC7DB9 /* Views/SwipeGestureTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA1D1B40BC3496E859D377A /* Views/SwipeGestureTutorialView.swift */; };
 		C98743EEB63C126DC1DDE01B /* LaunchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC4AC9B2CB1665873E9A5C /* LaunchConfiguration.swift */; };
-		D3CB814051A5464F9AE041FDAA8AF017 /* CleverPlaceholders.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE16817BA6C48F2AD21B1835A1E8B42 /* CleverPlaceholders.swift */; };
 		D941C88F4F1E42119D2AF0C8 /* PremiumPaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF557D4FA9E443A99D41359 /* PremiumPaywallView.swift */; };
 		DCAA4E80883D96D3625BCE3F /* AppLifecycleObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AB49C390073FF7F9A169BB /* AppLifecycleObserver.swift */; };
 		DED1DA958A224AF6B93CEE9C /* LoadingStates.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E2896EBBA44D1A9D1B1599 /* LoadingStates.swift */; };
@@ -254,7 +252,6 @@
 		1B48F0683B38496D85B2CD74 /* UserPermissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPermissions.swift; sourceTree = "<group>"; };
 		23A14C4E9C6DE10241B70147 /* LoggingProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoggingProtocol.swift; path = Utilities/LoggingProtocol.swift; sourceTree = SOURCE_ROOT; };
 		2E10AD514CFE466DB3610B8F /* Services/ModelTuningRewardsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services/ModelTuningRewardsService.swift; sourceTree = "<group>"; };
-		337FC85E5CAB430E821FC2C3 /* CorpusEmails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CorpusEmails.swift; path = Services/CorpusEmails.swift; sourceTree = SOURCE_ROOT; };
 		34FE40E588FFE493732D2434 /* NewsletterSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = NewsletterSummaryView.swift; path = Views/NewsletterSummaryView.swift; sourceTree = SOURCE_ROOT; };
 		3BF54A9CAC5F1D1D8E9D3CED /* SnoozeModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnoozeModal.swift; path = Views/ActionModules/SnoozeModal.swift; sourceTree = SOURCE_ROOT; };
 		3F91C74F77BE4AB38495C475 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
@@ -280,7 +277,6 @@
 		B71C4ADFACB3DE32852AD600 /* SnoozeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SnoozeService.swift; path = Services/SnoozeService.swift; sourceTree = SOURCE_ROOT; };
 		BA5A4F6192AFAC514F93019D /* VIPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = VIPManager.swift; path = Services/VIPManager.swift; sourceTree = SOURCE_ROOT; };
 		BC412796D91F4A31AA8ED15E /* StoreKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitService.swift; sourceTree = "<group>"; };
-		BCE16817BA6C48F2AD21B1835A1E8B42 /* CleverPlaceholders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CleverPlaceholders.swift; path = Services/CleverPlaceholders.swift; sourceTree = SOURCE_ROOT; };
 		BFFEE8A0A3DB431090355FED /* Views/LinkifiedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Views/LinkifiedText.swift; sourceTree = "<group>"; };
 		C520A7F32EAB0DE400CF3854 /* EmailSendingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSendingService.swift; sourceTree = "<group>"; };
 		C520A7F52EAB0DE400CF3854 /* SignedDocumentGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignedDocumentGenerator.swift; sourceTree = "<group>"; };
@@ -708,8 +704,6 @@
 				C5D87E652EA490F4007DE0AD /* EmailAPIService.swift */,
 				C5D87E412EA47767007DE0AD /* EmailData.swift */,
 				C5D87E2E2EA451FA007DE0AD /* DataGenerator.swift */,
-				337FC85E5CAB430E821FC2C3 /* CorpusEmails.swift */,
-				BCE16817BA6C48F2AD21B1835A1E8B42 /* CleverPlaceholders.swift */,
 				47A4F4179651476BACCB323279F01373 /* ActionPlaceholders.swift */,
 			);
 			path = Services;
@@ -1159,12 +1153,10 @@
 				C5C8EE992EC7734400C5DB68 /* ContentViewState.swift in Sources */,
 				C520AECE2EAEB4CA00CF3854 /* ActionRegistry.swift in Sources */,
 				C5FCB51C2EA7115900DC7DB9 /* AdminFeedbackView.swift in Sources */,
-				D3CB814051A5464F9AE041FDAA8AF017 /* CleverPlaceholders.swift in Sources */,
 				C5FCB4302EA5BCA400DC7DB9 /* OpenAppModal.swift in Sources */,
 				A5F1FE4D11724A20BC2613864F7BD88F /* ActionPlaceholders.swift in Sources */,
 				C5D87E352EA45265007DE0AD /* EmailViewModel.swift in Sources */,
 				C5D87E302EA451FA007DE0AD /* DataGenerator.swift in Sources */,
-				A8FD98C611384128BB2CBF47 /* CorpusEmails.swift in Sources */,
 				C5FCB5762EA72D4300DC7DB9 /* CardStackView.swift in Sources */,
 				2E2B87F80F9D4875B0B929DE0296B237 /* EmptyInboxView.swift in Sources */,
 				5F140550A8BC4F2F8B0448DCE2677E86 /* LoadingOverlayView.swift in Sources */,

@@ -30,7 +30,8 @@ struct DataGenerator {
 
         // MARK: - CORPUS-INSPIRED EMAILS (Realistic variety from analysis)
         // These are synthetic emails based on real-world patterns - NO personal data
-        cards.append(contentsOf: generateCorpusInspiredEmails())
+        // NOTE: CorpusEmails.swift was removed during Week 1 cleanup - unused service
+        // cards.append(contentsOf: generateCorpusInspiredEmails())
 
         // MARK: - NEWSLETTERS (3 cards)
 
