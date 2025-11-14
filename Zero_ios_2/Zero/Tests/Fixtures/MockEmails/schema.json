@@ -1,0 +1,194 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MockEmailSchema",
+  "description": "Schema for Zero Inbox mock email fixtures",
+  "type": "object",
+  "required": ["id", "type", "state", "priority", "hpa", "timeAgo", "title", "summary", "body", "intent", "intentConfidence", "suggestedActions", "sender"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the email"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["mail", "ads"],
+      "description": "Email archetype (mail or ads)"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["unseen", "seen", "archived"],
+      "description": "Email state"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["critical", "veryHigh", "high", "mediumHigh", "medium", "low"],
+      "description": "Email priority level"
+    },
+    "hpa": {
+      "type": "string",
+      "description": "High-Priority Action text"
+    },
+    "timeAgo": {
+      "type": "string",
+      "description": "Relative time string (e.g., '2h ago', '10m ago')"
+    },
+    "title": {
+      "type": "string",
+      "description": "Email subject/title"
+    },
+    "summary": {
+      "type": "string",
+      "description": "Brief summary of email content"
+    },
+    "aiGeneratedSummary": {
+      "type": "string",
+      "description": "AI-generated summary with actions and context"
+    },
+    "body": {
+      "type": "string",
+      "description": "Full email body (plain text)"
+    },
+    "htmlBody": {
+      "type": ["string", "null"],
+      "description": "HTML version of email body (optional)"
+    },
+    "metaCTA": {
+      "type": "string",
+      "description": "Meta call-to-action text"
+    },
+    "intent": {
+      "type": "string",
+      "description": "Detected email intent (e.g., 'generic.newsletter', 'shopping.receipt')"
+    },
+    "intentConfidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence score for intent classification"
+    },
+    "suggestedActions": {
+      "type": "array",
+      "description": "List of suggested actions",
+      "items": {
+        "type": "object",
+        "required": ["actionId", "displayName", "actionType", "isPrimary", "priority"],
+        "properties": {
+          "actionId": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "actionType": {
+            "type": "string",
+            "enum": ["GO_TO", "IN_APP"]
+          },
+          "isPrimary": {
+            "type": "boolean"
+          },
+          "priority": {
+            "type": "integer"
+          },
+          "context": {
+            "type": "object",
+            "description": "Additional context for the action"
+          }
+        }
+      }
+    },
+    "sender": {
+      "type": "object",
+      "required": ["name", "initial"],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "initial": {
+          "type": "string"
+        },
+        "email": {
+          "type": ["string", "null"]
+        }
+      }
+    },
+    "kid": {
+      "type": ["string", "null"],
+      "description": "Child name (for education-related emails)"
+    },
+    "company": {
+      "type": ["string", "null"]
+    },
+    "store": {
+      "type": ["string", "null"]
+    },
+    "airline": {
+      "type": ["string", "null"]
+    },
+    "productImageUrl": {
+      "type": ["string", "null"]
+    },
+    "brandName": {
+      "type": ["string", "null"]
+    },
+    "originalPrice": {
+      "type": ["number", "null"]
+    },
+    "salePrice": {
+      "type": ["number", "null"]
+    },
+    "discount": {
+      "type": ["string", "null"]
+    },
+    "urgent": {
+      "type": "boolean",
+      "description": "Is this email time-sensitive?"
+    },
+    "expiresIn": {
+      "type": ["string", "null"],
+      "description": "Expiration timeframe (e.g., '2 hours', '3 days')"
+    },
+    "requiresSignature": {
+      "type": ["boolean", "null"]
+    },
+    "paymentAmount": {
+      "type": ["number", "null"]
+    },
+    "paymentDescription": {
+      "type": ["string", "null"]
+    },
+    "value": {
+      "type": ["number", "null"]
+    },
+    "probability": {
+      "type": ["number", "null"]
+    },
+    "score": {
+      "type": ["number", "null"]
+    },
+    "keyLinks": {
+      "type": ["array", "null"],
+      "description": "Key links for newsletters",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "keyTopics": {
+      "type": ["array", "null"],
+      "description": "Key topics for newsletters",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

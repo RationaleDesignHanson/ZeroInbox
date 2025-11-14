@@ -1,0 +1,85 @@
+{
+  "id": "newsletter1",
+  "type": "mail",
+  "state": "unseen",
+  "priority": "medium",
+  "hpa": "View Summary",
+  "timeAgo": "2h ago",
+  "title": "The Download: This Week in AI - Issue #47",
+  "summary": "Weekly AI and tech newsletter featuring GPT-5 speculation, EU AI Act launch, and GitHub Copilot X upgrade. Industry stats show 67% of developers now use AI assistants daily with $21B invested this quarter.",
+  "aiGeneratedSummary": "**Actions:**\nNone\n\n**Context:**\n• GPT-5 speculation, EU AI Act goes live, GitHub Copilot X upgrade\n• 67% of devs use AI assistants daily, $21B invested this quarter\n• Weekly digest with top stories, tools, and learning resources",
+  "body": "THE DOWNLOAD\nYour weekly AI & tech newsletter\nIssue #47 - October 23, 2025\n\n📰 TOP STORIES THIS WEEK\n\n1. GPT-5 Speculation Heats Up\nOpenAI hints at next-generation model with improved reasoning capabilities. Sources say training began in Q3 2025. Expected launch: early 2026.\n\n2. EU AI Act Goes Into Effect\nNew regulations require transparency in AI-generated content and model training data disclosure. US companies scramble to comply.\n\n3. GitHub Copilot X Gets Major Upgrade\nNew features include voice-to-code, AI code reviews, and context-aware suggestions across entire codebases.\n\n🔧 TOOLS & RESOURCES\n\n• LangChain 0.3 released with improved streaming\n• New Anthropic Claude API features\n• Open-source alternatives to ChatGPT gaining traction\n• Vector database comparison guide\n\n🎓 LEARNING\n\n• Free course: Building production LLM apps\n• Prompt engineering best practices 2025\n• Fine-tuning vs RAG: When to use which\n\n📊 BY THE NUMBERS\n\n• 67% of developers now use AI coding assistants daily\n• $21B invested in AI startups this quarter\n• 3.2M AI-related jobs posted in October\n\n🔮 WHAT'S NEXT\n\nNext week: Interview with Anthropic's CEO on Claude's future, plus a deep dive into multi-modal AI applications.\n\nHappy coding!\nThe TechCrunch Team",
+  "htmlBody": null,
+  "metaCTA": "Swipe Right: View AI Summary",
+  "intent": "generic.newsletter",
+  "intentConfidence": 0.98,
+  "suggestedActions": [
+    {
+      "actionId": "view_newsletter_summary",
+      "displayName": "View Summary",
+      "actionType": "IN_APP",
+      "isPrimary": true,
+      "priority": 1
+    },
+    {
+      "actionId": "save_for_later",
+      "displayName": "Save for Later",
+      "actionType": "IN_APP",
+      "isPrimary": false,
+      "priority": 2
+    },
+    {
+      "actionId": "archive",
+      "displayName": "Archive",
+      "actionType": "IN_APP",
+      "isPrimary": false,
+      "priority": 3
+    }
+  ],
+  "sender": {
+    "name": "TechCrunch",
+    "initial": "T",
+    "email": null
+  },
+  "kid": null,
+  "company": null,
+  "store": null,
+  "airline": null,
+  "productImageUrl": null,
+  "brandName": null,
+  "originalPrice": null,
+  "salePrice": null,
+  "discount": null,
+  "urgent": false,
+  "expiresIn": null,
+  "requiresSignature": null,
+  "paymentAmount": null,
+  "paymentDescription": null,
+  "value": null,
+  "probability": null,
+  "score": null,
+  "keyLinks": [
+    {
+      "title": "GPT-5 Speculation Heats Up",
+      "url": "https://techcrunch.com/gpt5-analysis",
+      "description": "OpenAI hints at next-generation model with improved reasoning capabilities."
+    },
+    {
+      "title": "EU AI Act Goes Into Effect",
+      "url": "https://techcrunch.com/eu-ai-act",
+      "description": "New regulations require transparency in AI-generated content and training data disclosure."
+    },
+    {
+      "title": "GitHub Copilot X Upgrade",
+      "url": "https://github.com/features/copilot",
+      "description": "Voice-to-code, AI code reviews, and context-aware suggestions across entire codebases."
+    }
+  ],
+  "keyTopics": [
+    "Artificial Intelligence",
+    "GPT-5",
+    "EU Regulation",
+    "GitHub",
+    "Machine Learning"
+  ]
+}

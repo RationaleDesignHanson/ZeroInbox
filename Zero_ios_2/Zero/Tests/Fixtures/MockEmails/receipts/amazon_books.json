@@ -1,0 +1,64 @@
+{
+  "id": "receipt_amazon_books",
+  "type": "ads",
+  "state": "unseen",
+  "priority": "medium",
+  "hpa": "View Receipt",
+  "timeAgo": "1h ago",
+  "title": "Your Amazon.com Order Confirmation",
+  "summary": "Order #123-4567890-1234567 confirmed. 3 books totaling $47.97. Estimated delivery: November 18-20.",
+  "aiGeneratedSummary": "**Purchase:**\n• 3 books ordered from Amazon\n• Total: $47.97\n• Delivery: Nov 18-20\n\n**Actions:**\n• Track shipment\n• View order details",
+  "body": "Hello,\n\nThank you for your order. We'll send a confirmation when your items ship.\n\nORDER DETAILS\nOrder #123-4567890-1234567\nPlaced on November 15, 2025\n\nITEMS ORDERED\n1. \"Thinking, Fast and Slow\" by Daniel Kahneman - $17.99\n2. \"Atomic Habits\" by James Clear - $16.99\n3. \"The Mom Test\" by Rob Fitzpatrick - $12.99\n\nSubtotal: $47.97\nShipping: FREE\nTax: $4.32\nTotal: $52.29\n\nDELIVERY\nEstimated arrival: November 18-20, 2025\nShipping address:\n456 Market St, Apt 12B\nSan Francisco, CA 94102\n\nPAYMENT\nVisa ending in 4242: $52.29\n\nView or manage your order in Your Orders:\nhttps://amazon.com/orders/123-4567890-1234567\n\nThanks for shopping with us!\nAmazon.com",
+  "htmlBody": null,
+  "metaCTA": "Swipe Right: View Receipt",
+  "intent": "shopping.receipt.confirmation",
+  "intentConfidence": 0.99,
+  "suggestedActions": [
+    {
+      "actionId": "view_receipt",
+      "displayName": "View Receipt",
+      "actionType": "IN_APP",
+      "isPrimary": true,
+      "priority": 1,
+      "context": {
+        "orderNumber": "123-4567890-1234567",
+        "total": 52.29,
+        "items": 3
+      }
+    },
+    {
+      "actionId": "track_package",
+      "displayName": "Track Package",
+      "actionType": "GO_TO",
+      "isPrimary": false,
+      "priority": 2,
+      "context": {
+        "trackingUrl": "https://amazon.com/track/123-4567890-1234567"
+      }
+    }
+  ],
+  "sender": {
+    "name": "Amazon",
+    "initial": "A",
+    "email": "ship-confirm@amazon.com"
+  },
+  "kid": null,
+  "company": "Amazon",
+  "store": "Amazon.com",
+  "airline": null,
+  "productImageUrl": null,
+  "brandName": "Amazon",
+  "originalPrice": null,
+  "salePrice": null,
+  "discount": null,
+  "urgent": false,
+  "expiresIn": null,
+  "requiresSignature": false,
+  "paymentAmount": 52.29,
+  "paymentDescription": "Books",
+  "value": null,
+  "probability": null,
+  "score": null,
+  "keyLinks": null,
+  "keyTopics": null
+}
