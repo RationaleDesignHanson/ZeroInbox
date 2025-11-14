@@ -2,12 +2,12 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var services: ServiceContainer
-    @StateObject private var viewState = ContentViewState()
+    @StateObject var viewState = ContentViewState()
     @StateObject private var accountManager = AccountManager()
     @StateObject private var userPermissions = UserPermissions.shared
     @StateObject private var navState = NavigationState()
 
-    private var viewModel: EmailViewModel {
+    var viewModel: EmailViewModel {
         services.emailViewModel
     }
 
