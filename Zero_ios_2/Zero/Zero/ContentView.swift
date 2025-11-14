@@ -2,11 +2,10 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var services: ServiceContainer
+    @StateObject private var viewState = ContentViewState()
     @StateObject private var accountManager = AccountManager()
     @StateObject private var userPermissions = UserPermissions.shared
     @StateObject private var navState = NavigationState()
-    @State private var dragOffset: CGSize = .zero
-    @State private var showArchetypeSheet = false
 
     private var viewModel: EmailViewModel {
         services.emailViewModel
@@ -26,33 +25,6 @@ struct ContentView: View {
     private var hasMultipleAccounts: Bool {
         accountManager.accounts.count > 1
     }
-
-    @State private var showUndoToast = false
-    @State private var undoActionText = ""
-    @State private var showActionModal = false
-    @State private var actionModalCard: EmailCard?
-    @State private var showSplayView = false
-    @State private var showEmailComposer = false
-    @State private var emailComposerCard: EmailCard?
-    @State private var signedDocumentName: String?
-    @State private var showSnoozePicker = false
-    @State private var snoozeCard: EmailCard?
-    @State private var snoozeDuration: Int = 2 // default 2 hours
-    @State private var showUrgentConfirmation = false
-    @State private var urgentConfirmCard: EmailCard?
-    @State private var actionOptionsCard: EmailCard? // Using .sheet(item:) pattern - no separate bool needed
-    @State private var selectedActionId: String?
-    @State private var showSettings = false
-    @State private var showShoppingCart = false
-    @State private var showSearch = false
-    @State private var cartItemCount = 0
-    @State private var selectedThreadCard: EmailCard? = nil
-    @State private var saveSnoozeMenuCard: EmailCard? = nil
-    @State private var showSaveSnoozeMenu = false
-    @State private var folderPickerCard: EmailCard? = nil
-    @State private var showFolderPicker = false
-    @State private var showSavedMail = false
-    @State private var totalInitialCards = 0  // Track initial card count for progress meter
 
     var body: some View {
         ZStack {
@@ -129,22 +101,22 @@ struct ContentView: View {
         }
         .onChange(of: viewModel.cards.count) { oldCount, newCount in
             // Capture initial card count when cards first load (for progress meter)
-            // IMPORTANT: Reset totalInitialCards if newCount increases significantly (card refresh/reload)
+            // IMPORTANT: Reset viewState.totalInitialCards if newCount increases significantly (card refresh/reload)
 
             // Calculate remaining undismissed cards
             let remainingCards = viewModel.cards.filter { $0.state != .dismissed }.count
 
             // Reset progress when all cards are dismissed
-            if remainingCards == 0 && totalInitialCards > 0 {
+            if remainingCards == 0 && viewState.totalInitialCards > 0 {
                 Logger.info("📊 All cards dismissed, resetting progress tracker", category: .ui)
-                totalInitialCards = 0
-            } else if totalInitialCards == 0 && newCount > 0 {
-                totalInitialCards = newCount
-                Logger.info("📊 Initial card count captured: \(totalInitialCards)", category: .ui)
-            } else if newCount > totalInitialCards {
-                // Cards were refreshed/reloaded - update totalInitialCards
-                Logger.info("📊 Cards refreshed: updating total from \(totalInitialCards) to \(newCount)", category: .ui)
-                totalInitialCards = newCount
+                viewState.totalInitialCards = 0
+            } else if viewState.totalInitialCards == 0 && newCount > 0 {
+                viewState.totalInitialCards = newCount
+                Logger.info("📊 Initial card count captured: \(viewState.totalInitialCards)", category: .ui)
+            } else if newCount > viewState.totalInitialCards {
+                // Cards were refreshed/reloaded - update viewState.totalInitialCards
+                Logger.info("📊 Cards refreshed: updating total from \(viewState.totalInitialCards) to \(newCount)", category: .ui)
+                viewState.totalInitialCards = newCount
             }
         }
         .onAppear {
@@ -163,11 +135,11 @@ struct ContentView: View {
                 viewModel.loadCards()
             }
 
-            // Initialize totalInitialCards if cards are already loaded
+            // Initialize viewState.totalInitialCards if cards are already loaded
             // This fixes cases where .onChange doesn't trigger properly
-            if totalInitialCards == 0 && !viewModel.cards.isEmpty {
-                totalInitialCards = viewModel.cards.count
-                Logger.info("📊 Initialized totalInitialCards in onAppear: \(totalInitialCards)", category: .ui)
+            if viewState.totalInitialCards == 0 && !viewModel.cards.isEmpty {
+                viewState.totalInitialCards = viewModel.cards.count
+                Logger.info("📊 Initialized viewState.totalInitialCards in onAppear: \(viewState.totalInitialCards)", category: .ui)
             }
         }
     }
@@ -209,36 +181,36 @@ struct ContentView: View {
                     ZStack(alignment: .bottom) {
                         CardStackView(
                             viewModel: viewModel,
-                            dragOffset: $dragOffset,
-                            actionModalCard: $actionModalCard,
-                            showActionModal: $showActionModal,
-                            actionOptionsCard: $actionOptionsCard,
-                            selectedActionId: $selectedActionId,
-                            undoActionText: $undoActionText,
-                            showUndoToast: $showUndoToast,
-                            snoozeCard: $snoozeCard,
-                            showSnoozePicker: $showSnoozePicker,
-                            urgentConfirmCard: $urgentConfirmCard,
-                            showUrgentConfirmation: $showUrgentConfirmation,
-                            selectedThreadCard: $selectedThreadCard,
-                            saveSnoozeMenuCard: $saveSnoozeMenuCard,
-                            showSaveSnoozeMenu: $showSaveSnoozeMenu,
-                            folderPickerCard: $folderPickerCard,
-                            showFolderPicker: $showFolderPicker,
+                            dragOffset: $viewState.dragOffset,
+                            actionModalCard: $viewState.actionModalCard,
+                            showActionModal: $viewState.showActionModal,
+                            actionOptionsCard: $viewState.actionOptionsCard,
+                            selectedActionId: $viewState.selectedActionId,
+                            undoActionText: $viewState.undoActionText,
+                            showUndoToast: $viewState.showUndoToast,
+                            snoozeCard: $viewState.snoozeCard,
+                            showSnoozePicker: $viewState.showSnoozePicker,
+                            urgentConfirmCard: $viewState.urgentConfirmCard,
+                            showUrgentConfirmation: $viewState.showUrgentConfirmation,
+                            selectedThreadCard: $viewState.selectedThreadCard,
+                            saveSnoozeMenuCard: $viewState.saveSnoozeMenuCard,
+                            showSaveSnoozeMenu: $viewState.showSaveSnoozeMenu,
+                            folderPickerCard: $viewState.folderPickerCard,
+                            showFolderPicker: $viewState.showFolderPicker,
                             hasMultipleAccounts: hasMultipleAccounts
                         )
                         .environmentObject(navState)
 
                         // Undo toast at bottom of card (not screen)
-                        if showUndoToast {
+                        if viewState.showUndoToast {
                             UndoToast(
-                                action: undoActionText,
+                                action: viewState.undoActionText,
                                 onUndo: {
                                     viewModel.undoLastAction()
-                                    showUndoToast = false
+                                    viewState.showUndoToast = false
                                 },
                                 onDismiss: {
-                                    showUndoToast = false
+                                    viewState.showUndoToast = false
                                 }
                             )
                             .padding(.bottom, 15)
@@ -256,13 +228,13 @@ struct ContentView: View {
                 Spacer()
                 LiquidGlassBottomNav(
                     viewModel: viewModel,
-                    showShoppingCart: $showShoppingCart,
-                    showSettings: $showSettings,
-                    showSearch: $showSearch,
-                    cartItemCount: cartItemCount,
+                    showShoppingCart: $viewState.showShoppingCart,
+                    showSettings: $viewState.showSettings,
+                    showSearch: $viewState.showSearch,
+                    viewState.cartItemCount: viewState.cartItemCount,
                     mailCount: viewModel.cards.filter { $0.type == .mail && $0.state != .dismissed }.count,
                     adsCount: viewModel.cards.filter { $0.type == .ads && $0.state != .dismissed }.count,
-                    totalInitialCards: totalInitialCards,
+                    viewState.totalInitialCards: viewState.totalInitialCards,
                     onRefresh: {
                         await viewModel.refreshEmails()
                     }
@@ -338,103 +310,103 @@ struct ContentView: View {
         }
         .monitorNetworkStatus() // Show offline banner when disconnected
         // Archetype bottom sheet removed - now using inline toggle in bottom nav
-        .sheet(item: $actionOptionsCard) { card in
+        .sheet(item: $viewState.actionOptionsCard) { card in
             ActionSelectorBottomSheet(
                 card: card,
                 currentActionId: viewModel.getEffectiveAction(for: card),
                 onActionSelected: { selectedAction in
                     Logger.info("User selected new action: \(selectedAction) for card: \(card.id)", category: .action)
                     viewModel.setCustomAction(for: card.id, action: selectedAction)
-                    actionOptionsCard = nil
+                    viewState.actionOptionsCard = nil
                 },
                 isPresented: Binding(
-                    get: { actionOptionsCard != nil },
-                    set: { if !$0 { actionOptionsCard = nil } }
+                    get: { viewState.actionOptionsCard != nil },
+                    set: { if !$0 { viewState.actionOptionsCard = nil } }
                 ),
                 userContext: userContext
             )
             .presentationDetents([.medium, .large])
             .presentationDragIndicator(.visible)
         }
-        .sheet(isPresented: $showActionModal) {
-            if let card = actionModalCard {
+        .sheet(isPresented: $viewState.showActionModal) {
+            if let card = viewState.actionModalCard {
                 getActionModalView(for: card)
                     .presentationBackground(ArchetypeConfig.config(for: card.type).gradient)
                     .presentationDragIndicator(.visible)
             } else {
                 EmptyView()
                     .onAppear {
-                        Logger.error("showActionModal triggered but actionModalCard is nil", category: .modal)
+                        Logger.error("viewState.showActionModal triggered but viewState.actionModalCard is nil", category: .modal)
                     }
             }
         }
-        .sheet(isPresented: $showEmailComposer) {
-            if let card = emailComposerCard {
+        .sheet(isPresented: $viewState.showEmailComposer) {
+            if let card = viewState.emailComposerCard {
                 EmailComposerModal(
                     card: card,
-                    isPresented: $showEmailComposer,
-                    attachmentName: signedDocumentName.map { "\($0)_signed.pdf" }
+                    isPresented: $viewState.showEmailComposer,
+                    attachmentName: viewState.signedDocumentName.map { "\($0)_signed.pdf" }
                 )
                 .presentationDragIndicator(.visible)
                 .onAppear {
                     Logger.info("✅ EmailComposerModal appeared for card: \(card.id)", category: .modal)
-                    if let attachment = signedDocumentName {
+                    if let attachment = viewState.signedDocumentName {
                         Logger.info("Attachment included: \(attachment)_signed.pdf", category: .modal)
                     }
                 }
                 .onDisappear {
                     Logger.info("EmailComposerModal dismissed", category: .modal)
                     // Clean up state
-                    emailComposerCard = nil
-                    signedDocumentName = nil
+                    viewState.emailComposerCard = nil
+                    viewState.signedDocumentName = nil
                 }
             } else {
                 // This should never happen, but log it if it does
                 EmptyView()
                     .onAppear {
-                        Logger.error("❌ BUG: EmailComposerModal sheet triggered but emailComposerCard is nil!", category: .modal)
-                        showEmailComposer = false
+                        Logger.error("❌ BUG: EmailComposerModal sheet triggered but viewState.emailComposerCard is nil!", category: .modal)
+                        viewState.showEmailComposer = false
                     }
             }
         }
-        .onChange(of: showEmailComposer) { _, newValue in
-            Logger.info("showEmailComposer changed to: \(newValue), emailComposerCard: \(emailComposerCard?.id ?? "nil")", category: .modal)
+        .onChange(of: viewState.showEmailComposer) { _, newValue in
+            Logger.info("viewState.showEmailComposer changed to: \(newValue), viewState.emailComposerCard: \(viewState.emailComposerCard?.id ?? "nil")", category: .modal)
         }
-        .sheet(isPresented: $showSnoozePicker) {
+        .sheet(isPresented: $viewState.showSnoozePicker) {
             SnoozePickerModal(
-                isPresented: $showSnoozePicker,
-                selectedDuration: $snoozeDuration
+                isPresented: $viewState.showSnoozePicker,
+                selectedDuration: $viewState.snoozeDuration
             ) {
                 // Confirm snooze with selected duration and remember it
-                if let card = snoozeCard {
-                    viewModel.setRememberedSnoozeDuration(snoozeDuration)
+                if let card = viewState.snoozeCard {
+                    viewModel.setRememberedSnoozeDuration(viewState.snoozeDuration)
                     viewModel.handleSwipe(direction: .down, card: card)
-                    undoActionText = "Snoozed for \(snoozeDuration)h (will remember)"
-                    showUndoToast = true
+                    viewState.undoActionText = "Snoozed for \(viewState.snoozeDuration)h (will remember)"
+                    viewState.showUndoToast = true
                 }
             }
             .presentationDetents([.medium])
             .presentationDragIndicator(.visible)
         }
-        .alert("Mark as Read?", isPresented: $showUrgentConfirmation) {
+        .alert("Mark as Read?", isPresented: $viewState.showUrgentConfirmation) {
             Button("Cancel", role: .cancel) {
                 // Card stays in place
             }
             Button("Mark as Read") {
-                if let card = urgentConfirmCard {
+                if let card = viewState.urgentConfirmCard {
                     viewModel.handleSwipe(direction: .left, card: card)
-                    undoActionText = "Marked as Read"
-                    showUndoToast = true
+                    viewState.undoActionText = "Marked as Read"
+                    viewState.showUndoToast = true
                 }
             }
         } message: {
-            if let card = urgentConfirmCard {
+            if let card = viewState.urgentConfirmCard {
                 Text("This urgent email from \(card.kid?.name ?? card.company?.name ?? card.sender?.name ?? "sender") will be marked as read. Are you sure?")
             }
         }
-        .fullScreenCover(isPresented: $showSplayView) {
+        .fullScreenCover(isPresented: $viewState.showSplayView) {
             SplayView(
-                isPresented: $showSplayView,
+                isPresented: $viewState.showSplayView,
                 cards: viewModel.cards,
                 archetype: viewModel.currentArchetype
             ) { selectedCard in
@@ -445,12 +417,12 @@ struct ContentView: View {
             }
             .environmentObject(viewModel)
         }
-        .sheet(isPresented: $showSettings) {
-            SettingsView(viewModel: viewModel, isPresented: $showSettings)
+        .sheet(isPresented: $viewState.showSettings) {
+            SettingsView(viewModel: viewModel, isPresented: $viewState.showSettings)
                 .environmentObject(services)
                 .presentationDragIndicator(.visible)
         }
-        .sheet(isPresented: $showShoppingCart) {
+        .sheet(isPresented: $viewState.showShoppingCart) {
             ShoppingCartView()
                 .presentationDragIndicator(.visible)
                 .onDisappear {
@@ -460,10 +432,10 @@ struct ContentView: View {
                     }
                 }
         }
-        .sheet(isPresented: $showSearch) {
+        .sheet(isPresented: $viewState.showSearch) {
             SearchModal(viewModel: viewModel)
         }
-        .sheet(item: $selectedThreadCard) { card in
+        .sheet(item: $viewState.selectedThreadCard) { card in
             // Convert EmailCard to SearchResult for EmailThreadView
             if let threadData = card.threadData, !threadData.messages.isEmpty {
                 // Convert ThreadData to SearchResult
@@ -503,25 +475,25 @@ struct ContentView: View {
                 EmailDetailView(card: card)
             }
         }
-        .sheet(isPresented: $showSaveSnoozeMenu) {
-            if let card = saveSnoozeMenuCard {
+        .sheet(isPresented: $viewState.showSaveSnoozeMenu) {
+            if let card = viewState.saveSnoozeMenuCard {
                 SaveSnoozeMenuView(
                     card: card,
-                    isPresented: $showSaveSnoozeMenu,
+                    isPresented: $viewState.showSaveSnoozeMenu,
                     onSaveToFolder: {
                         // Open folder picker
-                        folderPickerCard = card
-                        showFolderPicker = true
+                        viewState.folderPickerCard = card
+                        viewState.showFolderPicker = true
                     },
                     onSnooze: {
                         // Handle snooze based on user preference
-                        snoozeCard = card
+                        viewState.snoozeCard = card
                         if viewModel.hasSetSnoozeDuration, let duration = viewModel.rememberedSnoozeDuration {
                             viewModel.handleSwipe(direction: .down, card: card)
-                            undoActionText = "Snoozed for \(duration)h"
-                            showUndoToast = true
+                            viewState.undoActionText = "Snoozed for \(duration)h"
+                            viewState.showUndoToast = true
                         } else {
-                            showSnoozePicker = true
+                            viewState.showSnoozePicker = true
                         }
                     }
                 )
@@ -529,16 +501,16 @@ struct ContentView: View {
                 .presentationDragIndicator(.visible)
             }
         }
-        .sheet(isPresented: $showFolderPicker) {
-            if let card = folderPickerCard {
+        .sheet(isPresented: $viewState.showFolderPicker) {
+            if let card = viewState.folderPickerCard {
                 FolderPickerView(
                     card: card,
-                    isPresented: $showFolderPicker
+                    isPresented: $viewState.showFolderPicker
                 )
             }
         }
-        .sheet(isPresented: $showSavedMail) {
-            SavedMailListView(isPresented: $showSavedMail)
+        .sheet(isPresented: $viewState.showSavedMail) {
+            SavedMailListView(isPresented: $viewState.showSavedMail)
                 .environmentObject(viewModel)
         }
         .task {
@@ -573,7 +545,7 @@ struct ContentView: View {
                 }
         } else {
             // Legacy card with v1.0 hpa-based routing
-            let destination = ModalRouter.route(card: card, selectedActionId: selectedActionId)
+            let destination = ModalRouter.route(card: card, viewState.selectedActionId: viewState.selectedActionId)
             modalRouterView(for: destination)
                 .onAppear {
                     Logger.info("🔀 Using ModalRouter (legacy) for card: \(card.id), hpa: \(card.hpa)", category: .action)
@@ -595,11 +567,11 @@ struct ContentView: View {
         }
 
         // Priority 2: User's manual selection from action sheet (one-time, not persistent)
-        if let selectedId = selectedActionId,
+        if let selectedId = viewState.selectedActionId,
            let selectedAction = suggestedActions.first(where: { $0.actionId == selectedId }) {
             // Defer state modification to avoid "modifying state during view update" warning
             DispatchQueue.main.async {
-                self.selectedActionId = nil  // Clear after use
+                self.viewState.selectedActionId = nil  // Clear after use
             }
             Logger.info("🎯 Using user-selected action: \(selectedAction.actionId)", category: .action)
             return (selectedAction, true)
@@ -633,7 +605,7 @@ struct ContentView: View {
                     cardTitle: card.title,
                     cardType: card.type,
                     onDismiss: {
-                        showActionModal = false
+                        viewState.showActionModal = false
                     }
                 )
                 .onAppear {
@@ -671,7 +643,7 @@ struct ContentView: View {
                         Logger.error("No context provided for action", category: .action)
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                        showActionModal = false
+                        viewState.showActionModal = false
                     }
                 }
             }
@@ -694,7 +666,7 @@ struct ContentView: View {
                 steps: steps,
                 context: action.context ?? [:],
                 endBehavior: compoundDef?.endBehavior,
-                isPresented: $showActionModal
+                isPresented: $viewState.showActionModal
             )
             .onAppear {
                 Logger.info("🔄 Rendering compound flow with \(steps.count) steps: \(steps.joined(separator: " → "))", category: .action)
@@ -715,22 +687,22 @@ struct ContentView: View {
             case "sign_form":
                 SignFormModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     onSignComplete: { signatureName in
-                        signedDocumentName = signatureName
-                        emailComposerCard = card
+                        viewState.signedDocumentName = signatureName
+                        viewState.emailComposerCard = card
                         Logger.info("Signature saved: \(signatureName)", category: .modal)
 
-                        showActionModal = false
+                        viewState.showActionModal = false
                         Logger.info("SignFormModal dismissed, scheduling EmailComposer", category: .modal)
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                            if !showActionModal {
+                            if !viewState.showActionModal {
                                 Logger.info("Opening EmailComposer modal for card: \(card.id)", category: .modal)
-                                showEmailComposer = true
+                                viewState.showEmailComposer = true
                             } else {
                                 Logger.warning("SignFormModal still visible, retrying EmailComposer", category: .modal)
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    showEmailComposer = true
+                                    viewState.showEmailComposer = true
                                 }
                             }
                         }
@@ -738,28 +710,28 @@ struct ContentView: View {
                 )
 
             case "add_to_calendar":
-                AddToCalendarModal(card: card, isPresented: $showActionModal)
+                AddToCalendarModal(card: card, isPresented: $viewState.showActionModal)
 
             case "view_newsletter_summary":
                 if let context = action.context {
                     NewsletterSummaryModal(
                         card: card,
                         context: context,
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 } else {
                     NewsletterSummaryModal(
                         card: card,
                         context: [:],
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 }
 
             case "schedule_purchase":
                 if let scheduleAction = card.suggestedActions?.first(where: { $0.actionId == "schedule_purchase" }) {
-                    ScheduledPurchaseModal(card: card, action: scheduleAction, isPresented: $showActionModal)
+                    ScheduledPurchaseModal(card: card, action: scheduleAction, isPresented: $viewState.showActionModal)
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("schedule_purchase action not found in suggestedActions", category: .action)
                         }
@@ -770,11 +742,11 @@ struct ContentView: View {
                 EmailDetailView(card: card)
 
             case "browse_shopping", "claim_deal", "save_deal":
-                ShoppingPurchaseModal(card: card, isPresented: $showActionModal, selectedAction: action.actionId)
+                ShoppingPurchaseModal(card: card, isPresented: $viewState.showActionModal, selectedAction: action.actionId)
                     .environmentObject(viewModel)
 
             case "schedule_meeting", "schedule_demo", "schedule_call":
-                ScheduleMeetingModal(card: card, isPresented: $showActionModal, onComplete: {})
+                ScheduleMeetingModal(card: card, isPresented: $viewState.showActionModal, onComplete: {})
 
             case "review_document", "approve_document", "view_document":
                 // PRIORITY: If email requires signature, use SignFormModal instead
@@ -783,22 +755,22 @@ struct ContentView: View {
                     // Signature request takes priority - use sign & send flow
                     SignFormModal(
                         card: card,
-                        isPresented: $showActionModal,
+                        isPresented: $viewState.showActionModal,
                         onSignComplete: { signatureName in
-                            signedDocumentName = signatureName
-                            emailComposerCard = card
+                            viewState.signedDocumentName = signatureName
+                            viewState.emailComposerCard = card
                             Logger.info("Signature saved: \(signatureName)", category: .modal)
 
-                            showActionModal = false
+                            viewState.showActionModal = false
                             Logger.info("SignFormModal dismissed, scheduling EmailComposer", category: .modal)
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                                if !showActionModal {
+                                if !viewState.showActionModal {
                                     Logger.info("Opening EmailComposer modal for card: \(card.id)", category: .modal)
-                                    showEmailComposer = true
+                                    viewState.showEmailComposer = true
                                 } else {
                                     Logger.warning("SignFormModal still visible, retrying EmailComposer", category: .modal)
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                        showEmailComposer = true
+                                        viewState.showEmailComposer = true
                                     }
                                 }
                             }
@@ -809,7 +781,7 @@ struct ContentView: View {
                     }
                 } else if let context = action.context, context["documentUrl"] != nil || context["attachmentUrl"] != nil {
                     // Real document exists - show DocumentViewerModal
-                    DocumentViewerModal(card: card, isPresented: $showActionModal)
+                    DocumentViewerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.info("📄 Opening real document from email", category: .action)
                         }
@@ -822,29 +794,29 @@ struct ContentView: View {
                 }
 
             case "view_spreadsheet", "review_budget":
-                SpreadsheetViewerModal(card: card, isPresented: $showActionModal)
+                SpreadsheetViewerModal(card: card, isPresented: $viewState.showActionModal)
 
             case "open_app":
-                OpenAppModal(card: card, isPresented: $showActionModal)
+                OpenAppModal(card: card, isPresented: $viewState.showActionModal)
 
             case "archive", "save_later", "save_for_later", "snooze":
                 SnoozePickerModal(
-                    isPresented: $showActionModal,
-                    selectedDuration: $snoozeDuration
+                    isPresented: $viewState.showActionModal,
+                    selectedDuration: $viewState.snoozeDuration
                 ) {
-                    if let card = actionModalCard {
-                        viewModel.setRememberedSnoozeDuration(snoozeDuration)
+                    if let card = viewState.actionModalCard {
+                        viewModel.setRememberedSnoozeDuration(viewState.snoozeDuration)
                         viewModel.handleSwipe(direction: .down, card: card)
-                        undoActionText = "Snoozed for \(snoozeDuration)h"
-                        showUndoToast = true
-                        showActionModal = false
+                        viewState.undoActionText = "Snoozed for \(viewState.snoozeDuration)h"
+                        viewState.showUndoToast = true
+                        viewState.showActionModal = false
                     }
                 }
 
             case "reply", "quick_reply", "respond":
                 EmailComposerModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     recipientOverride: action.context?["recipientEmail"] ?? card.sender?.email,
                     subjectOverride: action.context?["subject"] ?? "Re: \(card.title)"
                 )
@@ -857,10 +829,10 @@ struct ContentView: View {
                         carrier: context["carrier"] ?? "Carrier",
                         trackingUrl: context["url"] ?? context["trackingUrl"] ?? "",
                         context: context,
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("track_package missing context", category: .action)
                         }
@@ -874,10 +846,10 @@ struct ContentView: View {
                         amount: context["amount"] ?? context["amountDue"] ?? "$0.00",
                         merchant: context["merchant"] ?? card.company?.name ?? "Merchant",
                         context: context,
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("pay_invoice missing context", category: .action)
                         }
@@ -891,10 +863,10 @@ struct ContentView: View {
                         airline: context["airline"] ?? "Airline",
                         checkInUrl: context["checkInUrl"] ?? context["url"] ?? "",
                         context: context,
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("check_in_flight missing context", category: .action)
                         }
@@ -902,7 +874,7 @@ struct ContentView: View {
 
             case "cancel_subscription":
                 CancelSubscriptionModal(card: card) {
-                    showActionModal = false
+                    viewState.showActionModal = false
                 }
                 .onAppear {
                     Logger.info("🚫 Opening cancel subscription modal for: \(card.company?.name ?? "service")", category: .action)
@@ -913,13 +885,13 @@ struct ContentView: View {
                     UnsubscribeModal(
                         card: card,
                         unsubscribeUrl: unsubscribeUrl,
-                        isPresented: $showActionModal,
+                        isPresented: $viewState.showActionModal,
                         onUnsubscribeComplete: {
                             Logger.info("✅ Unsubscribe completed for: \(card.company?.name ?? card.sender?.name ?? "sender")", category: .action)
                         }
                     )
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("unsubscribe missing unsubscribeUrl in context", category: .action)
                         }
@@ -932,10 +904,10 @@ struct ContentView: View {
                         productName: context["productName"] ?? "Product",
                         reviewLink: context["reviewLink"] ?? context["url"] ?? "",
                         context: context,
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("write_review missing context", category: .action)
                         }
@@ -946,10 +918,10 @@ struct ContentView: View {
                     ContactDriverModal(
                         card: card,
                         driverInfo: context,
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("contact_driver missing context", category: .action)
                         }
@@ -962,10 +934,10 @@ struct ContentView: View {
                         rxNumber: context["rxNumber"] ?? "N/A",
                         pharmacy: context["pharmacy"] ?? "Pharmacy",
                         context: context,
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("view_pickup_details missing context", category: .action)
                         }
@@ -994,11 +966,11 @@ struct ContentView: View {
 
                             // Auto-dismiss after 1 second
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                showActionModal = false
+                                viewState.showActionModal = false
                             }
                         }
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("copy_promo_code missing code in context", category: .action)
                         }
@@ -1006,24 +978,24 @@ struct ContentView: View {
 
             // Native iOS Integrations
             case "add_to_wallet":
-                AddToWalletModal(card: card, isPresented: $showActionModal)
+                AddToWalletModal(card: card, isPresented: $viewState.showActionModal)
 
             case "add_reminder", "set_reminder", "remind":
-                AddReminderModal(card: card, isPresented: $showActionModal)
+                AddReminderModal(card: card, isPresented: $viewState.showActionModal)
 
             case "save_contact_native":
-                SaveContactModal(card: card, isPresented: $showActionModal)
+                SaveContactModal(card: card, isPresented: $viewState.showActionModal)
 
             case "send_message":
-                SendMessageModal(card: card, isPresented: $showActionModal)
+                SendMessageModal(card: card, isPresented: $viewState.showActionModal)
 
             case "share":
                 if let context = action.context {
                     let shareContent = generateShareContentForModal(from: card, context: context)
-                    ShareModal(card: card, content: shareContent, isPresented: $showActionModal)
+                    ShareModal(card: card, content: shareContent, isPresented: $viewState.showActionModal)
                 } else {
                     let shareContent = generateShareContentForModal(from: card, context: [:])
-                    ShareModal(card: card, content: shareContent, isPresented: $showActionModal)
+                    ShareModal(card: card, content: shareContent, isPresented: $viewState.showActionModal)
                 }
 
             case "view_reservation", "modify_reservation":
@@ -1032,10 +1004,10 @@ struct ContentView: View {
                     ReservationModal(
                         card: card,
                         context: context,
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("view_reservation missing context", category: .action)
                         }
@@ -1043,7 +1015,7 @@ struct ContentView: View {
 
             // TIER 1: High-priority missing actions
             case "add_to_notes":
-                AddToNotesModal(card: card, isPresented: $showActionModal)
+                AddToNotesModal(card: card, isPresented: $viewState.showActionModal)
 
             case "track_delivery":
                 // Same as track_package
@@ -1054,10 +1026,10 @@ struct ContentView: View {
                         carrier: context["carrier"] ?? context["courier"] ?? "Carrier",
                         trackingUrl: context["url"] ?? context["trackingUrl"] ?? context["deliveryUrl"] ?? "",
                         context: context,
-                        isPresented: $showActionModal
+                        isPresented: $viewState.showActionModal
                     )
                 } else {
-                    EmailComposerModal(card: card, isPresented: $showActionModal)
+                    EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                         .onAppear {
                             Logger.warning("track_delivery missing context", category: .action)
                         }
@@ -1065,7 +1037,7 @@ struct ContentView: View {
 
             case "schedule_payment", "set_payment_reminder":
                 // Payment scheduling - use calendar or reminder
-                AddReminderModal(card: card, isPresented: $showActionModal)
+                AddReminderModal(card: card, isPresented: $viewState.showActionModal)
 
             case "join_meeting", "open_link", "open_original_link":
                 // These should be GO_TO actions, but if marked as IN_APP, open in Safari
@@ -1078,7 +1050,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1090,13 +1062,13 @@ struct ContentView: View {
 
             case "reschedule_appointment", "confirm_appointment", "book_appointment", "check_in_appointment":
                 // Appointment actions - use calendar
-                AddToCalendarModal(card: card, isPresented: $showActionModal)
+                AddToCalendarModal(card: card, isPresented: $viewState.showActionModal)
 
             // TIER 2: Medium-priority missing actions
             case "verify_account":
                 AccountVerificationModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     verificationType: .account,
                     verifyUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) }
                 )
@@ -1104,7 +1076,7 @@ struct ContentView: View {
             case "verify_device":
                 AccountVerificationModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     verificationType: .device,
                     verifyUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) }
                 )
@@ -1112,7 +1084,7 @@ struct ContentView: View {
             case "verify_social_account":
                 AccountVerificationModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     verificationType: .social,
                     verifyUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) }
                 )
@@ -1128,7 +1100,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1139,14 +1111,14 @@ struct ContentView: View {
                 // Payment update - use dedicated payment modal
                 UpdatePaymentModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     updateUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
                     context: action.context ?? [:]
                 )
 
             case "download_attachment", "download_receipt", "download_results":
                 // Document download - show document viewer
-                DocumentViewerModal(card: card, isPresented: $showActionModal)
+                DocumentViewerModal(card: card, isPresented: $viewState.showActionModal)
 
             case "view_invoice", "view_order", "view_statement":
                 // View financial documents
@@ -1159,11 +1131,11 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
-                    DocumentViewerModal(card: card, isPresented: $showActionModal)
+                    DocumentViewerModal(card: card, isPresented: $viewState.showActionModal)
                 }
 
             case "manage_subscription", "upgrade_subscription", "extend_trial":
@@ -1177,7 +1149,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1186,7 +1158,7 @@ struct ContentView: View {
 
             case "complete_cart", "return_item", "reorder_item", "buy_again":
                 // Shopping actions
-                ShoppingPurchaseModal(card: card, isPresented: $showActionModal, selectedAction: action.actionId)
+                ShoppingPurchaseModal(card: card, isPresented: $viewState.showActionModal, selectedAction: action.actionId)
                     .environmentObject(viewModel)
 
             // School & Education actions
@@ -1202,7 +1174,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1213,7 +1185,7 @@ struct ContentView: View {
             case "rsvp_yes":
                 RSVPModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     response: .yes,
                     context: action.context ?? [:]
                 )
@@ -1221,7 +1193,7 @@ struct ContentView: View {
             case "rsvp_no":
                 RSVPModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     response: .no,
                     context: action.context ?? [:]
                 )
@@ -1230,7 +1202,7 @@ struct ContentView: View {
                 // Generic invitations - use dedicated RSVP modal with yes response
                 RSVPModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     response: .yes,
                     context: action.context ?? [:]
                 )
@@ -1248,11 +1220,11 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
-                    AddToCalendarModal(card: card, isPresented: $showActionModal)
+                    AddToCalendarModal(card: card, isPresented: $viewState.showActionModal)
                 }
 
             // Legal & Government actions
@@ -1268,11 +1240,11 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
-                    DocumentViewerModal(card: card, isPresented: $showActionModal)
+                    DocumentViewerModal(card: card, isPresented: $viewState.showActionModal)
                 }
 
             // Financial & Insurance actions
@@ -1288,11 +1260,11 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
-                    DocumentViewerModal(card: card, isPresented: $showActionModal)
+                    DocumentViewerModal(card: card, isPresented: $viewState.showActionModal)
                 }
 
             // Healthcare actions
@@ -1307,11 +1279,11 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
-                    AddReminderModal(card: card, isPresented: $showActionModal)
+                    AddReminderModal(card: card, isPresented: $viewState.showActionModal)
                 }
 
             // Utilities & Services actions
@@ -1327,11 +1299,11 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
-                    AddReminderModal(card: card, isPresented: $showActionModal)
+                    AddReminderModal(card: card, isPresented: $viewState.showActionModal)
                 }
 
             // Shopping & Rewards actions
@@ -1347,11 +1319,11 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
-                    ShoppingPurchaseModal(card: card, isPresented: $showActionModal, selectedAction: action.actionId)
+                    ShoppingPurchaseModal(card: card, isPresented: $viewState.showActionModal, selectedAction: action.actionId)
                         .environmentObject(viewModel)
                 }
 
@@ -1359,7 +1331,7 @@ struct ContentView: View {
             case "save_properties", "view_property_listings", "schedule_showing", "view_introduction":
                 // Real estate - use dedicated modal or open link
                 if action.actionId == "save_properties" {
-                    SavePropertiesModal(card: card, isPresented: $showActionModal)
+                    SavePropertiesModal(card: card, isPresented: $viewState.showActionModal)
                 } else if let context = action.context,
                           let urlString = extractURL(from: context, actionId: action.actionId),
                           let url = validateURL(urlString) {
@@ -1369,7 +1341,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1388,7 +1360,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1413,7 +1385,7 @@ struct ContentView: View {
 
                 ViewItineraryModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     itineraryType: itineraryType,
                     bookingUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
                     context: action.context ?? [:]
@@ -1430,7 +1402,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1443,7 +1415,7 @@ struct ContentView: View {
                 if action.actionId.contains("reply") || action.actionId == "reply_thanks" {
                     EmailComposerModal(
                         card: card,
-                        isPresented: $showActionModal,
+                        isPresented: $viewState.showActionModal,
                         recipientOverride: action.context?["recipientEmail"] ?? card.sender?.email,
                         subjectOverride: action.context?["subject"] ?? "Re: \(card.title)"
                     )
@@ -1456,7 +1428,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1467,9 +1439,9 @@ struct ContentView: View {
             case "read_community_post", "view_post_comments", "view_social_message", "share_achievement":
                 // Community actions - use dedicated modals or open link
                 if action.actionId == "read_community_post" {
-                    ReadCommunityPostModal(card: card, isPresented: $showActionModal)
+                    ReadCommunityPostModal(card: card, isPresented: $viewState.showActionModal)
                 } else if action.actionId == "view_post_comments" {
-                    ViewPostCommentsModal(card: card, isPresented: $showActionModal)
+                    ViewPostCommentsModal(card: card, isPresented: $viewState.showActionModal)
                 } else if let context = action.context,
                           let urlString = extractURL(from: context, actionId: action.actionId),
                           let url = validateURL(urlString) {
@@ -1479,7 +1451,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1491,9 +1463,9 @@ struct ContentView: View {
                  "view_incident", "view_onboarding_info", "view_referral":
                 // Activity/analytics actions - use dedicated modals or show details
                 if action.actionId == "view_activity" {
-                    ViewActivityModal(card: card, isPresented: $showActionModal)
+                    ViewActivityModal(card: card, isPresented: $viewState.showActionModal)
                 } else if action.actionId == "view_activity_details" {
-                    ViewActivityDetailsModal(card: card, isPresented: $showActionModal)
+                    ViewActivityDetailsModal(card: card, isPresented: $viewState.showActionModal)
                 } else if let context = action.context,
                           let urlString = extractURL(from: context, actionId: action.actionId),
                           let url = validateURL(urlString) {
@@ -1503,7 +1475,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1514,7 +1486,7 @@ struct ContentView: View {
             case "review_security":
                 ReviewSecurityModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     securityType: .reviewActivity,
                     actionUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
                     context: action.context ?? [:]
@@ -1523,7 +1495,7 @@ struct ContentView: View {
             case "revoke_secret":
                 ReviewSecurityModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     securityType: .revokeAccess,
                     actionUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
                     context: action.context ?? [:]
@@ -1532,14 +1504,14 @@ struct ContentView: View {
             case "verify_transaction":
                 ReviewSecurityModal(
                     card: card,
-                    isPresented: $showActionModal,
+                    isPresented: $viewState.showActionModal,
                     securityType: .verifyTransaction,
                     actionUrl: action.context.flatMap { extractURL(from: $0, actionId: action.actionId) },
                     context: action.context ?? [:]
                 )
 
             case "provide_access_code":
-                ProvideAccessCodeModal(card: card, isPresented: $showActionModal)
+                ProvideAccessCodeModal(card: card, isPresented: $viewState.showActionModal)
 
             // Document & Tax actions
             case "download_tax_document", "pay_form_fee", "take_survey":
@@ -1553,11 +1525,11 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
-                    DocumentViewerModal(card: card, isPresented: $showActionModal)
+                    DocumentViewerModal(card: card, isPresented: $viewState.showActionModal)
                 }
 
             // Scheduling actions (general)
@@ -1577,7 +1549,7 @@ struct ContentView: View {
                         cardTitle: card.title,
                         cardType: card.type,
                         onDismiss: {
-                            showActionModal = false
+                            viewState.showActionModal = false
                         }
                     )
                 } else {
@@ -1586,7 +1558,7 @@ struct ContentView: View {
 
             default:
                 // Generic fallback for unmapped IN_APP actions
-                EmailComposerModal(card: card, isPresented: $showActionModal)
+                EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                     .onAppear {
                         Logger.warning("⚠️ Unmapped IN_APP action: \(action.actionId), falling back to EmailComposer", category: .action)
                     }
@@ -1600,18 +1572,18 @@ struct ContentView: View {
     private func modalRouterView(for destination: ModalRouter.ModalDestination) -> some View {
         switch destination {
         case .documentViewer(let card):
-            DocumentViewerModal(card: card, isPresented: $showActionModal)
+            DocumentViewerModal(card: card, isPresented: $viewState.showActionModal)
             
         case .spreadsheetViewer(let card):
-            SpreadsheetViewerModal(card: card, isPresented: $showActionModal)
+            SpreadsheetViewerModal(card: card, isPresented: $viewState.showActionModal)
             
         case .scheduleMeeting(let card):
-            ScheduleMeetingModal(card: card, isPresented: $showActionModal, onComplete: {})
+            ScheduleMeetingModal(card: card, isPresented: $viewState.showActionModal, onComplete: {})
             
         case .emailComposer(let card, let recipient, let subject):
             EmailComposerModal(
                 card: card,
-                isPresented: $showActionModal,
+                isPresented: $viewState.showActionModal,
                 recipientOverride: recipient,
                 subjectOverride: subject
             )
@@ -1619,27 +1591,27 @@ struct ContentView: View {
         case .signForm(let card, _):
             SignFormModal(
                 card: card,
-                isPresented: $showActionModal,
+                isPresented: $viewState.showActionModal,
                 onSignComplete: { signatureName in
-                    signedDocumentName = signatureName
-                    emailComposerCard = card
+                    viewState.signedDocumentName = signatureName
+                    viewState.emailComposerCard = card
                     Logger.info("Signature saved: \(signatureName)", category: .modal)
                     
                     // IMPORTANT: First ensure the sign modal is fully dismissed
                     // Then wait for animation to complete before showing email composer
-                    showActionModal = false
+                    viewState.showActionModal = false
                     
                     Logger.info("SignFormModal dismissed, scheduling EmailComposer", category: .modal)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
                         // Double-check modal is dismissed
-                        if !showActionModal {
+                        if !viewState.showActionModal {
                             Logger.info("Opening EmailComposer modal for card: \(card.id)", category: .modal)
-                            showEmailComposer = true
+                            viewState.showEmailComposer = true
                         } else {
                             Logger.warning("SignFormModal still visible, delaying EmailComposer", category: .modal)
                             // Retry after another delay
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                showEmailComposer = true
+                                viewState.showEmailComposer = true
                             }
                         }
                     }
@@ -1647,69 +1619,69 @@ struct ContentView: View {
             )
             
         case .openApp(let card):
-            OpenAppModal(card: card, isPresented: $showActionModal)
+            OpenAppModal(card: card, isPresented: $viewState.showActionModal)
 
         case .openURL(let url):
             // Open URL in Safari (legacy - no context available)
             if let validUrl = URL(string: url) {
                 SafariViewWrapper(url: validUrl, onDismiss: {
-                    showActionModal = false
+                    viewState.showActionModal = false
                 })
             } else {
                 // Invalid URL - show error and close modal
                 Text("Invalid URL")
                     .onAppear {
                         Logger.error("Invalid URL provided to openURL: \(url)", category: .modal)
-                        showActionModal = false
+                        viewState.showActionModal = false
                     }
             }
 
         case .addToCalendar(let card):
-            AddToCalendarModal(card: card, isPresented: $showActionModal)
+            AddToCalendarModal(card: card, isPresented: $viewState.showActionModal)
             
         case .scheduledPurchase(let card, let action):
-            ScheduledPurchaseModal(card: card, action: action, isPresented: $showActionModal)
+            ScheduledPurchaseModal(card: card, action: action, isPresented: $viewState.showActionModal)
 
         case .shoppingPurchase(let card, let selectedAction):
-            ShoppingPurchaseModal(card: card, isPresented: $showActionModal, selectedAction: selectedAction)
+            ShoppingPurchaseModal(card: card, isPresented: $viewState.showActionModal, selectedAction: selectedAction)
                 .environmentObject(viewModel)
 
         case .snoozePicker(_):
             SnoozePickerModal(
-                isPresented: $showActionModal,
-                selectedDuration: $snoozeDuration
+                isPresented: $viewState.showActionModal,
+                selectedDuration: $viewState.snoozeDuration
             ) {
-                if let card = actionModalCard {
-                    viewModel.setRememberedSnoozeDuration(snoozeDuration)
+                if let card = viewState.actionModalCard {
+                    viewModel.setRememberedSnoozeDuration(viewState.snoozeDuration)
                     viewModel.handleSwipe(direction: .down, card: card)
-                    undoActionText = "Filed for \(snoozeDuration)h"
-                    showUndoToast = true
-                    showActionModal = false
+                    viewState.undoActionText = "Filed for \(viewState.snoozeDuration)h"
+                    viewState.showUndoToast = true
+                    viewState.showActionModal = false
                 }
             }
             
         case .saveForLater(let card):
-            SaveForLaterModal(card: card, isPresented: $showActionModal)
+            SaveForLaterModal(card: card, isPresented: $viewState.showActionModal)
                 .environmentObject(viewModel)
 
         case .viewAttachments(let card):
-            AttachmentViewerModal(card: card, isPresented: $showActionModal)
+            AttachmentViewerModal(card: card, isPresented: $viewState.showActionModal)
 
         case .fallback(let card):
-            EmailComposerModal(card: card, isPresented: $showActionModal)
+            EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
 
         // Phase 3A: Newly wired modals
         case .addReminder(let card):
-            AddReminderModal(card: card, isPresented: $showActionModal)
+            AddReminderModal(card: card, isPresented: $viewState.showActionModal)
 
         case .addToWallet(let card):
-            AddToWalletModal(card: card, isPresented: $showActionModal)
+            AddToWalletModal(card: card, isPresented: $viewState.showActionModal)
 
         case .browseShopping(let card):
-            BrowseShoppingModal(card: card, context: [:], isPresented: $showActionModal)
+            BrowseShoppingModal(card: card, context: [:], isPresented: $viewState.showActionModal)
 
         case .cancelSubscription(let card):
-            CancelSubscriptionModal(card: card, onComplete: { showActionModal = false })
+            CancelSubscriptionModal(card: card, onComplete: { viewState.showActionModal = false })
 
         case .checkInFlight(let card):
             CheckInFlightModal(
@@ -1718,14 +1690,14 @@ struct ContentView: View {
                 airline: card.company?.name ?? "Airline",
                 checkInUrl: "",
                 context: [:],
-                isPresented: $showActionModal
+                isPresented: $viewState.showActionModal
             )
 
         case .contactDriver(let card):
-            ContactDriverModal(card: card, driverInfo: [:], isPresented: $showActionModal)
+            ContactDriverModal(card: card, driverInfo: [:], isPresented: $viewState.showActionModal)
 
         case .newsletterSummary(let card):
-            NewsletterSummaryModal(card: card, context: [:], isPresented: $showActionModal)
+            NewsletterSummaryModal(card: card, context: [:], isPresented: $viewState.showActionModal)
 
         case .payInvoice(let card):
             PayInvoiceModal(
@@ -1734,7 +1706,7 @@ struct ContentView: View {
                 amount: card.paymentAmount != nil ? String(format: "$%.2f", card.paymentAmount!) : "$0.00",
                 merchant: card.company?.name ?? "Merchant",
                 context: [:],
-                isPresented: $showActionModal
+                isPresented: $viewState.showActionModal
             )
 
         case .pickupDetails(let card):
@@ -1743,7 +1715,7 @@ struct ContentView: View {
                 rxNumber: "N/A",
                 pharmacy: "Pharmacy",
                 context: [:],
-                isPresented: $showActionModal
+                isPresented: $viewState.showActionModal
             )
 
         case .quickReply(let card):
@@ -1752,32 +1724,32 @@ struct ContentView: View {
                 recipientEmail: card.sender?.email ?? "",
                 subject: "Re: \(card.title)",
                 context: [:],
-                isPresented: $showActionModal
+                isPresented: $viewState.showActionModal
             )
 
         case .reservation(let card):
-            ReservationModal(card: card, context: [:], isPresented: $showActionModal)
+            ReservationModal(card: card, context: [:], isPresented: $viewState.showActionModal)
 
         case .saveContact(let card):
-            SaveContactModal(card: card, isPresented: $showActionModal)
+            SaveContactModal(card: card, isPresented: $viewState.showActionModal)
 
         case .sendMessage(let card):
-            SendMessageModal(card: card, isPresented: $showActionModal)
+            SendMessageModal(card: card, isPresented: $viewState.showActionModal)
 
         case .share(let card):
             let shareContent = generateShareContentForModal(from: card, context: [:])
-            ShareModal(card: card, content: shareContent, isPresented: $showActionModal)
+            ShareModal(card: card, content: shareContent, isPresented: $viewState.showActionModal)
 
         case .snooze(let card):
             SnoozePickerModal(
-                isPresented: $showActionModal,
-                selectedDuration: $snoozeDuration
+                isPresented: $viewState.showActionModal,
+                selectedDuration: $viewState.snoozeDuration
             ) {
-                viewModel.setRememberedSnoozeDuration(snoozeDuration)
+                viewModel.setRememberedSnoozeDuration(viewState.snoozeDuration)
                 viewModel.handleSwipe(direction: .down, card: card)
-                undoActionText = "Snoozed for \(snoozeDuration)h"
-                showUndoToast = true
-                showActionModal = false
+                viewState.undoActionText = "Snoozed for \(viewState.snoozeDuration)h"
+                viewState.showUndoToast = true
+                viewState.showActionModal = false
             }
 
         case .trackPackage(let card):
@@ -1787,14 +1759,14 @@ struct ContentView: View {
                 carrier: "Carrier",
                 trackingUrl: "",
                 context: [:],
-                isPresented: $showActionModal
+                isPresented: $viewState.showActionModal
             )
 
         case .unsubscribe(let card):
             UnsubscribeModal(
                 card: card,
                 unsubscribeUrl: "",
-                isPresented: $showActionModal,
+                isPresented: $viewState.showActionModal,
                 onUnsubscribeComplete: {}
             )
 
@@ -1804,41 +1776,41 @@ struct ContentView: View {
                 productName: "Product",
                 reviewLink: "",
                 context: [:],
-                isPresented: $showActionModal
+                isPresented: $viewState.showActionModal
             )
 
         // Phase 3B: New high-priority modals
         case .addToNotes(let card):
-            AddToNotesModal(card: card, isPresented: $showActionModal)
+            AddToNotesModal(card: card, isPresented: $viewState.showActionModal)
 
         case .provideAccessCode(let card):
-            ProvideAccessCodeModal(card: card, isPresented: $showActionModal)
+            ProvideAccessCodeModal(card: card, isPresented: $viewState.showActionModal)
 
         case .viewActivity(let card):
-            ViewActivityModal(card: card, isPresented: $showActionModal)
+            ViewActivityModal(card: card, isPresented: $viewState.showActionModal)
 
         case .saveProperties(let card):
-            SavePropertiesModal(card: card, isPresented: $showActionModal)
+            SavePropertiesModal(card: card, isPresented: $viewState.showActionModal)
 
         // Phase 3D: MEDIUM priority modals
         case .scheduleDeliveryTime(let card):
-            ScheduleDeliveryTimeModal(card: card, isPresented: $showActionModal)
+            ScheduleDeliveryTimeModal(card: card, isPresented: $viewState.showActionModal)
 
         case .prepareForOutage(let card):
-            PrepareForOutageModal(card: card, isPresented: $showActionModal)
+            PrepareForOutageModal(card: card, isPresented: $viewState.showActionModal)
 
         case .viewActivityDetails(let card):
-            ViewActivityDetailsModal(card: card, isPresented: $showActionModal)
+            ViewActivityDetailsModal(card: card, isPresented: $viewState.showActionModal)
 
         case .readCommunityPost(let card):
-            ReadCommunityPostModal(card: card, isPresented: $showActionModal)
+            ReadCommunityPostModal(card: card, isPresented: $viewState.showActionModal)
 
         // Phase 3E: LOW priority modals
         case .viewOutageDetails(let card):
-            ViewOutageDetailsModal(card: card, isPresented: $showActionModal)
+            ViewOutageDetailsModal(card: card, isPresented: $viewState.showActionModal)
 
         case .viewPostComments(let card):
-            ViewPostCommentsModal(card: card, isPresented: $showActionModal)
+            ViewPostCommentsModal(card: card, isPresented: $viewState.showActionModal)
 
         case .shoppingAutomation(let card, let productUrl, let productName):
             ShoppingAutomationModal(
@@ -1846,7 +1818,7 @@ struct ContentView: View {
                 productUrl: productUrl,
                 productName: productName,
                 context: [:],
-                isPresented: $showActionModal
+                isPresented: $viewState.showActionModal
             )
             .environmentObject(viewModel)
         }
@@ -2077,8 +2049,8 @@ struct ContentView: View {
         do {
             let summary = try await ShoppingCartService.shared.getCartSummary(userId: userId)
             await MainActor.run {
-                cartItemCount = summary.itemCount
-                Logger.info("Updated cart badge: \(cartItemCount) items", category: .shopping)
+                viewState.cartItemCount = summary.itemCount
+                Logger.info("Updated cart badge: \(viewState.cartItemCount) items", category: .shopping)
             }
         } catch {
             // Silently fail - cart badge just won't update
