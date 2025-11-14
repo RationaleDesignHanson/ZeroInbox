@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "1.0",
+  "category": "mail",
+  "description": "Mail mode actions - extracted from ActionRegistry.swift (proof of concept)",
+  "actions": [
+    {
+      "actionId": "track_package",
+      "displayName": "Track Package",
+      "description": "Track package delivery status with carrier details",
+      "actionType": "IN_APP",
+      "mode": "both",
+      "category": "high_fidelity_premium",
+      "icon": "shippingbox.fill",
+      "color": "#FF9500",
+      "priority": 90,
+      "isPremium": true,
+      "modalComponent": "TrackPackageModal",
+      "analyticsEvent": "action_track_package",
+      "context": {
+        "requiredKeys": ["trackingNumber", "carrier"],
+        "optionalKeys": ["url", "expectedDelivery", "currentStatus"],
+        "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "pay_invoice",
+      "displayName": "Pay Invoice",
+      "description": "Pay invoice with amount and merchant details",
+      "actionType": "IN_APP",
+      "mode": "both",
+      "category": "high_fidelity_premium",
+      "icon": "creditcard.fill",
+      "color": "#34C759",
+      "priority": 100,
+      "isPremium": true,
+      "modalComponent": "PayInvoiceModal",
+      "analyticsEvent": "action_pay_invoice",
+      "confirmation": {
+        "type": "detailed",
+        "message": "Confirm payment to {merchant} for ${amount}?",
+        "confirmText": "Pay Now",
+        "cancelText": "Cancel"
+      },
+      "undo": {
+        "toastMessage": "Payment sent. Tap to undo.",
+        "undoWindowSeconds": 10,
+        "countdownStyle": "progressBar"
+      },
+      "context": {
+        "requiredKeys": ["invoiceId", "amount", "merchant"],
+        "optionalKeys": ["paymentLink", "dueDate", "description"],
+        "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "check_in_flight",
+      "displayName": "Check In",
+      "description": "Check in for flight with airline details",
+      "actionType": "IN_APP",
+      "mode": "both",
+      "category": "high_fidelity_premium",
+      "icon": "airplane",
+      "color": "#007AFF",
+      "priority": 100,
+      "isPremium": true,
+      "modalComponent": "CheckInFlightModal",
+      "analyticsEvent": "action_check_in_flight",
+      "context": {
+        "requiredKeys": ["flightNumber", "airline"],
+        "optionalKeys": ["checkInUrl", "departureTime", "gate", "seat"],
+        "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "write_review",
+      "displayName": "Write Review",
+      "description": "Write product review",
+      "actionType": "IN_APP",
+      "mode": "both",
+      "category": "high_fidelity",
+      "icon": "star.fill",
+      "color": "#FFD700",
+      "priority": 40,
+      "isPremium": false,
+      "modalComponent": "WriteReviewModal",
+      "analyticsEvent": "action_write_review",
+      "context": {
+        "requiredKeys": ["productName"],
+        "optionalKeys": ["reviewLink", "orderNumber", "productImage"],
+        "fallbackBehavior": "openEmailComposer"
+      }
+    },
+    {
+      "actionId": "add_to_calendar",
+      "displayName": "Add to Calendar",
+      "description": "Add event to calendar",
+      "actionType": "IN_APP",
+      "mode": "mail",
+      "category": "standard",
+      "icon": "calendar.badge.plus",
+      "color": "#FF3B30",
+      "priority": 70,
+      "isPremium": false,
+      "modalComponent": "AddToCalendarModal",
+      "analyticsEvent": "action_add_to_calendar",
+      "context": {
+        "requiredKeys": [],
+        "optionalKeys": ["eventTitle", "eventDate", "eventLocation", "eventDescription"],
+        "fallbackBehavior": "showError"
+      }
+    }
+  ]
+}
