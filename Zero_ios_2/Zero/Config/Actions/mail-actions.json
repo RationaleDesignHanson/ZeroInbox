@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0",
   "category": "mail",
-  "description": "Mail mode actions - extracted from ActionRegistry.swift (proof of concept)",
+  "description": "Mail mode actions - 15 actions extracted from ActionRegistry.swift (Phase 3.3)",
   "actions": [
     {
       "actionId": "track_package",
@@ -107,6 +107,196 @@
         "requiredKeys": [],
         "optionalKeys": ["eventTitle", "eventDate", "eventLocation", "eventDescription"],
         "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "contact_driver",
+      "displayName": "Contact Driver",
+      "description": "Contact delivery driver",
+      "actionType": "IN_APP",
+      "mode": "both",
+      "category": "high_fidelity",
+      "icon": "phone.fill",
+      "color": "#FF9500",
+      "priority": 85,
+      "isPremium": false,
+      "modalComponent": "ContactDriverModal",
+      "analyticsEvent": "action_contact_driver",
+      "context": {
+        "requiredKeys": [],
+        "optionalKeys": ["driverName", "driverPhone", "vehicleInfo", "eta"],
+        "fallbackBehavior": "openEmailComposer"
+      }
+    },
+    {
+      "actionId": "view_pickup_details",
+      "displayName": "View Pickup Details",
+      "description": "View prescription pickup details",
+      "actionType": "IN_APP",
+      "mode": "both",
+      "category": "high_fidelity",
+      "icon": "cross.case.fill",
+      "color": "#FF3B30",
+      "priority": 80,
+      "isPremium": false,
+      "modalComponent": "PickupDetailsModal",
+      "analyticsEvent": "action_view_pickup_details",
+      "context": {
+        "requiredKeys": ["pharmacy"],
+        "optionalKeys": ["rxNumber", "address", "phone", "hours"],
+        "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "sign_form",
+      "displayName": "Sign Form",
+      "description": "Digitally sign form or document",
+      "actionType": "IN_APP",
+      "mode": "mail",
+      "category": "high_fidelity_premium",
+      "icon": "signature",
+      "color": "#5856D6",
+      "priority": 95,
+      "isPremium": true,
+      "modalComponent": "SignFormModal",
+      "analyticsEvent": "action_sign_form",
+      "context": {
+        "requiredKeys": [],
+        "optionalKeys": ["formUrl", "documentName"],
+        "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "quick_reply",
+      "displayName": "Quick Reply",
+      "description": "Send quick reply to email",
+      "actionType": "IN_APP",
+      "mode": "mail",
+      "category": "standard",
+      "icon": "arrowshape.turn.up.left.fill",
+      "color": "#007AFF",
+      "priority": 85,
+      "isPremium": false,
+      "modalComponent": "QuickReplyModal",
+      "analyticsEvent": "action_quick_reply",
+      "context": {
+        "requiredKeys": ["recipientEmail", "subject"],
+        "optionalKeys": ["body", "template"],
+        "fallbackBehavior": "openEmailComposer"
+      }
+    },
+    {
+      "actionId": "schedule_meeting",
+      "displayName": "Schedule Meeting",
+      "description": "Schedule meeting with attendees",
+      "actionType": "IN_APP",
+      "mode": "mail",
+      "category": "standard",
+      "icon": "calendar.badge.clock",
+      "color": "#FF9500",
+      "priority": 75,
+      "isPremium": false,
+      "modalComponent": "ScheduleMeetingModal",
+      "analyticsEvent": "action_schedule_meeting",
+      "context": {
+        "requiredKeys": [],
+        "optionalKeys": ["meetingTitle", "attendees", "duration"],
+        "fallbackBehavior": "openEmailComposer"
+      }
+    },
+    {
+      "actionId": "add_reminder",
+      "displayName": "Add Reminder",
+      "description": "Add reminder to iOS Reminders",
+      "actionType": "IN_APP",
+      "mode": "mail",
+      "category": "standard",
+      "icon": "bell.badge.fill",
+      "color": "#FF3B30",
+      "priority": 70,
+      "isPremium": false,
+      "modalComponent": "AddReminderModal",
+      "analyticsEvent": "action_add_reminder",
+      "context": {
+        "requiredKeys": [],
+        "optionalKeys": ["reminderTitle", "dueDate", "notes"],
+        "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "set_reminder",
+      "displayName": "Remind me on {saleDateShort}",
+      "description": "Set generic reminder",
+      "actionType": "IN_APP",
+      "mode": "mail",
+      "category": "standard",
+      "icon": "bell.fill",
+      "color": "#FF9500",
+      "priority": 70,
+      "isPremium": false,
+      "modalComponent": "AddReminderModal",
+      "analyticsEvent": "action_set_reminder",
+      "context": {
+        "requiredKeys": [],
+        "optionalKeys": ["dueDate", "reminderText"],
+        "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "view_document",
+      "displayName": "View Document",
+      "description": "View attached document",
+      "actionType": "IN_APP",
+      "mode": "mail",
+      "category": "standard",
+      "icon": "doc.text.fill",
+      "color": "#007AFF",
+      "priority": 75,
+      "isPremium": false,
+      "modalComponent": "DocumentViewerModal",
+      "analyticsEvent": "action_view_document",
+      "context": {
+        "requiredKeys": [],
+        "optionalKeys": ["documentUrl", "documentName"],
+        "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "view_spreadsheet",
+      "displayName": "View Spreadsheet",
+      "description": "View spreadsheet or budget document",
+      "actionType": "IN_APP",
+      "mode": "mail",
+      "category": "standard",
+      "icon": "tablecells.fill",
+      "color": "#34C759",
+      "priority": 70,
+      "isPremium": false,
+      "modalComponent": "SpreadsheetViewerModal",
+      "analyticsEvent": "action_view_spreadsheet",
+      "context": {
+        "requiredKeys": [],
+        "optionalKeys": ["spreadsheetUrl", "sheetName"],
+        "fallbackBehavior": "showError"
+      }
+    },
+    {
+      "actionId": "acknowledge",
+      "displayName": "Acknowledge",
+      "description": "Send acknowledgment reply",
+      "actionType": "IN_APP",
+      "mode": "mail",
+      "category": "standard",
+      "icon": "checkmark.circle.fill",
+      "color": "#34C759",
+      "priority": 65,
+      "isPremium": false,
+      "modalComponent": "QuickReplyModal",
+      "analyticsEvent": "action_acknowledge",
+      "context": {
+        "requiredKeys": ["recipientEmail"],
+        "optionalKeys": ["subject", "body"],
+        "fallbackBehavior": "openEmailComposer"
       }
     }
   ]
