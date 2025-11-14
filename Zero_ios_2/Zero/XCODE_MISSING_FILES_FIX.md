@@ -2,30 +2,36 @@
 
 ## Problem
 Build is failing with "cannot find" errors for these files:
-1. `ContentViewState` - Used in ContentView.swift and ActionModalCoordinator.swift
-2. `MockDataLoader` - Used in DataGenerator.swift
+1. ~~`ContentViewState`~~ ✅ FIXED - You added this
+2. ~~`MockDataLoader`~~ ✅ FIXED - You added this
+3. **`MainFeedView`** ⚠️  STILL NEEDED - Used in ContentView.swift
 
 These files exist on disk but weren't properly added to the Xcode project target.
 
 ## Solution
 
-### Step 1: Add ContentViewState.swift
-1. In Xcode Project Navigator, find `ViewModels/ContentViewState.swift`
-2. **If not visible**: Right-click on `ViewModels` folder → "Add Files to Zero..."
-3. Navigate to: `/Users/matthanson/Zer0_Inbox/Zero_ios_2/Zero/ViewModels/ContentViewState.swift`
+### ✅ Step 1: ContentViewState.swift - DONE
+You already added this file!
+
+### ✅ Step 2: MockDataLoader.swift - DONE
+You already added this file!
+
+### ⚠️  Step 3: Add MainFeedView.swift - REQUIRED
+**This is the last missing file!**
+
+1. In Xcode Project Navigator, find `Views/MainFeedView.swift`
+2. **If not visible**: Right-click on `Views` folder → "Add Files to Zero..."
+3. Navigate to: `/Users/matthanson/Zer0_Inbox/Zero_ios_2/Zero/Views/MainFeedView.swift`
 4. ✅ Check "Copy items if needed"
 5. ✅ Check "Zero" target
 6. Click "Add"
 
-### Step 2: Add MockDataLoader.swift
-1. Find `Services/MockDataLoader.swift` or `Models/MockDataLoader.swift`
-2. **If not visible**: Right-click on project → "Add Files to Zero..."
-3. Navigate to the MockDataLoader.swift location
-4. ✅ Check "Copy items if needed"
-5. ✅ Check "Zero" target
-6. Click "Add"
+**OR use File Inspector (faster):**
+1. Select `Views/MainFeedView.swift` in Project Navigator
+2. Open File Inspector (⌘⌥1)
+3. Under "Target Membership", check "Zero"
 
-### Step 3: Verify and Build
+### Step 4: Build
 1. **Clean Build Folder**: Product → Clean Build Folder (⌘⇧K)
 2. **Build**: Product → Build (⌘B)
 3. **Expected**: BUILD SUCCEEDED
