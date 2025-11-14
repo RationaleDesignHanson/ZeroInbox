@@ -2931,15 +2931,48 @@ class ActionRegistry {
     // MARK: - Public Methods
 
     /// Get action configuration by ID
+    /// Phase 3: Hybrid JSON + Swift fallback system
+    /// 1. Check JSON files first (via ActionLoader)
+    /// 2. Convert JSONAction to ActionConfig if found
+    /// 3. Fall back to hardcoded Swift registry if not in JSON
     func getAction(_ actionId: String) -> ActionConfig? {
+        // PHASE 3: Try JSON first
+        if let jsonAction = ActionLoader.shared.loadAction(id: actionId) {
+            if let actionConfig = jsonAction.toActionConfig() {
+                Logger.info("Loaded action '\(actionId)' from JSON", category: .action)
+                return actionConfig
+            } else {
+                Logger.warning("Failed to convert JSON action '\(actionId)' to ActionConfig, falling back to Swift", category: .action)
+            }
+        }
+
+        // FALLBACK: Use hardcoded Swift registry
         return registry[actionId]
     }
 
     /// Get all actions for a specific mode
+    /// Phase 3: Includes both JSON and Swift registry actions
     func getActionsForMode(_ mode: ZeroMode) -> [ActionConfig] {
-        return registry.values.filter { action in
-            action.mode == mode || action.mode == .both
+        var actions: [ActionConfig] = []
+        var processedIds = Set<String>()
+
+        // PHASE 3: Get JSON actions first (takes priority)
+        let jsonActions = ActionLoader.shared.getActions(for: mode.rawValue)
+        for jsonAction in jsonActions {
+            if let actionConfig = jsonAction.toActionConfig() {
+                actions.append(actionConfig)
+                processedIds.insert(jsonAction.actionId)
+            }
         }
+
+        // FALLBACK: Add Swift registry actions (skip if already in JSON)
+        for action in registry.values {
+            if (action.mode == mode || action.mode == .both) && !processedIds.contains(action.actionId) {
+                actions.append(action)
+            }
+        }
+
+        return actions
     }
 
     /// Validate if action can be executed with given context
