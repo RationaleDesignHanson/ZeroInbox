@@ -1,9 +1,26 @@
 # Zero Inbox Master Roadmap
-**Systematic Feature Implementation Plan**
+**Milestone-Based Feature Implementation Plan**
 
 **Status**: Active
 **Last Updated**: 2025-11-13
-**Completion**: 15/40 items (38%)
+**Completion**: Milestone 1 ✅ Complete (15/40 items shipped)
+
+---
+
+## Philosophy: Ship When Ready
+
+**Quality Over Speed**
+- No arbitrary deadlines
+- Each milestone ships when all quality gates pass
+- Take time to do it right the first time
+- Sustainable pace beats burnout
+
+**Milestone Gates**
+- ✅ All tests passing
+- ✅ Zero regressions detected
+- ✅ Code reviewed and documented
+- ✅ Metrics within targets
+- ✅ Feature fully usable
 
 ---
 
@@ -14,26 +31,30 @@
 - New features require new tests
 - iOS builds must succeed before commit
 - Design tokens enforced via pre-commit hooks
+- Manual testing before milestone completion
 
 ### 2. Zero Bloat
 - Each feature must solve a real problem
 - Remove unused code before adding new code
 - Bundle size monitored (iOS app size < 50MB)
 - Design token usage > 95% (no hardcoded values)
+- Monthly dependency audits
 
 ### 3. Systematic Progress
-- Complete one phase before starting next
+- Complete one milestone before starting next
 - Document as you build
 - Commit frequently (small, atomic changes)
 - Track dependencies explicitly
+- Celebrate milestone completions
 
 ---
 
-## Phase 1: Foundation (Week 1) ✅ COMPLETE
+## Milestone 1: Foundation ✅ COMPLETE
 
 **Goal**: Establish design system infrastructure
-**Risk**: Low
-**Bloat Risk**: None (removes inconsistency)
+**Effort**: Major (341 files, 83K+ lines changed)
+**Duration**: 2-3 weeks of focused work
+**Status**: ✅ SHIPPED
 
 ### 1.1 Design Token System ✅
 - [x] Create tokens.json (single source of truth)
@@ -56,24 +77,35 @@
 - [x] Documentation (DESIGN_SYSTEM_STATUS.md)
 - **Result**: Automated enforcement
 
-**Phase 1 Metrics**:
-- Time: 3 days
-- Files changed: 150+
-- Lines changed: 10,000+
+**Milestone 1 Metrics**:
+- Files changed: 341
+- Lines added: 83,207
+- Lines deleted: 1,898
+- Commits: 5 major milestones
 - Regressions: 0
 - iOS build: ✅ Passing
+- Token coverage: 100% (129 files refactored)
 
 ---
 
-## Phase 2: Design System Expansion (Week 2)
+## Milestone 2: Design System Expansion
 
 **Goal**: Complete design system with dark mode + components
-**Risk**: Medium (visual regressions possible)
-**Bloat Risk**: Low (adds value, removes duplication)
+**Effort**: Medium-Large
+**Status**: 🔄 Ready to start
+**Dependencies**: Milestone 1 (tokens) ✅
+
+**Quality Gates**:
+- [ ] All views render correctly in dark mode
+- [ ] WCAG AA color contrast compliance
+- [ ] 20+ Figma components published
+- [ ] Animation tokens standardized
+- [ ] Zero regressions in light mode
+- [ ] iOS build passes
 
 ### 2.1 Dark Mode Implementation
-**Time**: 5 days
-**Dependencies**: Phase 1.1 (tokens)
+**Effort**: Medium
+**Dependencies**: Tokens system ✅
 
 - [ ] Add dark mode tokens to tokens.json
   - [ ] Dark background colors
@@ -102,8 +134,8 @@
 - Single token set (automatic switching)
 
 ### 2.2 Figma Component Library
-**Time**: 3 days
-**Dependencies**: Phase 1.2 (Figma sync), 2.1 (dark mode)
+**Effort**: Medium
+**Dependencies**: Figma sync ✅, Dark mode tokens
 
 - [ ] Create master components in Figma
   - [ ] Card component (with variants)
@@ -126,8 +158,8 @@
 - Auto-layout for responsive components
 
 ### 2.3 Animation Tokens
-**Time**: 2 days
-**Dependencies**: Phase 1.1 (tokens)
+**Effort**: Small
+**Dependencies**: Tokens system ✅
 
 - [ ] Add animation tokens to tokens.json
   - [ ] Duration scale (fast: 150ms, normal: 250ms, slow: 400ms)
@@ -146,22 +178,30 @@
 - Replace magic numbers (0.3, 0.5) with tokens
 - Remove duplicate animation code
 
-**Phase 2 Deliverables**:
-- Dark mode fully functional
-- Figma component library published
-- Animation system standardized
+**Milestone 2 Deliverables**:
+- [ ] Dark mode fully functional
+- [ ] Figma component library published
+- [ ] Animation system standardized
 
 ---
 
-## Phase 3: Developer Experience (Week 3)
+## Milestone 3: Developer Experience
 
 **Goal**: Automate workflows, improve docs
-**Risk**: Low
-**Bloat Risk**: None (pure DX improvements)
+**Effort**: Medium
+**Status**: ⏸️ Blocked by Milestone 2
+**Dependencies**: Milestones 1-2 ✅
+
+**Quality Gates**:
+- [ ] All CI/CD workflows green
+- [ ] Documentation complete
+- [ ] New developer can onboard < 1 hour
+- [ ] 50+ views have Xcode previews
+- [ ] Zero manual processes
 
 ### 3.1 Enhanced CI/CD Workflows
-**Time**: 2 days
-**Dependencies**: Phase 1.3 (basic CI/CD)
+**Effort**: Small
+**Dependencies**: Basic CI/CD ✅
 
 - [ ] Token validation workflow
   - [ ] JSON schema validation
@@ -184,8 +224,8 @@
 - [ ] Zero manual token sync
 
 ### 3.2 Comprehensive Documentation
-**Time**: 3 days
-**Dependencies**: All previous phases
+**Effort**: Medium
+**Dependencies**: All previous milestones
 
 - [ ] Design System Guide
   - [ ] Token usage examples
@@ -208,8 +248,8 @@
 - [ ] Design system guide complete
 
 ### 3.3 Xcode Previews System
-**Time**: 2 days
-**Dependencies**: Phase 1.1 (tokens)
+**Effort**: Small
+**Dependencies**: Tokens system ✅
 
 - [ ] Create preview helpers
   - [ ] PreviewDevice extensions
@@ -227,21 +267,29 @@
 - Previews are DEBUG only (zero production cost)
 - Reuse mock data helpers
 
-**Phase 3 Deliverables**:
-- Fully automated CI/CD
-- Complete documentation
-- Xcode Previews for rapid iteration
+**Milestone 3 Deliverables**:
+- [ ] Fully automated CI/CD
+- [ ] Complete documentation
+- [ ] Xcode Previews for rapid iteration
 
 ---
 
-## Phase 4: iOS App Features (Week 4-5)
+## Milestone 4: iOS App Features
 
 **Goal**: Ship high-value user features
-**Risk**: Medium (user-facing changes)
-**Bloat Risk**: Medium (must prioritize ruthlessly)
+**Effort**: Large
+**Status**: ⏸️ Blocked by Milestones 1-3
+**Dependencies**: Foundation complete ✅
+
+**Quality Gates**:
+- [ ] All features work offline
+- [ ] Search performance < 100ms
+- [ ] Widgets low battery impact
+- [ ] No user-reported bugs
+- [ ] App Store ready
 
 ### 4.1 Advanced Email Actions
-**Time**: 4 days
+**Effort**: Medium
 **Dependencies**: None (self-contained)
 
 - [ ] Snooze functionality
@@ -269,7 +317,7 @@
 - Reuse existing UI components
 
 ### 4.2 Search & Filters
-**Time**: 5 days
+**Effort**: Medium
 **Dependencies**: None
 
 - [ ] Full-text search
@@ -298,8 +346,8 @@
 - Limit saved searches (max 10)
 
 ### 4.3 Widgets & App Clips
-**Time**: 4 days
-**Dependencies**: Phase 2.1 (dark mode tokens)
+**Effort**: Medium
+**Dependencies**: Dark mode tokens (Milestone 2.1)
 
 - [ ] Home Screen Widgets
   - [ ] Small: Inbox count
@@ -323,22 +371,30 @@
 - No separate widget logic (use shared ViewModels)
 - App Clip only if needed (maybe skip)
 
-**Phase 4 Deliverables**:
-- Snooze, templates, schedule send
-- Powerful search & filters
-- Home screen widgets
+**Milestone 4 Deliverables**:
+- [ ] Snooze, templates, schedule send
+- [ ] Powerful search & filters
+- [ ] Home screen widgets
 
 ---
 
-## Phase 5: Web Integration (Week 6)
+## Milestone 5: Web Integration
 
 **Goal**: Deploy design system to web
-**Risk**: Low (web is separate)
-**Bloat Risk**: Low (reuses tokens)
+**Effort**: Medium
+**Status**: ⏸️ Blocked by Milestones 1-2
+**Dependencies**: Design tokens ✅, Dark mode tokens
+
+**Quality Gates**:
+- [ ] Web uses 100% design tokens
+- [ ] Cross-browser tested (Chrome, Safari, Firefox)
+- [ ] Dark mode fully functional
+- [ ] Zero visual regressions
+- [ ] Lighthouse score > 95
 
 ### 5.1 Deploy CSS Variables
-**Time**: 2 days
-**Dependencies**: Phase 1.1 (web tokens generated)
+**Effort**: Small
+**Dependencies**: Web tokens generated (Milestone 1.1) ✅
 
 - [ ] Integrate generated CSS into web app
   - [ ] Import design-tokens.css
@@ -358,8 +414,8 @@
 - [ ] No visual regressions
 
 ### 5.2 Web Components Library
-**Time**: 4 days
-**Dependencies**: Phase 5.1
+**Effort**: Medium
+**Dependencies**: CSS Variables (5.1)
 
 - [ ] Create React components
   - [ ] Button (using CSS tokens)
@@ -378,8 +434,8 @@
 - [ ] Storybook live
 
 ### 5.3 Landing Page Redesign
-**Time**: 3 days
-**Dependencies**: Phase 5.2
+**Effort**: Small-Medium
+**Dependencies**: Web Components (5.2)
 
 - [ ] Apply new design system
   - [ ] Use web components
@@ -398,22 +454,30 @@
 - [ ] Lighthouse score > 95
 - [ ] Load time < 2s
 
-**Phase 5 Deliverables**:
-- Web design system live
-- Component library published
-- Beautiful landing page
+**Milestone 5 Deliverables**:
+- [ ] Web design system live
+- [ ] Component library published
+- [ ] Beautiful landing page
 
 ---
 
-## Phase 6: ML & Classification (Week 7-8)
+## Milestone 6: ML & Classification
 
 **Goal**: Improve email classification accuracy
-**Risk**: High (ML is complex)
-**Bloat Risk**: High (ML models are large)
+**Effort**: Large
+**Status**: ⏸️ Blocked by all previous milestones
+**Dependencies**: Foundation complete ✅, User feedback system
+
+**Quality Gates**:
+- [ ] Classification accuracy > 90%
+- [ ] Model size < 10MB
+- [ ] Inference time < 50ms
+- [ ] A/B tested against current model
+- [ ] No accuracy regressions
 
 ### 6.1 Enhanced ML Model
-**Time**: 5 days
-**Dependencies**: None
+**Effort**: Large
+**Dependencies**: User feedback data collection
 
 - [ ] Upgrade classification model
   - [ ] Fine-tune on more data
@@ -437,8 +501,8 @@
 - Only ship if accuracy improves significantly
 
 ### 6.2 Training Data Pipeline
-**Time**: 4 days
-**Dependencies**: Phase 6.1
+**Effort**: Medium
+**Dependencies**: Enhanced ML Model (6.1)
 
 - [ ] Data collection system
   - [ ] User feedback mechanism
@@ -459,8 +523,8 @@
 - [ ] Model improves over time
 
 ### 6.3 Classification Analytics
-**Time**: 3 days
-**Dependencies**: Phase 6.1
+**Effort**: Small-Medium
+**Dependencies**: Enhanced ML Model (6.1)
 
 - [ ] Analytics dashboard
   - [ ] Classification distribution
@@ -479,10 +543,10 @@
 - [ ] Helps improve model
 - [ ] Users find it valuable
 
-**Phase 6 Deliverables**:
-- Highly accurate ML model
-- Continuous improvement pipeline
-- Useful analytics
+**Milestone 6 Deliverables**:
+- [ ] Highly accurate ML model (>90% accuracy)
+- [ ] Continuous improvement pipeline
+- [ ] Useful analytics dashboard
 
 ---
 
@@ -585,38 +649,47 @@
 
 ---
 
-## Execution Timeline
+## Progress Tracking
 
-**Week 1**: ✅ Phase 1 (Foundation) - COMPLETE
-**Week 2**: Phase 2 (Design Expansion)
-**Week 3**: Phase 3 (Developer Experience)
-**Week 4-5**: Phase 4 (iOS Features)
-**Week 6**: Phase 5 (Web Integration)
-**Week 7-8**: Phase 6 (ML Improvements)
+### Milestone Status
 
-**Total Time**: 8 weeks
-**Total Features**: 40 items
-**Current Progress**: 15/40 (38%)
+- ✅ **Milestone 1**: Foundation - COMPLETE (15 items shipped)
+- 🔄 **Milestone 2**: Design System Expansion - Ready to start
+- ⏸️ **Milestone 3**: Developer Experience - Blocked by Milestone 2
+- ⏸️ **Milestone 4**: iOS App Features - Blocked by Milestones 1-3
+- ⏸️ **Milestone 5**: Web Integration - Blocked by Milestones 1-2
+- ⏸️ **Milestone 6**: ML & Classification - Blocked by all previous
+
+### Overall Progress
+
+**Shipped**: 15/40 features (38%)
+**In Progress**: 0
+**Remaining**: 25 features
+
+**Current Focus**: Planning Milestone 2 (Dark Mode + Figma Components + Animations)
 
 ---
 
 ## Next Immediate Steps
 
-1. **Dark Mode Implementation** (Phase 2.1)
-   - Start with token additions
-   - Then asset catalog generation
-   - Then view updates
+1. **Start Milestone 2: Design System Expansion**
+   - Begin with dark mode token additions (2.1)
+   - Generate asset catalogs for iOS
+   - Update core views for dark mode
+   - Create Figma component library (2.2)
+   - Standardize animation tokens (2.3)
 
-2. **After Each Phase**:
+2. **After Each Feature**:
    - Run full test suite
-   - Manual testing
+   - Manual testing checklist
    - Commit with detailed message
-   - Update this roadmap
+   - Update this roadmap's progress
 
-3. **Weekly Reviews**:
-   - Check metrics (size, coverage, tokens)
-   - Audit for bloat
-   - Adjust plan if needed
+3. **Regular Reviews**:
+   - Check metrics after each milestone (size, coverage, tokens)
+   - Audit for bloat and unused code
+   - Celebrate milestone completions
+   - Adjust plan based on learnings
 
 ---
 
@@ -627,5 +700,5 @@
 - Always prioritize user value over features
 - Keep app lean and fast
 
-**Last reviewed**: 2025-11-13
-**Next review**: 2025-11-20
+**Last reviewed**: 2025-11-13 (converted to milestone-based)
+**Next review**: After Milestone 2 completion
