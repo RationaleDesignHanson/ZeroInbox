@@ -1,0 +1,72 @@
+{
+  "id": "travel_flight_domestic",
+  "type": "mail",
+  "state": "unseen",
+  "priority": "high",
+  "hpa": "Check In",
+  "timeAgo": "3h ago",
+  "title": "Flight Confirmation - UA 1234 to Chicago",
+  "summary": "Your United flight UA 1234 from SFO to ORD departs tomorrow at 7:30 AM. Check in now and view boarding pass.",
+  "aiGeneratedSummary": "**Actions:**\n• Check in for flight (opens 24h before)\n• Add to calendar\n\n**Flight Details:**\n• UA 1234: SFO → ORD\n• Departs: Nov 16, 7:30 AM\n• Arrives: Nov 16, 3:45 PM\n• Seat: 12A (Window)",
+  "body": "FLIGHT CONFIRMATION\n\nConfirmation Code: ABC123\nBooking Reference: UA-9876543\n\nPASSENGER\nSarah Chen\n\nFLIGHT DETAILS\nUnited Airlines Flight UA 1234\nNovember 16, 2025\n\nDeparture: San Francisco (SFO)\nTerminal 3, Gate B12\n7:30 AM PST\n\nArrival: Chicago O'Hare (ORD)\nTerminal 1, Gate C24\n3:45 PM CST\n\nSeat Assignment: 12A (Window)\nClass: Economy Plus\nBaggage: 1 checked bag included\n\nCHECK-IN\nOnline check-in opens 24 hours before departure.\nCheck in now: https://united.com/checkin/ABC123\n\nBOARDING\nBoarding begins 45 minutes before departure.\nPlease arrive at the gate at least 30 minutes before departure.\n\nIMPORTANT INFORMATION\n• TSA PreCheck: Available\n• WiFi: Complimentary on this flight\n• Seat back entertainment available\n\nManage your booking:\nhttps://united.com/manage/ABC123\n\nThank you for flying with United!\nUnited Airlines",
+  "htmlBody": null,
+  "metaCTA": "Swipe Right: Check In",
+  "intent": "travel.flight.confirmation",
+  "intentConfidence": 0.99,
+  "suggestedActions": [
+    {
+      "actionId": "check_in",
+      "displayName": "Check In",
+      "actionType": "GO_TO",
+      "isPrimary": true,
+      "priority": 1,
+      "context": {
+        "checkInUrl": "https://united.com/checkin/ABC123",
+        "confirmationCode": "ABC123"
+      }
+    },
+    {
+      "actionId": "view_itinerary",
+      "displayName": "View Itinerary",
+      "actionType": "IN_APP",
+      "isPrimary": false,
+      "priority": 2,
+      "context": {
+        "flightNumber": "UA 1234",
+        "departure": "SFO",
+        "arrival": "ORD"
+      }
+    },
+    {
+      "actionId": "add_to_calendar",
+      "displayName": "Add to Calendar",
+      "actionType": "IN_APP",
+      "isPrimary": false,
+      "priority": 3
+    }
+  ],
+  "sender": {
+    "name": "United Airlines",
+    "initial": "U",
+    "email": "reservations@united.com"
+  },
+  "kid": null,
+  "company": null,
+  "store": null,
+  "airline": "United Airlines",
+  "productImageUrl": null,
+  "brandName": "United",
+  "originalPrice": null,
+  "salePrice": null,
+  "discount": null,
+  "urgent": true,
+  "expiresIn": "24 hours",
+  "requiresSignature": false,
+  "paymentAmount": null,
+  "paymentDescription": null,
+  "value": null,
+  "probability": null,
+  "score": null,
+  "keyLinks": null,
+  "keyTopics": null
+}

@@ -1,6 +1,8 @@
 import Foundation
 
 struct DataGenerator {
+    private static let mockDataLoader = MockDataLoader()
+
     static func generateSarahChenEmails() -> [EmailCard] {
         // Use comprehensive mock data with full action set per archetype
         return generateComprehensiveMockData()
@@ -11,8 +13,20 @@ struct DataGenerator {
     }
 
     /// Comprehensive mock data showcasing all action types per archetype
+    /// HYBRID APPROACH: Loads from JSON fixtures when available, falls back to hardcoded
     static func generateComprehensiveMockData() -> [EmailCard] {
         var cards: [EmailCard] = []
+
+        // MARK: - TRY LOADING FROM JSON FIXTURES FIRST
+        do {
+            let jsonEmails = try mockDataLoader.loadAllEmails()
+            if !jsonEmails.isEmpty {
+                Logger.info("Loaded \(jsonEmails.count) emails from JSON fixtures", category: .data)
+                cards.append(contentsOf: jsonEmails)
+            }
+        } catch {
+            Logger.warning("Failed to load JSON fixtures, using hardcoded fallback: \(error)", category: .data)
+        }
 
         // MARK: - CORPUS-INSPIRED EMAILS (Realistic variety from analysis)
         // These are synthetic emails based on real-world patterns - NO personal data
