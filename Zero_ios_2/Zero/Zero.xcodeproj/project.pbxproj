@@ -112,6 +112,15 @@
 		C55C82692EBC606F00967C85 /* RSVPModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C82682EBC606F00967C85 /* RSVPModal.swift */; };
 		C55C826B2EBC60A000967C85 /* ViewItineraryModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C826A2EBC60A000967C85 /* ViewItineraryModal.swift */; };
 		C55C826D2EBC614C00967C85 /* ReviewSecurityModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C826C2EBC614C00967C85 /* ReviewSecurityModal.swift */; };
+		C5C8EE8C2EC7715E00C5DB68 /* ActionModalCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8EE8A2EC7715E00C5DB68 /* ActionModalCoordinator.swift */; };
+		C5C8EE8F2EC7716D00C5DB68 /* ContentView+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8EE8D2EC7716D00C5DB68 /* ContentView+Helpers.swift */; };
+		C5C8EE902EC7716D00C5DB68 /* ContentView+URLHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8EE8E2EC7716D00C5DB68 /* ContentView+URLHelpers.swift */; };
+		C5C8EE922EC7718000C5DB68 /* ActionLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8EE912EC7718000C5DB68 /* ActionLoader.swift */; };
+		C5C8EE962EC7719500C5DB68 /* action-schema.json in Resources */ = {isa = PBXBuildFile; fileRef = C5C8EE932EC7719500C5DB68 /* action-schema.json */; };
+		C5C8EE972EC7719500C5DB68 /* mail-actions.json in Resources */ = {isa = PBXBuildFile; fileRef = C5C8EE942EC7719500C5DB68 /* mail-actions.json */; };
+		C5C8EE992EC7734400C5DB68 /* ContentViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8EE982EC7734400C5DB68 /* ContentViewState.swift */; };
+		C5C8EE9B2EC7735000C5DB68 /* MockDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8EE9A2EC7735000C5DB68 /* MockDataLoader.swift */; };
+		C5C8EE9D2EC7751500C5DB68 /* MainFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C8EE9C2EC7751500C5DB68 /* MainFeedView.swift */; };
 		C5D87E302EA451FA007DE0AD /* DataGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D87E2E2EA451FA007DE0AD /* DataGenerator.swift */; };
 		C5D87E312EA451FA007DE0AD /* EmailCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D87E2C2EA451FA007DE0AD /* EmailCard.swift */; };
 		C5D87E322EA451FA007DE0AD /* ArchetypeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D87E2B2EA451FA007DE0AD /* ArchetypeConfig.swift */; };
@@ -346,6 +355,15 @@
 		C55C82682EBC606F00967C85 /* RSVPModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSVPModal.swift; sourceTree = "<group>"; };
 		C55C826A2EBC60A000967C85 /* ViewItineraryModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItineraryModal.swift; sourceTree = "<group>"; };
 		C55C826C2EBC614C00967C85 /* ReviewSecurityModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewSecurityModal.swift; sourceTree = "<group>"; };
+		C5C8EE8A2EC7715E00C5DB68 /* ActionModalCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionModalCoordinator.swift; sourceTree = "<group>"; };
+		C5C8EE8D2EC7716D00C5DB68 /* ContentView+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+Helpers.swift"; sourceTree = "<group>"; };
+		C5C8EE8E2EC7716D00C5DB68 /* ContentView+URLHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView+URLHelpers.swift"; sourceTree = "<group>"; };
+		C5C8EE912EC7718000C5DB68 /* ActionLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionLoader.swift; sourceTree = "<group>"; };
+		C5C8EE932EC7719500C5DB68 /* action-schema.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "action-schema.json"; sourceTree = "<group>"; };
+		C5C8EE942EC7719500C5DB68 /* mail-actions.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "mail-actions.json"; sourceTree = "<group>"; };
+		C5C8EE982EC7734400C5DB68 /* ContentViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewState.swift; sourceTree = "<group>"; };
+		C5C8EE9A2EC7735000C5DB68 /* MockDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataLoader.swift; sourceTree = "<group>"; };
+		C5C8EE9C2EC7751500C5DB68 /* MainFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeedView.swift; sourceTree = "<group>"; };
 		C5D87DFE2EA4516B007DE0AD /* Zero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zero.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5D87E0E2EA4516C007DE0AD /* ZeroTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeroTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5D87E182EA4516C007DE0AD /* ZeroUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZeroUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -479,16 +497,6 @@
 			path = Zero;
 			sourceTree = "<group>";
 		};
-		C5D87E112EA4516C007DE0AD /* ZeroTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ZeroTests;
-			sourceTree = "<group>";
-		};
-		C5D87E1B2EA4516C007DE0AD /* ZeroUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ZeroUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -519,6 +527,8 @@
 		C520A8102EAB2B5A00CF3854 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				C5C8EE8D2EC7716D00C5DB68 /* ContentView+Helpers.swift */,
+				C5C8EE8E2EC7716D00C5DB68 /* ContentView+URLHelpers.swift */,
 				C520A86A2EAB31C900CF3854 /* ColorExtensions.swift */,
 			);
 			path = Extensions;
@@ -555,9 +565,27 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
+		C5C8EE8B2EC7715E00C5DB68 /* Coordinators */ = {
+			isa = PBXGroup;
+			children = (
+				C5C8EE8A2EC7715E00C5DB68 /* ActionModalCoordinator.swift */,
+			);
+			path = Coordinators;
+			sourceTree = "<group>";
+		};
+		C5C8EE952EC7719500C5DB68 /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				C5C8EE932EC7719500C5DB68 /* action-schema.json */,
+				C5C8EE942EC7719500C5DB68 /* mail-actions.json */,
+			);
+			path = Actions;
+			sourceTree = "<group>";
+		};
 		C5D87DF52EA4516B007DE0AD = {
 			isa = PBXGroup;
 			children = (
+				C5C8EE8B2EC7715E00C5DB68 /* Coordinators */,
 				C55C82172EB96C9200967C85 /* infodigging.md */,
 				C520AAA32EAD458A00CF3854 /* Utils */,
 				C520A8102EAB2B5A00CF3854 /* Extensions */,
@@ -573,8 +601,6 @@
 				C5D87E2D2EA451FA007DE0AD /* Models */,
 				C5D87E2F2EA451FA007DE0AD /* Services */,
 				C5D87E002EA4516B007DE0AD /* Zero */,
-				C5D87E112EA4516C007DE0AD /* ZeroTests */,
-				C5D87E1B2EA4516C007DE0AD /* ZeroUITests */,
 				C5D87DFF2EA4516B007DE0AD /* Products */,
 				C5FCB78B2EAA8FD400DC7DB9 /* Recovered References */,
 				5835441EA154CE499578C677 /* APIConfig.swift */,
@@ -632,6 +658,8 @@
 		C5D87E2F2EA451FA007DE0AD /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C5C8EE9A2EC7735000C5DB68 /* MockDataLoader.swift */,
+				C5C8EE912EC7718000C5DB68 /* ActionLoader.swift */,
 				C55C822C2EBC00C700967C85 /* ShoppingAutomationService.swift */,
 				C55C822A2EBBBA3700967C85 /* ActionRouter.swift */,
 				C55C82012EB8084100967C85 /* NotesIntegrationService.swift */,
@@ -690,6 +718,7 @@
 		C5D87E342EA45265007DE0AD /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				C5C8EE982EC7734400C5DB68 /* ContentViewState.swift */,
 				C5FCB6522EA9C76E00DC7DB9 /* AccountManager.swift */,
 				C5D87E332EA45265007DE0AD /* EmailViewModel.swift */,
 			);
@@ -699,6 +728,7 @@
 		C5D87E372EA453EC007DE0AD /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C5C8EE9C2EC7751500C5DB68 /* MainFeedView.swift */,
 				C520B23F2EB068AB00CF3854 /* Settings */,
 				C520B1732EAEDF1700CF3854 /* ClassificationDebugDashboard.swift */,
 				6CF557D4FA9E443A99D41359 /* PremiumPaywallView.swift */,
@@ -823,6 +853,7 @@
 				C5FCB55A2EA7293400DC7DB9 /* Constants.swift */,
 				C5FCB55B2EA7293400DC7DB9 /* Environment.swift */,
 				C5FCB55C2EA7293400DC7DB9 /* Secrets.xcconfig */,
+				C5C8EE952EC7719500C5DB68 /* Actions */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -935,9 +966,6 @@
 			dependencies = (
 				C5D87E102EA4516C007DE0AD /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				C5D87E112EA4516C007DE0AD /* ZeroTests */,
-			);
 			name = ZeroTests;
 			packageProductDependencies = (
 			);
@@ -957,9 +985,6 @@
 			);
 			dependencies = (
 				C5D87E1A2EA4516C007DE0AD /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				C5D87E1B2EA4516C007DE0AD /* ZeroUITests */,
 			);
 			name = ZeroUITests;
 			packageProductDependencies = (
@@ -1018,6 +1043,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C55C82182EB96C9200967C85 /* infodigging.md in Resources */,
+				C5C8EE962EC7719500C5DB68 /* action-schema.json in Resources */,
+				C5C8EE972EC7719500C5DB68 /* mail-actions.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1076,6 +1103,7 @@
 				C55C82692EBC606F00967C85 /* RSVPModal.swift in Sources */,
 				C55C82002EB6F9F900967C85 /* ActionsBottomSheet.swift in Sources */,
 				C5FCB4F22EA6BAC600DC7DB9 /* ContextualActionService.swift in Sources */,
+				C5C8EE8C2EC7715E00C5DB68 /* ActionModalCoordinator.swift in Sources */,
 				C5FCB5112EA6DCA700DC7DB9 /* SmartReplyService.swift in Sources */,
 				C5FCB5122EA6DCA700DC7DB9 /* EmailThreadService.swift in Sources */,
 				C520ABBC2EADB3EF00CF3854 /* SubscriptionService.swift in Sources */,
@@ -1088,6 +1116,7 @@
 				C520A8C22EAB34F400CF3854 /* NewsletterSummaryModal.swift in Sources */,
 				C5FCB5132EA6DCA700DC7DB9 /* AdminFeedbackService.swift in Sources */,
 				C5FCB4E62EA6B54600DC7DB9 /* ReplyTemplate.swift in Sources */,
+				C5C8EE9B2EC7735000C5DB68 /* MockDataLoader.swift in Sources */,
 				C55C81FE2EB6F9D800967C85 /* NavigationState.swift in Sources */,
 				C5FCB4CF2EA6A11500DC7DB9 /* SmartReplyView.swift in Sources */,
 				C5FCB5152EA6DCF800DC7DB9 /* EmailThreadView.swift in Sources */,
@@ -1105,6 +1134,7 @@
 				C5FCB56B2EA7293400DC7DB9 /* ModalRouter.swift in Sources */,
 				C5FCB56C2EA7293400DC7DB9 /* ModalViewBuilder.swift in Sources */,
 				C55C82652EBC508500967C85 /* AccountVerificationModal.swift in Sources */,
+				C5C8EE922EC7718000C5DB68 /* ActionLoader.swift in Sources */,
 				C5FCB56D2EA7293400DC7DB9 /* EmailServiceProtocol.swift in Sources */,
 				C5FCB56E2EA7293400DC7DB9 /* Environment.swift in Sources */,
 				C5FCB56F2EA7293400DC7DB9 /* Logger.swift in Sources */,
@@ -1126,6 +1156,7 @@
 				C5D87E422EA47767007DE0AD /* EmailData.swift in Sources */,
 				C5FCB5192EA7114200DC7DB9 /* OnboardingView.swift in Sources */,
 				C55C826B2EBC60A000967C85 /* ViewItineraryModal.swift in Sources */,
+				C5C8EE992EC7734400C5DB68 /* ContentViewState.swift in Sources */,
 				C520AECE2EAEB4CA00CF3854 /* ActionRegistry.swift in Sources */,
 				C5FCB51C2EA7115900DC7DB9 /* AdminFeedbackView.swift in Sources */,
 				D3CB814051A5464F9AE041FDAA8AF017 /* CleverPlaceholders.swift in Sources */,
@@ -1230,6 +1261,8 @@
 				440949B084F1357378214503 /* APIConfig.swift in Sources */,
 				C98743EEB63C126DC1DDE01B /* LaunchConfiguration.swift in Sources */,
 				39E4460A8A86A7AAE5E00AD2 /* AppSettings.swift in Sources */,
+				C5C8EE8F2EC7716D00C5DB68 /* ContentView+Helpers.swift in Sources */,
+				C5C8EE902EC7716D00C5DB68 /* ContentView+URLHelpers.swift in Sources */,
 				C55C822D2EBC00C700967C85 /* ShoppingAutomationService.swift in Sources */,
 				919E4E389E9F66AC89F441E3 /* AnalyticsSchema.swift in Sources */,
 				2C4C40D9915C050317978F53 /* LoggingProtocol.swift in Sources */,
@@ -1243,6 +1276,7 @@
 				529A44ABA565BB0E1E850BC8 /* UnsubscribeModal.swift in Sources */,
 				329D42E2BB4FC0372F9AD3CB /* NewsletterSummaryView.swift in Sources */,
 				5FFB454199C0A8E822D2C291 /* UnsubscribeService.swift in Sources */,
+				C5C8EE9D2EC7751500C5DB68 /* MainFeedView.swift in Sources */,
 				726D4A73BFDA7EA414C7DC7F /* VIPManager.swift in Sources */,
 				426C458C8D43E48A2D27EB29 /* SnoozeModal.swift in Sources */,
 				0E5D4D0ABA09DF2FCCC70560 /* AttachmentPreviewModal.swift in Sources */,
