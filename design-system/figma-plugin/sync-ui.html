@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Zero Design Sync</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13px;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #999;
+      margin-bottom: 24px;
+      font-size: 12px;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .phase {
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .phase-info {
+      flex: 1;
+    }
+
+    .phase-title {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .phase-description {
+      font-size: 11px;
+      color: #999;
+    }
+
+    .phase.critical .phase-title::before {
+      content: '🔴 ';
+    }
+
+    .phase.high .phase-title::before {
+      content: '🟡 ';
+    }
+
+    .phase.medium .phase-title::before {
+      content: '🟢 ';
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    button:active {
+      opacity: 0.8;
+    }
+
+    button.secondary {
+      background: #3a3a3a;
+      font-size: 11px;
+      padding: 6px 12px;
+    }
+
+    button.primary-large {
+      width: 100%;
+      padding: 14px;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    .status {
+      background: #2a2a2a;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 16px;
+      display: none;
+    }
+
+    .status.visible {
+      display: block;
+    }
+
+    .status-text {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .progress {
+      margin-top: 8px;
+      height: 4px;
+      background: #3a3a3a;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    .footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid #3a3a3a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-text {
+      font-size: 11px;
+      color: #666;
+    }
+
+    a {
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Zero Design Sync</h1>
+  <div class="subtitle">Sync iOS tokens to Figma</div>
+
+  <div class="section">
+    <button class="primary-large" onclick="syncAll()">
+      ⚡ Sync All Phases
+    </button>
+    <button class="primary-large secondary" onclick="cancel()">
+      Cancel
+    </button>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Phases</div>
+
+    <div class="phase critical">
+      <div class="phase-info">
+        <div class="phase-title">Phase 1: Color Fixes</div>
+        <div class="phase-description">Fix ads gradient (#16BBAA → #4FD19E)</div>
+      </div>
+      <button class="secondary" onclick="syncPhase(1)">Sync</button>
+    </div>
+
+    <div class="phase high">
+      <div class="phase-info">
+        <div class="phase-title">Phase 2: Typography</div>
+        <div class="phase-description">7 text styles (Card + Thread)</div>
+      </div>
+      <button class="secondary" onclick="syncPhase(2)">Sync</button>
+    </div>
+
+    <div class="phase high">
+      <div class="phase-info">
+        <div class="phase-title">Phase 3: Spacing</div>
+        <div class="phase-description">8 spacing tokens (4px → 24px)</div>
+      </div>
+      <button class="secondary" onclick="syncPhase(3)">Sync</button>
+    </div>
+
+    <div class="phase medium">
+      <div class="phase-info">
+        <div class="phase-title">Phase 4: Radius</div>
+        <div class="phase-description">7 border radius tokens</div>
+      </div>
+      <button class="secondary" onclick="syncPhase(4)">Sync</button>
+    </div>
+
+    <div class="phase medium">
+      <div class="phase-info">
+        <div class="phase-title">Phase 5: Opacity</div>
+        <div class="phase-description">10 opacity levels (0.05 → 1.0)</div>
+      </div>
+      <button class="secondary" onclick="syncPhase(5)">Sync</button>
+    </div>
+
+    <div class="phase medium">
+      <div class="phase-info">
+        <div class="phase-title">Phase 6: Shadows</div>
+        <div class="phase-description">3 shadow effect styles</div>
+      </div>
+      <button class="secondary" onclick="syncPhase(6)">Sync</button>
+    </div>
+  </div>
+
+  <div class="status" id="status">
+    <div class="status-text" id="statusText">Syncing...</div>
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-text">
+      Source: <a href="#" onclick="openDocs()">iOS DesignTokens</a>
+    </div>
+    <div class="footer-text">v2.0</div>
+  </div>
+
+  <script>
+    function syncAll() {
+      showStatus('Syncing all phases...');
+      setProgress(0);
+      parent.postMessage({ pluginMessage: { type: 'sync-all' } }, '*');
+    }
+
+    function syncPhase(phase) {
+      showStatus(`Syncing Phase ${phase}...`);
+      setProgress(0);
+      parent.postMessage({ pluginMessage: { type: 'sync-phase', phase } }, '*');
+    }
+
+    function cancel() {
+      parent.postMessage({ pluginMessage: { type: 'cancel' } }, '*');
+    }
+
+    function openDocs() {
+      // Open FIGMA_SYNC_PLAN.md
+      alert('See: design-system/FIGMA_SYNC_PLAN.md');
+    }
+
+    function showStatus(text) {
+      const status = document.getElementById('status');
+      const statusText = document.getElementById('statusText');
+      status.classList.add('visible');
+      statusText.textContent = text;
+    }
+
+    function hideStatus() {
+      const status = document.getElementById('status');
+      status.classList.remove('visible');
+    }
+
+    function setProgress(percent) {
+      const progressBar = document.getElementById('progressBar');
+      progressBar.style.width = percent + '%';
+    }
+
+    // Listen for messages from plugin
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+
+      if (msg.type === 'sync-complete') {
+        showStatus('✅ Sync complete!');
+        setProgress(100);
+        setTimeout(hideStatus, 2000);
+      }
+
+      if (msg.type === 'phase-complete') {
+        showStatus(`✅ Phase ${msg.phase} complete!`);
+        setProgress(100);
+        setTimeout(hideStatus, 1500);
+      }
+    };
+  </script>
+</body>
+</html>

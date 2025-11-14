@@ -1,0 +1,14 @@
+{
+  "name": "Zero Design System - Complete Generator",
+  "id": "zero-design-system-generator",
+  "api": "1.0.0",
+  "main": "code-generator.js",
+  "ui": "ui-generator.html",
+  "editorType": ["figma"],
+  "menu": [
+    {
+      "name": "Generate Complete Design System",
+      "command": "generate-all"
+    }
+  ]
+}

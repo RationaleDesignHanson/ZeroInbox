@@ -1,0 +1,207 @@
+{
+  "version": "1.0",
+  "source": "iOS DesignTokens",
+  "generatedAt": "2025-11-14T02:25:16.123Z",
+  "variables": [
+    {
+      "name": "spacing/card",
+      "type": "FLOAT",
+      "value": 24,
+      "description": "Spacing token: card"
+    },
+    {
+      "name": "spacing/modal",
+      "type": "FLOAT",
+      "value": 24,
+      "description": "Spacing token: modal"
+    },
+    {
+      "name": "spacing/section",
+      "type": "FLOAT",
+      "value": 20,
+      "description": "Spacing token: section"
+    },
+    {
+      "name": "spacing/component",
+      "type": "FLOAT",
+      "value": 16,
+      "description": "Spacing token: component"
+    },
+    {
+      "name": "spacing/element",
+      "type": "FLOAT",
+      "value": 12,
+      "description": "Spacing token: element"
+    },
+    {
+      "name": "spacing/inline",
+      "type": "FLOAT",
+      "value": 8,
+      "description": "Spacing token: inline"
+    },
+    {
+      "name": "spacing/tight",
+      "type": "FLOAT",
+      "value": 6,
+      "description": "Spacing token: tight"
+    },
+    {
+      "name": "spacing/minimal",
+      "type": "FLOAT",
+      "value": 4,
+      "description": "Spacing token: minimal"
+    },
+    {
+      "name": "radius/card",
+      "type": "FLOAT",
+      "value": 16,
+      "description": "Border radius token: card"
+    },
+    {
+      "name": "radius/modal",
+      "type": "FLOAT",
+      "value": 20,
+      "description": "Border radius token: modal"
+    },
+    {
+      "name": "radius/container",
+      "type": "FLOAT",
+      "value": 16,
+      "description": "Border radius token: container"
+    },
+    {
+      "name": "radius/button",
+      "type": "FLOAT",
+      "value": 12,
+      "description": "Border radius token: button"
+    },
+    {
+      "name": "radius/chip",
+      "type": "FLOAT",
+      "value": 8,
+      "description": "Border radius token: chip"
+    },
+    {
+      "name": "radius/minimal",
+      "type": "FLOAT",
+      "value": 4,
+      "description": "Border radius token: minimal"
+    },
+    {
+      "name": "radius/circle",
+      "type": "FLOAT",
+      "value": 999,
+      "description": "Border radius token: circle"
+    },
+    {
+      "name": "opacity/glassUltraLight",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: glassUltraLight"
+    },
+    {
+      "name": "opacity/glassLight",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: glassLight"
+    },
+    {
+      "name": "opacity/glassMedium",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: glassMedium"
+    },
+    {
+      "name": "opacity/overlayLight",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: overlayLight"
+    },
+    {
+      "name": "opacity/overlayMedium",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: overlayMedium"
+    },
+    {
+      "name": "opacity/overlayStrong",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: overlayStrong"
+    },
+    {
+      "name": "opacity/textDisabled",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: textDisabled"
+    },
+    {
+      "name": "opacity/textSubtle",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: textSubtle"
+    },
+    {
+      "name": "opacity/textTertiary",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: textTertiary"
+    },
+    {
+      "name": "opacity/textSecondary",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: textSecondary"
+    },
+    {
+      "name": "opacity/textPrimary",
+      "type": "FLOAT",
+      "value": null,
+      "description": "Opacity token: textPrimary"
+    },
+    {
+      "name": "colors/mail-gradient-start",
+      "type": "COLOR",
+      "value": {
+        "r": 0.4,
+        "g": 0.49411764705882355,
+        "b": 0.9176470588235294,
+        "a": 1
+      },
+      "description": "mail gradient start color"
+    },
+    {
+      "name": "colors/mail-gradient-end",
+      "type": "COLOR",
+      "value": {
+        "r": 0.4627450980392157,
+        "g": 0.29411764705882354,
+        "b": 0.6352941176470588,
+        "a": 1
+      },
+      "description": "mail gradient end color"
+    },
+    {
+      "name": "colors/ads-gradient-start",
+      "type": "COLOR",
+      "value": {
+        "r": 0.08627450980392157,
+        "g": 0.7333333333333333,
+        "b": 0.6666666666666666,
+        "a": 1
+      },
+      "description": "ads gradient start color"
+    },
+    {
+      "name": "colors/ads-gradient-end",
+      "type": "COLOR",
+      "value": {
+        "r": 0.30980392156862746,
+        "g": 0.8196078431372549,
+        "b": 0.6196078431372549,
+        "a": 1
+      },
+      "description": "ads gradient end color"
+    }
+  ]
+}

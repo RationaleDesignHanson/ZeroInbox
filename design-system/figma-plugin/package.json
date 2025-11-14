@@ -4,7 +4,9 @@
   "description": "Figma plugin to sync Zero design system tokens",
   "main": "code.js",
   "scripts": {
-    "build": "tsc --watch",
+    "build": "tsc",
+    "build:sync": "tsc --project tsconfig-sync.json",
+    "build:all": "tsc && tsc --project tsconfig-sync.json",
     "dev": "tsc --watch"
   },
   "author": "Zero Team",
