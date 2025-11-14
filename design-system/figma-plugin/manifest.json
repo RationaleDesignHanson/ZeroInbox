@@ -1,6 +1,6 @@
 {
-  "name": "Zero Design Sync v2",
-  "id": "zero-design-sync-v2",
+  "name": "Zero Design Sync v3",
+  "id": "zero-design-sync-v3",
   "api": "1.0.0",
   "main": "sync-plugin.js",
   "ui": "sync-ui.html",

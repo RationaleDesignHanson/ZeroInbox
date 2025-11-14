@@ -88,13 +88,13 @@ async function syncAllPhases() {
   figma.notify('🚀 Starting full sync...');
 
   await syncPhase(1); // Critical: Fix ads gradient
-  // await syncPhase(2); // Typography - SKIP FOR NOW (font issues)
+  await syncPhase(2); // Typography (with font fallbacks)
   await syncPhase(3); // Spacing
   await syncPhase(4); // Radius
   await syncPhase(5); // Opacity
   await syncPhase(6); // Shadows
 
-  figma.notify('✅ Sync complete! Colors and shadows synced.');
+  figma.notify('✅ Sync complete! All phases synced.');
 }
 
 // Sync individual phase
@@ -243,12 +243,30 @@ async function createTextStyle(name: string, fontSize: number, fontWeight: numbe
     style.name = name;
   }
 
-  // Load font before setting properties
-  const fontName = { family: 'Inter', style: getWeightName(fontWeight) };
-  await figma.loadFontAsync(fontName);
+  // Try multiple font options with fallbacks
+  const fontOptions = [
+    { family: 'Inter', style: getWeightName(fontWeight) },
+    { family: 'Roboto', style: getWeightName(fontWeight) },
+    { family: 'Arial', style: getWeightName(fontWeight) }
+  ];
 
-  style.fontSize = fontSize;
-  style.fontName = fontName;
+  let fontLoaded = false;
+  for (const fontName of fontOptions) {
+    try {
+      await figma.loadFontAsync(fontName);
+      style.fontSize = fontSize;
+      style.fontName = fontName;
+      fontLoaded = true;
+      break;
+    } catch (e) {
+      // Try next font
+      continue;
+    }
+  }
+
+  if (!fontLoaded) {
+    figma.notify(`⚠️ Could not load font for ${name}, using default`);
+  }
 
   return style;
 }
@@ -290,10 +308,12 @@ function capitalize(str: string) {
 }
 
 function getWeightName(weight: number): string {
+  // Map numeric weights to font style names
+  // Try common variations for better compatibility
   const weights: { [key: number]: string } = {
     400: 'Regular',
     500: 'Medium',
-    600: 'Semibold',
+    600: 'SemiBold',  // Some fonts use SemiBold, some use Semibold
     700: 'Bold'
   };
   return weights[weight] || 'Regular';
