@@ -25,7 +25,7 @@ struct SaveSnoozeMenuView: View {
         VStack(spacing: 0) {
             // Handle bar
             RoundedRectangle(cornerRadius: 2.5)
-                .fill(Color.gray.opacity(0.3))
+                .fill(Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                 .frame(width: 40, height: 5)
                 .padding(.top, 12)
                 .padding(.bottom, 20)
@@ -38,7 +38,7 @@ struct SaveSnoozeMenuView: View {
 
                 Text(card.title)
                     .font(.subheadline)
-                    .foregroundColor(textColor.opacity(0.7))
+                    .foregroundColor(textColor.opacity(DesignTokens.Opacity.textSubtle))
                     .lineLimit(2)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
@@ -82,7 +82,7 @@ struct SaveSnoozeMenuView: View {
 
                             Text("Save for later in a custom folder")
                                 .font(.caption)
-                                .foregroundColor(textColor.opacity(0.6))
+                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                         }
 
                         Spacer()
@@ -90,7 +90,7 @@ struct SaveSnoozeMenuView: View {
                         // Chevron
                         Image(systemName: "chevron.right")
                             .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(textColor.opacity(0.3))
+                            .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
                     }
                     .padding(DesignTokens.Spacing.section)
                     .background(
@@ -139,7 +139,7 @@ struct SaveSnoozeMenuView: View {
 
                             Text("Remind me later")
                                 .font(.caption)
-                                .foregroundColor(textColor.opacity(0.6))
+                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                         }
 
                         Spacer()
@@ -147,7 +147,7 @@ struct SaveSnoozeMenuView: View {
                         // Chevron
                         Image(systemName: "chevron.right")
                             .font(.system(size: 14, weight: .semibold))
-                            .foregroundColor(textColor.opacity(0.3))
+                            .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
                     }
                     .padding(DesignTokens.Spacing.section)
                     .background(
@@ -175,7 +175,7 @@ struct SaveSnoozeMenuView: View {
             .padding(.vertical, 16)
             .background(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                    .fill(Color.gray.opacity(0.1))
+                    .fill(Color.gray.opacity(DesignTokens.Opacity.glassLight))
             )
             .padding(.horizontal, DesignTokens.Spacing.card)
             .padding(.bottom, 32)
@@ -200,7 +200,7 @@ struct SaveSnoozeMenuView: View {
     }
 
     private var borderColor: Color {
-        colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.05)
+        colorScheme == .dark ? Color.white.opacity(DesignTokens.Opacity.glassLight) : Color.black.opacity(DesignTokens.Opacity.glassUltraLight)
     }
 }
 

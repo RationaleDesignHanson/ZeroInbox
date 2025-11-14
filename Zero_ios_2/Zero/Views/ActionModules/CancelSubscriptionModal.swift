@@ -76,7 +76,7 @@ struct CancelSubscriptionModal: View {
 
             Text("Detecting subscription service...")
                 .font(.subheadline)
-                .foregroundColor(textColor.opacity(0.6))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
         }
     }
 
@@ -92,7 +92,7 @@ struct CancelSubscriptionModal: View {
 
             Text(message)
                 .font(.body)
-                .foregroundColor(textColor.opacity(0.6))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
 
@@ -130,7 +130,7 @@ struct CancelSubscriptionModal: View {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
                     Text("Subscription Details")
                         .font(.caption.bold())
-                        .foregroundColor(textColor.opacity(0.6))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                         .textCase(.uppercase)
 
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -188,14 +188,14 @@ struct CancelSubscriptionModal: View {
 
                                 Text("Open \(info.serviceName) account page directly")
                                     .font(.caption)
-                                    .foregroundColor(textColor.opacity(0.6))
+                                    .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                             }
 
                             Spacer()
 
                             Image(systemName: "arrow.up.right")
                                 .font(.caption)
-                                .foregroundColor(textColor.opacity(0.3))
+                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
                         }
                         .padding(DesignTokens.Spacing.section)
                         .background(rowBackgroundColor)
@@ -226,12 +226,12 @@ struct CancelSubscriptionModal: View {
                                             .padding(.horizontal, 6)
                                             .padding(.vertical, 2)
                                             .background(Color.purple)
-                                            .cornerRadius(4)
+                                            .cornerRadius(DesignTokens.Radius.minimal)
                                     }
 
                                     Text("Get step-by-step guidance powered by AI")
                                         .font(.caption)
-                                        .foregroundColor(textColor.opacity(0.6))
+                                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                                 }
 
                                 Spacer()
@@ -244,8 +244,8 @@ struct CancelSubscriptionModal: View {
                             .background(
                                 LinearGradient(
                                     colors: [
-                                        Color.purple.opacity(0.1),
-                                        Color.blue.opacity(0.1)
+                                        Color.purple.opacity(DesignTokens.Opacity.glassLight),
+                                        Color.blue.opacity(DesignTokens.Opacity.glassLight)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -253,7 +253,7 @@ struct CancelSubscriptionModal: View {
                             )
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.purple.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.purple.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                             .cornerRadius(DesignTokens.Radius.button)
                         }
@@ -275,11 +275,11 @@ struct CancelSubscriptionModal: View {
 
                         Text(note)
                             .font(.caption)
-                            .foregroundColor(textColor.opacity(0.7))
+                            .foregroundColor(textColor.opacity(DesignTokens.Opacity.textSubtle))
                     }
                     .padding(DesignTokens.Spacing.component)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.orange.opacity(0.1))
+                    .background(Color.orange.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.chip)
                     .padding(.horizontal)
                 }
@@ -289,7 +289,7 @@ struct CancelSubscriptionModal: View {
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
                         Text("Cancellation Steps")
                             .font(.caption.bold())
-                            .foregroundColor(textColor.opacity(0.6))
+                            .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                             .textCase(.uppercase)
 
                         VStack(alignment: .leading, spacing: DesignTokens.Spacing.inline) {
@@ -339,7 +339,7 @@ struct CancelSubscriptionModal: View {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(label)
                         .font(.caption)
-                        .foregroundColor(textColor.opacity(0.6))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
 
                     Text(value)
                         .font(.body)

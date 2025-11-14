@@ -83,7 +83,7 @@ struct GenericEmptyState: View {
                         .padding(.horizontal, 32)
                         .padding(.vertical, 12)
                         .background(Color.blue)
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(.top, 8)
             }
@@ -293,7 +293,7 @@ struct ConnectEmailView: View {
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(Color.blue)
-                .cornerRadius(12)
+                .cornerRadius(DesignTokens.Radius.button)
             }
             .padding(.horizontal, 32)
             .padding(.top, 24)
@@ -387,7 +387,7 @@ struct PremiumRequiredView: View {
                         endPoint: .trailing
                     )
                 )
-                .cornerRadius(12)
+                .cornerRadius(DesignTokens.Radius.button)
             }
             .padding(.horizontal, 32)
             .padding(.top, 16)
@@ -513,7 +513,7 @@ struct FirstTimeUserView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.blue)
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
             }
             .padding(.horizontal, 32)
             .padding(.top, 16)
@@ -534,7 +534,7 @@ struct ValuePropRow: View {
         HStack(spacing: 16) {
             ZStack {
                 Circle()
-                    .fill(Color.blue.opacity(0.1))
+                    .fill(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .frame(width: 50, height: 50)
 
                 Image(systemName: icon)
@@ -573,7 +573,7 @@ struct CompactEmptyState: View {
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
         }
-        .padding(32)
+        .padding(DesignTokens.Spacing.card)
         .frame(maxWidth: .infinity)
     }
 }

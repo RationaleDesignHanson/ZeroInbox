@@ -51,7 +51,7 @@ struct DocumentPreviewModal: View {
                         Image(systemName: "xmark.circle.fill")
                             .font(.title)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
-                            .shadow(color: .black.opacity(0.5), radius: 4)
+                            .shadow(color: .black.opacity(DesignTokens.Opacity.overlayStrong), radius: 4)
                     }
                     .padding()
                 }
@@ -70,8 +70,8 @@ struct DocumentPreviewModal: View {
                             .font(.subheadline)
                     }
                     .padding()
-                    .background(Color.red.opacity(0.9))
-                    .cornerRadius(12)
+                    .background(Color.red.opacity(DesignTokens.Opacity.textSecondary))
+                    .cornerRadius(DesignTokens.Radius.button)
                     .padding()
                     Spacer().frame(height: 100)
                 }

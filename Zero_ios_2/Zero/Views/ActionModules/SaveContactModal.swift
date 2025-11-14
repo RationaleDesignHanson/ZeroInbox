@@ -55,7 +55,7 @@ struct SaveContactModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Existing contact notice
                     if isCheckingExisting {
@@ -68,7 +68,7 @@ struct SaveContactModal: View {
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.white.opacity(0.05))
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                         .cornerRadius(DesignTokens.Radius.chip)
                     } else if contactExists, let existing = existingContact {
                         VStack(alignment: .leading, spacing: 8) {
@@ -100,7 +100,7 @@ struct SaveContactModal: View {
                             .padding(.leading)
                         }
                         .padding()
-                        .background(Color.blue.opacity(0.2))
+                        .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -113,14 +113,14 @@ struct SaveContactModal: View {
                         TextField("", text: $contactName)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .autocapitalization(.words)
                             .disabled(contactExists)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -133,7 +133,7 @@ struct SaveContactModal: View {
                         TextField("", text: $email)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .keyboardType(.emailAddress)
@@ -141,7 +141,7 @@ struct SaveContactModal: View {
                             .disabled(contactExists)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -154,13 +154,13 @@ struct SaveContactModal: View {
                         TextField("", text: $phoneNumber)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .keyboardType(.phonePad)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -173,13 +173,13 @@ struct SaveContactModal: View {
                         TextField("", text: $organization)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .disabled(contactExists)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -192,14 +192,14 @@ struct SaveContactModal: View {
                         TextEditor(text: $notes)
                             .frame(height: 80)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .colorScheme(.dark)
                             .scrollContentBackground(.hidden)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -231,7 +231,7 @@ struct SaveContactModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -246,7 +246,7 @@ struct SaveContactModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.red.opacity(0.2))
+                        .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
                 }

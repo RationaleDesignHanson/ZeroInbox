@@ -26,7 +26,7 @@ struct ModalContextHeader: View {
             HStack(spacing: 8) {
                 Image(systemName: getIconForAction(actionName))
                     .font(.system(size: 18, weight: .medium))
-                    .foregroundColor(.white.opacity(0.9))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                     .frame(width: 20, height: 20)
 
                 Text(actionName)
@@ -38,12 +38,12 @@ struct ModalContextHeader: View {
             // Separator bullet
             Text("•")
                 .font(.system(size: 15, weight: .medium))
-                .foregroundColor(.white.opacity(0.5))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
 
             // Right: Card title (context)
             Text(cardTitle)
                 .font(.system(size: 15, weight: .regular))
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .lineLimit(1)
                 .frame(maxWidth: .infinity, alignment: .leading)
 
@@ -51,7 +51,7 @@ struct ModalContextHeader: View {
             if let onDismiss = onDismiss {
                 Button(action: onDismiss) {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .font(.title2)
                 }
             }
@@ -59,11 +59,11 @@ struct ModalContextHeader: View {
         .padding(.horizontal, 20)
         .padding(.vertical, 16)
         .background(
-            .ultraThinMaterial.opacity(0.8)
+            .ultraThinMaterial.opacity(DesignTokens.Opacity.textTertiary)
         )
         .overlay(
             Rectangle()
-                .fill(Color.white.opacity(0.1))
+                .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                 .frame(height: 1),
             alignment: .bottom
         )

@@ -60,7 +60,7 @@ struct AttachmentPreviewModal: View {
                                 .font(.headline)
                                 .foregroundColor(DesignTokens.Colors.textPrimary)
                                 .padding()
-                                .background(Color.white.opacity(0.2))
+                                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                                 .cornerRadius(DesignTokens.Radius.button)
                             }
                         }

@@ -49,7 +49,7 @@ struct AddToWalletModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Pass preview
                     VStack(alignment: .leading, spacing: 16) {
@@ -78,11 +78,11 @@ struct AddToWalletModal: View {
                         .padding()
                         .background(
                             RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                .fill(Color.white.opacity(0.1))
+                                .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                         )
                         .overlay(
                             RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                         )
 
                         // Benefits list
@@ -125,7 +125,7 @@ struct AddToWalletModal: View {
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                         )
                     }
                     .disabled(isLoading || !WalletService.canAddPasses())
@@ -141,7 +141,7 @@ struct AddToWalletModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -156,7 +156,7 @@ struct AddToWalletModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.red.opacity(0.2))
+                        .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -170,7 +170,7 @@ struct AddToWalletModal: View {
                                 .foregroundColor(DesignTokens.Colors.textSubtle)
                         }
                         .padding()
-                        .background(Color.orange.opacity(0.2))
+                        .background(Color.orange.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.chip)
                     }
                 }

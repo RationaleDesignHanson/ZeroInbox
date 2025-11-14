@@ -48,7 +48,7 @@ struct ShoppingAutomationModal: View {
                         Circle()
                             .fill(
                                 LinearGradient(
-                                    colors: [Color.green.opacity(0.3), Color.green.opacity(0.1)],
+                                    colors: [Color.green.opacity(DesignTokens.Opacity.overlayMedium), Color.green.opacity(DesignTokens.Opacity.glassLight)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
@@ -85,7 +85,7 @@ struct ShoppingAutomationModal: View {
                         }
 
                         Divider()
-                            .background(Color.white.opacity(0.2))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
                         HStack(spacing: DesignTokens.Spacing.component) {
                             Image(systemName: "link")
@@ -104,7 +104,7 @@ struct ShoppingAutomationModal: View {
                         }
                     }
                     .padding()
-                    .background(Color.white.opacity(0.05))
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                     .cornerRadius(DesignTokens.Radius.container)
 
                     // Status message
@@ -150,7 +150,7 @@ struct ShoppingAutomationModal: View {
                             }
                         }
                         .padding()
-                        .background(Color.white.opacity(0.05))
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                         .cornerRadius(DesignTokens.Radius.container)
                     }
 
@@ -165,7 +165,7 @@ struct ShoppingAutomationModal: View {
                                 .foregroundColor(.red)
                         }
                         .padding()
-                        .background(Color.red.opacity(0.1))
+                        .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.container)
                     }
 
@@ -185,15 +185,15 @@ struct ShoppingAutomationModal: View {
                                 .background(
                                     LinearGradient(
                                         colors: automationState == .success ?
-                                            [Color.green, Color.green.opacity(0.8)] :
-                                            [Color.blue, Color.blue.opacity(0.8)],
+                                            [Color.green, Color.green.opacity(DesignTokens.Opacity.textTertiary)] :
+                                            [Color.blue, Color.blue.opacity(DesignTokens.Opacity.textTertiary)],
                                         startPoint: .leading,
                                         endPoint: .trailing
                                     )
                                 )
                                 .foregroundColor(.white)
                                 .cornerRadius(DesignTokens.Radius.button)
-                                .shadow(color: (automationState == .success ? Color.green : Color.blue).opacity(0.3), radius: 8, x: 0, y: 4)
+                                .shadow(color: (automationState == .success ? Color.green : Color.blue).opacity(DesignTokens.Opacity.overlayMedium), radius: 8, x: 0, y: 4)
                             }
                         }
                     }

@@ -58,8 +58,8 @@ struct PremiumPaywallView: View {
                 // Animated gradient background
                 LinearGradient(
                     colors: [
-                        Color.purple.opacity(0.8),
-                        Color.blue.opacity(0.6),
+                        Color.purple.opacity(DesignTokens.Opacity.textTertiary),
+                        Color.blue.opacity(DesignTokens.Opacity.textDisabled),
                         Color.cyan.opacity(0.4)
                     ],
                     startPoint: .topLeading,
@@ -114,7 +114,7 @@ struct PremiumPaywallView: View {
                             .font(.headline)
                             .foregroundColor(.white)
                             .frame(width: 32, height: 32)
-                            .background(Color.black.opacity(0.3))
+                            .background(Color.black.opacity(DesignTokens.Opacity.overlayMedium))
                             .clipShape(Circle())
                     }
                 }
@@ -152,7 +152,7 @@ struct PremiumPaywallView: View {
                 Circle()
                     .fill(
                         LinearGradient(
-                            colors: [.yellow.opacity(0.3), .orange.opacity(0.2)],
+                            colors: [.yellow.opacity(DesignTokens.Opacity.overlayMedium), .orange.opacity(DesignTokens.Opacity.overlayLight)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -305,7 +305,7 @@ struct PremiumPaywallView: View {
 
             Text("— Sarah M., Premium User")
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
         }
         .padding(.vertical, 32)
     }
@@ -359,11 +359,11 @@ struct PremiumPaywallView: View {
                 }
             }
             .font(.caption)
-            .foregroundColor(.white.opacity(0.6))
+            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             Text("Subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.")
                 .font(.caption2)
-                .foregroundColor(.white.opacity(0.5))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
         }
@@ -393,13 +393,13 @@ struct PremiumPaywallView: View {
             .padding(.vertical, 18)
             .background(
                 LinearGradient(
-                    colors: [.green, .green.opacity(0.8)],
+                    colors: [.green, .green.opacity(DesignTokens.Opacity.textTertiary)],
                     startPoint: .leading,
                     endPoint: .trailing
                 )
             )
             .cornerRadius(DesignTokens.Radius.container)
-            .shadow(color: .green.opacity(0.5), radius: 20, x: 0, y: 10)
+            .shadow(color: .green.opacity(DesignTokens.Opacity.overlayStrong), radius: 20, x: 0, y: 10)
         }
         .disabled(isProcessing)
         .padding(.horizontal, DesignTokens.Spacing.card)
@@ -410,7 +410,7 @@ struct PremiumPaywallView: View {
 
     private var successOverlay: some View {
         ZStack {
-            Color.black.opacity(0.8)
+            Color.black.opacity(DesignTokens.Opacity.textTertiary)
                 .ignoresSafeArea()
 
             VStack(spacing: DesignTokens.Spacing.card) {
@@ -671,7 +671,7 @@ struct FeatureRow: View {
                 .foregroundColor(.yellow)
                 .frame(width: 40, height: 40)
                 .background(Color.white.opacity(0.15))
-                .cornerRadius(10)
+                .cornerRadius(DesignTokens.Radius.button)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(title)
@@ -708,7 +708,7 @@ struct PricingCard: View {
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
                             .background(Color.green)
-                            .cornerRadius(20)
+                            .cornerRadius(DesignTokens.Radius.modal)
                     }
                     .offset(y: -8)
                 }
@@ -772,11 +772,11 @@ struct PricingCard: View {
             .overlay(
                 RoundedRectangle(cornerRadius: DesignTokens.Spacing.card)
                     .strokeBorder(
-                        isSelected ? Color.white.opacity(0.5) : Color.white.opacity(0.2),
+                        isSelected ? Color.white.opacity(DesignTokens.Opacity.overlayStrong) : Color.white.opacity(DesignTokens.Opacity.overlayLight),
                         lineWidth: isSelected ? 2 : 1
                     )
             )
-            .shadow(color: isSelected ? Color.white.opacity(0.3) : Color.clear, radius: 20, x: 0, y: 10)
+            .shadow(color: isSelected ? Color.white.opacity(DesignTokens.Opacity.overlayMedium) : Color.clear, radius: 20, x: 0, y: 10)
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -806,7 +806,7 @@ struct FAQItem: View {
 
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
             }
 

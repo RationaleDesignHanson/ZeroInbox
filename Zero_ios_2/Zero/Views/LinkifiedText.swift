@@ -13,7 +13,7 @@ struct LinkifiedText: UIViewRepresentable {
     init(
         _ text: String,
         font: Font = .body,
-        color: Color = .white.opacity(0.9),
+        color: Color = .white.opacity(DesignTokens.Opacity.textSecondary),
         lineSpacing: CGFloat = 4
     ) {
         self.text = text
@@ -173,12 +173,12 @@ struct LinkifiedText: UIViewRepresentable {
     VStack(alignment: .leading, spacing: 20) {
         LinkifiedText(
             "Check out our website at https://example.com for more details.",
-            color: .white.opacity(0.9)
+            color: .white.opacity(DesignTokens.Opacity.textSecondary)
         )
 
         LinkifiedText(
             "Visit www.apple.com or https://google.com for info.",
-            color: .white.opacity(0.9)
+            color: .white.opacity(DesignTokens.Opacity.textSecondary)
         )
 
         LinkifiedText(
@@ -195,7 +195,7 @@ struct LinkifiedText: UIViewRepresentable {
 
             Thanks!
             """,
-            color: .white.opacity(0.9)
+            color: .white.opacity(DesignTokens.Opacity.textSecondary)
         )
     }
     .padding()

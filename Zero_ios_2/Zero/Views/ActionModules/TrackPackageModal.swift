@@ -98,7 +98,7 @@ struct TrackPackageModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Tracking details
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
@@ -128,7 +128,7 @@ struct TrackPackageModal: View {
                                 }
                             }
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -161,7 +161,7 @@ struct TrackPackageModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Tracking timeline (simplified - Phase 1)
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
@@ -252,7 +252,7 @@ struct TrackPackageModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -265,7 +265,7 @@ struct TrackPackageModal: View {
                                     .font(.caption)
                             }
                             .padding()
-                            .background(Color.red.opacity(0.1))
+                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Spacing.inline)
                         }
                     }
@@ -470,12 +470,12 @@ struct TrackingStep: View {
         HStack(spacing: DesignTokens.Spacing.component) {
             Image(systemName: icon)
                 .font(.title3)
-                .foregroundColor(isCompleted ? color : .white.opacity(0.3))
+                .foregroundColor(isCompleted ? color : .white.opacity(DesignTokens.Opacity.overlayMedium))
                 .frame(width: 30)
 
             Text(title)
                 .font(.subheadline)
-                .foregroundColor(isCompleted ? DesignTokens.Colors.textPrimary : .white.opacity(0.5))
+                .foregroundColor(isCompleted ? DesignTokens.Colors.textPrimary : .white.opacity(DesignTokens.Opacity.overlayStrong))
 
             Spacer()
 

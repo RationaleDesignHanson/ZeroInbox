@@ -146,14 +146,14 @@ struct CreateFolderView: View {
                         LinearGradient(
                             colors: [
                                 Color(hex: selectedColor),
-                                Color(hex: selectedColor).opacity(0.8)
+                                Color(hex: selectedColor).opacity(DesignTokens.Opacity.textTertiary)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
                     .frame(width: 100, height: 100)
-                    .shadow(color: Color(hex: selectedColor).opacity(0.3), radius: 20, y: 10)
+                    .shadow(color: Color(hex: selectedColor).opacity(DesignTokens.Opacity.overlayMedium), radius: 20, y: 10)
 
                 Image(systemName: "folder.fill")
                     .font(.system(size: 44))
@@ -187,7 +187,7 @@ struct CreateFolderView: View {
     }
 
     private var borderColor: Color {
-        colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.05)
+        colorScheme == .dark ? Color.white.opacity(DesignTokens.Opacity.glassLight) : Color.black.opacity(DesignTokens.Opacity.glassUltraLight)
     }
 
     // MARK: - Actions
@@ -276,7 +276,7 @@ struct ColorCircle: View {
                             )
                     )
                     .shadow(
-                        color: isSelected ? Color(hex: color).opacity(0.5) : Color.clear,
+                        color: isSelected ? Color(hex: color).opacity(DesignTokens.Opacity.overlayStrong) : Color.clear,
                         radius: 8,
                         y: 4
                     )

@@ -81,7 +81,7 @@ struct ContactDriverModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Quick messages
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -105,7 +105,7 @@ struct ContactDriverModal: View {
                                         .foregroundColor(DesignTokens.Colors.textSubtle)
                                 }
                                 .padding()
-                                .background(Color.white.opacity(0.1))
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                 .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
@@ -120,7 +120,7 @@ struct ContactDriverModal: View {
                         TextEditor(text: $message)
                             .frame(height: 100)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .colorScheme(.dark)
@@ -172,7 +172,7 @@ struct ContactDriverModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -185,7 +185,7 @@ struct ContactDriverModal: View {
                                     .font(.caption)
                             }
                             .padding()
-                            .background(Color.red.opacity(0.1))
+                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.chip)
                         }
                     }

@@ -8,12 +8,12 @@ const ActionCatalog = {
   track_package: {
     actionId: 'track_package',
     displayName: 'Track Package',
-    actionType: 'GO_TO',
-    description: 'Track package delivery status',
+    actionType: 'IN_APP',
+    description: 'Track package delivery status with premium modal showing carrier details and timeline',
     requiredEntities: ['trackingNumber', 'carrier'],
     validIntents: ['e-commerce.shipping.notification', 'e-commerce.delivery.completed', 'delivery.tracking.alert'],
     priority: 1,
-    urlTemplate: '{carrierTrackingUrl}'
+    requiredPermission: 'premium'
   },
   view_order: {
     actionId: 'view_order',
@@ -318,12 +318,11 @@ const ActionCatalog = {
   view_reservation: {
     actionId: 'view_reservation',
     displayName: 'View Reservation',
-    actionType: 'GO_TO',
-    description: 'View restaurant reservation details',
-    requiredEntities: ['confirmationCode'],
+    actionType: 'IN_APP',
+    description: 'View restaurant reservation details with structured modal',
+    requiredEntities: [],
     validIntents: ['dining.reservation.confirmation'],
-    priority: 1,
-    urlTemplate: '{reservationUrl}'
+    priority: 1
   },
   modify_reservation: {
     actionId: 'modify_reservation',
@@ -591,12 +590,12 @@ const ActionCatalog = {
   claim_deal: {
     actionId: 'claim_deal',
     displayName: 'Claim Deal',
-    actionType: 'GO_TO',
-    description: 'Claim promotional offer',
-    requiredEntities: [],
+    actionType: 'IN_APP',
+    description: 'Automatically add product to cart using Steel.dev browser automation',
+    requiredEntities: ['productUrl'],
     validIntents: ['marketing.promotion.flash-sale', 'marketing.promotion.discount', 'marketing.product.launch'],
     priority: 1,
-    urlTemplate: '{dealUrl}'
+    usesSteelAgent: true
   },
   copy_promo_code: {
     actionId: 'copy_promo_code',
@@ -1233,12 +1232,11 @@ const ActionCatalog = {
   schedule_meeting: {
     actionId: 'schedule_meeting',
     displayName: 'Schedule Meeting',
-    actionType: 'GO_TO',
-    description: 'Schedule a meeting with sender',
+    actionType: 'IN_APP',
+    description: 'Schedule meeting with attendees using integrated modal',
     requiredEntities: [],
     validIntents: ['communication.introduction.connect', 'communication.professional.inquiry'],
-    priority: 2,
-    urlTemplate: '{calendarUrl}'
+    priority: 2
   },
   view_introduction: {
     actionId: 'view_introduction',

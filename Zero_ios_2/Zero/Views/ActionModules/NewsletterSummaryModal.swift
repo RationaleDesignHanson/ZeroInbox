@@ -56,7 +56,7 @@ struct NewsletterSummaryModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Loading or Summary Content
                     if isLoading {
@@ -112,8 +112,8 @@ struct NewsletterSummaryModal: View {
                                         .background(
                                             LinearGradient(
                                                 gradient: Gradient(colors: [
-                                                    Color.purple.opacity(0.1),
-                                                    Color.blue.opacity(0.05)
+                                                    Color.purple.opacity(DesignTokens.Opacity.glassLight),
+                                                    Color.blue.opacity(DesignTokens.Opacity.glassUltraLight)
                                                 ]),
                                                 startPoint: .topLeading,
                                                 endPoint: .bottomTrailing
@@ -122,7 +122,7 @@ struct NewsletterSummaryModal: View {
                                         .cornerRadius(DesignTokens.Radius.button)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                                .strokeBorder(Color.purple.opacity(0.3), lineWidth: 1)
+                                                .strokeBorder(Color.purple.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                         )
                                 }
                             }
@@ -130,7 +130,7 @@ struct NewsletterSummaryModal: View {
                             // Key links section
                             if !keyLinks.isEmpty {
                                 Divider()
-                                    .background(Color.white.opacity(0.3))
+                                    .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                                 VStack(alignment: .leading, spacing: 12) {
                                     HStack {
@@ -151,7 +151,7 @@ struct NewsletterSummaryModal: View {
 
                     if !isLoading {
                         Divider()
-                            .background(Color.white.opacity(0.3))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         // Action buttons
                         VStack(spacing: 12) {
@@ -180,7 +180,7 @@ struct NewsletterSummaryModal: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.purple.opacity(0.3))
+                                .background(Color.purple.opacity(DesignTokens.Opacity.overlayMedium))
                                 .foregroundColor(DesignTokens.Colors.textPrimary)
                                 .cornerRadius(DesignTokens.Radius.button)
                             }
@@ -197,7 +197,7 @@ struct NewsletterSummaryModal: View {
                                 .font(.caption)
                         }
                         .padding()
-                        .background(Color.red.opacity(0.1))
+                        .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.chip)
                     }
                 }
@@ -303,11 +303,11 @@ struct LinkRow: View {
             }
             .padding(DesignTokens.Spacing.component)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.white.opacity(0.05))
-            .cornerRadius(10)
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .strokeBorder(Color.blue.opacity(0.2), lineWidth: 1)
+                    .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
             )
         }
     }

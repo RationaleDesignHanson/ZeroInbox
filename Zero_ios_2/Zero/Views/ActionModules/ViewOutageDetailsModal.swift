@@ -113,7 +113,7 @@ struct ViewOutageDetailsModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     if let details = outageDetails {
                         // Status Card
@@ -136,7 +136,7 @@ struct ViewOutageDetailsModal: View {
                             }
 
                             Divider()
-                                .background(Color.white.opacity(0.2))
+                                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
                             // Affected Services
                             VStack(alignment: .leading, spacing: 8) {
@@ -154,9 +154,9 @@ struct ViewOutageDetailsModal: View {
                                         }
                                         .padding(.horizontal, 10)
                                         .padding(.vertical, 6)
-                                        .background(Color.red.opacity(0.2))
+                                        .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
                                         .foregroundColor(.red)
-                                        .cornerRadius(12)
+                                        .cornerRadius(DesignTokens.Radius.button)
                                     }
                                 }
                             }
@@ -166,7 +166,7 @@ struct ViewOutageDetailsModal: View {
                                 VStack(alignment: .leading, spacing: 4) {
                                     HStack(spacing: 6) {
                                         Image(systemName: "person.3.fill")
-                                            .foregroundColor(.white.opacity(0.7))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                             .font(.caption)
                                         Text("Affected")
                                             .font(.caption)
@@ -187,7 +187,7 @@ struct ViewOutageDetailsModal: View {
                                     VStack(alignment: .leading, spacing: 4) {
                                         HStack(spacing: 6) {
                                             Image(systemName: "clock.fill")
-                                                .foregroundColor(.white.opacity(0.7))
+                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                                 .font(.caption)
                                             Text("Est. Restoration")
                                                 .font(.caption)
@@ -205,7 +205,7 @@ struct ViewOutageDetailsModal: View {
                         }
                         .padding()
                         .background(
-                            Color.red.opacity(0.1)
+                            Color.red.opacity(DesignTokens.Opacity.glassLight)
                         )
                         .cornerRadius(DesignTokens.Radius.card)
                         .overlay(
@@ -231,7 +231,7 @@ struct ViewOutageDetailsModal: View {
                                         }
                                         .padding()
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                        .background(Color.white.opacity(0.05))
+                                        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                         .cornerRadius(DesignTokens.Radius.button)
                                     }
                                 }
@@ -256,7 +256,7 @@ struct ViewOutageDetailsModal: View {
                                 }
                             }
                             .padding()
-                            .background(Color.blue.opacity(0.1))
+                            .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.card)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
@@ -293,12 +293,12 @@ struct ViewOutageDetailsModal: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white.opacity(0.1))
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                 .foregroundColor(DesignTokens.Colors.textPrimary)
                                 .cornerRadius(DesignTokens.Radius.button)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                 )
                             }
                         }
@@ -314,7 +314,7 @@ struct ViewOutageDetailsModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
                     }
@@ -330,7 +330,7 @@ struct ViewOutageDetailsModal: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(DesignTokens.Spacing.card)
@@ -531,7 +531,7 @@ struct OutageUpdateRow: View {
             VStack(spacing: 0) {
                 if !isFirst {
                     Rectangle()
-                        .fill(Color.blue.opacity(0.3))
+                        .fill(Color.blue.opacity(DesignTokens.Opacity.overlayMedium))
                         .frame(width: 2, height: 20)
                 }
 
@@ -541,7 +541,7 @@ struct OutageUpdateRow: View {
 
                 if !isLast {
                     Rectangle()
-                        .fill(Color.blue.opacity(0.3))
+                        .fill(Color.blue.opacity(DesignTokens.Opacity.overlayMedium))
                         .frame(width: 2, height: 50)
                 }
             }

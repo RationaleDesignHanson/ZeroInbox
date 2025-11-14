@@ -92,7 +92,7 @@ struct DeadEndActionDashboard: View {
 
             Text("Loading analytics...")
                 .font(.headline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
         }
     }
 
@@ -102,7 +102,7 @@ struct DeadEndActionDashboard: View {
         VStack(spacing: 20) {
             Image(systemName: "chart.bar.xaxis")
                 .font(.system(size: 60))
-                .foregroundColor(.blue.opacity(0.6))
+                .foregroundColor(.blue.opacity(DesignTokens.Opacity.textDisabled))
 
             Text("No Data Yet")
                 .font(.title2.bold())
@@ -110,7 +110,7 @@ struct DeadEndActionDashboard: View {
 
             Text("Dead-end actions will appear here when users request incomplete features")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
         }
@@ -178,15 +178,15 @@ struct DeadEndActionDashboard: View {
 
             Text(title)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .strokeBorder(color.opacity(0.3), lineWidth: 1.5)
+                .strokeBorder(color.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1.5)
         )
     }
 
@@ -197,7 +197,7 @@ struct DeadEndActionDashboard: View {
             HStack {
                 Text("DATE RANGE")
                     .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                 Spacer()
 
@@ -211,18 +211,18 @@ struct DeadEndActionDashboard: View {
                     .foregroundColor(.blue)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
-                    .background(Color.blue.opacity(0.2))
-                    .cornerRadius(8)
+                    .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
+                    .cornerRadius(DesignTokens.Radius.chip)
                 }
             }
 
             Text("\(viewModel.filteredEvents.count) events in selected range")
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     // MARK: - Top Actions Chart
@@ -231,7 +231,7 @@ struct DeadEndActionDashboard: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("TOP REQUESTED ACTIONS")
                 .font(.system(size: 11, weight: .bold))
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             if #available(iOS 16.0, *) {
                 Chart(viewModel.topActionStats) { stat in
@@ -257,9 +257,9 @@ struct DeadEndActionDashboard: View {
                 .chartXAxis {
                     AxisMarks(position: .bottom) { _ in
                         AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
-                            .foregroundStyle(Color.white.opacity(0.2))
+                            .foregroundStyle(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                         AxisValueLabel()
-                            .foregroundStyle(.white.opacity(0.6))
+                            .foregroundStyle(.white.opacity(DesignTokens.Opacity.textDisabled))
                     }
                 }
                 .chartYAxis {
@@ -280,7 +280,7 @@ struct DeadEndActionDashboard: View {
                         GeometryReader { geometry in
                             ZStack(alignment: .leading) {
                                 RoundedRectangle(cornerRadius: 4)
-                                    .fill(Color.white.opacity(0.1))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                     .frame(height: 24)
 
                                 RoundedRectangle(cornerRadius: 4)
@@ -309,8 +309,8 @@ struct DeadEndActionDashboard: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     // MARK: - UI Mode Breakdown
@@ -319,7 +319,7 @@ struct DeadEndActionDashboard: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("UI MODE PREFERENCE")
                 .font(.system(size: 11, weight: .bold))
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             HStack(spacing: 16) {
                 modeCard(
@@ -340,8 +340,8 @@ struct DeadEndActionDashboard: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     func modeCard(mode: String, count: Int, percentage: Double, icon: String, color: Color) -> some View {
@@ -356,16 +356,16 @@ struct DeadEndActionDashboard: View {
 
             Text(mode)
                 .font(.caption.bold())
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
             Text("\(Int(percentage * 100))%")
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
         }
         .frame(maxWidth: .infinity)
         .padding()
         .background(color.opacity(0.15))
-        .cornerRadius(12)
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     // MARK: - Action Details List
@@ -374,15 +374,15 @@ struct DeadEndActionDashboard: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("DETAILED BREAKDOWN")
                 .font(.system(size: 11, weight: .bold))
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             ForEach(viewModel.actionStats) { stat in
                 actionDetailRow(stat: stat)
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     func actionDetailRow(stat: DeadEndActionStat) -> some View {
@@ -395,7 +395,7 @@ struct DeadEndActionDashboard: View {
 
                     Text(stat.actionId)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                         .fontDesign(.monospaced)
                 }
 
@@ -408,7 +408,7 @@ struct DeadEndActionDashboard: View {
 
                     Text("requests")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
             }
 
@@ -417,7 +417,7 @@ struct DeadEndActionDashboard: View {
                 HStack(spacing: 8) {
                     Image(systemName: "tag.fill")
                         .font(.caption2)
-                        .foregroundColor(.purple.opacity(0.7))
+                        .foregroundColor(.purple.opacity(DesignTokens.Opacity.textSubtle))
 
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 6) {
@@ -427,8 +427,8 @@ struct DeadEndActionDashboard: View {
                                     .foregroundColor(.purple)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
-                                    .background(Color.purple.opacity(0.2))
-                                    .cornerRadius(6)
+                                    .background(Color.purple.opacity(DesignTokens.Opacity.overlayLight))
+                                    .cornerRadius(DesignTokens.Radius.minimal)
                             }
                         }
                     }
@@ -439,15 +439,15 @@ struct DeadEndActionDashboard: View {
             HStack {
                 Image(systemName: "clock")
                     .font(.caption2)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                 Text("Last requested: \(stat.lastRequestedFormatted)")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(10)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     // MARK: - Filter Sheet
@@ -502,11 +502,11 @@ struct DeadEndActionDashboard: View {
                 Spacer()
                 Text(range.description)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
             .padding()
-            .background(isSelected ? Color.blue.opacity(0.2) : Color.white.opacity(0.05))
-            .cornerRadius(10)
+            .background(isSelected ? Color.blue.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
         }
         .buttonStyle(PlainButtonStyle())
     }

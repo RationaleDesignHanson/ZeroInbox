@@ -69,7 +69,7 @@ struct SignFormModal: View {
                             HStack(spacing: DesignTokens.Spacing.inline) {
                                 ForEach(1...totalSteps, id: \.self) { step in
                                     RoundedRectangle(cornerRadius: 2)
-                                        .fill(step <= currentStep ? Color.white : Color.white.opacity(0.3))
+                                        .fill(step <= currentStep ? Color.white : Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                                         .frame(height: 4)
                                 }
                             }
@@ -103,7 +103,7 @@ struct SignFormModal: View {
                         }
 
                         Divider()
-                            .background(Color.white.opacity(0.3))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                         
                         // Step Content
                         if currentStep == 1 {
@@ -160,11 +160,11 @@ struct SignFormModal: View {
                     }
                     .foregroundColor(DesignTokens.Colors.textPrimary)
                     .padding()
-                    .background(Color.blue.opacity(0.3))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.overlayMedium))
                     .cornerRadius(DesignTokens.Radius.button)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(Color.blue.opacity(0.5), lineWidth: 1)
+                            .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayStrong), lineWidth: 1)
                     )
                 }
             }
@@ -192,11 +192,11 @@ struct SignFormModal: View {
                         .foregroundColor(DesignTokens.Colors.textPrimary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
-                        .background(signatureMode == .typed ? Color.blue.opacity(0.4) : Color.white.opacity(0.1))
+                        .background(signatureMode == .typed ? Color.blue.opacity(0.4) : Color.white.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(signatureMode == .typed ? Color.blue : Color.white.opacity(0.3), lineWidth: signatureMode == .typed ? 2 : 1)
+                                .strokeBorder(signatureMode == .typed ? Color.blue : Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: signatureMode == .typed ? 2 : 1)
                         )
                     }
 
@@ -217,11 +217,11 @@ struct SignFormModal: View {
                         .foregroundColor(DesignTokens.Colors.textPrimary)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
-                        .background(signatureMode == .drawn ? Color.purple.opacity(0.4) : Color.white.opacity(0.1))
+                        .background(signatureMode == .drawn ? Color.purple.opacity(0.4) : Color.white.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(signatureMode == .drawn ? Color.purple : Color.white.opacity(0.3), lineWidth: signatureMode == .drawn ? 2 : 1)
+                                .strokeBorder(signatureMode == .drawn ? Color.purple : Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: signatureMode == .drawn ? 2 : 1)
                         )
                     }
                 }
@@ -246,11 +246,11 @@ struct SignFormModal: View {
                             .autocapitalization(.words)
                             .autocorrectionDisabled()
                     }
-                    .background(Color.white.opacity(0.1))
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                            .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                     )
 
                     if !signature.isEmpty {
@@ -286,7 +286,7 @@ struct SignFormModal: View {
                                 .foregroundColor(.purple)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
-                                .background(Color.purple.opacity(0.2))
+                                .background(Color.purple.opacity(DesignTokens.Opacity.overlayLight))
                                 .cornerRadius(DesignTokens.Spacing.inline)
                             }
                         }
@@ -327,11 +327,11 @@ struct SignFormModal: View {
                             .foregroundColor(DesignTokens.Colors.textSubtle)
                             .frame(maxWidth: .infinity)
                             .frame(height: 120)
-                            .background(Color.white.opacity(0.05))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.purple.opacity(0.5), style: StrokeStyle(lineWidth: 2, dash: [8, 4]))
+                                    .stroke(Color.purple.opacity(DesignTokens.Opacity.overlayStrong), style: StrokeStyle(lineWidth: 2, dash: [8, 4]))
                             )
                         }
 
@@ -359,11 +359,11 @@ struct SignFormModal: View {
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                         .autocorrectionDisabled()
-                        .background(Color.white.opacity(0.1))
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                         )
 
                     if !recipientEmail.isEmpty && !isValidEmail(recipientEmail) {
@@ -387,11 +387,11 @@ struct SignFormModal: View {
                     .foregroundColor(DesignTokens.Colors.textPrimary)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.orange.opacity(0.3))
+                    .background(Color.orange.opacity(DesignTokens.Opacity.overlayMedium))
                     .cornerRadius(DesignTokens.Radius.button)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(Color.orange.opacity(0.5), lineWidth: 1)
+                            .strokeBorder(Color.orange.opacity(DesignTokens.Opacity.overlayStrong), lineWidth: 1)
                     )
                 }
                 .disabled(isSignatureIncomplete)
@@ -458,7 +458,7 @@ struct SignFormModal: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.green.opacity(0.2))
+                .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                 .cornerRadius(DesignTokens.Radius.button)
             }
 
@@ -473,7 +473,7 @@ struct SignFormModal: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.red.opacity(0.2))
+                .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
                 .cornerRadius(DesignTokens.Radius.button)
             }
         }
@@ -546,7 +546,7 @@ struct SignFormModal: View {
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                     }
                     .padding()
-                    .background(Color.white.opacity(0.1))
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
             }
@@ -577,14 +577,14 @@ struct SignFormModal: View {
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(paymentMethod == method ? Color.green : Color.white.opacity(0.3), lineWidth: 1)
+                                .strokeBorder(paymentMethod == method ? Color.green : Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                         )
                     }
                 }
             }
 
             Divider()
-                .background(Color.white.opacity(0.3))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
             // Recipient Email Field (always show on payment step)
             VStack(alignment: .leading, spacing: DesignTokens.Spacing.inline) {
@@ -602,11 +602,11 @@ struct SignFormModal: View {
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
                     .autocorrectionDisabled()
-                    .background(Color.white.opacity(0.1))
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(recipientEmail.isEmpty ? Color.orange : Color.white.opacity(0.3), lineWidth: recipientEmail.isEmpty ? 2 : 1)
+                            .strokeBorder(recipientEmail.isEmpty ? Color.orange : Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: recipientEmail.isEmpty ? 2 : 1)
                     )
 
                 if !recipientEmail.isEmpty && !isValidEmail(recipientEmail) {
@@ -681,7 +681,7 @@ struct SignFormModal: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.red.opacity(0.2))
+                .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
                 .cornerRadius(DesignTokens.Radius.button)
             }
         }

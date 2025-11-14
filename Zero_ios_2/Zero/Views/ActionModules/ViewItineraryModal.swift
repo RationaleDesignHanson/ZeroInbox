@@ -47,7 +47,7 @@ struct ViewItineraryModal: View {
                     isPresented = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         .font(.title2)
                 }
             }
@@ -60,7 +60,7 @@ struct ViewItineraryModal: View {
                     ZStack {
                         Circle()
                             .fill(LinearGradient(
-                                colors: [.blue.opacity(0.3), .cyan.opacity(0.3)],
+                                colors: [.blue.opacity(DesignTokens.Opacity.overlayMedium), .cyan.opacity(DesignTokens.Opacity.overlayMedium)],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             ))
@@ -81,7 +81,7 @@ struct ViewItineraryModal: View {
                         VStack(spacing: 12) {
                             Text("Confirmation Number")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                             HStack(spacing: 12) {
                                 Text(confirmationNumber)
@@ -97,12 +97,12 @@ struct ViewItineraryModal: View {
                                     }
                                 } label: {
                                     Image(systemName: copiedField == "confirmation" ? "checkmark.circle.fill" : "doc.on.doc")
-                                        .foregroundColor(.white.opacity(0.8))
+                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                                 }
                             }
                             .padding()
                             .background(Color.white.opacity(0.15))
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                     }
 
@@ -188,8 +188,8 @@ struct ViewItineraryModal: View {
                         }
                     }
                     .padding()
-                    .background(Color.white.opacity(0.1))
-                    .cornerRadius(12)
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                    .cornerRadius(DesignTokens.Radius.button)
 
                     // Actions
                     VStack(spacing: 12) {
@@ -213,7 +213,7 @@ struct ViewItineraryModal: View {
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 ))
-                                .cornerRadius(12)
+                                .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
 
@@ -231,8 +231,8 @@ struct ViewItineraryModal: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white.opacity(0.2))
-                                .cornerRadius(12)
+                                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                                .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
 
@@ -250,8 +250,8 @@ struct ViewItineraryModal: View {
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white.opacity(0.2))
-                                .cornerRadius(12)
+                                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                                .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
                     }
@@ -261,7 +261,7 @@ struct ViewItineraryModal: View {
         }
         .background(
             LinearGradient(
-                colors: [Color.blue.opacity(0.3), Color.cyan.opacity(0.3)],
+                colors: [Color.blue.opacity(DesignTokens.Opacity.overlayMedium), Color.cyan.opacity(DesignTokens.Opacity.overlayMedium)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -320,13 +320,13 @@ struct ItineraryDetailRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .frame(width: 24)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(label)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 Text(value)
                     .font(.subheadline.weight(.medium))
                     .foregroundColor(.white)
@@ -344,7 +344,7 @@ struct ItineraryDetailRow: View {
                     }
                 } label: {
                     Image(systemName: copiedField == label ? "checkmark.circle.fill" : "doc.on.doc")
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         .font(.caption)
                 }
             }

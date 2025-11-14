@@ -137,7 +137,7 @@ FADE OUT.
                             .padding(.bottom, DesignTokens.Spacing.inline)
                         
                         Divider()
-                            .background(Color.white.opacity(0.2))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                             .padding(.bottom, DesignTokens.Spacing.component)
                         
                         Text(screenplayText)
@@ -154,8 +154,8 @@ FADE OUT.
                                     .strokeBorder(
                                         LinearGradient(
                                             colors: [
-                                                Color.white.opacity(0.3),
-                                                Color.white.opacity(0.1)
+                                                Color.white.opacity(DesignTokens.Opacity.overlayMedium),
+                                                Color.white.opacity(DesignTokens.Opacity.glassLight)
                                             ],
                                             startPoint: .topLeading,
                                             endPoint: .bottomTrailing
@@ -181,7 +181,7 @@ FADE OUT.
                         RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
                             .fill(
                                 LinearGradient(
-                                    colors: [Color.green, Color.green.opacity(0.8)],
+                                    colors: [Color.green, Color.green.opacity(DesignTokens.Opacity.textTertiary)],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )

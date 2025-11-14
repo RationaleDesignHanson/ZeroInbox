@@ -122,8 +122,8 @@ struct BrowseShoppingModal: View {
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                     }
                     .padding(DesignTokens.Spacing.component)
-                    .background(Color.white.opacity(0.1))
-                    .cornerRadius(10)
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                    .cornerRadius(DesignTokens.Radius.button)
 
                     // Category filter chips
                     ScrollView(.horizontal, showsIndicators: false) {
@@ -140,9 +140,9 @@ struct BrowseShoppingModal: View {
                                         .font(.subheadline)
                                         .padding(.horizontal, DesignTokens.Spacing.section)
                                         .padding(.vertical, DesignTokens.Spacing.inline)
-                                        .background(selectedCategory == category ? Color.blue : Color.white.opacity(0.1))
+                                        .background(selectedCategory == category ? Color.blue : Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .foregroundColor(DesignTokens.Colors.textPrimary)
-                                        .cornerRadius(20)
+                                        .cornerRadius(DesignTokens.Radius.modal)
                                 }
                             }
                         }
@@ -178,13 +178,13 @@ struct BrowseShoppingModal: View {
                             }
                             .padding(.horizontal, DesignTokens.Spacing.component)
                             .padding(.vertical, 6)
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Spacing.inline)
                         }
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Products grid
                     if filteredProducts.isEmpty {
@@ -221,7 +221,7 @@ struct BrowseShoppingModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
                 }
@@ -286,7 +286,7 @@ struct ProductCardView: View {
                 // Product image placeholder
                 ZStack {
                     Rectangle()
-                        .fill(Color.white.opacity(0.1))
+                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                         .aspectRatio(1, contentMode: .fit)
 
                     Image(systemName: "photo")
@@ -320,7 +320,7 @@ struct ProductCardView: View {
                     .foregroundColor(.green)
             }
             .padding(DesignTokens.Spacing.component)
-            .background(Color.white.opacity(0.05))
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             .cornerRadius(DesignTokens.Radius.button)
         }
     }

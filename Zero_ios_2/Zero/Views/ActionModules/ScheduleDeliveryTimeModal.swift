@@ -58,7 +58,7 @@ struct ScheduleDeliveryTimeModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     if !showSuccess {
                         // Date Picker
@@ -114,14 +114,14 @@ struct ScheduleDeliveryTimeModal: View {
                             TextEditor(text: .constant(""))
                                 .frame(height: 80)
                                 .padding()
-                                .background(Color.white.opacity(0.1))
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                 .cornerRadius(DesignTokens.Radius.button)
                                 .foregroundColor(DesignTokens.Colors.textPrimary)
                                 .colorScheme(.dark)
                                 .scrollContentBackground(.hidden)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                 )
                         }
 
@@ -173,7 +173,7 @@ struct ScheduleDeliveryTimeModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 40)
-                        .background(Color.green.opacity(0.1))
+                        .background(Color.green.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.card)
                     }
 
@@ -188,7 +188,7 @@ struct ScheduleDeliveryTimeModal: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(DesignTokens.Spacing.card)
@@ -310,7 +310,7 @@ struct DeliveryWindowCard: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 8) {
                         Image(systemName: "clock.fill")
-                            .foregroundColor(isSelected ? .orange : .white.opacity(0.7))
+                            .foregroundColor(isSelected ? .orange : .white.opacity(DesignTokens.Opacity.textSubtle))
 
                         Text("\(window.startTime) - \(window.endTime)")
                             .font(.subheadline.bold())
@@ -334,13 +334,13 @@ struct DeliveryWindowCard: View {
             }
             .padding()
             .background(
-                isSelected ? Color.orange.opacity(0.2) : Color.white.opacity(0.08)
+                isSelected ? Color.orange.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(0.08)
             )
             .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
                     .strokeBorder(
-                        isSelected ? Color.orange : Color.white.opacity(0.3),
+                        isSelected ? Color.orange : Color.white.opacity(DesignTokens.Opacity.overlayMedium),
                         lineWidth: isSelected ? 2 : 1
                     )
             )

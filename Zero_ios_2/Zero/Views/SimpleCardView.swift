@@ -90,9 +90,9 @@ struct SimpleCardView: View {
                             // VIP indicator - gold dot (increased size for visibility)
                             if card.isVIP == true {
                                 Circle()
-                                    .fill(Color.yellow.opacity(0.9))
+                                    .fill(Color.yellow.opacity(DesignTokens.Opacity.textSecondary))
                                     .frame(width: 12, height: 12)
-                                    .shadow(color: Color.yellow.opacity(0.5), radius: 2)
+                                    .shadow(color: Color.yellow.opacity(DesignTokens.Opacity.overlayStrong), radius: 2)
                             }
 
                             // Deadline indicator - colored dot by urgency (increased size)
@@ -100,23 +100,23 @@ struct SimpleCardView: View {
                                 Circle()
                                     .fill(deadline.isUrgent ? Color.red : (deadline.value ?? 0) <= 3 ? Color.orange : Color.green)
                                     .frame(width: 12, height: 12)
-                                    .shadow(color: (deadline.isUrgent ? Color.red : Color.orange).opacity(0.5), radius: 2)
+                                    .shadow(color: (deadline.isUrgent ? Color.red : Color.orange).opacity(DesignTokens.Opacity.overlayStrong), radius: 2)
                             }
 
                             // Shopping indicator - green dot (increased size)
                             if card.isShoppingEmail == true {
                                 Circle()
-                                    .fill(Color.green.opacity(0.9))
+                                    .fill(Color.green.opacity(DesignTokens.Opacity.textSecondary))
                                     .frame(width: 12, height: 12)
-                                    .shadow(color: Color.green.opacity(0.5), radius: 2)
+                                    .shadow(color: Color.green.opacity(DesignTokens.Opacity.overlayStrong), radius: 2)
                             }
 
                             // Attachment indicator - blue dot (increased size)
                             if card.hasAttachments == true {
                                 Circle()
-                                    .fill(Color.blue.opacity(0.9))
+                                    .fill(Color.blue.opacity(DesignTokens.Opacity.textSecondary))
                                     .frame(width: 12, height: 12)
-                                    .shadow(color: Color.blue.opacity(0.5), radius: 2)
+                                    .shadow(color: Color.blue.opacity(DesignTokens.Opacity.overlayStrong), radius: 2)
                             }
                         }
 
@@ -140,7 +140,7 @@ struct SimpleCardView: View {
                 }
                 .padding(.horizontal, DesignTokens.Spacing.component)
                 .padding(.vertical, 6)
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                 .cornerRadius(DesignTokens.Radius.chip)
             }
 
@@ -150,7 +150,7 @@ struct SimpleCardView: View {
             Text(card.title)
                 .font(DesignTokens.Typography.cardTitle)
                 .foregroundColor(textColorPrimary)
-                .shadow(color: card.type == .ads ? .white.opacity(0.5) : .black.opacity(0.3), radius: 2, y: 1)
+                .shadow(color: card.type == .ads ? .white.opacity(DesignTokens.Opacity.overlayStrong) : .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 2, y: 1)
 
             // Email Summary Text - AI-generated 2-3 line narrative (always shown)
             // Provides quick context before the detailed AI analysis section
@@ -174,7 +174,7 @@ struct SimpleCardView: View {
                         .cornerRadius(DesignTokens.Radius.button)
                 } placeholder: {
                     Rectangle()
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                         .frame(height: 140)
                         .cornerRadius(DesignTokens.Radius.button)
                 }
@@ -217,7 +217,7 @@ struct SimpleCardView: View {
                     }
                 }
                 .padding()
-                .background(Color.white.opacity(0.1))
+                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                 .cornerRadius(DesignTokens.Radius.button)
             }
 
@@ -239,7 +239,7 @@ struct SimpleCardView: View {
                             .foregroundColor(.white)
                             .padding(.horizontal, DesignTokens.Spacing.component)
                             .padding(.vertical, 6)
-                            .background(Color.green.opacity(0.9))  // Match design system green badge
+                            .background(Color.green.opacity(DesignTokens.Opacity.textSecondary))  // Match design system green badge
                             .cornerRadius(DesignTokens.Radius.chip)
                     }
                 }
@@ -271,7 +271,7 @@ struct SimpleCardView: View {
                         ForEach(0..<3, id: \.self) { _ in
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         }
                     }
                     .padding(.leading, 16)
@@ -289,7 +289,7 @@ struct SimpleCardView: View {
                     ZStack {
                         // Glass morphism base (matches card design system)
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(.ultraThinMaterial.opacity(0.3))
+                            .fill(.ultraThinMaterial.opacity(DesignTokens.Opacity.overlayMedium))
 
                         // Holographic rim (matches bottom nav design)
                         RoundedRectangle(cornerRadius: 12)
@@ -297,9 +297,9 @@ struct SimpleCardView: View {
                                 LinearGradient(
                                     colors: [
                                         Color.cyan.opacity(0.4),
-                                        Color.blue.opacity(0.5),
+                                        Color.blue.opacity(DesignTokens.Opacity.overlayStrong),
                                         Color.purple.opacity(0.4),
-                                        Color.pink.opacity(0.3)
+                                        Color.pink.opacity(DesignTokens.Opacity.overlayMedium)
                                     ],
                                     startPoint: .leading,
                                     endPoint: .trailing
@@ -316,7 +316,7 @@ struct SimpleCardView: View {
                             LinearGradient(
                                 colors: [
                                     Color.clear,
-                                    Color.cyan.opacity(0.2)
+                                    Color.cyan.opacity(DesignTokens.Opacity.overlayLight)
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -352,7 +352,7 @@ struct SimpleCardView: View {
         .overlay(stackOverlay)
         .overlay(classificationFeedbackButton, alignment: .bottomLeading)
         .cornerRadius(DesignTokens.Radius.card)
-        .shadow(color: .black.opacity(0.3), radius: 20)
+        .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 20)
         .opacity(isTopCard ? 1.0 : max(0.85, min(revealProgress + 0.85, 0.95)))
         .blur(radius: isTopCard ? 0 : max(0, 1 - (revealProgress * 2)))
         .onAppear {
@@ -460,7 +460,7 @@ struct SimpleCardView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 3)
-                    .background(Color.red.opacity(0.9))
+                    .background(Color.red.opacity(DesignTokens.Opacity.textSecondary))
                     .cornerRadius(DesignTokens.Radius.minimal)
             case .high:
                 Text("HIGH")
@@ -469,7 +469,7 @@ struct SimpleCardView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 3)
-                    .background(Color.orange.opacity(0.9))
+                    .background(Color.orange.opacity(DesignTokens.Opacity.textSecondary))
                     .cornerRadius(DesignTokens.Radius.minimal)
             case .medium:
                 Text("MEDIUM")
@@ -478,7 +478,7 @@ struct SimpleCardView: View {
                     .foregroundColor(.black)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 3)
-                    .background(Color.yellow.opacity(0.9))
+                    .background(Color.yellow.opacity(DesignTokens.Opacity.textSecondary))
                     .cornerRadius(DesignTokens.Radius.minimal)
             case .low:
                 Text("LOW")
@@ -487,7 +487,7 @@ struct SimpleCardView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 3)
-                    .background(Color.green.opacity(0.9))
+                    .background(Color.green.opacity(DesignTokens.Opacity.textSecondary))
                     .cornerRadius(DesignTokens.Radius.minimal)
             }
         }
@@ -507,14 +507,14 @@ struct SimpleCardView: View {
                 if let threadLength = card.threadLength, threadLength > 1 {
                     Image(systemName: "bubble.left.and.bubble.right.fill")
                         .font(.system(size: 14))
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     Text("\(threadLength)")
                         .font(.system(size: 10, weight: .bold))
                         .foregroundColor(.white.opacity(0.85))
                 } else {
                     Image(systemName: "envelope.open.fill")
                         .font(.system(size: 16))
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 }
 
                 Text("View")
@@ -561,18 +561,18 @@ struct SimpleCardView: View {
         HStack(spacing: 3) {
             Image(systemName: archetypeIcon)
                 .font(.system(size: 9))
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
             Text(card.type.displayName.uppercased())
                 .font(.system(size: 8, weight: .bold))
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
         }
         .padding(.horizontal, 5)
         .padding(.vertical, 3)
         .background(Color.white.opacity(0.15))
-        .cornerRadius(4)
+        .cornerRadius(DesignTokens.Radius.minimal)
         .overlay(
             RoundedRectangle(cornerRadius: 4)
-                .strokeBorder(Color.white.opacity(0.3), lineWidth: 0.5)
+                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 0.5)
         )
     }
     
@@ -617,10 +617,10 @@ struct SimpleCardView: View {
         } label: {
             Image(systemName: "questionmark.circle.fill")
                 .font(.system(size: 24))
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .background(
                     Circle()
-                        .fill(Color.black.opacity(0.3))
+                        .fill(Color.black.opacity(DesignTokens.Opacity.overlayMedium))
                         .frame(width: 32, height: 32)
                 )
         }
@@ -878,9 +878,9 @@ struct HolographicShimmer: View {
                 // Multi-layered gradient for liquid glass effect (green theme for ads/shopping)
                 LinearGradient(
                     colors: [
-                        DesignTokens.Colors.adsGradientStart.opacity(0.2),  // Teal
+                        DesignTokens.Colors.adsGradientStart.opacity(DesignTokens.Opacity.overlayLight),  // Teal
                         DesignTokens.Colors.adsGradientEnd.opacity(0.15),   // Green
-                        Color.cyan.opacity(0.2),
+                        Color.cyan.opacity(DesignTokens.Opacity.overlayLight),
                         DesignTokens.Colors.adsGradientStart.opacity(0.15)  // Teal
                     ],
                     startPoint: .topLeading,
@@ -892,7 +892,7 @@ struct HolographicShimmer: View {
                     colors: [
                         Color.white.opacity(0),
                         Color.white.opacity(0.4),
-                        DesignTokens.Colors.adsGradientEnd.opacity(0.6),     // Green
+                        DesignTokens.Colors.adsGradientEnd.opacity(DesignTokens.Opacity.textDisabled),     // Green
                         Color.cyan.opacity(0.4),
                         Color.white.opacity(0.4),
                         Color.white.opacity(0)
@@ -924,7 +924,7 @@ struct HolographicShimmer: View {
                     .fill(
                         RadialGradient(
                             colors: [
-                                DesignTokens.Colors.adsGradientEnd.opacity(0.3),  // Green
+                                DesignTokens.Colors.adsGradientEnd.opacity(DesignTokens.Opacity.overlayMedium),  // Green
                                 Color.green.opacity(0)
                             ],
                             center: .center,
@@ -1029,8 +1029,8 @@ struct SwipeHintOverlay: View {
                         LinearGradient(
                             colors: [
                                 Color.gray.opacity(0.0),
-                                Color.gray.opacity(0.1),
-                                Color.gray.opacity(0.2)
+                                Color.gray.opacity(DesignTokens.Opacity.glassLight),
+                                Color.gray.opacity(DesignTokens.Opacity.overlayLight)
                             ],
                             startPoint: .leading,
                             endPoint: .trailing
@@ -1195,7 +1195,7 @@ struct NebulaBackground: View {
     var body: some View {
         ZStack {
             // Deep space base
-            Color.black.opacity(0.9)
+            Color.black.opacity(DesignTokens.Opacity.textSecondary)
 
             // Nebula clouds - layered gradients with different colors
             RadialGradient(

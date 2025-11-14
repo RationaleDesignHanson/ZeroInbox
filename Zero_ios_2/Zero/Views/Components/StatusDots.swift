@@ -53,7 +53,7 @@ struct StatusDot: View {
         Circle()
             .fill(type.color)
             .frame(width: 8, height: 8)
-            .shadow(color: .black.opacity(0.3), radius: 2, y: 2)
+            .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 2, y: 2)
             .accessibilityLabel(type.accessibilityLabel)
     }
 }
@@ -66,13 +66,13 @@ struct StatusDot: View {
         VStack(alignment: .leading, spacing: 8) {
             Text("All Status Types")
                 .font(.caption.bold())
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             StatusDots(dots: StatusDotType.allCases)
         }
 
         Divider()
-            .background(Color.white.opacity(0.2))
+            .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
         // Individual dots with labels
         VStack(alignment: .leading, spacing: 16) {
@@ -88,37 +88,37 @@ struct StatusDot: View {
         }
 
         Divider()
-            .background(Color.white.opacity(0.2))
+            .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
         // Real-world examples
         VStack(alignment: .leading, spacing: 16) {
             Text("Examples")
                 .font(.caption.bold())
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             HStack(spacing: 12) {
                 StatusDots(dots: [.vip, .deadline])
                 Text("VIP with urgent deadline")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
             }
 
             HStack(spacing: 12) {
                 StatusDots(dots: [.shopping, .deadline])
                 Text("Flash sale ending soon")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
             }
 
             HStack(spacing: 12) {
                 StatusDots(dots: [.newsletter])
                 Text("Newsletter subscription")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
             }
         }
     }
-    .padding(32)
+    .padding(DesignTokens.Spacing.card)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(
         LinearGradient(

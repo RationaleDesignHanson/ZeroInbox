@@ -71,7 +71,7 @@ struct MapPreviewView: View {
                     .padding(.vertical, DesignTokens.Spacing.inline)
                     .background(Color.blue)
                     .cornerRadius(DesignTokens.Spacing.inline)
-                    .shadow(color: .black.opacity(0.3), radius: 4)
+                    .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 4)
                 }
                 .padding(DesignTokens.Spacing.component)
             }

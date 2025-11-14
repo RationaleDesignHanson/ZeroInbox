@@ -30,7 +30,7 @@ struct AttachmentListView: View {
             }
         }
         .padding(DesignTokens.Spacing.section)
-        .background(Color.white.opacity(0.05))
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
         .cornerRadius(DesignTokens.Radius.button)
     }
 }
@@ -83,14 +83,14 @@ struct AttachmentRow: View {
                 // Action indicator
                 Image(systemName: canPreview ? "eye.fill" : "square.and.arrow.down")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
             .padding(DesignTokens.Spacing.component)
             .background(Color.white.opacity(0.08))
-            .cornerRadius(10)
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 1)
             )
         }
         .onAppear {

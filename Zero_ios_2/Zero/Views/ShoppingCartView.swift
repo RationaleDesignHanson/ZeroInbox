@@ -34,20 +34,20 @@ struct ShoppingCartView: View {
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
                     .padding()
                 } else if cartItems.isEmpty {
                     VStack(spacing: 16) {
                         Image(systemName: "cart")
                             .font(.system(size: 60))
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                         Text("Your cart is empty")
                             .font(.title2.bold())
                             .foregroundColor(.white)
                         Text("Add items from your emails to get started")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .multilineTextAlignment(.center)
                     }
                     .padding()
@@ -87,17 +87,17 @@ struct ShoppingCartView: View {
                                             ForEach(summary.expiringItems, id: \.id) { item in
                                                 Text("\(item.productName) - \(item.hoursUntilExpiration)h left")
                                                     .font(.caption)
-                                                    .foregroundColor(.white.opacity(0.8))
+                                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                                             }
                                         }
                                         .padding()
-                                        .background(Color.orange.opacity(0.2))
-                                        .cornerRadius(12)
+                                        .background(Color.orange.opacity(DesignTokens.Opacity.overlayLight))
+                                        .cornerRadius(DesignTokens.Radius.button)
                                     }
                                 }
                                 .padding()
-                                .background(Color.white.opacity(0.1))
-                                .cornerRadius(16)
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                                .cornerRadius(DesignTokens.Radius.card)
                             }
 
                             // Cart Items
@@ -124,7 +124,7 @@ struct ShoppingCartView: View {
                                     .padding()
                                     .background(Color.green)
                                     .foregroundColor(.white)
-                                    .cornerRadius(12)
+                                    .cornerRadius(DesignTokens.Radius.button)
                                 }
                                 .padding(.top, 20)
                             }
@@ -141,7 +141,7 @@ struct ShoppingCartView: View {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
             }
@@ -197,21 +197,21 @@ struct CartItemRow: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 80, height: 80)
                         .clipped()
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                 } placeholder: {
                     Rectangle()
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                         .frame(width: 80, height: 80)
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                 }
             } else {
                 Rectangle()
-                    .fill(Color.gray.opacity(0.3))
+                    .fill(Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                     .frame(width: 80, height: 80)
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
                     .overlay(
                         Image(systemName: "photo")
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     )
             }
 
@@ -225,7 +225,7 @@ struct CartItemRow: View {
                 if let merchant = item.merchant {
                     Text(merchant)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 HStack(spacing: 8) {
@@ -236,7 +236,7 @@ struct CartItemRow: View {
                     if let originalPrice = item.originalPrice, originalPrice > item.price {
                         Text("$\(String(format: "%.2f", originalPrice))")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                             .strikethrough()
                     }
 
@@ -249,7 +249,7 @@ struct CartItemRow: View {
 
                 Text("Qty: \(item.quantity)")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
             }
 
             Spacer()
@@ -262,7 +262,7 @@ struct CartItemRow: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.1))
-        .cornerRadius(16)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+        .cornerRadius(DesignTokens.Radius.card)
     }
 }

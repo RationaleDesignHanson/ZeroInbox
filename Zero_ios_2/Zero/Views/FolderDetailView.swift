@@ -192,7 +192,7 @@ struct FolderDetailView: View {
         VStack(spacing: 24) {
             Image(systemName: "line.3.horizontal.decrease.circle")
                 .font(.system(size: 64))
-                .foregroundColor(textColor.opacity(0.3))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
 
             VStack(spacing: 8) {
                 if let priority = selectedPriorityFilter {
@@ -202,7 +202,7 @@ struct FolderDetailView: View {
 
                     Text("There are no emails with \(priority.displayName.lowercased()) priority in this folder")
                         .font(.subheadline)
-                        .foregroundColor(textColor.opacity(0.6))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 40)
                 }
@@ -224,7 +224,7 @@ struct FolderDetailView: View {
         VStack(spacing: 24) {
             Image(systemName: "tray")
                 .font(.system(size: 64))
-                .foregroundColor(textColor.opacity(0.3))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
 
             VStack(spacing: 8) {
                 Text("No Emails")
@@ -233,7 +233,7 @@ struct FolderDetailView: View {
 
                 Text("Swipe down on any email and save it to this folder")
                     .font(.subheadline)
-                    .foregroundColor(textColor.opacity(0.6))
+                    .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
             }
@@ -376,13 +376,13 @@ struct EmailListRow: View {
 
                 Text(card.summary)
                     .font(.subheadline)
-                    .foregroundColor(textColor.opacity(0.6))
+                    .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                     .lineLimit(2)
 
                 HStack(spacing: 8) {
                     Text(card.timeAgo)
                         .font(.caption)
-                        .foregroundColor(textColor.opacity(0.5))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayStrong))
 
                     // Show priority badge for all levels
                     HStack(spacing: 4) {
@@ -397,7 +397,7 @@ struct EmailListRow: View {
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(Color(hex: card.priority.color))
-                    .cornerRadius(4)
+                    .cornerRadius(DesignTokens.Radius.minimal)
                 }
             }
 
@@ -464,9 +464,9 @@ struct RenameFolderView: View {
 
                             TextField("Enter folder name", text: $newName)
                                 .font(.body)
-                                .padding(16)
+                                .padding(DesignTokens.Spacing.component)
                                 .background(inputBackgroundColor)
-                                .cornerRadius(12)
+                                .cornerRadius(DesignTokens.Radius.button)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
                                         .strokeBorder(borderColor, lineWidth: 1)
@@ -519,7 +519,7 @@ struct RenameFolderView: View {
                                     endPoint: .trailing
                                 )
                             )
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         .disabled(!canUpdate || isUpdating)
                         .padding(.horizontal)
@@ -560,14 +560,14 @@ struct RenameFolderView: View {
                         LinearGradient(
                             colors: [
                                 Color(hex: selectedColor),
-                                Color(hex: selectedColor).opacity(0.8)
+                                Color(hex: selectedColor).opacity(DesignTokens.Opacity.textTertiary)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
                     .frame(width: 100, height: 100)
-                    .shadow(color: Color(hex: selectedColor).opacity(0.3), radius: 20, y: 10)
+                    .shadow(color: Color(hex: selectedColor).opacity(DesignTokens.Opacity.overlayMedium), radius: 20, y: 10)
 
                 Image(systemName: "folder.fill")
                     .font(.system(size: 44))
@@ -601,7 +601,7 @@ struct RenameFolderView: View {
     }
 
     private var borderColor: Color {
-        colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.05)
+        colorScheme == .dark ? Color.white.opacity(DesignTokens.Opacity.glassLight) : Color.black.opacity(DesignTokens.Opacity.glassUltraLight)
     }
 
     // MARK: - Actions
@@ -694,37 +694,37 @@ struct PriorityFilterChip: View {
                 // Count badge
                 Text("\(count)")
                     .font(.caption.bold())
-                    .foregroundColor(isSelected ? .white.opacity(0.9) : textColor.opacity(0.6))
+                    .foregroundColor(isSelected ? .white.opacity(DesignTokens.Opacity.textSecondary) : textColor.opacity(DesignTokens.Opacity.textDisabled))
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(
                         isSelected ?
-                            Color.white.opacity(0.2) :
-                            (colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.05))
+                            Color.white.opacity(DesignTokens.Opacity.overlayLight) :
+                            (colorScheme == .dark ? Color.white.opacity(DesignTokens.Opacity.glassLight) : Color.black.opacity(DesignTokens.Opacity.glassUltraLight))
                     )
-                    .cornerRadius(8)
+                    .cornerRadius(DesignTokens.Radius.chip)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .background(
                 isSelected ?
                     LinearGradient(
-                        colors: [Color(hex: color), Color(hex: color).opacity(0.8)],
+                        colors: [Color(hex: color), Color(hex: color).opacity(DesignTokens.Opacity.textTertiary)],
                         startPoint: .leading,
                         endPoint: .trailing
                     ).anyView() :
                     (colorScheme == .dark ? Color(white: 0.15) : Color.white).anyView()
             )
-            .cornerRadius(20)
+            .cornerRadius(DesignTokens.Radius.modal)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .strokeBorder(
-                        isSelected ? Color.clear : Color(hex: color).opacity(0.3),
+                        isSelected ? Color.clear : Color(hex: color).opacity(DesignTokens.Opacity.overlayMedium),
                         lineWidth: 1.5
                     )
             )
             .shadow(
-                color: isSelected ? Color(hex: color).opacity(0.3) : Color.clear,
+                color: isSelected ? Color(hex: color).opacity(DesignTokens.Opacity.overlayMedium) : Color.clear,
                 radius: 8,
                 y: 4
             )

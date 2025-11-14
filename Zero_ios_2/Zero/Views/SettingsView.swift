@@ -39,7 +39,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("AI Features")
                                 .font(.headline)
-                                .foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                                 .padding(.horizontal, DesignTokens.Spacing.card)
                                 .padding(.top, DesignTokens.Spacing.card)
 
@@ -63,12 +63,12 @@ struct SettingsView: View {
                                         }
                                         Text("AI Draft Composer is ready to use")
                                             .font(.caption2)
-                                            .foregroundColor(.white.opacity(0.6))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                     }
                                 } else {
                                     Text("Required for AI Draft Composer feature")
                                         .font(.caption)
-                                        .foregroundColor(.white.opacity(0.6))
+                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 }
 
                                 // Manual override option
@@ -76,14 +76,14 @@ struct SettingsView: View {
                                     VStack(alignment: .leading, spacing: 8) {
                                         Text("Override the build configuration key with a custom value:")
                                             .font(.caption2)
-                                            .foregroundColor(.white.opacity(0.6))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                                         HStack {
                                             SecureField("sk-...", text: $openAIKey)
                                                 .textFieldStyle(.plain)
                                                 .foregroundColor(.white)
                                                 .padding(DesignTokens.Spacing.component)
-                                                .background(Color.white.opacity(0.1))
+                                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                                 .cornerRadius(DesignTokens.Radius.chip)
 
                                             Button(action: saveAPIKey) {
@@ -101,16 +101,16 @@ struct SettingsView: View {
                                 } label: {
                                     Text("Manual Override (Advanced)")
                                         .font(.caption)
-                                        .foregroundColor(.blue.opacity(0.8))
+                                        .foregroundColor(.blue.opacity(DesignTokens.Opacity.textTertiary))
                                 }
                             }
                             .padding(DesignTokens.Spacing.section)
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(0.05))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
@@ -136,12 +136,12 @@ struct SettingsView: View {
                                         }
                                         Text("Smart Replies and ML Classification are ready to use")
                                             .font(.caption2)
-                                            .foregroundColor(.white.opacity(0.6))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                     }
                                 } else {
                                     Text("Required for Smart Replies and ML Classification")
                                         .font(.caption)
-                                        .foregroundColor(.white.opacity(0.6))
+                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 }
 
                                 // Manual override option
@@ -149,14 +149,14 @@ struct SettingsView: View {
                                     VStack(alignment: .leading, spacing: 8) {
                                         Text("Override the build configuration key with a custom value:")
                                             .font(.caption2)
-                                            .foregroundColor(.white.opacity(0.6))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                                         HStack {
                                             SecureField("AIza...", text: $geminiAPIKey)
                                                 .textFieldStyle(.plain)
                                                 .foregroundColor(.white)
                                                 .padding(DesignTokens.Spacing.component)
-                                                .background(Color.white.opacity(0.1))
+                                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                                 .cornerRadius(DesignTokens.Radius.chip)
 
                                             Button(action: saveGeminiAPIKey) {
@@ -174,16 +174,16 @@ struct SettingsView: View {
                                 } label: {
                                     Text("Manual Override (Advanced)")
                                         .font(.caption)
-                                        .foregroundColor(.purple.opacity(0.8))
+                                        .foregroundColor(.purple.opacity(DesignTokens.Opacity.textTertiary))
                                 }
                             }
                             .padding(DesignTokens.Spacing.section)
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(0.05))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.purple.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(Color.purple.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
@@ -200,7 +200,7 @@ struct SettingsView: View {
                                                 .foregroundColor(.white)
                                             Text("Use ML-based intent detection for better accuracy")
                                                 .font(.caption)
-                                                .foregroundColor(.white.opacity(0.6))
+                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                         }
                                     }
                                 }
@@ -219,10 +219,10 @@ struct SettingsView: View {
                             .padding(DesignTokens.Spacing.section)
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(0.05))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
@@ -239,7 +239,7 @@ struct SettingsView: View {
                                                 .foregroundColor(.white)
                                             Text(enableEmailSending ? "⚠️ Emails will be sent for real" : "Safe mode: emails won't actually send")
                                                 .font(.caption)
-                                                .foregroundColor(enableEmailSending ? .red.opacity(0.8) : .white.opacity(0.6))
+                                                .foregroundColor(enableEmailSending ? .red.opacity(DesignTokens.Opacity.textTertiary) : .white.opacity(DesignTokens.Opacity.textDisabled))
                                         }
                                     }
                                 }
@@ -265,16 +265,16 @@ struct SettingsView: View {
                                             .font(.caption)
                                         Text("Safe mode active: Reply and compose features will simulate sending without actually sending emails. Enable this setting carefully when you're ready to send real emails.")
                                             .font(.caption2)
-                                            .foregroundColor(.white.opacity(0.7))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                             .fixedSize(horizontal: false, vertical: true)
                                     }
                                     .padding(DesignTokens.Spacing.component)
                                     .background(
                                         RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.green.opacity(0.1))
+                                            .fill(Color.green.opacity(DesignTokens.Opacity.glassLight))
                                             .overlay(
                                                 RoundedRectangle(cornerRadius: 8)
-                                                    .strokeBorder(Color.green.opacity(0.3), lineWidth: 1)
+                                                    .strokeBorder(Color.green.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                             )
                                     )
                                 }
@@ -282,10 +282,10 @@ struct SettingsView: View {
                             .padding(DesignTokens.Spacing.section)
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(0.05))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(enableEmailSending ? Color.red.opacity(0.5) : Color.orange.opacity(0.3), lineWidth: 2)
+                                            .strokeBorder(enableEmailSending ? Color.red.opacity(DesignTokens.Opacity.overlayStrong) : Color.orange.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 2)
                                     )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
@@ -301,7 +301,7 @@ struct SettingsView: View {
                         VStack(spacing: 8) {
                             Image(systemName: "gear")
                                 .font(.system(size: 60))
-                                .foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
 
                             Text("Settings")
                                 .font(.largeTitle.bold())
@@ -324,7 +324,7 @@ struct SettingsView: View {
                                         .foregroundColor(.white)
                                     Text("Train Zero's AI on categories and actions")
                                         .font(.caption)
-                                        .foregroundColor(.white.opacity(0.6))
+                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 }
 
                                 Spacer()
@@ -351,8 +351,8 @@ struct SettingsView: View {
                                             .strokeBorder(
                                                 LinearGradient(
                                                     colors: [
-                                                        Color.cyan.opacity(0.5),
-                                                        Color.purple.opacity(0.5)
+                                                        Color.cyan.opacity(DesignTokens.Opacity.overlayStrong),
+                                                        Color.purple.opacity(DesignTokens.Opacity.overlayStrong)
                                                     ],
                                                     startPoint: .topLeading,
                                                     endPoint: .bottomTrailing
@@ -379,14 +379,14 @@ struct SettingsView: View {
                                         .foregroundColor(.white)
                                     Text("Fetching last \(viewModel.emailTimeRange.days) days")
                                         .font(.caption)
-                                        .foregroundColor(.white.opacity(0.6))
+                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 }
                                 Spacer()
                             }
                             .foregroundColor(.white)
                             .padding(DesignTokens.Spacing.card)
-                            .background(Color.white.opacity(0.1))
-                            .cornerRadius(16)
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                            .cornerRadius(DesignTokens.Radius.card)
                         }
                         .buttonStyle(PlainButtonStyle())
                         .padding(.horizontal, 16)
@@ -398,7 +398,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("Email Accounts")
                                 .font(.headline)
-                                .foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                                 .padding(.horizontal, DesignTokens.Spacing.card)
                                 .padding(.top, DesignTokens.Spacing.card)
 
@@ -406,7 +406,7 @@ struct SettingsView: View {
                             if accountManager.accounts.isEmpty {
                                 Text("No accounts connected")
                                     .font(.subheadline)
-                                    .foregroundColor(.white.opacity(0.5))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                                     .padding(.horizontal, 20)
                             } else {
                                 ForEach(accountManager.accounts) { account in
@@ -436,19 +436,19 @@ struct SettingsView: View {
                                             .font(.headline)
                                         Text("Coming soon - multiple account support")
                                             .font(.caption)
-                                            .foregroundColor(.white.opacity(0.6))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                     }
 
                                     Spacer()
                                 }
-                                .foregroundColor(.white.opacity(0.5))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                                 .padding(DesignTokens.Spacing.card)
                                 .background(
                                     RoundedRectangle(cornerRadius: 16)
-                                        .fill(Color.white.opacity(0.05))
+                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                         .overlay(
                                             RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                                .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 1)
                                         )
                                 )
                             }
@@ -475,7 +475,7 @@ struct SettingsView: View {
                                             .font(.headline)
                                         Text("Fetch latest emails and start fresh")
                                             .font(.caption)
-                                            .foregroundColor(.white.opacity(0.6))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                     }
 
                                     Spacer()
@@ -484,10 +484,10 @@ struct SettingsView: View {
                                 .padding(DesignTokens.Spacing.card)
                                 .background(
                                     RoundedRectangle(cornerRadius: 16)
-                                        .fill(Color.white.opacity(0.1))
+                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .overlay(
                                             RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                                .strokeBorder(Color.green.opacity(0.3), lineWidth: 1)
+                                                .strokeBorder(Color.green.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                         )
                                 )
                             }
@@ -500,7 +500,7 @@ struct SettingsView: View {
                         VStack(alignment: .leading, spacing: 16) {
                             Text("App Settings")
                                 .font(.headline)
-                                .foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                                 .padding(.horizontal, DesignTokens.Spacing.card)
                                 .padding(.top, DesignTokens.Spacing.card)
 
@@ -518,7 +518,7 @@ struct SettingsView: View {
                                             .font(.headline)
                                         Text("Go through the welcome flow again")
                                             .font(.caption)
-                                            .foregroundColor(.white.opacity(0.6))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                     }
 
                                     Spacer()
@@ -527,10 +527,10 @@ struct SettingsView: View {
                                 .padding(DesignTokens.Spacing.card)
                                 .background(
                                     RoundedRectangle(cornerRadius: 16)
-                                        .fill(Color.white.opacity(0.1))
+                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .overlay(
                                             RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                                .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                                         )
                                 )
                             }
@@ -549,7 +549,7 @@ struct SettingsView: View {
                                                 .foregroundColor(.white)
                                             Text("Show card counts and archetype distribution")
                                                 .font(.caption)
-                                                .foregroundColor(.white.opacity(0.6))
+                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                         }
                                     }
                                 }
@@ -572,10 +572,10 @@ struct SettingsView: View {
                             .padding(DesignTokens.Spacing.section)
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(0.05))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.yellow.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(Color.yellow.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
@@ -592,7 +592,7 @@ struct SettingsView: View {
                                                 .foregroundColor(.white)
                                             Text("Show status dots (VIP, deadline, newsletter, etc.)")
                                                 .font(.caption)
-                                                .foregroundColor(.white.opacity(0.6))
+                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                         }
                                     }
                                 }
@@ -610,10 +610,10 @@ struct SettingsView: View {
                             .padding(DesignTokens.Spacing.section)
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(0.05))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.cyan.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(Color.cyan.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
@@ -630,7 +630,7 @@ struct SettingsView: View {
                                                 .foregroundColor(.white)
                                             Text("Show only emails from VIP contacts")
                                                 .font(.caption)
-                                                .foregroundColor(.white.opacity(0.6))
+                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                         }
                                     }
                                 }
@@ -648,20 +648,20 @@ struct SettingsView: View {
                                 if !VIPManager.shared.vipContacts.isEmpty {
                                     HStack(spacing: 8) {
                                         Image(systemName: "person.2.fill")
-                                            .foregroundColor(.white.opacity(0.6))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                         Text("\(VIPManager.shared.vipContacts.count) VIP contact\(VIPManager.shared.vipContacts.count == 1 ? "" : "s")")
                                             .font(.caption)
-                                            .foregroundColor(.white.opacity(0.6))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                     }
                                 }
                             }
                             .padding(DesignTokens.Spacing.section)
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(0.05))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.yellow.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(Color.yellow.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
@@ -678,7 +678,7 @@ struct SettingsView: View {
                                                 .foregroundColor(.white)
                                             Text("Group related emails into conversation threads")
                                                 .font(.caption)
-                                                .foregroundColor(.white.opacity(0.6))
+                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                         }
                                     }
                                 }
@@ -695,10 +695,10 @@ struct SettingsView: View {
                             .padding(DesignTokens.Spacing.section)
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(0.05))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
@@ -723,7 +723,7 @@ struct SettingsView: View {
                     } label: {
                         Image(systemName: "xmark.circle.fill")
                             .font(.title2)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
             }
@@ -897,7 +897,7 @@ struct AccountRow: View {
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
                             .background(Color.green)
-                            .cornerRadius(4)
+                            .cornerRadius(DesignTokens.Radius.minimal)
                     }
 
                     if !account.enabled {
@@ -906,14 +906,14 @@ struct AccountRow: View {
                             .foregroundColor(.white)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(Color.red.opacity(0.7))
-                            .cornerRadius(4)
+                            .background(Color.red.opacity(DesignTokens.Opacity.textSubtle))
+                            .cornerRadius(DesignTokens.Radius.minimal)
                     }
                 }
 
                 Text(account.provider.displayName + " • " + account.lastSyncedText)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             Spacer()
@@ -923,11 +923,11 @@ struct AccountRow: View {
                 showRemoveConfirmation = true
             } label: {
                 Image(systemName: "trash")
-                    .foregroundColor(.red.opacity(0.8))
+                    .foregroundColor(.red.opacity(DesignTokens.Opacity.textTertiary))
                     .font(.subheadline)
-                    .padding(8)
-                    .background(Color.red.opacity(0.2))
-                    .cornerRadius(8)
+                    .padding(DesignTokens.Spacing.inline)
+                    .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
+                    .cornerRadius(DesignTokens.Radius.chip)
             }
             .buttonStyle(PlainButtonStyle())
             .confirmationDialog(
@@ -943,14 +943,14 @@ struct AccountRow: View {
                 Text("This will disconnect your account and remove all associated emails from the app.")
             }
         }
-        .padding(16)
+        .padding(DesignTokens.Spacing.component)
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color.white.opacity(0.1))
+                .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
                         .strokeBorder(
-                            account.isPrimary ? Color.green.opacity(0.3) : Color.white.opacity(0.2),
+                            account.isPrimary ? Color.green.opacity(DesignTokens.Opacity.overlayMedium) : Color.white.opacity(DesignTokens.Opacity.overlayLight),
                             lineWidth: 1
                         )
                 )

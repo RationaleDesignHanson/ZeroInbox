@@ -140,8 +140,8 @@ struct ErrorBanner: View {
             }
             .padding()
             .background(type.backgroundColor)
-            .cornerRadius(12)
-            .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+            .cornerRadius(DesignTokens.Radius.button)
+            .shadow(color: .black.opacity(DesignTokens.Opacity.glassLight), radius: 4, y: 2)
             .padding(.horizontal)
             .transition(.move(edge: .top).combined(with: .opacity))
         }
@@ -183,10 +183,10 @@ enum BannerType {
 
     var backgroundColor: Color {
         switch self {
-        case .error: return Color.red.opacity(0.1)
-        case .warning: return Color.orange.opacity(0.1)
-        case .success: return Color.green.opacity(0.1)
-        case .info: return Color.blue.opacity(0.1)
+        case .error: return Color.red.opacity(DesignTokens.Opacity.glassLight)
+        case .warning: return Color.orange.opacity(DesignTokens.Opacity.glassLight)
+        case .success: return Color.green.opacity(DesignTokens.Opacity.glassLight)
+        case .info: return Color.blue.opacity(DesignTokens.Opacity.glassLight)
         }
     }
 }
@@ -316,7 +316,7 @@ struct CompactErrorRow: View {
         }
         .padding()
         .background(Color(.systemGray6))
-        .cornerRadius(8)
+        .cornerRadius(DesignTokens.Radius.chip)
     }
 }
 
@@ -344,7 +344,7 @@ struct ToastMessage: View {
                 .background(
                     RoundedRectangle(cornerRadius: 12)
                         .fill(Color(.systemBackground))
-                        .shadow(color: .black.opacity(0.2), radius: 8, y: 4)
+                        .shadow(color: .black.opacity(DesignTokens.Opacity.overlayLight), radius: 8, y: 4)
                 )
                 .padding(.horizontal, 32)
                 .padding(.bottom, 100)

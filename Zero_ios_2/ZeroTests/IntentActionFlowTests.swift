@@ -661,6 +661,246 @@ class IntentActionFlowTests: XCTestCase, SwipeSimulatorDelegate {
         }
     }
 
+    // MARK: - Automated Action Coverage Tests (Data-Driven)
+
+    /**
+     * Test all registered actions systematically using ActionTestMatrix
+     * This test uses data-driven approach to validate all actions in ActionRegistry
+     */
+    func testAllRegisteredActionsSystematically() {
+        let testMatrix = ActionTestMatrix.shared
+        let categories = testMatrix.generateTestCasesByCategory()
+
+        print("\n===========================================")
+        print("RUNNING DATA-DRIVEN ACTION TESTS")
+        print("===========================================")
+
+        var totalActions = 0
+        var successfulActions = 0
+        var failedActions: [(category: String, actionId: String, error: String)] = []
+
+        for category in categories {
+            print("\n[\(category.name)] Testing \(category.actions.count) actions...")
+
+            for testCase in category.actions {
+                totalActions += 1
+                swipeSimulator.reset()
+
+                // Convert ActionTestCase context to EmailAction format
+                let context = testCase.requiredContext.merging(testCase.optionalContext) { (current, _) in current }
+
+                let action = createAction(
+                    testCase.actionId,
+                    testCase.displayName,
+                    testCase.actionType == .goTo ? .goTo : .inApp,
+                    isPrimary: true,
+                    context: context
+                )
+
+                let card = createTestCard(
+                    intent: testCase.intent,
+                    actions: [action]
+                )
+
+                let execution = swipeSimulator.simulateRightSwipe(on: card)
+
+                if execution.wasSuccessful {
+                    successfulActions += 1
+                    print("  ✅ \(testCase.actionId)")
+                } else {
+                    let errorMsg = execution.error ?? "Unknown error"
+                    failedActions.append((category: category.name, actionId: testCase.actionId, error: errorMsg))
+                    print("  ❌ \(testCase.actionId): \(errorMsg)")
+                }
+
+                // Verify action type matches expected
+                XCTAssertEqual(
+                    execution.actionType,
+                    testCase.actionType == .goTo ? .goTo : .inApp,
+                    "Action \(testCase.actionId) has wrong action type"
+                )
+            }
+        }
+
+        // Print summary
+        print("\n===========================================")
+        print("DATA-DRIVEN TEST SUMMARY")
+        print("===========================================")
+        print("Total Actions Tested: \(totalActions)")
+        print("Successful: \(successfulActions)")
+        print("Failed: \(failedActions.count)")
+        print("Success Rate: \(String(format: "%.1f", Double(successfulActions) / Double(totalActions) * 100))%")
+
+        if !failedActions.isEmpty {
+            print("\nFailed Actions:")
+            for (category, actionId, error) in failedActions {
+                print("  [\(category)] \(actionId): \(error)")
+            }
+        }
+        print("===========================================\n")
+
+        // Assert that at least 80% of actions succeed (allows for some actions requiring external services)
+        let successRate = Double(successfulActions) / Double(totalActions)
+        XCTAssertGreaterThanOrEqual(successRate, 0.8, "Success rate should be at least 80%")
+    }
+
+    /**
+     * Test coverage report generation
+     */
+    func testActionCoverageReport() {
+        let testMatrix = ActionTestMatrix.shared
+
+        // Get currently tested action IDs from this test file
+        let manuallyTestedActions: Set<String> = [
+            "track_package", "view_order", "write_review", "contact_driver",
+            "pay_invoice", "manage_subscription", "cancel_subscription",
+            "sign_form", "view_assignment", "set_reminder", "check_grade", "view_lms",
+            "add_to_calendar", "schedule_meeting", "add_reminder", "view_document",
+            "view_pickup_details", "view_results", "view_prescription",
+            "schedule_appointment", "check_in_appointment",
+            "check_in_flight", "view_itinerary", "view_reservation", "get_directions",
+            "claim_deal", "shop_now", "browse_shopping", "schedule_purchase",
+            "view_newsletter_summary", "unsubscribe",
+            "quick_reply", "acknowledge", "reply", "delegate", "save_for_later",
+            "view_details", "add_to_wallet", "save_contact_native", "send_message",
+            "share", "open_app", "open_link",
+            "view_task", "view_incident", "view_ticket", "route_crm",
+            "view_jury_summons", "view_tax_notice", "view_voter_info"
+        ]
+
+        let coverageReport = testMatrix.generateCoverageReport(testedActionIds: manuallyTestedActions)
+
+        print(coverageReport.description)
+
+        // Verify coverage metrics
+        XCTAssertGreaterThan(coverageReport.coveragePercentage, 0, "Should have some test coverage")
+        XCTAssertEqual(
+            coverageReport.totalActions,
+            coverageReport.testedActions + coverageReport.untestedActions,
+            "Coverage math should be correct"
+        )
+    }
+
+    /**
+     * Test GO_TO actions systematically
+     */
+    func testAllGoToActionsSystematically() {
+        let testMatrix = ActionTestMatrix.shared
+        let goToActions = testMatrix.getActionsByType(type: .goTo)
+
+        print("\n=== Testing \(goToActions.count) GO_TO Actions ===")
+
+        var successCount = 0
+
+        for actionConfig in goToActions {
+            swipeSimulator.reset()
+
+            // Generate context data
+            let testCase = testMatrix.generateTestCase(for: actionConfig.actionId)
+            guard let testCase = testCase else {
+                XCTFail("Failed to generate test case for \(actionConfig.actionId)")
+                continue
+            }
+
+            let context = testCase.requiredContext.merging(testCase.optionalContext) { (current, _) in current }
+
+            let action = createAction(
+                testCase.actionId,
+                testCase.displayName,
+                .goTo,
+                isPrimary: true,
+                context: context
+            )
+
+            let card = createTestCard(
+                intent: testCase.intent,
+                actions: [action]
+            )
+
+            let execution = swipeSimulator.simulateRightSwipe(on: card)
+
+            if execution.wasSuccessful {
+                successCount += 1
+                XCTAssertEqual(execution.actionType, .goTo, "GO_TO action should have goTo type")
+            }
+        }
+
+        print("GO_TO Actions: \(successCount)/\(goToActions.count) successful")
+        XCTAssertGreaterThan(successCount, 0, "At least some GO_TO actions should succeed")
+    }
+
+    /**
+     * Test IN_APP actions systematically
+     */
+    func testAllInAppActionsSystematically() {
+        let testMatrix = ActionTestMatrix.shared
+        let inAppActions = testMatrix.getActionsByType(type: .inApp)
+
+        print("\n=== Testing \(inAppActions.count) IN_APP Actions ===")
+
+        var successCount = 0
+
+        for actionConfig in inAppActions {
+            swipeSimulator.reset()
+
+            // Generate context data
+            let testCase = testMatrix.generateTestCase(for: actionConfig.actionId)
+            guard let testCase = testCase else {
+                XCTFail("Failed to generate test case for \(actionConfig.actionId)")
+                continue
+            }
+
+            let context = testCase.requiredContext.merging(testCase.optionalContext) { (current, _) in current }
+
+            let action = createAction(
+                testCase.actionId,
+                testCase.displayName,
+                .inApp,
+                isPrimary: true,
+                context: context
+            )
+
+            let card = createTestCard(
+                intent: testCase.intent,
+                actions: [action]
+            )
+
+            let execution = swipeSimulator.simulateRightSwipe(on: card)
+
+            if execution.wasSuccessful {
+                successCount += 1
+                XCTAssertEqual(execution.actionType, .inApp, "IN_APP action should have inApp type")
+            }
+        }
+
+        print("IN_APP Actions: \(successCount)/\(inAppActions.count) successful")
+        XCTAssertGreaterThan(successCount, 0, "At least some IN_APP actions should succeed")
+    }
+
+    /**
+     * Test registry statistics
+     */
+    func testRegistryStatistics() {
+        let testMatrix = ActionTestMatrix.shared
+        let stats = testMatrix.getRegistryStats()
+
+        print("\n===========================================")
+        print("ACTION REGISTRY STATISTICS")
+        print("===========================================")
+        print("Total Actions: \(stats.total)")
+        print("GO_TO Actions: \(stats.goTo)")
+        print("IN_APP Actions: \(stats.inApp)")
+        print("Mail Mode: \(stats.mail)")
+        print("Ads Mode: \(stats.ads)")
+        print("Both Modes: \(stats.both)")
+        print("===========================================\n")
+
+        // Validate statistics
+        XCTAssertGreaterThan(stats.total, 0, "Registry should have actions")
+        XCTAssertEqual(stats.goTo + stats.inApp, stats.total, "Action type counts should sum to total")
+        XCTAssertGreaterThanOrEqual(stats.total, stats.mail + stats.ads, "Mode counts should not exceed total")
+    }
+
     // MARK: - Test Helper Methods
 
     private func createTestCard(

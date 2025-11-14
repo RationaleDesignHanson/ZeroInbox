@@ -43,7 +43,7 @@ struct ProvideAccessCodeModal: View {
                     .frame(maxWidth: .infinity)
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Large Access Code Display
                     VStack(spacing: 16) {
@@ -102,7 +102,7 @@ struct ProvideAccessCodeModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                         .transition(.scale.combined(with: .opacity))
                     }
@@ -121,7 +121,7 @@ struct ProvideAccessCodeModal: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
-                        .background(Color.white.opacity(0.05))
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -140,7 +140,7 @@ struct ProvideAccessCodeModal: View {
                                         endPoint: .bottomTrailing
                                     )
                                 )
-                                .cornerRadius(8)
+                                .cornerRadius(DesignTokens.Radius.chip)
 
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Requested by")
@@ -154,7 +154,7 @@ struct ProvideAccessCodeModal: View {
                             Spacer()
                         }
                         .padding()
-                        .background(Color.white.opacity(0.05))
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -169,7 +169,7 @@ struct ProvideAccessCodeModal: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(DesignTokens.Spacing.card)

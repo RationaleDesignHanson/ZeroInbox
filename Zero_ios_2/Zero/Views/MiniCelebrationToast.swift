@@ -40,12 +40,12 @@ struct MiniCelebrationToast: View {
 
                     Text("\(archetype.displayName) cleared!")
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.9))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                 }
 
                 Spacer()
             }
-            .padding(20)
+            .padding(DesignTokens.Spacing.section)
             .background(
                 RoundedRectangle(cornerRadius: 20)
                     .fill(Color.black.opacity(0.85))

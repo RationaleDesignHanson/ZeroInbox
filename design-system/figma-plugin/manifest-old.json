@@ -1,0 +1,30 @@
+{
+  "name": "Zero Design System Sync",
+  "id": "zero-design-system",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "menu": [
+    {
+      "name": "Generate Design System",
+      "command": "generate-system"
+    },
+    {
+      "name": "Update Colors",
+      "command": "update-colors"
+    },
+    {
+      "name": "Update Typography",
+      "command": "update-typography"
+    },
+    {
+      "name": "Generate Components",
+      "command": "generate-components"
+    },
+    {
+      "name": "Sync All",
+      "command": "sync-all"
+    }
+  ]
+}

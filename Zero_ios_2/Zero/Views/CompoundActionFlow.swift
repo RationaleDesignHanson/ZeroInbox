@@ -69,14 +69,14 @@ struct CompoundActionFlow: View {
                         if let why = whySection {
                             Text(why)
                                 .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                                 .lineLimit(2)
                                 .padding(.top, 2)  // Reduced from 4 to 2 for tighter spacing
                         }
 
                         Text("Step \(currentStepIndex + 1) of \(steps.count)")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.6))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                             .padding(.top, 4)  // Reduced from 8 to 4 for tighter spacing
                     }
 
@@ -86,7 +86,7 @@ struct CompoundActionFlow: View {
                         isPresented = false
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .font(.title2)
                     }
                 }
@@ -96,7 +96,7 @@ struct CompoundActionFlow: View {
                     ZStack(alignment: .leading) {
                         // Background
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(Color.white.opacity(0.2))
+                            .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                             .frame(height: 8)
                         
                         // Progress
@@ -121,7 +121,7 @@ struct CompoundActionFlow: View {
             )
             
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
             
             // Step content
             ScrollView {
@@ -148,7 +148,7 @@ struct CompoundActionFlow: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.white)
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
@@ -170,7 +170,7 @@ struct CompoundActionFlow: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.blue)
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
                 .buttonStyle(PlainButtonStyle())
             }
@@ -408,7 +408,7 @@ struct SignFormStepView: View {
             }
             .padding()
             .background(Color.white)
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
         }
         .onAppear {
             // Auto-complete this step since no input needed
@@ -495,11 +495,11 @@ struct PaymentStepView: View {
                 }
             }
             .padding()
-            .background(Color.blue.opacity(0.05))
-            .cornerRadius(12)
+            .background(Color.blue.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.blue.opacity(0.2), lineWidth: 1)
+                    .stroke(Color.blue.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
             )
 
             // Payment method selection
@@ -542,7 +542,7 @@ struct PaymentStepView: View {
             }
             .padding()
             .background(Color.white)
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
         }
     }
 
@@ -575,8 +575,8 @@ struct PaymentMethodButton: View {
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(isSelected ? Color.blue.opacity(0.2) : Color.gray.opacity(0.1))
-            .cornerRadius(8)
+            .background(isSelected ? Color.blue.opacity(DesignTokens.Opacity.overlayLight) : Color.gray.opacity(DesignTokens.Opacity.glassLight))
+            .cornerRadius(DesignTokens.Radius.chip)
             .overlay(
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 2)
@@ -616,7 +616,7 @@ struct CalendarStepView: View {
         }
         .padding()
         .background(Color.white)
-        .cornerRadius(12)
+        .cornerRadius(DesignTokens.Radius.button)
     }
 }
 
@@ -647,8 +647,8 @@ struct GenericStepView: View {
                     .foregroundColor(.blue)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color.blue.opacity(0.1))
-                    .cornerRadius(8)
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
+                    .cornerRadius(DesignTokens.Radius.chip)
                 }
             }
 
@@ -677,12 +677,12 @@ struct GenericStepView: View {
                         endPoint: .trailing
                     )
                 )
-                .cornerRadius(12)
+                .cornerRadius(DesignTokens.Radius.button)
             }
         }
         .padding()
         .background(Color.white)
-        .cornerRadius(12)
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     // MARK: - Professional UI
@@ -719,11 +719,11 @@ struct GenericStepView: View {
                     .foregroundColor(.secondary)
             }
             .padding()
-            .background(Color.blue.opacity(0.05))
-            .cornerRadius(12)
+            .background(Color.blue.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.blue.opacity(0.2), lineWidth: 1)
+                    .stroke(Color.blue.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
             )
 
             Text("We're working hard to bring you this feature. Your feedback helps us prioritize development.")
@@ -756,7 +756,7 @@ struct GenericStepView: View {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(
                         LinearGradient(
-                            colors: [.purple.opacity(0.1), .pink.opacity(0.1)],
+                            colors: [.purple.opacity(DesignTokens.Opacity.glassLight), .pink.opacity(DesignTokens.Opacity.glassLight)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )

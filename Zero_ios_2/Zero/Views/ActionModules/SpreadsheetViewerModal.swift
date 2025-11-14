@@ -63,7 +63,7 @@ struct SpreadsheetViewerModal: View {
                         .padding(.bottom, 8)
                         
                         Divider()
-                            .background(Color.white.opacity(0.3))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                         
                         // Summary metrics
                         HStack(spacing: 16) {
@@ -91,7 +91,7 @@ struct SpreadsheetViewerModal: View {
                                     .frame(width: 70, alignment: .trailing)
                             }
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             
                             // Data rows
                             ForEach(Array(cookieData.enumerated()), id: \.offset) { index, data in
@@ -117,7 +117,7 @@ struct SpreadsheetViewerModal: View {
                                         .frame(width: 70, alignment: .trailing)
                                 }
                                 .padding()
-                                .background(index % 2 == 0 ? Color.white.opacity(0.05) : Color.clear)
+                                .background(index % 2 == 0 ? Color.white.opacity(DesignTokens.Opacity.glassUltraLight) : Color.clear)
                             }
                         }
                         .background(
@@ -125,7 +125,7 @@ struct SpreadsheetViewerModal: View {
                                 .fill(.ultraThinMaterial)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
-                                        .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                                 )
                         )
                         
@@ -142,7 +142,7 @@ struct SpreadsheetViewerModal: View {
                                         RoundedRectangle(cornerRadius: 8)
                                             .fill(
                                                 LinearGradient(
-                                                    colors: [cookie.3.opacity(0.8), cookie.3],
+                                                    colors: [cookie.3.opacity(DesignTokens.Opacity.textTertiary), cookie.3],
                                                     startPoint: .top,
                                                     endPoint: .bottom
                                                 )
@@ -165,7 +165,7 @@ struct SpreadsheetViewerModal: View {
                                 .fill(.ultraThinMaterial)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
-                                        .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                                 )
                         )
                         
@@ -174,8 +174,8 @@ struct SpreadsheetViewerModal: View {
                             .font(.caption.italic())
                             .foregroundColor(DesignTokens.Colors.textTertiary)
                             .padding()
-                            .background(Color.yellow.opacity(0.2))
-                            .cornerRadius(8)
+                            .background(Color.yellow.opacity(DesignTokens.Opacity.overlayLight))
+                            .cornerRadius(DesignTokens.Radius.chip)
                     }
                     .padding()
                 }
@@ -193,7 +193,7 @@ struct SpreadsheetViewerModal: View {
                     .padding()
                     .background(Color.green)
                     .foregroundColor(DesignTokens.Colors.textPrimary)
-                    .cornerRadius(16)
+                    .cornerRadius(DesignTokens.Radius.card)
                 }
                 .padding()
         }
@@ -227,7 +227,7 @@ struct MetricCard: View {
                 .fill(.ultraThinMaterial)
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(color.opacity(0.3), lineWidth: 1)
+                        .strokeBorder(color.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                 )
         )
     }

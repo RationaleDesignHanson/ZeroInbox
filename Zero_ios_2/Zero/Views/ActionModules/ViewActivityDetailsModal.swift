@@ -66,7 +66,7 @@ struct ViewActivityDetailsModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Location
                     if !activityLocation.isEmpty {
@@ -101,7 +101,7 @@ struct ViewActivityDetailsModal: View {
                             }
                         }
                         .padding()
-                        .background(Color.blue.opacity(0.1))
+                        .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.card)
                         .overlay(
                             RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
@@ -132,7 +132,7 @@ struct ViewActivityDetailsModal: View {
                             }
                         }
                         .padding()
-                        .background(Color.green.opacity(0.1))
+                        .background(Color.green.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.card)
                         .overlay(
                             RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
@@ -153,7 +153,7 @@ struct ViewActivityDetailsModal: View {
                                 .fixedSize(horizontal: false, vertical: true)
                         }
                         .padding()
-                        .background(Color.white.opacity(0.05))
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -184,12 +184,12 @@ struct ViewActivityDetailsModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                         }
                     }
@@ -205,7 +205,7 @@ struct ViewActivityDetailsModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -220,7 +220,7 @@ struct ViewActivityDetailsModal: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(DesignTokens.Spacing.card)
@@ -437,7 +437,7 @@ struct ItineraryRow: View {
             VStack(spacing: 0) {
                 if !isFirst {
                     Rectangle()
-                        .fill(Color.blue.opacity(0.3))
+                        .fill(Color.blue.opacity(DesignTokens.Opacity.overlayMedium))
                         .frame(width: 2, height: 20)
                 }
 
@@ -447,7 +447,7 @@ struct ItineraryRow: View {
 
                 if !isLast {
                     Rectangle()
-                        .fill(Color.blue.opacity(0.3))
+                        .fill(Color.blue.opacity(DesignTokens.Opacity.overlayMedium))
                         .frame(width: 2, height: 40)
                 }
             }
@@ -488,7 +488,7 @@ struct WhatToBringRow: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: item.isPacked ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(item.isPacked ? .green : .white.opacity(0.5))
+                    .foregroundColor(item.isPacked ? .green : .white.opacity(DesignTokens.Opacity.overlayStrong))
                     .font(.title3)
 
                 Text(item.item)
@@ -502,8 +502,8 @@ struct WhatToBringRow: View {
                         .foregroundColor(.orange)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(Color.orange.opacity(0.2))
-                        .cornerRadius(8)
+                        .background(Color.orange.opacity(DesignTokens.Opacity.overlayLight))
+                        .cornerRadius(DesignTokens.Radius.chip)
                 }
 
                 Spacer()

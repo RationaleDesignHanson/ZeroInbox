@@ -1,0 +1,873 @@
+[
+  {
+    "name": "🎨 Design Tokens",
+    "children": [
+      {
+        "type": "FRAME",
+        "name": "Spacing",
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "card: 24",
+            "characters": "card: 24"
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Radius",
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "card: 16",
+            "characters": "card: 16"
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Opacity",
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "none: 24",
+            "characters": "none: 24"
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Gradients",
+        "children": [
+          {
+            "type": "RECTANGLE",
+            "name": "Mail Gradient",
+            "fills": [
+              {
+                "type": "GRADIENT_LINEAR",
+                "gradientStops": [
+                  {
+                    "position": 0,
+                    "color": {
+                      "r": 0.4,
+                      "g": 0.49411764705882355,
+                      "b": 0.9176470588235294,
+                      "a": 1
+                    }
+                  },
+                  {
+                    "position": 1,
+                    "color": {
+                      "r": 0.4627450980392157,
+                      "g": 0.29411764705882354,
+                      "b": 0.6352941176470588,
+                      "a": 1
+                    }
+                  }
+                ]
+              }
+            ],
+            "size": {
+              "width": 200,
+              "height": 100
+            }
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Ads Gradient",
+            "fills": [
+              {
+                "type": "GRADIENT_LINEAR",
+                "gradientStops": [
+                  {
+                    "position": 0,
+                    "color": {
+                      "r": 0.08627450980392157,
+                      "g": 0.7333333333333333,
+                      "b": 0.6666666666666666,
+                      "a": 1
+                    }
+                  },
+                  {
+                    "position": 1,
+                    "color": {
+                      "r": 0.30980392156862746,
+                      "g": 0.8196078431372549,
+                      "b": 0.6196078431372549,
+                      "a": 1
+                    }
+                  }
+                ]
+              }
+            ],
+            "size": {
+              "width": 200,
+              "height": 100
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "⚛️ Atomic Components",
+    "children": [
+      {
+        "type": "FRAME",
+        "name": "Gradient Buttons",
+        "children": [
+          {
+            "type": "RECTANGLE",
+            "name": "Button - Standard (56px)",
+            "size": {
+              "width": 200,
+              "height": 56
+            },
+            "cornerRadius": 12,
+            "fills": [
+              {
+                "type": "GRADIENT_LINEAR",
+                "gradientStops": [
+                  {
+                    "position": 0,
+                    "color": {
+                      "r": 0.4,
+                      "g": 0.49411764705882355,
+                      "b": 0.9176470588235294,
+                      "a": 1
+                    }
+                  },
+                  {
+                    "position": 1,
+                    "color": {
+                      "r": 0.4627450980392157,
+                      "g": 0.29411764705882354,
+                      "b": 0.6352941176470588,
+                      "a": 1
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Button - Compact (44px)",
+            "size": {
+              "width": 200,
+              "height": 44
+            },
+            "cornerRadius": 12,
+            "fills": [
+              {
+                "type": "GRADIENT_LINEAR",
+                "gradientStops": [
+                  {
+                    "position": 0,
+                    "color": {
+                      "r": 0.4,
+                      "g": 0.49411764705882355,
+                      "b": 0.9176470588235294,
+                      "a": 1
+                    }
+                  },
+                  {
+                    "position": 1,
+                    "color": {
+                      "r": 0.4627450980392157,
+                      "g": 0.29411764705882354,
+                      "b": 0.6352941176470588,
+                      "a": 1
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Button - Small (32px)",
+            "size": {
+              "width": 200,
+              "height": 32
+            },
+            "cornerRadius": 12,
+            "fills": [
+              {
+                "type": "GRADIENT_LINEAR",
+                "gradientStops": [
+                  {
+                    "position": 0,
+                    "color": {
+                      "r": 0.4,
+                      "g": 0.49411764705882355,
+                      "b": 0.9176470588235294,
+                      "a": 1
+                    }
+                  },
+                  {
+                    "position": 1,
+                    "color": {
+                      "r": 0.4627450980392157,
+                      "g": 0.29411764705882354,
+                      "b": 0.6352941176470588,
+                      "a": 1
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Input Components",
+        "children": [
+          {
+            "type": "RECTANGLE",
+            "name": "TextField",
+            "size": {
+              "width": 300,
+              "height": 44
+            },
+            "cornerRadius": 12,
+            "strokes": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 1,
+                  "b": 1,
+                  "a": 0.2
+                }
+              }
+            ],
+            "strokeWeight": 1
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "TextArea",
+            "size": {
+              "width": 300,
+              "height": 44
+            },
+            "cornerRadius": 12,
+            "strokes": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 1,
+                  "b": 1,
+                  "a": 0.2
+                }
+              }
+            ],
+            "strokeWeight": 1
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "DatePicker",
+            "size": {
+              "width": 300,
+              "height": 44
+            },
+            "cornerRadius": 12,
+            "strokes": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 1,
+                  "b": 1,
+                  "a": 0.2
+                }
+              }
+            ],
+            "strokeWeight": 1
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "TimePicker",
+            "size": {
+              "width": 300,
+              "height": 44
+            },
+            "cornerRadius": 12,
+            "strokes": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 1,
+                  "b": 1,
+                  "a": 0.2
+                }
+              }
+            ],
+            "strokeWeight": 1
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Dropdown",
+            "size": {
+              "width": 300,
+              "height": 44
+            },
+            "cornerRadius": 12,
+            "strokes": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 1,
+                  "b": 1,
+                  "a": 0.2
+                }
+              }
+            ],
+            "strokeWeight": 1
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Checkbox",
+            "size": {
+              "width": 300,
+              "height": 44
+            },
+            "cornerRadius": 12,
+            "strokes": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 1,
+                  "b": 1,
+                  "a": 0.2
+                }
+              }
+            ],
+            "strokeWeight": 1
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Radio",
+            "size": {
+              "width": 300,
+              "height": 44
+            },
+            "cornerRadius": 12,
+            "strokes": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 1,
+                  "b": 1,
+                  "a": 0.2
+                }
+              }
+            ],
+            "strokeWeight": 1
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Toggle",
+            "size": {
+              "width": 300,
+              "height": 44
+            },
+            "cornerRadius": 12,
+            "strokes": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 1,
+                  "b": 1,
+                  "a": 0.2
+                }
+              }
+            ],
+            "strokeWeight": 1
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Priority Badges",
+        "children": [
+          {
+            "type": "RECTANGLE",
+            "name": "Critical (95)",
+            "size": {
+              "width": 40,
+              "height": 40
+            },
+            "cornerRadius": 999,
+            "fills": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 0.23137254901960785,
+                  "b": 0.18823529411764706,
+                  "a": 1
+                }
+              }
+            ]
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Very High (90)",
+            "size": {
+              "width": 40,
+              "height": 40
+            },
+            "cornerRadius": 999,
+            "fills": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 0.5843137254901961,
+                  "b": 0,
+                  "a": 1
+                }
+              }
+            ]
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "High (85)",
+            "size": {
+              "width": 40,
+              "height": 40
+            },
+            "cornerRadius": 999,
+            "fills": [
+              {
+                "color": {
+                  "r": 1,
+                  "g": 0.8,
+                  "b": 0,
+                  "a": 1
+                }
+              }
+            ]
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Medium-High (80)",
+            "size": {
+              "width": 40,
+              "height": 40
+            },
+            "cornerRadius": 999,
+            "fills": [
+              {
+                "color": {
+                  "r": 0.20392156862745098,
+                  "g": 0.7803921568627451,
+                  "b": 0.34901960784313724,
+                  "a": 1
+                }
+              }
+            ]
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Medium (75)",
+            "size": {
+              "width": 40,
+              "height": 40
+            },
+            "cornerRadius": 999,
+            "fills": [
+              {
+                "color": {
+                  "r": 0.4,
+                  "g": 0.49411764705882355,
+                  "b": 0.9176470588235294,
+                  "a": 1
+                }
+              }
+            ]
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Medium-Low (70)",
+            "size": {
+              "width": 40,
+              "height": 40
+            },
+            "cornerRadius": 999,
+            "fills": [
+              {
+                "color": {
+                  "r": 0.35294117647058826,
+                  "g": 0.7843137254901961,
+                  "b": 0.9803921568627451,
+                  "a": 1
+                }
+              }
+            ]
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Low (65)",
+            "size": {
+              "width": 40,
+              "height": 40
+            },
+            "cornerRadius": 999,
+            "fills": [
+              {
+                "color": {
+                  "r": 0.5568627450980392,
+                  "g": 0.5568627450980392,
+                  "b": 0.5764705882352941,
+                  "a": 1
+                }
+              }
+            ]
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Very Low (60)",
+            "size": {
+              "width": 40,
+              "height": 40
+            },
+            "cornerRadius": 999,
+            "fills": [
+              {
+                "color": {
+                  "r": 0.38823529411764707,
+                  "g": 0.38823529411764707,
+                  "b": 0.4,
+                  "a": 1
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Progress Indicators",
+        "children": [
+          {
+            "type": "RECTANGLE",
+            "name": "Progress Bar",
+            "size": {
+              "width": 200,
+              "height": 4
+            }
+          },
+          {
+            "type": "ELLIPSE",
+            "name": "Progress Ring",
+            "size": {
+              "width": 40,
+              "height": 40
+            }
+          },
+          {
+            "type": "TEXT",
+            "name": "Progress Numeric",
+            "characters": "75%"
+          },
+          {
+            "type": "ELLIPSE",
+            "name": "Loading Spinner",
+            "size": {
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "🧩 Molecule Components",
+    "children": [
+      {
+        "type": "FRAME",
+        "name": "Modal Header",
+        "size": {
+          "width": 375,
+          "height": 80
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Title",
+            "characters": "Modal Title",
+            "fontSize": 24
+          },
+          {
+            "type": "ELLIPSE",
+            "name": "Close Button",
+            "size": {
+              "width": 32,
+              "height": 32
+            }
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Modal Footer",
+        "size": {
+          "width": 375,
+          "height": 80
+        },
+        "children": [
+          {
+            "type": "RECTANGLE",
+            "name": "Primary Button",
+            "size": {
+              "width": 150,
+              "height": 56
+            },
+            "cornerRadius": 12
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Secondary Button",
+            "size": {
+              "width": 150,
+              "height": 56
+            },
+            "cornerRadius": 12
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Info Card",
+        "size": {
+          "width": 343,
+          "height": 120
+        },
+        "cornerRadius": 16,
+        "fills": [
+          {
+            "color": {
+              "r": 1,
+              "g": 1,
+              "b": 1,
+              "a": 0.05
+            }
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Action Card",
+        "size": {
+          "width": 343,
+          "height": 80
+        },
+        "cornerRadius": 16,
+        "fills": [
+          {
+            "type": "GRADIENT_LINEAR",
+            "gradientStops": [
+              {
+                "position": 0,
+                "color": {
+                  "r": 0.4,
+                  "g": 0.49411764705882355,
+                  "b": 0.9176470588235294,
+                  "a": 1
+                }
+              },
+              {
+                "position": 1,
+                "color": {
+                  "r": 0.4627450980392157,
+                  "g": 0.29411764705882354,
+                  "b": 0.6352941176470588,
+                  "a": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "🏗️ Modal Templates",
+    "children": [
+      {
+        "type": "FRAME",
+        "name": "GenericActionModal",
+        "size": {
+          "width": 375,
+          "height": 600
+        },
+        "cornerRadius": 20,
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Header",
+            "characters": "Add to Calendar"
+          },
+          {
+            "type": "TEXT",
+            "name": "Description",
+            "characters": "Event details..."
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Date Input",
+            "size": {
+              "width": 343,
+              "height": 44
+            }
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Primary Button",
+            "size": {
+              "width": 343,
+              "height": 56
+            }
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "CommunicationModal",
+        "size": {
+          "width": 375,
+          "height": 500
+        },
+        "cornerRadius": 20,
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Header",
+            "characters": "Quick Reply"
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Message Input",
+            "size": {
+              "width": 343,
+              "height": 120
+            }
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Send Button",
+            "size": {
+              "width": 343,
+              "height": 56
+            }
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "ViewContentModal",
+        "size": {
+          "width": 375,
+          "height": 600
+        },
+        "cornerRadius": 20,
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Header",
+            "characters": "Document Details"
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Content Area",
+            "size": {
+              "width": 343,
+              "height": 400
+            }
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Close Button",
+            "size": {
+              "width": 343,
+              "height": 56
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "↗️ GO_TO Visual Feedback",
+    "children": [
+      {
+        "type": "FRAME",
+        "name": "External Indicator (↗)",
+        "size": {
+          "width": 16,
+          "height": 16
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "name": "Arrow Icon",
+            "characters": "↗",
+            "fontSize": 16
+          }
+        ]
+      },
+      {
+        "type": "FRAME",
+        "name": "Action Card States",
+        "children": [
+          {
+            "type": "RECTANGLE",
+            "name": "Idle",
+            "size": {
+              "width": 343,
+              "height": 80
+            },
+            "opacity": 1
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Pressed",
+            "size": {
+              "width": 343,
+              "height": 80
+            },
+            "opacity": 0.8
+          },
+          {
+            "type": "RECTANGLE",
+            "name": "Loading",
+            "size": {
+              "width": 343,
+              "height": 80
+            },
+            "opacity": 1
+          }
+        ]
+      },
+      {
+        "type": "ELLIPSE",
+        "name": "Loading Spinner",
+        "size": {
+          "width": 20,
+          "height": 20
+        },
+        "strokeWeight": 2,
+        "strokes": [
+          {
+            "color": {
+              "r": 0.4,
+              "g": 0.49,
+              "b": 0.92,
+              "a": 1
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

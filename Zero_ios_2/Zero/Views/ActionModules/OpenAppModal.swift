@@ -33,7 +33,7 @@ struct OpenAppModal: View {
             .padding()
 
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
             ScrollView {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.card) {
@@ -47,7 +47,7 @@ struct OpenAppModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Instructions
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
@@ -61,7 +61,7 @@ struct OpenAppModal: View {
                                 .foregroundColor(DesignTokens.Colors.textSecondary)
                         }
                         .padding()
-                        .background(Color.blue.opacity(0.2))
+                        .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
 
                         // Detected app
@@ -99,7 +99,7 @@ struct OpenAppModal: View {
                                 .font(.caption)
                         }
                         .padding()
-                        .background(Color.red.opacity(0.1))
+                        .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.chip)
                     }
                 }
@@ -133,7 +133,7 @@ struct OpenAppModal: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.white.opacity(0.2))
+                    .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                     .foregroundColor(DesignTokens.Colors.textPrimary)
                     .cornerRadius(DesignTokens.Radius.button)
                 }

@@ -50,7 +50,7 @@ struct AddToNotesModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Note Title
                     VStack(alignment: .leading, spacing: 12) {
@@ -61,12 +61,12 @@ struct AddToNotesModal: View {
                         TextField("", text: $noteTitle)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -79,14 +79,14 @@ struct AddToNotesModal: View {
                         TextEditor(text: $noteContent)
                             .frame(height: 300)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .colorScheme(.dark)
                             .scrollContentBackground(.hidden)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -107,9 +107,9 @@ struct AddToNotesModal: View {
                                     }
                                     .padding(.horizontal, 12)
                                     .padding(.vertical, 6)
-                                    .background(Color.blue.opacity(0.3))
+                                    .background(Color.blue.opacity(DesignTokens.Opacity.overlayMedium))
                                     .foregroundColor(.white)
-                                    .cornerRadius(12)
+                                    .cornerRadius(DesignTokens.Radius.button)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 12)
                                             .strokeBorder(Color.blue, lineWidth: 1)
@@ -166,12 +166,12 @@ struct AddToNotesModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                         }
                     }
@@ -187,7 +187,7 @@ struct AddToNotesModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -202,7 +202,7 @@ struct AddToNotesModal: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(DesignTokens.Spacing.card)

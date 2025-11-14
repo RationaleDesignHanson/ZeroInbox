@@ -91,7 +91,7 @@ struct EmailCardSkeleton: View {
         .padding(DesignTokens.Spacing.section)
         .background(Color(.systemBackground))
         .cornerRadius(DesignTokens.Radius.button)
-        .shadow(color: .black.opacity(0.05), radius: 4, y: 2)
+        .shadow(color: .black.opacity(DesignTokens.Opacity.glassUltraLight), radius: 4, y: 2)
     }
 }
 
@@ -160,7 +160,7 @@ struct ShimmerBox: View {
                         LinearGradient(
                             colors: [
                                 Color.clear,
-                                Color.white.opacity(0.3),
+                                Color.white.opacity(DesignTokens.Opacity.overlayMedium),
                                 Color.clear
                             ],
                             startPoint: .leading,
@@ -241,7 +241,7 @@ struct LoadingOverlay: ViewModifier {
             content
 
             if isLoading {
-                Color.black.opacity(0.3)
+                Color.black.opacity(DesignTokens.Opacity.overlayMedium)
                     .ignoresSafeArea()
 
                 VStack(spacing: 16) {
@@ -319,13 +319,13 @@ struct ProgressBar: View {
                 Rectangle()
                     .fill(Color(.systemGray5))
                     .frame(height: DesignTokens.Spacing.inline)
-                    .cornerRadius(4)
+                    .cornerRadius(DesignTokens.Radius.minimal)
 
                 // Progress
                 Rectangle()
                     .fill(color)
                     .frame(width: geometry.size.width * progress, height: DesignTokens.Spacing.inline)
-                    .cornerRadius(4)
+                    .cornerRadius(DesignTokens.Radius.minimal)
                     .animation(.easeInOut(duration: 0.3), value: progress)
             }
         }

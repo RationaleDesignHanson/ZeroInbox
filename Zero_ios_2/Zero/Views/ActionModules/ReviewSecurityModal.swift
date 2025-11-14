@@ -52,7 +52,7 @@ struct ReviewSecurityModal: View {
                     isPresented = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         .font(.title2)
                 }
             }
@@ -67,7 +67,7 @@ struct ReviewSecurityModal: View {
         }
         .background(
             LinearGradient(
-                colors: [securityType.color.opacity(0.3), Color.purple.opacity(0.3)],
+                colors: [securityType.color.opacity(DesignTokens.Opacity.overlayMedium), Color.purple.opacity(DesignTokens.Opacity.overlayMedium)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -82,7 +82,7 @@ struct ReviewSecurityModal: View {
                 ZStack {
                     Circle()
                         .fill(LinearGradient(
-                            colors: [securityType.color.opacity(0.3), Color.purple.opacity(0.3)],
+                            colors: [securityType.color.opacity(DesignTokens.Opacity.overlayMedium), Color.purple.opacity(DesignTokens.Opacity.overlayMedium)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ))
@@ -111,14 +111,14 @@ struct ReviewSecurityModal: View {
                                 .foregroundColor(.white)
                             Text("We detected unusual activity on your account")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.8))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                         }
 
                         Spacer()
                     }
                     .padding()
-                    .background(Color.orange.opacity(0.3))
-                    .cornerRadius(12)
+                    .background(Color.orange.opacity(DesignTokens.Opacity.overlayMedium))
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
 
                 // Security Details Card
@@ -195,8 +195,8 @@ struct ReviewSecurityModal: View {
                     }
                 }
                 .padding()
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(12)
+                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                .cornerRadius(DesignTokens.Radius.button)
 
                 // Security Recommendations
                 VStack(alignment: .leading, spacing: 12) {
@@ -226,8 +226,8 @@ struct ReviewSecurityModal: View {
                     }
                 }
                 .padding()
-                .background(Color.white.opacity(0.05))
-                .cornerRadius(12)
+                .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+                .cornerRadius(DesignTokens.Radius.button)
 
                 // Actions
                 VStack(spacing: 12) {
@@ -249,11 +249,11 @@ struct ReviewSecurityModal: View {
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(LinearGradient(
-                                colors: [securityType.color, securityType.color.opacity(0.7)],
+                                colors: [securityType.color, securityType.color.opacity(DesignTokens.Opacity.textSubtle)],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             ))
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                     }
 
@@ -270,8 +270,8 @@ struct ReviewSecurityModal: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.red.opacity(0.7))
-                            .cornerRadius(12)
+                            .background(Color.red.opacity(DesignTokens.Opacity.textSubtle))
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                     }
 
@@ -287,8 +287,8 @@ struct ReviewSecurityModal: View {
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.white.opacity(0.2))
-                        .cornerRadius(12)
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
                 }
             }
@@ -313,7 +313,7 @@ struct ReviewSecurityModal: View {
             // Success Icon
             ZStack {
                 Circle()
-                    .fill(Color.green.opacity(0.2))
+                    .fill(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                     .frame(width: 120, height: 120)
 
                 Image(systemName: "checkmark.shield.fill")
@@ -329,7 +329,7 @@ struct ReviewSecurityModal: View {
 
                 Text("Your account is now more secure")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
             }
 
             Spacer()
@@ -394,13 +394,13 @@ struct SecurityDetailRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .frame(width: 24)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(label)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 Text(value)
                     .font(.subheadline.weight(.medium))
                     .foregroundColor(.white)
@@ -420,13 +420,13 @@ struct SecurityTipRow: View {
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.green.opacity(0.8))
+                .foregroundColor(.green.opacity(DesignTokens.Opacity.textTertiary))
                 .font(.caption)
                 .frame(width: 20)
 
             Text(text)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
 
             Spacer()
         }

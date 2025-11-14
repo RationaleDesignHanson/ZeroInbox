@@ -43,7 +43,7 @@ struct PriorityPickerView: View {
 
                             Text("Choose how important this email is")
                                 .font(.subheadline)
-                                .foregroundColor(textColor.opacity(0.6))
+                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 40)
                         }
@@ -115,14 +115,14 @@ struct PriorityOptionRow: View {
                             LinearGradient(
                                 colors: [
                                     Color(hex: priority.color),
-                                    Color(hex: priority.color).opacity(0.8)
+                                    Color(hex: priority.color).opacity(DesignTokens.Opacity.textTertiary)
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
                         )
                         .frame(width: 56, height: 56)
-                        .shadow(color: Color(hex: priority.color).opacity(0.3), radius: 8, y: 4)
+                        .shadow(color: Color(hex: priority.color).opacity(DesignTokens.Opacity.overlayMedium), radius: 8, y: 4)
 
                     Image(systemName: priority.icon)
                         .font(.system(size: 24, weight: .semibold))
@@ -137,7 +137,7 @@ struct PriorityOptionRow: View {
 
                     Text(priorityDescription(for: priority))
                         .font(.subheadline)
-                        .foregroundColor(textColor.opacity(0.6))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                         .lineLimit(2)
                 }
 
@@ -150,9 +150,9 @@ struct PriorityOptionRow: View {
                         .foregroundColor(.blue)
                 }
             }
-            .padding(16)
+            .padding(DesignTokens.Spacing.component)
             .background(rowBackgroundColor)
-            .cornerRadius(16)
+            .cornerRadius(DesignTokens.Radius.card)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .strokeBorder(

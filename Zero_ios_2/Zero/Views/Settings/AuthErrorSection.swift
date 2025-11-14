@@ -17,12 +17,12 @@ struct AuthErrorSection: View {
 
             Text(error.message)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
             if let suggestion = error.suggestion {
                 Text(suggestion)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                     .padding(.top, 4)
             }
 
@@ -34,27 +34,27 @@ struct AuthErrorSection: View {
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
                         .background(Color.purple)
-                        .cornerRadius(8)
+                        .cornerRadius(DesignTokens.Radius.chip)
                 }
 
                 Button(action: onDismiss) {
                     Text("Dismiss")
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
-                        .background(Color.white.opacity(0.1))
-                        .cornerRadius(8)
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                        .cornerRadius(DesignTokens.Radius.chip)
                 }
             }
             .padding(.top, 8)
         }
         .padding()
-        .background(Color.red.opacity(0.2))
-        .cornerRadius(12)
+        .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
+        .cornerRadius(DesignTokens.Radius.button)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.red.opacity(0.5), lineWidth: 1)
+                .stroke(Color.red.opacity(DesignTokens.Opacity.overlayStrong), lineWidth: 1)
         )
     }
 }

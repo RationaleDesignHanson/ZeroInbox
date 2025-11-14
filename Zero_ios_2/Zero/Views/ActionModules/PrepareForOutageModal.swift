@@ -65,7 +65,7 @@ struct PrepareForOutageModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Outage Schedule Card
                     VStack(alignment: .leading, spacing: 16) {
@@ -149,7 +149,7 @@ struct PrepareForOutageModal: View {
                     }
                     .padding()
                     .background(
-                        Color.orange.opacity(0.1)
+                        Color.orange.opacity(DesignTokens.Opacity.glassLight)
                     )
                     .cornerRadius(DesignTokens.Radius.card)
                     .overlay(
@@ -184,12 +184,12 @@ struct PrepareForOutageModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                         }
                     }
@@ -205,7 +205,7 @@ struct PrepareForOutageModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -220,7 +220,7 @@ struct PrepareForOutageModal: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(DesignTokens.Spacing.card)
@@ -380,7 +380,7 @@ struct PreparationTipRow: View {
         } label: {
             HStack(spacing: 12) {
                 Image(systemName: tip.isChecked ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(tip.isChecked ? .green : .white.opacity(0.5))
+                    .foregroundColor(tip.isChecked ? .green : .white.opacity(DesignTokens.Opacity.overlayStrong))
                     .font(.title3)
 
                 Image(systemName: tip.icon)

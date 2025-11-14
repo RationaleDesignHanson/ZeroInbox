@@ -53,7 +53,7 @@ struct AddReminderModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Reminder Title
                     VStack(alignment: .leading, spacing: 12) {
@@ -64,12 +64,12 @@ struct AddReminderModal: View {
                         TextField("", text: $reminderTitle)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -82,14 +82,14 @@ struct AddReminderModal: View {
                         TextEditor(text: $reminderNotes)
                             .frame(height: 100)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .colorScheme(.dark)
                             .scrollContentBackground(.hidden)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -110,14 +110,14 @@ struct AddReminderModal: View {
                                         Text(p.rawValue)
                                             .font(.caption)
                                     }
-                                    .foregroundColor(priority == p ? .white : .white.opacity(0.5))
+                                    .foregroundColor(priority == p ? .white : .white.opacity(DesignTokens.Opacity.overlayStrong))
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, DesignTokens.Spacing.component)
-                                    .background(priority == p ? p.color.opacity(0.3) : Color.white.opacity(0.05))
+                                    .background(priority == p ? p.color.opacity(DesignTokens.Opacity.overlayMedium) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .cornerRadius(DesignTokens.Radius.button)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                            .strokeBorder(priority == p ? p.color : Color.white.opacity(0.1), lineWidth: priority == p ? 2 : 1)
+                                            .strokeBorder(priority == p ? p.color : Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: priority == p ? 2 : 1)
                                     )
                                 }
                             }
@@ -141,12 +141,12 @@ struct AddReminderModal: View {
                         DatePicker("Due Date", selection: $dueDate, displayedComponents: [.date, .hourAndMinute])
                             .datePickerStyle(.compact)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .colorScheme(.dark)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                     }
 
@@ -188,7 +188,7 @@ struct AddReminderModal: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -203,7 +203,7 @@ struct AddReminderModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.red.opacity(0.2))
+                        .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
                 }

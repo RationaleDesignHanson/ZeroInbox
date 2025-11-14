@@ -20,7 +20,7 @@ struct ModelTuningSection: View {
                             .foregroundColor(.white)
                         Spacer()
                         Text(String(format: "%.2f", modelTemperature))
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .font(.caption)
                     }
 
@@ -29,7 +29,7 @@ struct ModelTuningSection: View {
 
                     Text("Controls randomness. Lower is more focused, higher is more creative.")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 // Top P Slider
@@ -39,7 +39,7 @@ struct ModelTuningSection: View {
                             .foregroundColor(.white)
                         Spacer()
                         Text(String(format: "%.2f", modelTopP))
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .font(.caption)
                     }
 
@@ -48,7 +48,7 @@ struct ModelTuningSection: View {
 
                     Text("Alternative to temperature. Lower = more deterministic.")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 // Max Tokens Slider
@@ -58,7 +58,7 @@ struct ModelTuningSection: View {
                             .foregroundColor(.white)
                         Spacer()
                         Text("\(Int(modelMaxTokens))")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .font(.caption)
                     }
 
@@ -67,7 +67,7 @@ struct ModelTuningSection: View {
 
                     Text("Maximum length of model responses.")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 // Reset Button
@@ -77,8 +77,8 @@ struct ModelTuningSection: View {
                         .foregroundColor(.purple)
                         .padding(.vertical, 8)
                         .padding(.horizontal, 16)
-                        .background(Color.white.opacity(0.1))
-                        .cornerRadius(8)
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                        .cornerRadius(DesignTokens.Radius.chip)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
             }
@@ -93,8 +93,8 @@ struct ModelTuningSection: View {
         }
         .accentColor(.purple)
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 }
 

@@ -68,12 +68,12 @@ struct SavePropertiesModal: View {
                         }
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
-                        .background(Color.pink.opacity(0.2))
-                        .cornerRadius(20)
+                        .background(Color.pink.opacity(DesignTokens.Opacity.overlayLight))
+                        .cornerRadius(DesignTokens.Radius.modal)
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Property Grid (2 columns)
                     LazyVGrid(columns: [
@@ -106,7 +106,7 @@ struct SavePropertiesModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -138,12 +138,12 @@ struct SavePropertiesModal: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white.opacity(0.1))
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                 .foregroundColor(DesignTokens.Colors.textPrimary)
                                 .cornerRadius(DesignTokens.Radius.button)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                 )
                             }
                         }
@@ -160,7 +160,7 @@ struct SavePropertiesModal: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(DesignTokens.Spacing.card)
@@ -339,16 +339,16 @@ struct PropertyCard: View {
             ZStack {
                 Rectangle()
                     .fill(LinearGradient(
-                        colors: [Color.purple.opacity(0.3), Color.blue.opacity(0.3)],
+                        colors: [Color.purple.opacity(DesignTokens.Opacity.overlayMedium), Color.blue.opacity(DesignTokens.Opacity.overlayMedium)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     ))
                     .aspectRatio(4/3, contentMode: .fill)
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
 
                 Image(systemName: "house.fill")
                     .font(.largeTitle)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
 
             // Property details
@@ -397,15 +397,15 @@ struct PropertyCard: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 8)
-                .background(property.isSaved ? Color.pink.opacity(0.2) : Color.white.opacity(0.1))
-                .cornerRadius(8)
+                .background(property.isSaved ? Color.pink.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassLight))
+                .cornerRadius(DesignTokens.Radius.chip)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .strokeBorder(property.isSaved ? Color.pink : Color.white.opacity(0.3), lineWidth: 1)
+                        .strokeBorder(property.isSaved ? Color.pink : Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                 )
             }
         }
-        .padding(12)
+        .padding(DesignTokens.Spacing.element)
         .background(Color.white.opacity(0.08))
         .cornerRadius(DesignTokens.Radius.card)
     }

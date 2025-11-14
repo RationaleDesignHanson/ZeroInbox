@@ -45,7 +45,7 @@ struct ActionOptionsModalV1_1: View {
                         .foregroundColor(.white)
                     Text(card.intent != nil ? "Smart actions for this email" : "Select your preferred action")
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 }
                 
                 Spacer()
@@ -54,7 +54,7 @@ struct ActionOptionsModalV1_1: View {
                     isPresented = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .font(.title2)
                 }
             }
@@ -67,18 +67,18 @@ struct ActionOptionsModalV1_1: View {
                         .foregroundColor(.yellow)
                     Text("Detected: \(intentDisplayName(intent))")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.9))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                     Spacer()
                     Text("\(Int(confidence * 100))% confidence")
                         .font(.caption2)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 8)
             }
             
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
             
             // Action options
             ScrollView {
@@ -289,7 +289,7 @@ struct ActionOptionRow: View {
                     .frame(width: 40, height: 40)
                     .background(
                         Circle()
-                            .fill(isPrimary ? Color.yellow.opacity(0.2) : Color.white.opacity(0.1))
+                            .fill(isPrimary ? Color.yellow.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassLight))
                     )
                 
                 // Text
@@ -308,7 +308,7 @@ struct ActionOptionRow: View {
                     
                     Text(option.description)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .lineLimit(2)
                 }
                 
@@ -316,17 +316,17 @@ struct ActionOptionRow: View {
                 
                 // Chevron or checkmark
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "chevron.right")
-                    .foregroundColor(isSelected ? .green : .white.opacity(0.5))
+                    .foregroundColor(isSelected ? .green : .white.opacity(DesignTokens.Opacity.overlayStrong))
                     .font(.system(size: 18))
             }
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? Color.white.opacity(0.15) : Color.white.opacity(0.05))
+                    .fill(isSelected ? Color.white.opacity(0.15) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(isPrimary ? Color.yellow.opacity(0.5) : Color.clear, lineWidth: 2)
+                    .stroke(isPrimary ? Color.yellow.opacity(DesignTokens.Opacity.overlayStrong) : Color.clear, lineWidth: 2)
             )
         }
         .buttonStyle(PlainButtonStyle())

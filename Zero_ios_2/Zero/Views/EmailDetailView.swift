@@ -24,7 +24,7 @@ struct EmailDetailView: View {
                 VStack(alignment: .leading, spacing: 12) {
                     // Header section with frosted glass
                     headerSection
-                        .padding(16)
+                        .padding(DesignTokens.Spacing.component)
                         .background(
                             ZStack {
                                 Color.white.opacity(0.08)
@@ -33,7 +33,7 @@ struct EmailDetailView: View {
                                     .opacity(0.4)
                             }
                         )
-                        .cornerRadius(16)
+                        .cornerRadius(DesignTokens.Radius.card)
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
                                 .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
@@ -44,17 +44,17 @@ struct EmailDetailView: View {
                         .font(.title2.bold())
                         .foregroundColor(.white)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(16)
+                        .padding(DesignTokens.Spacing.component)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(
                             ZStack {
                                 Color.white.opacity(0.06)
                                 Rectangle()
                                     .fill(.ultraThinMaterial)
-                                    .opacity(0.3)
+                                    .opacity(DesignTokens.Opacity.overlayMedium)
                             }
                         )
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -82,7 +82,7 @@ struct EmailDetailView: View {
                                 lineSpacing: 6
                             )
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(16)
+                            .padding(DesignTokens.Spacing.component)
                         } else {
                             // Fallback to summary
                             let _ = Logger.info("No body content, showing summary", category: .app)
@@ -96,10 +96,10 @@ struct EmailDetailView: View {
 
                                 Text("Note: Full email content not available")
                                     .font(.caption)
-                                    .foregroundColor(.yellow.opacity(0.8))
+                                    .foregroundColor(.yellow.opacity(DesignTokens.Opacity.textTertiary))
                                     .padding(.top, 4)
                             }
-                            .padding(16)
+                            .padding(DesignTokens.Spacing.component)
                         }
                     }
                     .background(
@@ -107,10 +107,10 @@ struct EmailDetailView: View {
                             Color.white.opacity(0.06)
                             Rectangle()
                                 .fill(.ultraThinMaterial)
-                                .opacity(0.3)
+                                .opacity(DesignTokens.Opacity.overlayMedium)
                         }
                     )
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -119,16 +119,16 @@ struct EmailDetailView: View {
                     // Thread indicator (if part of thread)
                     if let threadLength = card.threadLength, threadLength > 1 {
                         threadIndicator(count: threadLength)
-                            .padding(12)
+                            .padding(DesignTokens.Spacing.element)
                             .background(
                                 ZStack {
                                     Color.white.opacity(0.06)
                                     Rectangle()
                                         .fill(.ultraThinMaterial)
-                                        .opacity(0.3)
+                                        .opacity(DesignTokens.Opacity.overlayMedium)
                                 }
                             )
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
                                     .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -157,16 +157,16 @@ struct EmailDetailView: View {
                                 }
                             } : nil
                         )
-                        .padding(12)
+                        .padding(DesignTokens.Spacing.element)
                         .background(
                             ZStack {
                                 Color.white.opacity(0.06)
                                 Rectangle()
                                     .fill(.ultraThinMaterial)
-                                    .opacity(0.3)
+                                    .opacity(DesignTokens.Opacity.overlayMedium)
                             }
                         )
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -179,16 +179,16 @@ struct EmailDetailView: View {
                             selectedAttachment = attachment
                             showAttachmentPreview = true
                         }
-                        .padding(12)
+                        .padding(DesignTokens.Spacing.element)
                         .background(
                             ZStack {
                                 Color.white.opacity(0.06)
                                 Rectangle()
                                     .fill(.ultraThinMaterial)
-                                    .opacity(0.3)
+                                    .opacity(DesignTokens.Opacity.overlayMedium)
                             }
                         )
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -198,16 +198,16 @@ struct EmailDetailView: View {
                     // Thread context badges (if loaded)
                     if let threadData = threadData {
                         threadContextSection(context: threadData.context)
-                            .padding(12)
+                            .padding(DesignTokens.Spacing.element)
                             .background(
                                 ZStack {
                                     Color.white.opacity(0.06)
                                     Rectangle()
                                         .fill(.ultraThinMaterial)
-                                        .opacity(0.3)
+                                        .opacity(DesignTokens.Opacity.overlayMedium)
                                 }
                             )
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
                                     .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -217,16 +217,16 @@ struct EmailDetailView: View {
                     // Thread messages (collapsed by default)
                     if let threadData = threadData {
                         threadMessagesSection(messages: threadData.messages)
-                            .padding(12)
+                            .padding(DesignTokens.Spacing.element)
                             .background(
                                 ZStack {
                                     Color.white.opacity(0.06)
                                     Rectangle()
                                         .fill(.ultraThinMaterial)
-                                        .opacity(0.3)
+                                        .opacity(DesignTokens.Opacity.overlayMedium)
                                 }
                             )
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
                                     .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -239,19 +239,19 @@ struct EmailDetailView: View {
                             ProgressView()
                             Text("Loading conversation...")
                                 .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.8))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                         }
                         .frame(maxWidth: .infinity)
-                        .padding(12)
+                        .padding(DesignTokens.Spacing.element)
                         .background(
                             ZStack {
                                 Color.white.opacity(0.06)
                                 Rectangle()
                                     .fill(.ultraThinMaterial)
-                                    .opacity(0.3)
+                                    .opacity(DesignTokens.Opacity.overlayMedium)
                             }
                         )
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -260,16 +260,16 @@ struct EmailDetailView: View {
 
                     // Contextual Actions (smart suggestions)
                     ContextualActionsView(card: card)
-                        .padding(12)
+                        .padding(DesignTokens.Spacing.element)
                         .background(
                             ZStack {
                                 Color.white.opacity(0.06)
                                 Rectangle()
                                     .fill(.ultraThinMaterial)
-                                    .opacity(0.3)
+                                    .opacity(DesignTokens.Opacity.overlayMedium)
                             }
                         )
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -290,16 +290,16 @@ struct EmailDetailView: View {
 
                                     Text("Generate a complete, context-aware draft")
                                         .font(.caption)
-                                        .foregroundColor(.white.opacity(0.7))
+                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                 }
 
                                 Spacer()
 
                                 Image(systemName: "arrow.right.circle.fill")
                                     .font(.title2)
-                                    .foregroundColor(.white.opacity(0.8))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                             }
-                            .padding(12)
+                            .padding(DesignTokens.Spacing.element)
                             .background(
                                 ZStack {
                                     Color.white.opacity(0.08)
@@ -308,7 +308,7 @@ struct EmailDetailView: View {
                                         .opacity(0.4)
                                 }
                             )
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
                                     .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
@@ -323,16 +323,16 @@ struct EmailDetailView: View {
                             replyText = selectedReply
                             showReplyComposer = true
                         }
-                        .padding(12)
+                        .padding(DesignTokens.Spacing.element)
                         .background(
                             ZStack {
                                 Color.white.opacity(0.06)
                                 Rectangle()
                                     .fill(.ultraThinMaterial)
-                                    .opacity(0.3)
+                                    .opacity(DesignTokens.Opacity.overlayMedium)
                             }
                         )
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -341,16 +341,16 @@ struct EmailDetailView: View {
 
                     // Archetype-specific details
                     archetypeDetails
-                        .padding(12)
+                        .padding(DesignTokens.Spacing.element)
                         .background(
                             ZStack {
                                 Color.white.opacity(0.06)
                                 Rectangle()
                                     .fill(.ultraThinMaterial)
-                                    .opacity(0.3)
+                                    .opacity(DesignTokens.Opacity.overlayMedium)
                             }
                         )
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
@@ -358,7 +358,7 @@ struct EmailDetailView: View {
                     
                     // Action buttons in frosted glass panel
                     actionButtons
-                        .padding(16)
+                        .padding(DesignTokens.Spacing.component)
                         .background(
                             ZStack {
                                 Color.white.opacity(0.08)
@@ -367,7 +367,7 @@ struct EmailDetailView: View {
                                     .opacity(0.4)
                             }
                         )
-                        .cornerRadius(16)
+                        .cornerRadius(DesignTokens.Radius.card)
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
                                 .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
@@ -383,7 +383,7 @@ struct EmailDetailView: View {
                     LinearGradient(
                         colors: [
                             Color(red: 0x1a/255, green: 0x1a/255, blue: 0x2e/255),
-                            Color(red: 0x2d/255, green: 0x1b/255, blue: 0x4e/255).opacity(0.8)
+                            Color(red: 0x2d/255, green: 0x1b/255, blue: 0x4e/255).opacity(DesignTokens.Opacity.textTertiary)
                         ],
                         startPoint: .top,
                         endPoint: .bottom
@@ -647,7 +647,7 @@ struct EmailDetailView: View {
                 Image(systemName: threadExpanded ? "chevron.up.circle.fill" : "chevron.down.circle.fill")
                     .font(.system(size: 16))
             }
-            .foregroundColor(.white.opacity(0.9))
+            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -725,7 +725,7 @@ struct EmailDetailView: View {
             }
 
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
             // Show messages when expanded
             if threadExpanded {
@@ -738,7 +738,7 @@ struct EmailDetailView: View {
                             Spacer()
                             SwiftUI.Text(message.date)
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         }
                         SwiftUI.Text(message.body)
                             .font(.caption)
@@ -746,13 +746,13 @@ struct EmailDetailView: View {
                             .lineLimit(3)
                     }
                     .padding()
-                    .background(Color.white.opacity(0.05))
-                    .cornerRadius(8)
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+                    .cornerRadius(DesignTokens.Radius.chip)
                 }
             } else {
                 Text("[Tap to expand]")
                     .font(.system(size: 13))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                     .italic()
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 8)
@@ -781,7 +781,7 @@ struct EmailDetailView: View {
 
                     Text(error)
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .multilineTextAlignment(.center)
 
                     Button("Try Again") {
@@ -791,13 +791,13 @@ struct EmailDetailView: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 8)
                     .background(Color.blue)
-                    .cornerRadius(8)
+                    .cornerRadius(DesignTokens.Radius.chip)
                 }
                 .frame(height: 300)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(12)
+                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                .cornerRadius(DesignTokens.Radius.button)
             } else {
                 HTMLWebView(
                     htmlContent: htmlBody,
@@ -851,7 +851,7 @@ struct EmailDetailView: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(priorityColor)
-            .cornerRadius(8)
+            .cornerRadius(DesignTokens.Radius.chip)
         }
     }
     
@@ -871,8 +871,8 @@ struct EmailDetailView: View {
                         .foregroundColor(.white)
                 }
                 .padding()
-                .background(Color.white.opacity(0.2))
-                .cornerRadius(12)
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                .cornerRadius(DesignTokens.Radius.button)
             }
             
             // Shopping specific - with size constraints and error handling
@@ -886,26 +886,26 @@ struct EmailDetailView: View {
                             .frame(maxWidth: .infinity)  // Use full available width
                             .frame(maxHeight: 300)
                             .clipped()
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                     case .failure:
                         VStack {
                             Image(systemName: "photo.fill")
                                 .font(.system(size: 40))
-                                .foregroundColor(.white.opacity(0.3))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
                             Text("Image failed to load")
                                 .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.5))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                         }
                         .frame(height: 200)
                         .frame(maxWidth: .infinity)
-                        .background(Color.white.opacity(0.1))
-                        .cornerRadius(12)
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                        .cornerRadius(DesignTokens.Radius.button)
                     case .empty:
                         ZStack {
                             Rectangle()
-                                .fill(Color.white.opacity(0.1))
+                                .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                 .frame(height: 200)
-                                .cornerRadius(12)
+                                .cornerRadius(DesignTokens.Radius.button)
                             ProgressView()
                                 .tint(.white)
                         }
@@ -928,7 +928,7 @@ struct EmailDetailView: View {
                     
                     Text("$\(String(format: "%.2f", originalPrice))")
                         .font(.title3)
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                         .strikethrough()
                     
                     if let discount = card.discount {
@@ -938,7 +938,7 @@ struct EmailDetailView: View {
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(Color.green)
-                            .cornerRadius(6)
+                            .cornerRadius(DesignTokens.Radius.minimal)
                     }
                 }
             }
@@ -956,7 +956,7 @@ struct EmailDetailView: View {
                 }
                 .padding()
                 .background(Color.white.opacity(0.15))
-                .cornerRadius(12)
+                .cornerRadius(DesignTokens.Radius.button)
             }
             
             // Travel specific
@@ -969,12 +969,12 @@ struct EmailDetailView: View {
     func detailRow(icon: String, label: String, value: String) -> some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                 .frame(width: 24)
 
             Text(label + ":")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
             Text(value)
                 .font(.subheadline.bold())
@@ -1010,7 +1010,7 @@ struct EmailDetailView: View {
                 .padding(.vertical, 14)
                 .background(Color.white)
                 .foregroundColor(.blue)
-                .cornerRadius(10)
+                .cornerRadius(DesignTokens.Radius.button)
             }
 
             // Secondary actions
@@ -1038,7 +1038,7 @@ struct EmailDetailView: View {
                     .padding(.vertical, 12)
                     .background(Color.white.opacity(0.15))
                     .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
 
                 Button {
@@ -1054,7 +1054,7 @@ struct EmailDetailView: View {
                     .padding(.vertical, 12)
                     .background(Color.white.opacity(0.15))
                     .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
             }
         }

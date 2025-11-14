@@ -61,25 +61,25 @@ struct SwipeHintOverlay: View {
         ZStack {
             // Background card simulation
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.white.opacity(0.1))
+                .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                 .frame(width: 200, height: 120)
                 .overlay(
                     RoundedRectangle(cornerRadius: 20)
-                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                 )
                 .overlay(
                     // Mini card content
                     VStack(spacing: 8) {
                         RoundedRectangle(cornerRadius: 6)
-                            .fill(Color.white.opacity(0.3))
+                            .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                             .frame(width: 140, height: 12)
 
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(Color.white.opacity(0.2))
+                            .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                             .frame(width: 160, height: 8)
 
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(Color.white.opacity(0.2))
+                            .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                             .frame(width: 140, height: 8)
                     }
                 )
@@ -97,8 +97,8 @@ struct SwipeHintOverlay: View {
                         .foregroundColor(.white)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
-                        .background(currentHint.color.opacity(0.9))
-                        .cornerRadius(8)
+                        .background(currentHint.color.opacity(DesignTokens.Opacity.textSecondary))
+                        .cornerRadius(DesignTokens.Radius.chip)
                 }
             }
             .scaleEffect(iconScale)
@@ -164,7 +164,7 @@ struct FirstTimeSwipeHintOverlay: View {
     var body: some View {
         ZStack {
             // Dim background
-            Color.black.opacity(0.7)
+            Color.black.opacity(DesignTokens.Opacity.textSubtle)
                 .ignoresSafeArea()
 
             VStack(spacing: 24) {
@@ -180,7 +180,7 @@ struct FirstTimeSwipeHintOverlay: View {
 
                     Text("Watch the card move to learn the gestures")
                         .font(.body)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                         .multilineTextAlignment(.center)
                 }
 
@@ -197,7 +197,7 @@ struct FirstTimeSwipeHintOverlay: View {
                         .padding(.horizontal, 32)
                         .padding(.vertical, 12)
                         .background(Color.green)
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(.top, 8)
             }

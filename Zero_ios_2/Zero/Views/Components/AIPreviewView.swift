@@ -7,15 +7,15 @@ struct AIPreviewView: View {
 
     // Conditional text colors based on card type
     private var headerTextColor: Color {
-        card.type == .ads ? DesignTokens.Colors.adsTextSecondary : Color.white.opacity(0.8)
+        card.type == .ads ? DesignTokens.Colors.adsTextSecondary : Color.white.opacity(DesignTokens.Opacity.textTertiary)
     }
 
     private var headerTextColorStrong: Color {
-        card.type == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white.opacity(0.9)
+        card.type == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white.opacity(DesignTokens.Opacity.textSecondary)
     }
 
     private var progressBarBackground: Color {
-        card.type == .ads ? DesignTokens.Colors.adsTextSubtle.opacity(0.3) : Color.white.opacity(0.2)
+        card.type == .ads ? DesignTokens.Colors.adsTextSubtle.opacity(DesignTokens.Opacity.overlayMedium) : Color.white.opacity(DesignTokens.Opacity.overlayLight)
     }
 
     private var progressBarFill: Color {
@@ -74,10 +74,10 @@ struct AIPreviewView: View {
             // Gradient background: purple for mail, green for ads
             LinearGradient(
                 colors: card.type == .ads ? [
-                    DesignTokens.Colors.adsGradientStart.opacity(0.2),
+                    DesignTokens.Colors.adsGradientStart.opacity(DesignTokens.Opacity.overlayLight),
                     DesignTokens.Colors.adsGradientEnd.opacity(0.15)
                 ] : [
-                    Color.purple.opacity(0.2),
+                    Color.purple.opacity(DesignTokens.Opacity.overlayLight),
                     Color.purple.opacity(0.15)
                 ],
                 startPoint: .topLeading,

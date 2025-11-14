@@ -18,7 +18,7 @@ struct SearchModal: View {
                 // Search bar
                 HStack(spacing: 12) {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                     TextField("Search emails...", text: $searchQuery)
                         .textFieldStyle(.plain)
@@ -31,13 +31,13 @@ struct SearchModal: View {
                     if !searchQuery.isEmpty {
                         Button(action: { searchQuery = "" }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         }
                     }
                 }
                 .padding()
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(12)
+                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                .cornerRadius(DesignTokens.Radius.button)
                 .padding()
 
                 // Results
@@ -47,7 +47,7 @@ struct SearchModal: View {
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     Text("Searching...")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .padding(.top, 8)
                     Spacer()
                 } else if let error = errorMessage {
@@ -58,7 +58,7 @@ struct SearchModal: View {
                             .foregroundColor(.orange)
                         Text(error)
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .multilineTextAlignment(.center)
                     }
                     .padding()
@@ -68,10 +68,10 @@ struct SearchModal: View {
                     VStack(spacing: 12) {
                         Image(systemName: "magnifyingglass")
                             .font(.largeTitle)
-                            .foregroundColor(.white.opacity(0.3))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
                         Text("No results found")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                     Spacer()
                 } else if results.isEmpty {
@@ -79,13 +79,13 @@ struct SearchModal: View {
                     VStack(spacing: 12) {
                         Image(systemName: "magnifyingglass")
                             .font(.largeTitle)
-                            .foregroundColor(.white.opacity(0.3))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
                         Text("Search your emails")
                             .font(.headline)
                             .foregroundColor(.white)
                         Text("Try searching by keyword, sender, or subject")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.6))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                             .multilineTextAlignment(.center)
                     }
                     .padding()
@@ -314,21 +314,21 @@ struct ThreadResultRow: View {
                                     endPoint: .bottomTrailing
                                 )
                             )
-                            .cornerRadius(8)
+                            .cornerRadius(DesignTokens.Radius.chip)
 
                         Text(sender.name)
                             .font(.headline)
                             .foregroundColor(.white)
                     } else {
                         Image(systemName: "envelope.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .frame(width: 36, height: 36)
-                            .background(Color.white.opacity(0.1))
-                            .cornerRadius(8)
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                            .cornerRadius(DesignTokens.Radius.chip)
 
                         Text("Unknown")
                             .font(.headline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     Spacer()
@@ -341,11 +341,11 @@ struct ThreadResultRow: View {
                             Text("\(result.messageCount)")
                                 .font(.system(size: 11, weight: .medium))
                         }
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         .padding(.horizontal, 6)
                         .padding(.vertical, 3)
                         .background(Color.white.opacity(0.15))
-                        .cornerRadius(6)
+                        .cornerRadius(DesignTokens.Radius.minimal)
                     }
 
                     // Priority badge
@@ -361,25 +361,25 @@ struct ThreadResultRow: View {
                 // Summary
                 Text(result.latestEmail.summary)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     .lineLimit(2)
 
                 // Time
                 HStack {
                     Text(result.latestEmail.timeAgo)
                         .font(.caption2)
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
 
                     Spacer()
 
                     // Archetype badge
                     Text(result.latestEmail.type.displayName.uppercased())
                         .font(.system(size: 8, weight: .bold))
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
-                        .background(Color.white.opacity(0.1))
-                        .cornerRadius(4)
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                        .cornerRadius(DesignTokens.Radius.minimal)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -387,11 +387,11 @@ struct ThreadResultRow: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? Color.blue.opacity(0.15) : Color.white.opacity(0.05))
+                    .fill(isSelected ? Color.blue.opacity(0.15) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .strokeBorder(
-                                isSelected ? Color.blue.opacity(0.5) : Color.white.opacity(0.1),
+                                isSelected ? Color.blue.opacity(DesignTokens.Opacity.overlayStrong) : Color.white.opacity(DesignTokens.Opacity.glassLight),
                                 lineWidth: isSelected ? 2 : 1
                             )
                     )
@@ -410,7 +410,7 @@ struct ThreadResultRow: View {
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(Color.red)
-                    .cornerRadius(4)
+                    .cornerRadius(DesignTokens.Radius.minimal)
             case .high:
                 Text("HIGH")
                     .font(.system(size: 8, weight: .bold))
@@ -418,7 +418,7 @@ struct ThreadResultRow: View {
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(Color.orange)
-                    .cornerRadius(4)
+                    .cornerRadius(DesignTokens.Radius.minimal)
             case .medium:
                 EmptyView()
             case .low:

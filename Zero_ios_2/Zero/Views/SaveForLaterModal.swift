@@ -42,8 +42,8 @@ struct SaveForLaterModal: View {
                     LinearGradient(
                         colors: [
                             Color.clear,
-                            Color.purple.opacity(0.3),
-                            Color.blue.opacity(0.3),
+                            Color.purple.opacity(DesignTokens.Opacity.overlayMedium),
+                            Color.blue.opacity(DesignTokens.Opacity.overlayMedium),
                             Color.clear
                         ],
                         startPoint: .leading,
@@ -73,7 +73,7 @@ struct SaveForLaterModal: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(modalBackground)
         .cornerRadius(28)
-        .shadow(color: Color.purple.opacity(0.2), radius: 20)
+        .shadow(color: Color.purple.opacity(DesignTokens.Opacity.overlayLight), radius: 20)
         .sheet(isPresented: $showCustomSnooze) {
             customSnoozeSheet
         }
@@ -91,7 +91,7 @@ struct SaveForLaterModal: View {
             } label: {
                 Text("Cancel")
                     .font(.body)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
             }
 
             Spacer()
@@ -103,7 +103,7 @@ struct SaveForLaterModal: View {
 
                 Text("Choose how to save this email")
                     .font(.caption)
-                    .foregroundColor(.purple.opacity(0.8))
+                    .foregroundColor(.purple.opacity(DesignTokens.Opacity.textTertiary))
             }
 
             Spacer()
@@ -116,11 +116,11 @@ struct SaveForLaterModal: View {
         .padding(.vertical, 16)
         .background(
             ZStack {
-                Color.black.opacity(0.3)
+                Color.black.opacity(DesignTokens.Opacity.overlayMedium)
 
                 LinearGradient(
                     colors: [
-                        Color.purple.opacity(0.1),
+                        Color.purple.opacity(DesignTokens.Opacity.glassLight),
                         Color.clear
                     ],
                     startPoint: .leading,
@@ -136,7 +136,7 @@ struct SaveForLaterModal: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(
                     LinearGradient(
-                        colors: [Color.purple.opacity(0.3), Color.blue.opacity(0.3)],
+                        colors: [Color.purple.opacity(DesignTokens.Opacity.overlayMedium), Color.blue.opacity(DesignTokens.Opacity.overlayMedium)],
                         startPoint: .topLeading,
                         endPoint: .bottomTrailing
                     )
@@ -158,14 +158,14 @@ struct SaveForLaterModal: View {
                 if let company = card.company?.name ?? card.sender?.name {
                     Text(company)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
             }
 
             Spacer()
         }
         .padding(DesignTokens.Spacing.section)
-        .background(Color.white.opacity(0.05))
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
         .cornerRadius(DesignTokens.Radius.button)
         .padding(.horizontal, DesignTokens.Spacing.card)
         .padding(.top, 16)
@@ -196,7 +196,7 @@ struct SaveForLaterModal: View {
                                 endPoint: .trailing
                             ) :
                             LinearGradient(
-                                colors: [Color.white.opacity(0.1), Color.white.opacity(0.1)],
+                                colors: [Color.white.opacity(DesignTokens.Opacity.glassLight), Color.white.opacity(DesignTokens.Opacity.glassLight)],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -214,7 +214,7 @@ struct SaveForLaterModal: View {
         VStack(spacing: 12) {
             Text("Remind me in...")
                 .font(.caption.bold())
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 8)
 
@@ -239,7 +239,7 @@ struct SaveForLaterModal: View {
 
                             Text("Choose exact time")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         }
 
                         Spacer()
@@ -249,7 +249,7 @@ struct SaveForLaterModal: View {
                             .foregroundColor(.white.opacity(0.4))
                     }
                     .padding(DesignTokens.Spacing.section)
-                    .background(Color.white.opacity(0.05))
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
             }
@@ -273,13 +273,13 @@ struct SaveForLaterModal: View {
 
                     Text(snoozeTimeDescription(hours: hours))
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 Spacer()
             }
             .padding(DesignTokens.Spacing.section)
-            .background(Color.white.opacity(0.05))
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             .cornerRadius(DesignTokens.Radius.button)
         }
     }
@@ -289,7 +289,7 @@ struct SaveForLaterModal: View {
             VStack(spacing: 12) {
                 Text("Select folder")
                     .font(.caption.bold())
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.top, 8)
 
@@ -313,15 +313,15 @@ struct SaveForLaterModal: View {
         VStack(spacing: 12) {
             Image(systemName: "folder.badge.plus")
                 .font(.largeTitle)
-                .foregroundColor(.white.opacity(0.3))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
 
             Text("No folders yet")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             Text("Create folders in the Saved Mail section to organize your emails")
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.5))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 24)
         }
@@ -351,7 +351,7 @@ struct SaveForLaterModal: View {
 
                     Text("\(folder.emailCount) emails")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 Spacer()
@@ -363,18 +363,18 @@ struct SaveForLaterModal: View {
                         .foregroundColor(.green)
                 }
             }
-            .padding(12)
+            .padding(DesignTokens.Spacing.element)
             .background(
                 selectedFolder?.id == folder.id ?
-                    Color.white.opacity(0.1) :
-                    Color.white.opacity(0.05)
+                    Color.white.opacity(DesignTokens.Opacity.glassLight) :
+                    Color.white.opacity(DesignTokens.Opacity.glassUltraLight)
             )
             .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
                     .strokeBorder(
                         selectedFolder?.id == folder.id ?
-                            Color.green.opacity(0.5) :
+                            Color.green.opacity(DesignTokens.Opacity.overlayStrong) :
                             Color.clear,
                         lineWidth: 2
                     )
@@ -389,10 +389,10 @@ struct SaveForLaterModal: View {
             } label: {
                 Text("Cancel")
                     .font(.body.bold())
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 16)
-                    .background(Color.white.opacity(0.1))
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
             }
 
@@ -450,9 +450,9 @@ struct SaveForLaterModal: View {
             // Subtle accent gradient
             LinearGradient(
                 colors: [
-                    Color.purple.opacity(0.1),
+                    Color.purple.opacity(DesignTokens.Opacity.glassLight),
                     Color.clear,
-                    Color.blue.opacity(0.05)
+                    Color.blue.opacity(DesignTokens.Opacity.glassUltraLight)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing

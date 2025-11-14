@@ -110,7 +110,7 @@ struct SavedMailListView: View {
                 .scaleEffect(1.5)
             Text("Loading folders...")
                 .font(.subheadline)
-                .foregroundColor(textColor.opacity(0.6))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
         }
     }
 
@@ -118,7 +118,7 @@ struct SavedMailListView: View {
         VStack(spacing: 24) {
             Image(systemName: "folder.badge.plus")
                 .font(.system(size: 72))
-                .foregroundColor(textColor.opacity(0.3))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
 
             VStack(spacing: 12) {
                 Text("No Saved Folders")
@@ -127,7 +127,7 @@ struct SavedMailListView: View {
 
                 Text("Create folders to organize and save important emails for easy access later")
                     .font(.body)
-                    .foregroundColor(textColor.opacity(0.6))
+                    .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 32)
             }
@@ -147,7 +147,7 @@ struct SavedMailListView: View {
                             endPoint: .trailing
                         )
                     )
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
             }
             .padding(.top, 8)
         }
@@ -159,7 +159,7 @@ struct SavedMailListView: View {
             if !presetFolders.isEmpty {
                 Section(header: Text("Preset Folders")
                     .font(.subheadline)
-                    .foregroundColor(textColor.opacity(0.6))) {
+                    .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))) {
                     ForEach(presetFolders) { folder in
                         Button {
                             selectedFolder = folder
@@ -176,7 +176,7 @@ struct SavedMailListView: View {
                 Section(header: HStack {
                     Text("Custom Folders")
                         .font(.subheadline)
-                        .foregroundColor(textColor.opacity(0.6))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                     Spacer()
                     Text("\(customFolders.count)/10")
                         .font(.caption)
@@ -342,7 +342,7 @@ struct FolderListRow: View {
                         .font(.system(size: folder.isPreset ? 24 : 22))
                         .foregroundColor(.white)
                 )
-                .shadow(color: Color(hex: folder.displayColor).opacity(0.3), radius: 4, y: 2)
+                .shadow(color: Color(hex: folder.displayColor).opacity(DesignTokens.Opacity.overlayMedium), radius: 4, y: 2)
 
             // Folder info
             VStack(alignment: .leading, spacing: 6) {
@@ -359,19 +359,19 @@ struct FolderListRow: View {
                             .foregroundColor(.white)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(Color.blue.opacity(0.7))
-                            .cornerRadius(4)
+                            .background(Color.blue.opacity(DesignTokens.Opacity.textSubtle))
+                            .cornerRadius(DesignTokens.Radius.minimal)
                     }
                 }
 
                 HStack(spacing: 4) {
                     Image(systemName: "envelope.fill")
                         .font(.caption2)
-                        .foregroundColor(textColor.opacity(0.5))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayStrong))
 
                     Text("\(folder.emailCount) \(folder.emailCount == 1 ? "email" : "emails")")
                         .font(.subheadline)
-                        .foregroundColor(textColor.opacity(0.6))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 // Priority distribution pills
@@ -386,12 +386,12 @@ struct FolderListRow: View {
 
                                     Text("\(count)")
                                         .font(.system(size: 10, weight: .semibold))
-                                        .foregroundColor(textColor.opacity(0.7))
+                                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textSubtle))
                                 }
                                 .padding(.horizontal, 4)
                                 .padding(.vertical, 2)
                                 .background(Color(hex: priority.color).opacity(0.15))
-                                .cornerRadius(6)
+                                .cornerRadius(DesignTokens.Radius.minimal)
                             }
                         }
                     }
@@ -403,7 +403,7 @@ struct FolderListRow: View {
             // Chevron
             Image(systemName: "chevron.right")
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(textColor.opacity(0.3))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
         }
         .padding(.vertical, 4)
     }

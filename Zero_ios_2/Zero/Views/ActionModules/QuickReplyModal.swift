@@ -93,14 +93,14 @@ struct QuickReplyModal: View {
                                 .foregroundColor(DesignTokens.Colors.textSubtle)
                                 .padding(DesignTokens.Spacing.component)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color.white.opacity(0.05))
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                 .cornerRadius(DesignTokens.Spacing.inline)
                                 .lineLimit(4)
                         }
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Smart suggestions
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -132,7 +132,7 @@ struct QuickReplyModal: View {
                             } label: {
                                 HStack {
                                     Image(systemName: selectedSuggestion == suggestion ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(selectedSuggestion == suggestion ? .green : .white.opacity(0.5))
+                                        .foregroundColor(selectedSuggestion == suggestion ? .green : .white.opacity(DesignTokens.Opacity.overlayStrong))
 
                                     Text(suggestion)
                                         .font(.subheadline)
@@ -140,14 +140,14 @@ struct QuickReplyModal: View {
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                                 .padding()
-                                .background(selectedSuggestion == suggestion ? Color.green.opacity(0.2) : Color.white.opacity(0.1))
+                                .background(selectedSuggestion == suggestion ? Color.green.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassLight))
                                 .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Custom reply text editor
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -158,7 +158,7 @@ struct QuickReplyModal: View {
                         TextEditor(text: $replyText)
                             .frame(height: 120)
                             .padding(DesignTokens.Spacing.inline)
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Spacing.inline)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .onChange(of: replyText) {
@@ -189,13 +189,13 @@ struct QuickReplyModal: View {
                             VStack(spacing: DesignTokens.Spacing.inline) {
                                 TextField("CC", text: .constant(""))
                                     .padding(DesignTokens.Spacing.component)
-                                    .background(Color.white.opacity(0.1))
+                                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                     .cornerRadius(DesignTokens.Spacing.inline)
                                     .foregroundColor(DesignTokens.Colors.textPrimary)
 
                                 TextField("BCC", text: .constant(""))
                                     .padding(DesignTokens.Spacing.component)
-                                    .background(Color.white.opacity(0.1))
+                                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                     .cornerRadius(DesignTokens.Spacing.inline)
                                     .foregroundColor(DesignTokens.Colors.textPrimary)
                             }
@@ -219,7 +219,7 @@ struct QuickReplyModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(canSend ? Color.blue : Color.gray.opacity(0.3))
+                            .background(canSend ? Color.blue : Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .cornerRadius(DesignTokens.Radius.button)
                         }
@@ -235,7 +235,7 @@ struct QuickReplyModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -248,8 +248,8 @@ struct QuickReplyModal: View {
                                     .font(.caption)
                             }
                             .padding()
-                            .background(Color.red.opacity(0.1))
-                            .cornerRadius(8)
+                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
+                            .cornerRadius(DesignTokens.Radius.chip)
                         }
                     }
                     .padding(.top, DesignTokens.Spacing.card)

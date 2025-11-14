@@ -154,7 +154,7 @@ struct CardStackView: View {
                     distance: swipeDistance
                 )
                 .frame(width: Constants.UI.cardWidth, height: Constants.UI.cardHeight)
-                .cornerRadius(24)
+                .cornerRadius(DesignTokens.Radius.modal)
             }
         }
         .offset(y: CGFloat(offset) * Constants.UI.cardStackOffset)

@@ -67,7 +67,7 @@ struct ReservationModal: View {
                     HStack(spacing: DesignTokens.Spacing.component) {
                         ZStack {
                             Circle()
-                                .fill(reservationType.color.opacity(0.2))
+                                .fill(reservationType.color.opacity(DesignTokens.Opacity.overlayLight))
                                 .frame(width: 60, height: 60)
 
                             Text(reservationType.icon)
@@ -196,7 +196,7 @@ struct ReservationModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
                 }
@@ -304,7 +304,7 @@ struct ReservationDetailRow: View {
         HStack(spacing: DesignTokens.Spacing.element) {
             ZStack {
                 Circle()
-                    .fill(iconColor.opacity(0.2))
+                    .fill(iconColor.opacity(DesignTokens.Opacity.overlayLight))
                     .frame(width: 36, height: 36)
 
                 Image(systemName: icon)
@@ -338,7 +338,7 @@ struct ReservationDetailRow: View {
                 } label: {
                     Image(systemName: showCopied ? "checkmark" : "doc.on.doc")
                         .font(.system(size: 14))
-                        .foregroundColor(showCopied ? .green : .white.opacity(0.5))
+                        .foregroundColor(showCopied ? .green : .white.opacity(DesignTokens.Opacity.overlayStrong))
                 }
             }
         }

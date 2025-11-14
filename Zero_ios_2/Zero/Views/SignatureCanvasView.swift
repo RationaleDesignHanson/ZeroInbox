@@ -20,17 +20,17 @@ struct SignatureCanvasView: View {
                         .foregroundColor(.white)
                     Text("Use your finger or Apple Pencil to sign")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
-                .background(Color.white.opacity(0.1))
+                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
 
                 // Canvas - Add explicit frame and ensure it's interactive
                 CanvasViewRepresentable(drawing: $drawing)
                     .frame(height: 400) // Explicit height
                     .background(Color.white)
-                    .cornerRadius(16)
+                    .cornerRadius(DesignTokens.Radius.card)
                     .padding()
                     .allowsHitTesting(true) // Ensure touches are captured
 
@@ -47,9 +47,9 @@ struct SignatureCanvasView: View {
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.red.opacity(0.2))
+                        .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
                         .foregroundColor(.red)
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
 
                     // Save Button
@@ -65,7 +65,7 @@ struct SignatureCanvasView: View {
                         .padding()
                         .background(Color.green)
                         .foregroundColor(.white)
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
                     .disabled(drawing.bounds.isEmpty)
                 }
@@ -81,7 +81,7 @@ struct SignatureCanvasView: View {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
             }

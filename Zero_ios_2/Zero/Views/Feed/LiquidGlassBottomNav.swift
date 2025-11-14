@@ -59,21 +59,21 @@ struct LiquidGlassBottomNav: View {
                 )
 
                 // Premium iOS blur material for glass effect
-                .background(.regularMaterial.opacity(0.6))
+                .background(.regularMaterial.opacity(DesignTokens.Opacity.textDisabled))
 
                 // Subtle highlight overlay for depth
                 LinearGradient(
                     colors: [
-                        Color.white.opacity(0.05),
+                        Color.white.opacity(DesignTokens.Opacity.glassUltraLight),
                         Color.clear,
-                        Color.black.opacity(0.1)
+                        Color.black.opacity(DesignTokens.Opacity.glassLight)
                     ],
                     startPoint: .top,
                     endPoint: .bottom
                 )
             }
         )
-        .cornerRadius(20)  // Rounded corners for island effect
+        .cornerRadius(DesignTokens.Radius.modal)  // Rounded corners for island effect
         .padding(.horizontal, 16)  // Side padding creates floating effect
         .padding(.bottom, 16)  // Bottom padding lifts it off screen edge
         .shadow(color: Color.black.opacity(0.4), radius: 20, y: -5)  // Elevated shadow
@@ -118,11 +118,11 @@ struct LiquidGlassBottomNav: View {
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 6)
-        .background(Color.black.opacity(0.3))
-        .cornerRadius(16)
+        .background(Color.black.opacity(DesignTokens.Opacity.overlayMedium))
+        .cornerRadius(DesignTokens.Radius.card)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
         )
     }
 
@@ -144,13 +144,13 @@ struct LiquidGlassBottomNav: View {
             .background(
                 isActive ? archetypeGradient(for: type) :
                 LinearGradient(
-                    colors: [Color.white.opacity(0.1), Color.white.opacity(0.1)],
+                    colors: [Color.white.opacity(DesignTokens.Opacity.glassLight), Color.white.opacity(DesignTokens.Opacity.glassLight)],
                     startPoint: .leading,
                     endPoint: .trailing
                 )
             )
             .foregroundColor(.white)
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
         }
         .buttonStyle(PlainButtonStyle())
         .overlay(alignment: .topTrailing) {
@@ -170,10 +170,10 @@ struct LiquidGlassBottomNav: View {
             .padding(.vertical, 2)
             .background(
                 Capsule()
-                    .fill(Color.black.opacity(0.6))
+                    .fill(Color.black.opacity(DesignTokens.Opacity.textDisabled))
                     .overlay(
                         Capsule()
-                            .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                            .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                     )
             )
             .offset(x: 4, y: -4)
@@ -236,10 +236,10 @@ struct LiquidGlassBottomNav: View {
                 .foregroundColor(.white)
                 .frame(width: 36, height: 36)
                 .background(Color.white.opacity(0.15))
-                .cornerRadius(10)
+                .cornerRadius(DesignTokens.Radius.button)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                 )
         }
         .buttonStyle(PlainButtonStyle())
@@ -249,11 +249,11 @@ struct LiquidGlassBottomNav: View {
         Text("\(cartItemCount)")
             .font(.system(size: 10, weight: .bold))
             .foregroundColor(.white)
-            .padding(4)
+            .padding(DesignTokens.Spacing.minimal)
             .background(
                 Circle()
                     .fill(Color.red)
-                    .shadow(color: Color.red.opacity(0.5), radius: 4, x: 0, y: 2)
+                    .shadow(color: Color.red.opacity(DesignTokens.Opacity.overlayStrong), radius: 4, x: 0, y: 2)
             )
             .offset(x: 6, y: -6)
     }
@@ -266,12 +266,12 @@ struct LiquidGlassBottomNav: View {
             HStack(spacing: 4) {
                 Text("INBOX PROGRESS")
                     .font(.system(size: 9, weight: .bold))
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     .tracking(0.5)
 
                 Text("\(Int(progressPercentage * 100))%")
                     .font(.system(size: 9, weight: .bold))
-                    .foregroundColor(.white.opacity(0.9))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
             }
             .fixedSize()
 
@@ -280,7 +280,7 @@ struct LiquidGlassBottomNav: View {
                 ZStack(alignment: .leading) {
                     // Background bar
                     RoundedRectangle(cornerRadius: 2)
-                        .fill(Color.white.opacity(0.2))
+                        .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                         .frame(height: 4)
 
                     // Filled progress with holographic gradient
@@ -288,17 +288,17 @@ struct LiquidGlassBottomNav: View {
                         .fill(
                             LinearGradient(
                                 colors: [
-                                    Color.cyan.opacity(0.9),
-                                    Color.blue.opacity(1.0),
-                                    Color.purple.opacity(0.9),
-                                    Color.pink.opacity(0.8)
+                                    Color.cyan.opacity(DesignTokens.Opacity.textSecondary),
+                                    Color.blue.opacity(DesignTokens.Opacity.textPrimary),
+                                    Color.purple.opacity(DesignTokens.Opacity.textSecondary),
+                                    Color.pink.opacity(DesignTokens.Opacity.textTertiary)
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
                         )
                         .frame(width: validProgressWidth(geometryWidth: geometry.size.width), height: 4)
-                        .shadow(color: Color.cyan.opacity(0.6), radius: 4, x: 0, y: 0)
+                        .shadow(color: Color.cyan.opacity(DesignTokens.Opacity.textDisabled), radius: 4, x: 0, y: 0)
                 }
             }
             .frame(height: 4)
@@ -313,23 +313,23 @@ struct LiquidGlassBottomNav: View {
             LinearGradient(
                 colors: [
                     Color.cyan.opacity(0.95),
-                    Color.blue.opacity(1.0),
+                    Color.blue.opacity(DesignTokens.Opacity.textPrimary),
                     Color.purple.opacity(0.95),
-                    Color.pink.opacity(0.9)
+                    Color.pink.opacity(DesignTokens.Opacity.textSecondary)
                 ],
                 startPoint: .leading,
                 endPoint: .trailing
             )
             .frame(height: 4)
-            .shadow(color: Color.cyan.opacity(0.6), radius: 6, x: 0, y: 0)
+            .shadow(color: Color.cyan.opacity(DesignTokens.Opacity.textDisabled), radius: 6, x: 0, y: 0)
 
             // Strong glow effect
             LinearGradient(
                 colors: [
-                    Color.cyan.opacity(0.7),
-                    Color.blue.opacity(0.8),
-                    Color.purple.opacity(0.7),
-                    Color.pink.opacity(0.6)
+                    Color.cyan.opacity(DesignTokens.Opacity.textSubtle),
+                    Color.blue.opacity(DesignTokens.Opacity.textTertiary),
+                    Color.purple.opacity(DesignTokens.Opacity.textSubtle),
+                    Color.pink.opacity(DesignTokens.Opacity.textDisabled)
                 ],
                 startPoint: .leading,
                 endPoint: .trailing

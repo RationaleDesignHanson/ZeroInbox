@@ -7,7 +7,7 @@ struct LoadingOverlayView: View {
     var body: some View {
         ZStack {
             // Semi-transparent background
-            Color.black.opacity(0.3)
+            Color.black.opacity(DesignTokens.Opacity.overlayMedium)
                 .ignoresSafeArea()
 
             // Loading spinner
@@ -21,11 +21,11 @@ struct LoadingOverlayView: View {
                     .foregroundColor(DesignTokens.Colors.textPrimary)
                     .opacity(isAnimating ? 1.0 : 0.6)
             }
-            .padding(32)
+            .padding(DesignTokens.Spacing.card)
             .background(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
                     .fill(Color.white.opacity(0.15))
-                    .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 4)
+                    .shadow(color: .black.opacity(DesignTokens.Opacity.overlayLight), radius: 10, x: 0, y: 4)
             )
         }
         .onAppear {

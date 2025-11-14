@@ -56,7 +56,7 @@ struct ShoppingPurchaseModal: View {
                                 .cornerRadius(DesignTokens.Radius.container)
                         } placeholder: {
                             Rectangle()
-                                .fill(Color.gray.opacity(0.3))
+                                .fill(Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                                 .frame(height: 250)
                                 .cornerRadius(DesignTokens.Radius.container)
                         }
@@ -110,13 +110,13 @@ struct ShoppingPurchaseModal: View {
                             }
                             .padding(.horizontal, DesignTokens.Spacing.component)
                             .padding(.vertical, DesignTokens.Spacing.inline)
-                            .background(Color.red.opacity(0.3))
+                            .background(Color.red.opacity(DesignTokens.Opacity.overlayMedium))
                             .cornerRadius(DesignTokens.Radius.chip)
                         }
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Recommended Books Section (if browse_books action)
                     if selectedAction == "browse_books" && !recommendedBooks.isEmpty {
@@ -160,18 +160,18 @@ struct ShoppingPurchaseModal: View {
                                             .foregroundColor(.green)
                                     }
                                     .padding()
-                                    .background(Color.white.opacity(0.05))
+                                    .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .cornerRadius(DesignTokens.Radius.button)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                            .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                                            .strokeBorder(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 1)
                                     )
                                 }
                                 .buttonStyle(PlainButtonStyle())
                             }
                         }
                         .padding()
-                        .background(Color.blue.opacity(0.1))
+                        .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.container)
                     }
 
@@ -188,7 +188,7 @@ struct ShoppingPurchaseModal: View {
                                 .foregroundColor(DesignTokens.Colors.textSubtle)
                         }
                         .padding()
-                        .background(Color.white.opacity(0.1))
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -237,7 +237,7 @@ struct ShoppingPurchaseModal: View {
                                     .foregroundColor(DesignTokens.Colors.textPrimary)
                                     .padding(.horizontal, DesignTokens.Spacing.section)
                                     .padding(.vertical, DesignTokens.Spacing.component)
-                                    .background(Color.white.opacity(0.2))
+                                    .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                                     .cornerRadius(DesignTokens.Radius.chip)
 
                                 Button {
@@ -336,7 +336,7 @@ struct ShoppingPurchaseModal: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(isAddingToCart ? Color.green.opacity(0.7) : Color.green)
+                                .background(isAddingToCart ? Color.green.opacity(DesignTokens.Opacity.textSubtle) : Color.green)
                                 .foregroundColor(DesignTokens.Colors.textPrimary)
                                 .cornerRadius(DesignTokens.Radius.button)
                             }
@@ -362,7 +362,7 @@ struct ShoppingPurchaseModal: View {
                                 }
                                 .padding(.horizontal, DesignTokens.Spacing.component)
                                 .padding(.vertical, DesignTokens.Spacing.inline)
-                                .background(Color.red.opacity(0.1))
+                                .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                                 .cornerRadius(DesignTokens.Radius.chip)
                             }
                         }

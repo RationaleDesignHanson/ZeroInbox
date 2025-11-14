@@ -26,7 +26,7 @@ struct PaymentPreviewModal: View {
                         .foregroundColor(.white)
                     Text("Review before paying")
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 }
                 
                 Spacer()
@@ -35,14 +35,14 @@ struct PaymentPreviewModal: View {
                     isPresented = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .font(.title2)
                 }
             }
             .padding()
             .background(
                 LinearGradient(
-                    colors: [Color.green, Color.green.opacity(0.8)],
+                    colors: [Color.green, Color.green.opacity(DesignTokens.Opacity.textTertiary)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -69,8 +69,8 @@ struct PaymentPreviewModal: View {
                             .foregroundColor(.primary)
                     }
                     .padding()
-                    .background(Color.green.opacity(0.1))
-                    .cornerRadius(16)
+                    .background(Color.green.opacity(DesignTokens.Opacity.glassLight))
+                    .cornerRadius(DesignTokens.Radius.card)
                     
                     // Payment details
                     VStack(spacing: 16) {
@@ -85,8 +85,8 @@ struct PaymentPreviewModal: View {
                         }
                     }
                     .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(12)
+                    .background(Color.gray.opacity(DesignTokens.Opacity.glassLight))
+                    .cornerRadius(DesignTokens.Radius.button)
                     
                     // Security notice
                     HStack(spacing: 12) {
@@ -102,8 +102,8 @@ struct PaymentPreviewModal: View {
                         Spacer()
                     }
                     .padding()
-                    .background(Color.green.opacity(0.05))
-                    .cornerRadius(12)
+                    .background(Color.green.opacity(DesignTokens.Opacity.glassUltraLight))
+                    .cornerRadius(DesignTokens.Radius.button)
                     
                     // Action buttons
                     VStack(spacing: 12) {
@@ -119,7 +119,7 @@ struct PaymentPreviewModal: View {
                             .padding()
                             .background(Color.green)
                             .foregroundColor(.white)
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         
                         Button {

@@ -14,7 +14,7 @@ struct ActionsBottomSheet: View {
         VStack(spacing: 0) {
             // Drag indicator
             RoundedRectangle(cornerRadius: 2.5)
-                .fill(Color.white.opacity(0.3))
+                .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                 .frame(width: 40, height: 5)
                 .padding(.vertical, 12)
 
@@ -64,7 +64,7 @@ struct ActionsBottomSheet: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .font(.title3)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                     .frame(width: 32)
 
                 Text(title)
@@ -75,12 +75,12 @@ struct ActionsBottomSheet: View {
 
                 Image(systemName: "chevron.right")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
             .padding(.vertical, 12)
             .padding(.horizontal, 16)
-            .background(Color.white.opacity(0.05))
-            .cornerRadius(12)
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
         }
     }
 }

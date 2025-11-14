@@ -18,7 +18,7 @@ struct TopNavigationBar: View {
                         .tint(.white)
                     Text("Refreshing...")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                 }
                 .padding(.top, 50)
                 .transition(.move(edge: .top).combined(with: .opacity))

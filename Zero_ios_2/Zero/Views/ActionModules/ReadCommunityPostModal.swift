@@ -55,7 +55,7 @@ struct ReadCommunityPostModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     if let post = post {
                         // Post Card
@@ -121,7 +121,7 @@ struct ReadCommunityPostModal: View {
                             }
 
                             Divider()
-                                .background(Color.white.opacity(0.2))
+                                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
                             // Action buttons
                             HStack(spacing: 12) {
@@ -137,11 +137,11 @@ struct ReadCommunityPostModal: View {
                                     }
                                     .frame(maxWidth: .infinity)
                                     .padding()
-                                    .background(post.isLiked ? Color.pink.opacity(0.2) : Color.white.opacity(0.1))
+                                    .background(post.isLiked ? Color.pink.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassLight))
                                     .cornerRadius(DesignTokens.Radius.button)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                            .strokeBorder(post.isLiked ? Color.pink : Color.white.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(post.isLiked ? Color.pink : Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
                                 }
 
@@ -157,7 +157,7 @@ struct ReadCommunityPostModal: View {
                                     }
                                     .frame(maxWidth: .infinity)
                                     .padding()
-                                    .background(Color.blue.opacity(0.2))
+                                    .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
                                     .foregroundColor(.blue)
                                     .cornerRadius(DesignTokens.Radius.button)
                                     .overlay(
@@ -181,14 +181,14 @@ struct ReadCommunityPostModal: View {
                                 TextEditor(text: $replyText)
                                     .frame(height: 100)
                                     .padding()
-                                    .background(Color.white.opacity(0.1))
+                                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                     .cornerRadius(DesignTokens.Radius.button)
                                     .foregroundColor(DesignTokens.Colors.textPrimary)
                                     .colorScheme(.dark)
                                     .scrollContentBackground(.hidden)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                            .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
 
                                 HStack(spacing: 12) {
@@ -203,7 +203,7 @@ struct ReadCommunityPostModal: View {
                                             .foregroundColor(DesignTokens.Colors.textSubtle)
                                             .padding(.horizontal, 20)
                                             .padding(.vertical, 12)
-                                            .background(Color.white.opacity(0.1))
+                                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                             .cornerRadius(DesignTokens.Radius.button)
                                     }
 
@@ -238,7 +238,7 @@ struct ReadCommunityPostModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -253,12 +253,12 @@ struct ReadCommunityPostModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                         }
                     }
@@ -274,7 +274,7 @@ struct ReadCommunityPostModal: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(DesignTokens.Spacing.card)

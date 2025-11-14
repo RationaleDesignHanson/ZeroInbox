@@ -21,11 +21,11 @@ struct StructuredSummaryView: View {
 
     // Conditional text colors based on card type
     private var textColorPrimary: Color {
-        cardType == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white.opacity(0.9)
+        cardType == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white.opacity(DesignTokens.Opacity.textSecondary)
     }
 
     private var textColorPlaceholder: Color {
-        cardType == .ads ? DesignTokens.Colors.adsTextSubtle : Color.white.opacity(0.5)
+        cardType == .ads ? DesignTokens.Colors.adsTextSubtle : Color.white.opacity(DesignTokens.Opacity.overlayStrong)
     }
 
     var body: some View {

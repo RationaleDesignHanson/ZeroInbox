@@ -35,7 +35,7 @@ struct UpdatePaymentModal: View {
                     isPresented = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         .font(.title2)
                 }
             }
@@ -48,7 +48,7 @@ struct UpdatePaymentModal: View {
                     ZStack {
                         Circle()
                             .fill(LinearGradient(
-                                colors: [.green.opacity(0.3), .blue.opacity(0.3)],
+                                colors: [.green.opacity(DesignTokens.Opacity.overlayMedium), .blue.opacity(DesignTokens.Opacity.overlayMedium)],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             ))
@@ -70,15 +70,15 @@ struct UpdatePaymentModal: View {
                         VStack(spacing: 8) {
                             Text("For")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                             Text(merchant)
                                 .font(.title3.bold())
                                 .foregroundColor(.white)
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.white.opacity(0.1))
-                        .cornerRadius(12)
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
 
                     // Current Payment Info (if available)
@@ -87,11 +87,11 @@ struct UpdatePaymentModal: View {
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Current Payment Method")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                             HStack(spacing: 12) {
                                 Image(systemName: "creditcard")
-                                    .foregroundColor(.white.opacity(0.7))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                 Text(currentMethod.starts(with: "****") ? currentMethod : "•••• \(currentMethod)")
                                     .font(.subheadline.weight(.medium))
                                     .foregroundColor(.white)
@@ -100,12 +100,12 @@ struct UpdatePaymentModal: View {
                                     .foregroundColor(.orange)
                             }
                             .padding()
-                            .background(Color.white.opacity(0.1))
-                            .cornerRadius(10)
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         .padding()
-                        .background(Color.white.opacity(0.05))
-                        .cornerRadius(12)
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
 
                     // Reason for Update (if provided)
@@ -116,12 +116,12 @@ struct UpdatePaymentModal: View {
                                 .foregroundColor(.blue)
                             Text(reason)
                                 .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                             Spacer()
                         }
                         .padding()
-                        .background(Color.blue.opacity(0.2))
-                        .cornerRadius(12)
+                        .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
 
                     // Payment Type Selector
@@ -138,7 +138,7 @@ struct UpdatePaymentModal: View {
                                 HStack(spacing: 16) {
                                     Image(systemName: type.icon)
                                         .font(.title2)
-                                        .foregroundColor(selectedPaymentType == type ? .green : .white.opacity(0.7))
+                                        .foregroundColor(selectedPaymentType == type ? .green : .white.opacity(DesignTokens.Opacity.textSubtle))
                                         .frame(width: 40)
 
                                     Text(type.rawValue)
@@ -153,8 +153,8 @@ struct UpdatePaymentModal: View {
                                     }
                                 }
                                 .padding()
-                                .background(selectedPaymentType == type ? Color.white.opacity(0.2) : Color.white.opacity(0.1))
-                                .cornerRadius(12)
+                                .background(selectedPaymentType == type ? Color.white.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassLight))
+                                .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
                     }
@@ -163,7 +163,7 @@ struct UpdatePaymentModal: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Important")
                             .font(.caption.bold())
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
                         VStack(alignment: .leading, spacing: 8) {
                             NoteRow(icon: "lock.shield.fill", text: "Your payment information is securely encrypted")
@@ -172,8 +172,8 @@ struct UpdatePaymentModal: View {
                         }
                     }
                     .padding()
-                    .background(Color.white.opacity(0.05))
-                    .cornerRadius(12)
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+                    .cornerRadius(DesignTokens.Radius.button)
 
                     // Actions
                     VStack(spacing: 12) {
@@ -199,7 +199,7 @@ struct UpdatePaymentModal: View {
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 ))
-                                .cornerRadius(12)
+                                .cornerRadius(DesignTokens.Radius.button)
                             }
                         } else {
                             // If no URL, show Apple Pay/Wallet option
@@ -219,7 +219,7 @@ struct UpdatePaymentModal: View {
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 ))
-                                .cornerRadius(12)
+                                .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
 
@@ -235,8 +235,8 @@ struct UpdatePaymentModal: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.white.opacity(0.2))
-                            .cornerRadius(12)
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                     }
                 }
@@ -245,7 +245,7 @@ struct UpdatePaymentModal: View {
         }
         .background(
             LinearGradient(
-                colors: [Color.green.opacity(0.3), Color.blue.opacity(0.3)],
+                colors: [Color.green.opacity(DesignTokens.Opacity.overlayMedium), Color.blue.opacity(DesignTokens.Opacity.overlayMedium)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -286,12 +286,12 @@ struct NoteRow: View {
         HStack(alignment: .top, spacing: 12) {
             Image(systemName: icon)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .frame(width: 16)
 
             Text(text)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
 
             Spacer()
         }

@@ -9,7 +9,7 @@ struct EmptyStateView: View {
             // Icon
             Image(systemName: iconName)
                 .font(.system(size: 80))
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
             
             // Title
             Text(title)
@@ -20,7 +20,7 @@ struct EmptyStateView: View {
             // Message
             Text(message)
                 .font(.body)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
             
@@ -36,8 +36,8 @@ struct EmptyStateView: View {
                 .foregroundColor(.white)
                 .padding(.horizontal, 24)
                 .padding(.vertical, 12)
-                .background(Color.white.opacity(0.2))
-                .cornerRadius(12)
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                .cornerRadius(DesignTokens.Radius.button)
             }
             .padding(.top, 8)
         }

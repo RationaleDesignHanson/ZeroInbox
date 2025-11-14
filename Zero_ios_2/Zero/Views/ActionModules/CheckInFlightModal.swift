@@ -78,7 +78,7 @@ struct CheckInFlightModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Flight details
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
@@ -131,7 +131,7 @@ struct CheckInFlightModal: View {
                     // Gate & Seat info (if available)
                     if gate != nil || terminal != nil || seatNumber != nil {
                         Divider()
-                            .background(Color.white.opacity(0.3))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
                             Text("Boarding Information")
@@ -168,7 +168,7 @@ struct CheckInFlightModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Action buttons
                     VStack(spacing: DesignTokens.Spacing.component) {
@@ -222,7 +222,7 @@ struct CheckInFlightModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -235,7 +235,7 @@ struct CheckInFlightModal: View {
                                     .font(.caption)
                             }
                             .padding()
-                            .background(Color.red.opacity(0.1))
+                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Spacing.inline)
                         }
                     }

@@ -96,7 +96,7 @@ struct AttachmentViewerModal: View {
                 if let attachments = card.attachments {
                     Text("\(attachments.count) file\(attachments.count == 1 ? "" : "s")")
                         .font(.caption)
-                        .foregroundColor(.purple.opacity(0.8))
+                        .foregroundColor(.purple.opacity(DesignTokens.Opacity.textTertiary))
                 }
             }
 
@@ -109,9 +109,9 @@ struct AttachmentViewerModal: View {
         .padding(.vertical, DesignTokens.Spacing.section)
         .background(
             ZStack {
-                Color.black.opacity(0.3)
+                Color.black.opacity(DesignTokens.Opacity.overlayMedium)
                 LinearGradient(
-                    colors: [Color.purple.opacity(0.1), Color.clear],
+                    colors: [Color.purple.opacity(DesignTokens.Opacity.glassLight), Color.clear],
                     startPoint: .leading,
                     endPoint: .trailing
                 )
@@ -128,7 +128,7 @@ struct AttachmentViewerModal: View {
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
                     .fill(
                         LinearGradient(
-                            colors: [Color.purple.opacity(0.3), Color.blue.opacity(0.3)],
+                            colors: [Color.purple.opacity(DesignTokens.Opacity.overlayMedium), Color.blue.opacity(DesignTokens.Opacity.overlayMedium)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
@@ -160,7 +160,7 @@ struct AttachmentViewerModal: View {
                     .foregroundColor(DesignTokens.Colors.textSubtle)
             }
             .padding(DesignTokens.Spacing.section)
-            .background(Color.white.opacity(0.05))
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             .cornerRadius(DesignTokens.Radius.button)
         }
         .buttonStyle(.plain)
@@ -186,7 +186,7 @@ struct AttachmentViewerModal: View {
 
     private var loadingOverlay: some View {
         ZStack {
-            Color.black.opacity(0.5)
+            Color.black.opacity(DesignTokens.Opacity.overlayStrong)
                 .ignoresSafeArea()
 
             VStack(spacing: DesignTokens.Spacing.section) {
@@ -198,8 +198,8 @@ struct AttachmentViewerModal: View {
                     .font(.subheadline)
                     .foregroundColor(DesignTokens.Colors.textPrimary)
             }
-            .padding(32)
-            .background(Color.black.opacity(0.8))
+            .padding(DesignTokens.Spacing.card)
+            .background(Color.black.opacity(DesignTokens.Opacity.textTertiary))
             .cornerRadius(DesignTokens.Radius.container)
         }
     }
@@ -217,7 +217,7 @@ struct AttachmentViewerModal: View {
                     .foregroundColor(DesignTokens.Colors.textPrimary)
             }
             .padding()
-            .background(Color.red.opacity(0.9))
+            .background(Color.red.opacity(DesignTokens.Opacity.textSecondary))
             .cornerRadius(DesignTokens.Radius.button)
             .padding()
 
@@ -239,9 +239,9 @@ struct AttachmentViewerModal: View {
 
             LinearGradient(
                 colors: [
-                    Color.purple.opacity(0.1),
+                    Color.purple.opacity(DesignTokens.Opacity.glassLight),
                     Color.clear,
-                    Color.blue.opacity(0.05)
+                    Color.blue.opacity(DesignTokens.Opacity.glassUltraLight)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing

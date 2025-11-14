@@ -35,7 +35,7 @@ struct SmartReplyView: View {
                 // Error state
                 Text(error)
                     .font(.caption)
-                    .foregroundColor(.red.opacity(0.8))
+                    .foregroundColor(.red.opacity(DesignTokens.Opacity.textTertiary))
             } else if !replies.isEmpty {
                 // Reply buttons
                 ForEach(Array(replies.enumerated()), id: \.offset) { index, reply in
@@ -59,7 +59,7 @@ struct SmartReplyView: View {
             LinearGradient(
                 colors: [
                     Color.blue.opacity(0.15),
-                    Color.purple.opacity(0.1)
+                    Color.purple.opacity(DesignTokens.Opacity.glassLight)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -68,7 +68,7 @@ struct SmartReplyView: View {
         .cornerRadius(DesignTokens.Radius.button)
         .overlay(
             RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
         )
         .task {
             await loadSmartReplies()
@@ -140,11 +140,11 @@ struct SmartReplyButton: View {
                     .foregroundColor(.blue)
             }
             .padding(DesignTokens.Spacing.component)
-            .background(Color.white.opacity(0.05))
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             .cornerRadius(DesignTokens.Spacing.inline)
             .overlay(
                 RoundedRectangle(cornerRadius: DesignTokens.Spacing.inline)
-                    .strokeBorder(Color.blue.opacity(0.2), lineWidth: 1)
+                    .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -218,17 +218,17 @@ struct ComposeReplyModal: View {
                                 .background(
                                     LinearGradient(
                                         colors: [
-                                            Color.purple.opacity(0.6),
-                                            Color.blue.opacity(0.6)
+                                            Color.purple.opacity(DesignTokens.Opacity.textDisabled),
+                                            Color.blue.opacity(DesignTokens.Opacity.textDisabled)
                                         ],
                                         startPoint: .leading,
                                         endPoint: .trailing
                                     )
                                 )
-                                .cornerRadius(20)
+                                .cornerRadius(DesignTokens.Radius.modal)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 20)
-                                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                 )
                         }
                         .disabled(isSending)
@@ -264,13 +264,13 @@ struct ComposeReplyModal: View {
                         TextEditor(text: $replyText)
                             .frame(minHeight: 150)
                             .padding(DesignTokens.Spacing.component)
-                            .background(Color.white.opacity(0.05))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .focused($isTextFieldFocused)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(isRecording ? Color.red.opacity(0.5) : Color.white.opacity(0.1), lineWidth: isRecording ? 2 : 1)
+                                    .strokeBorder(isRecording ? Color.red.opacity(DesignTokens.Opacity.overlayStrong) : Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: isRecording ? 2 : 1)
                             )
 
                         // Recording indicator
@@ -284,9 +284,9 @@ struct ComposeReplyModal: View {
                                     .foregroundColor(.red)
                             }
                             .padding(DesignTokens.Spacing.inline)
-                            .background(Color.black.opacity(0.5))
+                            .background(Color.black.opacity(DesignTokens.Opacity.overlayStrong))
                             .cornerRadius(DesignTokens.Spacing.inline)
-                            .padding(8)
+                            .padding(DesignTokens.Spacing.inline)
                         }
                     }
                 }

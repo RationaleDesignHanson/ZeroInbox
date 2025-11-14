@@ -82,7 +82,7 @@ struct WriteReviewModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Star rating selector
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -99,7 +99,7 @@ struct WriteReviewModal: View {
                                 } label: {
                                     Image(systemName: star <= rating ? "star.fill" : "star")
                                         .font(.system(size: 36))
-                                        .foregroundColor(star <= rating ? .yellow : .white.opacity(0.3))
+                                        .foregroundColor(star <= rating ? .yellow : .white.opacity(DesignTokens.Opacity.overlayMedium))
                                 }
                             }
                         }
@@ -112,7 +112,7 @@ struct WriteReviewModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Review text editor
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -125,13 +125,13 @@ struct WriteReviewModal: View {
 
                             Text("\(reviewText.count)/\(characterLimit)")
                                 .font(.caption)
-                                .foregroundColor(reviewText.count >= characterMinimum ? .green : .white.opacity(0.5))
+                                .foregroundColor(reviewText.count >= characterMinimum ? .green : .white.opacity(DesignTokens.Opacity.overlayStrong))
                         }
 
                         TextEditor(text: $reviewText)
                             .frame(height: 150)
                             .padding(DesignTokens.Spacing.inline)
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.chip)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .onChange(of: reviewText) { oldValue, newValue in
@@ -146,7 +146,7 @@ struct WriteReviewModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Category tags
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -167,7 +167,7 @@ struct WriteReviewModal: View {
                                         .font(.subheadline)
                                         .padding(.horizontal, DesignTokens.Spacing.component)
                                         .padding(.vertical, DesignTokens.Spacing.inline)
-                                        .background(selectedTags.contains(tag) ? Color.blue : Color.white.opacity(0.1))
+                                        .background(selectedTags.contains(tag) ? Color.blue : Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .foregroundColor(DesignTokens.Colors.textPrimary)
                                         .cornerRadius(DesignTokens.Radius.container)
                                 }
@@ -192,7 +192,7 @@ struct WriteReviewModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(canSubmit ? Color.green : Color.gray.opacity(0.3))
+                            .background(canSubmit ? Color.green : Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .cornerRadius(DesignTokens.Radius.button)
                         }
@@ -208,7 +208,7 @@ struct WriteReviewModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.orange.opacity(0.3))
+                            .background(Color.orange.opacity(DesignTokens.Opacity.overlayMedium))
                             .foregroundColor(.orange)
                             .cornerRadius(DesignTokens.Radius.button)
                         }
@@ -223,7 +223,7 @@ struct WriteReviewModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -236,7 +236,7 @@ struct WriteReviewModal: View {
                                     .font(.caption)
                             }
                             .padding()
-                            .background(Color.red.opacity(0.1))
+                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.chip)
                         }
                     }

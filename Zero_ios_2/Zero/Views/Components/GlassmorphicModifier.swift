@@ -35,8 +35,8 @@ struct GlassmorphicModifier: ViewModifier {
                         LinearGradient(
                             colors: [
                                 Color.white.opacity(0.4),
-                                Color.white.opacity(0.1),
-                                Color.white.opacity(0.3)
+                                Color.white.opacity(DesignTokens.Opacity.glassLight),
+                                Color.white.opacity(DesignTokens.Opacity.overlayMedium)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -51,7 +51,7 @@ struct GlassmorphicModifier: ViewModifier {
                         Color.white.opacity(0.4),
                         Color.clear,
                         Color.clear,
-                        Color.white.opacity(0.2)
+                        Color.white.opacity(DesignTokens.Opacity.overlayLight)
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing

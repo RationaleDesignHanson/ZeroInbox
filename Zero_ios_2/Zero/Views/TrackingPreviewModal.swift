@@ -27,7 +27,7 @@ struct TrackingPreviewModal: View {
                         .foregroundColor(.white)
                     Text("Package tracking information")
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 }
                 
                 Spacer()
@@ -36,14 +36,14 @@ struct TrackingPreviewModal: View {
                     isPresented = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .font(.title2)
                 }
             }
             .padding()
             .background(
                 LinearGradient(
-                    colors: [Color.blue, Color.blue.opacity(0.8)],
+                    colors: [Color.blue, Color.blue.opacity(DesignTokens.Opacity.textTertiary)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -77,8 +77,8 @@ struct TrackingPreviewModal: View {
                         }
                     }
                     .padding()
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(12)
+                    .background(Color.gray.opacity(DesignTokens.Opacity.glassLight))
+                    .cornerRadius(DesignTokens.Radius.button)
                     
                     // Action buttons
                     VStack(spacing: 12) {
@@ -94,7 +94,7 @@ struct TrackingPreviewModal: View {
                             .padding()
                             .background(Color.blue)
                             .foregroundColor(.white)
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         
                         if copied {

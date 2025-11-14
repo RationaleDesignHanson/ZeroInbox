@@ -58,7 +58,7 @@ struct RSVPModal: View {
                     isPresented = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         .font(.title2)
                 }
             }
@@ -73,7 +73,7 @@ struct RSVPModal: View {
         }
         .background(
             LinearGradient(
-                colors: [response.color.opacity(0.3), Color.purple.opacity(0.3)],
+                colors: [response.color.opacity(DesignTokens.Opacity.overlayMedium), Color.purple.opacity(DesignTokens.Opacity.overlayMedium)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -88,7 +88,7 @@ struct RSVPModal: View {
                 ZStack {
                     Circle()
                         .fill(LinearGradient(
-                            colors: [response.color.opacity(0.3), Color.purple.opacity(0.3)],
+                            colors: [response.color.opacity(DesignTokens.Opacity.overlayMedium), Color.purple.opacity(DesignTokens.Opacity.overlayMedium)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         ))
@@ -112,26 +112,26 @@ struct RSVPModal: View {
                         VStack(alignment: .leading, spacing: 4) {
                             Text("Event")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                             Text(eventName)
                                 .font(.headline)
                                 .foregroundColor(.white)
                         }
                     }
 
-                    Divider().background(Color.white.opacity(0.3))
+                    Divider().background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Date & Time
                     if let date = context["date"] ?? context["eventDate"],
                        !date.isEmpty {
                         HStack(spacing: 12) {
                             Image(systemName: "calendar")
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                 .frame(width: 24)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Date")
                                     .font(.caption)
-                                    .foregroundColor(.white.opacity(0.6))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 Text(date)
                                     .font(.subheadline.weight(.medium))
                                     .foregroundColor(.white)
@@ -143,12 +143,12 @@ struct RSVPModal: View {
                        !time.isEmpty {
                         HStack(spacing: 12) {
                             Image(systemName: "clock")
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                 .frame(width: 24)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Time")
                                     .font(.caption)
-                                    .foregroundColor(.white.opacity(0.6))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 Text(time)
                                     .font(.subheadline.weight(.medium))
                                     .foregroundColor(.white)
@@ -161,12 +161,12 @@ struct RSVPModal: View {
                        !location.isEmpty {
                         HStack(spacing: 12) {
                             Image(systemName: "mappin.circle.fill")
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                 .frame(width: 24)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Location")
                                     .font(.caption)
-                                    .foregroundColor(.white.opacity(0.6))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 Text(location)
                                     .font(.subheadline.weight(.medium))
                                     .foregroundColor(.white)
@@ -176,16 +176,16 @@ struct RSVPModal: View {
 
                     // Host
                     if let host = card.sender?.name, !host.isEmpty {
-                        Divider().background(Color.white.opacity(0.3))
+                        Divider().background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         HStack(spacing: 12) {
                             Image(systemName: "person.circle.fill")
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                 .frame(width: 24)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Host")
                                     .font(.caption)
-                                    .foregroundColor(.white.opacity(0.6))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 Text(host)
                                     .font(.subheadline.weight(.medium))
                                     .foregroundColor(.white)
@@ -194,8 +194,8 @@ struct RSVPModal: View {
                     }
                 }
                 .padding()
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(12)
+                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                .cornerRadius(DesignTokens.Radius.button)
 
                 // Options
                 if response == .yes {
@@ -206,29 +206,29 @@ struct RSVPModal: View {
                                 .foregroundColor(.white)
                             Text("Notify the host of your response")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         }
                     }
                     .tint(.green)
                     .padding()
-                    .background(Color.white.opacity(0.1))
-                    .cornerRadius(12)
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
 
                 // Confirmation Message
                 VStack(spacing: 12) {
                     HStack {
                         Image(systemName: "info.circle")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         Text("You're \(response.responseText) this event")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.9))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                         Spacer()
                     }
                 }
                 .padding()
-                .background(Color.white.opacity(0.05))
-                .cornerRadius(12)
+                .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+                .cornerRadius(DesignTokens.Radius.button)
 
                 // Actions
                 VStack(spacing: 12) {
@@ -245,11 +245,11 @@ struct RSVPModal: View {
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(LinearGradient(
-                            colors: [response.color, response.color.opacity(0.7)],
+                            colors: [response.color, response.color.opacity(DesignTokens.Opacity.textSubtle)],
                             startPoint: .leading,
                             endPoint: .trailing
                         ))
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
 
                     // Add to Calendar (only for "yes" responses)
@@ -265,8 +265,8 @@ struct RSVPModal: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.white.opacity(0.2))
-                            .cornerRadius(12)
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         .disabled(addingToCalendar)
                     }
@@ -283,7 +283,7 @@ struct RSVPModal: View {
             // Success Icon
             ZStack {
                 Circle()
-                    .fill(response.color.opacity(0.2))
+                    .fill(response.color.opacity(DesignTokens.Opacity.overlayLight))
                     .frame(width: 120, height: 120)
 
                 Image(systemName: "checkmark.circle.fill")
@@ -299,7 +299,7 @@ struct RSVPModal: View {
 
                 Text("Your RSVP has been recorded")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
             }
 
             Spacer()

@@ -31,10 +31,10 @@ struct ScheduleMeetingModal: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(selectedTimeSlot == slot ? Color.white.opacity(0.25) : Color.white.opacity(0.1))
+                    .fill(selectedTimeSlot == slot ? Color.white.opacity(0.25) : Color.white.opacity(DesignTokens.Opacity.glassLight))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(selectedTimeSlot == slot ? Color.green : Color.white.opacity(0.2), lineWidth: selectedTimeSlot == slot ? 2 : 1)
+                            .strokeBorder(selectedTimeSlot == slot ? Color.green : Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: selectedTimeSlot == slot ? 2 : 1)
                     )
             )
         }
@@ -54,10 +54,10 @@ struct ScheduleMeetingModal: View {
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(selectedDuration == duration ? Color.white.opacity(0.25) : Color.white.opacity(0.1))
+                        .fill(selectedDuration == duration ? Color.white.opacity(0.25) : Color.white.opacity(DesignTokens.Opacity.glassLight))
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(selectedDuration == duration ? Color.green : Color.white.opacity(0.2), lineWidth: selectedDuration == duration ? 2 : 1)
+                                .strokeBorder(selectedDuration == duration ? Color.green : Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: selectedDuration == duration ? 2 : 1)
                         )
                 )
         }
@@ -157,7 +157,7 @@ struct ScheduleMeetingModal: View {
                         .padding()
                         .background(
                             RoundedRectangle(cornerRadius: 12)
-                                .fill(Color.blue.opacity(0.2))
+                                .fill(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
                                         .strokeBorder(Color.blue.opacity(0.4), lineWidth: 1)
@@ -171,7 +171,7 @@ struct ScheduleMeetingModal: View {
                         .fill(.ultraThinMaterial)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
-                                .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                         )
                 )
                 .padding()
@@ -189,7 +189,7 @@ struct ScheduleMeetingModal: View {
                     .padding()
                     .background(selectedTimeSlot != nil ? Color.blue : Color.gray)
                     .foregroundColor(DesignTokens.Colors.textPrimary)
-                    .cornerRadius(16)
+                    .cornerRadius(DesignTokens.Radius.card)
                 }
                 .disabled(selectedTimeSlot == nil)
                 .padding()

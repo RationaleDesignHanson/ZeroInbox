@@ -50,7 +50,7 @@ struct ViewDetailsModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Email metadata
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
@@ -88,7 +88,7 @@ struct ViewDetailsModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Email body/summary
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -101,14 +101,14 @@ struct ViewDetailsModal: View {
                         }
                         .padding(DesignTokens.Spacing.section)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color.white.opacity(0.05))
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
                     // Attachments (if available)
                     if let attachmentCount = context["attachmentCount"] as? Int, attachmentCount > 0 {
                         Divider()
-                            .background(Color.white.opacity(0.3))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
                             Text("Attachments")
@@ -131,18 +131,18 @@ struct ViewDetailsModal: View {
                                 }
                                 .padding(DesignTokens.Spacing.component)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                                .background(Color.white.opacity(0.1))
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                 .cornerRadius(DesignTokens.Spacing.inline)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                                        .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                 )
                             }
                         }
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Action buttons
                     VStack(spacing: 12) {
@@ -159,7 +159,7 @@ struct ViewDetailsModal: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.gray.opacity(0.3))
+                                .background(Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                                 .foregroundColor(DesignTokens.Colors.textPrimary)
                                 .cornerRadius(DesignTokens.Radius.button)
                             }
@@ -175,7 +175,7 @@ struct ViewDetailsModal: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.purple.opacity(0.3))
+                                .background(Color.purple.opacity(DesignTokens.Opacity.overlayMedium))
                                 .foregroundColor(DesignTokens.Colors.textPrimary)
                                 .cornerRadius(DesignTokens.Radius.button)
                             }
@@ -192,7 +192,7 @@ struct ViewDetailsModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.orange.opacity(0.3))
+                            .background(Color.orange.opacity(DesignTokens.Opacity.overlayMedium))
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .cornerRadius(DesignTokens.Radius.button)
                         }
@@ -207,7 +207,7 @@ struct ViewDetailsModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -220,8 +220,8 @@ struct ViewDetailsModal: View {
                                     .font(.caption)
                             }
                             .padding()
-                            .background(Color.red.opacity(0.1))
-                            .cornerRadius(8)
+                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
+                            .cornerRadius(DesignTokens.Radius.chip)
                         }
                     }
                     .padding(.top, DesignTokens.Spacing.card)

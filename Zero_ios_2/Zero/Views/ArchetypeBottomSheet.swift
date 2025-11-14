@@ -11,7 +11,7 @@ struct ArchetypeBottomSheet: View {
         VStack(spacing: 0) {
             // Handle bar
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color.white.opacity(0.3))
+                .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                 .frame(width: 40, height: 5)
                 .padding(.top, 12)
                 .padding(.bottom, 20)
@@ -61,7 +61,7 @@ struct ArchetypeBottomSheet: View {
             )
         )
         .cornerRadius(DesignTokens.Radius.card)
-        .shadow(color: .black.opacity(0.3), radius: 20, y: -5)
+        .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 20, y: -5)
     }
     
     func getUnseenCount(for type: CardType) -> Int {
@@ -105,11 +105,11 @@ struct ArchetypeRow: View {
                     if isActive {
                         Text("\(count) unread")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     } else {
                         Text("Not Active")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     }
                 }
                 
@@ -133,13 +133,13 @@ struct ArchetypeRow: View {
             .background(
                 isSelected ? 
                     Color.white.opacity(0.15) :
-                    Color.white.opacity(0.05)
+                    Color.white.opacity(DesignTokens.Opacity.glassUltraLight)
             )
             .cornerRadius(DesignTokens.Radius.container)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .strokeBorder(
-                        isSelected ? Color.white.opacity(0.3) : Color.clear,
+                        isSelected ? Color.white.opacity(DesignTokens.Opacity.overlayMedium) : Color.clear,
                         lineWidth: 2
                     )
             )

@@ -50,7 +50,7 @@ struct SendMessageModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Phone number selection
                     if let opportunity = messageOpportunity {
@@ -86,11 +86,11 @@ struct SendMessageModal: View {
                                         }
                                     }
                                     .padding()
-                                    .background(selectedNumber == number ? Color.green.opacity(0.2) : Color.white.opacity(0.05))
+                                    .background(selectedNumber == number ? Color.green.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                                     .cornerRadius(DesignTokens.Radius.button)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                            .strokeBorder(selectedNumber == number ? Color.green : Color.white.opacity(0.1), lineWidth: selectedNumber == number ? 2 : 1)
+                                            .strokeBorder(selectedNumber == number ? Color.green : Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: selectedNumber == number ? 2 : 1)
                                     )
                                 }
                             }
@@ -106,14 +106,14 @@ struct SendMessageModal: View {
                         TextEditor(text: $messageBody)
                             .frame(height: 120)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .colorScheme(.dark)
                             .scrollContentBackground(.hidden)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
 
                         // Character count
@@ -146,7 +146,7 @@ struct SendMessageModal: View {
                                     }
                                     .padding(.horizontal, DesignTokens.Spacing.component)
                                     .padding(.vertical, DesignTokens.Spacing.inline)
-                                    .background(Color.blue.opacity(0.2))
+                                    .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
                                     .cornerRadius(DesignTokens.Radius.chip)
                                 }
                             }
@@ -180,7 +180,7 @@ struct SendMessageModal: View {
                                 .foregroundColor(DesignTokens.Colors.textSecondary)
                         }
                         .padding()
-                        .background(Color.orange.opacity(0.2))
+                        .background(Color.orange.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.chip)
                     }
 
@@ -195,7 +195,7 @@ struct SendMessageModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -210,7 +210,7 @@ struct SendMessageModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.red.opacity(0.2))
+                        .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
                 }

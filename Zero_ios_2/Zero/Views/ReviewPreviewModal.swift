@@ -26,7 +26,7 @@ struct ReviewPreviewModal: View {
                         .foregroundColor(.white)
                     Text("Share your experience")
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 }
                 
                 Spacer()
@@ -35,14 +35,14 @@ struct ReviewPreviewModal: View {
                     isPresented = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .font(.title2)
                 }
             }
             .padding()
             .background(
                 LinearGradient(
-                    colors: [Color.orange, Color.orange.opacity(0.8)],
+                    colors: [Color.orange, Color.orange.opacity(DesignTokens.Opacity.textTertiary)],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -63,10 +63,10 @@ struct ReviewPreviewModal: View {
                                     .frame(height: 120)
                             } placeholder: {
                                 Rectangle()
-                                    .fill(Color.gray.opacity(0.2))
+                                    .fill(Color.gray.opacity(DesignTokens.Opacity.overlayLight))
                                     .frame(height: 120)
                             }
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         
                         Text(productName)
@@ -93,7 +93,7 @@ struct ReviewPreviewModal: View {
                                 } label: {
                                     Image(systemName: star <= rating ? "star.fill" : "star")
                                         .font(.title)
-                                        .foregroundColor(star <= rating ? .yellow : .gray.opacity(0.3))
+                                        .foregroundColor(star <= rating ? .yellow : .gray.opacity(DesignTokens.Opacity.overlayMedium))
                                 }
                             }
                         }
@@ -105,8 +105,8 @@ struct ReviewPreviewModal: View {
                         }
                     }
                     .padding()
-                    .background(Color.gray.opacity(0.05))
-                    .cornerRadius(12)
+                    .background(Color.gray.opacity(DesignTokens.Opacity.glassUltraLight))
+                    .cornerRadius(DesignTokens.Radius.button)
                     
                     // Info box
                     HStack(spacing: 12) {
@@ -122,8 +122,8 @@ struct ReviewPreviewModal: View {
                         Spacer()
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.05))
-                    .cornerRadius(12)
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassUltraLight))
+                    .cornerRadius(DesignTokens.Radius.button)
                     
                     // Action buttons
                     VStack(spacing: 12) {
@@ -139,7 +139,7 @@ struct ReviewPreviewModal: View {
                             .padding()
                             .background(Color.orange)
                             .foregroundColor(.white)
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         
                         if rating > 0 {
@@ -155,7 +155,7 @@ struct ReviewPreviewModal: View {
                                 .padding()
                                 .background(Color.yellow)
                                 .foregroundColor(.black)
-                                .cornerRadius(12)
+                                .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
                     }

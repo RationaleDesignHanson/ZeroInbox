@@ -45,7 +45,7 @@ struct FolderPickerView: View {
                                 .scaleEffect(1.5)
                             Text("Loading folders...")
                                 .font(.caption)
-                                .foregroundColor(textColor.opacity(0.6))
+                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                                 .padding(.top, 16)
                             Spacer()
                         }
@@ -141,7 +141,7 @@ struct FolderPickerView: View {
 
                 Text(card.summary)
                     .font(.caption)
-                    .foregroundColor(textColor.opacity(0.6))
+                    .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                     .lineLimit(1)
             }
 
@@ -155,7 +155,7 @@ struct FolderPickerView: View {
 
             Image(systemName: "folder.badge.plus")
                 .font(.system(size: 64))
-                .foregroundColor(textColor.opacity(0.3))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
 
             VStack(spacing: 8) {
                 Text("No Folders Yet")
@@ -164,7 +164,7 @@ struct FolderPickerView: View {
 
                 Text("Create a folder to organize your important emails")
                     .font(.subheadline)
-                    .foregroundColor(textColor.opacity(0.6))
+                    .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
             }
@@ -319,14 +319,14 @@ struct FolderRow: View {
                             .foregroundColor(.white)
                             .padding(.horizontal, 4)
                             .padding(.vertical, 1)
-                            .background(Color.blue.opacity(0.7))
+                            .background(Color.blue.opacity(DesignTokens.Opacity.textSubtle))
                             .cornerRadius(3)
                     }
                 }
 
                 Text("\(folder.emailCount) \(folder.emailCount == 1 ? "email" : "emails")")
                     .font(.caption)
-                    .foregroundColor(textColor.opacity(0.6))
+                    .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             Spacer()
@@ -334,7 +334,7 @@ struct FolderRow: View {
             // Chevron
             Image(systemName: "chevron.right")
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(textColor.opacity(0.3))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
         }
         .padding(DesignTokens.Spacing.section)
         .background(
@@ -356,7 +356,7 @@ struct FolderRow: View {
     }
 
     private var borderColor: Color {
-        colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.05)
+        colorScheme == .dark ? Color.white.opacity(DesignTokens.Opacity.glassLight) : Color.black.opacity(DesignTokens.Opacity.glassUltraLight)
     }
 }
 

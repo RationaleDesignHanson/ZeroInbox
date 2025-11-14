@@ -27,10 +27,10 @@ struct EmailTimeRangeSection: View {
                 }) {
                     HStack(spacing: 4) {
                         Text(timeRangeLabel)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         Image(systemName: showTimeRangePicker ? "chevron.up" : "chevron.down")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
             }
@@ -58,10 +58,10 @@ struct EmailTimeRangeSection: View {
                             .padding(.horizontal, 16)
                             .background(
                                 emailTimeRange == option.value
-                                    ? Color.purple.opacity(0.2)
-                                    : Color.white.opacity(0.05)
+                                    ? Color.purple.opacity(DesignTokens.Opacity.overlayLight)
+                                    : Color.white.opacity(DesignTokens.Opacity.glassUltraLight)
                             )
-                            .cornerRadius(8)
+                            .cornerRadius(DesignTokens.Radius.chip)
                         }
                     }
                 }
@@ -69,8 +69,8 @@ struct EmailTimeRangeSection: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private var timeRangeLabel: String {

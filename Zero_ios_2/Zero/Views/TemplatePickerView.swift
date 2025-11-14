@@ -32,7 +32,7 @@ struct TemplatePickerView: View {
                 // Search bar
                 HStack(spacing: 12) {
                     Image(systemName: "magnifyingglass")
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                     TextField("Search templates...", text: $searchQuery)
                         .textFieldStyle(.plain)
@@ -41,13 +41,13 @@ struct TemplatePickerView: View {
                     if !searchQuery.isEmpty {
                         Button(action: { searchQuery = "" }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         }
                     }
                 }
                 .padding()
-                .background(Color.white.opacity(0.1))
-                .cornerRadius(12)
+                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                .cornerRadius(DesignTokens.Radius.button)
                 .padding()
 
                 // Category filter
@@ -89,11 +89,11 @@ struct TemplatePickerView: View {
                     }
                     .foregroundColor(.blue)
                     .padding()
-                    .background(Color.blue.opacity(0.1))
-                    .cornerRadius(12)
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
+                    .cornerRadius(DesignTokens.Radius.button)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                            .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                     )
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -106,7 +106,7 @@ struct TemplatePickerView: View {
                     VStack(spacing: 16) {
                         Image(systemName: "text.bubble")
                             .font(.system(size: 60))
-                            .foregroundColor(.white.opacity(0.3))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         Text("No templates found")
                             .font(.headline)
@@ -195,11 +195,11 @@ struct CategoryFilterButton: View {
                         .font(.subheadline.bold())
                 }
             }
-            .foregroundColor(isSelected ? .white : .white.opacity(0.6))
+            .foregroundColor(isSelected ? .white : .white.opacity(DesignTokens.Opacity.textDisabled))
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .background(isSelected ? Color.blue : Color.white.opacity(0.1))
-            .cornerRadius(20)
+            .background(isSelected ? Color.blue : Color.white.opacity(DesignTokens.Opacity.glassLight))
+            .cornerRadius(DesignTokens.Radius.modal)
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -228,11 +228,11 @@ struct TemplateRow: View {
                     if template.isBuiltIn {
                         Text("Built-in")
                             .font(.system(size: 9, weight: .bold))
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                             .padding(.horizontal, 6)
                             .padding(.vertical, 3)
-                            .background(Color.white.opacity(0.1))
-                            .cornerRadius(6)
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                            .cornerRadius(DesignTokens.Radius.minimal)
                     }
 
                     if template.usageCount > 0 {
@@ -242,7 +242,7 @@ struct TemplateRow: View {
                             Text("\(template.usageCount)")
                                 .font(.system(size: 11, weight: .medium))
                         }
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     }
 
                     // Share button for user templates
@@ -261,14 +261,14 @@ struct TemplateRow: View {
                 // Content preview
                 Text(template.content)
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     .lineLimit(2)
 
                 // Category tag
                 HStack {
                     Text(template.category.rawValue.uppercased())
                         .font(.system(size: 9, weight: .bold))
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
 
                     Spacer()
 
@@ -278,11 +278,11 @@ struct TemplateRow: View {
                 }
             }
             .padding()
-            .background(Color.white.opacity(0.05))
-            .cornerRadius(12)
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -319,18 +319,18 @@ struct ShareTemplateView: View {
 
                             Text(template.name)
                                 .font(.headline)
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
                             Text(template.content)
                                 .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 .padding()
-                                .background(Color.white.opacity(0.05))
-                                .cornerRadius(12)
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+                                .cornerRadius(DesignTokens.Radius.button)
                         }
 
                         Divider()
-                            .background(Color.white.opacity(0.3))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         // Share Type Selection
                         VStack(alignment: .leading, spacing: 12) {
@@ -390,7 +390,7 @@ struct ShareTemplateView: View {
                             .padding()
                             .background(selectedShareType == .personal ? Color.gray : Color.blue)
                             .foregroundColor(.white)
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         .disabled(isSharing || selectedShareType == .personal)
 
@@ -403,8 +403,8 @@ struct ShareTemplateView: View {
                                     .font(.caption)
                             }
                             .padding()
-                            .background(Color.red.opacity(0.1))
-                            .cornerRadius(8)
+                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
+                            .cornerRadius(DesignTokens.Radius.chip)
                         }
 
                         if showSuccess {
@@ -416,8 +416,8 @@ struct ShareTemplateView: View {
                                     .font(.headline)
                             }
                             .padding()
-                            .background(Color.green.opacity(0.2))
-                            .cornerRadius(12)
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                     }
                     .padding()
@@ -430,7 +430,7 @@ struct ShareTemplateView: View {
                         isPresented = false
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
             }
@@ -483,7 +483,7 @@ struct ShareTypeButton: View {
             HStack(spacing: 12) {
                 Image(systemName: icon)
                     .font(.title2)
-                    .foregroundColor(isSelected ? color : .white.opacity(0.5))
+                    .foregroundColor(isSelected ? color : .white.opacity(DesignTokens.Opacity.overlayStrong))
                     .frame(width: 40)
 
                 VStack(alignment: .leading, spacing: 4) {
@@ -493,21 +493,21 @@ struct ShareTypeButton: View {
 
                     Text(subtitle)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 Spacer()
 
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(isSelected ? color : .white.opacity(0.3))
+                    .foregroundColor(isSelected ? color : .white.opacity(DesignTokens.Opacity.overlayMedium))
                     .font(.title3)
             }
             .padding()
-            .background(isSelected ? color.opacity(0.2) : Color.white.opacity(0.05))
-            .cornerRadius(12)
+            .background(isSelected ? color.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(isSelected ? color : Color.white.opacity(0.1), lineWidth: 2)
+                    .strokeBorder(isSelected ? color : Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 2)
             )
         }
         .buttonStyle(PlainButtonStyle())

@@ -79,7 +79,7 @@ struct AddToCalendarModal: View {
                     }
                     
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                     
                     // Event title
                     VStack(alignment: .leading, spacing: 8) {
@@ -90,7 +90,7 @@ struct AddToCalendarModal: View {
                         TextField("", text: $eventTitle)
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                     }
@@ -105,7 +105,7 @@ struct AddToCalendarModal: View {
                             .datePickerStyle(.compact)
                             .labelsHidden()
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .colorScheme(.dark)
                     }
@@ -119,7 +119,7 @@ struct AddToCalendarModal: View {
                         TextEditor(text: $notes)
                             .frame(height: 100)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .colorScheme(.dark)
@@ -158,7 +158,7 @@ struct AddToCalendarModal: View {
                                         .foregroundColor(DesignTokens.Colors.textPrimary)
                                 }
                                 .padding()
-                                .background(Color.green.opacity(0.2))
+                                .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                                 .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
@@ -202,7 +202,7 @@ struct AddToCalendarModal: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -215,7 +215,7 @@ struct AddToCalendarModal: View {
                                     .font(.caption)
                             }
                             .padding()
-                            .background(Color.red.opacity(0.1))
+                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.chip)
                         }
                     }
@@ -450,7 +450,7 @@ struct SupplyRow: View {
                         .cornerRadius(DesignTokens.Radius.chip)
                 } placeholder: {
                     Rectangle()
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                         .frame(width: 60, height: 60)
                         .cornerRadius(DesignTokens.Radius.chip)
                 }
@@ -472,16 +472,16 @@ struct SupplyRow: View {
                 // Checkbox
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.title2)
-                    .foregroundColor(isSelected ? .blue : .white.opacity(0.5))
+                    .foregroundColor(isSelected ? .blue : .white.opacity(DesignTokens.Opacity.overlayStrong))
             }
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                    .fill(isSelected ? Color.blue.opacity(0.2) : Color.white.opacity(0.05))
+                    .fill(isSelected ? Color.blue.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                    .strokeBorder(isSelected ? Color.blue : Color.white.opacity(0.1), lineWidth: 2)
+                    .strokeBorder(isSelected ? Color.blue : Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 2)
             )
         }
         .buttonStyle(PlainButtonStyle())

@@ -61,7 +61,7 @@ struct StandardButton: View {
         case .tertiary:
             DesignTokens.Colors.overlay10
         case .destructive:
-            Color.red.opacity(0.8)
+            Color.red.opacity(DesignTokens.Opacity.textTertiary)
         }
     }
 }

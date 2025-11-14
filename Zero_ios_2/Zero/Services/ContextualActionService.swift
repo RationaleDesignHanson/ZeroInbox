@@ -632,9 +632,3 @@ enum ContextualActionType: String, Codable {
     case share = "share"
 }
 
-enum ActionPriority: Int {
-    case low = 1
-    case medium = 2
-    case high = 3
-    case critical = 4
-}

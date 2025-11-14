@@ -69,8 +69,8 @@ struct DraftComposerModal: View {
                     .fill(
                         LinearGradient(
                             colors: [
-                                Color.purple.opacity(0.3),
-                                Color.blue.opacity(0.3)
+                                Color.purple.opacity(DesignTokens.Opacity.overlayMedium),
+                                Color.blue.opacity(DesignTokens.Opacity.overlayMedium)
                             ],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
@@ -97,7 +97,7 @@ struct DraftComposerModal: View {
 
                     Text("Analyzing email context and tone")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
             } else if let error = errorMessage {
                 VStack(spacing: 16) {
@@ -111,7 +111,7 @@ struct DraftComposerModal: View {
 
                     Text(error)
                         .font(.caption)
-                        .foregroundColor(.red.opacity(0.8))
+                        .foregroundColor(.red.opacity(DesignTokens.Opacity.textTertiary))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
 
@@ -124,7 +124,7 @@ struct DraftComposerModal: View {
                         .foregroundColor(.white)
                         .padding()
                         .background(Color.blue)
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
                 }
             } else {
@@ -174,17 +174,17 @@ struct DraftComposerModal: View {
                         .background(
                             LinearGradient(
                                 colors: [
-                                    Color.purple.opacity(0.6),
-                                    Color.blue.opacity(0.6)
+                                    Color.purple.opacity(DesignTokens.Opacity.textDisabled),
+                                    Color.blue.opacity(DesignTokens.Opacity.textDisabled)
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
                         )
-                        .cornerRadius(20)
+                        .cornerRadius(DesignTokens.Radius.modal)
                         .overlay(
                             RoundedRectangle(cornerRadius: 20)
-                                .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                         )
 
                         VStack(alignment: .leading, spacing: 4) {
@@ -200,7 +200,7 @@ struct DraftComposerModal: View {
                                 Text(String(format: "%.1fs", draft.latency))
                                     .font(.caption)
                             }
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         }
 
                         Spacer()
@@ -217,10 +217,10 @@ struct DraftComposerModal: View {
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
                             .background(.ultraThinMaterial)
-                            .cornerRadius(20)
+                            .cornerRadius(DesignTokens.Radius.modal)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 20)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
                         }
                         .disabled(isGenerating)
@@ -231,7 +231,7 @@ struct DraftComposerModal: View {
                             .fill(.ultraThinMaterial)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                             )
                     )
 
@@ -239,11 +239,11 @@ struct DraftComposerModal: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Draft Content (Tap to Edit)")
                             .font(.subheadline.bold())
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
                         TextEditor(text: $editedDraftText)
                             .frame(minHeight: 200)
-                            .padding(12)
+                            .padding(DesignTokens.Spacing.element)
                             .scrollContentBackground(.hidden)
                             .background(Color.clear)
                             .foregroundColor(.white)
@@ -262,7 +262,7 @@ struct DraftComposerModal: View {
                                                 endPoint: .bottomTrailing
                                             ) :
                                             LinearGradient(
-                                                colors: [Color.white.opacity(0.2), Color.white.opacity(0.1)],
+                                                colors: [Color.white.opacity(DesignTokens.Opacity.overlayLight), Color.white.opacity(DesignTokens.Opacity.glassLight)],
                                                 startPoint: .topLeading,
                                                 endPoint: .bottomTrailing
                                             ),
@@ -275,7 +275,7 @@ struct DraftComposerModal: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Change Tone")
                             .font(.subheadline.bold())
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 12) {
@@ -299,7 +299,7 @@ struct DraftComposerModal: View {
                         Text("AI-generated content • Please review before sending")
                             .font(.caption)
                     }
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     .padding(.horizontal)
                 }
                 .padding()
@@ -323,7 +323,7 @@ struct DraftComposerModal: View {
                     .padding()
                     .background(Color.blue)
                     .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
                 .disabled(isSending || editedDraftText.isEmpty)
 
@@ -464,7 +464,7 @@ struct ToneButton: View {
 
                     Text(tone.description)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         .lineLimit(2)
                 }
 
@@ -477,11 +477,11 @@ struct ToneButton: View {
                 }
             }
             .padding()
-            .background(isSelected ? Color.blue.opacity(0.2) : Color.white.opacity(0.05))
-            .cornerRadius(12)
+            .background(isSelected ? Color.blue.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(isSelected ? Color.blue : Color.white.opacity(0.1), lineWidth: isSelected ? 2 : 1)
+                    .strokeBorder(isSelected ? Color.blue : Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: isSelected ? 2 : 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -514,16 +514,16 @@ struct ToneChip: View {
                         endPoint: .trailing
                     ) :
                     LinearGradient(
-                        colors: [Color.white.opacity(0.1), Color.white.opacity(0.1)],
+                        colors: [Color.white.opacity(DesignTokens.Opacity.glassLight), Color.white.opacity(DesignTokens.Opacity.glassLight)],
                         startPoint: .leading,
                         endPoint: .trailing
                     )
             )
-            .cornerRadius(20)
+            .cornerRadius(DesignTokens.Radius.modal)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
                     .strokeBorder(
-                        isSelected ? Color.white.opacity(0.3) : Color.white.opacity(0.1),
+                        isSelected ? Color.white.opacity(DesignTokens.Opacity.overlayMedium) : Color.white.opacity(DesignTokens.Opacity.glassLight),
                         lineWidth: 1
                     )
             )

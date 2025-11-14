@@ -36,14 +36,14 @@ struct CollapsibleCategorySection: View {
                     HStack {
                         Text(category.rawValue)
                             .font(.caption.bold())
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                             .textCase(.uppercase)
 
                         Spacer()
 
                         Image(systemName: "chevron.right")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                             .rotationEffect(.degrees(isExpanded ? 90 : 0))
                     }
                     .contentShape(Rectangle())
@@ -169,7 +169,7 @@ struct ModelTuningView: View {
 
             Text("Loading email...")
                 .font(.headline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
         }
     }
 
@@ -187,7 +187,7 @@ struct ModelTuningView: View {
 
             Text(error)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
 
@@ -198,7 +198,7 @@ struct ModelTuningView: View {
             .padding(.vertical, 12)
             .background(Color.blue)
             .foregroundColor(.white)
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
         }
     }
 
@@ -216,7 +216,7 @@ struct ModelTuningView: View {
 
             Text("No more emails to review")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
             Button("Load Sample") {
                 Task { await viewModel.loadSampleEmail() }
@@ -225,7 +225,7 @@ struct ModelTuningView: View {
             .padding(.vertical, 12)
             .background(Color.purple)
             .foregroundColor(.white)
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
         }
     }
 
@@ -262,23 +262,23 @@ struct ModelTuningView: View {
             HStack {
                 Text("EMAIL PREVIEW")
                     .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                 Spacer()
 
                 Text(email.timeAgo)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
 
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
             HStack(spacing: 8) {
                 Image(systemName: "envelope.fill")
                     .foregroundColor(.blue)
                 Text("From:")
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 Text(email.from)
                     .foregroundColor(.white)
                     .bold()
@@ -289,7 +289,7 @@ struct ModelTuningView: View {
                 Image(systemName: "text.alignleft")
                     .foregroundColor(.purple)
                 Text("Subject:")
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 Text(email.subject)
                     .foregroundColor(.white)
                     .bold()
@@ -299,17 +299,17 @@ struct ModelTuningView: View {
 
             Text(email.snippet)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                 .lineLimit(4)
                 .padding(.top, 8)
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white.opacity(0.05))
+                .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                 )
         )
     }
@@ -323,27 +323,27 @@ struct ModelTuningView: View {
                     .foregroundColor(.purple)
                 Text("EMAIL CATEGORY")
                     .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             // Current category
             HStack {
                 Text("Detected:")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 Text(email.classifiedType.displayName)
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
-                    .background(categoryColor(email.classifiedType).opacity(0.3))
-                    .cornerRadius(8)
+                    .background(categoryColor(email.classifiedType).opacity(DesignTokens.Opacity.overlayMedium))
+                    .cornerRadius(DesignTokens.Radius.chip)
             }
 
             // Category selection
             Text("Correct category:")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
                 ForEach([CardType.mail, .ads], id: \.self) { category in
@@ -352,8 +352,8 @@ struct ModelTuningView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     func categoryButton(_ category: CardType, isSelected: Bool) -> some View {
@@ -368,9 +368,9 @@ struct ModelTuningView: View {
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(isSelected ? categoryColor(category).opacity(0.7) : Color.white.opacity(0.15))
+            .background(isSelected ? categoryColor(category).opacity(DesignTokens.Opacity.textSubtle) : Color.white.opacity(0.15))
             .foregroundColor(.white)
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
                     .strokeBorder(isSelected ? categoryColor(category) : Color.white.opacity(0.4), lineWidth: 2)
@@ -395,22 +395,22 @@ struct ModelTuningView: View {
                     .foregroundColor(.yellow)
                 Text("SUGGESTED ACTIONS")
                     .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             // Detected intent
             HStack {
                 Text("Intent:")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 Text(email.intent)
                     .font(.headline)
                     .foregroundColor(.white)
             }
             .padding()
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.purple.opacity(0.2))
-            .cornerRadius(12)
+            .background(Color.purple.opacity(DesignTokens.Opacity.overlayLight))
+            .cornerRadius(DesignTokens.Radius.button)
 
             // Current suggested actions
             VStack(alignment: .leading, spacing: 8) {
@@ -425,7 +425,7 @@ struct ModelTuningView: View {
                 }
             }
 
-            Divider().background(Color.white.opacity(0.2))
+            Divider().background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
             // Missed actions selection
             VStack(alignment: .leading, spacing: 12) {
@@ -443,7 +443,7 @@ struct ModelTuningView: View {
                 }
             }
 
-            Divider().background(Color.white.opacity(0.2))
+            Divider().background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
             // Unnecessary actions selection
             VStack(alignment: .leading, spacing: 8) {
@@ -467,8 +467,8 @@ struct ModelTuningView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     func actionChip(actionId: String, isSelected: Bool, color: Color, enabled: Bool) -> some View {
@@ -477,8 +477,8 @@ struct ModelTuningView: View {
             .foregroundColor(.white)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .background(isSelected ? color.opacity(0.8) : Color.white.opacity(enabled ? 0.2 : 0.1))
-            .cornerRadius(16)
+            .background(isSelected ? color.opacity(DesignTokens.Opacity.textTertiary) : Color.white.opacity(enabled ? 0.2 : 0.1))
+            .cornerRadius(DesignTokens.Radius.card)
             .overlay(
                 RoundedRectangle(cornerRadius: 16)
                     .strokeBorder(isSelected ? color : Color.white.opacity(enabled ? 0.5 : 0.3), lineWidth: 2)
@@ -496,19 +496,19 @@ struct ModelTuningView: View {
 
             TextEditor(text: $viewModel.notes)
                 .frame(height: 80)
-                .padding(8)
+                .padding(DesignTokens.Spacing.inline)
                 .scrollContentBackground(.hidden)
-                .background(Color.white.opacity(0.1))
+                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                 .foregroundColor(.white)
-                .cornerRadius(8)
+                .cornerRadius(DesignTokens.Radius.chip)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                 )
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     // MARK: - Action Buttons
@@ -532,7 +532,7 @@ struct ModelTuningView: View {
                 .padding()
                 .background(viewModel.canSubmit ? Color.blue : Color.gray)
                 .foregroundColor(.white)
-                .cornerRadius(12)
+                .cornerRadius(DesignTokens.Radius.button)
             }
             .disabled(!viewModel.canSubmit || viewModel.isSubmitting)
 
@@ -541,7 +541,7 @@ struct ModelTuningView: View {
             }) {
                 Text("Skip This Email")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
             .disabled(viewModel.isSubmitting)
         }
@@ -577,7 +577,7 @@ struct ModelTuningView: View {
                     ZStack(alignment: .leading) {
                         // Background track
                         RoundedRectangle(cornerRadius: 3)
-                            .fill(Color.white.opacity(0.2))
+                            .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                             .frame(height: 4)
 
                         // Progress fill
@@ -599,10 +599,10 @@ struct ModelTuningView: View {
         .padding(.vertical, 6)
         .background(
             Capsule()
-                .fill(Color.white.opacity(0.1))
+                .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                 .overlay(
                     Capsule()
-                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                 )
         )
     }

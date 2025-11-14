@@ -42,7 +42,7 @@ struct AvatarBadge: View {
                 )
                 .cornerRadius(size.cornerRadius)
                 .shadow(
-                    color: gradient.shadowColor.opacity(0.3),
+                    color: gradient.shadowColor.opacity(DesignTokens.Opacity.overlayMedium),
                     radius: 4,
                     x: 0,
                     y: 2
@@ -58,7 +58,7 @@ struct AvatarBadge: View {
                     .clipShape(Circle())
                     .overlay(
                         Circle()
-                            .strokeBorder(Color.black.opacity(0.3), lineWidth: 2)
+                            .strokeBorder(Color.black.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 2)
                     )
                     .offset(x: 4, y: -4)
             }
@@ -69,9 +69,9 @@ struct AvatarBadge: View {
                     .frame(width: 12, height: 12)
                     .overlay(
                         Circle()
-                            .strokeBorder(Color.black.opacity(0.3), lineWidth: 2)
+                            .strokeBorder(Color.black.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 2)
                     )
-                    .shadow(color: .blue.opacity(0.5), radius: 4, x: 0, y: 0)
+                    .shadow(color: .blue.opacity(DesignTokens.Opacity.overlayStrong), radius: 4, x: 0, y: 0)
                     .offset(x: 2, y: -2)
             }
 
@@ -182,7 +182,7 @@ extension AvatarBadge {
                         AvatarBadge(initial: "MJ", gradient: .mail)
                         Text("Initial Badge")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     VStack(spacing: 8) {
@@ -193,7 +193,7 @@ extension AvatarBadge {
                         )
                         Text("Thread Count")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     VStack(spacing: 8) {
@@ -204,7 +204,7 @@ extension AvatarBadge {
                         )
                         Text("Unread")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     VStack(spacing: 8) {
@@ -215,13 +215,13 @@ extension AvatarBadge {
                         )
                         Text("VIP Contact")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
             }
 
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
             // Section 2: Size Variants
             VStack(alignment: .leading, spacing: 16) {
@@ -238,7 +238,7 @@ extension AvatarBadge {
                         )
                         Text("Primary (50pt)")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     VStack(spacing: 8) {
@@ -249,13 +249,13 @@ extension AvatarBadge {
                         )
                         Text("Compact (32pt)")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
             }
 
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
             // Section 3: Gradient Variants
             VStack(alignment: .leading, spacing: 16) {
@@ -268,33 +268,33 @@ extension AvatarBadge {
                         AvatarBadge(initial: "MA", gradient: .mail)
                         Text("Mail")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     VStack(spacing: 8) {
                         AvatarBadge(initial: "AD", gradient: .ads)
                         Text("Ads")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     VStack(spacing: 8) {
                         AvatarBadge(initial: "VI", gradient: .vip)
                         Text("VIP")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     VStack(spacing: 8) {
                         AvatarBadge(initial: "TH", gradient: .thread)
                         Text("Thread")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
             }
         }
-        .padding(32)
+        .padding(DesignTokens.Spacing.card)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(

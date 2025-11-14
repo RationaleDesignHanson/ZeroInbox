@@ -58,7 +58,7 @@ struct ViewPostCommentsModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Original Post Summary
                     VStack(alignment: .leading, spacing: 12) {
@@ -78,7 +78,7 @@ struct ViewPostCommentsModal: View {
                             .lineSpacing(4)
                     }
                     .padding()
-                    .background(Color.white.opacity(0.05))
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                     .cornerRadius(DesignTokens.Radius.button)
 
                     // Comments Section
@@ -143,14 +143,14 @@ struct ViewPostCommentsModal: View {
                         TextEditor(text: $newCommentText)
                             .frame(height: 80)
                             .padding()
-                            .background(Color.white.opacity(0.1))
+                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.button)
                             .foregroundColor(DesignTokens.Colors.textPrimary)
                             .colorScheme(.dark)
                             .scrollContentBackground(.hidden)
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                             )
 
                         Button {
@@ -170,7 +170,7 @@ struct ViewPostCommentsModal: View {
                         .disabled(newCommentText.isEmpty)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.card)
                     .overlay(
                         RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
@@ -188,7 +188,7 @@ struct ViewPostCommentsModal: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.green.opacity(0.2))
+                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -203,7 +203,7 @@ struct ViewPostCommentsModal: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.1))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
                 .padding(DesignTokens.Spacing.card)
@@ -411,7 +411,7 @@ struct CommentRow: View {
                         } label: {
                             HStack(spacing: 4) {
                                 Image(systemName: comment.isLiked ? "heart.fill" : "heart")
-                                    .foregroundColor(comment.isLiked ? .pink : .white.opacity(0.7))
+                                    .foregroundColor(comment.isLiked ? .pink : .white.opacity(DesignTokens.Opacity.textSubtle))
                                 if comment.likeCount > 0 {
                                     Text("\(comment.likeCount)")
                                         .foregroundColor(comment.isLiked ? .pink : DesignTokens.Colors.textSubtle)
@@ -429,7 +429,7 @@ struct CommentRow: View {
                                     Text("Reply")
                                 }
                                 .font(.caption)
-                                .foregroundColor(isReplyingTo ? .blue : .white.opacity(0.7))
+                                .foregroundColor(isReplyingTo ? .blue : .white.opacity(DesignTokens.Opacity.textSubtle))
                             }
                         }
                     }

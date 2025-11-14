@@ -76,7 +76,7 @@ struct PickupDetailsModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Prescription details
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
@@ -111,7 +111,7 @@ struct PickupDetailsModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Pharmacy details
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
@@ -202,7 +202,7 @@ struct PickupDetailsModal: View {
                             }
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(Color.green.opacity(0.2))
+                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             .cornerRadius(DesignTokens.Radius.button)
                         }
 
@@ -215,7 +215,7 @@ struct PickupDetailsModal: View {
                                     .font(.caption)
                             }
                             .padding()
-                            .background(Color.red.opacity(0.1))
+                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
                             .cornerRadius(DesignTokens.Radius.chip)
                         }
                     }
@@ -445,7 +445,7 @@ struct DetailRow: View {
             Spacer()
         }
         .padding()
-        .background(Color.white.opacity(0.05))
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
         .cornerRadius(DesignTokens.Radius.button)
     }
 }

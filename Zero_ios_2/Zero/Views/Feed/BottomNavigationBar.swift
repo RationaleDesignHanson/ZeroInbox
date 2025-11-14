@@ -128,11 +128,11 @@ struct BottomNavigationBar: View {
                     // Elegant separator
                     Text("·")
                         .font(.system(size: 14))
-                        .foregroundColor(.white.opacity(0.3))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     Text("\(viewModel.filteredCards.count) left")
                         .font(.system(size: 14, weight: .medium, design: .rounded))
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 Spacer()
@@ -174,7 +174,7 @@ struct BottomNavigationBar: View {
                                 LinearGradient(
                                     colors: [
                                         Color.white.opacity(0.0),
-                                        Color.white.opacity(0.7),
+                                        Color.white.opacity(DesignTokens.Opacity.textSubtle),
                                         Color.white.opacity(0.0)
                                     ],
                                     startPoint: .leading,
@@ -213,7 +213,7 @@ struct BottomNavigationBar: View {
                         // Icon with holographic hint
                         Image(systemName: navState.actionsExpanded ? "xmark" : "ellipsis")
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white.opacity(0.9))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                             .rotationEffect(.degrees(navState.actionsExpanded ? 90 : 0))
                             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: navState.actionsExpanded)
                     }
@@ -243,7 +243,7 @@ struct BottomNavigationBar: View {
                             )
                         )
                         .background(
-                            .ultraThinMaterial.opacity(0.6),
+                            .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
                             in: RoundedRectangle(cornerRadius: navState.actionsExpanded ? 0 : DesignTokens.Radius.card)
                         )
 
@@ -252,11 +252,11 @@ struct BottomNavigationBar: View {
                         .strokeBorder(
                             LinearGradient(
                                 colors: [
-                                    Color.blue.opacity(0.6),
+                                    Color.blue.opacity(DesignTokens.Opacity.textDisabled),
                                     Color.cyan.opacity(0.4),
-                                    Color.purple.opacity(0.5),
-                                    Color.pink.opacity(0.3),
-                                    Color.blue.opacity(0.5)
+                                    Color.purple.opacity(DesignTokens.Opacity.overlayStrong),
+                                    Color.pink.opacity(DesignTokens.Opacity.overlayMedium),
+                                    Color.blue.opacity(DesignTokens.Opacity.overlayStrong)
                                 ],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
@@ -316,7 +316,7 @@ struct BottomNavigationBar: View {
                 ZStack {
                     // Glow effect
                     Circle()
-                        .fill(color.opacity(0.2))
+                        .fill(color.opacity(DesignTokens.Opacity.overlayLight))
                         .frame(width: 40, height: 40)
                         .blur(radius: 8)
 
@@ -328,7 +328,7 @@ struct BottomNavigationBar: View {
 
                 Text(label)
                     .font(.caption2)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
             }
         }
         .buttonStyle(PlainButtonStyle())

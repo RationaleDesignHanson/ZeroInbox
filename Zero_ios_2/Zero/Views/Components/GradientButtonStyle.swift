@@ -32,7 +32,7 @@ struct GradientButtonStyle: ButtonStyle {
                     endPoint: endPoint
                 )
             )
-            .cornerRadius(16)
+            .cornerRadius(DesignTokens.Radius.card)
             .shadow(color: shadowColor.opacity(0.4), radius: 10, y: 5)
             .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
             .animation(.easeInOut(duration: 0.2), value: configuration.isPressed)

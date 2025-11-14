@@ -33,12 +33,12 @@ struct CalendarInviteView: View {
                     .padding(.horizontal, DesignTokens.Spacing.inline)
                     .padding(.vertical, 4)
                     .background(platformColor)
-                    .cornerRadius(6)
+                    .cornerRadius(DesignTokens.Radius.minimal)
                 }
             }
 
             Divider()
-                .background(Color.white.opacity(0.3))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
             // Meeting details
             VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -46,7 +46,7 @@ struct CalendarInviteView: View {
                 if let title = invite.meetingTitle {
                     HStack(spacing: DesignTokens.Spacing.inline) {
                         Image(systemName: "text.alignleft")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .frame(width: 20)
 
                         Text(title)
@@ -59,7 +59,7 @@ struct CalendarInviteView: View {
                 if let time = invite.meetingTime {
                     HStack(spacing: DesignTokens.Spacing.inline) {
                         Image(systemName: "clock.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .frame(width: 20)
 
                         VStack(alignment: .leading, spacing: 2) {
@@ -80,7 +80,7 @@ struct CalendarInviteView: View {
                 if let organizer = invite.organizer {
                     HStack(spacing: DesignTokens.Spacing.inline) {
                         Image(systemName: "person.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .frame(width: 20)
 
                         Text(organizer)
@@ -93,7 +93,7 @@ struct CalendarInviteView: View {
                 if let _ = invite.meetingUrl, platform != nil {
                     HStack(spacing: DesignTokens.Spacing.inline) {
                         Image(systemName: "link")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .frame(width: 20)
 
                         Text("Virtual meeting link available")
@@ -152,7 +152,7 @@ struct CalendarInviteView: View {
                         .foregroundColor(DesignTokens.Colors.textPrimary)
                         .frame(maxWidth: .infinity)
                         .padding(DesignTokens.Spacing.section)
-                        .background(Color.green.opacity(0.8))
+                        .background(Color.green.opacity(DesignTokens.Opacity.textTertiary))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -169,7 +169,7 @@ struct CalendarInviteView: View {
                         .foregroundColor(DesignTokens.Colors.textPrimary)
                         .frame(maxWidth: .infinity)
                         .padding(DesignTokens.Spacing.section)
-                        .background(Color.red.opacity(0.8))
+                        .background(Color.red.opacity(DesignTokens.Opacity.textTertiary))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
                 }
@@ -180,7 +180,7 @@ struct CalendarInviteView: View {
             LinearGradient(
                 colors: [
                     Color.blue.opacity(0.15),
-                    Color.purple.opacity(0.1)
+                    Color.purple.opacity(DesignTokens.Opacity.glassLight)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -189,7 +189,7 @@ struct CalendarInviteView: View {
         .cornerRadius(DesignTokens.Radius.container)
         .overlay(
             RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
         )
         .onAppear {
             // Detect platform from URL

@@ -68,7 +68,7 @@ struct NebulaBackground: View {
     var body: some View {
         ZStack {
             // Deep space base
-            Color.black.opacity(0.9)
+            Color.black.opacity(DesignTokens.Opacity.textSecondary)
 
             // Nebula clouds - layered gradients with different colors
             RadialGradient(

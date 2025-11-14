@@ -5,7 +5,7 @@ struct SettingsHeaderView: View {
         VStack(spacing: 8) {
             Image(systemName: "gear")
                 .font(.system(size: 60))
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
 
             Text("Settings")
                 .font(.largeTitle.bold())

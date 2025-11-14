@@ -20,7 +20,7 @@ struct ActionSelectorBottomSheet: View {
         VStack(spacing: 0) {
             // Handle bar
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color.white.opacity(0.3))
+                .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                 .frame(width: 40, height: 5)
                 .padding(.top, 12)
                 .padding(.bottom, 20)
@@ -33,7 +33,7 @@ struct ActionSelectorBottomSheet: View {
 
                 Text(card.title)
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     .lineLimit(2)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -44,7 +44,7 @@ struct ActionSelectorBottomSheet: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text("QUICK ACTIONS")
                     .font(.system(size: 10, weight: .bold))
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     .tracking(1)
                     .padding(.horizontal, DesignTokens.Spacing.card)
 
@@ -95,7 +95,7 @@ struct ActionSelectorBottomSheet: View {
             .padding(.bottom, 16)
 
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                 .padding(.horizontal, DesignTokens.Spacing.card)
 
             // Action list
@@ -285,7 +285,7 @@ struct ActionSelectionRow: View {
                     .foregroundColor(.white)
                     .frame(width: 40, height: 40)
                     .background(
-                        isSelected ? Color.white.opacity(0.3) : Color.white.opacity(0.1)
+                        isSelected ? Color.white.opacity(DesignTokens.Opacity.overlayMedium) : Color.white.opacity(DesignTokens.Opacity.glassLight)
                     )
                     .cornerRadius(DesignTokens.Radius.container)
 
@@ -303,7 +303,7 @@ struct ActionSelectionRow: View {
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 3)
                                 .background(Color.green)
-                                .cornerRadius(4)
+                                .cornerRadius(DesignTokens.Radius.minimal)
                         }
 
                         // Permission badge
@@ -320,13 +320,13 @@ struct ActionSelectionRow: View {
                                         endPoint: .trailing
                                     )
                                 )
-                                .cornerRadius(4)
+                                .cornerRadius(DesignTokens.Radius.minimal)
                         }
                     }
 
                     Text(isAvailable ? actionTypeDescription : (availabilityReason ?? "Upgrade required"))
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 Spacer()
@@ -339,18 +339,18 @@ struct ActionSelectionRow: View {
                 } else if action.isPrimary {
                     Image(systemName: "star.fill")
                         .font(.caption)
-                        .foregroundColor(.yellow.opacity(0.7))
+                        .foregroundColor(.yellow.opacity(DesignTokens.Opacity.textSubtle))
                 }
             }
             .padding(DesignTokens.Spacing.section)
             .background(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                    .fill(isSelected ? Color.white.opacity(0.2) : Color.white.opacity(0.05))
+                    .fill(isSelected ? Color.white.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
                     .strokeBorder(
-                        isCurrent ? Color.green.opacity(0.5) : Color.white.opacity(0.1),
+                        isCurrent ? Color.green.opacity(DesignTokens.Opacity.overlayStrong) : Color.white.opacity(DesignTokens.Opacity.glassLight),
                         lineWidth: isCurrent ? 2 : 1
                     )
             )
@@ -406,15 +406,15 @@ struct QuickActionIconButton: View {
                     Circle()
                         .fill(
                             isDisabled ?
-                            Color.white.opacity(0.05) :
-                            color.opacity(0.2)
+                            Color.white.opacity(DesignTokens.Opacity.glassUltraLight) :
+                            color.opacity(DesignTokens.Opacity.overlayLight)
                         )
                         .frame(width: 60, height: 60)
 
                     Circle()
                         .strokeBorder(
                             isDisabled ?
-                            Color.white.opacity(0.1) :
+                            Color.white.opacity(DesignTokens.Opacity.glassLight) :
                             color.opacity(0.4),
                             lineWidth: 1.5
                         )
@@ -424,7 +424,7 @@ struct QuickActionIconButton: View {
                         .font(.system(size: 24))
                         .foregroundColor(
                             isDisabled ?
-                            .white.opacity(0.3) :
+                            .white.opacity(DesignTokens.Opacity.overlayMedium) :
                             color
                         )
                 }
@@ -435,7 +435,7 @@ struct QuickActionIconButton: View {
                     .foregroundColor(
                         isDisabled ?
                         .white.opacity(0.4) :
-                        .white.opacity(0.7)
+                        .white.opacity(DesignTokens.Opacity.textSubtle)
                     )
             }
             .frame(maxWidth: .infinity)

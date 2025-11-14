@@ -16,13 +16,13 @@ struct SafeModeSettingsView: View {
 
                 Text("Control email sending behavior during testing")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(24)
+            .padding(DesignTokens.Spacing.card)
 
             Divider()
-                .background(Color.white.opacity(0.3))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
             ScrollView {
                 VStack(spacing: 24) {
@@ -44,7 +44,7 @@ struct SafeModeSettingsView: View {
 
                                 Text(currentMode.description)
                                     .font(.caption)
-                                    .foregroundColor(.white.opacity(0.7))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             }
 
                             Spacer()
@@ -54,8 +54,8 @@ struct SafeModeSettingsView: View {
                                 .frame(width: 12, height: 12)
                         }
                         .padding()
-                        .background(modeColor(for: currentMode).opacity(0.2))
-                        .cornerRadius(12)
+                        .background(modeColor(for: currentMode).opacity(DesignTokens.Opacity.overlayLight))
+                        .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
                                 .strokeBorder(modeColor(for: currentMode), lineWidth: 2)
@@ -63,7 +63,7 @@ struct SafeModeSettingsView: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Mode Selection
                     VStack(alignment: .leading, spacing: 16) {
@@ -96,7 +96,7 @@ struct SafeModeSettingsView: View {
                     // Test Email (Demo Mode Only)
                     if currentMode == .demo {
                         Divider()
-                            .background(Color.white.opacity(0.3))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Test Email Address")
@@ -105,19 +105,19 @@ struct SafeModeSettingsView: View {
 
                             Text("All emails will be redirected to this address in Demo Mode")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
                             TextField("", text: $testEmail)
                                 .textFieldStyle(PlainTextFieldStyle())
                                 .padding()
-                                .background(Color.white.opacity(0.1))
-                                .cornerRadius(12)
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                                .cornerRadius(DesignTokens.Radius.button)
                                 .foregroundColor(.white)
                                 .keyboardType(.emailAddress)
                                 .autocapitalization(.none)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
-                                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                 )
                                 .onChange(of: testEmail) { _, newValue in
                                     SafeModeService.shared.testEmail = newValue
@@ -127,7 +127,7 @@ struct SafeModeSettingsView: View {
 
                     // Statistics
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     VStack(alignment: .leading, spacing: 16) {
                         Text("Statistics")
@@ -159,8 +159,8 @@ struct SafeModeSettingsView: View {
                             .foregroundColor(.red)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
-                            .background(Color.red.opacity(0.2))
-                            .cornerRadius(8)
+                            .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
+                            .cornerRadius(DesignTokens.Radius.chip)
                         }
                     }
 
@@ -190,10 +190,10 @@ struct SafeModeSettingsView: View {
                         }
                     }
                     .padding()
-                    .background(Color.blue.opacity(0.2))
-                    .cornerRadius(12)
+                    .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
-                .padding(24)
+                .padding(DesignTokens.Spacing.card)
             }
         }
         .background(
@@ -257,8 +257,8 @@ struct ModeSelectionRow: View {
                     .font(.title3)
                     .foregroundColor(modeColor)
                     .frame(width: 40, height: 40)
-                    .background(modeColor.opacity(0.2))
-                    .cornerRadius(10)
+                    .background(modeColor.opacity(DesignTokens.Opacity.overlayLight))
+                    .cornerRadius(DesignTokens.Radius.button)
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(mode.rawValue.capitalized)
@@ -267,7 +267,7 @@ struct ModeSelectionRow: View {
 
                     Text(mode.description)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 }
 
                 Spacer()
@@ -279,11 +279,11 @@ struct ModeSelectionRow: View {
                 }
             }
             .padding()
-            .background(isSelected ? modeColor.opacity(0.2) : Color.white.opacity(0.05))
-            .cornerRadius(12)
+            .background(isSelected ? modeColor.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(isSelected ? modeColor : Color.white.opacity(0.1), lineWidth: isSelected ? 2 : 1)
+                    .strokeBorder(isSelected ? modeColor : Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: isSelected ? 2 : 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -312,7 +312,7 @@ struct StatRow: View {
 
             Text(label)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
             Spacer()
 
@@ -321,8 +321,8 @@ struct StatRow: View {
                 .foregroundColor(color)
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(8)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.chip)
     }
 }
 
@@ -333,13 +333,13 @@ struct SafeModeInfoRow: View {
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
             Image(systemName: icon)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .font(.caption)
                 .frame(width: 20)
 
             Text(text)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
         }
     }
 }

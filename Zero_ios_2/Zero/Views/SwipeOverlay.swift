@@ -114,11 +114,11 @@ struct SwipeOverlay: View {
             // Icon with simple pulsing animation
             ZStack {
                 Circle()
-                    .fill(overlayColor.opacity(0.3))
+                    .fill(overlayColor.opacity(DesignTokens.Opacity.overlayMedium))
                     .frame(width: 100, height: 100)
 
                 Circle()
-                    .fill(overlayColor.opacity(0.5))
+                    .fill(overlayColor.opacity(DesignTokens.Opacity.overlayStrong))
                     .frame(width: 80, height: 80)
 
                 Image(systemName: iconName)
@@ -130,7 +130,7 @@ struct SwipeOverlay: View {
             Text(actionText)
                 .font(.title3.bold())
                 .foregroundColor(.white)
-                .shadow(color: .black.opacity(0.5), radius: 3)
+                .shadow(color: .black.opacity(DesignTokens.Opacity.overlayStrong), radius: 3)
                 .multilineTextAlignment(.center)
         }
         .opacity(min(distance / 120, 1.0))

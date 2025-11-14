@@ -90,7 +90,7 @@ struct ScheduledPurchaseModal: View {
                 if let sender = card.sender {
                     HStack(spacing: DesignTokens.Spacing.inline) {
                         Circle()
-                            .fill(Color.purple.opacity(0.3))
+                            .fill(Color.purple.opacity(DesignTokens.Opacity.overlayMedium))
                             .frame(width: 32, height: 32)
                             .overlay(
                                 Text(sender.initial)
@@ -112,7 +112,7 @@ struct ScheduledPurchaseModal: View {
                             .font(.caption)
                             .lineLimit(1)
                     }
-                    .foregroundColor(.blue.opacity(0.8))
+                    .foregroundColor(.blue.opacity(DesignTokens.Opacity.textTertiary))
                 }
 
                 // Price info if available
@@ -132,8 +132,8 @@ struct ScheduledPurchaseModal: View {
                                     .foregroundColor(.green)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
-                                    .background(Color.green.opacity(0.2))
-                                    .cornerRadius(4)
+                                    .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
+                                    .cornerRadius(DesignTokens.Radius.minimal)
                             }
                         } else {
                             Text("$\(String(format: "%.2f", originalPrice))")
@@ -155,12 +155,12 @@ struct ScheduledPurchaseModal: View {
                     .foregroundColor(.orange)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 6)
-                    .background(Color.orange.opacity(0.2))
+                    .background(Color.orange.opacity(DesignTokens.Opacity.overlayLight))
                     .cornerRadius(DesignTokens.Spacing.inline)
                 }
             }
             .padding(DesignTokens.Spacing.section)
-            .background(Color.white.opacity(0.05))
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             .cornerRadius(DesignTokens.Radius.button)
         }
     }
@@ -183,7 +183,7 @@ struct ScheduledPurchaseModal: View {
                         Spacer()
                     }
                     .padding(DesignTokens.Spacing.section)
-                    .background(Color.purple.opacity(0.1))
+                    .background(Color.purple.opacity(DesignTokens.Opacity.glassLight))
                     .cornerRadius(DesignTokens.Radius.button)
                 }
 
@@ -202,7 +202,7 @@ struct ScheduledPurchaseModal: View {
                         .foregroundColor(DesignTokens.Colors.textSubtle)
                 }
                 .padding(DesignTokens.Spacing.section)
-                .background(Color.white.opacity(0.05))
+                .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                 .cornerRadius(DesignTokens.Radius.button)
             }
         }
@@ -222,7 +222,7 @@ struct ScheduledPurchaseModal: View {
                 confirmationRow(icon: "lock.fill", text: "No payment info stored", color: .purple)
             }
             .padding(DesignTokens.Spacing.section)
-            .background(Color.white.opacity(0.05))
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             .cornerRadius(DesignTokens.Radius.button)
         }
     }

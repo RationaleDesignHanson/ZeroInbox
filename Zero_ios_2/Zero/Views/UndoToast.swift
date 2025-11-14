@@ -32,7 +32,7 @@ struct UndoToast: View {
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.black.opacity(0.85))
-                .shadow(color: .black.opacity(0.3), radius: 10, y: 5)
+                .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 10, y: 5)
         )
         .padding(.horizontal, 20)
         .opacity(opacity)

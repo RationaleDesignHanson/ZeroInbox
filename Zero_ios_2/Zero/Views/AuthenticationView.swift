@@ -46,7 +46,7 @@ struct AuthenticationView: View {
                     .padding()
                     .background(Color.blue)
                     .foregroundColor(.white)
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
                 .disabled(isAuthenticating)
 
@@ -61,9 +61,9 @@ struct AuthenticationView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.gray.opacity(0.3))
+                    .background(Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                     .foregroundColor(.gray)
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
                 .disabled(true)
 
@@ -78,9 +78,9 @@ struct AuthenticationView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.gray.opacity(0.3))
+                    .background(Color.gray.opacity(DesignTokens.Opacity.overlayMedium))
                     .foregroundColor(.gray)
-                    .cornerRadius(12)
+                    .cornerRadius(DesignTokens.Radius.button)
                 }
                 .disabled(true)
             }
@@ -92,8 +92,8 @@ struct AuthenticationView: View {
                     .font(.caption)
                     .foregroundColor(.red)
                     .padding()
-                    .background(Color.red.opacity(0.1))
-                    .cornerRadius(8)
+                    .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
+                    .cornerRadius(DesignTokens.Radius.chip)
                     .padding(.horizontal)
             }
 

@@ -13,13 +13,13 @@ struct ContextBadge: View {
                 .font(.system(size: 16))
                 .foregroundColor(iconColor)
                 .frame(width: 32, height: 32)
-                .background(iconColor.opacity(0.2))
-                .cornerRadius(8)
+                .background(iconColor.opacity(DesignTokens.Opacity.overlayLight))
+                .cornerRadius(DesignTokens.Radius.chip)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
                     .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
                 Text(detail)
                     .font(.system(size: 13))
@@ -30,11 +30,11 @@ struct ContextBadge: View {
             Spacer()
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                .stroke(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 1)
         )
     }
 }
@@ -104,13 +104,13 @@ struct LocationBadge: View {
                     .font(.system(size: 16))
                     .foregroundColor(.red)
                     .frame(width: 32, height: 32)
-                    .background(Color.red.opacity(0.2))
-                    .cornerRadius(8)
+                    .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
+                    .cornerRadius(DesignTokens.Radius.chip)
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Location")
                         .font(.system(size: 12, weight: .medium))
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
                     if let address = location.address {
                         Text(address)
@@ -122,7 +122,7 @@ struct LocationBadge: View {
                     if let phone = location.phone {
                         Text(phone)
                             .font(.system(size: 13))
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                     }
                 }
 
@@ -144,7 +144,7 @@ struct LocationBadge: View {
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
                             .background(Color.blue)
-                            .cornerRadius(8)
+                            .cornerRadius(DesignTokens.Radius.chip)
                     }
                 }
 
@@ -161,7 +161,7 @@ struct LocationBadge: View {
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
                             .background(Color.blue)
-                            .cornerRadius(8)
+                            .cornerRadius(DesignTokens.Radius.chip)
                     }
                 }
 
@@ -169,11 +169,11 @@ struct LocationBadge: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
         .overlay(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                .stroke(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 1)
         )
     }
 }

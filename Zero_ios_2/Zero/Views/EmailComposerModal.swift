@@ -26,7 +26,7 @@ struct EmailComposerModal: View {
                         isPresented = false
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .font(.title2)
                     }
                 }
@@ -117,21 +117,21 @@ struct EmailComposerModal: View {
                                         .background(
                                             selectedTone == tone ?
                                                 LinearGradient(
-                                                    colors: [Color.purple.opacity(0.6), Color.blue.opacity(0.6)],
+                                                    colors: [Color.purple.opacity(DesignTokens.Opacity.textDisabled), Color.blue.opacity(DesignTokens.Opacity.textDisabled)],
                                                     startPoint: .leading,
                                                     endPoint: .trailing
                                                 ) :
                                                 LinearGradient(
-                                                    colors: [Color.white.opacity(0.1), Color.white.opacity(0.1)],
+                                                    colors: [Color.white.opacity(DesignTokens.Opacity.glassLight), Color.white.opacity(DesignTokens.Opacity.glassLight)],
                                                     startPoint: .leading,
                                                     endPoint: .trailing
                                                 )
                                         )
-                                        .cornerRadius(16)
+                                        .cornerRadius(DesignTokens.Radius.card)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 16)
                                                 .strokeBorder(
-                                                    selectedTone == tone ? Color.white.opacity(0.3) : Color.white.opacity(0.1),
+                                                    selectedTone == tone ? Color.white.opacity(DesignTokens.Opacity.overlayMedium) : Color.white.opacity(DesignTokens.Opacity.glassLight),
                                                     lineWidth: 1
                                                 )
                                         )
@@ -164,8 +164,8 @@ struct EmailComposerModal: View {
                             .background(
                                 LinearGradient(
                                     colors: [
-                                        Color.purple.opacity(0.6),
-                                        Color.blue.opacity(0.6)
+                                        Color.purple.opacity(DesignTokens.Opacity.textDisabled),
+                                        Color.blue.opacity(DesignTokens.Opacity.textDisabled)
                                     ],
                                     startPoint: .leading,
                                     endPoint: .trailing
@@ -200,7 +200,7 @@ struct EmailComposerModal: View {
                         if isGeneratingDraft {
                             HStack(spacing: 8) {
                                 ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white.opacity(0.5)))
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white.opacity(DesignTokens.Opacity.overlayStrong)))
                                     .scaleEffect(0.8)
                                 Text("Generating \(selectedTone.rawValue.lowercased()) draft...")
                                     .foregroundColor(DesignTokens.Colors.textPlaceholder)

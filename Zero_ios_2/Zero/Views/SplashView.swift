@@ -68,8 +68,8 @@ struct SplashView: View {
                                     endPoint: .bottomTrailing
                                 )
                             )
-                            .cornerRadius(16)
-                            .shadow(color: .black.opacity(0.3), radius: 10)
+                            .cornerRadius(DesignTokens.Radius.card)
+                            .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 10)
                         
                         Text("00")
                             .font(.system(size: 70, weight: .bold))
@@ -91,7 +91,7 @@ struct SplashView: View {
 
                     Text("Swipe to keep, act, or archive for later.")
                         .font(.body)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                 }
 
                 Spacer()
@@ -136,7 +136,7 @@ struct SplashView: View {
                                         )
                                     )
                                     .background(
-                                        .ultraThinMaterial.opacity(0.6),
+                                        .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
                                         in: RoundedRectangle(cornerRadius: 16)
                                     )
 
@@ -144,7 +144,7 @@ struct SplashView: View {
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(
                                         LinearGradient(
-                                            colors: [Color.orange.opacity(0.2), Color.pink.opacity(0.2)],
+                                            colors: [Color.orange.opacity(DesignTokens.Opacity.overlayLight), Color.pink.opacity(DesignTokens.Opacity.overlayLight)],
                                             startPoint: .leading,
                                             endPoint: .trailing
                                         )
@@ -155,8 +155,8 @@ struct SplashView: View {
                                     .strokeBorder(
                                         LinearGradient(
                                             colors: [
-                                                Color.orange.opacity(0.6),
-                                                Color.pink.opacity(0.5),
+                                                Color.orange.opacity(DesignTokens.Opacity.textDisabled),
+                                                Color.pink.opacity(DesignTokens.Opacity.overlayStrong),
                                                 Color.orange.opacity(0.4)
                                             ],
                                             startPoint: .leading,
@@ -176,10 +176,10 @@ struct SplashView: View {
                                 // Specular highlight
                                 LinearGradient(
                                     colors: [
-                                        Color.white.opacity(0.3),
+                                        Color.white.opacity(DesignTokens.Opacity.overlayMedium),
                                         Color.clear,
                                         Color.clear,
-                                        Color.white.opacity(0.1)
+                                        Color.white.opacity(DesignTokens.Opacity.glassLight)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -188,7 +188,7 @@ struct SplashView: View {
                                 .allowsHitTesting(false)
                             }
                         )
-                        .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: -3)
+                        .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 15, x: 0, y: -3)
                     }
 
                     // Google OAuth Button
@@ -257,7 +257,7 @@ struct SplashView: View {
                                         )
                                     )
                                     .background(
-                                        .ultraThinMaterial.opacity(0.6),
+                                        .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
                                         in: RoundedRectangle(cornerRadius: 16)
                                     )
 
@@ -265,7 +265,7 @@ struct SplashView: View {
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(
                                         LinearGradient(
-                                            colors: [Color.blue.opacity(0.2), Color.cyan.opacity(0.2)],
+                                            colors: [Color.blue.opacity(DesignTokens.Opacity.overlayLight), Color.cyan.opacity(DesignTokens.Opacity.overlayLight)],
                                             startPoint: .leading,
                                             endPoint: .trailing
                                         )
@@ -276,8 +276,8 @@ struct SplashView: View {
                                     .strokeBorder(
                                         LinearGradient(
                                             colors: [
-                                                Color.blue.opacity(0.6),
-                                                Color.cyan.opacity(0.5),
+                                                Color.blue.opacity(DesignTokens.Opacity.textDisabled),
+                                                Color.cyan.opacity(DesignTokens.Opacity.overlayStrong),
                                                 Color.blue.opacity(0.4)
                                             ],
                                             startPoint: .leading,
@@ -297,10 +297,10 @@ struct SplashView: View {
                                 // Specular highlight
                                 LinearGradient(
                                     colors: [
-                                        Color.white.opacity(0.3),
+                                        Color.white.opacity(DesignTokens.Opacity.overlayMedium),
                                         Color.clear,
                                         Color.clear,
-                                        Color.white.opacity(0.1)
+                                        Color.white.opacity(DesignTokens.Opacity.glassLight)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -309,7 +309,7 @@ struct SplashView: View {
                                 .allowsHitTesting(false)
                             }
                         )
-                        .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: -3)
+                        .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 15, x: 0, y: -3)
                     }
                     .disabled(isAuthenticating)
                     .opacity(isAuthenticating ? 0.5 : 1.0)
@@ -380,7 +380,7 @@ struct SplashView: View {
                                         )
                                     )
                                     .background(
-                                        .ultraThinMaterial.opacity(0.6),
+                                        .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
                                         in: RoundedRectangle(cornerRadius: 16)
                                     )
 
@@ -388,7 +388,7 @@ struct SplashView: View {
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(
                                         LinearGradient(
-                                            colors: [Color.indigo.opacity(0.2), Color.purple.opacity(0.2)],
+                                            colors: [Color.indigo.opacity(DesignTokens.Opacity.overlayLight), Color.purple.opacity(DesignTokens.Opacity.overlayLight)],
                                             startPoint: .leading,
                                             endPoint: .trailing
                                         )
@@ -399,8 +399,8 @@ struct SplashView: View {
                                     .strokeBorder(
                                         LinearGradient(
                                             colors: [
-                                                Color.indigo.opacity(0.6),
-                                                Color.purple.opacity(0.5),
+                                                Color.indigo.opacity(DesignTokens.Opacity.textDisabled),
+                                                Color.purple.opacity(DesignTokens.Opacity.overlayStrong),
                                                 Color.indigo.opacity(0.4)
                                             ],
                                             startPoint: .leading,
@@ -420,10 +420,10 @@ struct SplashView: View {
                                 // Specular highlight
                                 LinearGradient(
                                     colors: [
-                                        Color.white.opacity(0.3),
+                                        Color.white.opacity(DesignTokens.Opacity.overlayMedium),
                                         Color.clear,
                                         Color.clear,
-                                        Color.white.opacity(0.1)
+                                        Color.white.opacity(DesignTokens.Opacity.glassLight)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -432,7 +432,7 @@ struct SplashView: View {
                                 .allowsHitTesting(false)
                             }
                         )
-                        .shadow(color: Color.black.opacity(0.2), radius: 15, x: 0, y: -3)
+                        .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 15, x: 0, y: -3)
                     }
                     .disabled(isAuthenticating)
                     .opacity(isAuthenticating ? 0.5 : 1.0)
@@ -443,7 +443,7 @@ struct SplashView: View {
                 if showError {
                     Text(errorMessage)
                         .font(.footnote)
-                        .foregroundColor(.red.opacity(0.9))
+                        .foregroundColor(.red.opacity(DesignTokens.Opacity.textSecondary))
                         .padding(.horizontal)
                         .padding(.bottom, 10)
                         .transition(.opacity)

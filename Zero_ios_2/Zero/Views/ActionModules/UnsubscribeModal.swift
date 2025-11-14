@@ -127,7 +127,7 @@ struct UnsubscribeModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Reason selection
                     if !showSuccess && !showUndo {
@@ -170,11 +170,11 @@ struct UnsubscribeModal: View {
                                         .lineLimit(2...4)
                                         .padding()
                                         .foregroundColor(DesignTokens.Colors.textPrimary)
-                                        .background(Color.white.opacity(0.1))
+                                        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .cornerRadius(DesignTokens.Radius.button)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                                .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                         )
                                 }
                                 .transition(.opacity.combined(with: .move(edge: .top)))
@@ -214,7 +214,7 @@ struct UnsubscribeModal: View {
                         VStack(spacing: 16) {
                             ZStack {
                                 Circle()
-                                    .stroke(Color.orange.opacity(0.3), lineWidth: 8)
+                                    .stroke(Color.orange.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 8)
                                     .frame(width: 80, height: 80)
 
                                 Circle()
@@ -275,7 +275,7 @@ struct UnsubscribeModal: View {
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.red.opacity(0.2))
+                        .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
                         .cornerRadius(DesignTokens.Radius.button)
                     }
 
@@ -408,7 +408,7 @@ struct ReasonButton: View {
             HStack(spacing: 12) {
                 Image(systemName: reason.icon)
                     .font(.title3)
-                    .foregroundColor(isSelected ? reason.color : .white.opacity(0.7))
+                    .foregroundColor(isSelected ? reason.color : .white.opacity(DesignTokens.Opacity.textSubtle))
                     .frame(width: 30)
 
                 Text(reason.rawValue)
@@ -424,12 +424,12 @@ struct ReasonButton: View {
                 }
             }
             .padding()
-            .background(isSelected ? reason.color.opacity(0.2) : Color.white.opacity(0.1))
+            .background(isSelected ? reason.color.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassLight))
             .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
                     .strokeBorder(
-                        isSelected ? reason.color : Color.white.opacity(0.3),
+                        isSelected ? reason.color : Color.white.opacity(DesignTokens.Opacity.overlayMedium),
                         lineWidth: isSelected ? 2 : 1
                     )
             )

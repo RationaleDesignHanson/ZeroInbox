@@ -62,7 +62,7 @@ struct ClassificationDebugDashboard: View {
 
             Text("Analyzing classification pipeline...")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
         }
     }
 
@@ -80,7 +80,7 @@ struct ClassificationDebugDashboard: View {
 
             Text(error)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
 
@@ -91,7 +91,7 @@ struct ClassificationDebugDashboard: View {
             .padding(.vertical, 12)
             .background(Color.blue)
             .foregroundColor(.white)
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
         }
     }
 
@@ -152,7 +152,7 @@ struct ClassificationDebugDashboard: View {
 
                 Text(warning)
                     .font(.caption2)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                     .lineLimit(2)
             }
 
@@ -216,17 +216,17 @@ struct IntentClassificationView: View {
                         confidenceBadge
 
                         Text("•")
-                            .foregroundColor(.white.opacity(0.3))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         Text(debugData.intentClassification.source)
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.6))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                         Spacer()
 
                         Text(debugData.intentClassification.processingTime)
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.6))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                     }
                 }
 
@@ -234,8 +234,8 @@ struct IntentClassificationView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private var confidenceBadge: some View {
@@ -253,8 +253,8 @@ struct IntentClassificationView: View {
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 4)
-        .background(color.opacity(0.2))
-        .cornerRadius(8)
+        .background(color.opacity(DesignTokens.Opacity.overlayLight))
+        .cornerRadius(DesignTokens.Radius.chip)
     }
 
     private var confidenceThresholdsCard: some View {
@@ -287,21 +287,21 @@ struct IntentClassificationView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func thresholdRow(label: String, value: Double, met: Bool, isCurrentValue: Bool = false) -> some View {
         HStack {
             Text(label)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
             Spacer()
 
             Text("\(Int(value * 100))%")
                 .font(.subheadline.bold())
-                .foregroundColor(isCurrentValue ? .blue : .white.opacity(0.6))
+                .foregroundColor(isCurrentValue ? .blue : .white.opacity(DesignTokens.Opacity.textDisabled))
 
             if !isCurrentValue {
                 Image(systemName: met ? "checkmark.circle.fill" : "xmark.circle.fill")
@@ -320,7 +320,7 @@ struct IntentClassificationView: View {
             if debugData.intentClassification.matchBreakdown.isEmpty {
                 Text("No pattern matches")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             } else {
                 ForEach(Array(debugData.intentClassification.matchBreakdown.enumerated()), id: \.offset) { _, match in
                     matchRow(match)
@@ -328,8 +328,8 @@ struct IntentClassificationView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func matchRow(_ match: PatternMatch) -> some View {
@@ -341,7 +341,7 @@ struct IntentClassificationView: View {
 
                 Text(match.location)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             Spacer()
@@ -364,15 +364,15 @@ struct IntentClassificationView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func intentScoreRow(intent: String, confidence: Double) -> some View {
         HStack {
             Text(intent)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.9))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                 .lineLimit(1)
 
             Spacer()
@@ -380,7 +380,7 @@ struct IntentClassificationView: View {
             ZStack(alignment: .leading) {
                 GeometryReader { geo in
                     Rectangle()
-                        .fill(Color.white.opacity(0.1))
+                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
 
                     Rectangle()
                         .fill(Color.blue)
@@ -392,7 +392,7 @@ struct IntentClassificationView: View {
 
             Text("\(Int(confidence * 100))%")
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 .frame(width: 40, alignment: .trailing)
         }
         .padding(.vertical, 4)
@@ -447,7 +447,7 @@ struct EntityExtractionView: View {
             if !debugData.entityExtraction.missingRequiredEntities.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
                     Divider()
-                        .background(Color.white.opacity(0.2))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
                     HStack {
                         Image(systemName: "exclamationmark.triangle.fill")
@@ -461,18 +461,18 @@ struct EntityExtractionView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func entityValidationRow(label: String, present: Bool) -> some View {
         HStack {
             Image(systemName: present ? "checkmark.circle.fill" : "circle")
-                .foregroundColor(present ? .green : .white.opacity(0.3))
+                .foregroundColor(present ? .green : .white.opacity(DesignTokens.Opacity.overlayMedium))
 
             Text(label)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
             Spacer()
         }
@@ -503,15 +503,15 @@ struct EntityExtractionView: View {
                             .foregroundColor(.red)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
-                            .background(Color.red.opacity(0.2))
-                            .cornerRadius(6)
+                            .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
+                            .cornerRadius(DesignTokens.Radius.minimal)
                     }
                 }
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private var extractedEntitiesCard: some View {
@@ -554,12 +554,12 @@ struct EntityExtractionView: View {
             if entities.trackingNumbers.isEmpty && entities.prices.original == nil && entities.deadline == nil && entities.stores.isEmpty && entities.children.isEmpty && entities.companies.isEmpty {
                 Text("No entities extracted")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func entityRow(icon: String, label: String, value: String, badge: String? = nil) -> some View {
@@ -571,7 +571,7 @@ struct EntityExtractionView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(label)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                 Text(value)
                     .font(.subheadline)
@@ -586,8 +586,8 @@ struct EntityExtractionView: View {
                     .foregroundColor(.red)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 3)
-                    .background(Color.red.opacity(0.2))
-                    .cornerRadius(4)
+                    .background(Color.red.opacity(DesignTokens.Opacity.overlayLight))
+                    .cornerRadius(DesignTokens.Radius.minimal)
             }
         }
         .padding(.vertical, 4)
@@ -639,24 +639,24 @@ struct RulesEngineView: View {
 
                     Text(debugData.rulesEngine.intent)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 Spacer()
 
                 Text(debugData.rulesEngine.processingTime)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             Text(debugData.rulesEngine.reasoning)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                 .padding(.top, 8)
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private var suggestedActionsCard: some View {
@@ -670,8 +670,8 @@ struct RulesEngineView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func actionCard(_ action: SuggestedAction) -> some View {
@@ -688,14 +688,14 @@ struct RulesEngineView: View {
                             .foregroundColor(.blue)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(Color.blue.opacity(0.2))
-                            .cornerRadius(4)
+                            .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
+                            .cornerRadius(DesignTokens.Radius.minimal)
                     }
                 }
 
                 Text(action.actionId)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
 
                 Text(action.endpoint)
                     .font(.caption)
@@ -710,13 +710,13 @@ struct RulesEngineView: View {
                     .foregroundColor(.blue)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
-                    .background(Color.blue.opacity(0.2))
-                    .cornerRadius(6)
+                    .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
+                    .cornerRadius(DesignTokens.Radius.minimal)
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(8)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.chip)
     }
 
     private var actionValidationCard: some View {
@@ -730,8 +730,8 @@ struct RulesEngineView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func validationRow(_ validation: ActionValidation) -> some View {
@@ -746,7 +746,7 @@ struct RulesEngineView: View {
 
                 Text(validation.endpoint)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
 
             Spacer()
@@ -802,17 +802,17 @@ struct MailAdsClassificationView: View {
 
                 Text(debugData.mailAdsClassification.processingTime)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             Text(debugData.mailAdsClassification.classificationReason)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                 .padding(.top, 8)
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private var confidenceIndicator: some View {
@@ -829,8 +829,8 @@ struct MailAdsClassificationView: View {
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 4)
-        .background((isHighConfidence ? Color.green : Color.orange).opacity(0.2))
-        .cornerRadius(6)
+        .background((isHighConfidence ? Color.green : Color.orange).opacity(DesignTokens.Opacity.overlayLight))
+        .cornerRadius(DesignTokens.Radius.minimal)
     }
 
     private var detectionSignalsCard: some View {
@@ -867,31 +867,31 @@ struct MailAdsClassificationView: View {
             )
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func signalRow(icon: String, label: String, active: Bool, detail: String? = nil) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Image(systemName: icon)
-                    .foregroundColor(active ? .orange : .white.opacity(0.3))
+                    .foregroundColor(active ? .orange : .white.opacity(DesignTokens.Opacity.overlayMedium))
                     .frame(width: 24)
 
                 Text(label)
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
                 Spacer()
 
                 Image(systemName: active ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(active ? .orange : .white.opacity(0.3))
+                    .foregroundColor(active ? .orange : .white.opacity(DesignTokens.Opacity.overlayMedium))
             }
 
             if let detail = detail {
                 Text(detail)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     .padding(.leading, 36)
             }
         }
@@ -914,11 +914,11 @@ struct MailAdsClassificationView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Matched Keywords:")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                     Text(reasoning.matchedPromoKeywords.joined(separator: ", "))
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                 }
                 .padding(.vertical, 4)
             }
@@ -928,29 +928,29 @@ struct MailAdsClassificationView: View {
             if let pattern = reasoning.matchedSenderPattern {
                 Text("Pattern: \(pattern)")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     .padding(.leading, 16)
             }
 
             reasoningDetailRow(label: "Intent-Based Detection", value: reasoning.intentBased)
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func reasoningDetailRow(label: String, value: Any) -> some View {
         HStack {
             Text(label)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
             Spacer()
 
             if let boolValue = value as? Bool {
                 Text(boolValue ? "YES" : "NO")
                     .font(.subheadline.bold())
-                    .foregroundColor(boolValue ? .green : .white.opacity(0.5))
+                    .foregroundColor(boolValue ? .green : .white.opacity(DesignTokens.Opacity.overlayStrong))
             } else {
                 Text("\(value)")
                     .font(.subheadline.bold())
@@ -998,7 +998,7 @@ struct PipelineTraceView: View {
 
                     Text("\(debugData.pipelineTrace.steps.count) steps • \(debugData.pipelineTrace.totalTime)")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 Spacer()
@@ -1007,7 +1007,7 @@ struct PipelineTraceView: View {
             if !debugData.pipelineTrace.errors.isEmpty {
                 VStack(alignment: .leading, spacing: 4) {
                     Divider()
-                        .background(Color.white.opacity(0.2))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
                     Text("Errors:")
                         .font(.caption.bold())
@@ -1016,14 +1016,14 @@ struct PipelineTraceView: View {
                     ForEach(debugData.pipelineTrace.errors, id: \.self) { error in
                         Text("• \(error)")
                             .font(.caption)
-                            .foregroundColor(.red.opacity(0.8))
+                            .foregroundColor(.red.opacity(DesignTokens.Opacity.textTertiary))
                     }
                 }
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private var pipelineStepsCard: some View {
@@ -1037,8 +1037,8 @@ struct PipelineTraceView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     private func pipelineStepRow(_ step: PipelineStep) -> some View {
@@ -1049,7 +1049,7 @@ struct PipelineTraceView: View {
                     .font(.caption.bold())
                     .foregroundColor(.blue)
                     .frame(width: 24, height: 24)
-                    .background(Color.blue.opacity(0.2))
+                    .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
                     .clipShape(Circle())
 
                 // Step name
@@ -1065,13 +1065,13 @@ struct PipelineTraceView: View {
                 // Time
                 Text(step.time)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             // Result
             Text(step.result)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .padding(.leading, 36)
 
             // Reasoning (if any)
@@ -1080,7 +1080,7 @@ struct PipelineTraceView: View {
                     ForEach(reasoning, id: \.self) { reason in
                         Text("• \(reason)")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     }
                 }
                 .padding(.leading, 36)
@@ -1090,7 +1090,7 @@ struct PipelineTraceView: View {
             if let error = step.error {
                 Text("Error: \(error)")
                     .font(.caption)
-                    .foregroundColor(.red.opacity(0.8))
+                    .foregroundColor(.red.opacity(DesignTokens.Opacity.textTertiary))
                     .padding(.leading, 36)
             }
         }
@@ -1123,8 +1123,8 @@ struct PipelineTraceView: View {
         .foregroundColor(color)
         .padding(.horizontal, 6)
         .padding(.vertical, 3)
-        .background(color.opacity(0.2))
-        .cornerRadius(4)
+        .background(color.opacity(DesignTokens.Opacity.overlayLight))
+        .cornerRadius(DesignTokens.Radius.minimal)
     }
 }
 
@@ -1138,7 +1138,7 @@ private func sectionHeader(title: String, subtitle: String) -> some View {
 
         Text(subtitle)
             .font(.subheadline)
-            .foregroundColor(.white.opacity(0.6))
+            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
     }
 }
 

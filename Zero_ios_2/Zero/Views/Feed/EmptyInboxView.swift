@@ -7,12 +7,12 @@ struct EmptyInboxView: View {
             // Icon
             ZStack {
                 Circle()
-                    .fill(Color.white.opacity(0.1))
+                    .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                     .frame(width: 120, height: 120)
 
                 Image(systemName: "tray")
                     .font(.system(size: 50, weight: .light))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             // Text
@@ -23,13 +23,13 @@ struct EmptyInboxView: View {
 
                 Text("No more emails to review")
                     .font(.system(size: 16, weight: .regular))
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
             }
 
             // Subtle animation
             Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: 30))
-                .foregroundColor(.green.opacity(0.8))
+                .foregroundColor(.green.opacity(DesignTokens.Opacity.textTertiary))
                 .padding(.top, 8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

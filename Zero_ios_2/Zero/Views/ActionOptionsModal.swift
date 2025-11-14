@@ -65,7 +65,7 @@ struct ActionOptionsModal: View {
                             .foregroundColor(.white)
                         Text("Select your preferred action")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                     
                     Spacer()
@@ -74,14 +74,14 @@ struct ActionOptionsModal: View {
                         isPresented = false
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             .font(.title2)
                     }
                 }
                 .padding()
                 
                 Divider()
-                    .background(Color.white.opacity(0.2))
+                    .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                 
                 // Action options
                 ScrollView {
@@ -109,7 +109,7 @@ struct ActionOptionsModal: View {
                                             .foregroundColor(.white)
                                         Text(option.description)
                                             .font(.caption)
-                                            .foregroundColor(.white.opacity(0.7))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                             .lineLimit(2)
                                     }
                                     
@@ -127,13 +127,13 @@ struct ActionOptionsModal: View {
                                     RoundedRectangle(cornerRadius: 16)
                                         .fill(selectedAction == option.id ? 
                                               Color.white.opacity(0.25) : 
-                                              Color.white.opacity(0.1))
+                                              Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 16)
                                                 .strokeBorder(
                                                     selectedAction == option.id ? 
                                                     Color.green : 
-                                                    Color.white.opacity(0.2), 
+                                                    Color.white.opacity(DesignTokens.Opacity.overlayLight), 
                                                     lineWidth: selectedAction == option.id ? 2 : 1
                                                 )
                                         )
@@ -170,7 +170,7 @@ struct ActionOptionsModal: View {
                     .padding()
                     .background(selectedAction != nil ? Color.blue : Color.gray)
                     .foregroundColor(.white)
-                    .cornerRadius(16)
+                    .cornerRadius(DesignTokens.Radius.card)
                 }
                 .disabled(selectedAction == nil)
                 .padding()

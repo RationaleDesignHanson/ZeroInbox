@@ -51,23 +51,23 @@ struct CelebrationView: View {
                 Image(systemName: allArchetypesCleared ? "trophy.fill" : "checkmark.circle.fill")
                     .font(.system(size: allArchetypesCleared ? 120 : 100))
                     .foregroundColor(allArchetypesCleared ? .yellow : .green)
-                    .shadow(color: .black.opacity(0.3), radius: 10)
+                    .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 10)
                 
                 Text(allArchetypesCleared ? "Total Inbox Zero!" : "Inbox Zero!")
                     .font(.system(size: allArchetypesCleared ? 54 : 48, weight: .bold))
                     .foregroundColor(.white)
-                    .shadow(color: .black.opacity(0.3), radius: 5)
+                    .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 5)
                 
                 if allArchetypesCleared {
                     Text("All Categories Cleared!")
                         .font(.title2)
-                        .foregroundColor(.white.opacity(0.9))
-                        .shadow(color: .black.opacity(0.3), radius: 3)
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
+                        .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 3)
                 }
                 
                 Text("All done with \(archetype.displayName)")
                     .font(.title3)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
                 // Model Tuning Upsell (only for MAJOR celebration)
                 if allArchetypesCleared {
@@ -75,13 +75,13 @@ struct CelebrationView: View {
                         // Divider
                         HStack {
                             Rectangle()
-                                .fill(Color.white.opacity(0.3))
+                                .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                                 .frame(height: 1)
                             Text("Level Up")
                                 .font(.caption.bold())
-                                .foregroundColor(.white.opacity(0.7))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                             Rectangle()
-                                .fill(Color.white.opacity(0.3))
+                                .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                                 .frame(height: 1)
                         }
                         .padding(.horizontal, 40)
@@ -100,7 +100,7 @@ struct CelebrationView: View {
 
                             Text("Help Zero get smarter! Review how it categorizes emails and suggests actions. Your feedback trains the model to work better for you.")
                                 .font(.subheadline)
-                                .foregroundColor(.white.opacity(0.8))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 8)
 
@@ -114,7 +114,7 @@ struct CelebrationView: View {
                             }
                             .buttonStyle(GradientButtonStyle(colors: [.vibrantCyan, .vibrantBlue, .vibrantPurple]))
                         }
-                        .padding(20)
+                        .padding(DesignTokens.Spacing.section)
                         .background(
                             RoundedRectangle(cornerRadius: 20)
                                 .fill(Color.white.opacity(0.15))

@@ -24,7 +24,7 @@ struct AnimatedGradientBackground: View {
 
             // Animated overlay (subtle breathing motion)
             gradient
-                .opacity(0.5)
+                .opacity(DesignTokens.Opacity.overlayStrong)
                 .scaleEffect(1.2)
                 .offset(
                     x: animationPhase * 50,

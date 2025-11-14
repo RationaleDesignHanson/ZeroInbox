@@ -15,7 +15,7 @@ struct ContextualActionsView: View {
 
                     Text("Smart Actions")
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
 
                     Spacer()
                 }
@@ -25,21 +25,21 @@ struct ContextualActionsView: View {
                     ContextualActionCard(action: action)
                 }
             }
-            .padding(16)
+            .padding(DesignTokens.Spacing.component)
             .background(
                 LinearGradient(
                     colors: [
                         Color.purple.opacity(0.15),
-                        Color.blue.opacity(0.1)
+                        Color.blue.opacity(DesignTokens.Opacity.glassLight)
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
             )
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(Color.purple.opacity(0.3), lineWidth: 1)
+                    .strokeBorder(Color.purple.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
             )
             .onAppear {
                 loadSuggestedActions()
@@ -65,7 +65,7 @@ struct ContextualActionCard: View {
                 // Icon
                 ZStack {
                     Circle()
-                        .fill(action.color.opacity(0.2))
+                        .fill(action.color.opacity(DesignTokens.Opacity.overlayLight))
                         .frame(width: 40, height: 40)
 
                     Image(systemName: action.icon)
@@ -93,7 +93,7 @@ struct ContextualActionCard: View {
 
                     Text(action.description)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .lineLimit(2)
                 }
 
@@ -104,14 +104,14 @@ struct ContextualActionCard: View {
                     .font(.title3)
                     .foregroundColor(action.color)
             }
-            .padding(12)
+            .padding(DesignTokens.Spacing.element)
             .background(
                 Color.white.opacity(isPressed ? 0.15 : 0.05)
             )
-            .cornerRadius(10)
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
-                    .strokeBorder(action.color.opacity(0.3), lineWidth: 1)
+                    .strokeBorder(action.color.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
             )
             .scaleEffect(isPressed ? 0.98 : 1.0)
             .animation(.easeInOut(duration: 0.1), value: isPressed)

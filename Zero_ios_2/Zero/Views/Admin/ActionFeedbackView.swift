@@ -87,7 +87,7 @@ struct ActionFeedbackView: View {
 
             Text("Loading email...")
                 .font(.headline)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
         }
     }
 
@@ -105,7 +105,7 @@ struct ActionFeedbackView: View {
 
             Text(error)
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
 
@@ -116,7 +116,7 @@ struct ActionFeedbackView: View {
             .padding(.vertical, 12)
             .background(Color.blue)
             .foregroundColor(.white)
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
         }
     }
 
@@ -134,7 +134,7 @@ struct ActionFeedbackView: View {
 
             Text("No more emails to review")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
             Button("Load Sample") {
                 Task { await viewModel.loadSampleEmail() }
@@ -143,7 +143,7 @@ struct ActionFeedbackView: View {
             .padding(.vertical, 12)
             .background(Color.purple)
             .foregroundColor(.white)
-            .cornerRadius(12)
+            .cornerRadius(DesignTokens.Radius.button)
         }
     }
 
@@ -184,24 +184,24 @@ struct ActionFeedbackView: View {
             HStack {
                 Text("EMAIL PREVIEW")
                     .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                 Spacer()
 
                 Text(email.timeAgo)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
 
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
 
             // From
             HStack(spacing: 8) {
                 Image(systemName: "envelope.fill")
                     .foregroundColor(.blue)
                 Text("From:")
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 Text(email.from)
                     .foregroundColor(.white)
                     .bold()
@@ -213,7 +213,7 @@ struct ActionFeedbackView: View {
                 Image(systemName: "text.alignleft")
                     .foregroundColor(.purple)
                 Text("Subject:")
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 Text(email.subject)
                     .foregroundColor(.white)
                     .bold()
@@ -224,17 +224,17 @@ struct ActionFeedbackView: View {
             // Snippet
             Text(email.snippet)
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.8))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                 .lineLimit(4)
                 .padding(.top, 8)
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(Color.white.opacity(0.05))
+                .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                 .overlay(
                     RoundedRectangle(cornerRadius: 12)
-                        .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                 )
         )
     }
@@ -245,7 +245,7 @@ struct ActionFeedbackView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("DETECTED INTENT")
                 .font(.system(size: 11, weight: .bold))
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             HStack {
                 Image(systemName: "target")
@@ -258,7 +258,7 @@ struct ActionFeedbackView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.purple.opacity(0.2))
+                    .fill(Color.purple.opacity(DesignTokens.Opacity.overlayLight))
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
                             .strokeBorder(Color.purple.opacity(0.4), lineWidth: 1)
@@ -273,7 +273,7 @@ struct ActionFeedbackView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("SUGGESTED ACTIONS (\(email.suggestedActions.count))")
                 .font(.system(size: 11, weight: .bold))
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             ForEach(email.suggestedActions) { action in
                 actionRow(action)
@@ -300,14 +300,14 @@ struct ActionFeedbackView: View {
                             .foregroundColor(.yellow)
                             .padding(.horizontal, 6)
                             .padding(.vertical, 2)
-                            .background(Color.yellow.opacity(0.2))
-                            .cornerRadius(4)
+                            .background(Color.yellow.opacity(DesignTokens.Opacity.overlayLight))
+                            .cornerRadius(DesignTokens.Radius.minimal)
                     }
                 }
 
                 Text(action.actionId)
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             Spacer()
@@ -316,12 +316,12 @@ struct ActionFeedbackView: View {
             if let priority = action.priority {
                 Text("#\(priority)")
                     .font(.caption.bold())
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     // MARK: - Confidence Indicator
@@ -331,7 +331,7 @@ struct ActionFeedbackView: View {
             HStack {
                 Text("MODEL CONFIDENCE")
                     .font(.system(size: 11, weight: .bold))
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                 Spacer()
 
@@ -344,13 +344,13 @@ struct ActionFeedbackView: View {
             GeometryReader { geometry in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.white.opacity(0.1))
+                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                         .frame(height: 8)
 
                     RoundedRectangle(cornerRadius: 4)
                         .fill(
                             LinearGradient(
-                                colors: [confidenceColor(confidence).opacity(0.8), confidenceColor(confidence)],
+                                colors: [confidenceColor(confidence).opacity(DesignTokens.Opacity.textTertiary), confidenceColor(confidence)],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -362,11 +362,11 @@ struct ActionFeedbackView: View {
 
             Text(confidenceLabel(confidence))
                 .font(.caption)
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     // MARK: - Feedback Controls
@@ -375,7 +375,7 @@ struct ActionFeedbackView: View {
         VStack(alignment: .leading, spacing: 16) {
             Text("YOUR FEEDBACK")
                 .font(.system(size: 11, weight: .bold))
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
             feedbackButtons
 
@@ -386,8 +386,8 @@ struct ActionFeedbackView: View {
             notesField
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(12)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 
     var feedbackButtons: some View {
@@ -411,12 +411,12 @@ struct ActionFeedbackView: View {
             }
             .frame(maxWidth: .infinity)
             .padding()
-            .background(isSelected ? color.opacity(0.3) : Color.white.opacity(0.05))
-            .foregroundColor(isSelected ? color : .white.opacity(0.7))
-            .cornerRadius(12)
+            .background(isSelected ? color.opacity(DesignTokens.Opacity.overlayMedium) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+            .foregroundColor(isSelected ? color : .white.opacity(DesignTokens.Opacity.textSubtle))
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(isSelected ? color : Color.white.opacity(0.2), lineWidth: 2)
+                    .strokeBorder(isSelected ? color : Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 2)
             )
         }
     }
@@ -431,17 +431,17 @@ struct ActionFeedbackView: View {
 
                 TextField("e.g., track_package, add_to_calendar", text: $viewModel.missedActionsText)
                     .padding()
-                    .background(Color.white.opacity(0.1))
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                     .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .cornerRadius(DesignTokens.Radius.chip)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                            .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                     )
 
                 Text("Comma-separated action IDs")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
 
             // Unnecessary actions
@@ -452,17 +452,17 @@ struct ActionFeedbackView: View {
 
                 TextField("e.g., contact_carrier", text: $viewModel.unnecessaryActionsText)
                     .padding()
-                    .background(Color.white.opacity(0.1))
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                     .foregroundColor(.white)
-                    .cornerRadius(8)
+                    .cornerRadius(DesignTokens.Radius.chip)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                            .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                     )
 
                 Text("Comma-separated action IDs")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
         }
         .padding(.top, 8)
@@ -477,14 +477,14 @@ struct ActionFeedbackView: View {
 
             TextEditor(text: $viewModel.notes)
                 .frame(height: 80)
-                .padding(8)
+                .padding(DesignTokens.Spacing.inline)
                 .scrollContentBackground(.hidden)
-                .background(Color.white.opacity(0.1))
+                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
                 .foregroundColor(.white)
-                .cornerRadius(8)
+                .cornerRadius(DesignTokens.Radius.chip)
                 .overlay(
                     RoundedRectangle(cornerRadius: 8)
-                        .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
                 )
         }
     }
@@ -511,7 +511,7 @@ struct ActionFeedbackView: View {
                 .padding()
                 .background(viewModel.canSubmit ? Color.blue : Color.gray)
                 .foregroundColor(.white)
-                .cornerRadius(12)
+                .cornerRadius(DesignTokens.Radius.button)
             }
             .disabled(!viewModel.canSubmit || viewModel.isSubmitting)
 
@@ -521,7 +521,7 @@ struct ActionFeedbackView: View {
             }) {
                 Text("Skip This Email")
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
             .disabled(viewModel.isSubmitting)
         }
@@ -757,7 +757,7 @@ struct ActionFeedbackStatsView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
                     Text(value)
                         .font(.system(size: 36, weight: .bold))
@@ -766,7 +766,7 @@ struct ActionFeedbackStatsView: View {
                     if !subtitle.isEmpty {
                         Text(subtitle)
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.6))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                     }
                 }
 
@@ -774,11 +774,11 @@ struct ActionFeedbackStatsView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(16)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.card)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .strokeBorder(color.opacity(0.3), lineWidth: 2)
+                .strokeBorder(color.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 2)
         )
     }
 
@@ -792,7 +792,7 @@ struct ActionFeedbackStatsView: View {
                 HStack {
                     Text(item.action)
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                     Spacer()
                     Text("\(item.count)x")
                         .font(.subheadline.bold())
@@ -802,11 +802,11 @@ struct ActionFeedbackStatsView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(16)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.card)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .strokeBorder(Color.orange.opacity(0.3), lineWidth: 2)
+                .strokeBorder(Color.orange.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 2)
         )
     }
 
@@ -820,7 +820,7 @@ struct ActionFeedbackStatsView: View {
                 HStack {
                     Text(item.action)
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                     Spacer()
                     Text("\(item.count)x")
                         .font(.subheadline.bold())
@@ -830,11 +830,11 @@ struct ActionFeedbackStatsView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.05))
-        .cornerRadius(16)
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+        .cornerRadius(DesignTokens.Radius.card)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .strokeBorder(Color.red.opacity(0.3), lineWidth: 2)
+                .strokeBorder(Color.red.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 2)
         )
     }
 }

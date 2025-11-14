@@ -122,7 +122,7 @@ struct EmailThreadView: View {
             HStack(spacing: 12) {
                 // Visual connector line from latest message
                 Rectangle()
-                    .fill(Color.white.opacity(0.2))
+                    .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                     .frame(width: 2, height: 24)
                     .padding(.leading, 21)  // Align with timeline indicator
 
@@ -141,16 +141,16 @@ struct EmailThreadView: View {
 
                     Text(isExpanded ? "Collapse thread" : "Expand thread history")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(
                     RoundedRectangle(cornerRadius: 12)
-                        .fill(Color.white.opacity(0.05))
+                        .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                                .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                         )
                 )
             }
@@ -191,11 +191,11 @@ struct EmailThreadView: View {
                                             endPoint: .bottomTrailing
                                         )
                                     )
-                                    .cornerRadius(8)
+                                    .cornerRadius(DesignTokens.Radius.chip)
                                 if index == 0 {
                                     Text("\(thread.messageCount)")
                                         .font(.caption2)
-                                        .foregroundColor(.white.opacity(0.7))
+                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                 }
                             }
                         }
@@ -213,7 +213,7 @@ struct EmailThreadView: View {
                     Text("\(thread.messageCount) messages")
                         .font(.caption)
                 }
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
 
                 // Participants
                 if thread.allMessages.count > 1 {
@@ -224,7 +224,7 @@ struct EmailThreadView: View {
                         Text("\(participants.count) participants")
                             .font(.caption)
                     }
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 }
 
                 Spacer()
@@ -237,19 +237,19 @@ struct EmailThreadView: View {
                     .padding(.vertical, 4)
                     .background(
                         LinearGradient(
-                            colors: [.blue.opacity(0.6), .purple.opacity(0.6)],
+                            colors: [.blue.opacity(DesignTokens.Opacity.textDisabled), .purple.opacity(DesignTokens.Opacity.textDisabled)],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
                     )
-                    .cornerRadius(6)
+                    .cornerRadius(DesignTokens.Radius.minimal)
             }
 
             Divider()
-                .background(Color.white.opacity(0.2))
+                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
         }
         .padding()
-        .background(Color.white.opacity(0.05))
+        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
     }
 
     // MARK: - Actions
@@ -337,20 +337,20 @@ struct ThreadMessageRow: View {
             // Top connector line (except for latest message)
             if !isLatest {
                 Rectangle()
-                    .fill(Color.white.opacity(0.2))
+                    .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                     .frame(width: 2, height: 20)
             }
 
             // Timeline circle
             ZStack {
                 Circle()
-                    .fill(isLatest ? Color.blue : Color.white.opacity(0.3))
+                    .fill(isLatest ? Color.blue : Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                     .frame(width: 10, height: 10)
 
                 // Outer ring for latest message
                 if isLatest {
                     Circle()
-                        .stroke(Color.blue.opacity(0.3), lineWidth: 3)
+                        .stroke(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 3)
                         .frame(width: 18, height: 18)
                 }
             }
@@ -358,12 +358,12 @@ struct ThreadMessageRow: View {
             // Bottom connector line (except for last message)
             if !isLast {
                 Rectangle()
-                    .fill(Color.white.opacity(0.2))
+                    .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                     .frame(width: 2)
             } else {
                 // End cap for last message
                 Rectangle()
-                    .fill(Color.white.opacity(0.2))
+                    .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                     .frame(width: 2, height: 20)
             }
         }
@@ -389,7 +389,7 @@ struct ThreadMessageRow: View {
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(Color.blue)
-                    .cornerRadius(4)
+                    .cornerRadius(DesignTokens.Radius.minimal)
             }
         }
     }
@@ -407,7 +407,7 @@ struct ThreadMessageRow: View {
                         endPoint: .bottomTrailing
                     )
                 )
-                .cornerRadius(8)
+                .cornerRadius(DesignTokens.Radius.chip)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(sender.name)
@@ -418,7 +418,7 @@ struct ThreadMessageRow: View {
 
                 Text(message.timeAgo)
                     .font(.caption2)
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -427,18 +427,18 @@ struct ThreadMessageRow: View {
     private var messageSummary: some View {
         Text(message.summary)
             .font(.caption)
-            .foregroundColor(.white.opacity(0.8))
+            .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
             .lineLimit(3)
             .fixedSize(horizontal: false, vertical: true)
     }
 
     private var messageBackground: some View {
         RoundedRectangle(cornerRadius: 12)
-            .fill(isLatest ? Color.blue.opacity(0.1) : Color.white.opacity(0.05))
+            .fill(isLatest ? Color.blue.opacity(DesignTokens.Opacity.glassLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
                     .strokeBorder(
-                        isLatest ? Color.blue.opacity(0.3) : Color.white.opacity(0.1),
+                        isLatest ? Color.blue.opacity(DesignTokens.Opacity.overlayMedium) : Color.white.opacity(DesignTokens.Opacity.glassLight),
                         lineWidth: isLatest ? 2 : 1
                     )
             )
@@ -454,7 +454,7 @@ struct ThreadMessageRow: View {
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(Color.red)
-                    .cornerRadius(4)
+                    .cornerRadius(DesignTokens.Radius.minimal)
             case .high:
                 Text("HIGH")
                     .font(.system(size: 8, weight: .bold))
@@ -462,7 +462,7 @@ struct ThreadMessageRow: View {
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(Color.orange)
-                    .cornerRadius(4)
+                    .cornerRadius(DesignTokens.Radius.minimal)
             default:
                 EmptyView()
             }

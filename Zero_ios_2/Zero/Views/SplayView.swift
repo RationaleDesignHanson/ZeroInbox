@@ -216,16 +216,16 @@ struct SplayView: View {
                         Text(archetype.displayName)
                             .font(.title2.bold())
                             .foregroundColor(.white)
-                            .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
+                            .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 2, y: 1)
                         Text("Organize by Category")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                     
                     Spacer()
                 }
                 .padding()
-                .background(Color.black.opacity(0.3))
+                .background(Color.black.opacity(DesignTokens.Opacity.overlayMedium))
                 
                 // Grid of groups
                 ScrollView {
@@ -285,7 +285,7 @@ struct SplayGroupCard: View {
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
                     .fill(gradientColor)
                     .frame(width: 64, height: 64)
-                    .shadow(color: .black.opacity(0.3), radius: 10, y: 5)
+                    .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 10, y: 5)
                 
                 Image(systemName: group.icon)
                     .font(.system(size: 28))
@@ -316,7 +316,7 @@ struct SplayGroupCard: View {
             .foregroundColor(count > 0 ? .white : .white.opacity(0.4))
             .padding(.horizontal, DesignTokens.Spacing.component)
             .padding(.vertical, 6)
-            .background(count > 0 ? Color.white.opacity(0.2) : Color.white.opacity(0.1))
+            .background(count > 0 ? Color.white.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassLight))
             .cornerRadius(DesignTokens.Radius.button)
             
             // Arrow indicator
@@ -360,7 +360,7 @@ struct SplayGroupCard: View {
         case "cold": return [Color.blue, Color.cyan]
         case "critical": return [Color.red, Color.pink]
         case "high": return [Color.orange, Color.yellow]
-        default: return [archetypeColor, archetypeColor.opacity(0.7)]
+        default: return [archetypeColor, archetypeColor.opacity(DesignTokens.Opacity.textSubtle)]
         }
     }
     

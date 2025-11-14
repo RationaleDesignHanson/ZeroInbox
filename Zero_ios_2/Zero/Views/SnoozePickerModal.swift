@@ -17,7 +17,7 @@ struct SnoozePickerModal: View {
                 } label: {
                     Text("Cancel")
                         .font(.body)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                 }
 
                 Spacer()
@@ -29,7 +29,7 @@ struct SnoozePickerModal: View {
 
                     Text(timeDisplayString)
                         .font(.caption)
-                        .foregroundColor(.purple.opacity(0.8))
+                        .foregroundColor(.purple.opacity(DesignTokens.Opacity.textTertiary))
                 }
 
                 Spacer()
@@ -62,12 +62,12 @@ struct SnoozePickerModal: View {
             .padding(.vertical, DesignTokens.Spacing.section)
             .background(
                 ZStack {
-                    Color.black.opacity(0.3)
+                    Color.black.opacity(DesignTokens.Opacity.overlayMedium)
 
                     // Subtle gradient overlay
                     LinearGradient(
                         colors: [
-                            Color.purple.opacity(0.1),
+                            Color.purple.opacity(DesignTokens.Opacity.glassLight),
                             Color.clear
                         ],
                         startPoint: .leading,
@@ -82,8 +82,8 @@ struct SnoozePickerModal: View {
                     LinearGradient(
                         colors: [
                             Color.clear,
-                            Color.purple.opacity(0.3),
-                            Color.blue.opacity(0.3),
+                            Color.purple.opacity(DesignTokens.Opacity.overlayMedium),
+                            Color.blue.opacity(DesignTokens.Opacity.overlayMedium),
                             Color.clear
                         ],
                         startPoint: .leading,
@@ -103,7 +103,7 @@ struct SnoozePickerModal: View {
                             endPoint: .bottomTrailing
                         )
                     )
-                    .shadow(color: Color.purple.opacity(0.5), radius: 10)
+                    .shadow(color: Color.purple.opacity(DesignTokens.Opacity.overlayStrong), radius: 10)
 
                 Text(descriptionForCurrentSelection)
                     .font(.subheadline)
@@ -116,19 +116,19 @@ struct SnoozePickerModal: View {
             ZStack {
                 // Glassmorphic background for picker area
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.white.opacity(0.05))
+                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                     .background(
                         RoundedRectangle(cornerRadius: 20)
-                            .fill(.ultraThinMaterial.opacity(0.3))
+                            .fill(.ultraThinMaterial.opacity(DesignTokens.Opacity.overlayMedium))
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(
                                 LinearGradient(
                                     colors: [
-                                        Color.purple.opacity(0.3),
-                                        Color.blue.opacity(0.2),
-                                        Color.purple.opacity(0.3)
+                                        Color.purple.opacity(DesignTokens.Opacity.overlayMedium),
+                                        Color.blue.opacity(DesignTokens.Opacity.overlayLight),
+                                        Color.purple.opacity(DesignTokens.Opacity.overlayMedium)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -195,9 +195,9 @@ struct SnoozePickerModal: View {
                 // Subtle accent gradient
                 LinearGradient(
                     colors: [
-                        Color.purple.opacity(0.1),
+                        Color.purple.opacity(DesignTokens.Opacity.glassLight),
                         Color.clear,
-                        Color.blue.opacity(0.05)
+                        Color.blue.opacity(DesignTokens.Opacity.glassUltraLight)
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
@@ -205,7 +205,7 @@ struct SnoozePickerModal: View {
             }
         )
         .cornerRadius(28)
-        .shadow(color: Color.purple.opacity(0.2), radius: 20)
+        .shadow(color: Color.purple.opacity(DesignTokens.Opacity.overlayLight), radius: 20)
         .onAppear {
             // Initialize picker with current selected duration
             if selectedDuration > 0 {

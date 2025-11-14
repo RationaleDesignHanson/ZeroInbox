@@ -41,7 +41,7 @@ struct AccountVerificationModal: View {
                     isPresented = false
                 } label: {
                     Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                         .font(.title2)
                 }
             }
@@ -54,7 +54,7 @@ struct AccountVerificationModal: View {
                     ZStack {
                         Circle()
                             .fill(LinearGradient(
-                                colors: [.blue.opacity(0.3), .purple.opacity(0.3)],
+                                colors: [.blue.opacity(DesignTokens.Opacity.overlayMedium), .purple.opacity(DesignTokens.Opacity.overlayMedium)],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             ))
@@ -75,20 +75,20 @@ struct AccountVerificationModal: View {
                         VStack(spacing: 8) {
                             Text("From")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                             Text(sender.name)
                                 .font(.headline)
                                 .foregroundColor(.white)
                             if let email = sender.email, !email.isEmpty {
                                 Text(email)
                                     .font(.caption)
-                                    .foregroundColor(.white.opacity(0.8))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                             }
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color.white.opacity(0.1))
-                        .cornerRadius(12)
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
 
                     // Verification code if found
@@ -96,14 +96,14 @@ struct AccountVerificationModal: View {
                         VStack(spacing: 12) {
                             Text("Verification Code")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                             Text(code)
                                 .font(.system(size: 32, weight: .bold, design: .monospaced))
                                 .foregroundColor(.white)
                                 .padding()
                                 .background(Color.white.opacity(0.15))
-                                .cornerRadius(12)
+                                .cornerRadius(DesignTokens.Radius.button)
 
                             Button {
                                 UIPasteboard.general.string = code
@@ -117,8 +117,8 @@ struct AccountVerificationModal: View {
                                 .foregroundColor(.white)
                                 .padding(.vertical, 12)
                                 .padding(.horizontal, 24)
-                                .background(Color.white.opacity(0.2))
-                                .cornerRadius(10)
+                                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                                .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
                     }
@@ -131,14 +131,14 @@ struct AccountVerificationModal: View {
                                     .foregroundColor(.green)
                                 Text(step)
                                     .font(.subheadline)
-                                    .foregroundColor(.white.opacity(0.9))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                                 Spacer()
                             }
                         }
                     }
                     .padding()
-                    .background(Color.white.opacity(0.05))
-                    .cornerRadius(12)
+                    .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+                    .cornerRadius(DesignTokens.Radius.button)
 
                     // Actions
                     VStack(spacing: 12) {
@@ -161,7 +161,7 @@ struct AccountVerificationModal: View {
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 ))
-                                .cornerRadius(12)
+                                .cornerRadius(DesignTokens.Radius.button)
                             }
                         }
 
@@ -176,8 +176,8 @@ struct AccountVerificationModal: View {
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding()
-                            .background(showSuccess ? Color.green : Color.white.opacity(0.2))
-                            .cornerRadius(12)
+                            .background(showSuccess ? Color.green : Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         .disabled(showSuccess)
                     }
@@ -187,7 +187,7 @@ struct AccountVerificationModal: View {
         }
         .background(
             LinearGradient(
-                colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)],
+                colors: [Color.blue.opacity(DesignTokens.Opacity.overlayMedium), Color.purple.opacity(DesignTokens.Opacity.overlayMedium)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )

@@ -17,10 +17,10 @@ struct NewsletterSummaryView: View {
                     HStack(spacing: 6) {
                         Image(systemName: "link.circle.fill")
                             .font(.subheadline)
-                            .foregroundColor(.blue.opacity(0.8))
+                            .foregroundColor(.blue.opacity(DesignTokens.Opacity.textTertiary))
                         Text("KEY LINKS")
                             .font(.subheadline.bold())
-                            .foregroundColor(.white.opacity(0.9))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                     }
 
                     // Links
@@ -37,10 +37,10 @@ struct NewsletterSummaryView: View {
                     HStack(spacing: 6) {
                         Image(systemName: "tag.fill")
                             .font(.subheadline)
-                            .foregroundColor(.purple.opacity(0.8))
+                            .foregroundColor(.purple.opacity(DesignTokens.Opacity.textTertiary))
                         Text("TOPICS")
                             .font(.subheadline.bold())
-                            .foregroundColor(.white.opacity(0.9))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                     }
 
                     // Topic chips
@@ -77,7 +77,7 @@ private struct NewsletterLinkCard: View {
                 if let description = link.description, !description.isEmpty {
                     Text(description)
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.7))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                         .lineLimit(nil)
                         .multilineTextAlignment(.leading)
                 }
@@ -86,10 +86,10 @@ private struct NewsletterLinkCard: View {
                 HStack(spacing: 4) {
                     Image(systemName: "arrow.up.right.square")
                         .font(.caption2)
-                        .foregroundColor(.blue.opacity(0.6))
+                        .foregroundColor(.blue.opacity(DesignTokens.Opacity.textDisabled))
                     Text(cleanURL(link.url))
                         .font(.caption2)
-                        .foregroundColor(.blue.opacity(0.6))
+                        .foregroundColor(.blue.opacity(DesignTokens.Opacity.textDisabled))
                         .lineLimit(nil)
                 }
             }
@@ -101,7 +101,7 @@ private struct NewsletterLinkCard: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.chip)
-                    .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                    .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -168,12 +168,12 @@ private struct TopicChip: View {
     var body: some View {
         Text(topic)
             .font(.caption.bold())
-            .foregroundColor(.white.opacity(0.9))
+            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
             .padding(.horizontal, DesignTokens.Spacing.component)
             .padding(.vertical, 6)
             .background(
                 Capsule()
-                    .fill(Color.purple.opacity(0.2))
+                    .fill(Color.purple.opacity(DesignTokens.Opacity.overlayLight))
             )
             .overlay(
                 Capsule()

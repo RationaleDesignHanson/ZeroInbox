@@ -17,7 +17,7 @@ struct FlashFeedback: View {
             VStack(spacing: 20) {
                 ZStack {
                     Circle()
-                        .fill(type.color.opacity(0.2))
+                        .fill(type.color.opacity(DesignTokens.Opacity.overlayLight))
                         .frame(width: 120, height: 120)
                     
                     Circle()

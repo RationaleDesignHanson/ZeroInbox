@@ -62,7 +62,7 @@ struct ThreadedCardView: View {
                                 .padding(.vertical, 4)
                                 .background(
                                     Capsule()
-                                        .fill(Color.blue.opacity(0.3))
+                                        .fill(Color.blue.opacity(DesignTokens.Opacity.overlayMedium))
                                 )
                             }
 
@@ -122,7 +122,7 @@ struct ThreadedCardView: View {
                                 if latestEmail.calendarInvite != nil {
                                     Image(systemName: "calendar")
                                         .font(.caption)
-                                        .foregroundColor(.blue.opacity(0.8))
+                                        .foregroundColor(.blue.opacity(DesignTokens.Opacity.textTertiary))
                                 }
                             }
                         }
@@ -171,7 +171,7 @@ struct ThreadMessageRow: View {
                 // Connector line
                 VStack {
                     Rectangle()
-                        .fill(Color.white.opacity(0.2))
+                        .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                         .frame(width: 2)
                 }
                 .frame(maxHeight: .infinity)
@@ -189,7 +189,7 @@ struct ThreadMessageRow: View {
 
                         Text(RelativeDateFormatter.string(from: email.timestamp))
                             .font(.caption2)
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
 
                         if email.hasRead == false {
                             Circle()

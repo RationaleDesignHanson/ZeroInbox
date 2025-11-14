@@ -43,7 +43,7 @@ struct OnboardingView: View {
                             onComplete()
                         } label: {
                             Image(systemName: "xmark")
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 .font(.title3)
                                 .padding()
                         }
@@ -61,7 +61,7 @@ struct OnboardingView: View {
                     ForEach(0..<steps.count, id: \.self) { index in
                         Capsule()
                             .fill(index == currentStep ? Color.white : 
-                                  index < currentStep ? Color.green : Color.white.opacity(0.3))
+                                  index < currentStep ? Color.green : Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                             .frame(width: index == currentStep ? 24 : 8, height: 8)
                             .animation(.spring(), value: currentStep)
                     }
@@ -78,7 +78,7 @@ struct OnboardingView: View {
                 VStack(spacing: 12) {
                     Text("\(currentStep + 1) of \(steps.count)")
                         .font(.caption)
-                        .foregroundColor(.white.opacity(0.5))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
 
                     HStack(spacing: 12) {
                         // Previous button
@@ -94,21 +94,21 @@ struct OnboardingView: View {
                                 Text("Previous")
                             }
                             .font(.headline)
-                            .foregroundColor(currentStep == 0 ? .white.opacity(0.3) : .white)
+                            .foregroundColor(currentStep == 0 ? .white.opacity(DesignTokens.Opacity.overlayMedium) : .white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 14)
                             .background {
                                 if currentStep == 0 {
-                                    Color.white.opacity(0.1)
+                                    Color.white.opacity(DesignTokens.Opacity.glassLight)
                                 } else {
                                     LinearGradient(
-                                        colors: [Color.blue.opacity(0.6), Color.purple.opacity(0.6)],
+                                        colors: [Color.blue.opacity(DesignTokens.Opacity.textDisabled), Color.purple.opacity(DesignTokens.Opacity.textDisabled)],
                                         startPoint: .leading,
                                         endPoint: .trailing
                                     )
                                 }
                             }
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                         .disabled(currentStep == 0)
 
@@ -143,8 +143,8 @@ struct OnboardingView: View {
                                     endPoint: .trailing
                                 )
                             )
-                            .cornerRadius(12)
-                            .shadow(color: Color.blue.opacity(0.3), radius: 8, y: 4)
+                            .cornerRadius(DesignTokens.Radius.button)
+                            .shadow(color: Color.blue.opacity(DesignTokens.Opacity.overlayMedium), radius: 8, y: 4)
                         }
                     }
                 }
@@ -172,26 +172,26 @@ struct OnboardingView: View {
 
                 Text("Clear your inbox in minutes, not hours")
                     .font(.title3.bold())
-                    .foregroundColor(.white.opacity(0.9))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
 
                 if useMockData {
                     Text("Zero organizes emails with smart actions so you can swipe through what matters.")
                         .font(.body)
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 40)
                 } else {
                     VStack(spacing: 12) {
                         Text("Zero organizes emails with smart actions so you can swipe through what matters.")
                             .font(.body)
-                            .foregroundColor(.white.opacity(0.8))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 40)
 
                         if let email = userEmail {
                             Text("Connected: \(email)")
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.6))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                 .padding(.top, 8)
                         }
                     }
@@ -200,7 +200,7 @@ struct OnboardingView: View {
                 // Hint about gesture learning
                 Text("Watch the cards to learn the gestures")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                     .padding(.top, 12)
 
                 // Card animation demo
@@ -235,13 +235,13 @@ struct OnboardingView: View {
             if useMockData {
                 Text("Start swiping and watch your inbox clear in record time.")
                     .font(.body)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
             } else {
                 Text("Start swiping through your emails and watch your inbox clear in record time.")
                     .font(.body)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
             }
@@ -312,25 +312,25 @@ struct OnboardingCardAnimation: View {
         ZStack {
             // Background card simulation
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color.white.opacity(0.1))
+                .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                 .frame(width: 150, height: 90)
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
-                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                 )
                 .overlay(
                     // Mini card content
                     VStack(spacing: 6) {
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(Color.white.opacity(0.3))
+                            .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
                             .frame(width: 105, height: 10)
 
                         RoundedRectangle(cornerRadius: 3)
-                            .fill(Color.white.opacity(0.2))
+                            .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                             .frame(width: 120, height: 6)
 
                         RoundedRectangle(cornerRadius: 3)
-                            .fill(Color.white.opacity(0.2))
+                            .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                             .frame(width: 105, height: 6)
                     }
                 )
@@ -348,7 +348,7 @@ struct OnboardingCardAnimation: View {
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
                     .background(Color.white)
-                    .cornerRadius(8)
+                    .cornerRadius(DesignTokens.Radius.chip)
                     .opacity(showLabel ? 1.0 : 0.0)
             }
             .scaleEffect(iconScale)

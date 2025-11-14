@@ -95,7 +95,7 @@ struct SharedTemplateView: View {
 
                 Text("\(filteredTemplates.count) templates available")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
 
             Spacer()
@@ -105,7 +105,7 @@ struct SharedTemplateView: View {
             } label: {
                 Image(systemName: "xmark.circle.fill")
                     .font(.title2)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
             }
         }
         .padding()
@@ -119,7 +119,7 @@ struct SharedTemplateView: View {
             // Search Bar
             HStack {
                 Image(systemName: "magnifyingglass")
-                    .foregroundColor(.white.opacity(0.5))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
 
                 TextField("Search templates...", text: $searchQuery)
                     .foregroundColor(.white)
@@ -130,13 +130,13 @@ struct SharedTemplateView: View {
                         searchQuery = ""
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     }
                 }
             }
             .padding()
-            .background(Color.white.opacity(0.1))
-            .cornerRadius(12)
+            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
+            .cornerRadius(DesignTokens.Radius.button)
 
             // Filter Pills
             ScrollView(.horizontal, showsIndicators: false) {
@@ -164,7 +164,7 @@ struct SharedTemplateView: View {
 
                     Divider()
                         .frame(height: 24)
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Category Filters
                     ForEach([TemplateCategory.general, .followUp, .confirmation, .outOfOffice], id: \.self) { category in
@@ -209,7 +209,7 @@ struct SharedTemplateView: View {
                 .scaleEffect(1.5)
 
             Text("Loading templates...")
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
@@ -218,7 +218,7 @@ struct SharedTemplateView: View {
         VStack(spacing: 16) {
             Image(systemName: "doc.text.magnifyingglass")
                 .font(.system(size: 60))
-                .foregroundColor(.white.opacity(0.3))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
 
             Text("No Templates Found")
                 .font(.headline)
@@ -226,7 +226,7 @@ struct SharedTemplateView: View {
 
             Text("Try adjusting your filters or search query")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(0.6))
+                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 .multilineTextAlignment(.center)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -253,12 +253,12 @@ struct SharedTemplateView: View {
 
                         Text(importedTemplateName)
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
                 .padding()
                 .background(Color(hex: "2C2C2E"))
-                .cornerRadius(12)
+                .cornerRadius(DesignTokens.Radius.button)
                 .shadow(radius: 10)
                 .padding()
             }
@@ -313,7 +313,7 @@ struct TemplateCardView: View {
 
                         Text("by \(template.authorName)")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.6))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                     }
 
                     Spacer()
@@ -325,7 +325,7 @@ struct TemplateCardView: View {
                 // Content Preview
                 Text(template.content)
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     .lineLimit(3)
 
                 // Footer Stats
@@ -342,7 +342,7 @@ struct TemplateCardView: View {
 
                         Text("(\(template.ratingCount))")
                             .font(.caption2)
-                            .foregroundColor(.white.opacity(0.5))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
                     }
 
                     // Usage Count
@@ -353,7 +353,7 @@ struct TemplateCardView: View {
 
                         Text("\(template.usageCount)")
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     // Category
@@ -364,7 +364,7 @@ struct TemplateCardView: View {
 
                         Text(template.category.rawValue.capitalized)
                             .font(.caption)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
 
                     Spacer()
@@ -381,17 +381,17 @@ struct TemplateCardView: View {
                         }
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
-                        .background(Color.orange.opacity(0.2))
-                        .cornerRadius(8)
+                        .background(Color.orange.opacity(DesignTokens.Opacity.overlayLight))
+                        .cornerRadius(DesignTokens.Radius.chip)
                     }
                 }
             }
             .padding()
-            .background(Color.white.opacity(0.05))
-            .cornerRadius(12)
+            .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+            .cornerRadius(DesignTokens.Radius.button)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
-                    .strokeBorder(Color.white.opacity(0.1), lineWidth: 1)
+                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
@@ -409,8 +409,8 @@ struct TemplateCardView: View {
         .foregroundColor(template.shareType == .publicAccess ? .blue : .green)
         .padding(.horizontal, 8)
         .padding(.vertical, 4)
-        .background((template.shareType == .publicAccess ? Color.blue : Color.green).opacity(0.2))
-        .cornerRadius(8)
+        .background((template.shareType == .publicAccess ? Color.blue : Color.green).opacity(DesignTokens.Opacity.overlayLight))
+        .cornerRadius(DesignTokens.Radius.chip)
     }
 }
 
@@ -436,8 +436,8 @@ struct FilterPill: View {
             .foregroundColor(isSelected ? .black : .white)
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .background(isSelected ? Color.white : Color.white.opacity(0.1))
-            .cornerRadius(20)
+            .background(isSelected ? Color.white : Color.white.opacity(DesignTokens.Opacity.glassLight))
+            .cornerRadius(DesignTokens.Radius.modal)
         }
     }
 }
@@ -469,7 +469,7 @@ struct TemplatePreviewView: View {
                             HStack {
                                 Text("by \(template.authorName)")
                                     .font(.subheadline)
-                                    .foregroundColor(.white.opacity(0.6))
+                                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
 
                                 Spacer()
 
@@ -484,13 +484,13 @@ struct TemplatePreviewView: View {
                                 .foregroundColor(template.shareType == .publicAccess ? .blue : .green)
                                 .padding(.horizontal, 10)
                                 .padding(.vertical, 6)
-                                .background((template.shareType == .publicAccess ? Color.blue : Color.green).opacity(0.2))
-                                .cornerRadius(8)
+                                .background((template.shareType == .publicAccess ? Color.blue : Color.green).opacity(DesignTokens.Opacity.overlayLight))
+                                .cornerRadius(DesignTokens.Radius.chip)
                             }
                         }
 
                         Divider()
-                            .background(Color.white.opacity(0.3))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         // Stats Row
                         HStack(spacing: 24) {
@@ -517,7 +517,7 @@ struct TemplatePreviewView: View {
                         }
 
                         Divider()
-                            .background(Color.white.opacity(0.3))
+                            .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                         // Content
                         VStack(alignment: .leading, spacing: 8) {
@@ -527,10 +527,10 @@ struct TemplatePreviewView: View {
 
                             Text(template.content)
                                 .font(.body)
-                                .foregroundColor(.white.opacity(0.9))
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                                 .padding()
-                                .background(Color.white.opacity(0.05))
-                                .cornerRadius(12)
+                                .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+                                .cornerRadius(DesignTokens.Radius.button)
                         }
 
                         // Rating Section
@@ -555,15 +555,15 @@ struct TemplatePreviewView: View {
                                         } label: {
                                             Image(systemName: star <= selectedRating ? "star.fill" : "star")
                                                 .font(.title2)
-                                                .foregroundColor(star <= selectedRating ? .yellow : .white.opacity(0.3))
+                                                .foregroundColor(star <= selectedRating ? .yellow : .white.opacity(DesignTokens.Opacity.overlayMedium))
                                         }
                                     }
                                 }
                             }
                         }
                         .padding()
-                        .background(Color.white.opacity(0.05))
-                        .cornerRadius(12)
+                        .background(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
+                        .cornerRadius(DesignTokens.Radius.button)
 
                         // Import Button
                         Button {
@@ -578,7 +578,7 @@ struct TemplatePreviewView: View {
                             .padding()
                             .background(Color.blue)
                             .foregroundColor(.white)
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.Radius.button)
                         }
                     }
                     .padding()
@@ -591,7 +591,7 @@ struct TemplatePreviewView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                 }
             }
@@ -637,7 +637,7 @@ struct StatItem: View {
 
                 Text(title)
                     .font(.caption2)
-                    .foregroundColor(.white.opacity(0.6))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
             }
         }
         .frame(maxWidth: .infinity)

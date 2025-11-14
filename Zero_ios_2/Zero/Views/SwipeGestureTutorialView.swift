@@ -29,13 +29,13 @@ struct SwipeGestureTutorialView: View {
                             .foregroundColor(.white)
                         Text("Mark as Read")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                     Spacer()
                 }
                 .padding()
-                .background(Color.blue.opacity(0.2))
-                .cornerRadius(12)
+                .background(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
+                .cornerRadius(DesignTokens.Radius.button)
 
                 // RIGHT SWIPE - Take Action
                 HStack(spacing: 12) {
@@ -50,13 +50,13 @@ struct SwipeGestureTutorialView: View {
                             .foregroundColor(.white)
                         Text("Take Action")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                     Spacer()
                 }
                 .padding()
-                .background(Color.green.opacity(0.2))
-                .cornerRadius(12)
+                .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
+                .cornerRadius(DesignTokens.Radius.button)
 
                 // DOWN SWIPE - Snooze
                 HStack(spacing: 12) {
@@ -71,13 +71,13 @@ struct SwipeGestureTutorialView: View {
                             .foregroundColor(.white)
                         Text("Snooze")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                     Spacer()
                 }
                 .padding()
-                .background(Color.purple.opacity(0.2))
-                .cornerRadius(12)
+                .background(Color.purple.opacity(DesignTokens.Opacity.overlayLight))
+                .cornerRadius(DesignTokens.Radius.button)
 
                 // UP SWIPE - Choose Action
                 HStack(spacing: 12) {
@@ -92,20 +92,20 @@ struct SwipeGestureTutorialView: View {
                             .foregroundColor(.white)
                         Text("Choose Action")
                             .font(.subheadline)
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     }
                     Spacer()
                 }
                 .padding()
-                .background(Color.orange.opacity(0.2))
-                .cornerRadius(12)
+                .background(Color.orange.opacity(DesignTokens.Opacity.overlayLight))
+                .cornerRadius(DesignTokens.Radius.button)
             }
             .padding(.horizontal)
 
             if showFootnote {
                 Text("Urgent emails will ask for confirmation before marking as read")
                     .font(.caption)
-                    .foregroundColor(.white.opacity(0.7))
+                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                     .multilineTextAlignment(.center)
                     .padding()
             }

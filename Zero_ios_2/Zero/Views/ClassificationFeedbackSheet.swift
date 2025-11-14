@@ -42,7 +42,7 @@ struct ClassificationFeedbackSheet: View {
 
                             Text("Help us improve by providing feedback")
                                 .font(.subheadline)
-                                .foregroundColor(textColor.opacity(0.6))
+                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                                 .multilineTextAlignment(.center)
                                 .padding(.horizontal, 40)
                         }
@@ -51,7 +51,7 @@ struct ClassificationFeedbackSheet: View {
                         VStack(spacing: DesignTokens.Spacing.component) {
                             Text("Current Category")
                                 .font(.caption.bold())
-                                .foregroundColor(textColor.opacity(0.6))
+                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                                 .textCase(.uppercase)
 
                             HStack(spacing: DesignTokens.Spacing.inline) {
@@ -91,14 +91,14 @@ struct ClassificationFeedbackSheet: View {
 
                                         Text("Reclassify this email as \(oppositeCategory.displayName)")
                                             .font(.caption)
-                                            .foregroundColor(textColor.opacity(0.6))
+                                            .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                                     }
 
                                     Spacer()
 
                                     Image(systemName: "chevron.right")
                                         .font(.caption)
-                                        .foregroundColor(textColor.opacity(0.3))
+                                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
                                 }
                                 .padding(DesignTokens.Spacing.section)
                                 .background(rowBackgroundColor)
@@ -122,14 +122,14 @@ struct ClassificationFeedbackSheet: View {
 
                                         Text("Send feedback to our support team")
                                             .font(.caption)
-                                            .foregroundColor(textColor.opacity(0.6))
+                                            .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                                     }
 
                                     Spacer()
 
                                     Image(systemName: "chevron.right")
                                         .font(.caption)
-                                        .foregroundColor(textColor.opacity(0.3))
+                                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
                                 }
                                 .padding(DesignTokens.Spacing.section)
                                 .background(rowBackgroundColor)
@@ -253,7 +253,7 @@ struct ReportIssueView: View {
 
                     Text("Describe the problem you're experiencing")
                         .font(.subheadline)
-                        .foregroundColor(textColor.opacity(0.6))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 40)
                 }
@@ -262,14 +262,14 @@ struct ReportIssueView: View {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.inline) {
                     Text("Email Details")
                         .font(.caption.bold())
-                        .foregroundColor(textColor.opacity(0.6))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                         .textCase(.uppercase)
 
                     VStack(alignment: .leading, spacing: 6) {
                         HStack {
                             Text("From:")
                                 .font(.caption)
-                                .foregroundColor(textColor.opacity(0.6))
+                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                             Text(card.sender?.email ?? "Unknown")
                                 .font(.caption)
                                 .foregroundColor(textColor)
@@ -278,7 +278,7 @@ struct ReportIssueView: View {
                         HStack {
                             Text("Subject:")
                                 .font(.caption)
-                                .foregroundColor(textColor.opacity(0.6))
+                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                             Text(card.title)
                                 .font(.caption)
                                 .foregroundColor(textColor)
@@ -312,7 +312,7 @@ struct ReportIssueView: View {
 
                     Text("Please include as much detail as possible")
                         .font(.caption)
-                        .foregroundColor(textColor.opacity(0.5))
+                        .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayStrong))
                 }
                 .padding(.horizontal)
 
@@ -361,7 +361,7 @@ struct ReportIssueView: View {
 
             Text("Thank you for your feedback! Our team will review your report.")
                 .font(.body)
-                .foregroundColor(textColor.opacity(0.6))
+                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)
 
@@ -445,7 +445,7 @@ struct ReportIssueView: View {
     }
 
     private var borderColor: Color {
-        colorScheme == .dark ? Color.white.opacity(0.1) : Color.black.opacity(0.05)
+        colorScheme == .dark ? Color.white.opacity(DesignTokens.Opacity.glassLight) : Color.black.opacity(DesignTokens.Opacity.glassUltraLight)
     }
 }
 

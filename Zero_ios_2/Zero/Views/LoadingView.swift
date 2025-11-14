@@ -40,15 +40,15 @@ struct LoadingView: View {
                         )
                         .frame(width: 120, height: 120)
                         .rotationEffect(.degrees(rotationDegrees))
-                        .opacity(0.6)
+                        .opacity(DesignTokens.Opacity.textDisabled)
 
                     // Middle pulsing circle
                     Circle()
                         .fill(
                             RadialGradient(
                                 colors: [
-                                    Color.blue.opacity(0.3),
-                                    Color.purple.opacity(0.1),
+                                    Color.blue.opacity(DesignTokens.Opacity.overlayMedium),
+                                    Color.purple.opacity(DesignTokens.Opacity.glassLight),
                                     Color.clear
                                 ],
                                 center: .center,
@@ -65,7 +65,7 @@ struct LoadingView: View {
                             .font(.system(size: 50, weight: .light))
                             .foregroundStyle(
                                 LinearGradient(
-                                    colors: [.white, .blue.opacity(0.8), .white],
+                                    colors: [.white, .blue.opacity(DesignTokens.Opacity.textTertiary), .white],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 )
@@ -77,7 +77,7 @@ struct LoadingView: View {
                                 LinearGradient(
                                     colors: [
                                         .clear,
-                                        .white.opacity(0.3),
+                                        .white.opacity(DesignTokens.Opacity.overlayMedium),
                                         .clear
                                     ],
                                     startPoint: .leading,
@@ -101,7 +101,7 @@ struct LoadingView: View {
 
                     Text("Clear your inbox fast")
                         .font(.system(size: 16, weight: .medium, design: .rounded))
-                        .foregroundColor(.white.opacity(0.8))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                 }
 
                 // Loading progress indicator
@@ -111,7 +111,7 @@ struct LoadingView: View {
                         ZStack(alignment: .leading) {
                             // Background track
                             RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.white.opacity(0.1))
+                                .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                 .frame(height: 6)
 
                             // Animated progress
@@ -131,7 +131,7 @@ struct LoadingView: View {
                                             LinearGradient(
                                                 colors: [
                                                     .clear,
-                                                    .white.opacity(0.5),
+                                                    .white.opacity(DesignTokens.Opacity.overlayStrong),
                                                     .clear
                                                 ],
                                                 startPoint: .leading,
@@ -149,7 +149,7 @@ struct LoadingView: View {
                     // Loading text
                     Text(loadingText)
                         .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.white.opacity(0.6))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 Spacer()

@@ -50,7 +50,7 @@ struct SnoozeModal: View {
                     }
 
                     Divider()
-                        .background(Color.white.opacity(0.3))
+                        .background(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     // Smart suggestions
                     VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
@@ -100,12 +100,12 @@ struct SnoozeModal: View {
                             .padding()
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .fill(showCustomPicker ? Color.purple.opacity(0.2) : Color.white.opacity(0.05))
+                                    .fill(showCustomPicker ? Color.purple.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
                             )
                             .overlay(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
                                     .strokeBorder(
-                                        showCustomPicker ? Color.purple : Color.white.opacity(0.1),
+                                        showCustomPicker ? Color.purple : Color.white.opacity(DesignTokens.Opacity.glassLight),
                                         lineWidth: 2
                                     )
                             )
@@ -125,7 +125,7 @@ struct SnoozeModal: View {
                             .padding()
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .fill(Color.white.opacity(0.1))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                             )
                         }
                     }
@@ -155,7 +155,7 @@ struct SnoozeModal: View {
                             .frame(maxWidth: .infinity)
                             .background(
                                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                                    .fill(Color.green.opacity(0.2))
+                                    .fill(Color.green.opacity(DesignTokens.Opacity.overlayLight))
                             )
                         }
                     }
@@ -233,19 +233,19 @@ struct SnoozeOptionRow: View {
                         .foregroundColor(.blue)
                 } else {
                     Circle()
-                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 2)
+                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 2)
                         .frame(width: 24, height: 24)
                 }
             }
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                    .fill(isSelected ? Color.blue.opacity(0.2) : Color.white.opacity(0.05))
+                    .fill(isSelected ? Color.blue.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
             )
             .overlay(
                 RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
                     .strokeBorder(
-                        isSelected ? Color.blue : Color.white.opacity(0.1),
+                        isSelected ? Color.blue : Color.white.opacity(DesignTokens.Opacity.glassLight),
                         lineWidth: 2
                     )
             )
