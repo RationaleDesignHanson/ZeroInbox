@@ -186,7 +186,7 @@ struct ContentView: View {
                 }
         } else {
             // Legacy card with v1.0 hpa-based routing
-            let destination = ModalRouter.route(card: card, viewState.selectedActionId: viewState.selectedActionId)
+            let destination = ModalRouter.route(card: card, selectedActionId: viewState.selectedActionId)
             modalRouterView(for: destination)
                 .onAppear {
                     Logger.info("🔀 Using ModalRouter (legacy) for card: \(card.id), hpa: \(card.hpa)", category: .action)

@@ -21,11 +21,11 @@ struct DataGenerator {
         do {
             let jsonEmails = try mockDataLoader.loadAllEmails()
             if !jsonEmails.isEmpty {
-                Logger.info("Loaded \(jsonEmails.count) emails from JSON fixtures", category: .data)
+                Logger.info("Loaded \(jsonEmails.count) emails from JSON fixtures", category: .service)
                 cards.append(contentsOf: jsonEmails)
             }
         } catch {
-            Logger.warning("Failed to load JSON fixtures, using hardcoded fallback: \(error)", category: .data)
+            Logger.warning("Failed to load JSON fixtures, using hardcoded fallback: \(error)", category: .service)
         }
 
         // MARK: - CORPUS-INSPIRED EMAILS (Realistic variety from analysis)

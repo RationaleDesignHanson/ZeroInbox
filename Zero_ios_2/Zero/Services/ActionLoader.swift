@@ -319,15 +319,16 @@ extension JSONAction {
     private func parseConfirmation() -> ConfirmationRequirement {
         // Check for undo configuration
         if let undo = self.undo {
-            let seconds = undo.undoWindowSeconds ?? 5
+            let seconds = TimeInterval(undo.undoWindowSeconds ?? 5)
             let countdown = parseCountdownStyle(undo.countdownStyle)
             let message = undo.toastMessage ?? "Action completed. Tap to undo."
 
-            return .undoWithToast(
+            let config = UndoConfig(
                 toastMessage: message,
                 undoWindowSeconds: seconds,
                 countdownStyle: countdown
             )
+            return .undoable(config: config)
         }
 
         // Check for confirmation requirement
@@ -337,13 +338,14 @@ extension JSONAction {
                 return .none
             case "simple":
                 let message = confirmation.message ?? "Are you sure?"
-                return .simpleConfirmation(message: message)
+                return .simple(message: message)
             case "detailed":
                 let message = confirmation.message ?? "Confirm action?"
+                let title = confirmation.title ?? "Confirm"
                 let confirm = confirmation.confirmText ?? "Confirm"
                 let cancel = confirmation.cancelText ?? "Cancel"
-                return .detailedConfirmation(
-                    title: confirmation.title,
+                return .detailed(
+                    title: title,
                     message: message,
                     confirmText: confirm,
                     cancelText: cancel
