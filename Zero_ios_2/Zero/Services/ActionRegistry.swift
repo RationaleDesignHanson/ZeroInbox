@@ -656,6 +656,10 @@ class ActionRegistry {
             goTo("shop_now", "Shop Now", ["shopUrl"], .medium, "Open shopping link", mode: .ads,
                  optionalContextKeys: ["productUrl"]),
 
+            // View Offer / Check Offer
+            goTo("view_offer", "Check Offer", ["offerUrl"], .medium, "View offer details", mode: .ads,
+                 optionalContextKeys: ["productUrl", "dealUrl"]),
+
             // Claim Deal (Shopping Automation)
             inApp("claim_deal", "Claim Deal", .mediumHigh, "Automatically add product to cart using Steel.dev browser automation", mode: .ads,
                   requiredContextKeys: ["productUrl"], optionalContextKeys: ["productName", "dealUrl", "promoCode"], modalComponent: "ShoppingAutomationModal"),

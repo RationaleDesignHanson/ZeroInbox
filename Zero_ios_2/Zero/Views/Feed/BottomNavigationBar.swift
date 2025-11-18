@@ -89,7 +89,7 @@ struct BottomNavigationBar: View {
                         HStack(spacing: 6) {
                             Text(viewModel.currentArchetype.displayName)
                                 .font(.system(size: 16, weight: .semibold, design: .rounded))
-                                .foregroundColor(.white)
+                                .foregroundColor(viewModel.currentArchetype == .ads ? DesignTokens.Colors.adsGradientEnd : .white)
 
                             // Subtle chevron indicator
                             Image(systemName: "chevron.down.circle.fill")

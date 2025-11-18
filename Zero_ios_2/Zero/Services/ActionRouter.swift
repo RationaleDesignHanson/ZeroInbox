@@ -210,6 +210,7 @@ class ActionRouter: ObservableObject {
                 "view_agenda": ["agendaUrl"],
                 "view_results": ["resultsUrl", "testResultsUrl"],
                 "shop_now": ["shopUrl", "productUrl"],
+                "view_offer": ["offerUrl", "productUrl", "dealUrl"],
                 "track_delivery": ["deliveryUrl", "trackingUrl"],
                 "download_report": ["reportUrl", "downloadUrl"],
                 "get_directions": ["directionsUrl", "mapUrl"],
