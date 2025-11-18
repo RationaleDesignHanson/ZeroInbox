@@ -39,7 +39,7 @@ struct SplashView: View {
                         Text("10")
                             .font(.system(size: 70, weight: .bold))
                             .foregroundColor(.white)
-                            .opacity(0.15)
+                            .opacity(DesignTokens.Opacity.overlayLight)
                             .blur(radius: 2)
                         
                         Text("0")
@@ -63,7 +63,7 @@ struct SplashView: View {
                         Text("00")
                             .font(.system(size: 70, weight: .bold))
                             .foregroundColor(.white)
-                            .opacity(0.15)
+                            .opacity(DesignTokens.Opacity.overlayLight)
                             .blur(radius: 2)
                     }
                     
@@ -85,7 +85,7 @@ struct SplashView: View {
                     // Build version info
                     Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0") (\(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "100"))")
                         .font(.caption2)
-                        .foregroundColor(.white.opacity(0.4))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
                         .padding(.top, 4)
                 }
 
@@ -117,11 +117,11 @@ struct SplashView: View {
 
                                 // Icon background
                                 Circle()
-                                    .fill(Color.white.opacity(0.08))
+                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                     .frame(width: 44, height: 44)
                                     .overlay(
                                         Circle()
-                                            .strokeBorder(Color.orange.opacity(0.3), lineWidth: 1)
+                                            .strokeBorder(Color.orange.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                     )
 
                                 // Icon
@@ -178,7 +178,7 @@ struct SplashView: View {
                             if isAuthenticating {
                                 ZStack {
                                     Circle()
-                                        .fill(Color.white.opacity(0.08))
+                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .frame(width: 44, height: 44)
 
                                     ProgressView()
@@ -194,11 +194,11 @@ struct SplashView: View {
 
                                     // Icon background
                                     Circle()
-                                        .fill(Color.white.opacity(0.08))
+                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .frame(width: 44, height: 44)
                                         .overlay(
                                             Circle()
-                                                .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                                                .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                         )
 
                                     // Icon
@@ -216,7 +216,7 @@ struct SplashView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .disabled(isAuthenticating)
-                    .opacity(isAuthenticating ? 0.5 : 1.0)
+                    .opacity(isAuthenticating ? DesignTokens.Opacity.overlayStrong : DesignTokens.Opacity.textPrimary)
 
                     // Microsoft OAuth Button
                     Button {
@@ -258,7 +258,7 @@ struct SplashView: View {
                             if isAuthenticating {
                                 ZStack {
                                     Circle()
-                                        .fill(Color.white.opacity(0.08))
+                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .frame(width: 44, height: 44)
 
                                     ProgressView()
@@ -274,11 +274,11 @@ struct SplashView: View {
 
                                     // Icon background
                                     Circle()
-                                        .fill(Color.white.opacity(0.08))
+                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
                                         .frame(width: 44, height: 44)
                                         .overlay(
                                             Circle()
-                                                .strokeBorder(Color.purple.opacity(0.3), lineWidth: 1)
+                                                .strokeBorder(Color.purple.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
                                         )
 
                                     // Icon
@@ -296,7 +296,7 @@ struct SplashView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .disabled(isAuthenticating)
-                    .opacity(isAuthenticating ? 0.5 : 1.0)
+                    .opacity(isAuthenticating ? DesignTokens.Opacity.overlayStrong : DesignTokens.Opacity.textPrimary)
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 12)
@@ -307,8 +307,8 @@ struct SplashView: View {
                             .fill(
                                 LinearGradient(
                                     colors: [
-                                        Color.white.opacity(0.08),
-                                        Color.white.opacity(0.03)
+                                        Color.white.opacity(DesignTokens.Opacity.glassLight),
+                                        Color.white.opacity(DesignTokens.Opacity.glassUltraLight)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
@@ -324,9 +324,9 @@ struct SplashView: View {
                             .strokeBorder(
                                 LinearGradient(
                                     colors: [
-                                        Color.cyan.opacity(0.4),
-                                        Color.purple.opacity(0.4),
-                                        Color.pink.opacity(0.4)
+                                        Color.cyan.opacity(DesignTokens.Opacity.overlayMedium),
+                                        Color.purple.opacity(DesignTokens.Opacity.overlayMedium),
+                                        Color.pink.opacity(DesignTokens.Opacity.overlayMedium)
                                     ],
                                     startPoint: .leading,
                                     endPoint: .trailing
@@ -337,14 +337,14 @@ struct SplashView: View {
                         // Inner glow for depth
                         RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
                             .strokeBorder(
-                                Color.white.opacity(0.15),
+                                Color.white.opacity(DesignTokens.Opacity.overlayLight),
                                 lineWidth: 0.5
                             )
                             .blur(radius: 2)
                     }
                 )
                 .padding(.horizontal, 20)
-                .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: -5)
+                .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 20, x: 0, y: -5)
 
                 // Error message
                 if showError {
