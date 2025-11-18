@@ -335,6 +335,33 @@ class ContextualActionService {
     }
 
     private func detectReplyOpportunity(card: EmailCard, content: String, subject: String) -> ContextualAction? {
+        // FILTER 1: Skip quick reply for ads/promotional emails
+        if card.type == .ads {
+            return nil
+        }
+
+        // FILTER 2: Skip quick reply for newsletters
+        if card.isNewsletter == true {
+            return nil
+        }
+
+        // FILTER 3: Skip quick reply for no-reply senders
+        guard let senderEmail = card.sender?.email?.lowercased() else {
+            return nil
+        }
+        let noReplyPatterns = ["noreply", "no-reply", "donotreply", "do-not-reply", "do_not_reply"]
+        if noReplyPatterns.contains(where: { senderEmail.contains($0) }) {
+            return nil
+        }
+
+        // FILTER 4: Skip quick reply for automated/transactional intents
+        if let intent = card.intent?.lowercased() {
+            let automatedIntentPatterns = ["receipt", "confirmation", "notification", "alert", "report", "automated", "transactional"]
+            if automatedIntentPatterns.contains(where: { intent.contains($0) }) {
+                return nil
+            }
+        }
+
         // Check if email requires urgent response
         let urgentKeywords = ["urgent", "asap", "immediately", "time sensitive", "right away", "quick response"]
 

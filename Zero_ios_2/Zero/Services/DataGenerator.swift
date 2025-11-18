@@ -6,7 +6,7 @@ import Foundation
 struct DataGenerator {
     // MARK: - Performance Optimization: Cached Mock Data
     private static var cachedMockData: [EmailCard]?
-    private static let cacheVersion = "v2.1-ads-complete-data" // Change this to invalidate cache
+    private static let cacheVersion = "v2.2-diverse-actions" // Change this to invalidate cache
 
     static func generateSarahChenEmails() -> [EmailCard] {
         return generateComprehensiveMockData()
@@ -81,7 +81,7 @@ struct DataGenerator {
             id: "family1", type: .mail, priority: .high,
             title: "Permission Form - Field Trip",
             summary: "Please sign the permission form for Emma's upcoming field trip to the Science Museum on November 15th. Deadline: November 10th.",
-            actions: [("sign_form", "Sign Form", true), ("view_details", "View Details", false), ("schedule_meeting", "Schedule Meeting", false)],
+            actions: [("sign_form", "Sign Form", true), ("add_to_calendar", "Add to Calendar", false), ("schedule_meeting", "Schedule Meeting", false)],
             sender: ("Lincoln Elementary", "L"), hpa: "Sign Form"
         ))
 
@@ -89,7 +89,7 @@ struct DataGenerator {
             id: "family2", type: .mail, priority: .medium,
             title: "Parent-Teacher Conference Scheduling",
             summary: "It's time to schedule your fall parent-teacher conference. Please select a time slot that works for you between November 18-22.",
-            actions: [("schedule_meeting", "Schedule Meeting", true), ("view_details", "View Details", false)],
+            actions: [("schedule_meeting", "Schedule Meeting", true), ("add_reminder", "Set Reminder", false)],
             sender: ("Ms. Johnson", "J"), hpa: "Schedule Meeting"
         ))
 
@@ -122,7 +122,7 @@ struct DataGenerator {
             id: "shopping2", type: .mail, priority: .medium,
             title: "Your Package Has Shipped",
             summary: "Great news! Your order has shipped and is on the way. Track your package: Tracking #1Z999AA10123456789. Expected delivery: November 17 by 8pm.",
-            actions: [("track_package", "Track Package", true), ("view_details", "View Details", false)],
+            actions: [("track_package", "Track Package", true), ("add_to_calendar", "Add Delivery Date", false)],
             sender: ("UPS", "U"), hpa: "Track Package"
         ))
 
@@ -138,7 +138,7 @@ struct DataGenerator {
             id: "shopping4", type: .ads, priority: .medium,
             title: "Flash Sale: 40% Off Winter Coats",
             summary: "Limited time offer! Get 40% off all winter coats and jackets. Use code WINTER40 at checkout. Sale ends tonight at midnight.",
-            actions: [("shop", "Shop Now", true), ("view_details", "View Details", false), ("save_for_later", "Save", false)],
+            actions: [("shop", "Shop Now", true), ("copy_promo_code", "Copy Code", false), ("save_for_later", "Save", false)],
             sender: ("Patagonia", "P"), hpa: "Shop Now",
             productImageUrl: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400",
             brandName: "Patagonia",
@@ -162,7 +162,7 @@ struct DataGenerator {
             id: "shopping6", type: .ads, priority: .medium,
             title: "Price Drop Alert: iPhone 15 Pro",
             summary: "The iPhone 15 Pro you're watching just dropped to $999 (was $1,199). Save $200 today only!",
-            actions: [("shop", "Buy Now", true), ("view_details", "View Details", false)],
+            actions: [("shop", "Buy Now", true), ("automated_add_to_cart", "Add to Cart", false)],
             sender: ("Best Buy", "B"), hpa: "Buy Now",
             productImageUrl: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?w=400",
             brandName: "Apple",
@@ -191,7 +191,7 @@ struct DataGenerator {
             id: "shopping9", type: .mail, priority: .high,
             title: "Subscription Renewal Notice",
             summary: "Your Amazon Prime membership will renew on November 25th for $139/year. Update your payment method or cancel anytime.",
-            actions: [("update_payment", "Update Payment", true), ("cancel_subscription", "Cancel", false), ("view_details", "View Details", false)],
+            actions: [("update_payment", "Update Payment", true), ("cancel_subscription", "Cancel", false), ("add_reminder", "Remind Me", false)],
             sender: ("Amazon Prime", "A"), hpa: "Update Payment"
         ))
 
@@ -497,6 +497,163 @@ struct DataGenerator {
             summary: "Photos from last week's company event are here! Download and share your favorites. High-resolution versions available.",
             actions: [("view_attachment", "View Photos", true), ("download_all", "Download All", false)],
             sender: ("Events Team", "E"), hpa: "View Photos"
+        ))
+
+        // MARK: - HEALTHCARE (5 cards)
+        cards.append(createCard(
+            id: "healthcare1", type: .mail, priority: .high,
+            title: "Your Prescription is Ready for Pickup",
+            summary: "Your prescription for Amoxicillin 500mg is ready at CVS Pharmacy (Main St). Pick up by November 20th. Qty: 30 tablets.",
+            actions: [("pickup_prescription", "View Pickup Details", true), ("schedule_appointment", "Schedule Consult", false), ("get_directions", "Get Directions", false)],
+            sender: ("CVS Pharmacy", "C"), hpa: "View Pickup Details"
+        ))
+
+        cards.append(createCard(
+            id: "healthcare2", type: .mail, priority: .high,
+            title: "Lab Results Available",
+            summary: "Your recent lab test results are now available in your patient portal. Dr. Chen will review them with you at your next visit.",
+            actions: [("view_results", "View Results", true), ("schedule_appointment", "Schedule Follow-up", false), ("add_to_notes", "Save to Notes", false)],
+            sender: ("LabCorp", "L"), hpa: "View Results"
+        ))
+
+        cards.append(createCard(
+            id: "healthcare3", type: .mail, priority: .medium,
+            title: "Appointment Reminder: Dr. Smith",
+            summary: "Reminder: You have an appointment with Dr. Smith tomorrow at 2:00 PM. Arrive 15 minutes early. Location: Medical Center, Suite 305.",
+            actions: [("check_in_appointment", "Check In", true), ("get_directions", "Get Directions", false), ("add_to_calendar", "Add to Calendar", false)],
+            sender: ("City Medical Center", "M"), hpa: "Check In"
+        ))
+
+        cards.append(createCard(
+            id: "healthcare4", type: .mail, priority: .medium,
+            title: "Annual Physical Due",
+            summary: "It's time for your annual physical exam! Schedule your appointment now. We have openings in early December.",
+            actions: [("schedule_appointment", "Schedule Now", true), ("add_reminder", "Remind Me Later", false)],
+            sender: ("Dr. Johnson", "D"), hpa: "Schedule Now"
+        ))
+
+        cards.append(createCard(
+            id: "healthcare5", type: .mail, priority: .low,
+            title: "Insurance Claim Processed",
+            summary: "Your insurance claim #IC-4782 has been processed. Amount covered: $450.00. Your responsibility: $50.00 copay.",
+            actions: [("view_claim_details", "View Claim", true), ("pay_invoice", "Pay Copay", false), ("download_receipt", "Download", false)],
+            sender: ("Blue Cross", "B"), hpa: "View Claim"
+        ))
+
+        // MARK: - CAREER (4 cards)
+        cards.append(createCard(
+            id: "career1", type: .mail, priority: .high,
+            title: "Job Offer: Senior iOS Engineer at Acme Corp",
+            summary: "Congratulations! We're excited to extend you an offer for the Senior iOS Engineer position. Salary: $165K. Benefits start day 1. Please respond by November 22nd.",
+            actions: [("accept_offer", "Accept Offer", true), ("schedule_interview", "Schedule Call", false), ("add_to_notes", "Save Details", false)],
+            sender: ("Acme Corp HR", "A"), hpa: "Accept Offer"
+        ))
+
+        cards.append(createCard(
+            id: "career2", type: .mail, priority: .medium,
+            title: "Interview Scheduled: Product Manager Role",
+            summary: "Your interview is confirmed for November 19th at 10:00 AM via Zoom. You'll meet with the hiring manager and 2 team members. Duration: 90 minutes.",
+            actions: [("join_meeting", "Join Zoom", true), ("add_to_calendar", "Add to Calendar", false), ("get_directions", "View Details", false)],
+            sender: ("TechStart Recruiting", "T"), hpa: "Join Zoom"
+        ))
+
+        cards.append(createCard(
+            id: "career3", type: .mail, priority: .medium,
+            title: "Application Status Update",
+            summary: "Your application for the Data Scientist position has moved to the next round! We'll be in touch soon to schedule your technical interview.",
+            actions: [("check_application_status", "View Status", true), ("quick_reply", "Send Thank You", false)],
+            sender: ("DataCo Talent", "D"), hpa: "View Status"
+        ))
+
+        cards.append(createCard(
+            id: "career4", type: .mail, priority: .low,
+            title: "LinkedIn: 5 New Job Matches",
+            summary: "Based on your profile, we found 5 new job opportunities that match your skills: Senior Engineer roles at Google, Apple, and 3 other companies.",
+            actions: [("view_job_listings", "View Jobs", true), ("save_for_later", "Save for Later", false)],
+            sender: ("LinkedIn Jobs", "L"), hpa: "View Jobs"
+        ))
+
+        // MARK: - CIVIC (3 cards)
+        cards.append(createCard(
+            id: "civic1", type: .mail, priority: .high,
+            title: "Jury Duty Summons",
+            summary: "You have been summoned for jury duty on December 5th, 2025 at 8:00 AM. Superior Court of California, Room 302. Please confirm your attendance.",
+            actions: [("view_jury_summons", "View Summons", true), ("confirm_court_appearance", "Confirm Attendance", false), ("add_to_calendar", "Add to Calendar", false)],
+            sender: ("Superior Court", "S"), hpa: "View Summons"
+        ))
+
+        cards.append(createCard(
+            id: "civic2", type: .mail, priority: .medium,
+            title: "Voter Registration Confirmation",
+            summary: "Your voter registration has been confirmed! You're registered to vote in District 3. View your ballot and polling location for the upcoming election.",
+            actions: [("view_voter_info", "View Polling Place", true), ("view_ballot", "View Sample Ballot", false), ("add_to_calendar", "Add Election Date", false)],
+            sender: ("County Registrar", "C"), hpa: "View Polling Place"
+        ))
+
+        cards.append(createCard(
+            id: "civic3", type: .mail, priority: .high,
+            title: "Property Tax Payment Due",
+            summary: "Your property tax payment of $4,250.00 is due by December 10th. Pay online to avoid penalties. Property ID: 123-456-789-000.",
+            actions: [("pay_property_tax", "Pay Now", true), ("view_tax_notice", "View Details", false), ("add_reminder", "Set Reminder", false)],
+            sender: ("County Tax Collector", "T"), hpa: "Pay Now"
+        ))
+
+        // MARK: - SOCIAL (4 cards)
+        cards.append(createCard(
+            id: "social1", type: .mail, priority: .medium,
+            title: "You're Invited: Sarah's Birthday Party",
+            summary: "Join us for Sarah's surprise 30th birthday party on November 22nd at 7 PM! Location: The Garden Restaurant. Please RSVP by November 18th.",
+            actions: [("rsvp_yes", "RSVP Yes", true), ("rsvp_no", "RSVP No", false), ("add_to_calendar", "Add to Calendar", false)],
+            sender: ("Mike Chen", "M"), hpa: "RSVP Yes"
+        ))
+
+        cards.append(createCard(
+            id: "social2", type: .mail, priority: .medium,
+            title: "Meetup Reminder: Tech Talk Tomorrow",
+            summary: "Don't forget: iOS Development Meetup tomorrow at 6:30 PM. Topic: SwiftUI Best Practices. Location: TechHub Coworking, 5th Floor.",
+            actions: [("join_meeting", "View Event", true), ("get_directions", "Get Directions", false), ("reply_thanks", "Send Thanks", false)],
+            sender: ("Meetup.com", "M"), hpa: "View Event"
+        ))
+
+        cards.append(createCard(
+            id: "social3", type: .mail, priority: .low,
+            title: "LinkedIn: Alex wants to connect",
+            summary: "Alex Martinez (Product Manager at Google) wants to connect with you on LinkedIn. You have 12 mutual connections.",
+            actions: [("accept_social_invitation", "Accept", true), ("view_social_message", "View Profile", false)],
+            sender: ("LinkedIn", "L"), hpa: "Accept"
+        ))
+
+        cards.append(createCard(
+            id: "social4", type: .mail, priority: .low,
+            title: "Facebook: Reunion Event This Weekend",
+            summary: "Stanford Class of 2015 Reunion - This Saturday at 2 PM. 47 people are going. Alumni Center, Main Quad.",
+            actions: [("rsvp_yes", "I'm Going", true), ("get_directions", "Get Directions", false), ("share_achievement", "Share", false)],
+            sender: ("Facebook Events", "F"), hpa: "I'm Going"
+        ))
+
+        // MARK: - FINANCE (3 cards)
+        cards.append(createCard(
+            id: "finance1", type: .mail, priority: .high,
+            title: "Suspicious Transaction Alert",
+            summary: "We detected a potentially fraudulent transaction on your Chase card: $847.52 at Electronics Store in Miami. If this wasn't you, dispute immediately.",
+            actions: [("verify_transaction", "Verify Transaction", true), ("dispute_transaction", "Report Fraud", false), ("contact_support", "Call Bank", false)],
+            sender: ("Chase Fraud Alert", "C"), hpa: "Verify Transaction"
+        ))
+
+        cards.append(createCard(
+            id: "finance2", type: .mail, priority: .medium,
+            title: "Your Tax Documents Are Ready",
+            summary: "Your 2024 tax documents (W-2, 1099) are now available for download. Access them securely through your account portal.",
+            actions: [("download_tax_document", "Download Documents", true), ("view_statement", "View Summary", false), ("add_to_notes", "Save Info", false)],
+            sender: ("E*TRADE", "E"), hpa: "Download Documents"
+        ))
+
+        cards.append(createCard(
+            id: "finance3", type: .mail, priority: .low,
+            title: "Your Credit Score Increased!",
+            summary: "Good news! Your credit score increased by 15 points to 785 this month. View your full credit report and see what improved.",
+            actions: [("view_credit_report", "View Report", true), ("view_portfolio", "View Factors", false)],
+            sender: ("Credit Karma", "C"), hpa: "View Report"
         ))
 
         // Cache and return

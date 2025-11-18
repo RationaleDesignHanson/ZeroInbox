@@ -91,8 +91,8 @@ struct SplashView: View {
 
                 Spacer()
 
-                // Authentication Options - Horizontal Bottom Nav Style
-                HStack(spacing: 12) {
+                // Authentication Options - Dark Glassmorphic Buttons (Apple Video UI Style)
+                HStack(spacing: 20) {
                     // Mock Data Button
                     Button {
                         // Set mock mode
@@ -107,32 +107,32 @@ struct SplashView: View {
                         Logger.info("Mock data mode selected, analytics environment: mock", category: .app)
                         onComplete()
                     } label: {
-                        VStack(spacing: 6) {
+                        VStack(spacing: 8) {
                             ZStack {
-                                // Glow effect
+                                // Dark glassmorphic background (like Apple video controls)
                                 Circle()
-                                    .fill(Color.orange.opacity(DesignTokens.Opacity.overlayLight))
-                                    .frame(width: 44, height: 44)
-                                    .blur(radius: 8)
-
-                                // Icon background
-                                Circle()
-                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
-                                    .frame(width: 44, height: 44)
-                                    .overlay(
-                                        Circle()
-                                            .strokeBorder(Color.orange.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
+                                    .fill(Color.black.opacity(DesignTokens.Opacity.overlayMedium))
+                                    .background(
+                                        .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
+                                        in: Circle()
                                     )
+                                    .frame(width: 64, height: 64)
+
+                                // Subtle rim
+                                Circle()
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 0.5)
+                                    .frame(width: 64, height: 64)
 
                                 // Icon
                                 Image(systemName: "text.book.closed.fill")
-                                    .font(.title3)
+                                    .font(.title2)
                                     .foregroundColor(.orange)
                             }
+                            .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 15, x: 0, y: 5)
 
                             Text("Mock")
                                 .font(.caption)
-                                .fontWeight(.semibold)
+                                .fontWeight(.medium)
                                 .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                         }
                     }
@@ -174,43 +174,37 @@ struct SplashView: View {
                             }
                         }
                     } label: {
-                        VStack(spacing: 6) {
-                            if isAuthenticating {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
-                                        .frame(width: 44, height: 44)
+                        VStack(spacing: 8) {
+                            ZStack {
+                                // Dark glassmorphic background (like Apple video controls)
+                                Circle()
+                                    .fill(Color.black.opacity(DesignTokens.Opacity.overlayMedium))
+                                    .background(
+                                        .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
+                                        in: Circle()
+                                    )
+                                    .frame(width: 64, height: 64)
 
+                                // Subtle rim
+                                Circle()
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 0.5)
+                                    .frame(width: 64, height: 64)
+
+                                // Icon or progress
+                                if isAuthenticating {
                                     ProgressView()
                                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                }
-                            } else {
-                                ZStack {
-                                    // Glow effect
-                                    Circle()
-                                        .fill(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
-                                        .frame(width: 44, height: 44)
-                                        .blur(radius: 8)
-
-                                    // Icon background
-                                    Circle()
-                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
-                                        .frame(width: 44, height: 44)
-                                        .overlay(
-                                            Circle()
-                                                .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                        )
-
-                                    // Icon
+                                } else {
                                     Image(systemName: "g.circle.fill")
-                                        .font(.title3)
+                                        .font(.title2)
                                         .foregroundColor(.blue)
                                 }
                             }
+                            .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 15, x: 0, y: 5)
 
                             Text(isAuthenticating ? "Wait..." : "Google")
                                 .font(.caption)
-                                .fontWeight(.semibold)
+                                .fontWeight(.medium)
                                 .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                         }
                     }
@@ -254,43 +248,37 @@ struct SplashView: View {
                             }
                         }
                     } label: {
-                        VStack(spacing: 6) {
-                            if isAuthenticating {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
-                                        .frame(width: 44, height: 44)
+                        VStack(spacing: 8) {
+                            ZStack {
+                                // Dark glassmorphic background (like Apple video controls)
+                                Circle()
+                                    .fill(Color.black.opacity(DesignTokens.Opacity.overlayMedium))
+                                    .background(
+                                        .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
+                                        in: Circle()
+                                    )
+                                    .frame(width: 64, height: 64)
 
+                                // Subtle rim
+                                Circle()
+                                    .strokeBorder(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 0.5)
+                                    .frame(width: 64, height: 64)
+
+                                // Icon or progress
+                                if isAuthenticating {
                                     ProgressView()
                                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                }
-                            } else {
-                                ZStack {
-                                    // Glow effect
-                                    Circle()
-                                        .fill(Color.purple.opacity(DesignTokens.Opacity.overlayLight))
-                                        .frame(width: 44, height: 44)
-                                        .blur(radius: 8)
-
-                                    // Icon background
-                                    Circle()
-                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
-                                        .frame(width: 44, height: 44)
-                                        .overlay(
-                                            Circle()
-                                                .strokeBorder(Color.purple.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                        )
-
-                                    // Icon
+                                } else {
                                     Image(systemName: "m.square.fill")
-                                        .font(.title3)
+                                        .font(.title2)
                                         .foregroundColor(.purple)
                                 }
                             }
+                            .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 15, x: 0, y: 5)
 
                             Text(isAuthenticating ? "Wait..." : "Microsoft")
                                 .font(.caption)
-                                .fontWeight(.semibold)
+                                .fontWeight(.medium)
                                 .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                         }
                     }
@@ -298,53 +286,7 @@ struct SplashView: View {
                     .disabled(isAuthenticating)
                     .opacity(isAuthenticating ? DesignTokens.Opacity.overlayStrong : DesignTokens.Opacity.textPrimary)
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 12)
-                .background(
-                    ZStack {
-                        // Base glass layer
-                        RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
-                            .fill(
-                                LinearGradient(
-                                    colors: [
-                                        Color.white.opacity(DesignTokens.Opacity.glassLight),
-                                        Color.white.opacity(DesignTokens.Opacity.glassUltraLight)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                            )
-                            .background(
-                                .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
-                                in: RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
-                            )
-
-                        // Holographic rim lighting
-                        RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
-                            .strokeBorder(
-                                LinearGradient(
-                                    colors: [
-                                        Color.cyan.opacity(DesignTokens.Opacity.overlayMedium),
-                                        Color.purple.opacity(DesignTokens.Opacity.overlayMedium),
-                                        Color.pink.opacity(DesignTokens.Opacity.overlayMedium)
-                                    ],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                ),
-                                lineWidth: 1.5
-                            )
-
-                        // Inner glow for depth
-                        RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
-                            .strokeBorder(
-                                Color.white.opacity(DesignTokens.Opacity.overlayLight),
-                                lineWidth: 0.5
-                            )
-                            .blur(radius: 2)
-                    }
-                )
-                .padding(.horizontal, 20)
-                .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 20, x: 0, y: -5)
+                .padding(.horizontal, 40)
 
                 // Error message
                 if showError {
