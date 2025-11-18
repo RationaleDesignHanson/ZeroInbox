@@ -334,9 +334,9 @@ struct NetworkStatusView: View {
                             try await Task.sleep(nanoseconds: 500_000_000)
                             return "Success!"
                         }
-                        print(result)
+                        Logger.info("Network request result: \(result)", category: .network)
                     } catch {
-                        print("Failed:", error)
+                        Logger.error("Network request failed: \(error.localizedDescription)", category: .network)
                     }
                 }
             }

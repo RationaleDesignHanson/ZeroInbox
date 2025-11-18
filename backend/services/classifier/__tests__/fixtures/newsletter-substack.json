@@ -1,0 +1,45 @@
+{
+  "id": "newsletter-substack-001",
+  "subject": "The Future of AI: What 2025 Has in Store",
+  "from": {
+    "name": "Tech Insights Weekly",
+    "email": "techinsights@substack.com"
+  },
+  "to": "user@example.com",
+  "date": "2025-01-15T08:00:00Z",
+  "headers": {
+    "Message-ID": "<newsletter-jan-15-2025@substack.com>",
+    "Content-Type": "text/html; charset=utf-8",
+    "List-Unsubscribe": "<https://techinsights.substack.com/unsubscribe?token=abc123xyz>",
+    "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"
+  },
+  "body": {
+    "text": "Tech Insights Weekly\n\nThe Future of AI: What 2025 Has in Store\n\nBy Sarah Chen | January 15, 2025 | 8 min read\n\nHey there,\n\nWelcome back to Tech Insights Weekly! This week, we're diving deep into the AI trends shaping 2025.\n\nKey Highlights:\n\n1. Multimodal AI Goes Mainstream\nOpenAI's GPT-5 and Google's Gemini Ultra are pushing boundaries with unprecedented multimodal capabilities.\n\n2. AI Regulation Heats Up\nThe EU AI Act takes effect next month, setting a global precedent for AI governance.\n\n3. Edge AI Revolution\nOn-device AI is no longer science fiction - it's becoming standard in smartphones and IoT devices.\n\nRead the full article:\nhttps://techinsights.substack.com/p/future-of-ai-2025\n\nWhat I'm Reading:\n- \"The Coming Wave\" by Mustafa Suleyman\n- MIT Technology Review's AI special issue\n- Stanford's 2025 AI Index Report\n\nNext Week:\nI'll be covering the latest developments in quantum computing and what it means for cryptography.\n\nThanks for reading! If you enjoyed this, please share it with a friend.\n\n- Sarah\n\n---\n\nTech Insights Weekly\nDelivering cutting-edge technology analysis since 2020\n\nYou're receiving this because you subscribed at techinsights.substack.com\n\nUnsubscribe: https://techinsights.substack.com/unsubscribe?token=abc123xyz\nUpdate preferences: https://techinsights.substack.com/settings",
+    "html": "<html><body style='font-family: Georgia, serif; max-width: 600px; margin: 0 auto; background: #f8f8f8; padding: 20px;'><div style='background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);'><div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center;'><h1 style='color: white; font-size: 28px; margin: 0 0 10px 0; font-weight: 600;'>Tech Insights Weekly</h1><p style='color: rgba(255,255,255,0.9); font-size: 14px; margin: 0;'>Your weekly dose of technology analysis</p></div><div style='padding: 40px 30px;'><h2 style='color: #1a1a1a; font-size: 32px; line-height: 1.3; margin: 0 0 20px 0; font-weight: 700;'>The Future of AI: What 2025 Has in Store</h2><div style='color: #666; font-size: 14px; margin: 0 0 30px 0; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0;'><span style='font-weight: 600; color: #667eea;'>By Sarah Chen</span> | January 15, 2025 | 8 min read</div><p style='color: #333; font-size: 18px; line-height: 1.6; margin: 0 0 25px 0;'>Hey there,</p><p style='color: #333; font-size: 18px; line-height: 1.6; margin: 0 0 25px 0;'>Welcome back to Tech Insights Weekly! This week, we're diving deep into the AI trends shaping 2025.</p><h3 style='color: #1a1a1a; font-size: 22px; margin: 30px 0 20px 0; font-weight: 600;'>Key Highlights</h3><div style='background: #f5f7fa; border-left: 4px solid #667eea; padding: 20px; margin: 25px 0;'><h4 style='color: #1a1a1a; font-size: 18px; margin: 0 0 10px 0;'>1. Multimodal AI Goes Mainstream</h4><p style='color: #555; font-size: 16px; line-height: 1.6; margin: 0;'>OpenAI's GPT-5 and Google's Gemini Ultra are pushing boundaries with unprecedented multimodal capabilities.</p></div><div style='background: #f5f7fa; border-left: 4px solid #667eea; padding: 20px; margin: 25px 0;'><h4 style='color: #1a1a1a; font-size: 18px; margin: 0 0 10px 0;'>2. AI Regulation Heats Up</h4><p style='color: #555; font-size: 16px; line-height: 1.6; margin: 0;'>The EU AI Act takes effect next month, setting a global precedent for AI governance.</p></div><div style='background: #f5f7fa; border-left: 4px solid #667eea; padding: 20px; margin: 25px 0;'><h4 style='color: #1a1a1a; font-size: 18px; margin: 0 0 10px 0;'>3. Edge AI Revolution</h4><p style='color: #555; font-size: 16px; line-height: 1.6; margin: 0;'>On-device AI is no longer science fiction - it's becoming standard in smartphones and IoT devices.</p></div><div style='text-align: center; margin: 35px 0;'><a href='https://techinsights.substack.com/p/future-of-ai-2025' style='display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 14px 32px; text-decoration: none; border-radius: 25px; font-weight: 600; font-size: 16px;'>Read the full article →</a></div><div style='background: #fff9e6; border: 1px solid #ffd700; border-radius: 8px; padding: 20px; margin: 30px 0;'><h4 style='color: #856404; font-size: 16px; margin: 0 0 15px 0;'>📚 What I'm Reading</h4><ul style='color: #856404; font-size: 15px; line-height: 1.8; margin: 0; padding-left: 20px;'><li>\"The Coming Wave\" by Mustafa Suleyman</li><li>MIT Technology Review's AI special issue</li><li>Stanford's 2025 AI Index Report</li></ul></div><div style='background: #e7f5ff; border-left: 4px solid #2196f3; padding: 20px; margin: 30px 0;'><p style='margin: 0; color: #1565c0; font-size: 15px;'><strong>Next Week:</strong> I'll be covering the latest developments in quantum computing and what it means for cryptography.</p></div><p style='color: #333; font-size: 17px; line-height: 1.6; margin: 30px 0;'>Thanks for reading! If you enjoyed this, please share it with a friend.</p><p style='color: #333; font-size: 17px; margin: 20px 0 0 0;'>- Sarah</p></div><div style='background: #f5f5f5; padding: 30px; border-top: 1px solid #e0e0e0;'><p style='text-align: center; color: #1a1a1a; font-size: 16px; font-weight: 600; margin: 0 0 5px 0;'>Tech Insights Weekly</p><p style='text-align: center; color: #666; font-size: 13px; margin: 0 0 20px 0;'>Delivering cutting-edge technology analysis since 2020</p><p style='text-align: center; color: #999; font-size: 12px; margin: 0 0 15px 0;'>You're receiving this because you subscribed at techinsights.substack.com</p><p style='text-align: center; font-size: 12px; margin: 0;'><a href='https://techinsights.substack.com/unsubscribe?token=abc123xyz' style='color: #667eea; text-decoration: none; margin: 0 10px;'>Unsubscribe</a> | <a href='https://techinsights.substack.com/settings' style='color: #667eea; text-decoration: none; margin: 0 10px;'>Update preferences</a></p></div></div></body></html>"
+  },
+  "classification": {
+    "type": "newsletter",
+    "category": "content",
+    "intent": "newsletter",
+    "shouldBeUnsubscribable": true,
+    "reason": "Newsletter content - user can safely unsubscribe"
+  },
+  "unsubscribeMechanism": {
+    "hasListUnsubscribeHeader": true,
+    "hasOneClickUnsubscribe": true,
+    "unsubscribeUrls": [
+      "https://techinsights.substack.com/unsubscribe?token=abc123xyz"
+    ],
+    "preferenceUrls": [
+      "https://techinsights.substack.com/settings"
+    ]
+  },
+  "testExpectations": {
+    "shouldDetectAsReceipt": false,
+    "shouldDetectAsNewsletter": true,
+    "shouldBeUnsubscribable": true,
+    "shouldExtractUnsubscribeUrl": true,
+    "shouldFindListUnsubscribeHeader": true,
+    "expectedTags": ["newsletter", "content", "technology", "subscription"]
+  }
+}

@@ -40,7 +40,8 @@ class ActionRouter: ObservableObject {
         }
 
         // Step 2: Validate mode compatibility
-        if !registry.isActionValidForMode(action.actionId, currentMode: currentMode) {
+        // Week 5 Performance: Use actionConfig directly instead of repeated lookup
+        if !registry.isActionValidForMode(actionConfig, currentMode: currentMode) {
             Logger.error("Action '\(action.actionId)' not valid for current mode: \(currentMode.rawValue)", category: .action)
             showError("'\(action.displayName)' is not available in \(currentMode.rawValue.capitalized) mode")
 
@@ -54,7 +55,8 @@ class ActionRouter: ObservableObject {
         }
 
         // Step 3: Validate required context (with placeholder fallback)
-        let validation = registry.validateAction(action.actionId, context: action.context)
+        // Week 5 Performance: Use actionConfig directly instead of repeated lookup
+        let validation = registry.validateAction(actionConfig, context: action.context)
         if !validation.isValid {
             Logger.warning("Action '\(action.actionId)' missing required context: \(validation.missingKeys.joined(separator: ", ")) - Attempting placeholder fill", category: .action)
 
@@ -62,7 +64,8 @@ class ActionRouter: ObservableObject {
             let actionWithPlaceholders = ActionPlaceholders.applyPlaceholders(to: action)
 
             // Validate again after applying placeholders
-            let revalidation = registry.validateAction(action.actionId, context: actionWithPlaceholders.context)
+            // Week 5 Performance: Use actionConfig directly instead of repeated lookup
+            let revalidation = registry.validateAction(actionConfig, context: actionWithPlaceholders.context)
             if !revalidation.isValid {
                 Logger.error("Action '\(action.actionId)' still invalid after applying placeholders", category: .action)
                 showError("Missing information: \(validation.missingKeys.joined(separator: ", "))")
@@ -169,137 +172,74 @@ class ActionRouter: ObservableObject {
 
         // Generate URL based on actionId (only if generic URL not found)
         if urlString == nil {
-            switch action.actionId {
-        case "track_package":
-            urlString = generateTrackingURL(context: context)
-            
-        case "pay_invoice":
-            urlString = context["paymentLink"]
-            
-        case "view_order":
-            urlString = context["orderUrl"]
-            
-        case "check_in_flight":
-            urlString = context["checkInUrl"]
-            
-        case "reset_password", "verify_account":
-            urlString = context["resetLink"] ?? context["verificationLink"]
-            
-        case "register_event":
-            urlString = context["registrationLink"]
-            
-        case "write_review":
-            urlString = context["reviewLink"]
-            
-        case "view_assignment", "check_grade":
-            urlString = context["assignmentUrl"] ?? context["gradeUrl"]
-            
-        case "view_ticket":
-            urlString = context["ticketUrl"]
-            
-        case "view_task":
-            urlString = context["taskUrl"]
-            
-        case "view_incident":
-            urlString = context["incidentUrl"]
-            
-        case "join_meeting":
-            urlString = context["meetingUrl"]
-            
-        case "view_itinerary":
-            urlString = context["itineraryUrl"]
-            
-        case "download_receipt":
-            urlString = context["receiptUrl"]
-            
-        case "claim_deal", "view_product":
-            urlString = context["dealUrl"] ?? context["productUrl"]
-            
-        case "complete_cart":
-            urlString = context["cartUrl"]
+            // Dictionary-driven URL mapping - maps actionId to ordered list of context keys to try
+            let urlMappings: [String: [String]] = [
+                "track_package": ["__custom__"],  // Special marker for generateTrackingURL
+                "pay_invoice": ["paymentLink"],
+                "view_order": ["orderUrl"],
+                "check_in_flight": ["checkInUrl"],
+                "reset_password": ["resetLink", "verificationLink"],
+                "verify_account": ["verificationLink", "resetLink"],
+                "register_event": ["registrationLink"],
+                "write_review": ["reviewLink"],
+                "view_assignment": ["assignmentUrl", "gradeUrl"],
+                "check_grade": ["gradeUrl", "assignmentUrl"],
+                "view_ticket": ["ticketUrl"],
+                "view_task": ["taskUrl"],
+                "view_incident": ["incidentUrl"],
+                "join_meeting": ["meetingUrl"],
+                "view_itinerary": ["itineraryUrl"],
+                "download_receipt": ["receiptUrl"],
+                "claim_deal": ["dealUrl", "productUrl"],
+                "view_product": ["productUrl", "dealUrl"],
+                "complete_cart": ["cartUrl"],
+                "buy_again": ["reorderUrl"],
+                "return_item": ["returnUrl"],
+                "manage_booking": ["bookingUrl"],
+                "contact_support": ["supportUrl"],
+                "open_link": ["url"],
+                "add_to_wallet": ["walletUrl"],
+                "check_in_appointment": ["checkInUrl", "appointmentUrl"],
+                "view_reservation": ["reservationUrl", "bookingUrl"],
+                "modify_reservation": ["reservationUrl", "bookingUrl"],
+                "view_spreadsheet": ["spreadsheetUrl", "documentUrl"],
+                "view_document": ["__document__"],  // Special case for attachments
+                "view_proposal": ["proposalUrl"],
+                "view_cart": ["cartUrl"],
+                "view_deals": ["dealsUrl"],
+                "view_agenda": ["agendaUrl"],
+                "view_results": ["resultsUrl", "testResultsUrl"],
+                "shop_now": ["shopUrl", "productUrl"],
+                "track_delivery": ["deliveryUrl", "trackingUrl"],
+                "download_report": ["reportUrl", "downloadUrl"],
+                "get_directions": ["directionsUrl", "mapUrl"],
+                "take_survey": ["surveyUrl"],
+                "manage_subscription": ["subscriptionUrl", "manageUrl"],
+                "unsubscribe": ["unsubscribeUrl"]
+            ]
 
-        case "buy_again":
-            urlString = context["reorderUrl"]
-
-        case "return_item":
-            urlString = context["returnUrl"]
-
-        case "manage_booking":
-            urlString = context["bookingUrl"]
-
-        case "contact_support":
-            urlString = context["supportUrl"]
-
-        case "open_link":
-            urlString = context["url"]
-
-        case "add_to_wallet":
-            // Add to Apple Wallet - will be handled as IN_APP with PassKit
-            // For now, fallback to wallet URL if provided
-            urlString = context["walletUrl"]
-
-        case "check_in_appointment":
-            urlString = context["checkInUrl"] ?? context["appointmentUrl"]
-
-        case "view_reservation", "modify_reservation":
-            urlString = context["reservationUrl"] ?? context["bookingUrl"]
-
-        case "view_spreadsheet":
-            urlString = context["spreadsheetUrl"] ?? context["documentUrl"]
-
-        case "view_document":
-            // Priority: 1. Attachment URL (real emails), 2. Context documentUrl (mock/external links)
-            if let attachments = card.attachments, !attachments.isEmpty {
-                // Real email with attachments - use Gmail attachment API URL
-                let attachment = attachments[0]  // Use first attachment
-                urlString = generateAttachmentURL(for: attachment, card: card)
-                Logger.info("Using attachment URL for view_document: \(attachment.filename)", category: .action)
+            // Lookup URL using dictionary mapping
+            if let contextKeys = urlMappings[action.actionId] {
+                if contextKeys.first == "__custom__" {
+                    // Special case: track_package uses custom URL generation
+                    urlString = generateTrackingURL(context: context)
+                } else if contextKeys.first == "__document__" {
+                    // Special case: view_document checks attachments first
+                    if let attachments = card.attachments, !attachments.isEmpty {
+                        let attachment = attachments[0]
+                        urlString = generateAttachmentURL(for: attachment, card: card)
+                        Logger.info("Using attachment URL for view_document: \(attachment.filename)", category: .action)
+                    } else {
+                        urlString = context["documentUrl"]
+                        Logger.info("Using context documentUrl for view_document", category: .action)
+                    }
+                } else {
+                    // Standard case: try context keys in order until one is found
+                    urlString = contextKeys.compactMap { context[$0] }.first
+                }
             } else {
-                // Mock data or external document link
-                urlString = context["documentUrl"]
-                Logger.info("Using context documentUrl for view_document", category: .action)
-            }
-
-        case "view_proposal":
-            urlString = context["proposalUrl"]
-
-        case "view_cart":
-            urlString = context["cartUrl"]
-
-        case "view_deals":
-            urlString = context["dealsUrl"]
-
-        case "view_agenda":
-            urlString = context["agendaUrl"]
-
-        case "view_results":
-            urlString = context["resultsUrl"] ?? context["testResultsUrl"]
-
-        case "shop_now":
-            urlString = context["shopUrl"] ?? context["productUrl"]
-
-        case "track_delivery":
-            urlString = context["deliveryUrl"] ?? context["trackingUrl"]
-
-        case "download_report":
-            urlString = context["reportUrl"] ?? context["downloadUrl"]
-
-        case "get_directions":
-            urlString = context["directionsUrl"] ?? context["mapUrl"]
-
-        case "take_survey":
-            urlString = context["surveyUrl"]
-
-        case "manage_subscription":
-            urlString = context["subscriptionUrl"] ?? context["manageUrl"]
-
-        case "unsubscribe":
-            // Unsubscribe now handled as IN_APP modal for better UX
-            // This case kept for backward compatibility if action type is GO_TO
-            urlString = context["unsubscribeUrl"]
-
-        default:
-            urlString = context["url"]
+                // Fallback for unmapped actions
+                urlString = context["url"]
             }
         }
 
@@ -419,6 +359,16 @@ class ActionRouter: ObservableObject {
               let modalComponent = actionConfig.modalComponent else {
             Logger.warning("No modal component for action '\(actionId)', using viewDetails fallback", category: .action)
             return .viewDetails(card: card, context: context)
+        }
+
+        // v2.3 - Check for JSON modal configuration first
+        if let modalConfigJSON = actionConfig.modalConfigJSON {
+            if let genericModal = loadGenericModal(configName: modalConfigJSON, card: card, context: context) {
+                Logger.info("Loaded JSON modal config for action '\(actionId)'", category: .action)
+                return genericModal
+            } else {
+                Logger.warning("Failed to load JSON config '\(modalConfigJSON)', falling back to hardcoded modal", category: .action)
+            }
         }
 
         // Map modal component name to ActionModal enum
@@ -581,7 +531,34 @@ class ActionRouter: ObservableObject {
             return .viewDetails(card: card, context: context)
         }
     }
-    
+
+    /**
+     * Load a generic modal from JSON configuration
+     * v2.3 - Enables data-driven modal definitions
+     */
+    private func loadGenericModal(configName: String, card: EmailCard, context: [String: Any]) -> ActionModal? {
+        // Construct path to JSON config
+        guard let configPath = Bundle.main.path(forResource: configName, ofType: "json", inDirectory: "Config/ModalConfigs") else {
+            Logger.warning("JSON config file not found: \(configName).json", category: .action)
+            return nil
+        }
+
+        do {
+            // Load and decode JSON
+            let configData = try Data(contentsOf: URL(fileURLWithPath: configPath))
+            let config = try JSONDecoder().decode(ModalConfig.self, from: configData)
+
+            // Create ActionContext wrapper
+            let actionContext = ActionContext(card: card, context: context)
+
+            // Return generic modal with config
+            return .generic(config: config, context: actionContext, card: card)
+        } catch {
+            Logger.error("Failed to load JSON config '\(configName)': \(error.localizedDescription)", category: .action)
+            return nil
+        }
+    }
+
     private func parseAmount(from context: [String: String]?) -> Double {
         guard let amountString = context?["amount"] else { return 0.0 }
         return Double(amountString) ?? 0.0
@@ -832,6 +809,9 @@ enum ActionModal: Identifiable {
     // Shopping Automation
     case automatedAddToCart(card: EmailCard, productUrl: String, productName: String, context: [String: Any])
 
+    // Generic JSON-Driven Modal
+    case generic(config: ModalConfig, context: ActionContext, card: EmailCard)
+
     var id: String {
         switch self {
         case .signForm(let card, _): return "sign_\(card.id)"
@@ -876,6 +856,7 @@ enum ActionModal: Identifiable {
         case .unsubscribe(let card, _, _): return "unsubscribe_\(card.id)"
         case .viewAttachments(let card, _): return "attachments_\(card.id)"
         case .automatedAddToCart(let card, _, _, _): return "automated_add_to_cart_\(card.id)"
+        case .generic(let config, _, let card): return "generic_\(config.id)_\(card.id)"
         }
     }
 }

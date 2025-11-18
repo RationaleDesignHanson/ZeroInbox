@@ -1,0 +1,110 @@
+{
+  "id": "reservation",
+  "title": "Reservation",
+  "subtitle": null,
+  "icon": {
+    "systemName": "calendar.badge.checkmark",
+    "colorKey": null,
+    "staticColor": "purple",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "reservation_details",
+      "title": "Reservation Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "reservation_type",
+          "label": "Type",
+          "type": "text",
+          "contextKey": "reservationType",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Reservation",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "venue",
+          "label": "Venue",
+          "type": "text",
+          "contextKey": "venue",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Venue name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "date",
+          "label": "Date & Time",
+          "type": "dateTime",
+          "contextKey": "date",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Reservation date",
+          "formatting": {
+            "type": "dateTime",
+            "options": {
+              "dateStyle": "medium",
+              "timeStyle": "short"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "confirmation_code",
+          "label": "Confirmation",
+          "type": "text",
+          "contextKey": "confirmationCode",
+          "required": true,
+          "copyable": true,
+          "placeholder": "Confirmation code",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "guests",
+          "label": "Party Size",
+          "type": "text",
+          "contextKey": "guests",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Number of guests",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "type": "text",
+          "contextKey": "location",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Address",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Add to Calendar",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "View Online",
+    "style": "secondary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "reservationUrl"
+    }
+  },
+  "layout": "standard"
+}

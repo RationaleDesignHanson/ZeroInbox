@@ -23,7 +23,7 @@ struct FolderPickerView: View {
 
     /// Computed user ID from Keychain
     private var userId: String {
-        getUserEmail() ?? "user-123"
+        getUserEmail() ?? AuthContext.getUserId()
     }
 
     var body: some View {
@@ -41,12 +41,7 @@ struct FolderPickerView: View {
                         // Loading state
                         VStack {
                             Spacer()
-                            ProgressView()
-                                .scaleEffect(1.5)
-                            Text("Loading folders...")
-                                .font(.caption)
-                                .foregroundColor(textColor.opacity(DesignTokens.Opacity.textDisabled))
-                                .padding(.top, 16)
+                            LoadingSpinner(text: "Loading folders...", size: .medium)
                             Spacer()
                         }
                     } else if savedMailService.folders.isEmpty {
@@ -336,15 +331,7 @@ struct FolderRow: View {
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
         }
-        .padding(DesignTokens.Spacing.section)
-        .background(
-            RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                .fill(rowBackgroundColor)
-                .overlay(
-                    RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                        .strokeBorder(borderColor, lineWidth: 1)
-                )
-        )
+        .glassCard(cornerRadius: DesignTokens.Radius.button, borderColor: borderColor)
     }
 
     private var textColor: Color {

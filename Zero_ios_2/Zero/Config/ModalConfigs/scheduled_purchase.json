@@ -1,0 +1,110 @@
+{
+  "id": "scheduled_purchase",
+  "title": "Schedule Purchase",
+  "subtitle": null,
+  "icon": {
+    "systemName": "cart.fill.badge.plus",
+    "colorKey": null,
+    "staticColor": "purple",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "product_info",
+      "title": "Product",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "product_name",
+          "label": "Product",
+          "type": "text",
+          "contextKey": "productName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Product name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "product_url",
+          "label": "URL",
+          "type": "text",
+          "contextKey": "productUrl",
+          "required": true,
+          "copyable": true,
+          "placeholder": "Product URL",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "original_price",
+          "label": "Price",
+          "type": "currency",
+          "contextKey": "originalPrice",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Price not available",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "sale_price",
+          "label": "Sale Price",
+          "type": "currency",
+          "contextKey": "salePrice",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Sale price",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "schedule_info",
+      "title": "When",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "sale_date",
+          "label": "Sale Date",
+          "type": "text",
+          "contextKey": "saleDate",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Sale date",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Schedule Purchase",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Cancel",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

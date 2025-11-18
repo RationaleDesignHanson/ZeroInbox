@@ -1,0 +1,108 @@
+{
+  "id": "cancel_subscription",
+  "title": "Cancel Subscription",
+  "subtitle": null,
+  "icon": {
+    "systemName": "xmark.circle.fill",
+    "colorKey": null,
+    "staticColor": "red",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "subscription_details",
+      "title": "Subscription Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "service_name",
+          "label": "Service",
+          "type": "text",
+          "contextKey": "serviceName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Service name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "cost",
+          "label": "Cost",
+          "type": "currency",
+          "contextKey": "cost",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Not available",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "renewal_date",
+          "label": "Next Renewal",
+          "type": "date",
+          "contextKey": "renewalDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Not available",
+          "formatting": {
+            "type": "date",
+            "options": null
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "cancellation_info",
+      "title": "Cancellation Steps",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "note",
+          "label": "Note",
+          "type": "text",
+          "contextKey": "note",
+          "required": false,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "cancellation_steps",
+          "label": "Steps",
+          "type": "text",
+          "contextKey": "cancellationSteps",
+          "required": false,
+          "copyable": false,
+          "placeholder": "No steps available",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Go to Account Page",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "accountPageUrl"
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

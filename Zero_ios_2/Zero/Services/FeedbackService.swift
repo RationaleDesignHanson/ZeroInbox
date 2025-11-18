@@ -25,43 +25,32 @@ class FeedbackService {
         originalCategory: String,
         correctedCategory: String
     ) async throws {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         let baseURL = APIConfig.baseURL
         let url = URL(string: "\(baseURL)/api/feedback/classification")!
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        // Add auth token if available
-        if let token = getUserAuthToken() {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        struct ClassificationFeedbackRequest: Codable {
+            let emailId: String
+            let originalCategory: String
+            let correctedCategory: String
+            let userEmail: String
         }
 
-        let body: [String: Any] = [
-            "emailId": emailId,
-            "originalCategory": originalCategory,
-            "correctedCategory": correctedCategory,
-            "userEmail": getUserEmail() ?? "anonymous"
-        ]
-
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        let requestBody = ClassificationFeedbackRequest(
+            emailId: emailId,
+            originalCategory: originalCategory,
+            correctedCategory: correctedCategory,
+            userEmail: getUserEmail() ?? "anonymous"
+        )
 
         Logger.info("📊 Submitting classification feedback: \(originalCategory) → \(correctedCategory)", category: .network)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        try await NetworkService.shared.post(
+            url: url,
+            body: requestBody
+        )
 
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw FeedbackError.invalidResponse
-        }
-
-        guard (200...299).contains(httpResponse.statusCode) else {
-            Logger.error("Classification feedback failed: \(httpResponse.statusCode)", category: .network)
-            throw FeedbackError.serverError(httpResponse.statusCode)
-        }
-
-        if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-            Logger.info("✅ Classification feedback submitted: \(json)", category: .network)
-        }
+        Logger.info("✅ Classification feedback submitted", category: .network)
     }
 
     /// Submit issue report
@@ -71,44 +60,34 @@ class FeedbackService {
         emailSubject: String?,
         issueDescription: String
     ) async throws {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         let baseURL = APIConfig.baseURL
         let url = URL(string: "\(baseURL)/api/feedback/issue")!
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        // Add auth token if available
-        if let token = getUserAuthToken() {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        struct IssueReportRequest: Codable {
+            let emailId: String
+            let emailFrom: String
+            let emailSubject: String
+            let issueDescription: String
+            let userEmail: String
         }
 
-        let body: [String: Any] = [
-            "emailId": emailId ?? "",
-            "emailFrom": emailFrom ?? "",
-            "emailSubject": emailSubject ?? "",
-            "issueDescription": issueDescription,
-            "userEmail": getUserEmail() ?? "anonymous"
-        ]
-
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        let requestBody = IssueReportRequest(
+            emailId: emailId ?? "",
+            emailFrom: emailFrom ?? "",
+            emailSubject: emailSubject ?? "",
+            issueDescription: issueDescription,
+            userEmail: getUserEmail() ?? "anonymous"
+        )
 
         Logger.info("🐛 Submitting issue report", category: .network)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        try await NetworkService.shared.post(
+            url: url,
+            body: requestBody
+        )
 
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw FeedbackError.invalidResponse
-        }
-
-        guard (200...299).contains(httpResponse.statusCode) else {
-            Logger.error("Issue report failed: \(httpResponse.statusCode)", category: .network)
-            throw FeedbackError.serverError(httpResponse.statusCode)
-        }
-
-        if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
-            Logger.info("✅ Issue report submitted: \(json)", category: .network)
-        }
+        Logger.info("✅ Issue report submitted", category: .network)
     }
 
     // MARK: - Helpers
@@ -139,8 +118,8 @@ class FeedbackService {
     }
 
     private func getUserAuthToken() -> String? {
-        // TODO: Implement auth token retrieval
-        return nil
+        // Use centralized auth context (Week 6 Cleanup)
+        return AuthContext.getAuthToken()
     }
 }
 

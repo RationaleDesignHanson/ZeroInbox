@@ -3,6 +3,11 @@ import Intents
 import IntentsUI
 
 /// Service for managing Siri Shortcuts integration
+///
+/// TODO: FUTURE FEATURE - Not yet integrated into the app
+/// This service provides a complete Siri Shortcuts implementation ready for integration.
+/// To enable: Call donation methods from relevant user actions (e.g., donateCheckInboxShortcut() when user opens inbox)
+/// See full implementation below for 10+ ready-to-use shortcuts.
 class SiriShortcutsService {
     static let shared = SiriShortcutsService()
 
@@ -162,7 +167,8 @@ class SiriShortcutsService {
         }
 
         // Dates
-        attributeSet.contentCreationDate = card.timestamp
+        // Note: EmailCard doesn't have timestamp property, using current date as fallback
+        attributeSet.contentCreationDate = Date()
 
         // Create searchable item
         let item = CSSearchableItem(

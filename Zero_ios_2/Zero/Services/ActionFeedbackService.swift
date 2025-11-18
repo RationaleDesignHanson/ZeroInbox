@@ -1,3 +1,4 @@
+#if DEBUG
 import Foundation
 
 /// Service for managing admin feedback on suggested email actions
@@ -27,30 +28,15 @@ class ActionFeedbackService {
     /// Fetches the next email with suggested actions for review
     /// Prioritizes emails with multiple actions or lower confidence
     func fetchNextEmailWithActions() async throws -> ClassifiedEmailWithActions {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let url = URL(string: "\(baseURL)/admin/next-action-review") else {
             throw URLError(.badURL)
         }
 
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
+            Logger.info("Fetching next email for action review", category: .app)
 
-            // Log the response for debugging
-            if let httpResponse = response as? HTTPURLResponse {
-                Logger.info("Fetch action review - Status: \(httpResponse.statusCode)", category: .app)
-
-                // If not 200, log the response body
-                if httpResponse.statusCode != 200 {
-                    if let responseText = String(data: data, encoding: .utf8) {
-                        Logger.error("API Error Response: \(responseText)", category: .app)
-                    }
-                    throw NSError(domain: "ActionFeedbackService", code: httpResponse.statusCode, userInfo: [
-                        NSLocalizedDescriptionKey: "Server returned status \(httpResponse.statusCode). The admin endpoint may not be deployed yet. Try using 'Load Sample' instead."
-                    ])
-                }
-            }
-
-            let decoder = JSONDecoder()
-            let decodedResponse = try decoder.decode(ClassifiedEmailWithActionsResponse.self, from: data)
+            let decodedResponse: ClassifiedEmailWithActionsResponse = try await NetworkService.shared.get(url: url)
 
             return ClassifiedEmailWithActions(
                 id: decodedResponse.id,
@@ -70,11 +56,18 @@ class ActionFeedbackService {
                 },
                 confidence: decodedResponse.confidence
             )
-        } catch let decodingError as DecodingError {
-            // Better error message for decoding issues
-            Logger.error("JSON Decoding Error: \(decodingError)", category: .app)
+        } catch let error as NetworkServiceError {
+            // Handle network service errors with user-friendly messages
+            if let statusCode = error.statusCode {
+                Logger.info("Admin API unavailable (status \(statusCode)), using sample data mode", category: .app)
+                throw NSError(domain: "ActionFeedbackService", code: statusCode, userInfo: [
+                    NSLocalizedDescriptionKey: "Using sample data mode (admin endpoints not deployed in TestFlight)"
+                ])
+            }
+            // For decoding errors
+            Logger.warning("Data format error, falling back to sample data: \(error)", category: .app)
             throw NSError(domain: "ActionFeedbackService", code: -1, userInfo: [
-                NSLocalizedDescriptionKey: "Data format error: The server returned unexpected data. Try using 'Load Sample' instead."
+                NSLocalizedDescriptionKey: "Using sample data mode"
             ])
         } catch {
             throw error
@@ -374,44 +367,50 @@ class ActionFeedbackService {
     /// 2. Build training dataset for action model improvement
     /// 3. Identify missed actions (false negatives)
     func submitFeedback(_ feedback: ActionFeedback) async throws {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let url = URL(string: "\(baseURL)/admin/action-feedback") else {
             throw URLError(.badURL)
         }
 
-        // Convert to API format
-        let payload: [String: Any] = [
-            "emailId": feedback.emailId,
-            "intent": feedback.intent,
-            "originalActions": feedback.originalActions,
-            "correctedActions": feedback.correctedActions as Any,
-            "isCorrect": feedback.isCorrect,
-            "missedActions": feedback.missedActions as Any,
-            "unnecessaryActions": feedback.unnecessaryActions as Any,
-            "confidence": feedback.confidence,
-            "notes": feedback.notes as Any,
-            "timestamp": ISO8601DateFormatter().string(from: feedback.timestamp),
-            "reviewerId": "admin-user"
-        ]
+        struct ActionFeedbackRequest: Codable {
+            let emailId: String
+            let intent: String
+            let originalActions: [String]
+            let correctedActions: [String]?
+            let isCorrect: Bool
+            let missedActions: [String]?
+            let unnecessaryActions: [String]?
+            let confidence: Double
+            let notes: String?
+            let timestamp: String
+            let reviewerId: String
+        }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+        let requestBody = ActionFeedbackRequest(
+            emailId: feedback.emailId,
+            intent: feedback.intent,
+            originalActions: feedback.originalActions,
+            correctedActions: feedback.correctedActions,
+            isCorrect: feedback.isCorrect,
+            missedActions: feedback.missedActions,
+            unnecessaryActions: feedback.unnecessaryActions,
+            confidence: feedback.confidence,
+            notes: feedback.notes,
+            timestamp: ISO8601DateFormatter().string(from: feedback.timestamp),
+            reviewerId: AuthContext.getAdminId()
+        )
 
-        let (_, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
+        do {
+            try await NetworkService.shared.post(url: url, body: requestBody)
+            Logger.info("Action feedback submitted successfully", category: .app)
+        } catch {
             // If backend not ready, log locally for MVP
             Logger.warning("Backend not available, logging action feedback locally for \(feedback.emailId)", category: .app)
             Logger.info("Action Feedback - Intent: \(feedback.intent), Correct: \(feedback.isCorrect)", category: .app)
 
             // Store in UserDefaults until backend is ready
             storeFeedbackLocally(feedback)
-            return
         }
-
-        Logger.info("Action feedback submitted successfully", category: .app)
     }
 
     // MARK: - Local Storage (MVP Fallback)
@@ -558,3 +557,4 @@ struct ActionFeedbackSummary: Codable {
     let topMissedActions: [ActionCountItem]
     let topUnnecessaryActions: [ActionCountItem]
 }
+#endif

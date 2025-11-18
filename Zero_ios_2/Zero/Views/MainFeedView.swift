@@ -29,8 +29,15 @@ struct MainFeedView: View {
 
     var body: some View {
         ZStack {
-            // Firefly background matching website design
-            FireflyBackground()
+            // Dynamic background based on current section
+            if viewModel.currentArchetype == .mail {
+                // Purple firefly background for Mail
+                FireflyBackground()
+            } else {
+                // Green springy background for Ads
+                ScenicBackground(animationPhase: 0.5)
+                    .ignoresSafeArea()
+            }
 
             // Show loading screen while fetching emails OR if we have 0 cards and no error
             // This prevents premature showing of empty state
@@ -109,14 +116,17 @@ struct MainFeedView: View {
             // Bottom Navigation Bar - Liquid Glass Design (pinned to bottom, matching web demo)
             VStack {
                 Spacer()
+                let mailCount = viewModel.cards.filter { $0.type == .mail && $0.state == .unseen }.count
+                let adsCount = viewModel.cards.filter { $0.type == .ads && $0.state == .unseen }.count
+                let _ = Logger.info("📊 Counter Update: Total cards=\(viewModel.cards.count), Mail (unseen)=\(mailCount), Ads (unseen)=\(adsCount)", category: .ui)
                 LiquidGlassBottomNav(
                     viewModel: viewModel,
                     showShoppingCart: $viewState.showShoppingCart,
                     showSettings: $viewState.showSettings,
                     showSearch: $viewState.showSearch,
                     cartItemCount: viewState.cartItemCount,
-                    mailCount: viewModel.cards.filter { $0.type == .mail && $0.state != .dismissed }.count,
-                    adsCount: viewModel.cards.filter { $0.type == .ads && $0.state != .dismissed }.count,
+                    mailCount: mailCount,
+                    adsCount: adsCount,
                     totalInitialCards: viewState.totalInitialCards,
                     onRefresh: {
                         await viewModel.refreshEmails()
@@ -159,10 +169,6 @@ struct MainFeedView: View {
                     viewModel.setCustomAction(for: card.id, action: selectedAction)
                     viewState.actionOptionsCard = nil
                 },
-                isPresented: Binding(
-                    get: { viewState.actionOptionsCard != nil },
-                    set: { if !$0 { viewState.actionOptionsCard = nil } }
-                ),
                 userContext: userContext
             )
             .presentationDetents([.medium, .large])

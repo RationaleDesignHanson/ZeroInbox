@@ -16,27 +16,13 @@ struct SpreadsheetViewerModal: View {
     var body: some View {
         VStack(spacing: 0) {
             // Header
-            HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Spreadsheet Review")
-                            .font(.title3.bold())
-                            .foregroundColor(DesignTokens.Colors.textPrimary)
-                        Text(card.title)
-                            .font(.caption)
-                            .foregroundColor(DesignTokens.Colors.textSecondary)
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        isPresented = false
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(DesignTokens.Colors.textSecondary)
-                            .font(.title2)
-                    }
-                }
-                .padding()
+            ModalHeader(
+                isPresented: $isPresented,
+                title: "Spreadsheet Review",
+                subtitle: card.title,
+                titleFont: .title3.bold(),
+                subtitleFont: .caption
+            )
                 
                 // Spreadsheet content
                 ScrollView {

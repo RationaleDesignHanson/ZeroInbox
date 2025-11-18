@@ -5,6 +5,8 @@ import SwiftUI
 struct AIPreviewView: View {
     let card: EmailCard
 
+    @State private var isExpanded: Bool = false
+
     // Conditional text colors based on card type
     private var headerTextColor: Color {
         card.type == .ads ? DesignTokens.Colors.adsTextSecondary : Color.white.opacity(DesignTokens.Opacity.textTertiary)
@@ -67,15 +69,36 @@ struct AIPreviewView: View {
             .padding(.bottom, 4)
 
             // AI Summary Content - directly inside same container (no separate box)
-            StructuredSummaryView(card: card, lineLimit: nil)
+            // Tap to expand/collapse
+            StructuredSummaryView(card: card, lineLimit: isExpanded ? nil : 3)
+                .onTapGesture {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        isExpanded.toggle()
+                    }
+                    HapticService.shared.lightImpact()
+                }
+
+            // Expansion indicator
+            if !isExpanded {
+                HStack {
+                    Spacer()
+                    Text("Tap to expand")
+                        .font(.caption2)
+                        .foregroundColor(headerTextColor)
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundColor(headerTextColor)
+                }
+            }
         }
         .padding(DesignTokens.Spacing.component)
         .background(
             // Gradient background: purple for mail, green for ads
+            // Ads use higher opacity (0.35/0.25) for better contrast on light card background
             LinearGradient(
                 colors: card.type == .ads ? [
-                    DesignTokens.Colors.adsGradientStart.opacity(DesignTokens.Opacity.overlayLight),
-                    DesignTokens.Colors.adsGradientEnd.opacity(0.15)
+                    DesignTokens.Colors.adsGradientStart.opacity(0.35),
+                    DesignTokens.Colors.adsGradientEnd.opacity(0.25)
                 ] : [
                     Color.purple.opacity(DesignTokens.Opacity.overlayLight),
                     Color.purple.opacity(0.15)

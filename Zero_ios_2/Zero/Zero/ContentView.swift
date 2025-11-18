@@ -185,11 +185,10 @@ struct ContentView: View {
                     Logger.info("🔍 Modal routing: executing=\(actionToExecute.actionId), type=\(actionToExecute.actionType == .goTo ? "GO_TO" : "IN_APP"), userSelected=\(wasUserSelected), count=\(suggestedActions.count)", category: .action)
                 }
         } else {
-            // Legacy card with v1.0 hpa-based routing
-            let destination = ModalRouter.route(card: card, selectedActionId: viewState.selectedActionId)
-            modalRouterView(for: destination)
+            // Legacy card without suggestedActions - use EmailComposer fallback
+            EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
                 .onAppear {
-                    Logger.info("🔀 Using ModalRouter (legacy) for card: \(card.id), hpa: \(card.hpa)", category: .action)
+                    Logger.warning("⚠️ Legacy card without suggestedActions, using EmailComposer fallback: \(card.id), hpa: \(card.hpa)", category: .action)
                 }
         }
     }
@@ -230,7 +229,31 @@ struct ContentView: View {
         return (fallbackAction, false)
     }
 
-    // MARK: - ActionRouter Modal Views (v1.1)
+    // MARK: - ActionRouter Modal Views (v1.1 - JSON-First Architecture)
+
+    /**
+     * Modal Routing Strategy (JSON-First with Legacy Fallbacks)
+     *
+     * Architecture:
+     * 1. **JSON-FIRST**: Loads modal configuration from JSON files via ModalConfigService
+     *    - JSON configs define fields, validation, layout, and actions
+     *    - Rendered by GenericActionModal (universal modal renderer)
+     *    - Supports remote config updates and A/B testing
+     *
+     * 2. **LEGACY FALLBACKS**: For each action type, hardcoded modal implementations
+     *    - Used when JSON config fails to load or doesn't exist
+     *    - 25 specialized modal Swift files in Views/ActionModules/
+     *    - Marked for gradual deprecation in Phase 6
+     *
+     * Routing Flow:
+     * - actionRouterModalView() checks action.actionType
+     * - IN_APP actions → load JSON config → GenericActionModal
+     * - If JSON fails → fall back to hardcoded modal (case statements below)
+     * - GO_TO actions → open URL in Safari with context header
+     *
+     * Note: This dual approach provides safety during JSON system rollout.
+     * Future work (Phase 6): Remove fallback case statements once JSON is battle-tested.
+     */
 
     @ViewBuilder
     private func actionRouterModalView(for action: EmailAction, card: EmailCard) -> some View {
@@ -1204,264 +1227,6 @@ struct ContentView: View {
                         Logger.warning("⚠️ Unmapped IN_APP action: \(action.actionId), falling back to EmailComposer", category: .action)
                     }
             }
-        }
-    }
-
-    // MARK: - ModalRouter Views (Legacy v1.0)
-
-    @ViewBuilder
-    private func modalRouterView(for destination: ModalRouter.ModalDestination) -> some View {
-        switch destination {
-        case .documentViewer(let card):
-            DocumentViewerModal(card: card, isPresented: $viewState.showActionModal)
-            
-        case .spreadsheetViewer(let card):
-            SpreadsheetViewerModal(card: card, isPresented: $viewState.showActionModal)
-            
-        case .scheduleMeeting(let card):
-            ScheduleMeetingModal(card: card, isPresented: $viewState.showActionModal, onComplete: {})
-            
-        case .emailComposer(let card, let recipient, let subject):
-            EmailComposerModal(
-                card: card,
-                isPresented: $viewState.showActionModal,
-                recipientOverride: recipient,
-                subjectOverride: subject
-            )
-            
-        case .signForm(let card, _):
-            SignFormModal(
-                card: card,
-                isPresented: $viewState.showActionModal,
-                onSignComplete: { signatureName in
-                    viewState.signedDocumentName = signatureName
-                    viewState.emailComposerCard = card
-                    Logger.info("Signature saved: \(signatureName)", category: .modal)
-                    
-                    // IMPORTANT: First ensure the sign modal is fully dismissed
-                    // Then wait for animation to complete before showing email composer
-                    viewState.showActionModal = false
-                    
-                    Logger.info("SignFormModal dismissed, scheduling EmailComposer", category: .modal)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                        // Double-check modal is dismissed
-                        if !viewState.showActionModal {
-                            Logger.info("Opening EmailComposer modal for card: \(card.id)", category: .modal)
-                            viewState.showEmailComposer = true
-                        } else {
-                            Logger.warning("SignFormModal still visible, delaying EmailComposer", category: .modal)
-                            // Retry after another delay
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                viewState.showEmailComposer = true
-                            }
-                        }
-                    }
-                }
-            )
-            
-        case .openApp(let card):
-            OpenAppModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .openURL(let url):
-            // Open URL in Safari (legacy - no context available)
-            if let validUrl = URL(string: url) {
-                SafariViewWrapper(url: validUrl, onDismiss: {
-                    viewState.showActionModal = false
-                })
-            } else {
-                // Invalid URL - show error and close modal
-                Text("Invalid URL")
-                    .onAppear {
-                        Logger.error("Invalid URL provided to openURL: \(url)", category: .modal)
-                        viewState.showActionModal = false
-                    }
-            }
-
-        case .addToCalendar(let card):
-            AddToCalendarModal(card: card, isPresented: $viewState.showActionModal)
-            
-        case .scheduledPurchase(let card, let action):
-            ScheduledPurchaseModal(card: card, action: action, isPresented: $viewState.showActionModal)
-
-        case .shoppingPurchase(let card, let selectedAction):
-            ShoppingPurchaseModal(card: card, isPresented: $viewState.showActionModal, selectedAction: selectedAction)
-                .environmentObject(viewModel)
-
-        case .snoozePicker(_):
-            SnoozePickerModal(
-                isPresented: $viewState.showActionModal,
-                selectedDuration: $viewState.snoozeDuration
-            ) {
-                if let card = viewState.actionModalCard {
-                    viewModel.setRememberedSnoozeDuration(viewState.snoozeDuration)
-                    viewModel.handleSwipe(direction: .down, card: card)
-                    viewState.undoActionText = "Filed for \(viewState.snoozeDuration)h"
-                    viewState.showUndoToast = true
-                    viewState.showActionModal = false
-                }
-            }
-            
-        case .saveForLater(let card):
-            SaveForLaterModal(card: card, isPresented: $viewState.showActionModal)
-                .environmentObject(viewModel)
-
-        case .viewAttachments(let card):
-            AttachmentViewerModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .fallback(let card):
-            EmailComposerModal(card: card, isPresented: $viewState.showActionModal)
-
-        // Phase 3A: Newly wired modals
-        case .addReminder(let card):
-            AddReminderModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .addToWallet(let card):
-            AddToWalletModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .browseShopping(let card):
-            BrowseShoppingModal(card: card, context: [:], isPresented: $viewState.showActionModal)
-
-        case .cancelSubscription(let card):
-            CancelSubscriptionModal(card: card, onComplete: { viewState.showActionModal = false })
-
-        case .checkInFlight(let card):
-            CheckInFlightModal(
-                card: card,
-                flightNumber: card.title.components(separatedBy: " ").last ?? "",
-                airline: card.company?.name ?? "Airline",
-                checkInUrl: "",
-                context: [:],
-                isPresented: $viewState.showActionModal
-            )
-
-        case .contactDriver(let card):
-            ContactDriverModal(card: card, driverInfo: [:], isPresented: $viewState.showActionModal)
-
-        case .newsletterSummary(let card):
-            NewsletterSummaryModal(card: card, context: [:], isPresented: $viewState.showActionModal)
-
-        case .payInvoice(let card):
-            PayInvoiceModal(
-                card: card,
-                invoiceId: card.title.components(separatedBy: " ").last ?? "INV-001",
-                amount: card.paymentAmount != nil ? String(format: "$%.2f", card.paymentAmount!) : "$0.00",
-                merchant: card.company?.name ?? "Merchant",
-                context: [:],
-                isPresented: $viewState.showActionModal
-            )
-
-        case .pickupDetails(let card):
-            PickupDetailsModal(
-                card: card,
-                rxNumber: "N/A",
-                pharmacy: "Pharmacy",
-                context: [:],
-                isPresented: $viewState.showActionModal
-            )
-
-        case .quickReply(let card):
-            QuickReplyModal(
-                card: card,
-                recipientEmail: card.sender?.email ?? "",
-                subject: "Re: \(card.title)",
-                context: [:],
-                isPresented: $viewState.showActionModal
-            )
-
-        case .reservation(let card):
-            ReservationModal(card: card, context: [:], isPresented: $viewState.showActionModal)
-
-        case .saveContact(let card):
-            SaveContactModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .sendMessage(let card):
-            SendMessageModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .share(let card):
-            let shareContent = generateShareContentForModal(from: card, context: [:])
-            ShareModal(card: card, content: shareContent, isPresented: $viewState.showActionModal)
-
-        case .snooze(let card):
-            SnoozePickerModal(
-                isPresented: $viewState.showActionModal,
-                selectedDuration: $viewState.snoozeDuration
-            ) {
-                viewModel.setRememberedSnoozeDuration(viewState.snoozeDuration)
-                viewModel.handleSwipe(direction: .down, card: card)
-                viewState.undoActionText = "Snoozed for \(viewState.snoozeDuration)h"
-                viewState.showUndoToast = true
-                viewState.showActionModal = false
-            }
-
-        case .trackPackage(let card):
-            TrackPackageModal(
-                card: card,
-                trackingNumber: "Unknown",
-                carrier: "Carrier",
-                trackingUrl: "",
-                context: [:],
-                isPresented: $viewState.showActionModal
-            )
-
-        case .unsubscribe(let card):
-            UnsubscribeModal(
-                card: card,
-                unsubscribeUrl: "",
-                isPresented: $viewState.showActionModal,
-                onUnsubscribeComplete: {}
-            )
-
-        case .writeReview(let card):
-            WriteReviewModal(
-                card: card,
-                productName: "Product",
-                reviewLink: "",
-                context: [:],
-                isPresented: $viewState.showActionModal
-            )
-
-        // Phase 3B: New high-priority modals
-        case .addToNotes(let card):
-            AddToNotesModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .provideAccessCode(let card):
-            ProvideAccessCodeModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .viewActivity(let card):
-            ViewActivityModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .saveProperties(let card):
-            SavePropertiesModal(card: card, isPresented: $viewState.showActionModal)
-
-        // Phase 3D: MEDIUM priority modals
-        case .scheduleDeliveryTime(let card):
-            ScheduleDeliveryTimeModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .prepareForOutage(let card):
-            PrepareForOutageModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .viewActivityDetails(let card):
-            ViewActivityDetailsModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .readCommunityPost(let card):
-            ReadCommunityPostModal(card: card, isPresented: $viewState.showActionModal)
-
-        // Phase 3E: LOW priority modals
-        case .viewOutageDetails(let card):
-            ViewOutageDetailsModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .viewPostComments(let card):
-            ViewPostCommentsModal(card: card, isPresented: $viewState.showActionModal)
-
-        case .shoppingAutomation(let card, let productUrl, let productName):
-            ShoppingAutomationModal(
-                card: card,
-                productUrl: productUrl,
-                productName: productName,
-                context: [:],
-                isPresented: $viewState.showActionModal
-            )
-            .environmentObject(viewModel)
         }
     }
 

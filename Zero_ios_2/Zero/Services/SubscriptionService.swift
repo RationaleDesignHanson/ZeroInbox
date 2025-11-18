@@ -22,47 +22,41 @@ class SubscriptionService {
 
     /// Detect subscription service from email
     func detectSubscription(from card: EmailCard) async throws -> SubscriptionInfo {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         let baseURL = APIConfig.baseURL
         let url = URL(string: "\(baseURL)/api/subscription/detect")!
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        // Add auth token if available
-        if let token = getUserAuthToken() {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        struct EmailData: Codable {
+            let from: String
+            let subject: String
+            let body: String
         }
 
-        let emailData: [String: Any] = [
-            "from": card.sender?.email ?? "",
-            "subject": card.title,
-            "body": card.summary
-        ]
+        struct DetectRequest: Codable {
+            let email: EmailData
+        }
 
-        let body: [String: Any] = [
-            "email": emailData
-        ]
+        struct DetectResponse: Codable {
+            let detected: Bool
+            let serviceName: String?
+        }
 
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        let requestBody = DetectRequest(
+            email: EmailData(
+                from: card.sender?.email ?? "",
+                subject: card.title,
+                body: card.summary
+            )
+        )
 
         Logger.info("📊 Detecting subscription service", category: .network)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let response: DetectResponse = try await NetworkService.shared.post(
+            url: url,
+            body: requestBody
+        )
 
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw SubscriptionError.invalidResponse
-        }
-
-        guard (200...299).contains(httpResponse.statusCode) else {
-            Logger.error("Subscription detection failed: \(httpResponse.statusCode)", category: .network)
-            throw SubscriptionError.serverError(httpResponse.statusCode)
-        }
-
-        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let detected = json["detected"] as? Bool,
-              detected,
-              let serviceName = json["serviceName"] as? String else {
+        guard response.detected, let serviceName = response.serviceName else {
             throw SubscriptionError.serviceNotDetected
         }
 
@@ -74,44 +68,33 @@ class SubscriptionService {
 
     /// Get subscription cancellation info for a specific service
     func getSubscriptionInfo(for serviceName: String) async throws -> SubscriptionInfo {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         let baseURL = APIConfig.baseURL
         let encodedName = serviceName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? serviceName
         let url = URL(string: "\(baseURL)/api/subscription/info?service=\(encodedName)")!
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-
-        // Add auth token if available
-        if let token = getUserAuthToken() {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        struct InfoResponse: Codable {
+            let serviceName: String
+            let accountPageUrl: String
+            let cancellationUrl: String?
+            let cancellationSteps: [String]
+            let requiresLogin: Bool
+            let aiAssistanceAvailable: Bool
+            let note: String?
         }
 
         Logger.info("📊 Fetching subscription info for: \(serviceName)", category: .network)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let response: InfoResponse = try await NetworkService.shared.get(url: url)
 
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw SubscriptionError.invalidResponse
-        }
-
-        guard (200...299).contains(httpResponse.statusCode) else {
-            Logger.error("Subscription info fetch failed: \(httpResponse.statusCode)", category: .network)
-            throw SubscriptionError.serverError(httpResponse.statusCode)
-        }
-
-        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else {
-            throw SubscriptionError.invalidResponse
-        }
-
-        // Parse response
         let info = SubscriptionInfo(
-            serviceName: json["serviceName"] as? String ?? serviceName,
-            accountPageUrl: json["accountPageUrl"] as? String ?? "",
-            cancellationUrl: json["cancellationUrl"] as? String,
-            cancellationSteps: json["cancellationSteps"] as? [String] ?? [],
-            requiresLogin: json["requiresLogin"] as? Bool ?? true,
-            aiAssistanceAvailable: json["aiAssistanceAvailable"] as? Bool ?? false,
-            note: json["note"] as? String
+            serviceName: response.serviceName,
+            accountPageUrl: response.accountPageUrl,
+            cancellationUrl: response.cancellationUrl,
+            cancellationSteps: response.cancellationSteps,
+            requiresLogin: response.requiresLogin,
+            aiAssistanceAvailable: response.aiAssistanceAvailable,
+            note: response.note
         )
 
         Logger.info("✅ Subscription info retrieved: \(info.serviceName)", category: .network)
@@ -121,60 +104,63 @@ class SubscriptionService {
 
     /// Start AI-guided cancellation (Steel.dev)
     func startGuidedCancellation(for serviceName: String) async throws -> GuidedCancellationResult {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         let baseURL = APIConfig.baseURL
         let url = URL(string: "\(baseURL)/api/subscription/cancel/guided")!
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        // Add auth token if available
-        if let token = getUserAuthToken() {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        struct GuidedCancellationRequest: Codable {
+            let serviceName: String
+            let userSessionId: String
         }
 
-        let body: [String: Any] = [
-            "serviceName": serviceName,
-            "userSessionId": UUID().uuidString
-        ]
+        struct StepData: Codable {
+            let step: Int
+            let action: String
+            let description: String
+            let success: Bool
+        }
 
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        struct GuidedCancellationResponse: Codable {
+            let success: Bool
+            let serviceName: String
+            let steps: [StepData]
+            let nextSteps: [String]
+            let requiresLogin: Bool
+            let note: String?
+        }
+
+        let requestBody = GuidedCancellationRequest(
+            serviceName: serviceName,
+            userSessionId: UUID().uuidString
+        )
 
         Logger.info("🤖 Starting AI-guided cancellation for: \(serviceName)", category: .network)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        let response: GuidedCancellationResponse = try await NetworkService.shared.post(
+            url: url,
+            body: requestBody
+        )
 
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw SubscriptionError.invalidResponse
-        }
-
-        guard (200...299).contains(httpResponse.statusCode) else {
-            Logger.error("AI-guided cancellation failed: \(httpResponse.statusCode)", category: .network)
-            throw SubscriptionError.serverError(httpResponse.statusCode)
-        }
-
-        guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let success = json["success"] as? Bool,
-              success else {
+        guard response.success else {
             throw SubscriptionError.aiGuidanceFailed
         }
 
-        // Parse guidance result
-        let steps = (json["steps"] as? [[String: Any]])?.compactMap { stepData in
+        // Convert response steps to CancellationStep
+        let steps = response.steps.map { stepData in
             CancellationStep(
-                stepNumber: stepData["step"] as? Int ?? 0,
-                action: stepData["action"] as? String ?? "",
-                description: stepData["description"] as? String ?? "",
-                success: stepData["success"] as? Bool ?? false
+                stepNumber: stepData.step,
+                action: stepData.action,
+                description: stepData.description,
+                success: stepData.success
             )
-        } ?? []
+        }
 
         let result = GuidedCancellationResult(
-            serviceName: json["serviceName"] as? String ?? serviceName,
+            serviceName: response.serviceName,
             steps: steps,
-            nextSteps: json["nextSteps"] as? [String] ?? [],
-            requiresLogin: json["requiresLogin"] as? Bool ?? true,
-            note: json["note"] as? String
+            nextSteps: response.nextSteps,
+            requiresLogin: response.requiresLogin,
+            note: response.note
         )
 
         Logger.info("✅ AI guidance started: \(result.serviceName)", category: .network)
@@ -185,8 +171,8 @@ class SubscriptionService {
     // MARK: - Helpers
 
     private func getUserAuthToken() -> String? {
-        // TODO: Implement auth token retrieval
-        return nil
+        // Use centralized auth context (Week 6 Cleanup)
+        return AuthContext.getAuthToken()
     }
 }
 

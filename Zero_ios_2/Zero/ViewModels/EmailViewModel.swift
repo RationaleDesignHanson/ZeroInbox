@@ -37,7 +37,7 @@ class EmailViewModel: ObservableObject {
             return emailData
         }
 
-        return "user-123" // Fallback to default
+        return AuthContext.getUserId() // Fallback to default
     }
 
     // MARK: - Initialization

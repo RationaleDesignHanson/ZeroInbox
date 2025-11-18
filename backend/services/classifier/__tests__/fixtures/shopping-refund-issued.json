@@ -1,0 +1,50 @@
+{
+  "id": "shopping-refund-001",
+  "subject": "Refund Issued for Order #4029284756",
+  "from": {
+    "name": "Target",
+    "email": "orders@target.com"
+  },
+  "to": "user@example.com",
+  "date": "2025-01-16T10:15:00Z",
+  "headers": {
+    "Message-ID": "<refund-4029284756@target.com>",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "body": {
+    "text": "Hi John,\n\nWe've issued your refund.\n\nOrder #4029284756\nReturn processed: January 16, 2025\n\nRefunded Item:\n\nTide PODS Laundry Detergent - 81 Count\nQuantity: 1\nRefund amount: $19.99\n\nReason: Damaged item\n\nRefund Details:\nAmount: $19.99\nMethod: Original payment (Visa ending in 8214)\nProcessing time: 3-5 business days\n\nThe refund will appear on your statement within 3-5 business days.\n\nReturn Summary:\nOrder total: $79.35\nRefunded: $19.99\nRemaining items: Still with you\n\nQuestions about your refund?\nCall: 1-800-591-3869\nChat: target.com/help\n\nVisit your orders:\nhttps://www.target.com/orders/4029284756/details\n\nThank you for shopping at Target!",
+    "html": "<html><body style='font-family: \"Helvetica Neue\", Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #f4f4f4;'><div style='background: white; margin: 20px 0;'><div style='background: #CC0000; padding: 25px; text-align: center;'><svg width='80' height='80' viewBox='0 0 80 80'><circle cx='40' cy='40' r='35' fill='white'/><circle cx='40' cy='40' r='20' fill='#CC0000'/></svg></div><div style='padding: 35px;'><h2 style='color: #333; font-size: 22px; font-weight: 400; margin: 0 0 10px 0;'>Hi John,</h2><div style='background: #E7F5E7; border-left: 5px solid #00A300; padding: 20px; margin: 25px 0;'><p style='margin: 0; color: #006B00; font-size: 16px; font-weight: 600;'>✓ We've issued your refund</p></div><div style='background: #f9f9f9; border-radius: 8px; padding: 20px; margin: 25px 0;'><table style='width: 100%;'><tr><td style='color: #767676; font-size: 13px; padding: 5px 0;'>Order Number</td><td style='color: #333; font-size: 13px; font-weight: bold; text-align: right; padding: 5px 0;'>#4029284756</td></tr><tr><td style='color: #767676; font-size: 13px; padding: 5px 0;'>Return processed</td><td style='color: #333; font-size: 13px; text-align: right; padding: 5px 0;'>January 16, 2025</td></tr></table></div><h3 style='color: #333; font-size: 16px; margin: 30px 0 15px 0; font-weight: 600;'>Refunded Item</h3><div style='border: 1px solid #e0e0e0; border-radius: 8px; padding: 18px; margin-bottom: 15px;'><div style='display: flex; justify-content: space-between; align-items: start;'><div style='flex: 1;'><p style='color: #333; font-size: 15px; margin: 0 0 8px 0; font-weight: 500;'>Tide PODS Laundry Detergent - 81 Count</p><p style='color: #767676; font-size: 13px; margin: 4px 0;'>Quantity: 1</p><p style='color: #767676; font-size: 13px; margin: 4px 0;'>Refund amount: <strong style='color: #00A300;'>$19.99</strong></p></div></div><div style='margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0;'><p style='margin: 0; color: #767676; font-size: 13px;'><strong>Reason:</strong> Damaged item</p></div></div><h3 style='color: #333; font-size: 16px; margin: 30px 0 15px 0; font-weight: 600;'>Refund Details</h3><div style='background: #f0f7ff; border-left: 4px solid #0066CC; padding: 20px; margin: 25px 0;'><table style='width: 100%;'><tr><td style='color: #333; font-size: 14px; padding: 8px 0; font-weight: 600;'>Amount</td><td style='color: #00A300; font-size: 16px; text-align: right; padding: 8px 0; font-weight: 600;'>$19.99</td></tr><tr><td style='color: #767676; font-size: 13px; padding: 8px 0;'>Method</td><td style='color: #767676; font-size: 13px; text-align: right; padding: 8px 0;'>Original payment<br><span style='font-size: 12px;'>(Visa ending in 8214)</span></td></tr><tr><td style='color: #767676; font-size: 13px; padding: 8px 0;'>Processing time</td><td style='color: #767676; font-size: 13px; text-align: right; padding: 8px 0;'>3-5 business days</td></tr></table></div><div style='background: #fff9e6; border: 1px solid #FFC220; padding: 15px; margin: 25px 0; border-radius: 5px;'><p style='margin: 0; color: #856404; font-size: 13px;'>The refund will appear on your statement within <strong>3-5 business days</strong>.</p></div><div style='border-top: 1px solid #e0e0e0; padding-top: 25px; margin-top: 30px;'><h4 style='color: #333; font-size: 15px; margin: 0 0 15px 0; font-weight: 600;'>Return Summary</h4><table style='width: 100%;'><tr><td style='color: #767676; font-size: 14px; padding: 8px 0;'>Order total:</td><td style='color: #333; font-size: 14px; text-align: right; padding: 8px 0;'>$79.35</td></tr><tr><td style='color: #767676; font-size: 14px; padding: 8px 0;'>Refunded:</td><td style='color: #00A300; font-size: 14px; font-weight: 600; text-align: right; padding: 8px 0;'>-$19.99</td></tr><tr><td style='color: #767676; font-size: 14px; padding: 8px 0;'>Remaining items:</td><td style='color: #333; font-size: 14px; text-align: right; padding: 8px 0;'>Still with you</td></tr></table></div><div style='border-top: 1px solid #e0e0e0; padding-top: 25px; margin-top: 30px;'><h4 style='color: #333; font-size: 15px; margin: 0 0 15px 0; font-weight: 600;'>Questions about your refund?</h4><p style='color: #767676; font-size: 14px; margin: 8px 0;'><strong>Call:</strong> 1-800-591-3869</p><p style='color: #767676; font-size: 14px; margin: 8px 0;'><strong>Chat:</strong> <a href='https://www.target.com/help' style='color: #CC0000; text-decoration: none;'>target.com/help</a></p></div><div style='text-align: center; margin: 35px 0;'><a href='https://www.target.com/orders/4029284756/details' style='display: inline-block; background: #CC0000; color: white; padding: 14px 32px; text-decoration: none; border-radius: 24px; font-weight: 600; font-size: 15px;'>Visit your orders</a></div><p style='color: #333; font-size: 15px; text-align: center; margin: 30px 0 0 0;'>Thank you for shopping at Target!</p></div><div style='background: #f4f4f4; padding: 20px; text-align: center;'><p style='margin: 0; color: #767676; font-size: 11px;'>© 2025 Target Brands, Inc.</p></div></div></body></html>"
+  },
+  "classification": {
+    "type": "receipt",
+    "category": "shopping",
+    "intent": "refund_notification",
+    "merchant": "Target",
+    "shouldNeverUnsubscribe": true,
+    "reason": "Refund notification is transactional"
+  },
+  "entities": {
+    "orderNumber": "4029284756",
+    "returnDate": "2025-01-16",
+    "merchant": "Target",
+    "refundAmount": 19.99,
+    "currency": "USD",
+    "items": [
+      {
+        "name": "Tide PODS Laundry Detergent - 81 Count",
+        "quantity": 1,
+        "price": 19.99
+      }
+    ],
+    "refundReason": "Damaged item",
+    "status": "refunded"
+  },
+  "testExpectations": {
+    "shouldDetectAsReceipt": true,
+    "shouldDetectAsNewsletter": false,
+    "shouldBeUnsubscribable": false,
+    "shouldExtractOrderNumber": true,
+    "shouldExtractRefundAmount": true,
+    "expectedStatus": "refunded"
+  }
+}

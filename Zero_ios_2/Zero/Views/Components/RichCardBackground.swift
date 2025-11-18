@@ -141,29 +141,29 @@ struct NebulaBackground: View {
 
 // MARK: - Scenic Background (ADS)
 
-/// Lighter liquid glass galaxy aesthetic for shopping/promotional content
-/// Differentiates from Mail's darker nebula with brighter, airier cosmic tones
+/// Natural scenic background with forest/mountain aesthetic for shopping/promotional content
+/// Uses earthy greens, browns, and warm tones to differentiate from Mail's cosmic nebula
 struct ScenicBackground: View {
     let animationPhase: CGFloat
 
     var body: some View {
         ZStack {
-            // Lighter base (soft cosmic gradient)
+            // Forest base gradient (deep greens to lighter moss)
             LinearGradient(
                 colors: [
-                    Color(red: 0.25, green: 0.35, blue: 0.50), // Brighter cosmic blue
-                    Color(red: 0.30, green: 0.40, blue: 0.55), // Lighter blue-purple
-                    Color(red: 0.35, green: 0.45, blue: 0.60)  // Airy periwinkle
+                    Color(red: 0.15, green: 0.25, blue: 0.20), // Deep forest green
+                    Color(red: 0.20, green: 0.30, blue: 0.25), // Rich moss
+                    Color(red: 0.25, green: 0.35, blue: 0.28)  // Lighter sage
                 ],
                 startPoint: .top,
                 endPoint: .bottom
             )
 
-            // Liquid glass clouds - lighter, more ethereal
+            // Mountain mist layers - soft atmospheric depth
             RadialGradient(
                 colors: [
-                    Color(red: 0.50, green: 0.60, blue: 0.80, opacity: 0.5), // Soft sky blue
-                    Color(red: 0.40, green: 0.50, blue: 0.70, opacity: 0.3), // Light periwinkle
+                    Color(red: 0.35, green: 0.45, blue: 0.40, opacity: 0.5), // Soft sage mist
+                    Color(red: 0.25, green: 0.35, blue: 0.30, opacity: 0.3), // Forest fog
                     Color.clear
                 ],
                 center: .init(x: 0.3, y: 0.5),
@@ -175,8 +175,8 @@ struct ScenicBackground: View {
 
             RadialGradient(
                 colors: [
-                    Color(red: 0.45, green: 0.55, blue: 0.75, opacity: 0.4), // Airy blue
-                    Color(red: 0.50, green: 0.45, blue: 0.70, opacity: 0.25), // Light lavender
+                    Color(red: 0.40, green: 0.50, blue: 0.42, opacity: 0.4), // Light moss
+                    Color(red: 0.30, green: 0.40, blue: 0.32, opacity: 0.25), // Pine shadow
                     Color.clear
                 ],
                 center: .init(x: 0.7, y: 0.4),
@@ -187,11 +187,11 @@ struct ScenicBackground: View {
             .blur(radius: 40)
             .offset(x: animationPhase * -10, y: animationPhase * 15)
 
-            // Bright accent glow (liquid glass shimmer)
+            // Warm accent glow (golden hour light through trees)
             RadialGradient(
                 colors: [
-                    Color(red: 0.60, green: 0.70, blue: 0.90, opacity: 0.35), // Bright sky blue
-                    Color(red: 0.55, green: 0.65, blue: 0.85, opacity: 0.2), // Soft cyan
+                    Color(red: 0.50, green: 0.60, blue: 0.45, opacity: 0.35), // Bright sage
+                    Color(red: 0.45, green: 0.55, blue: 0.42, opacity: 0.2), // Soft eucalyptus
                     Color.clear
                 ],
                 center: .init(x: 0.8, y: 0.2),
@@ -202,12 +202,12 @@ struct ScenicBackground: View {
             .blur(radius: 35)
             .blendMode(.screen)
 
-            // Subtle depth layer (lighter cosmic mist)
+            // Depth layer (atmospheric perspective)
             LinearGradient(
                 colors: [
                     Color.clear,
-                    Color(red: 0.35, green: 0.45, blue: 0.60, opacity: 0.3), // Light cosmic blue
-                    Color(red: 0.30, green: 0.40, blue: 0.55, opacity: 0.4)  // Soft depth
+                    Color(red: 0.22, green: 0.32, blue: 0.26, opacity: 0.3), // Mountain shadow
+                    Color(red: 0.18, green: 0.28, blue: 0.22, opacity: 0.4)  // Deep valley
                 ],
                 startPoint: .top,
                 endPoint: .bottom

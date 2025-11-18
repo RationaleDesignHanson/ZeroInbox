@@ -23,24 +23,11 @@ class EmailAPIService: EmailServiceProtocol {
 
     /// Demo login with password (123456)
     func authenticateDemo(password: String) async throws -> String {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         let url = URL(string: "\(baseURL)/auth/demo")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let body = ["password": password]
-        request.httpBody = try JSONEncoder().encode(body)
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw APIError.requestFailed
-        }
-
-        if httpResponse.statusCode == 401 {
-            throw APIError.invalidPassword
-        } else if httpResponse.statusCode != 200 {
-            throw APIError.requestFailed
+        struct DemoAuthRequest: Codable {
+            let password: String
         }
 
         struct DemoAuthResponse: Codable {
@@ -51,26 +38,38 @@ class EmailAPIService: EmailServiceProtocol {
             let message: String?
         }
 
-        let authResponse = try JSONDecoder().decode(DemoAuthResponse.self, from: data)
+        let requestBody = DemoAuthRequest(password: password)
 
-        // Store token
-        self.authToken = authResponse.token
-        try storeTokenInKeychain(token: authResponse.token, email: authResponse.email)
+        do {
+            let authResponse: DemoAuthResponse = try await NetworkService.shared.post(
+                url: url,
+                body: requestBody
+            )
 
-        return authResponse.email
+            // Store token
+            self.authToken = authResponse.token
+            try storeTokenInKeychain(token: authResponse.token, email: authResponse.email)
+
+            return authResponse.email
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode, statusCode == 401 {
+                throw APIError.invalidPassword
+            }
+            throw APIError.requestFailed
+        }
     }
 
     /// Initiate Gmail OAuth flow
     func authenticateGmail(presentationAnchor: ASPresentationAnchor) async throws -> String {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         // Step 1: Get auth URL from backend
         let url = URL(string: "\(baseURL)/auth/gmail")!
-        let (data, _) = try await URLSession.shared.data(from: url)
 
         struct AuthResponse: Codable {
             let authUrl: String
         }
 
-        let response = try JSONDecoder().decode(AuthResponse.self, from: data)
+        let response: AuthResponse = try await NetworkService.shared.get(url: url)
 
         // Step 2: Open OAuth flow and wait for custom scheme callback
         // The backend will redirect to: com.googleusercontent.apps.514014482017-gpsj2233l3dl312j6ek96cglv0agovuq:/oauth?token=...&email=...
@@ -119,15 +118,15 @@ class EmailAPIService: EmailServiceProtocol {
     /// Authenticate with Microsoft/Outlook
     /// Returns the authenticated email address
     func authenticateMicrosoft(presentationAnchor: ASPresentationAnchor) async throws -> String {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         // Step 1: Get auth URL from backend
         let url = URL(string: "\(baseURL)/auth/microsoft")!
-        let (data, _) = try await URLSession.shared.data(from: url)
 
         struct AuthResponse: Codable {
             let authUrl: String
         }
 
-        let response = try JSONDecoder().decode(AuthResponse.self, from: data)
+        let response: AuthResponse = try await NetworkService.shared.get(url: url)
 
         // Step 2: Open OAuth flow and wait for custom scheme callback
         // The backend will redirect to: com.zeromail:/oauth?token=...&email=...&provider=outlook
@@ -215,55 +214,15 @@ class EmailAPIService: EmailServiceProtocol {
 
         Logger.info("Token found: \(token.prefix(20))..., building request to: \(baseURL)/emails", category: .email)
 
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         // Build URL with time range filtering
         let urlString = "\(baseURL)/emails?maxResults=\(maxResults)&after=\(timeRange.afterDate)"
-        var request = URLRequest(url: URL(string: urlString)!)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        guard let url = URL(string: urlString) else {
+            Logger.error("Invalid URL", category: .email)
+            throw APIError.requestFailed
+        }
 
         Logger.info("Sending request...", category: .email)
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            Logger.error("Invalid HTTP response", category: .email)
-            throw APIError.requestFailed
-        }
-
-        Logger.info("Response status: \(httpResponse.statusCode), received \(data.count) bytes", category: .email)
-
-        // Handle 401 Unauthorized - token is expired or invalid
-        if httpResponse.statusCode == 401 {
-            Logger.error("❌ 401 Unauthorized - JWT token is invalid or expired", category: .authentication)
-
-            // Parse backend error response to extract re-auth message
-            struct AuthErrorResponse: Codable {
-                let error: String
-                let needsReauth: Bool?
-                let message: String?
-            }
-
-            // Try to get custom message from backend, fallback to generic
-            var errorMessage = "Your session has expired. Please sign in again to continue."
-            if let errorResponse = try? JSONDecoder().decode(AuthErrorResponse.self, from: data),
-               let customMessage = errorResponse.message {
-                errorMessage = customMessage
-            }
-
-            Logger.error(errorMessage, category: .authentication)
-
-            // Clear stale auth data
-            clearAuthentication()
-
-            // Throw error with helpful message (will be shown in UI via APIError.notAuthenticated)
-            throw APIError.notAuthenticated
-        }
-
-        guard httpResponse.statusCode == 200 else {
-            Logger.error("Request failed with status \(httpResponse.statusCode)", category: .email)
-            if let responseStr = String(data: data, encoding: .utf8) {
-                Logger.error("Response body: \(responseStr)", category: .email)
-            }
-            throw APIError.requestFailed
-        }
 
         struct EmailsResponse: Codable {
             let emails: [EmailCard]
@@ -271,156 +230,147 @@ class EmailAPIService: EmailServiceProtocol {
             let provider: String
         }
 
-        // Enhanced error logging for JSON decoding
         do {
-            let emailsResponse = try JSONDecoder().decode(EmailsResponse.self, from: data)
+            let emailsResponse: EmailsResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .get,
+                headers: ["Authorization": "Bearer \(token)"],
+                body: Optional<String>.none
+            )
+
             Logger.info("Successfully decoded \(emailsResponse.emails.count) emails", category: .email)
             return emailsResponse.emails
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.info("Response status: \(statusCode)", category: .email)
+
+                if statusCode == 401 {
+                    Logger.error("❌ 401 Unauthorized - JWT token is invalid or expired", category: .authentication)
+                    Logger.error("Your session has expired. Please sign in again to continue.", category: .authentication)
+
+                    // Clear stale auth data
+                    clearAuthentication()
+
+                    // Throw error with helpful message (will be shown in UI via APIError.notAuthenticated)
+                    throw APIError.notAuthenticated
+                }
+
+                Logger.error("Request failed with status \(statusCode)", category: .email)
+            }
+            throw APIError.requestFailed
         } catch let DecodingError.keyNotFound(key, context) {
             Logger.error("❌ JSON Decoding Error: Missing key '\(key.stringValue)'", category: .email)
             Logger.error("Context: \(context.debugDescription)", category: .email)
             Logger.error("Coding path: \(context.codingPath.map { $0.stringValue }.joined(separator: " -> "))", category: .email)
-
-            if let jsonString = String(data: data, encoding: .utf8) {
-                Logger.error("Raw JSON (first 500 chars): \(jsonString.prefix(500))", category: .email)
-            }
             throw APIError.requestFailed
         } catch let DecodingError.typeMismatch(type, context) {
             Logger.error("❌ JSON Decoding Error: Type mismatch for type '\(type)'", category: .email)
             Logger.error("Context: \(context.debugDescription)", category: .email)
             Logger.error("Coding path: \(context.codingPath.map { $0.stringValue }.joined(separator: " -> "))", category: .email)
-
-            if let jsonString = String(data: data, encoding: .utf8) {
-                Logger.error("Raw JSON (first 500 chars): \(jsonString.prefix(500))", category: .email)
-            }
             throw APIError.requestFailed
         } catch let DecodingError.valueNotFound(type, context) {
             Logger.error("❌ JSON Decoding Error: Value not found for type '\(type)'", category: .email)
             Logger.error("Context: \(context.debugDescription)", category: .email)
             Logger.error("Coding path: \(context.codingPath.map { $0.stringValue }.joined(separator: " -> "))", category: .email)
-
-            if let jsonString = String(data: data, encoding: .utf8) {
-                Logger.error("Raw JSON (first 500 chars): \(jsonString.prefix(500))", category: .email)
-            }
             throw APIError.requestFailed
         } catch let DecodingError.dataCorrupted(context) {
             Logger.error("❌ JSON Decoding Error: Data corrupted", category: .email)
             Logger.error("Context: \(context.debugDescription)", category: .email)
             Logger.error("Coding path: \(context.codingPath.map { $0.stringValue }.joined(separator: " -> "))", category: .email)
-            Logger.error("Data size: \(data.count) bytes", category: .email)
-
-            // Try to decode with lossy UTF-8 to see if there are encoding issues
-            if let jsonString = String(data: data, encoding: .utf8) {
-                Logger.error("✅ UTF-8 decode succeeded: \(jsonString.count) characters", category: .email)
-                Logger.error("Raw JSON (first 500 chars): \(jsonString.prefix(500))", category: .email)
-                Logger.error("Raw JSON (last 100 chars): \(jsonString.suffix(100))", category: .email)
-
-                // Save response to file for debugging
-                do {
-                    let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-                    let debugFile = docs.appendingPathComponent("failed_response.json")
-                    try data.write(to: debugFile)
-                    Logger.error("💾 Saved failed response to: \(debugFile.path)", category: .email)
-                } catch {
-                    Logger.error("Failed to save debug file: \(error.localizedDescription)", category: .email)
-                }
-
-                // Try to parse manually to find where it fails
-                do {
-                    _ = try JSONSerialization.jsonObject(with: data, options: [])
-                    Logger.error("❌ WEIRD: JSONSerialization succeeded but JSONDecoder failed!", category: .email)
-                } catch {
-                    Logger.error("❌ JSONSerialization also failed: \(error.localizedDescription)", category: .email)
-                }
-            } else {
-                Logger.error("❌ Failed to convert data to UTF-8 string - ENCODING ISSUE", category: .email)
-            }
             throw APIError.requestFailed
         } catch {
             Logger.error("❌ Unknown JSON Decoding Error: \(error.localizedDescription)", category: .email)
-
-            if let jsonString = String(data: data, encoding: .utf8) {
-                Logger.error("Raw JSON (first 500 chars): \(jsonString.prefix(500))", category: .email)
-            }
             throw error
         }
     }
 
     /// Fetch single email
     func fetchEmail(id: String) async throws -> EmailCard {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let token = authToken ?? loadTokenFromKeychain() else {
             throw APIError.notAuthenticated
         }
 
-        var request = URLRequest(url: URL(string: "\(baseURL)/emails/\(id)")!)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        guard let url = URL(string: "\(baseURL)/emails/\(id)") else {
+            throw APIError.requestFailed
+        }
 
-        let (data, _) = try await URLSession.shared.data(for: request)
-        return try JSONDecoder().decode(EmailCard.self, from: data)
+        return try await NetworkService.shared.request(
+            url: url,
+            method: .get,
+            headers: ["Authorization": "Bearer \(token)"],
+            body: Optional<String>.none
+        )
     }
 
     /// Fetch thread for a specific email (on-demand)
     func fetchThread(emailId: String) async throws -> ThreadData {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let token = authToken ?? loadTokenFromKeychain() else {
             throw APIError.notAuthenticated
         }
 
         Logger.info("Fetching thread for email: \(emailId)", category: .email)
 
-        let url = URL(string: "\(baseURL)/emails/\(emailId)/thread")!
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        guard let url = URL(string: "\(baseURL)/emails/\(emailId)/thread") else {
+            throw APIError.requestFailed
+        }
 
         Logger.info("Thread request URL: \(url.absoluteString)", category: .email)
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+        do {
+            let threadData: ThreadData = try await NetworkService.shared.request(
+                url: url,
+                method: .get,
+                headers: ["Authorization": "Bearer \(token)"],
+                body: Optional<String>.none
+            )
 
-        guard let httpResponse = response as? HTTPURLResponse else {
-            Logger.error("Invalid HTTP response for thread", category: .email)
-            throw APIError.requestFailed
-        }
-
-        Logger.info("Thread response status: \(httpResponse.statusCode)", category: .email)
-
-        guard httpResponse.statusCode == 200 else {
-            if let responseText = String(data: data, encoding: .utf8) {
-                Logger.error("Thread fetch failed (\(httpResponse.statusCode)): \(responseText)", category: .email)
-            } else {
-                Logger.error("Thread fetch failed with status \(httpResponse.statusCode)", category: .email)
+            Logger.info("Thread fetched successfully: \(threadData.messageCount) messages", category: .email)
+            return threadData
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.error("Thread fetch failed with status \(statusCode)", category: .email)
             }
             throw APIError.requestFailed
         }
-
-        let threadData = try JSONDecoder().decode(ThreadData.self, from: data)
-        Logger.info("Thread fetched successfully: \(threadData.messageCount) messages", category: .email)
-
-        return threadData
     }
 
     /// Perform action on email (archive, delete, mark as read)
     func performAction(emailId: String, action: EmailBasicAction) async throws {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let token = authToken ?? loadTokenFromKeychain() else {
             throw APIError.notAuthenticated
         }
 
-        var request = URLRequest(url: URL(string: "\(baseURL)/emails/\(emailId)/action")!)
-        request.httpMethod = "POST"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        guard let url = URL(string: "\(baseURL)/emails/\(emailId)/action") else {
+            throw APIError.requestFailed
+        }
 
-        let body = ["action": action.rawValue]
-        request.httpBody = try JSONEncoder().encode(body)
+        struct PerformActionRequest: Codable {
+            let action: String
+        }
 
-        let (_, response) = try await URLSession.shared.data(for: request)
+        let requestBody = PerformActionRequest(action: action.rawValue)
 
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
+        do {
+            let _: EmptyResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                headers: ["Authorization": "Bearer \(token)"],
+                body: requestBody
+            )
+        } catch {
             throw APIError.actionFailed
         }
     }
 
+    // Helper type for endpoints that return no content
+    private struct EmptyResponse: Codable {}
+
     /// Search emails
     func searchEmails(query: String, sender: String? = nil, limit: Int = 50) async throws -> [SearchResult] {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let token = authToken ?? loadTokenFromKeychain() else {
             throw APIError.notAuthenticated
         }
@@ -437,39 +387,30 @@ class EmailAPIService: EmailServiceProtocol {
             throw APIError.requestFailed
         }
 
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
-            throw APIError.requestFailed
-        }
-
         struct SearchResponse: Codable {
             let results: [SearchResult]
             let totalCount: Int
             let hasMore: Bool
         }
 
-        let searchResponse = try JSONDecoder().decode(SearchResponse.self, from: data)
+        let searchResponse: SearchResponse = try await NetworkService.shared.request(
+            url: url,
+            method: .get,
+            headers: ["Authorization": "Bearer \(token)"],
+            body: Optional<String>.none
+        )
+
         return searchResponse.results
     }
 
     /// Fetch smart reply suggestions for an email
     func fetchSmartReplies(emailId: String) async throws -> [String] {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let token = authToken ?? loadTokenFromKeychain() else {
             throw APIError.notAuthenticated
         }
 
-        var request = URLRequest(url: URL(string: "\(baseURL)/emails/\(emailId)/smart-replies")!)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
+        guard let url = URL(string: "\(baseURL)/emails/\(emailId)/smart-replies") else {
             throw APIError.requestFailed
         }
 
@@ -477,7 +418,13 @@ class EmailAPIService: EmailServiceProtocol {
             let replies: [String]
         }
 
-        let repliesResponse = try JSONDecoder().decode(SmartRepliesResponse.self, from: data)
+        let repliesResponse: SmartRepliesResponse = try await NetworkService.shared.request(
+            url: url,
+            method: .get,
+            headers: ["Authorization": "Bearer \(token)"],
+            body: Optional<String>.none
+        )
+
         return repliesResponse.replies
     }
 
@@ -489,60 +436,50 @@ class EmailAPIService: EmailServiceProtocol {
         originalReply: String,
         finalReply: String?
     ) async throws {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let token = authToken ?? loadTokenFromKeychain() else {
             throw APIError.notAuthenticated
         }
 
-        var request = URLRequest(url: URL(string: "\(baseURL)/emails/\(emailId)/smart-replies/feedback")!)
-        request.httpMethod = "POST"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let body: [String: Any] = [
-            "replyIndex": replyIndex,
-            "action": action,
-            "originalReply": originalReply,
-            "finalReply": finalReply ?? originalReply
-        ]
-
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
-
-        let (_, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
+        guard let url = URL(string: "\(baseURL)/emails/\(emailId)/smart-replies/feedback") else {
             throw APIError.requestFailed
         }
+
+        struct SmartReplyFeedbackRequest: Codable {
+            let replyIndex: Int
+            let action: String
+            let originalReply: String
+            let finalReply: String
+        }
+
+        let requestBody = SmartReplyFeedbackRequest(
+            replyIndex: replyIndex,
+            action: action,
+            originalReply: originalReply,
+            finalReply: finalReply ?? originalReply
+        )
+
+        let _: EmptyResponse = try await NetworkService.shared.request(
+            url: url,
+            method: .post,
+            headers: ["Authorization": "Bearer \(token)"],
+            body: requestBody
+        )
     }
 
     /// Generate AI reply for email
     func generateReply(emailId: String) async throws -> String {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let token = authToken ?? loadTokenFromKeychain() else {
             throw APIError.notAuthenticated
         }
 
-        var request = URLRequest(url: URL(string: "\(baseURL)/emails/\(emailId)/reply")!)
-        request.httpMethod = "POST"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        let body = ["useAI": true]
-        request.httpBody = try JSONEncoder().encode(body)
-
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
+        guard let url = URL(string: "\(baseURL)/emails/\(emailId)/reply") else {
             throw APIError.requestFailed
         }
 
-        // Log response for debugging
-        if let responseStr = String(data: data, encoding: .utf8) {
-            Logger.info("Send reply response: \(responseStr)", category: .email)
-        }
-
-        guard httpResponse.statusCode == 200 else {
-            Logger.error("Failed to send reply, status: \(httpResponse.statusCode)", category: .email)
-            throw APIError.requestFailed
+        struct GenerateReplyRequest: Codable {
+            let useAI: Bool
         }
 
         struct ReplyResponse: Codable {
@@ -551,13 +488,28 @@ class EmailAPIService: EmailServiceProtocol {
             let message: String?
         }
 
-        let decodedResponse = try JSONDecoder().decode(ReplyResponse.self, from: data)
-        return decodedResponse.reply ?? decodedResponse.message ?? "Reply sent successfully"
+        let requestBody = GenerateReplyRequest(useAI: true)
+
+        do {
+            let decodedResponse: ReplyResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                headers: ["Authorization": "Bearer \(token)"],
+                body: requestBody
+            )
+
+            return decodedResponse.reply ?? decodedResponse.message ?? "Reply sent successfully"
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.error("Failed to send reply, status: \(statusCode)", category: .email)
+            }
+            throw APIError.requestFailed
+        }
     }
 
     // MARK: - Keychain Management
 
-    private func storeTokenInKeychain(token: String, email: String) throws {
+    func storeTokenInKeychain(token: String, email: String) throws {
         Logger.info("Storing token for email: \(email)", category: .authentication)
         let data = token.data(using: .utf8)!
 

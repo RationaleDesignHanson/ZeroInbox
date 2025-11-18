@@ -159,7 +159,7 @@ TASK: Extract key highlights and important links with proper formatting.
 
 Provide a JSON response with this EXACT format:
 {
-  "summary": "2-3 sentence summary of the newsletter's main topics and why it matters",
+  "summary": "4-6 sentence detailed summary covering: (1) main topics, (2) key insights/findings, (3) why it matters, and (4) notable quotes or data points",
   "keyLinks": [
     {
       "title": "Clear, descriptive title of the article/link",
@@ -171,7 +171,7 @@ Provide a JSON response with this EXACT format:
 }
 
 Guidelines:
-- Summary: Focus on value and actionable insights, not structure
+- Summary: Write 4-6 comprehensive sentences that capture the newsletter's value. Include specific details, insights, and actionable takeaways
 - Extract 3-5 most important links only (prioritize articles, not social media or unsubscribe)
 - Each link needs clear title, full URL, and brief description
 - Topics: 2-4 main themes covered

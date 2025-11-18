@@ -1,0 +1,84 @@
+{
+  "id": "add_to_calendar",
+  "title": "Add to Calendar",
+  "subtitle": null,
+  "icon": {
+    "systemName": "calendar.badge.plus",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "event_details",
+      "title": "Event Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "event_title",
+          "label": "Event",
+          "type": "text",
+          "contextKey": "eventTitle",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Event name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "event_date",
+          "label": "Date & Time",
+          "type": "dateTime",
+          "contextKey": "eventDate",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Event date",
+          "formatting": {
+            "type": "dateTime",
+            "options": null
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "type": "text",
+          "contextKey": "location",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Location",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "type": "text",
+          "contextKey": "notes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Event notes",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Add to Calendar",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

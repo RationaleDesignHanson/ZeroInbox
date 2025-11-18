@@ -28,20 +28,8 @@ struct ShoppingPurchaseModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding(.top, 20)  // Ensure header clears sheet top rounded corner
-            .padding(.horizontal)
-            .padding(.bottom, DesignTokens.Spacing.inline)
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.card) {
@@ -241,9 +229,7 @@ struct ShoppingPurchaseModal: View {
                                     .cornerRadius(DesignTokens.Radius.chip)
 
                                 Button {
-                                    UIPasteboard.general.string = promoCode
-                                    let impact = UINotificationFeedbackGenerator()
-                                    impact.notificationOccurred(.success)
+                                    ClipboardUtility.copy(promoCode)
                                 } label: {
                                     HStack(spacing: 6) {
                                         Image(systemName: "doc.on.doc")
@@ -490,11 +476,8 @@ struct ShoppingPurchaseModal: View {
 
         // If there's a promo code, copy it to clipboard first
         if let code = promoCode {
-            UIPasteboard.general.string = code
+            ClipboardUtility.copy(code)
             Logger.info("Copied promo code to clipboard: \(code)", category: .action)
-
-            let impact = UINotificationFeedbackGenerator()
-            impact.notificationOccurred(.success)
         }
 
         // Open in Safari
@@ -513,7 +496,7 @@ struct ShoppingPurchaseModal: View {
         do {
             // Call shopping cart API
             let response = try await ShoppingCartService.shared.addToCart(
-                userId: "user-123", // TODO: Replace with actual user ID
+                userId: AuthContext.getUserId(),
                 emailId: card.id,
                 productUrl: nil, // EmailCard doesn't have productUrl field
                 productName: card.title,

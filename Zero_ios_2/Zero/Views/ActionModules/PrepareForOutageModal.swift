@@ -27,18 +27,8 @@ struct PrepareForOutageModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header bar
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding()
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             // Scrollable content
             ScrollView {
@@ -358,12 +348,8 @@ struct PrepareForOutageModal: View {
         \(preparationTips.map { "☐ \($0.title): \($0.description)" }.joined(separator: "\n"))
         """
 
-        UIPasteboard.general.string = checklistText
+        ClipboardUtility.copy(checklistText)
         Logger.info("Checklist copied to clipboard", category: .action)
-
-        // Haptic feedback
-        let impact = UINotificationFeedbackGenerator()
-        impact.notificationOccurred(.success)
     }
 }
 

@@ -52,18 +52,7 @@ struct RSVPModal: View {
     var body: some View {
         VStack(spacing: 0) {
             // Header
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                        .font(.title2)
-                }
-            }
-            .padding(.horizontal)
-            .padding(.top, 20)
+            ModalHeader(isPresented: $isPresented)
 
             if showSuccess {
                 successView

@@ -126,63 +126,118 @@ class SmartReplyService {
 
     /// Call Gemini API with prompt
     private func callGeminiAPI(prompt: String) async throws -> String {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard !geminiAPIKey.isEmpty else {
+            Logger.error("Gemini API key is missing or empty", category: .email)
             throw SmartReplyError.missingAPIKey
         }
 
+        // Log API key status (without exposing the key)
+        let keyPrefix = String(geminiAPIKey.prefix(8))
+        let keyLength = geminiAPIKey.count
+        Logger.info("Using Gemini API key: \(keyPrefix)... (length: \(keyLength))", category: .email)
+
         let url = URL(string: "\(baseURL)?key=\(geminiAPIKey)")!
 
-        // Build request body
-        let requestBody: [String: Any] = [
-            "contents": [[
-                "parts": [[
-                    "text": prompt
-                ]]
-            ]],
-            "generationConfig": [
-                "temperature": 0.7,  // Balanced creativity
-                "topK": 40,
-                "topP": 0.95,
-                "maxOutputTokens": 300,  // Short replies
-                "stopSequences": []
-            ]
-        ]
+        // Codable request/response structs for Gemini API
+        struct GeminiPart: Codable {
+            let text: String
+        }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+        struct GeminiContent: Codable {
+            let parts: [GeminiPart]
+        }
 
-        // Make API call
-        let (data, response) = try await URLSession.shared.data(for: request)
+        struct GeminiGenerationConfig: Codable {
+            let temperature: Double
+            let topK: Int
+            let topP: Double
+            let maxOutputTokens: Int
+            let stopSequences: [String]
+        }
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+        struct GeminiRequest: Codable {
+            let contents: [GeminiContent]
+            let generationConfig: GeminiGenerationConfig
+        }
+
+        struct GeminiCandidate: Codable {
+            let content: GeminiContent
+        }
+
+        struct GeminiResponse: Codable {
+            let candidates: [GeminiCandidate]
+        }
+
+        let requestBody = GeminiRequest(
+            contents: [
+                GeminiContent(parts: [
+                    GeminiPart(text: prompt)
+                ])
+            ],
+            generationConfig: GeminiGenerationConfig(
+                temperature: 0.7,
+                topK: 40,
+                topP: 0.95,
+                maxOutputTokens: 300,
+                stopSequences: []
+            )
+        )
+
+        do {
+            Logger.info("Calling Gemini API for smart replies...", category: .email)
+
+            let response: GeminiResponse = try await NetworkService.shared.post(
+                url: url,
+                body: requestBody
+            )
+
+            Logger.info("Received Gemini API response with \(response.candidates.count) candidates", category: .email)
+
+            guard let firstCandidate = response.candidates.first,
+                  let firstPart = firstCandidate.content.parts.first else {
+                Logger.error("Invalid Gemini response: no candidates or parts found", category: .email)
+                throw SmartReplyError.invalidResponse
+            }
+
+            Logger.info("Successfully generated smart replies", category: .email)
+            return firstPart.text
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                let errorMsg = error.errorDescription ?? "Unknown error"
+                Logger.error("Gemini API error: HTTP \(statusCode) - \(errorMsg)", category: .email)
+
+                // Log specific common errors
+                switch statusCode {
+                case 400:
+                    Logger.error("Bad request - check API key format or request body", category: .email)
+                case 401:
+                    Logger.error("Unauthorized - API key may be invalid or expired", category: .email)
+                case 403:
+                    Logger.error("Forbidden - API key may lack required permissions", category: .email)
+                case 429:
+                    Logger.error("Rate limit exceeded - too many requests", category: .email)
+                case 500...599:
+                    Logger.error("Gemini server error - try again later", category: .email)
+                default:
+                    break
+                }
+
+                throw SmartReplyError.apiError(statusCode: statusCode, message: errorMsg)
+            }
+            Logger.error("Network error calling Gemini API: \(error.localizedDescription)", category: .email)
+            throw SmartReplyError.invalidResponse
+        } catch {
+            Logger.error("Unexpected error calling Gemini API: \(error.localizedDescription)", category: .email)
             throw SmartReplyError.invalidResponse
         }
-
-        guard (200...299).contains(httpResponse.statusCode) else {
-            let errorText = String(data: data, encoding: .utf8) ?? "Unknown error"
-            Logger.error("Gemini API error: \(errorText)", category: .email)
-            throw SmartReplyError.apiError(statusCode: httpResponse.statusCode, message: errorText)
-        }
-
-        // Parse response
-        guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-              let candidates = json["candidates"] as? [[String: Any]],
-              let firstCandidate = candidates.first,
-              let content = firstCandidate["content"] as? [String: Any],
-              let parts = content["parts"] as? [[String: Any]],
-              let firstPart = parts.first,
-              let text = firstPart["text"] as? String else {
-            throw SmartReplyError.invalidResponse
-        }
-
-        return text
     }
 
     /// Parse replies from Gemini response text
     private func parseReplies(from responseText: String) -> [String] {
         var replies: [String] = []
+
+        Logger.info("Parsing Gemini response (length: \(responseText.count))", category: .email)
 
         // Look for REPLY1:, REPLY2:, REPLY3: format
         let patterns = ["REPLY1:", "REPLY2:", "REPLY3:"]
@@ -214,6 +269,7 @@ class SmartReplyService {
 
         // Fallback: if parsing failed, try to split by newlines
         if replies.isEmpty {
+            Logger.warning("Standard parsing failed, trying fallback line splitting", category: .email)
             let lines = responseText.components(separatedBy: .newlines)
                 .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
                 .filter { !$0.isEmpty && !$0.contains("REPLY") }
@@ -223,6 +279,7 @@ class SmartReplyService {
 
         // Ensure we have at least 2 replies
         if replies.count < 2 {
+            Logger.warning("Insufficient replies parsed (\(replies.count)), using fallback replies", category: .email)
             // Generate fallback replies
             replies.append("Thanks for reaching out. I'll get back to you soon.")
             if replies.count < 2 {
@@ -230,6 +287,7 @@ class SmartReplyService {
             }
         }
 
+        Logger.info("Successfully parsed \(replies.count) replies", category: .email)
         return Array(replies.prefix(3))  // Return max 3 replies
     }
 

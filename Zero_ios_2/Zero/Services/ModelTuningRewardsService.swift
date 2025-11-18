@@ -1,3 +1,4 @@
+#if DEBUG
 import Foundation
 
 /// Service for tracking model tuning feedback rewards
@@ -178,3 +179,4 @@ struct RewardStatistics {
     let lastSubmissionDate: Date?
     let submissionsPerDay: Double
 }
+#endif

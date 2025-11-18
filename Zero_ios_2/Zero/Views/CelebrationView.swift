@@ -8,8 +8,10 @@ struct CelebrationView: View {
     @State private var scale: CGFloat = 0.5
     @State private var opacity: Double = 0
     @State private var confettiPhase: CGFloat = 0
+    #if DEBUG
     @State private var showModelTuning = false
-    
+    #endif
+
     var body: some View {
         ZStack {
             // Vibrant gradient (more intense for all cleared)
@@ -87,6 +89,7 @@ struct CelebrationView: View {
                         .padding(.horizontal, 40)
                         .padding(.top, 20)
 
+                        #if DEBUG
                         // Unified Model Tuning Card
                         VStack(spacing: 12) {
                             HStack(spacing: 8) {
@@ -114,16 +117,9 @@ struct CelebrationView: View {
                             }
                             .buttonStyle(GradientButtonStyle(colors: [.vibrantCyan, .vibrantBlue, .vibrantPurple]))
                         }
-                        .padding(DesignTokens.Spacing.section)
-                        .background(
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(Color.white.opacity(0.15))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 20)
-                                        .strokeBorder(Color.cyan.opacity(0.4), lineWidth: 2)
-                                )
-                        )
+                        .glassCard(cornerRadius: 20, borderColor: .cyan, borderOpacity: 0.4)
                         .padding(.horizontal, 32)
+                        #endif
                     }
                 }
 
@@ -158,9 +154,11 @@ struct CelebrationView: View {
             notification.prepare()
             notification.notificationOccurred(.success)
         }
+        #if DEBUG
         .sheet(isPresented: $showModelTuning) {
             ModelTuningView()
         }
+        #endif
     }
 
 }

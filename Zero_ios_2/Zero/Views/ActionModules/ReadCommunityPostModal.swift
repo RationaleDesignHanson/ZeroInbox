@@ -21,18 +21,8 @@ struct ReadCommunityPostModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header bar
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding()
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             // Scrollable content
             ScrollView {
@@ -227,19 +217,9 @@ struct ReadCommunityPostModal: View {
                             .transition(.move(edge: .top).combined(with: .opacity))
                         }
 
-                        // Comment success
+                        // Comment success (Week 6: Using shared StatusBanner component)
                         if showReplySuccess {
-                            HStack {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
-                                Text("Comment posted!")
-                                    .foregroundColor(.green)
-                                    .font(.subheadline.bold())
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
-                            .cornerRadius(DesignTokens.Radius.button)
+                            StatusBanner.success("Comment posted!")
                         }
 
                         // Share button
@@ -410,12 +390,8 @@ struct ReadCommunityPostModal: View {
         ❤️ \(post.likeCount) likes · 💬 \(post.commentCount) comments
         """
 
-        UIPasteboard.general.string = shareText
+        ClipboardUtility.copy(shareText)
         Logger.info("Post copied to clipboard", category: .action)
-
-        // Haptic feedback
-        let impact = UINotificationFeedbackGenerator()
-        impact.notificationOccurred(.success)
     }
 }
 

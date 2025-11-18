@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "gcp-build": "echo 'Build step: copying shared dependencies' && cp -r ../../shared ./shared 2>/dev/null || echo 'Shared folder already in place' && cp -r ../actions ./actions 2>/dev/null || echo 'Actions folder already in place'"
+    "gcp-build": "echo 'Build step: copying shared dependencies' && cp -r ../../shared ./shared 2>/dev/null || echo 'Shared folder already in place' && cp -r ../actions ./actions 2>/dev/null || echo 'Actions folder already in place'",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:integration": "jest --testPathPattern=integration"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -17,5 +20,27 @@
     "helmet": "^7.1.0",
     "redis": "^4.6.0",
     "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/__tests__/**/*.test.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    },
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/fixtures/"
+    ]
   }
 }

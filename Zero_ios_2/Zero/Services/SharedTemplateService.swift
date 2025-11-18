@@ -66,7 +66,7 @@ class SharedTemplateService: ObservableObject {
             name: template.name,
             content: template.content,
             category: template.category,
-            authorId: "user-123", // TODO: Get from auth
+            authorId: AuthContext.getUserId(),
             authorName: "Current User",
             shareType: shareType,
             teamId: teamId,

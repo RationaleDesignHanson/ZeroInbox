@@ -1,0 +1,52 @@
+{
+  "id": "attachment_viewer",
+  "title": "Attachments",
+  "subtitle": null,
+  "icon": {
+    "systemName": "paperclip",
+    "colorKey": null,
+    "staticColor": "purple",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "attachment_list",
+      "title": "Files",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "attachment_count",
+          "label": "Total Attachments",
+          "type": "text",
+          "contextKey": "attachmentCount",
+          "required": false,
+          "copyable": false,
+          "placeholder": "0 files",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "attachment_note",
+          "label": "Note",
+          "type": "text",
+          "contextKey": "note",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Tap an attachment to preview",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Close",
+    "style": "primary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "secondaryButton": null,
+  "layout": "standard"
+}

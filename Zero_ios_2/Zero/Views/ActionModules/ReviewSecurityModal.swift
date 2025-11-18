@@ -45,19 +45,8 @@ struct ReviewSecurityModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Header
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                        .font(.title2)
-                }
-            }
-            .padding(.horizontal)
-            .padding(.top, 20)
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             if showSuccess {
                 successView

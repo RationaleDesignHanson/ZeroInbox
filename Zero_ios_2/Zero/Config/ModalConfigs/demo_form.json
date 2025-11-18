@@ -1,0 +1,198 @@
+{
+  "id": "demo_form",
+  "title": "Comprehensive Demo Form",
+  "subtitle": "Showcasing all interactive field types and validation",
+  "icon": {
+    "systemName": "sparkles",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "basic_info",
+      "title": "Basic Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "name",
+          "label": "Full Name",
+          "type": "textInput",
+          "contextKey": "userName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "John Doe",
+          "formatting": null,
+          "colorMapping": null,
+          "validation": {
+            "type": "minLength",
+            "minLength": 2,
+            "maxLength": null,
+            "pattern": null,
+            "errorMessage": "Name must be at least 2 characters"
+          }
+        },
+        {
+          "id": "email",
+          "label": "Email Address",
+          "type": "textInput",
+          "contextKey": "userEmail",
+          "required": true,
+          "copyable": false,
+          "placeholder": "john@example.com",
+          "formatting": null,
+          "colorMapping": null,
+          "validation": {
+            "type": "email",
+            "minLength": null,
+            "maxLength": null,
+            "pattern": null,
+            "errorMessage": "Please enter a valid email address"
+          }
+        },
+        {
+          "id": "phone",
+          "label": "Phone Number",
+          "type": "textInput",
+          "contextKey": "userPhone",
+          "required": false,
+          "copyable": false,
+          "placeholder": "(555) 123-4567",
+          "formatting": null,
+          "colorMapping": null,
+          "validation": {
+            "type": "phone",
+            "minLength": null,
+            "maxLength": null,
+            "pattern": null,
+            "errorMessage": "Please enter a valid phone number"
+          }
+        }
+      ]
+    },
+    {
+      "id": "preferences",
+      "title": "Preferences",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "category",
+          "label": "Category",
+          "type": "segmentedControl",
+          "contextKey": "feedbackCategory",
+          "required": true,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": {
+            "Bug": "red",
+            "Feature": "blue",
+            "Feedback": "green"
+          },
+          "validation": null
+        },
+        {
+          "id": "priority",
+          "label": "Priority Level",
+          "type": "stepper",
+          "contextKey": "priorityLevel",
+          "required": false,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null,
+          "validation": null
+        },
+        {
+          "id": "notifications",
+          "label": "Enable Email Notifications",
+          "type": "toggle",
+          "contextKey": "emailNotifications",
+          "required": false,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null,
+          "validation": null
+        }
+      ]
+    },
+    {
+      "id": "details",
+      "title": "Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "message",
+          "label": "Your Message",
+          "type": "textInputMultiline",
+          "contextKey": "userMessage",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Tell us more about your feedback...",
+          "formatting": null,
+          "colorMapping": null,
+          "validation": {
+            "type": "minLength",
+            "minLength": 10,
+            "maxLength": null,
+            "pattern": null,
+            "errorMessage": "Message must be at least 10 characters"
+          }
+        },
+        {
+          "id": "follow_up_date",
+          "label": "Preferred Follow-up Date",
+          "type": "datePicker",
+          "contextKey": "followUpDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null,
+          "validation": null
+        }
+      ]
+    },
+    {
+      "id": "rating",
+      "title": "Rating",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "satisfaction",
+          "label": "How satisfied are you with our app?",
+          "type": "rating",
+          "contextKey": "satisfactionRating",
+          "required": true,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null,
+          "validation": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Submit Feedback",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null,
+      "serviceCall": "feedback_service"
+    }
+  },
+  "secondaryButton": {
+    "title": "Cancel",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

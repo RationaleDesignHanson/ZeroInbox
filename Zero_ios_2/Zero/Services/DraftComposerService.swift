@@ -95,49 +95,68 @@ class DraftComposerService {
     // MARK: - OpenAI API Call
 
     private func callOpenAI(prompt: String) async throws -> String {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard !openAIAPIKey.isEmpty else {
             throw DraftComposerError.missingAPIKey
         }
 
         let url = URL(string: openAIEndpoint)!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("Bearer \(openAIAPIKey)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-        let requestBody: [String: Any] = [
-            "model": "gpt-4",
-            "messages": [
-                ["role": "system", "content": "You are a helpful email composition assistant."],
-                ["role": "user", "content": prompt]
+        struct Message: Codable {
+            let role: String
+            let content: String
+        }
+
+        struct OpenAIRequest: Codable {
+            let model: String
+            let messages: [Message]
+            let temperature: Double
+            let max_tokens: Int
+
+            enum CodingKeys: String, CodingKey {
+                case model, messages, temperature
+                case max_tokens = "max_tokens"
+            }
+        }
+
+        struct OpenAIChoice: Codable {
+            let message: Message
+        }
+
+        struct OpenAIResponse: Codable {
+            let choices: [OpenAIChoice]
+        }
+
+        let requestBody = OpenAIRequest(
+            model: "gpt-4",
+            messages: [
+                Message(role: "system", content: "You are a helpful email composition assistant."),
+                Message(role: "user", content: prompt)
             ],
-            "temperature": 0.7,
-            "max_tokens": 500
-        ]
+            temperature: 0.7,
+            max_tokens: 500
+        )
 
-        request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
+        do {
+            let response: OpenAIResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                headers: ["Authorization": "Bearer \(openAIAPIKey)"],
+                body: requestBody
+            )
 
-        let (data, response) = try await URLSession.shared.data(for: request)
+            guard let firstChoice = response.choices.first else {
+                throw DraftComposerError.invalidResponse
+            }
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+            return firstChoice.message.content.trimmingCharacters(in: .whitespacesAndNewlines)
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.error("OpenAI API error: \(statusCode)", category: .email)
+                throw DraftComposerError.apiError(statusCode)
+            }
             throw DraftComposerError.invalidResponse
         }
-
-        guard httpResponse.statusCode == 200 else {
-            Logger.error("OpenAI API error: \(httpResponse.statusCode)", category: .email)
-            throw DraftComposerError.apiError(httpResponse.statusCode)
-        }
-
-        let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-
-        guard let choices = json?["choices"] as? [[String: Any]],
-              let firstChoice = choices.first,
-              let message = firstChoice["message"] as? [String: Any],
-              let content = message["content"] as? String else {
-            throw DraftComposerError.invalidResponse
-        }
-
-        return content.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     // MARK: - Feedback Logging

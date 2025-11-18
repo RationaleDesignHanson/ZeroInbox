@@ -1,0 +1,48 @@
+{
+  "id": "verify_account",
+  "title": "Verify Account",
+  "subtitle": null,
+  "icon": {
+    "systemName": "checkmark.shield.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "verification_details",
+      "title": "Verification",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "verification_code",
+          "label": "Verification Code",
+          "type": "badge",
+          "contextKey": "verificationCode",
+          "required": false,
+          "copyable": true,
+          "placeholder": "Check email for code",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Verify Account",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "verifyUrl"
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

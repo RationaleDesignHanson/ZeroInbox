@@ -6,9 +6,9 @@ struct ActionSelectorBottomSheet: View {
     let card: EmailCard
     let currentActionId: String
     let onActionSelected: (String) -> Void
-    @Binding var isPresented: Bool
     var userContext: UserContext = UserContext.defaultUser // Optional: defaults to free user
 
+    @Environment(\.dismiss) var dismiss
     @State private var selectedActionId: String? = nil
     @State private var showShareSheet = false
     @State private var showPaywall = false
@@ -17,119 +17,114 @@ struct ActionSelectorBottomSheet: View {
     private let registry = ActionRegistry.shared
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Handle bar
-            RoundedRectangle(cornerRadius: 3)
-                .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
-                .frame(width: 40, height: 5)
-                .padding(.top, 12)
-                .padding(.bottom, 20)
+        BottomSheetContainer(
+            maxHeight: 500,
+            useGlassmorphic: true,
+            background: {
+                AnimatedGradientBackground(
+                    for: card.type,
+                    animationSpeed: 30
+                )
+            },
+            content: {
+                // Header
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Select Action")
+                        .font(.title2.bold())
+                        .foregroundColor(.white)
 
-            // Header
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Select Action")
-                    .font(.title2.bold())
-                    .foregroundColor(.white)
+                    Text(card.title)
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
+                        .lineLimit(2)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.horizontal, DesignTokens.Spacing.card)
+                .padding(.bottom, 16)
 
-                Text(card.title)
-                    .font(.subheadline)
-                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-                    .lineLimit(2)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, DesignTokens.Spacing.card)
-            .padding(.bottom, 16)
+                // Quick Actions - Horizontal Icon Row at TOP
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("QUICK ACTIONS")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
+                        .tracking(1)
+                        .padding(.horizontal, DesignTokens.Spacing.card)
 
-            // Quick Actions - Horizontal Icon Row at TOP
-            VStack(alignment: .leading, spacing: 8) {
-                Text("QUICK ACTIONS")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
-                    .tracking(1)
-                    .padding(.horizontal, DesignTokens.Spacing.card)
-
-                HStack(spacing: 16) {
-                    // Share button
-                    QuickActionIconButton(
-                        icon: "square.and.arrow.up",
-                        label: "Share",
-                        color: .blue,
-                        onTap: {
-                            showShareSheet = true
-                        }
-                    )
-
-                    // Copy to clipboard
-                    QuickActionIconButton(
-                        icon: "doc.on.doc",
-                        label: "Copy",
-                        color: .purple,
-                        onTap: {
-                            copyToClipboard()
-                        }
-                    )
-
-                    // Open in Safari (if has links)
-                    if hasLinks {
+                    HStack(spacing: 16) {
+                        // Share button
                         QuickActionIconButton(
-                            icon: "safari",
-                            label: "Safari",
-                            color: .cyan,
+                            icon: "square.and.arrow.up",
+                            label: "Share",
+                            color: .blue,
                             onTap: {
-                                openInSafari()
+                                showShareSheet = true
                             }
                         )
-                    } else {
-                        // Placeholder to maintain spacing
+
+                        // Copy to clipboard
                         QuickActionIconButton(
-                            icon: "link.badge.plus",
-                            label: "No Links",
-                            color: .gray,
-                            isDisabled: true,
-                            onTap: {}
+                            icon: "doc.on.doc",
+                            label: "Copy",
+                            color: .purple,
+                            onTap: {
+                                copyToClipboard()
+                            }
                         )
-                    }
-                }
-                .padding(.horizontal, DesignTokens.Spacing.card)
-            }
-            .padding(.bottom, 16)
 
-            Divider()
-                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
-                .padding(.horizontal, DesignTokens.Spacing.card)
-
-            // Action list
-            ScrollView {
-                VStack(spacing: 12) {
-                    // Email-specific actions
-                    if let actions = card.suggestedActions, !actions.isEmpty {
-                        ForEach(actions) { action in
-                            ActionSelectionRow(
-                                action: action,
-                                isSelected: action.actionId == selectedActionId,
-                                isCurrent: action.actionId == currentActionId,
-                                isAvailable: checkActionAvailability(action),
-                                availabilityReason: getAvailabilityReason(action),
+                        // Open in Safari (if has links)
+                        if hasLinks {
+                            QuickActionIconButton(
+                                icon: "safari",
+                                label: "Safari",
+                                color: .cyan,
                                 onTap: {
-                                    handleActionTap(action)
+                                    openInSafari()
                                 }
+                            )
+                        } else {
+                            // Placeholder to maintain spacing
+                            QuickActionIconButton(
+                                icon: "link.badge.plus",
+                                label: "No Links",
+                                color: .gray,
+                                isDisabled: true,
+                                onTap: {}
                             )
                         }
                     }
+                    .padding(.horizontal, DesignTokens.Spacing.card)
                 }
-                .padding(.horizontal, DesignTokens.Spacing.card)
-                .padding(.top, 16)
-                .padding(.bottom, 32)
+                .padding(.bottom, 16)
+
+                Divider()
+                    .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                    .padding(.horizontal, DesignTokens.Spacing.card)
+
+                // Action list
+                ScrollView {
+                    VStack(spacing: 12) {
+                        // Email-specific actions
+                        if let actions = card.suggestedActions, !actions.isEmpty {
+                            ForEach(actions) { action in
+                                ActionSelectionRow(
+                                    action: action,
+                                    isSelected: action.actionId == selectedActionId,
+                                    isCurrent: action.actionId == currentActionId,
+                                    isAvailable: checkActionAvailability(action),
+                                    availabilityReason: getAvailabilityReason(action),
+                                    onTap: {
+                                        handleActionTap(action)
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    .padding(.horizontal, DesignTokens.Spacing.card)
+                    .padding(.top, 16)
+                    .padding(.bottom, 32)
+                }
             }
-        }
-        .frame(maxWidth: .infinity, maxHeight: 500)
-        .background(
-            AnimatedGradientBackground(
-                for: card.type,
-                animationSpeed: 30
-            )
         )
-        .glassmorphic(opacity: 0.03, cornerRadius: DesignTokens.Radius.card)
         .sheet(isPresented: $showShareSheet) {
             if let shareURL = extractFirstURL() {
                 ActionSelectorShareSheet(activityItems: [shareURL, card.title])
@@ -223,17 +218,11 @@ struct ActionSelectorBottomSheet: View {
 
     private func copyToClipboard() {
         let textToCopy = "\(card.title)\n\n\(card.summary)"
-        UIPasteboard.general.string = textToCopy
-
-        // Haptic feedback
-        let impact = UINotificationFeedbackGenerator()
-        impact.notificationOccurred(.success)
-
-        Logger.info("Copied email content to clipboard", category: .action)
+        ClipboardUtility.copy(textToCopy)
 
         // Dismiss after brief delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            isPresented = false
+            dismiss()
         }
     }
 
@@ -248,7 +237,7 @@ struct ActionSelectorBottomSheet: View {
 
         // Dismiss after brief delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            isPresented = false
+            dismiss()
         }
     }
 
@@ -262,7 +251,7 @@ struct ActionSelectorBottomSheet: View {
         // Delay to show selection, then call callback
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             onActionSelected(actionId)
-            isPresented = false
+            dismiss()
         }
     }
 }
@@ -280,7 +269,7 @@ struct ActionSelectionRow: View {
         Button(action: onTap) {
             HStack(spacing: 16) {
                 // Action icon
-                Image(systemName: actionIcon)
+                Image(systemName: ActionIconMapper.icon(for: action.actionId))
                     .font(.title3)
                     .foregroundColor(.white)
                     .frame(width: 40, height: 40)
@@ -342,48 +331,14 @@ struct ActionSelectionRow: View {
                         .foregroundColor(.yellow.opacity(DesignTokens.Opacity.textSubtle))
                 }
             }
-            .padding(DesignTokens.Spacing.section)
-            .background(
-                RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                    .fill(isSelected ? Color.white.opacity(DesignTokens.Opacity.overlayLight) : Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
-                    .strokeBorder(
-                        isCurrent ? Color.green.opacity(DesignTokens.Opacity.overlayStrong) : Color.white.opacity(DesignTokens.Opacity.glassLight),
-                        lineWidth: isCurrent ? 2 : 1
-                    )
+            .glassCard(
+                cornerRadius: DesignTokens.Radius.button,
+                borderColor: isCurrent ? Color.green.opacity(DesignTokens.Opacity.overlayStrong) : Color.white.opacity(DesignTokens.Opacity.glassLight)
             )
         }
         .buttonStyle(PlainButtonStyle())
     }
 
-    private var actionIcon: String {
-        switch action.actionId {
-        case let id where id.contains("calendar"):
-            return "calendar.badge.plus"
-        case let id where id.contains("pay"):
-            return "dollarsign.circle.fill"
-        case let id where id.contains("sign"):
-            return "signature"
-        case let id where id.contains("track"):
-            return "shippingbox.fill"
-        case let id where id.contains("reply"):
-            return "arrowshape.turn.up.left.fill"
-        case let id where id.contains("review"):
-            return "star.fill"
-        case let id where id.contains("check_in"):
-            return "airplane.departure"
-        case let id where id.contains("meeting"):
-            return "video.fill"
-        case let id where id.contains("view"):
-            return "eye.fill"
-        case let id where id.contains("download"):
-            return "arrow.down.circle.fill"
-        default:
-            return "checkmark.circle.fill"
-        }
-    }
 
     private var actionTypeDescription: String {
         action.actionType == .inApp ? "Complete in-app" : "Open link"
@@ -491,8 +446,7 @@ struct ActionSelectorBottomSheet_Previews: PreviewProvider {
                         ]
                     ),
                     currentActionId: "sign_form",
-                    onActionSelected: { _ in },
-                    isPresented: .constant(true)
+                    onActionSelected: { _ in }
                 )
                 .transition(.move(edge: .bottom))
             }

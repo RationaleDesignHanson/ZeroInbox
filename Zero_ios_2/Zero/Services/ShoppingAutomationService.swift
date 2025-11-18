@@ -55,120 +55,133 @@ class ShoppingAutomationService {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.timeoutInterval = 60 // Allow up to 60 seconds for automation
 
-        let payload: [String: Any] = [
-            "productUrl": productUrl,
-            "productName": productName,
-            "userSessionId": UUID().uuidString
-        ]
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
+        Task {
+            do {
+                let result = try await self.automateAddToCartAsync(
+                    productUrl: productUrl,
+                    productName: productName
+                )
+                completion(.success(result))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+    }
+
+    /// Async version of automateAddToCart
+    private func automateAddToCartAsync(
+        productUrl: String,
+        productName: String
+    ) async throws -> ShoppingAutomationResult {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
+        let endpoint = "\(serviceURL)/api/shopping/add-to-cart"
+
+        guard let url = URL(string: endpoint) else {
+            Logger.error("Invalid shopping automation URL: \(endpoint)", category: .action)
+            throw ShoppingAutomationError.invalidURL
+        }
+
+        struct AddToCartRequest: Codable {
+            let productUrl: String
+            let productName: String
+            let userSessionId: String
+        }
+
+        let requestBody = AddToCartRequest(
+            productUrl: productUrl,
+            productName: productName,
+            userSessionId: UUID().uuidString
+        )
 
         do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: payload)
-        } catch {
-            Logger.error("Failed to serialize shopping automation request", category: .action)
-            completion(.failure(error))
-            return
-        }
+            let result: ShoppingAutomationResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                body: requestBody
+            )
 
-        // Execute request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                Logger.error("Shopping automation network error: \(error.localizedDescription)", category: .action)
-                completion(.failure(error))
-                return
-            }
+            if result.success {
+                // Success! Use sessionViewerUrl to show actual browser session with item in cart
+                let finalUrl = result.sessionViewerUrl ?? result.checkoutUrl ?? result.cartUrl ?? productUrl
+                Logger.info("✅ Shopping automation succeeded: \(finalUrl)", category: .action)
 
-            guard let data = data else {
-                Logger.error("No data received from shopping automation service", category: .action)
-                completion(.failure(ShoppingAutomationError.noData))
-                return
-            }
+                let automationResult = ShoppingAutomationResult(
+                    success: true,
+                    checkoutUrl: finalUrl,
+                    productUrl: productUrl,
+                    productName: productName,
+                    fallbackMode: false,
+                    message: result.message,
+                    steps: result.steps
+                )
 
-            // Parse response
-            do {
-                let result = try JSONDecoder().decode(ShoppingAutomationResponse.self, from: data)
-
-                if result.success {
-                    // Success! Use sessionViewerUrl to show actual browser session with item in cart
-                    let finalUrl = result.sessionViewerUrl ?? result.checkoutUrl ?? result.cartUrl ?? productUrl
-                    Logger.info("✅ Shopping automation succeeded: \(finalUrl)", category: .action)
-
-                    let automationResult = ShoppingAutomationResult(
-                        success: true,
-                        checkoutUrl: finalUrl,
-                        productUrl: productUrl,
-                        productName: productName,
-                        fallbackMode: false,
-                        message: result.message,
-                        steps: result.steps
-                    )
-
-                    // Sync with Zero's internal shopping cart
-                    Task {
-                        do {
-                            _ = try await ShoppingCartService.shared.addToCart(
-                                userId: "user-123", // TODO: Replace with actual user ID
-                                emailId: nil,
-                                productUrl: productUrl,
-                                productName: productName,
-                                productImage: nil,
-                                price: 0.0, // TODO: Extract actual price from automation result
-                                originalPrice: nil,
-                                quantity: 1,
-                                merchant: result.steps?.first?.platform,
-                                sku: nil,
-                                category: nil,
-                                expiresAt: nil
-                            )
-                            Logger.info("✅ Product synced to Zero cart: \(productName)", category: .shopping)
-                        } catch {
-                            Logger.error("Failed to sync product to Zero cart: \(error.localizedDescription)", category: .shopping)
-                            // Don't fail the automation if cart sync fails
-                        }
+                // Sync with Zero's internal shopping cart
+                Task {
+                    do {
+                        _ = try await ShoppingCartService.shared.addToCart(
+                            userId: AuthContext.getUserId(),
+                            emailId: nil,
+                            productUrl: productUrl,
+                            productName: productName,
+                            productImage: nil,
+                            price: 0.0, // TODO: Extract actual price from automation result
+                            originalPrice: nil,
+                            quantity: 1,
+                            merchant: result.steps?.first?.platform,
+                            sku: nil,
+                            category: nil,
+                            expiresAt: nil
+                        )
+                        Logger.info("✅ Product synced to Zero cart: \(productName)", category: .shopping)
+                    } catch {
+                        Logger.error("Failed to sync product to Zero cart: \(error.localizedDescription)", category: .shopping)
+                        // Don't fail the automation if cart sync fails
                     }
-
-                    completion(.success(automationResult))
-                } else {
-                    // Automation failed, but we have fallback
-                    Logger.warning("Shopping automation failed, using fallback: \(result.error ?? "unknown")", category: .action)
-
-                    let fallbackResult = ShoppingAutomationResult(
-                        success: false,
-                        checkoutUrl: result.productUrl ?? productUrl,
-                        productUrl: productUrl,
-                        productName: productName,
-                        fallbackMode: true,
-                        message: result.message ?? "Opening product page for manual checkout",
-                        steps: result.steps
-                    )
-
-                    completion(.success(fallbackResult))
                 }
 
-            } catch {
-                Logger.error("Failed to parse shopping automation response: \(error.localizedDescription)", category: .action)
+                return automationResult
+            } else {
+                // Automation failed, but we have fallback
+                Logger.warning("Shopping automation failed, using fallback: \(result.error ?? "unknown")", category: .action)
 
-                // Check if it's a 503 (service unavailable) with fallback
-                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 503 {
-                    Logger.info("Steel API not configured, using fallback mode", category: .action)
+                let fallbackResult = ShoppingAutomationResult(
+                    success: false,
+                    checkoutUrl: result.productUrl ?? productUrl,
+                    productUrl: productUrl,
+                    productName: productName,
+                    fallbackMode: true,
+                    message: result.message ?? "Opening product page for manual checkout",
+                    steps: result.steps
+                )
 
-                    let fallbackResult = ShoppingAutomationResult(
-                        success: false,
-                        checkoutUrl: productUrl,
-                        productUrl: productUrl,
-                        productName: productName,
-                        fallbackMode: true,
-                        message: "AI automation unavailable. Opening product page.",
-                        steps: nil
-                    )
-
-                    completion(.success(fallbackResult))
-                } else {
-                    completion(.failure(error))
-                }
+                return fallbackResult
             }
-        }
+        } catch let error as NetworkServiceError {
+            Logger.error("Shopping automation network error", category: .action)
 
-        task.resume()
+            // Check if it's a 503 (service unavailable) with fallback
+            if let statusCode = error.statusCode, statusCode == 503 {
+                Logger.info("Steel API not configured, using fallback mode", category: .action)
+
+                let fallbackResult = ShoppingAutomationResult(
+                    success: false,
+                    checkoutUrl: productUrl,
+                    productUrl: productUrl,
+                    productName: productName,
+                    fallbackMode: true,
+                    message: "AI automation unavailable. Opening product page.",
+                    steps: nil
+                )
+
+                return fallbackResult
+            }
+
+            throw error
+        } catch {
+            Logger.error("Failed to parse shopping automation response: \(error.localizedDescription)", category: .action)
+            throw error
+        }
     }
 
     /**
@@ -178,33 +191,37 @@ class ShoppingAutomationService {
         productUrl: String,
         completion: @escaping (Result<PlatformInfo, Error>) -> Void
     ) {
-        let endpoint = "\(serviceURL)/api/shopping/platform-info?url=\(productUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? productUrl)"
-
-        guard let url = URL(string: endpoint) else {
-            completion(.failure(ShoppingAutomationError.invalidURL))
-            return
-        }
-
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(ShoppingAutomationError.noData))
-                return
-            }
-
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
+        Task {
             do {
-                let platformInfo = try JSONDecoder().decode(PlatformInfo.self, from: data)
+                let platformInfo = try await getPlatformInfoAsync(productUrl: productUrl)
                 completion(.success(platformInfo))
             } catch {
                 completion(.failure(error))
             }
         }
+    }
 
-        task.resume()
+    /// Async version of getPlatformInfo
+    private func getPlatformInfoAsync(productUrl: String) async throws -> PlatformInfo {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
+        let endpoint = "\(serviceURL)/api/shopping/platform-info?url=\(productUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? productUrl)"
+
+        guard let url = URL(string: endpoint) else {
+            Logger.error("Invalid platform info URL: \(endpoint)", category: .action)
+            throw ShoppingAutomationError.invalidURL
+        }
+
+        do {
+            let platformInfo: PlatformInfo = try await NetworkService.shared.get(url: url)
+            return platformInfo
+        } catch let error as NetworkServiceError {
+            Logger.error("Failed to fetch platform info: \(error.localizedDescription)", category: .action)
+            throw ShoppingAutomationError.invalidURL
+        } catch {
+            Logger.error("Platform info request failed: \(error.localizedDescription)", category: .action)
+            throw error
+        }
     }
 }
 

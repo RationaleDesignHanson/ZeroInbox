@@ -63,7 +63,7 @@ struct SharedTemplateView: View {
             .navigationBarHidden(true)
             .task {
                 do {
-                    try await service.fetchSharedTemplates(userId: "user-123") // TODO: Get from auth
+                    try await service.fetchSharedTemplates(userId: AuthContext.getUserId())
                 } catch {
                     Logger.error("Error loading shared templates: \(error)", category: .app)
                 }

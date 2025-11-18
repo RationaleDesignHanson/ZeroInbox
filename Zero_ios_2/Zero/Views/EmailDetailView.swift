@@ -13,7 +13,9 @@ struct EmailDetailView: View {
     @State private var snoozeDuration: Int = 2
     @State private var htmlRenderError: String?
     @State private var htmlContentHeight: CGFloat = 300
+    #if DEBUG
     @State private var showDebugDashboard = false
+    #endif
     @State private var selectedAttachment: EmailAttachment?
     @State private var showAttachmentPreview = false
     @State private var isVIP = false
@@ -25,18 +27,11 @@ struct EmailDetailView: View {
                     // Header section with frosted glass
                     headerSection
                         .padding(DesignTokens.Spacing.component)
-                        .background(
-                            ZStack {
-                                Color.white.opacity(0.08)
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                                    .opacity(0.4)
-                            }
-                        )
+                        .background(readerSectionBackground)
                         .cornerRadius(DesignTokens.Radius.card)
                         .overlay(
                             RoundedRectangle(cornerRadius: 16)
-                                .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
+                                .strokeBorder(readerBorderColor, lineWidth: 1)
                         )
 
                     // Subject in frosted glass panel
@@ -46,18 +41,11 @@ struct EmailDetailView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(DesignTokens.Spacing.component)
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(
-                            ZStack {
-                                Color.white.opacity(0.06)
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                                    .opacity(DesignTokens.Opacity.overlayMedium)
-                            }
-                        )
+                        .background(readerSectionBackground)
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                .strokeBorder(readerBorderColor, lineWidth: 1)
                         )
 
                     // Full Email Body (HTML or plain text) in frosted glass panel
@@ -65,7 +53,7 @@ struct EmailDetailView: View {
                         emailBodyContent
                             .frame(maxWidth: .infinity, alignment: .leading)
 
-                        if let body = card.body, !body.isEmpty, card.htmlBody == nil || card.htmlBody!.isEmpty {
+                        if let body = card.body, !body.isEmpty, card.htmlBody?.isEmpty != false {
                             // Show plain text body with intelligent formatting
                             let _ = Logger.info("Rendering plain text body with formatting & URL detection, length: \(body.count)", category: .app)
 
@@ -102,18 +90,11 @@ struct EmailDetailView: View {
                             .padding(DesignTokens.Spacing.component)
                         }
                     }
-                    .background(
-                        ZStack {
-                            Color.white.opacity(0.06)
-                            Rectangle()
-                                .fill(.ultraThinMaterial)
-                                .opacity(DesignTokens.Opacity.overlayMedium)
-                        }
-                    )
+                    .background(readerSectionBackground)
                     .cornerRadius(DesignTokens.Radius.button)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                            .strokeBorder(readerBorderColor, lineWidth: 1)
                     )
 
                     // Thread indicator (if part of thread)
@@ -131,7 +112,7 @@ struct EmailDetailView: View {
                             .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                    .strokeBorder(readerBorderColor, lineWidth: 1)
                             )
                     }
 
@@ -158,18 +139,11 @@ struct EmailDetailView: View {
                             } : nil
                         )
                         .padding(DesignTokens.Spacing.element)
-                        .background(
-                            ZStack {
-                                Color.white.opacity(0.06)
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                                    .opacity(DesignTokens.Opacity.overlayMedium)
-                            }
-                        )
+                        .background(readerSectionBackground)
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                .strokeBorder(readerBorderColor, lineWidth: 1)
                         )
                     }
 
@@ -180,18 +154,11 @@ struct EmailDetailView: View {
                             showAttachmentPreview = true
                         }
                         .padding(DesignTokens.Spacing.element)
-                        .background(
-                            ZStack {
-                                Color.white.opacity(0.06)
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                                    .opacity(DesignTokens.Opacity.overlayMedium)
-                            }
-                        )
+                        .background(readerSectionBackground)
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                .strokeBorder(readerBorderColor, lineWidth: 1)
                         )
                     }
 
@@ -210,7 +177,7 @@ struct EmailDetailView: View {
                             .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                    .strokeBorder(readerBorderColor, lineWidth: 1)
                             )
                     }
 
@@ -229,7 +196,7 @@ struct EmailDetailView: View {
                             .cornerRadius(DesignTokens.Radius.button)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 12)
-                                    .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                    .strokeBorder(readerBorderColor, lineWidth: 1)
                             )
                     }
 
@@ -243,36 +210,22 @@ struct EmailDetailView: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(DesignTokens.Spacing.element)
-                        .background(
-                            ZStack {
-                                Color.white.opacity(0.06)
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                                    .opacity(DesignTokens.Opacity.overlayMedium)
-                            }
-                        )
+                        .background(readerSectionBackground)
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                .strokeBorder(readerBorderColor, lineWidth: 1)
                         )
                     }
 
                     // Contextual Actions (smart suggestions)
                     ContextualActionsView(card: card)
                         .padding(DesignTokens.Spacing.element)
-                        .background(
-                            ZStack {
-                                Color.white.opacity(0.06)
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                                    .opacity(DesignTokens.Opacity.overlayMedium)
-                            }
-                        )
+                        .background(readerSectionBackground)
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                .strokeBorder(readerBorderColor, lineWidth: 1)
                         )
 
                     // AI Draft Composer button (only for unseen/seen emails)
@@ -324,36 +277,22 @@ struct EmailDetailView: View {
                             showReplyComposer = true
                         }
                         .padding(DesignTokens.Spacing.element)
-                        .background(
-                            ZStack {
-                                Color.white.opacity(0.06)
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                                    .opacity(DesignTokens.Opacity.overlayMedium)
-                            }
-                        )
+                        .background(readerSectionBackground)
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                .strokeBorder(readerBorderColor, lineWidth: 1)
                         )
                     }
 
                     // Archetype-specific details
                     archetypeDetails
                         .padding(DesignTokens.Spacing.element)
-                        .background(
-                            ZStack {
-                                Color.white.opacity(0.06)
-                                Rectangle()
-                                    .fill(.ultraThinMaterial)
-                                    .opacity(DesignTokens.Opacity.overlayMedium)
-                            }
-                        )
+                        .background(readerSectionBackground)
                         .cornerRadius(DesignTokens.Radius.button)
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
+                                .strokeBorder(readerBorderColor, lineWidth: 1)
                         )
                     
                     // Action buttons in frosted glass panel
@@ -495,6 +434,7 @@ struct EmailDetailView: View {
                             //     Label("Report Spam", systemImage: "exclamationmark.shield.fill")
                             // }
 
+                            #if DEBUG
                             Divider()
 
                             // Developer Tools Section
@@ -505,6 +445,7 @@ struct EmailDetailView: View {
                             }
 
                             Divider()
+                            #endif
 
                             // Delete Section
                             Button(role: .destructive, action: {
@@ -563,9 +504,11 @@ struct EmailDetailView: View {
                     .presentationDetents([.large])
                     .presentationDragIndicator(.visible)
             }
+            #if DEBUG
             .fullScreenCover(isPresented: $showDebugDashboard) {
                 ClassificationDebugDashboard(card: card)
             }
+            #endif
             .fullScreenCover(isPresented: $showAttachmentPreview) {
                 if let attachment = selectedAttachment {
                     AttachmentPreviewModal(
@@ -1133,6 +1076,29 @@ struct EmailDetailView: View {
         case .high: return .orange
         case .medium: return .yellow
         case .low: return .green
+        }
+    }
+
+    // MARK: - Reader UI Colors (changes for ads)
+
+    /// Background color for reader UI sections
+    private var readerBackgroundColor: Color {
+        card.type == .ads ? DesignTokens.Colors.adsGradientStart.opacity(0.12) : Color.white.opacity(0.06)
+    }
+
+    /// Border color for reader UI sections
+    private var readerBorderColor: Color {
+        card.type == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.3) : Color.white.opacity(0.12)
+    }
+
+    /// Background view for reader sections
+    @ViewBuilder
+    private var readerSectionBackground: some View {
+        ZStack {
+            readerBackgroundColor
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .opacity(DesignTokens.Opacity.overlayMedium)
         }
     }
 

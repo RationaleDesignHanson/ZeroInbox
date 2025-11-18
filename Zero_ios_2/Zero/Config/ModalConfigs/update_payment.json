@@ -1,0 +1,70 @@
+{
+  "id": "update_payment",
+  "title": "Update Payment Method",
+  "subtitle": null,
+  "icon": {
+    "systemName": "creditcard.and.123",
+    "colorKey": null,
+    "staticColor": "green",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "payment_info",
+      "title": "Payment Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "merchant",
+          "label": "Service",
+          "type": "text",
+          "contextKey": "merchant",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Service",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "current_method",
+          "label": "Current Payment Method",
+          "type": "text",
+          "contextKey": "currentPaymentMethod",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Not available",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "reason",
+          "label": "Reason",
+          "type": "text",
+          "contextKey": "reason",
+          "required": false,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Update Payment",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "updateUrl"
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

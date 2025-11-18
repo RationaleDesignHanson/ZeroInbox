@@ -1,0 +1,70 @@
+{
+  "id": "quick_reply",
+  "title": "Quick Reply",
+  "subtitle": null,
+  "icon": {
+    "systemName": "envelope.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "reply_info",
+      "title": "Reply",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "recipient",
+          "label": "To",
+          "type": "text",
+          "contextKey": "recipientEmail",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Recipient email",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "subject",
+          "label": "Subject",
+          "type": "text",
+          "contextKey": "subject",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Subject",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "reply_text",
+          "label": "Message",
+          "type": "text",
+          "contextKey": "replyText",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Type your reply",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Send Reply",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

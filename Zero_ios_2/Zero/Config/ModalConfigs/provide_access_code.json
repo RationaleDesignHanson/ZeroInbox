@@ -1,0 +1,59 @@
+{
+  "id": "provide_access_code",
+  "title": "Access Code",
+  "subtitle": null,
+  "icon": {
+    "systemName": "key.fill",
+    "colorKey": null,
+    "staticColor": "yellow",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "code_details",
+      "title": "Access Code Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "access_code",
+          "label": "Code",
+          "type": "badge",
+          "contextKey": "accessCode",
+          "required": true,
+          "copyable": true,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "code_type",
+          "label": "Type",
+          "type": "text",
+          "contextKey": "codeType",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Access Code",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Copy Code",
+    "style": "primary",
+    "action": {
+      "type": "copy",
+      "contextKey": "accessCode"
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

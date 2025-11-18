@@ -149,5 +149,14 @@ enum Constants {
         static let errorLog = "error.log"
         static let combinedLog = "combined.log"
     }
+
+    // MARK: - App Information
+    enum AppInfo {
+        static let supportEmail = "0Inboxapp@gmail.com"
+        static let privacyPolicyURL = "https://zero-legal-pages-514014482017.us-central1.run.app/privacy.html"
+        static let termsOfServiceURL = "https://zero-legal-pages-514014482017.us-central1.run.app/terms.html"
+        static let version = "1.0"
+        static let buildType = "TestFlight Beta"
+    }
 }
 

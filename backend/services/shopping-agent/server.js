@@ -54,10 +54,12 @@ app.get('/health', (req, res) => {
 const cartRoutes = require('./routes/cart');
 const productsRoutes = require('./routes/products');
 const checkoutRoutes = require('./routes/checkout');
+const receiptsRoutes = require('./routes/receipts');
 
 app.use('/cart', cartRoutes);
 app.use('/products', productsRoutes);
 app.use('/checkout', checkoutRoutes);
+app.use('/receipts', receiptsRoutes);
 
 // 404 handler
 app.use((req, res) => {
@@ -74,7 +76,10 @@ app.use((req, res) => {
       'POST /products/compare',
       'POST /products/analyze',
       'POST /checkout/generate-link',
-      'POST /checkout/stripe'
+      'POST /checkout/stripe',
+      'POST /receipts/parse',
+      'POST /receipts/batch',
+      'GET  /receipts/health'
     ]
   });
 });

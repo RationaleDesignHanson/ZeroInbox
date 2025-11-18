@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Intelligence - Zero</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            padding-top: 110px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d1b4e 30%, #4a1942 60%, #1f1f3a 100%);
+            min-height: 100vh;
+            color: white;
+            line-height: 1.6;
+        }
+
+        .main-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            padding: 20px 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 60px 0;
+        }
+
+        .page-title {
+            font-size: 56px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-value {
+            font-size: 40px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 600;
+        }
+
+        .tab-navigation {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px 32px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .tab-button:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .order-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .order-merchant {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .merchant-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .merchant-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .order-number {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Courier New', monospace;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-delivered {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #6ee7b7;
+        }
+
+        .status-shipped {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #93c5fd;
+        }
+
+        .status-ordered {
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+        }
+
+        .order-items {
+            margin: 16px 0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .item-name {
+            font-size: 14px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .item-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 16px;
+        }
+
+        .order-date {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .order-total {
+            font-size: 20px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .tracking-timeline {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            position: relative;
+        }
+
+        .timeline-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 60%;
+            right: -50%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline-step.completed:not(:last-child)::after {
+            background: linear-gradient(90deg, #10b981 0%, rgba(16, 185, 129, 0.4) 100%);
+        }
+
+        .timeline-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        .timeline-step.completed .timeline-icon {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .timeline-step.active .timeline-icon {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .timeline-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .timeline-step.completed .timeline-label {
+            color: #6ee7b7;
+        }
+
+        .timeline-step.active .timeline-label {
+            color: #93c5fd;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(59, 130, 246, 0);
+            }
+        }
+
+        /* Unsubscribe Tab Styles */
+        .email-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .email-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .email-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .email-card.blocked {
+            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .email-card.safe {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .email-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .protection-badge {
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .protection-badge.blocked {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            color: #fca5a5;
+        }
+
+        .protection-badge.safe {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #6ee7b7;
+        }
+
+        .email-subject {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .email-from {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 12px;
+        }
+
+        .email-reason {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .protection-layers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .layer-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 20px;
+        }
+
+        .layer-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .layer-description {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        .live-demo-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .demo-input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .demo-input {
+            flex: 1;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .demo-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .demo-button {
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .demo-result {
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+        }
+
+        .demo-result.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .result-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .result-details {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        .btn-primary {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 60px 0;
+        }
+
+        .cta-title {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 16px;
+        }
+
+        .cta-description {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 32px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <ul class="nav-links">
+                <li><a href="landing.html" class="nav-link">Home</a></li>
+                <li><a href="app-demo.html" class="nav-link">Live Demo</a></li>
+                <li><a href="zero-sequence-live.html" class="nav-link">Intent-Action Demo</a></li>
+                <li><a href="action-modal-explorer.html" class="nav-link">Actions</a></li>
+                <li><a href="intent-action-explorer.html" class="nav-link">Intents</a></li>
+                <li><a href="shopping-cart.html" class="nav-link">Shopping</a></li>
+                <li><a href="email-intelligence.html" class="nav-link active">Email Intelligence</a></li>
+                <li><a href="architecture-visual.html" class="nav-link">System Architecture</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="page-title">Email Intelligence</h1>
+            <p class="page-subtitle">
+                Automated order tracking and smart unsubscribe protection.
+                AI-powered email management that saves time and keeps you safe.
+            </p>
+
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-value">122</div>
+                    <div class="stat-label">Tests Passing</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">60+</div>
+                    <div class="stat-label">Protected Domains</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Safety Layers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">80%</div>
+                    <div class="stat-label">Code Coverage</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-button active" onclick="switchTab('shopping')">
+                🛍️ Shopping & Orders
+            </button>
+            <button class="tab-button" onclick="switchTab('unsubscribe')">
+                🛡️ Smart Unsubscribe
+            </button>
+        </div>
+
+        <!-- Shopping & Orders Tab -->
+        <div id="shopping-tab" class="tab-content active">
+            <!-- Order Tracking Section -->
+            <div class="section">
+                <h2 class="section-title">📦 Auto Order Tracking</h2>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 24px;">
+                    Your orders are automatically parsed from email receipts and tracked from placed to delivered.
+                    Supports Amazon, Target, Best Buy, and 15+ major merchants.
+                </p>
+
+                <div class="order-timeline">
+                    <!-- Order 1: Delivered -->
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-merchant">
+                                <div class="merchant-icon">📦</div>
+                                <div class="merchant-info">
+                                    <h3>Amazon</h3>
+                                    <div class="order-number">Order #112-1234567-8901234</div>
+                                </div>
+                            </div>
+                            <span class="status-badge status-delivered">✓ Delivered</span>
+                        </div>
+
+                        <div class="tracking-timeline">
+                            <div class="timeline-step completed">
+                                <div class="timeline-icon">📝</div>
+                                <div class="timeline-label">Ordered</div>
+                            </div>
+                            <div class="timeline-step completed">
+                                <div class="timeline-icon">📦</div>
+                                <div class="timeline-label">Shipped</div>
+                            </div>
+                            <div class="timeline-step completed">
+                                <div class="timeline-icon">✓</div>
+                                <div class="timeline-label">Delivered</div>
+                            </div>
+                        </div>
+
+                        <div class="order-items">
+                            <div class="order-item">
+                                <span class="item-name">Wireless Mouse</span>
+                                <span class="item-price">$29.99</span>
+                            </div>
+                            <div class="order-item">
+                                <span class="item-name">USB-C Cable (2-pack)</span>
+                                <span class="item-price">$12.99</span>
+                            </div>
+                        </div>
+
+                        <div class="order-footer">
+                            <div class="order-date">Delivered Jan 15, 2025</div>
+                            <div class="order-total">$42.98</div>
+                        </div>
+                    </div>
+
+                    <!-- Order 2: Shipped -->
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-merchant">
+                                <div class="merchant-icon">🎯</div>
+                                <div class="merchant-info">
+                                    <h3>Target</h3>
+                                    <div class="order-number">Order #87654321</div>
+                                </div>
+                            </div>
+                            <span class="status-badge status-shipped">🚚 Shipped</span>
+                        </div>
+
+                        <div class="tracking-timeline">
+                            <div class="timeline-step completed">
+                                <div class="timeline-icon">📝</div>
+                                <div class="timeline-label">Ordered</div>
+                            </div>
+                            <div class="timeline-step active">
+                                <div class="timeline-icon">🚚</div>
+                                <div class="timeline-label">In Transit</div>
+                            </div>
+                            <div class="timeline-step">
+                                <div class="timeline-icon">✓</div>
+                                <div class="timeline-label">Delivered</div>
+                            </div>
+                        </div>
+
+                        <div class="order-items">
+                            <div class="order-item">
+                                <span class="item-name">AirPods Pro (2nd Gen)</span>
+                                <span class="item-price">$199.99</span>
+                            </div>
+                        </div>
+
+                        <div class="order-footer">
+                            <div class="order-date">Arriving Jan 20, 2025</div>
+                            <div class="order-total">$199.99</div>
+                        </div>
+                    </div>
+
+                    <!-- Order 3: Ordered -->
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-merchant">
+                                <div class="merchant-icon">💛</div>
+                                <div class="merchant-info">
+                                    <h3>Best Buy</h3>
+                                    <div class="order-number">Order #BBY01-123456789</div>
+                                </div>
+                            </div>
+                            <span class="status-badge status-ordered">⏳ Processing</span>
+                        </div>
+
+                        <div class="tracking-timeline">
+                            <div class="timeline-step active">
+                                <div class="timeline-icon">📝</div>
+                                <div class="timeline-label">Processing</div>
+                            </div>
+                            <div class="timeline-step">
+                                <div class="timeline-icon">📦</div>
+                                <div class="timeline-label">Shipped</div>
+                            </div>
+                            <div class="timeline-step">
+                                <div class="timeline-icon">✓</div>
+                                <div class="timeline-label">Delivered</div>
+                            </div>
+                        </div>
+
+                        <div class="order-items">
+                            <div class="order-item">
+                                <span class="item-name">Mechanical Keyboard</span>
+                                <span class="item-price">$129.99</span>
+                            </div>
+                            <div class="order-item">
+                                <span class="item-name">Gaming Mouse Pad</span>
+                                <span class="item-price">$24.99</span>
+                            </div>
+                        </div>
+
+                        <div class="order-footer">
+                            <div class="order-date">Ordered Jan 17, 2025</div>
+                            <div class="order-total">$154.98</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="section">
+                <h2 class="section-title">⚡ How It Works</h2>
+                <div class="protection-layers">
+                    <div class="layer-card">
+                        <div class="layer-title">📧 Auto Detection</div>
+                        <div class="layer-description">
+                            Zero automatically detects receipt emails from 15+ major merchants including Amazon, Target, Best Buy, and more.
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-title">🤖 AI Parsing</div>
+                        <div class="layer-description">
+                            Advanced AI extracts order numbers, items, prices, tracking info, and status from email body and headers.
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-title">📊 Status Tracking</div>
+                        <div class="layer-description">
+                            Orders are tracked through all states: ordered → shipped → delivered → cancelled → refunded.
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-title">🔄 Real-Time Updates</div>
+                        <div class="layer-description">
+                            As new emails arrive, order status is automatically updated in real-time. No manual tracking needed.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Smart Unsubscribe Tab -->
+        <div id="unsubscribe-tab" class="tab-content">
+            <!-- 6-Layer Protection -->
+            <div class="section">
+                <h2 class="section-title">🛡️ 6-Layer Safety Protection</h2>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 24px;">
+                    Multi-layer safeguards prevent dangerous unsubscribes from banking, security, medical, and other critical emails.
+                </p>
+
+                <div class="protection-layers">
+                    <div class="layer-card">
+                        <div class="layer-title">🏦 Domain Safelist</div>
+                        <div class="layer-description">
+                            60+ critical domains blocked: Chase, Wells Fargo, PayPal, Stripe, healthcare providers, utilities, and government.
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-title">🎯 Intent Patterns</div>
+                        <div class="layer-description">
+                            15+ intent patterns detect security alerts, billing notifications, medical communications, and critical transactions.
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-title">📧 Subject Patterns</div>
+                        <div class="layer-description">
+                            10+ critical subject patterns block password resets, 2FA codes, billing statements, and appointment reminders.
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-title">🚫 Transaction Block</div>
+                        <div class="layer-description">
+                            All transactional emails are protected. Only marketing and newsletter emails can be unsubscribed.
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-title">🧾 Receipt Protection</div>
+                        <div class="layer-description">
+                            All order confirmations, shipping notifications, and receipts are automatically protected from unsubscribe.
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-title">✋ Explicit Flags</div>
+                        <div class="layer-description">
+                            Respects shouldNeverUnsubscribe flags set by classification system for additional protection layer.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Example Protected Emails -->
+            <div class="section">
+                <h2 class="section-title">❌ Protected Emails (Will NOT Unsubscribe)</h2>
+                <div class="email-grid">
+                    <div class="email-card blocked">
+                        <div class="email-header">
+                            <div class="email-icon">🏦</div>
+                            <span class="protection-badge blocked">Blocked</span>
+                        </div>
+                        <div class="email-subject">Security Alert: New Login Detected</div>
+                        <div class="email-from">alerts@chase.com</div>
+                        <div class="email-reason">
+                            <strong>Protected by:</strong> Domain Safelist (banking), Intent Pattern (security)
+                        </div>
+                    </div>
+
+                    <div class="email-card blocked">
+                        <div class="email-header">
+                            <div class="email-icon">🔑</div>
+                            <span class="protection-badge blocked">Blocked</span>
+                        </div>
+                        <div class="email-subject">Reset Your Password</div>
+                        <div class="email-from">noreply@accounts.google.com</div>
+                        <div class="email-reason">
+                            <strong>Protected by:</strong> Subject Pattern (password reset), Intent Pattern (security)
+                        </div>
+                    </div>
+
+                    <div class="email-card blocked">
+                        <div class="email-header">
+                            <div class="email-icon">🏥</div>
+                            <span class="protection-badge blocked">Blocked</span>
+                        </div>
+                        <div class="email-subject">Appointment Reminder - Dr. Smith</div>
+                        <div class="email-from">appointments@healthcare.org</div>
+                        <div class="email-reason">
+                            <strong>Protected by:</strong> Intent Pattern (medical), Subject Pattern (appointment)
+                        </div>
+                    </div>
+
+                    <div class="email-card blocked">
+                        <div class="email-header">
+                            <div class="email-icon">💳</div>
+                            <span class="protection-badge blocked">Blocked</span>
+                        </div>
+                        <div class="email-subject">Your Bill is Ready</div>
+                        <div class="email-from">billing@pge.com</div>
+                        <div class="email-reason">
+                            <strong>Protected by:</strong> Domain Safelist (utility), Intent Pattern (billing)
+                        </div>
+                    </div>
+
+                    <div class="email-card blocked">
+                        <div class="email-header">
+                            <div class="email-icon">🔢</div>
+                            <span class="protection-badge blocked">Blocked</span>
+                        </div>
+                        <div class="email-subject">Your Verification Code: 123456</div>
+                        <div class="email-from">verify@service.com</div>
+                        <div class="email-reason">
+                            <strong>Protected by:</strong> Subject Pattern (2FA code), Intent Pattern (security)
+                        </div>
+                    </div>
+
+                    <div class="email-card blocked">
+                        <div class="email-header">
+                            <div class="email-icon">📦</div>
+                            <span class="protection-badge blocked">Blocked</span>
+                        </div>
+                        <div class="email-subject">Your Order Has Been Shipped</div>
+                        <div class="email-from">shipment-tracking@amazon.com</div>
+                        <div class="email-reason">
+                            <strong>Protected by:</strong> Receipt Protection, Transaction Block
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Safe to Unsubscribe -->
+            <div class="section">
+                <h2 class="section-title">✅ Safe to Unsubscribe</h2>
+                <div class="email-grid">
+                    <div class="email-card safe">
+                        <div class="email-header">
+                            <div class="email-icon">📰</div>
+                            <span class="protection-badge safe">Safe</span>
+                        </div>
+                        <div class="email-subject">This Week in Tech - Newsletter</div>
+                        <div class="email-from">newsletter@substack.com</div>
+                        <div class="email-reason">
+                            <strong>Safe:</strong> Marketing email with List-Unsubscribe header, no critical patterns detected
+                        </div>
+                    </div>
+
+                    <div class="email-card safe">
+                        <div class="email-header">
+                            <div class="email-icon">🛍️</div>
+                            <span class="protection-badge safe">Safe</span>
+                        </div>
+                        <div class="email-subject">50% Off Sale - Limited Time!</div>
+                        <div class="email-from">promos@retailstore.com</div>
+                        <div class="email-reason">
+                            <strong>Safe:</strong> Marketing/promotional email, no protected domains or patterns
+                        </div>
+                    </div>
+
+                    <div class="email-card safe">
+                        <div class="email-header">
+                            <div class="email-icon">📱</div>
+                            <span class="protection-badge safe">Safe</span>
+                        </div>
+                        <div class="email-subject">New Features You'll Love</div>
+                        <div class="email-from">updates@app.com</div>
+                        <div class="email-reason">
+                            <strong>Safe:</strong> Product updates newsletter, One-Click unsubscribe available
+                        </div>
+                    </div>
+
+                    <div class="email-card safe">
+                        <div class="email-header">
+                            <div class="email-icon">📊</div>
+                            <span class="protection-badge safe">Safe</span>
+                        </div>
+                        <div class="email-subject">TechCrunch Daily Roundup</div>
+                        <div class="email-from">daily@techcrunch.com</div>
+                        <div class="email-reason">
+                            <strong>Safe:</strong> Newsletter content, RFC 2369 compliant unsubscribe
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Classification Demo -->
+            <div class="section live-demo-section">
+                <h2 class="section-title">🔬 Live Classification Demo</h2>
+                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 24px;">
+                    Test the unsubscribe safety system with custom email addresses and subjects.
+                </p>
+
+                <div class="demo-input-group">
+                    <input
+                        type="email"
+                        id="demo-email-from"
+                        class="demo-input"
+                        placeholder="From: sender@example.com"
+                    >
+                    <input
+                        type="text"
+                        id="demo-email-subject"
+                        class="demo-input"
+                        placeholder="Subject: Your email subject..."
+                    >
+                    <button class="demo-button" onclick="classifyEmail()">
+                        Classify
+                    </button>
+                </div>
+
+                <div id="demo-result" class="demo-result">
+                    <div id="demo-result-content"></div>
+                </div>
+
+                <div style="margin-top: 20px; padding: 16px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; font-size: 13px; color: rgba(255, 255, 255, 0.7);">
+                    <strong>Try these examples:</strong><br>
+                    • alerts@chase.com - "Security Alert"<br>
+                    • noreply@accounts.google.com - "Reset your password"<br>
+                    • newsletter@substack.com - "This week's newsletter"<br>
+                    • promos@target.com - "50% off sale this weekend"
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <h2 class="cta-title">Ready to Experience Email Intelligence?</h2>
+            <p class="cta-description">
+                See how Zero's AI-powered email management saves time and keeps you safe.
+            </p>
+            <a href="app-demo.html" class="btn-primary">Try Live Demo</a>
+        </div>
+    </div>
+
+    <script>
+        // Tab Switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            if (tabName === 'shopping') {
+                document.getElementById('shopping-tab').classList.add('active');
+                document.querySelectorAll('.tab-button')[0].classList.add('active');
+            } else {
+                document.getElementById('unsubscribe-tab').classList.add('active');
+                document.querySelectorAll('.tab-button')[1].classList.add('active');
+            }
+        }
+
+        // Email Classification Demo
+        async function classifyEmail() {
+            const fromEmail = document.getElementById('demo-email-from').value.trim();
+            const subject = document.getElementById('demo-email-subject').value.trim();
+
+            if (!fromEmail || !subject) {
+                alert('Please enter both sender email and subject');
+                return;
+            }
+
+            const resultDiv = document.getElementById('demo-result');
+            const contentDiv = document.getElementById('demo-result-content');
+
+            // Show loading state
+            contentDiv.innerHTML = '<div style="text-align: center; color: rgba(255, 255, 255, 0.7);">Analyzing email...</div>';
+            resultDiv.classList.add('show');
+
+            // Simulate classification (in production, this would call the backend API)
+            setTimeout(() => {
+                const classification = mockClassifyEmail(fromEmail, subject);
+                displayClassificationResult(classification);
+            }, 800);
+        }
+
+        // Mock classification logic (matches backend safelist.js logic)
+        function mockClassifyEmail(fromEmail, subject) {
+            const email = fromEmail.toLowerCase();
+            const subjectLower = subject.toLowerCase();
+
+            // Banking domains
+            const bankingDomains = ['chase.com', 'wellsfargo.com', 'bankofamerica.com', 'paypal.com', 'stripe.com', 'citi.com', 'capitalone.com'];
+            // Security patterns
+            const securityPatterns = ['password', 'reset', 'security', 'verification', 'authenticate', '2fa', 'two-factor', 'login'];
+            // Medical patterns
+            const medicalPatterns = ['appointment', 'prescription', 'medical', 'health', 'doctor', 'clinic', 'hospital'];
+            // Utility domains
+            const utilityDomains = ['pge.com', 'att.com', 'verizon.com', 'comcast.com', 'spectrum.com'];
+            // Receipt patterns
+            const receiptPatterns = ['order', 'shipped', 'delivered', 'tracking', 'receipt', 'purchase', 'refund'];
+
+            // Check banking
+            if (bankingDomains.some(domain => email.includes(domain))) {
+                return {
+                    canUnsubscribe: false,
+                    reason: 'Banking email - protected by Domain Safelist',
+                    layers: ['Domain Safelist (Banking)']
+                };
+            }
+
+            // Check security
+            if (securityPatterns.some(pattern => subjectLower.includes(pattern))) {
+                return {
+                    canUnsubscribe: false,
+                    reason: 'Security email - protected by Subject Pattern and Intent Pattern',
+                    layers: ['Subject Pattern (Security)', 'Intent Pattern (Security)']
+                };
+            }
+
+            // Check medical
+            if (medicalPatterns.some(pattern => subjectLower.includes(pattern))) {
+                return {
+                    canUnsubscribe: false,
+                    reason: 'Medical email - protected by Subject Pattern',
+                    layers: ['Subject Pattern (Medical)', 'Intent Pattern (Medical)']
+                };
+            }
+
+            // Check utility
+            if (utilityDomains.some(domain => email.includes(domain))) {
+                return {
+                    canUnsubscribe: false,
+                    reason: 'Utility bill - protected by Domain Safelist',
+                    layers: ['Domain Safelist (Utility)']
+                };
+            }
+
+            // Check receipts
+            if (receiptPatterns.some(pattern => subjectLower.includes(pattern))) {
+                return {
+                    canUnsubscribe: false,
+                    reason: 'Order/Receipt email - protected by Receipt Protection',
+                    layers: ['Receipt Protection', 'Transaction Block']
+                };
+            }
+
+            // Safe to unsubscribe
+            return {
+                canUnsubscribe: true,
+                reason: 'Marketing/Newsletter email - safe to unsubscribe',
+                layers: []
+            };
+        }
+
+        function displayClassificationResult(classification) {
+            const contentDiv = document.getElementById('demo-result-content');
+
+            if (classification.canUnsubscribe) {
+                contentDiv.innerHTML = `
+                    <div class="result-status" style="background: rgba(16, 185, 129, 0.2); border: 1px solid rgba(16, 185, 129, 0.4); color: #6ee7b7;">
+                        ✅ Safe to Unsubscribe
+                    </div>
+                    <div class="result-details">
+                        ${classification.reason}
+                    </div>
+                `;
+            } else {
+                contentDiv.innerHTML = `
+                    <div class="result-status" style="background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.4); color: #fca5a5;">
+                        🛡️ Protected - Cannot Unsubscribe
+                    </div>
+                    <div class="result-details">
+                        <strong>Reason:</strong> ${classification.reason}<br><br>
+                        <strong>Protection Layers:</strong><br>
+                        ${classification.layers.map(layer => `• ${layer}`).join('<br>')}
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>

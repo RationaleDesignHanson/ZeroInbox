@@ -77,37 +77,8 @@ struct AttachmentViewerModal: View {
     // MARK: - Subviews
 
     private var headerView: some View {
-        HStack {
-            Button {
-                isPresented = false
-            } label: {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.title2)
-                    .foregroundColor(DesignTokens.Colors.textSubtle)
-            }
-
-            Spacer()
-
-            VStack(spacing: 4) {
-                Text("Attachments")
-                    .font(.title3.bold())
-                    .foregroundColor(DesignTokens.Colors.textPrimary)
-
-                if let attachments = card.attachments {
-                    Text("\(attachments.count) file\(attachments.count == 1 ? "" : "s")")
-                        .font(.caption)
-                        .foregroundColor(.purple.opacity(DesignTokens.Opacity.textTertiary))
-                }
-            }
-
-            Spacer()
-
-            // Placeholder for symmetry
-            Color.clear.frame(width: 40)
-        }
-        .padding(.horizontal, DesignTokens.Spacing.card)
-        .padding(.vertical, DesignTokens.Spacing.section)
-        .background(
+        ZStack {
+            // Background styling
             ZStack {
                 Color.black.opacity(DesignTokens.Opacity.overlayMedium)
                 LinearGradient(
@@ -116,7 +87,21 @@ struct AttachmentViewerModal: View {
                     endPoint: .trailing
                 )
             }
-        )
+
+            // Header with dynamic subtitle
+            ModalHeader(
+                isPresented: $isPresented,
+                title: "Attachments",
+                subtitle: attachmentCountSubtitle,
+                alignment: .center
+            )
+        }
+    }
+
+    /// Computed dynamic subtitle for attachment count
+    private var attachmentCountSubtitle: String {
+        guard let attachments = card.attachments else { return "No files" }
+        return "\(attachments.count) file\(attachments.count == 1 ? "" : "s")"
     }
 
     private func attachmentRow(_ attachment: EmailAttachment) -> some View {
@@ -298,6 +283,7 @@ struct AttachmentViewerModal: View {
     }
 
     private func fetchAttachmentData(messageId: String, attachmentId: String) async throws -> Data {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         #if DEBUG
         let baseURL = Constants.API.Development.gatewayBaseURL
         #else
@@ -309,28 +295,38 @@ struct AttachmentViewerModal: View {
             throw NSError(domain: "AttachmentViewer", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-
-        // Add auth token if available
+        // Prepare auth headers
+        var headers: [String: String] = [:]
         if let token = getAuthToken() {
-            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            headers["Authorization"] = "Bearer \(token)"
         }
 
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw NSError(domain: "AttachmentViewer", code: -2, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch attachment"])
+        struct AttachmentResponse: Codable {
+            let data: String  // Base64 encoded
         }
 
-        // Parse response to get base64 data
-        if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
-           let base64String = json["data"] as? String,
-           let decodedData = Data(base64Encoded: base64String) {
+        do {
+            let response: AttachmentResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .get,
+                headers: headers,
+                body: Optional<String>.none
+            )
+
+            guard let decodedData = Data(base64Encoded: response.data) else {
+                throw NSError(domain: "AttachmentViewer", code: -3, userInfo: [NSLocalizedDescriptionKey: "Invalid base64 data"])
+            }
+
             return decodedData
-        }
 
-        throw NSError(domain: "AttachmentViewer", code: -3, userInfo: [NSLocalizedDescriptionKey: "Invalid attachment data"])
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                throw NSError(domain: "AttachmentViewer", code: -2, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch attachment: HTTP \(statusCode)"])
+            }
+            throw NSError(domain: "AttachmentViewer", code: -2, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch attachment"])
+        } catch {
+            throw NSError(domain: "AttachmentViewer", code: -3, userInfo: [NSLocalizedDescriptionKey: "Invalid attachment data"])
+        }
     }
 
     private func writeToTemporaryFile(data: Data, filename: String) async throws -> URL {

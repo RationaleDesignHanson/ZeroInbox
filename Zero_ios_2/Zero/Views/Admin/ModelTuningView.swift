@@ -1,3 +1,4 @@
+#if DEBUG
 import SwiftUI
 
 /// Collapsible category section for missed actions
@@ -922,3 +923,4 @@ extension CardType {
 #Preview {
     ModelTuningView()
 }
+#endif

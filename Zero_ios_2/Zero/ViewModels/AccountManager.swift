@@ -41,25 +41,28 @@ class AccountManager: ObservableObject {
 
     /// Fetch accounts from backend
     func fetchAccounts(userId: String) async {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         isLoadingAccounts = true
         errorMessage = nil
 
         do {
             let url = URL(string: "\(baseURL)/api/auth/accounts?userId=\(userId)")!
-            let (data, response) = try await URLSession.shared.data(from: url)
 
-            guard let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200 else {
-                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to fetch accounts"])
-            }
-
-            let json = try JSONDecoder().decode(AccountsResponse.self, from: data)
+            let json: AccountsResponse = try await NetworkService.shared.get(url: url)
             accounts = json.accounts
             activeAccount = accounts.first(where: { $0.isPrimary }) ?? accounts.first
 
             saveAccountsToStorage()
             Logger.info("Fetched \(accounts.count) accounts from backend", category: .app)
 
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                errorMessage = "Failed to load accounts: HTTP \(statusCode)"
+                Logger.error("Failed to fetch accounts: \(statusCode)", category: .app)
+            } else {
+                errorMessage = "Failed to load accounts: \(error.localizedDescription)"
+                Logger.error("Failed to fetch accounts", category: .app, error: error)
+            }
         } catch {
             errorMessage = "Failed to load accounts: \(error.localizedDescription)"
             Logger.error("Failed to fetch accounts", category: .app, error: error)
@@ -79,18 +82,13 @@ class AccountManager: ObservableObject {
 
     /// Remove an account
     func removeAccount(_ account: EmailAccount, userId: String) async {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         errorMessage = nil
 
         do {
-            var request = URLRequest(url: URL(string: "\(baseURL)/api/auth/accounts/\(account.id)?userId=\(userId)")!)
-            request.httpMethod = "DELETE"
+            let url = URL(string: "\(baseURL)/api/auth/accounts/\(account.id)?userId=\(userId)")!
 
-            let (_, response) = try await URLSession.shared.data(for: request)
-
-            guard let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200 else {
-                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to remove account"])
-            }
+            try await NetworkService.shared.delete(url: url)
 
             // Remove from local list
             accounts.removeAll(where: { $0.id == account.id })
@@ -103,6 +101,14 @@ class AccountManager: ObservableObject {
             saveAccountsToStorage()
             Logger.info("Removed account: \(account.email)", category: .app)
 
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                errorMessage = "Failed to remove account: HTTP \(statusCode)"
+                Logger.error("Failed to remove account: \(statusCode)", category: .app)
+            } else {
+                errorMessage = "Failed to remove account: \(error.localizedDescription)"
+                Logger.error("Failed to remove account", category: .app, error: error)
+            }
         } catch {
             errorMessage = "Failed to remove account: \(error.localizedDescription)"
             Logger.error("Failed to remove account", category: .app, error: error)
@@ -130,18 +136,18 @@ class AccountManager: ObservableObject {
 
     /// Set an account as primary
     func setPrimaryAccount(_ account: EmailAccount, userId: String) async {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         errorMessage = nil
 
         do {
-            var request = URLRequest(url: URL(string: "\(baseURL)/api/auth/accounts/\(account.id)/set-primary?userId=\(userId)")!)
-            request.httpMethod = "PATCH"
+            let url = URL(string: "\(baseURL)/api/auth/accounts/\(account.id)/set-primary?userId=\(userId)")!
 
-            let (_, response) = try await URLSession.shared.data(for: request)
-
-            guard let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200 else {
-                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to set primary account"])
-            }
+            struct EmptyResponse: Codable {}
+            let _: EmptyResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .patch,
+                body: Optional<String>.none
+            )
 
             // Update local accounts
             accounts = accounts.map { a in
@@ -154,6 +160,14 @@ class AccountManager: ObservableObject {
             saveAccountsToStorage()
             Logger.info("Set primary account: \(account.email)", category: .app)
 
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                errorMessage = "Failed to set primary account: HTTP \(statusCode)"
+                Logger.error("Failed to set primary account: \(statusCode)", category: .app)
+            } else {
+                errorMessage = "Failed to set primary account: \(error.localizedDescription)"
+                Logger.error("Failed to set primary account", category: .app, error: error)
+            }
         } catch {
             errorMessage = "Failed to set primary account: \(error.localizedDescription)"
             Logger.error("Failed to set primary account", category: .app, error: error)
@@ -162,23 +176,24 @@ class AccountManager: ObservableObject {
 
     /// Enable or disable an account
     func toggleAccountEnabled(_ account: EmailAccount, userId: String) async {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         errorMessage = nil
         let newEnabledState = !account.enabled
 
         do {
-            var request = URLRequest(url: URL(string: "\(baseURL)/api/auth/accounts/\(account.id)?userId=\(userId)")!)
-            request.httpMethod = "PATCH"
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            let url = URL(string: "\(baseURL)/api/auth/accounts/\(account.id)?userId=\(userId)")!
 
-            let body = ["enabled": newEnabledState]
-            request.httpBody = try JSONEncoder().encode(body)
-
-            let (_, response) = try await URLSession.shared.data(for: request)
-
-            guard let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200 else {
-                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to toggle account"])
+            struct ToggleEnabledRequest: Codable {
+                let enabled: Bool
             }
+            struct EmptyResponse: Codable {}
+
+            let requestBody = ToggleEnabledRequest(enabled: newEnabledState)
+            let _: EmptyResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .patch,
+                body: requestBody
+            )
 
             // Update local account
             if let index = accounts.firstIndex(where: { $0.id == account.id }) {
@@ -188,6 +203,14 @@ class AccountManager: ObservableObject {
             saveAccountsToStorage()
             Logger.info("Toggled account \(account.email): \(newEnabledState ? "enabled" : "disabled")", category: .app)
 
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                errorMessage = "Failed to toggle account: HTTP \(statusCode)"
+                Logger.error("Failed to toggle account: \(statusCode)", category: .app)
+            } else {
+                errorMessage = "Failed to toggle account: \(error.localizedDescription)"
+                Logger.error("Failed to toggle account", category: .app, error: error)
+            }
         } catch {
             errorMessage = "Failed to toggle account: \(error.localizedDescription)"
             Logger.error("Failed to toggle account", category: .app, error: error)
@@ -196,18 +219,18 @@ class AccountManager: ObservableObject {
 
     /// Sync a specific account
     func syncAccount(_ account: EmailAccount, userId: String) async {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         errorMessage = nil
 
         do {
-            var request = URLRequest(url: URL(string: "\(baseURL)/api/auth/accounts/\(account.id)/sync?userId=\(userId)")!)
-            request.httpMethod = "POST"
+            let url = URL(string: "\(baseURL)/api/auth/accounts/\(account.id)/sync?userId=\(userId)")!
 
-            let (_, response) = try await URLSession.shared.data(for: request)
-
-            guard let httpResponse = response as? HTTPURLResponse,
-                  httpResponse.statusCode == 200 else {
-                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Failed to sync account"])
-            }
+            struct EmptyResponse: Codable {}
+            let _: EmptyResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                body: Optional<String>.none
+            )
 
             // Update last synced timestamp
             if let index = accounts.firstIndex(where: { $0.id == account.id }) {
@@ -217,6 +240,14 @@ class AccountManager: ObservableObject {
             saveAccountsToStorage()
             Logger.info("Synced account: \(account.email)", category: .app)
 
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                errorMessage = "Failed to sync account: HTTP \(statusCode)"
+                Logger.error("Failed to sync account: \(statusCode)", category: .app)
+            } else {
+                errorMessage = "Failed to sync account: \(error.localizedDescription)"
+                Logger.error("Failed to sync account", category: .app, error: error)
+            }
         } catch {
             errorMessage = "Failed to sync account: \(error.localizedDescription)"
             Logger.error("Failed to sync account", category: .app, error: error)

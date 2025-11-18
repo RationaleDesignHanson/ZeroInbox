@@ -1,0 +1,96 @@
+{
+  "id": "pay_invoice",
+  "title": "Pay Invoice",
+  "subtitle": null,
+  "icon": {
+    "systemName": "doc.text.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "invoice_details",
+      "title": "Invoice Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "invoice_id",
+          "label": "Invoice ID",
+          "type": "badge",
+          "contextKey": "invoiceId",
+          "required": true,
+          "copyable": true,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "amount_due",
+          "label": "Amount Due",
+          "type": "currency",
+          "contextKey": "amount",
+          "required": true,
+          "copyable": false,
+          "placeholder": "$0.00",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "merchant",
+          "label": "Merchant",
+          "type": "text",
+          "contextKey": "merchant",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Unknown Merchant",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "due_date",
+          "label": "Due Date",
+          "type": "date",
+          "contextKey": "dueDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "No due date",
+          "formatting": {
+            "type": "dateFull",
+            "options": null
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "late_fee",
+          "label": "Late Fee",
+          "type": "currency",
+          "contextKey": "lateFee",
+          "required": false,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Pay Now",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "paymentLink"
+    }
+  },
+  "secondaryButton": {
+    "title": "Preview Invoice",
+    "style": "secondary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "invoiceUrl"
+    }
+  },
+  "layout": "standard"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "legal-pages",
+  "version": "1.0.0",
+  "description": "Legal pages for Zero Inbox",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

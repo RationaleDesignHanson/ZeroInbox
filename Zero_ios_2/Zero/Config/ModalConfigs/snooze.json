@@ -1,0 +1,70 @@
+{
+  "id": "snooze",
+  "title": "Snooze Email",
+  "subtitle": null,
+  "icon": {
+    "systemName": "clock.badge.checkmark.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "snooze_info",
+      "title": "Reminder",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "email_title",
+          "label": "Email",
+          "type": "text",
+          "contextKey": "emailTitle",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Email subject",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "snooze_until",
+          "label": "Remind Me",
+          "type": "dateTimePicker",
+          "contextKey": "snoozeUntil",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select time",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "note",
+          "label": "Note",
+          "type": "text",
+          "contextKey": "note",
+          "required": false,
+          "copyable": false,
+          "placeholder": "When should we remind you?",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Snooze Email",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Cancel",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

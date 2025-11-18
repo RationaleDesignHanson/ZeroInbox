@@ -92,15 +92,7 @@ struct SaveSnoozeMenuView: View {
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
                     }
-                    .padding(DesignTokens.Spacing.section)
-                    .background(
-                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                            .fill(buttonBackgroundColor)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .strokeBorder(borderColor, lineWidth: 1)
-                            )
-                    )
+                    .glassCard(borderColor: borderColor)
                 }
                 .buttonStyle(PlainButtonStyle())
 
@@ -149,15 +141,7 @@ struct SaveSnoozeMenuView: View {
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(textColor.opacity(DesignTokens.Opacity.overlayMedium))
                     }
-                    .padding(DesignTokens.Spacing.section)
-                    .background(
-                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                            .fill(buttonBackgroundColor)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .strokeBorder(borderColor, lineWidth: 1)
-                            )
-                    )
+                    .glassCard(borderColor: borderColor)
                 }
                 .buttonStyle(PlainButtonStyle())
             }

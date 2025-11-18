@@ -1,0 +1,78 @@
+{
+  "id": "unsubscribe",
+  "title": "Unsubscribe",
+  "subtitle": null,
+  "icon": {
+    "systemName": "envelope.badge.fill",
+    "colorKey": null,
+    "staticColor": "orange",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "service_info",
+      "title": "Service",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "service_name",
+          "label": "Service",
+          "type": "text",
+          "contextKey": "serviceName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Service name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "unsubscribe_url",
+          "label": "Unsubscribe Link",
+          "type": "text",
+          "contextKey": "unsubscribeUrl",
+          "required": true,
+          "copyable": true,
+          "placeholder": "Unsubscribe URL",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "reason_info",
+      "title": "Reason (Optional)",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "reason",
+          "label": "Why are you unsubscribing?",
+          "type": "text",
+          "contextKey": "reason",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Select reason",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Unsubscribe",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "unsubscribeUrl"
+    }
+  },
+  "secondaryButton": {
+    "title": "Keep Receiving Emails",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

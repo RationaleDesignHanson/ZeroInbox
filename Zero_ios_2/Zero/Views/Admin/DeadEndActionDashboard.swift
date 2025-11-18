@@ -1,3 +1,4 @@
+#if DEBUG
 import SwiftUI
 import Charts
 
@@ -85,35 +86,18 @@ struct DeadEndActionDashboard: View {
     // MARK: - Loading View
 
     var loadingView: some View {
-        VStack(spacing: 20) {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                .scaleEffect(1.5)
-
-            Text("Loading analytics...")
-                .font(.headline)
-                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
-        }
+        LoadingSpinner(text: "Loading analytics...", size: .medium)
     }
 
     // MARK: - Empty State
 
     var emptyStateView: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "chart.bar.xaxis")
-                .font(.system(size: 60))
-                .foregroundColor(.blue.opacity(DesignTokens.Opacity.textDisabled))
-
-            Text("No Data Yet")
-                .font(.title2.bold())
-                .foregroundColor(.white)
-
-            Text("Dead-end actions will appear here when users request incomplete features")
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 40)
-        }
+        GenericEmptyState(
+            icon: "chart.bar.xaxis",
+            title: "No Data Yet",
+            message: "Dead-end actions will appear here when users request incomplete features",
+            action: nil
+        )
     }
 
     // MARK: - Dashboard Content
@@ -779,3 +763,4 @@ enum DateRangeFilter: String, CaseIterable {
 #Preview {
     DeadEndActionDashboard()
 }
+#endif

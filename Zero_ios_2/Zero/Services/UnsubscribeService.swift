@@ -17,6 +17,70 @@ class UnsubscribeService {
     ///   - reason: Optional reason for unsubscribing
     ///   - customReason: Custom reason text if "Other" selected
     ///   - senderName: Name of the sender/company
+    /// - Throws: UnsubscribeError if the unsubscribe fails
+    func unsubscribe(
+        url: String,
+        reason: String?,
+        customReason: String?,
+        senderName: String?
+    ) async throws {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService with async/await
+        Logger.info("Attempting unsubscribe: \(url)", category: .action)
+
+        // Validate URL
+        guard let unsubscribeURL = URL(string: url) else {
+            Logger.error("Invalid unsubscribe URL: \(url)", category: .action)
+            throw UnsubscribeError.invalidURL
+        }
+
+        // Set custom headers for unsubscribe requests
+        let headers = [
+            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
+        ]
+
+        do {
+            // Most unsubscribe links are GET requests
+            try await NetworkService.shared.request(
+                url: unsubscribeURL,
+                method: .get,
+                headers: headers
+            )
+
+            Logger.info("Unsubscribe successful", category: .action)
+
+            // Log analytics
+            logUnsubscribeAnalytics(
+                url: url,
+                reason: reason,
+                customReason: customReason,
+                senderName: senderName
+            )
+        } catch let error as NetworkServiceError {
+            // Map NetworkServiceError to UnsubscribeError
+            if let statusCode = error.statusCode {
+                // Accept 3xx redirects as success (common for unsubscribe flows)
+                if (300...399).contains(statusCode) {
+                    Logger.info("Unsubscribe redirect (3xx) - considering success", category: .action)
+                    logUnsubscribeAnalytics(url: url, reason: reason, customReason: customReason, senderName: senderName)
+                    return
+                }
+                Logger.error("Unsubscribe failed with status: \(statusCode)", category: .network)
+                throw UnsubscribeError.serverError(statusCode)
+            }
+            Logger.error("Unsubscribe network error: \(error)", category: .network)
+            throw UnsubscribeError.networkError(error)
+        } catch {
+            Logger.error("Unsubscribe error: \(error)", category: .network)
+            throw UnsubscribeError.networkError(error)
+        }
+    }
+
+    /// Legacy completion-handler version for backward compatibility
+    /// - Parameters:
+    ///   - url: Unsubscribe URL from the email
+    ///   - reason: Optional reason for unsubscribing
+    ///   - customReason: Custom reason text if "Other" selected
+    ///   - senderName: Name of the sender/company
     ///   - completion: Result callback with success or error
     func unsubscribe(
         url: String,
@@ -25,63 +89,16 @@ class UnsubscribeService {
         senderName: String?,
         completion: @escaping (Result<Void, UnsubscribeError>) -> Void
     ) {
-        // Log unsubscribe attempt
-        Logger.info("Attempting unsubscribe: \(url)", category: .action)
-
-        // Validate URL
-        guard let unsubscribeURL = URL(string: url) else {
-            Logger.error("Invalid unsubscribe URL: \(url)", category: .action)
-            completion(.failure(.invalidURL))
-            return
-        }
-
-        // Create URL request
-        var request = URLRequest(url: unsubscribeURL)
-        request.httpMethod = "GET" // Most unsubscribe links are GET requests
-        request.timeoutInterval = 30
-
-        // Set user agent to identify as iOS app
-        request.setValue(
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
-            forHTTPHeaderField: "User-Agent"
-        )
-
-        // Execute request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // Check for network errors
-            if let error = error {
-                Logger.error("Unsubscribe network error: \(error.localizedDescription)", category: .network)
-                completion(.failure(.networkError(error)))
-                return
-            }
-
-            // Check HTTP response
-            guard let httpResponse = response as? HTTPURLResponse else {
-                Logger.error("Invalid HTTP response for unsubscribe", category: .network)
-                completion(.failure(.invalidResponse))
-                return
-            }
-
-            Logger.info("Unsubscribe response status: \(httpResponse.statusCode)", category: .network)
-
-            // Accept 2xx and 3xx status codes as success
-            if (200...399).contains(httpResponse.statusCode) {
-                // Log analytics
-                self.logUnsubscribeAnalytics(
-                    url: url,
-                    reason: reason,
-                    customReason: customReason,
-                    senderName: senderName
-                )
-
+        Task {
+            do {
+                try await unsubscribe(url: url, reason: reason, customReason: customReason, senderName: senderName)
                 completion(.success(()))
-            } else {
-                Logger.error("Unsubscribe failed with status: \(httpResponse.statusCode)", category: .network)
-                completion(.failure(.serverError(httpResponse.statusCode)))
+            } catch let error as UnsubscribeError {
+                completion(.failure(error))
+            } catch {
+                completion(.failure(.networkError(error)))
             }
         }
-
-        task.resume()
     }
 
     // MARK: - Analytics

@@ -153,8 +153,24 @@ function calculateEntityReadiness(action, entityMetadata = {}) {
 /**
  * Calculate action type preference
  * IN_APP actions are generally faster/easier than GO_TO
+ * BUT for newsletters/ads, GO_TO should be preferred
  */
-function getActionTypeBoost(actionType) {
+function getActionTypeBoost(actionType, emailArchetype) {
+  // For newsletters and ads, prefer GO_TO (view website) over quick reply
+  if (emailArchetype === 'newsletter' || emailArchetype === 'ads') {
+    switch (actionType) {
+      case 'GO_TO':
+        return 1.15;    // 15% boost - newsletters are meant to be clicked
+      case 'IN_APP':
+        return 1.1;     // 10% boost - stays in app
+      case 'QUICK_REPLY':
+        return 0.95;    // 5% penalty - not typical for newsletters
+      default:
+        return 1.0;
+    }
+  }
+
+  // For other email types, prefer quick/in-app actions
   switch (actionType) {
     case 'IN_APP':
       return 1.1;     // 10% boost - faster, stays in app
@@ -188,7 +204,8 @@ function prioritizeActions(actions, context = {}) {
     entityMetadata = {},
     isUrgent = false,
     timePeriod = getTimePeriod(),
-    intent = ''
+    intent = '',
+    emailArchetype = ''
   } = context;
 
   // Calculate priority scores for each action
@@ -206,8 +223,8 @@ function prioritizeActions(actions, context = {}) {
     const entityReadiness = calculateEntityReadiness(action, entityMetadata);
     score *= (0.5 + entityReadiness.score * 0.5);  // 50% base + 50% readiness
 
-    // Factor 3: Action type preference
-    const typeBoost = getActionTypeBoost(action.actionType);
+    // Factor 3: Action type preference (archetype-aware)
+    const typeBoost = getActionTypeBoost(action.actionType, emailArchetype);
     score *= typeBoost;
 
     // Factor 4: Urgency

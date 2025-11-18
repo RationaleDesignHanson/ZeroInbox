@@ -1,0 +1,78 @@
+{
+  "id": "browse_shopping",
+  "title": "Browse Products",
+  "subtitle": null,
+  "icon": {
+    "systemName": "cart.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "merchant_info",
+      "title": "Shop Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "merchant",
+          "label": "Merchant",
+          "type": "text",
+          "contextKey": "merchant",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Store name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "product_count",
+          "label": "Products Available",
+          "type": "text",
+          "contextKey": "productCount",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Browse products",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "browse_info",
+      "title": "Browse",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "note",
+          "label": "Note",
+          "type": "text",
+          "contextKey": "note",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Search and filter products by category",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Visit Store",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "storeUrl"
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

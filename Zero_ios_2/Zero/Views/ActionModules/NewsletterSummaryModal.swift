@@ -21,18 +21,7 @@ struct NewsletterSummaryModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding()
+            ModalHeader(isPresented: $isPresented)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.card) {

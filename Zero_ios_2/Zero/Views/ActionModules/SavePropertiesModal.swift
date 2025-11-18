@@ -22,18 +22,8 @@ struct SavePropertiesModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header bar
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding()
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             // Scrollable content
             ScrollView {
@@ -317,13 +307,9 @@ struct SavePropertiesModal: View {
         let savedProperties = properties.filter { $0.isSaved }
         let propertyList = savedProperties.map { "\($0.title) - \($0.price)" }.joined(separator: "\n")
 
-        UIPasteboard.general.string = "My Saved Properties:\n\n\(propertyList)"
+        ClipboardUtility.copy("My Saved Properties:\n\n\(propertyList)")
 
         Logger.info("Properties copied to clipboard", category: .action)
-
-        // Haptic feedback
-        let impact = UINotificationFeedbackGenerator()
-        impact.notificationOccurred(.success)
     }
 }
 

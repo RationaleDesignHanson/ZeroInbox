@@ -27,7 +27,7 @@ struct CreateFolderView: View {
 
     /// Computed user ID from Keychain
     private var userId: String {
-        getUserEmail() ?? "user-123"
+        getUserEmail() ?? AuthContext.getUserId()
     }
 
     var body: some View {

@@ -1,0 +1,88 @@
+{
+  "id": "add_reminder",
+  "title": "Set Reminder",
+  "subtitle": null,
+  "icon": {
+    "systemName": "bell.badge.fill",
+    "colorKey": null,
+    "staticColor": "orange",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "reminder_details",
+      "title": "Reminder Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "reminder_title",
+          "label": "Reminder",
+          "type": "text",
+          "contextKey": "reminderTitle",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Reminder title",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "type": "text",
+          "contextKey": "reminderNotes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Add notes",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "due_date",
+          "label": "Due Date",
+          "type": "dateTime",
+          "contextKey": "dueDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "No due date",
+          "formatting": {
+            "type": "dateTime",
+            "options": null
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "priority",
+          "label": "Priority",
+          "type": "badge",
+          "contextKey": "priority",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Medium",
+          "formatting": null,
+          "colorMapping": {
+            "high": "red",
+            "medium": "orange",
+            "low": "blue"
+          }
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Create Reminder",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

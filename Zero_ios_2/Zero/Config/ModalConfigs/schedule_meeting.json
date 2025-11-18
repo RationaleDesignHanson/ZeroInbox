@@ -1,0 +1,70 @@
+{
+  "id": "schedule_meeting",
+  "title": "Schedule Meeting",
+  "subtitle": null,
+  "icon": {
+    "systemName": "calendar.badge.clock",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "meeting_details",
+      "title": "Meeting Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "attendee",
+          "label": "Meeting With",
+          "type": "text",
+          "contextKey": "attendeeName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Attendee name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "time_slot",
+          "label": "Time Slot",
+          "type": "text",
+          "contextKey": "timeSlot",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select time",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "duration",
+          "label": "Duration",
+          "type": "text",
+          "contextKey": "duration",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Meeting duration",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Send Availability",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

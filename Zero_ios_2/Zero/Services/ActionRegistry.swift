@@ -128,6 +128,9 @@ struct ActionConfig {
     // v2.2 - Confirmation & Undo
     let confirmationRequirement: ConfirmationRequirement  // Pre-confirmation or post-execution undo
 
+    // v2.3 - JSON Modal Configuration
+    let modalConfigJSON: String?  // JSON config filename (e.g., "track_package" → Config/ModalConfigs/track_package.json)
+
     enum FallbackBehavior: String {
         case showError = "show_error"
         case showToast = "show_toast"
@@ -151,7 +154,8 @@ struct ActionConfig {
         featureFlag: String? = nil,
         requiredPermission: ActionPermission = .free,
         availability: ActionAvailability = .alwaysAvailable,
-        confirmationRequirement: ConfirmationRequirement = .none
+        confirmationRequirement: ConfirmationRequirement = .none,
+        modalConfigJSON: String? = nil
     ) {
         self.actionId = actionId
         self.displayName = displayName
@@ -168,6 +172,7 @@ struct ActionConfig {
         self.requiredPermission = requiredPermission
         self.availability = availability
         self.confirmationRequirement = confirmationRequirement
+        self.modalConfigJSON = modalConfigJSON
     }
 }
 
@@ -306,13 +311,41 @@ class ActionRegistry {
     // MARK: - Registry Data
 
     /// All registered actions (actionId -> ActionConfig)
+    /// Phase 3 Optimization: Merges JSON and Swift actions at initialization time
+    /// This eliminates repeated JSON parsing on every action lookup
     private(set) lazy var registry: [String: ActionConfig] = {
         var actions: [String: ActionConfig] = [:]
 
-        // Register all actions
-        allActions.forEach { action in
-            actions[action.actionId] = action
+        // PHASE 3: Load JSON actions first (takes priority)
+        Logger.info("Initializing ActionRegistry with JSON+Swift hybrid registry", category: .action)
+
+        let jsonActions = ActionLoader.shared.getAllActions()
+        var jsonLoadedCount = 0
+        var jsonFailedCount = 0
+
+        for jsonAction in jsonActions {
+            if let actionConfig = jsonAction.toActionConfig() {
+                actions[actionConfig.actionId] = actionConfig
+                jsonLoadedCount += 1
+            } else {
+                Logger.warning("Failed to convert JSON action '\(jsonAction.actionId)' to ActionConfig", category: .action)
+                jsonFailedCount += 1
+            }
         }
+
+        Logger.info("Loaded \(jsonLoadedCount) actions from JSON (\(jsonFailedCount) failed)", category: .action)
+
+        // FALLBACK: Register Swift actions (won't overwrite JSON actions)
+        var swiftActionCount = 0
+        allActions.forEach { action in
+            if actions[action.actionId] == nil {
+                actions[action.actionId] = action
+                swiftActionCount += 1
+            }
+        }
+
+        Logger.info("Registered \(swiftActionCount) Swift fallback actions", category: .action)
+        Logger.info("Total actions in registry: \(actions.count)", category: .action)
 
         return actions
     }()
@@ -327,14 +360,15 @@ class ActionRegistry {
                 displayName: "Track Package",
                 actionType: .inApp,
                 mode: .both,
-                modalComponent: "TrackPackageModal",
+                modalComponent: nil,
                 requiredContextKeys: ["trackingNumber", "carrier"],
                 optionalContextKeys: ["url", "expectedDelivery", "currentStatus"],
                 fallbackBehavior: .showError,
                 analyticsEvent: "action_track_package",
                 priority: .veryHigh,
                 description: "Track package delivery status with carrier details",
-                requiredPermission: .premium
+                requiredPermission: .premium,
+                modalConfigJSON: "track_package"
             ),
 
             // Pay Invoice - High-fidelity modal with payment amount, merchant info (PREMIUM)
@@ -343,7 +377,7 @@ class ActionRegistry {
                 displayName: "Pay Invoice",
                 actionType: .inApp,
                 mode: .both,
-                modalComponent: "PayInvoiceModal",
+                modalComponent: nil,
                 requiredContextKeys: ["invoiceId", "amount", "merchant"],
                 optionalContextKeys: ["paymentLink", "dueDate", "description"],
                 fallbackBehavior: .showError,
@@ -354,7 +388,8 @@ class ActionRegistry {
                 confirmationRequirement: .confirmWithUndo(
                     confirmation: "Confirm payment to {merchant} for ${amount}?",
                     undo: UndoConfig(toastMessage: "Payment sent. Tap to undo.")
-                )
+                ),
+                modalConfigJSON: "pay_invoice"
             ),
 
             // Check In Flight - High-fidelity modal with flight details (PREMIUM)
@@ -363,14 +398,15 @@ class ActionRegistry {
                 displayName: "Check In",
                 actionType: .inApp,
                 mode: .both,
-                modalComponent: "CheckInFlightModal",
+                modalComponent: nil,
                 requiredContextKeys: ["flightNumber", "airline"],
                 optionalContextKeys: ["checkInUrl", "departureTime", "gate", "seat"],
                 fallbackBehavior: .showError,
                 analyticsEvent: "action_check_in_flight",
                 priority: .critical,
                 description: "Check in for flight with airline details",
-                requiredPermission: .premium
+                requiredPermission: .premium,
+                modalConfigJSON: "check_in_flight"
             ),
 
             // Write Review - High-fidelity modal with product info
@@ -379,13 +415,14 @@ class ActionRegistry {
                 displayName: "Write Review",
                 actionType: .inApp,
                 mode: .both,
-                modalComponent: "WriteReviewModal",
+                modalComponent: nil,
                 requiredContextKeys: ["productName"],
                 optionalContextKeys: ["reviewLink", "orderNumber", "productImage"],
                 fallbackBehavior: .openEmailComposer,
                 analyticsEvent: "action_write_review",
                 priority: .mediumLow,
-                description: "Write product review"
+                description: "Write product review",
+                modalConfigJSON: "write_review"
             ),
 
             // Contact Driver - High-fidelity modal with driver contact info
@@ -394,13 +431,14 @@ class ActionRegistry {
                 displayName: "Contact Driver",
                 actionType: .inApp,
                 mode: .both,
-                modalComponent: "ContactDriverModal",
+                modalComponent: nil,
                 requiredContextKeys: [],
                 optionalContextKeys: ["driverName", "driverPhone", "vehicleInfo", "eta"],
                 fallbackBehavior: .openEmailComposer,
                 analyticsEvent: "action_contact_driver",
                 priority: .high,
-                description: "Contact delivery driver"
+                description: "Contact delivery driver",
+                modalConfigJSON: "contact_driver"
             ),
 
             // View Pickup Details - High-fidelity modal with pharmacy/prescription info
@@ -409,13 +447,14 @@ class ActionRegistry {
                 displayName: "View Pickup Details",
                 actionType: .inApp,
                 mode: .both,
-                modalComponent: "PickupDetailsModal",
+                modalComponent: nil,
                 requiredContextKeys: ["pharmacy"],
                 optionalContextKeys: ["rxNumber", "address", "phone", "hours"],
                 fallbackBehavior: .showError,
                 analyticsEvent: "action_view_pickup_details",
                 priority: .mediumHigh,
-                description: "View prescription pickup details"
+                description: "View prescription pickup details",
+                modalConfigJSON: "view_pickup_details"
             ),
         ]
     }
@@ -425,578 +464,171 @@ class ActionRegistry {
     private var mailModeActions: [ActionConfig] {
         [
             // Sign Form (PREMIUM)
-            ActionConfig(
-                actionId: "sign_form",
-                displayName: "Sign Form",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "SignFormModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["formUrl", "documentName"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_sign_form",
-                priority: .critical,
-                description: "Digitally sign form or document",
-                requiredPermission: .premium
-            ),
+            inApp("sign_form", "Sign Form", .critical, "Digitally sign form or document", mode: .mail,
+                  optionalContextKeys: ["formUrl", "documentName"], modalConfigJSON: "sign_form", requiredPermission: .premium),
 
             // Quick Reply
-            ActionConfig(
-                actionId: "quick_reply",
-                displayName: "Quick Reply",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "QuickReplyModal",
-                requiredContextKeys: ["recipientEmail", "subject"],
-                optionalContextKeys: ["body", "template"],
-                fallbackBehavior: .openEmailComposer,
-                analyticsEvent: "action_quick_reply",
-                priority: .high,
-                description: "Send quick reply to email"
-            ),
+            inApp("quick_reply", "Quick Reply", .high, "Send quick reply to email", mode: .mail,
+                  requiredContextKeys: ["recipientEmail", "subject"], optionalContextKeys: ["body", "template"],
+                  fallbackBehavior: .openEmailComposer, modalConfigJSON: "quick_reply"),
 
             // Add to Calendar
-            ActionConfig(
-                actionId: "add_to_calendar",
-                displayName: "Add to Calendar",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "AddToCalendarModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["eventTitle", "eventDate", "eventTime", "location"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_add_to_calendar",
-                priority: .mediumHigh,
-                description: "Add event to iOS Calendar"
-            ),
+            inApp("add_to_calendar", "Add to Calendar", .mediumHigh, "Add event to iOS Calendar", mode: .mail,
+                  optionalContextKeys: ["eventTitle", "eventDate", "eventTime", "location"], modalConfigJSON: "add_to_calendar"),
 
             // Schedule Meeting
-            ActionConfig(
-                actionId: "schedule_meeting",
-                displayName: "Schedule Meeting",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "ScheduleMeetingModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["meetingTitle", "attendees", "duration"],
-                fallbackBehavior: .openEmailComposer,
-                analyticsEvent: "action_schedule_meeting",
-                priority: .medium,
-                description: "Schedule meeting with attendees"
-            ),
+            inApp("schedule_meeting", "Schedule Meeting", .medium, "Schedule meeting with attendees", mode: .mail,
+                  optionalContextKeys: ["meetingTitle", "attendees", "duration"], fallbackBehavior: .openEmailComposer, modalConfigJSON: "schedule_meeting"),
 
             // Add Reminder
-            ActionConfig(
-                actionId: "add_reminder",
-                displayName: "Add Reminder",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "AddReminderModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["reminderTitle", "dueDate", "notes"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_add_reminder",
-                priority: .mediumLow,
-                description: "Add reminder to iOS Reminders"
-            ),
+            inApp("add_reminder", "Add Reminder", .mediumLow, "Add reminder to iOS Reminders", mode: .mail,
+                  optionalContextKeys: ["reminderTitle", "dueDate", "notes"], modalConfigJSON: "add_reminder"),
 
             // Set Reminder (generic)
-            ActionConfig(
-                actionId: "set_reminder",
-                displayName: "Remind me on {saleDateShort}",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "AddReminderModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["dueDate", "reminderText"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_set_reminder",
-                priority: .mediumLow,
-                description: "Set generic reminder"
-            ),
+            inApp("set_reminder", "Remind me on {saleDateShort}", .mediumLow, "Set generic reminder", mode: .mail,
+                  optionalContextKeys: ["dueDate", "reminderText"], modalConfigJSON: "add_reminder"),
 
             // View Document
-            ActionConfig(
-                actionId: "view_document",
-                displayName: "View Document",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "DocumentViewerModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["documentUrl", "documentName"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_document",
-                priority: .medium,
-                description: "View attached document"
-            ),
+            inApp("view_document", "View Document", .medium, "View attached document", mode: .mail,
+                  optionalContextKeys: ["documentUrl", "documentName"], modalComponent: "DocumentViewerModal"),
 
             // View Spreadsheet
-            ActionConfig(
-                actionId: "view_spreadsheet",
-                displayName: "View Spreadsheet",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "SpreadsheetViewerModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["spreadsheetUrl", "sheetName"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_spreadsheet",
-                priority: .mediumLow,
-                description: "View spreadsheet or budget document"
-            ),
+            inApp("view_spreadsheet", "View Spreadsheet", .mediumLow, "View spreadsheet or budget document", mode: .mail,
+                  optionalContextKeys: ["spreadsheetUrl", "sheetName"], modalComponent: "SpreadsheetViewerModal"),
 
             // Acknowledge
-            ActionConfig(
-                actionId: "acknowledge",
-                displayName: "Acknowledge",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "QuickReplyModal",
-                requiredContextKeys: ["recipientEmail", "subject"],
-                optionalContextKeys: [],
-                fallbackBehavior: .openEmailComposer,
-                analyticsEvent: "action_acknowledge",
-                priority: .low,
-                description: "Send acknowledgment reply"
-            ),
+            inApp("acknowledge", "Acknowledge", .low, "Send acknowledgment reply", mode: .mail,
+                  requiredContextKeys: ["recipientEmail", "subject"], fallbackBehavior: .openEmailComposer),
 
             // Reply
-            ActionConfig(
-                actionId: "reply",
-                displayName: "Reply",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "QuickReplyModal",
-                requiredContextKeys: ["recipientEmail", "subject"],
-                optionalContextKeys: ["body"],
-                fallbackBehavior: .openEmailComposer,
-                analyticsEvent: "action_reply",
-                priority: .mediumHigh,
-                description: "Reply to email"
-            ),
+            inApp("reply", "Reply", .mediumHigh, "Reply to email", mode: .mail,
+                  requiredContextKeys: ["recipientEmail", "subject"], optionalContextKeys: ["body"], fallbackBehavior: .openEmailComposer),
 
             // Delegate
-            ActionConfig(
-                actionId: "delegate",
-                displayName: "Delegate Task",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "EmailComposerModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["recipientEmail", "taskDescription"],
-                fallbackBehavior: .openEmailComposer,
-                analyticsEvent: "action_delegate",
-                priority: .mediumLow,
-                description: "Delegate task to colleague"
-            ),
+            inApp("delegate", "Delegate Task", .mediumLow, "Delegate task to colleague", mode: .mail,
+                  optionalContextKeys: ["recipientEmail", "taskDescription"], fallbackBehavior: .openEmailComposer, modalComponent: "EmailComposerModal"),
 
             // Save for Later
-            ActionConfig(
-                actionId: "save_for_later",
-                displayName: "Save for Later",
-                actionType: .inApp,
-                mode: .both,
-                modalComponent: "SaveForLaterModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["folderId", "reminderTime", "snoozeUntil"],
-                fallbackBehavior: .showToast,
-                analyticsEvent: "action_save_for_later",
-                priority: .mediumLow,
-                description: "Save email to folder or set reminder"
-            ),
+            inApp("save_for_later", "Save for Later", .mediumLow, "Save email to folder or set reminder", mode: .both,
+                  optionalContextKeys: ["folderId", "reminderTime", "snoozeUntil"], fallbackBehavior: .showToast, modalComponent: "SaveForLaterModal"),
 
             // === EDUCATION ACTIONS ===
 
             // View Assignment
-            ActionConfig(
-                actionId: "view_assignment",
-                displayName: "View Assignment",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["assignmentUrl", "assignmentName", "dueDate"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_assignment",
-                priority: .high,
-                description: "View school assignment details"
-            ),
+            goTo("view_assignment", "View Assignment", ["url"], .high, "View school assignment details", mode: .mail,
+                 optionalContextKeys: ["assignmentUrl", "assignmentName", "dueDate"]),
 
             // Check Grade
-            ActionConfig(
-                actionId: "check_grade",
-                displayName: "Check Grade",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["gradeUrl", "courseName"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_check_grade",
-                priority: .mediumHigh,
-                description: "View grade or report card"
-            ),
+            goTo("check_grade", "Check Grade", ["url"], .mediumHigh, "View grade or report card", mode: .mail,
+                 optionalContextKeys: ["gradeUrl", "courseName"]),
 
             // View LMS (Learning Management System)
-            ActionConfig(
-                actionId: "view_lms",
-                displayName: "View LMS",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["lmsUrl", "platformName"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_lms",
-                priority: .medium,
-                description: "Open learning management system"
-            ),
+            goTo("view_lms", "View LMS", ["url"], .medium, "Open learning management system", mode: .mail,
+                 optionalContextKeys: ["lmsUrl", "platformName"]),
 
             // === HEALTHCARE ACTIONS ===
 
             // View Results
-            ActionConfig(
-                actionId: "view_results",
-                displayName: "View Results",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["resultsUrl", "testResultsUrl", "reportType"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_results",
-                priority: .veryHigh,
-                description: "View medical test results"
-            ),
+            goTo("view_results", "View Results", ["url"], .veryHigh, "View medical test results", mode: .mail,
+                 optionalContextKeys: ["resultsUrl", "testResultsUrl", "reportType"]),
 
             // View Prescription
-            ActionConfig(
-                actionId: "view_prescription",
-                displayName: "View Prescription",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["prescriptionUrl", "rxNumber"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_prescription",
-                priority: .high,
-                description: "View prescription details"
-            ),
+            goTo("view_prescription", "View Prescription", ["url"], .high, "View prescription details", mode: .mail,
+                 optionalContextKeys: ["prescriptionUrl", "rxNumber"]),
 
             // Schedule Appointment
-            ActionConfig(
-                actionId: "schedule_appointment",
-                displayName: "Schedule Appointment",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["schedulingUrl", "providerName"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_schedule_appointment",
-                priority: .high,
-                description: "Schedule medical appointment"
-            ),
+            goTo("schedule_appointment", "Schedule Appointment", ["url"], .high, "Schedule medical appointment", mode: .mail,
+                 optionalContextKeys: ["schedulingUrl", "providerName"]),
 
             // Check In Appointment
-            ActionConfig(
-                actionId: "check_in_appointment",
-                displayName: "Check In",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["checkInUrl", "appointmentUrl", "appointmentTime"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_check_in_appointment",
-                priority: .veryHigh,
-                description: "Check in for medical appointment"
-            ),
+            goTo("check_in_appointment", "Check In", ["url"], .veryHigh, "Check in for medical appointment", mode: .mail,
+                 optionalContextKeys: ["checkInUrl", "appointmentUrl", "appointmentTime"]),
 
             // === CIVIC & GOVERNMENT ACTIONS ===
 
             // View Jury Summons
-            ActionConfig(
-                actionId: "view_jury_summons",
-                displayName: "View Jury Summons",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["summonsUrl", "courtDate", "location"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_jury_summons",
-                priority: .critical,
-                description: "View jury duty summons details"
-            ),
+            goTo("view_jury_summons", "View Jury Summons", ["url"], .critical, "View jury duty summons details", mode: .mail,
+                 optionalContextKeys: ["summonsUrl", "courtDate", "location"]),
 
             // View Tax Notice
-            ActionConfig(
-                actionId: "view_tax_notice",
-                displayName: "View Tax Notice",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["taxNoticeUrl", "dueDate", "amount"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_tax_notice",
-                priority: .critical,
-                description: "View tax notice or bill"
-            ),
+            goTo("view_tax_notice", "View Tax Notice", ["url"], .critical, "View tax notice or bill", mode: .mail,
+                 optionalContextKeys: ["taxNoticeUrl", "dueDate", "amount"]),
 
             // View Voter Information
-            ActionConfig(
-                actionId: "view_voter_info",
-                displayName: "View Voter Info",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["voterUrl", "electionDate", "pollingLocation"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_voter_info",
-                priority: .veryHigh,
-                description: "View voting information and polling location"
-            ),
+            goTo("view_voter_info", "View Voter Info", ["url"], .veryHigh, "View voting information and polling location", mode: .mail,
+                 optionalContextKeys: ["voterUrl", "electionDate", "pollingLocation"]),
 
             // === PROFESSIONAL/WORK ACTIONS ===
 
             // View Task
-            ActionConfig(
-                actionId: "view_task",
-                displayName: "View Task",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["taskUrl", "taskName", "dueDate"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_task",
-                priority: .mediumHigh,
-                description: "View project task details"
-            ),
+            goTo("view_task", "View Task", ["url"], .mediumHigh, "View project task details", mode: .mail,
+                 optionalContextKeys: ["taskUrl", "taskName", "dueDate"]),
 
             // View Incident
-            ActionConfig(
-                actionId: "view_incident",
-                displayName: "View Incident",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["incidentUrl", "incidentId", "severity"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_incident",
-                priority: .veryHigh,
-                description: "View incident or alert details"
-            ),
+            goTo("view_incident", "View Incident", ["url"], .veryHigh, "View incident or alert details", mode: .mail,
+                 optionalContextKeys: ["incidentUrl", "incidentId", "severity"]),
 
             // View Ticket
-            ActionConfig(
-                actionId: "view_ticket",
-                displayName: "View Ticket",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["ticketUrl", "ticketNumber", "status"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_ticket",
-                priority: .medium,
-                description: "View support ticket"
-            ),
+            goTo("view_ticket", "View Ticket", ["url"], .medium, "View support ticket", mode: .mail,
+                 optionalContextKeys: ["ticketUrl", "ticketNumber", "status"]),
 
             // Route to CRM
-            ActionConfig(
-                actionId: "route_crm",
-                displayName: "Route to CRM",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "EmailComposerModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["crmUrl", "contactName", "leadId"],
-                fallbackBehavior: .openEmailComposer,
-                analyticsEvent: "action_route_crm",
-                priority: .mediumLow,
-                description: "Route lead to CRM system"
-            ),
+            inApp("route_crm", "Route to CRM", .mediumLow, "Route lead to CRM system", mode: .mail,
+                  optionalContextKeys: ["crmUrl", "contactName", "leadId"], fallbackBehavior: .openEmailComposer, modalComponent: "EmailComposerModal"),
 
             // === BILLING ACTIONS (IN_APP) ===
 
             // Set Payment Reminder
-            ActionConfig(
-                actionId: "set_payment_reminder",
-                displayName: "Set Reminder",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "AddReminderModal",
-                requiredContextKeys: ["dueDate"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_set_payment_reminder",
-                priority: .medium,
-                description: "Set reminder to pay invoice"
-            ),
+            inApp("set_payment_reminder", "Set Reminder", .medium, "Set reminder to pay invoice", mode: .mail,
+                  requiredContextKeys: ["dueDate"]),
 
             // === CAREER ACTIONS (IN_APP) ===
 
             // View Onboarding Info
-            ActionConfig(
-                actionId: "view_onboarding_info",
-                displayName: "View Onboarding Info",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "ViewDetailsModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_onboarding_info",
-                priority: .veryHigh,
-                description: "View new hire onboarding information"
-            ),
+            inApp("view_onboarding_info", "View Onboarding Info", .veryHigh, "View new hire onboarding information", mode: .mail,
+                  modalComponent: "ViewDetailsModal"),
 
             // === HEALTHCARE IN_APP ACTIONS ===
 
             // File Insurance Claim
-            ActionConfig(
-                actionId: "file_insurance_claim",
-                displayName: "File Insurance Claim",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "FileInsuranceClaimModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_file_insurance_claim",
-                priority: .veryHigh,
-                description: "File insurance claim for medical bill reimbursement"
-            ),
+            inApp("file_insurance_claim", "File Insurance Claim", .veryHigh, "File insurance claim for medical bill reimbursement", mode: .mail,
+                  modalComponent: "FileInsuranceClaimModal"),
 
             // Pickup Details
-            ActionConfig(
-                actionId: "pickup_prescription",
-                displayName: "Pickup Details",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "PickupDetailsModal",
-                requiredContextKeys: ["medication"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_pickup_prescription",
-                priority: .veryHigh,
-                description: "View prescription pickup information"
-            ),
+            inApp("pickup_prescription", "Pickup Details", .veryHigh, "View prescription pickup information", mode: .mail,
+                  requiredContextKeys: ["medication"]),
 
             // === EDUCATION IN_APP ACTIONS ===
 
             // Pay Fee
-            ActionConfig(
-                actionId: "pay_form_fee",
-                displayName: "Pay Fee",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "PayFeeModal",
-                requiredContextKeys: ["amount"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_pay_form_fee",
-                priority: .high,
-                description: "Pay associated form fee"
-            ),
+            inApp("pay_form_fee", "Pay Fee", .high, "Pay associated form fee", mode: .mail,
+                  requiredContextKeys: ["amount"], modalComponent: "PayFeeModal"),
 
             // View Practice Info
-            ActionConfig(
-                actionId: "view_practice_details",
-                displayName: "View Practice Info",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "ViewPracticeInfoModal",
-                requiredContextKeys: ["sport", "dateTime"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_practice_details",
-                priority: .veryHigh,
-                description: "View practice details"
-            ),
+            inApp("view_practice_details", "View Practice Info", .veryHigh, "View practice details", mode: .mail,
+                  requiredContextKeys: ["sport", "dateTime"], modalComponent: "ViewPracticeInfoModal"),
 
             // Accept Event
-            ActionConfig(
-                actionId: "accept_school_event",
-                displayName: "Accept Event",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "AcceptEventModal",
-                requiredContextKeys: ["event", "dateTime"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_accept_school_event",
-                priority: .veryHigh,
-                description: "Accept school event invitation and add to calendar"
-            ),
+            inApp("accept_school_event", "Accept Event", .veryHigh, "Accept school event invitation and add to calendar", mode: .mail,
+                  requiredContextKeys: ["event", "dateTime"], modalComponent: "AcceptEventModal"),
 
             // View Announcement
-            ActionConfig(
-                actionId: "view_team_announcement",
-                displayName: "View Announcement",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "ViewAnnouncementModal",
-                requiredContextKeys: ["sport", "team"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_team_announcement",
-                priority: .veryHigh,
-                description: "View team announcement details"
-            ),
+            inApp("view_team_announcement", "View Announcement", .veryHigh, "View team announcement details", mode: .mail,
+                  requiredContextKeys: ["sport", "team"], modalComponent: "ViewAnnouncementModal"),
 
             // Add to Calendar
-            ActionConfig(
-                actionId: "add_activity_to_calendar",
-                displayName: "Add to Calendar",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "AddtoCalendarModal",
-                requiredContextKeys: ["date"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_add_activity_to_calendar",
-                priority: .medium,
-                description: "Add activity to calendar"
-            ),
+            inApp("add_activity_to_calendar", "Add to Calendar", .medium, "Add activity to calendar", mode: .mail,
+                  requiredContextKeys: ["date"], modalComponent: "AddtoCalendarModal"),
 
             // === THREAD FINDER ACTIONS ===
 
             // View Extracted Content
-            ActionConfig(
-                actionId: "view_extracted_content",
-                displayName: "View Extracted Content",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "ViewExtractedContentModal",
-                requiredContextKeys: ["extractedContent"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_extracted_content",
-                priority: .veryHigh,
-                description: "View automatically extracted data from link (Thread Finder)"
-            ),
+            inApp("view_extracted_content", "View Extracted Content", .veryHigh, "View automatically extracted data from link (Thread Finder)", mode: .mail,
+                  requiredContextKeys: ["extractedContent"], modalComponent: "ViewExtractedContentModal"),
 
             // Retry Extraction
-            ActionConfig(
-                actionId: "schedule_extraction_retry",
-                displayName: "Retry Extraction",
-                actionType: .inApp,
-                mode: .mail,
-                modalComponent: "RetryExtractionModal",
-                requiredContextKeys: ["link"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_schedule_extraction_retry",
-                priority: .medium,
-                description: "Retry automatic data extraction (Thread Finder)"
-            ),
+            inApp("schedule_extraction_retry", "Retry Extraction", .medium, "Retry automatic data extraction (Thread Finder)", mode: .mail,
+                  requiredContextKeys: ["link"], modalComponent: "RetryExtractionModal"),
         ]
     }
 
@@ -1005,118 +637,33 @@ class ActionRegistry {
     private var adsModeActions: [ActionConfig] {
         [
             // Browse Shopping
-            ActionConfig(
-                actionId: "browse_shopping",
-                displayName: "Browse Shopping",
-                actionType: .inApp,
-                mode: .ads,
-                modalComponent: "BrowseShoppingModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["productUrl", "category", "query"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_browse_shopping",
-                priority: .medium,
-                description: "Browse shopping products"
-            ),
+            inApp("browse_shopping", "Browse Shopping", .medium, "Browse shopping products", mode: .ads,
+                  optionalContextKeys: ["productUrl", "category", "query"], modalComponent: "BrowseShoppingModal", modalConfigJSON: "browse_shopping"),
 
             // Schedule Purchase (PREMIUM)
-            ActionConfig(
-                actionId: "schedule_purchase",
-                displayName: "Buy on {saleDateShort}",
-                actionType: .inApp,
-                mode: .ads,
-                modalComponent: "ScheduledPurchaseModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["productName", "price", "purchaseDate"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_schedule_purchase",
-                priority: .mediumHigh,
-                description: "Schedule future purchase with reminder",
-                requiredPermission: .premium
-            ),
+            inApp("schedule_purchase", "Buy on {saleDateShort}", .mediumHigh, "Schedule future purchase with reminder", mode: .ads,
+                  optionalContextKeys: ["productName", "price", "purchaseDate"], modalConfigJSON: "scheduled_purchase", requiredPermission: .premium),
 
             // View Newsletter Summary (PREMIUM - AI-powered)
-            ActionConfig(
-                actionId: "view_newsletter_summary",
-                displayName: "View Summary",
-                actionType: .inApp,
-                mode: .ads,
-                modalComponent: "NewsletterSummaryModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["summaryText", "topLinks"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_newsletter_summary",
-                priority: .mediumLow,
-                description: "View AI-generated newsletter summary",
-                requiredPermission: .premium
-            ),
+            inApp("view_newsletter_summary", "View Summary", .mediumLow, "View AI-generated newsletter summary", mode: .ads,
+                  optionalContextKeys: ["summaryText", "topLinks"], modalConfigJSON: "newsletter_summary", requiredPermission: .premium),
 
             // Unsubscribe (PREMIUM - one-tap unsubscribe)
-            ActionConfig(
-                actionId: "unsubscribe",
-                displayName: "Unsubscribe",
-                actionType: .goTo,
-                mode: .ads,
-                modalComponent: nil,
-                requiredContextKeys: ["unsubscribeUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_unsubscribe",
-                priority: .high,
-                description: "Unsubscribe from mailing list",
-                requiredPermission: .premium,
-                confirmationRequirement: .undoable(
-                    config: UndoConfig(toastMessage: "Unsubscribed. Tap to undo.")
-                )
-            ),
+            goTo("unsubscribe", "Unsubscribe", ["unsubscribeUrl"], .high, "Unsubscribe from mailing list", mode: .ads,
+                 confirmationRequirement: .undoable(config: UndoConfig(toastMessage: "Unsubscribed. Tap to undo.")), modalConfigJSON: "unsubscribe"),
 
             // Shop Now
-            ActionConfig(
-                actionId: "shop_now",
-                displayName: "Shop Now",
-                actionType: .goTo,
-                mode: .ads,
-                modalComponent: nil,
-                requiredContextKeys: ["shopUrl"],
-                optionalContextKeys: ["productUrl"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_shop_now",
-                priority: .medium,
-                description: "Open shopping link"
-            ),
+            goTo("shop_now", "Shop Now", ["shopUrl"], .medium, "Open shopping link", mode: .ads,
+                 optionalContextKeys: ["productUrl"]),
 
             // Claim Deal (Shopping Automation)
-            ActionConfig(
-                actionId: "claim_deal",
-                displayName: "Claim Deal",
-                actionType: .inApp,
-                mode: .ads,
-                modalComponent: "ShoppingAutomationModal",
-                requiredContextKeys: ["productUrl"],
-                optionalContextKeys: ["productName", "dealUrl", "promoCode"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_claim_deal",
-                priority: .mediumHigh,
-                description: "Automatically add product to cart using Steel.dev browser automation"
-            ),
+            inApp("claim_deal", "Claim Deal", .mediumHigh, "Automatically add product to cart using Steel.dev browser automation", mode: .ads,
+                  requiredContextKeys: ["productUrl"], optionalContextKeys: ["productName", "dealUrl", "promoCode"], modalComponent: "ShoppingAutomationModal"),
 
             // Cancel Subscription
-            ActionConfig(
-                actionId: "cancel_subscription",
-                displayName: "Cancel Subscription",
-                actionType: .inApp,
-                mode: .ads,
-                modalComponent: "CancelSubscriptionModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["serviceName", "cancellationUrl"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_cancel_subscription",
-                priority: .high,
-                description: "Cancel subscription service",
-                confirmationRequirement: .undoable(
-                    config: UndoConfig(toastMessage: "Subscription cancelled. Tap to undo.")
-                )
-            ),
+            inApp("cancel_subscription", "Cancel Subscription", .high, "Cancel subscription service", mode: .ads,
+                  optionalContextKeys: ["serviceName", "cancellationUrl"], modalConfigJSON: "cancel_subscription",
+                  confirmationRequirement: .undoable(config: UndoConfig(toastMessage: "Subscription cancelled. Tap to undo."))),
         ]
     }
 
@@ -1125,346 +672,153 @@ class ActionRegistry {
     private var sharedActions: [ActionConfig] {
         [
             // View Details (generic fallback)
-            ActionConfig(
-                actionId: "view_details",
-                displayName: "View Details",
-                actionType: .inApp,
-                mode: .both,
-                modalComponent: "ViewDetailsModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_details",
-                priority: .veryLow,
-                description: "View email details"
-            ),
+            inApp("view_details", "View Details", .veryLow, "View email details", mode: .both,
+                  modalComponent: "ViewDetailsModal"),
 
             // Native iOS: Add to Wallet
-            ActionConfig(
-                actionId: "add_to_wallet",
-                displayName: "Add to Wallet",
-                actionType: .inApp,
-                mode: .both,
-                modalComponent: "AddToWalletModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["passUrl", "passType"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_add_to_wallet",
-                priority: .high,
-                description: "Add pass to Apple Wallet"
-            ),
+            inApp("add_to_wallet", "Add to Wallet", .high, "Add pass to Apple Wallet", mode: .both,
+                  optionalContextKeys: ["passUrl", "passType"], modalConfigJSON: "add_to_wallet"),
 
             // Native iOS: Save Contact
-            ActionConfig(
-                actionId: "save_contact_native",
-                displayName: "Save Contact",
-                actionType: .inApp,
-                mode: .both,
-                modalComponent: "SaveContactModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["name", "email", "phone"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_save_contact",
-                priority: .mediumLow,
-                description: "Save contact to iOS Contacts"
-            ),
+            inApp("save_contact_native", "Save Contact", .mediumLow, "Save contact to iOS Contacts", mode: .both,
+                  optionalContextKeys: ["name", "email", "phone"], modalConfigJSON: "save_contact"),
 
             // Native iOS: Send Message
-            ActionConfig(
-                actionId: "send_message",
-                displayName: "Send Message",
-                actionType: .inApp,
-                mode: .both,
-                modalComponent: "SendMessageModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["phoneNumber", "message"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_send_message",
-                priority: .medium,
-                description: "Send SMS/iMessage"
-            ),
+            inApp("send_message", "Send Message", .medium, "Send SMS/iMessage", mode: .both,
+                  optionalContextKeys: ["phoneNumber", "message"], modalConfigJSON: "send_message"),
 
             // Native iOS: Share
-            ActionConfig(
-                actionId: "share",
-                displayName: "Share",
-                actionType: .inApp,
-                mode: .both,
-                modalComponent: "ShareModal",
-                requiredContextKeys: ["content"],
-                optionalContextKeys: [],
-                fallbackBehavior: .doNothing,
-                analyticsEvent: "action_share",
-                priority: .low,
-                description: "Share via iOS share sheet"
-            ),
+            inApp("share", "Share", .low, "Share via iOS share sheet", mode: .both,
+                  requiredContextKeys: ["content"], fallbackBehavior: .doNothing, modalConfigJSON: "share"),
 
             // Open App
-            ActionConfig(
-                actionId: "open_app",
-                displayName: "Open App",
-                actionType: .inApp,
-                mode: .both,
-                modalComponent: "OpenAppModal",
-                requiredContextKeys: [],
-                optionalContextKeys: ["appUrl", "appName"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_open_app",
-                priority: .mediumLow,
-                description: "Open external app"
-            ),
+            inApp("open_app", "Open App", .mediumLow, "Open external app", mode: .both,
+                  optionalContextKeys: ["appUrl", "appName"], modalConfigJSON: "open_app"),
 
             // View Reservation
-            ActionConfig(
-                actionId: "view_reservation",
-                displayName: "View Reservation",
-                actionType: .inApp,
+            inApp("view_reservation", "View Reservation", .medium, "View reservation details",
                 mode: .both,
-                modalComponent: "ReservationModal",
-                requiredContextKeys: [],
                 optionalContextKeys: ["reservationNumber", "venue", "date"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_reservation",
-                priority: .medium,
-                description: "View reservation details"
+                modalComponent: "ReservationModal",
+                modalConfigJSON: "reservation"
             ),
 
             // === COMMUNICATION & FEEDBACK ===
 
             // Accept Invitation
-            ActionConfig(
-                actionId: "rsvp_yes",
-                displayName: "Accept Invitation",
-                actionType: .inApp,
+            inApp("rsvp_yes", "Accept Invitation", .veryHigh, "Accept invitation",
                 mode: .both,
                 modalComponent: "AcceptInvitationModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_rsvp_yes",
-                priority: .veryHigh,
-                description: "Accept invitation"
+                modalConfigJSON: "rsvp"
             ),
 
             // Decline Invitation
-            ActionConfig(
-                actionId: "rsvp_no",
-                displayName: "Decline Invitation",
-                actionType: .inApp,
+            inApp("rsvp_no", "Decline Invitation", .medium, "Decline invitation",
                 mode: .both,
                 modalComponent: "DeclineInvitationModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_rsvp_no",
-                priority: .medium,
-                description: "Decline invitation",
+                modalConfigJSON: "rsvp",
                 confirmationRequirement: .undoable(
                     config: UndoConfig(toastMessage: "Invitation declined. Tap to undo.", undoActionId: "rsvp_yes")
                 )
             ),
 
             // Reply to Thread
-            ActionConfig(
-                actionId: "reply_to_thread",
-                displayName: "Reply",
-                actionType: .inApp,
+            inApp("reply_to_thread", "Reply", .veryHigh, "Reply to email thread",
                 mode: .both,
-                modalComponent: "ReplyModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_reply_to_thread",
-                priority: .veryHigh,
-                description: "Reply to email thread"
+                modalComponent: "ReplyModal"
             ),
 
             // View Introduction
-            ActionConfig(
-                actionId: "view_introduction",
-                displayName: "View Introduction",
-                actionType: .inApp,
+            inApp("view_introduction", "View Introduction", .veryHigh, "View introduction details",
                 mode: .both,
-                modalComponent: "ViewIntroductionModal",
                 requiredContextKeys: ["introducedPerson"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_introduction",
-                priority: .veryHigh,
-                description: "View introduction details"
+                modalComponent: "ViewIntroductionModal"
             ),
 
             // Add to Notes
-            ActionConfig(
-                actionId: "add_to_notes",
-                displayName: "Add to Notes",
-                actionType: .inApp,
+            inApp("add_to_notes", "Add to Notes", .veryHigh, "Save email content to iOS Notes app",
                 mode: .both,
                 modalComponent: "AddtoNotesModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_add_to_notes",
-                priority: .veryHigh,
-                description: "Save email content to iOS Notes app"
+                modalConfigJSON: "add_to_notes"
             ),
 
             // Say Thanks
-            ActionConfig(
-                actionId: "reply_thanks",
-                displayName: "Say Thanks",
-                actionType: .inApp,
+            inApp("reply_thanks", "Say Thanks", .high, "Send quick thank you reply",
                 mode: .both,
-                modalComponent: "SayThanksModal",
                 requiredContextKeys: ["sender"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_reply_thanks",
-                priority: .high,
-                description: "Send quick thank you reply"
+                modalComponent: "SayThanksModal"
             ),
 
             // === SHOPPING & E-COMMERCE ===
 
             // Copy Code
-            ActionConfig(
-                actionId: "copy_promo_code",
-                displayName: "Copy Code",
-                actionType: .inApp,
+            inApp("copy_promo_code", "Copy Code", .high, "Copy promo code",
                 mode: .both,
-                modalComponent: "CopyCodeModal",
                 requiredContextKeys: ["promoCode"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_copy_promo_code",
-                priority: .high,
-                description: "Copy promo code"
+                modalComponent: "CopyCodeModal"
             ),
 
             // Add to Cart & Checkout
-            ActionConfig(
-                actionId: "automated_add_to_cart",
-                displayName: "Add to Cart & Checkout",
-                actionType: .inApp,
+            inApp("automated_add_to_cart", "Add to Cart & Checkout", .veryHigh, "AI agent adds item to cart and opens checkout",
                 mode: .both,
-                modalComponent: "AddtoCart&CheckoutModal",
                 requiredContextKeys: ["productUrl", "productName"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_automated_add_to_cart",
-                priority: .veryHigh,
-                description: "AI agent adds item to cart and opens checkout"
+                modalComponent: "AddtoCart&CheckoutModal"
             ),
 
             // Rate Product
-            ActionConfig(
-                actionId: "rate_product",
-                displayName: "Rate Product",
-                actionType: .inApp,
+            inApp("rate_product", "Rate Product", .high, "Quick star rating",
                 mode: .both,
-                modalComponent: "RateProductModal",
                 requiredContextKeys: ["productName"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_rate_product",
-                priority: .high,
-                description: "Quick star rating"
+                modalComponent: "RateProductModal"
             ),
 
             // Set Price Alert
-            ActionConfig(
-                actionId: "set_price_alert",
-                displayName: "Set Price Alert",
-                actionType: .inApp,
+            inApp("set_price_alert", "Set Price Alert", .high, "Get notified of price changes",
                 mode: .both,
-                modalComponent: "SetPriceAlertModal",
                 requiredContextKeys: ["productName"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_set_price_alert",
-                priority: .high,
-                description: "Get notified of price changes"
+                modalComponent: "SetPriceAlertModal"
             ),
 
             // Notify When Back
-            ActionConfig(
-                actionId: "notify_restock",
-                displayName: "Notify When Back",
-                actionType: .inApp,
+            inApp("notify_restock", "Notify When Back", .high, "Get notified when item restocks",
                 mode: .both,
-                modalComponent: "NotifyWhenBackModal",
                 requiredContextKeys: ["productName"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_notify_restock",
-                priority: .high,
-                description: "Get notified when item restocks"
+                modalComponent: "NotifyWhenBackModal"
             ),
 
             // === DELIVERY & LOGISTICS ===
 
             // Provide Access Code
-            ActionConfig(
-                actionId: "provide_access_code",
-                displayName: "Provide Access Code",
-                actionType: .inApp,
+            inApp("provide_access_code", "Provide Access Code", .medium, "Provide building or gate access code for delivery",
                 mode: .both,
-                modalComponent: "ProvideAccessCodeModal",
                 requiredContextKeys: ["trackingNumber"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_provide_access_code",
-                priority: .medium,
-                description: "Provide building or gate access code for delivery"
+                modalComponent: nil,
+                modalConfigJSON: "provide_access_code"
             ),
 
             // === SUPPORT & SUBSCRIPTION ===
 
             // Reply to Ticket
-            ActionConfig(
-                actionId: "reply_to_ticket",
-                displayName: "Reply",
-                actionType: .inApp,
+            inApp("reply_to_ticket", "Reply", .high, "Reply to support ticket",
                 mode: .both,
-                modalComponent: "ReplyModal",
                 requiredContextKeys: ["ticketId"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_reply_to_ticket",
-                priority: .high,
-                description: "Reply to support ticket"
+                modalComponent: "ReplyModal"
             ),
 
             // View Benefits
-            ActionConfig(
-                actionId: "view_benefits",
-                displayName: "View Benefits",
-                actionType: .inApp,
+            inApp("view_benefits", "View Benefits", .veryHigh, "View subscription benefits and rewards",
                 mode: .both,
-                modalComponent: "ViewBenefitsModal",
                 requiredContextKeys: ["serviceName"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_benefits",
-                priority: .veryHigh,
-                description: "View subscription benefits and rewards"
+                modalComponent: "ViewBenefitsModal"
             ),
 
             // === FINANCE ===
 
             // Schedule Payment
-            ActionConfig(
-                actionId: "schedule_payment",
-                displayName: "Schedule Payment",
-                actionType: .inApp,
+            inApp("schedule_payment", "Schedule Payment", .high, "Schedule automatic payment",
                 mode: .both,
-                modalComponent: "SchedulePaymentModal",
                 requiredContextKeys: ["amountDue", "dueDate"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_schedule_payment",
-                priority: .high,
-                description: "Schedule automatic payment",
+                modalComponent: "SchedulePaymentModal",
                 confirmationRequirement: .confirmWithUndo(
                     confirmation: "Schedule ${amountDue} payment for {dueDate}?",
                     undo: UndoConfig(toastMessage: "Payment scheduled. Tap to undo.")
@@ -1474,65 +828,31 @@ class ActionRegistry {
             // === UTILITY ===
 
             // View Preparation Tips
-            ActionConfig(
-                actionId: "prepare_for_outage",
-                displayName: "View Preparation Tips",
-                actionType: .inApp,
+            inApp("prepare_for_outage", "View Preparation Tips", .high, "View tips to prepare for power outage",
                 mode: .both,
-                modalComponent: "ViewPreparationTipsModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_prepare_for_outage",
-                priority: .high,
-                description: "View tips to prepare for power outage"
+                modalComponent: "PrepareForOutageModal",
+                modalConfigJSON: "prepare_for_outage"
             ),
 
             // Set Outage Reminder
-            ActionConfig(
-                actionId: "set_outage_reminder",
-                displayName: "Set Reminder",
-                actionType: .inApp,
+            inApp("set_outage_reminder", "Set Reminder", .medium, "Remind before planned outage",
                 mode: .both,
-                modalComponent: "SetReminderModal",
                 requiredContextKeys: ["outageStart"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_set_outage_reminder",
-                priority: .medium,
-                description: "Remind before planned outage"
+                modalComponent: "SetReminderModal"
             ),
 
             // === PROFESSIONAL SERVICES ===
 
             // View Mortgage Details
-            ActionConfig(
-                actionId: "view_mortgage_details",
-                displayName: "View Mortgage Details",
-                actionType: .inApp,
+            inApp("view_mortgage_details", "View Mortgage Details", .veryHigh, "View mortgage or refinancing details",
                 mode: .both,
-                modalComponent: "ViewMortgageDetailsModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_mortgage_details",
-                priority: .veryHigh,
-                description: "View mortgage or refinancing details"
+                modalComponent: "ViewMortgageDetailsModal"
             ),
 
             // View Legal Document
-            ActionConfig(
-                actionId: "view_legal_document",
-                displayName: "View Document",
-                actionType: .inApp,
+            inApp("view_legal_document", "View Document", .veryHigh, "View legal document details",
                 mode: .both,
-                modalComponent: "ViewDocumentModal",
-                requiredContextKeys: [],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_legal_document",
-                priority: .veryHigh,
-                description: "View legal document details"
+                modalComponent: "ViewDocumentModal"
             ),
         ]
     }
@@ -1541,1381 +861,186 @@ class ActionRegistry {
 
     private var goToActions: [ActionConfig] {
         [
-            // View Order
-            ActionConfig(
-                actionId: "view_order",
-                displayName: "View Order",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["orderUrl"],
-                optionalContextKeys: ["orderNumber"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_order",
-                priority: .medium,
-                description: "View order details online"
-            ),
-
-            // Manage Subscription
-            ActionConfig(
-                actionId: "manage_subscription",
-                displayName: "Manage Subscription",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["subscriptionUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_manage_subscription",
-                priority: .medium,
-                description: "Manage subscription settings"
-            ),
-
-            // View Itinerary
-            ActionConfig(
-                actionId: "view_itinerary",
-                displayName: "View Itinerary",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["itineraryUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_itinerary",
-                priority: .mediumHigh,
-                description: "View travel itinerary"
-            ),
-
-            // Get Directions
-            ActionConfig(
-                actionId: "get_directions",
-                displayName: "Get Directions",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["directionsUrl"],
-                optionalContextKeys: ["mapUrl", "address"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_get_directions",
-                priority: .mediumHigh,
-                description: "Get directions to location"
-            ),
-
-            // Open Link
-            ActionConfig(
-                actionId: "open_link",
-                displayName: "Open Link",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_open_link",
-                priority: .veryLow,
-                description: "Open generic URL"
-            ),
+            // Basic actions
+            goTo("view_order", "View Order", ["orderUrl"], .medium, "View order details online", optionalContextKeys: ["orderNumber"]),
+            goTo("manage_subscription", "Manage Subscription", ["subscriptionUrl"], .medium, "Manage subscription settings"),
+            goTo("view_itinerary", "View Itinerary", ["itineraryUrl"], .mediumHigh, "View travel itinerary"),
+            goTo("get_directions", "Get Directions", ["directionsUrl"], .mediumHigh, "Get directions to location", optionalContextKeys: ["mapUrl", "address"]),
+            goTo("open_link", "Open Link", ["url"], .veryLow, "Open generic URL"),
 
             // === ACCOUNT ACTIONS ===
-
-            // Reset Password
-            ActionConfig(
-                actionId: "reset_password",
-                displayName: "Reset Password",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "resetLink"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_reset_password",
-                priority: .veryHigh,
-                description: "Reset account password"
-            ),
-
-            // Review Security
-            ActionConfig(
-                actionId: "review_security",
-                displayName: "Review Security",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["securityUrl"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_review_security",
-                priority: .veryHigh,
-                description: "Review security settings"
-            ),
-
-            // Revoke Secret
-            ActionConfig(
-                actionId: "revoke_secret",
-                displayName: "Revoke Secret",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "actionUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_revoke_secret",
-                priority: .veryHigh,
-                description: "Revoke exposed API key or secret",
-                confirmationRequirement: .detailed(
-                    title: "Revoke API Key",
-                    message: "This will immediately revoke the exposed API key or secret. Any services using this key will stop working.",
-                    confirmText: "Revoke Key",
-                    cancelText: "Cancel"
-                )
-            ),
-
-            // Verify Account
-            ActionConfig(
-                actionId: "verify_account",
-                displayName: "Verify Account",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "verificationLink"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_verify_account",
-                priority: .veryHigh,
-                description: "Verify email or account"
-            ),
-
-            // Verify Device
-            ActionConfig(
-                actionId: "verify_device",
-                displayName: "Verify Device",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["verificationUrl"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_verify_device",
-                priority: .veryHigh,
-                description: "Verify new device login"
-            ),
+            goTo("reset_password", "Reset Password", ["url", "resetLink"], .veryHigh, "Reset account password"),
+            goTo("review_security", "Review Security", ["url"], .veryHigh, "Review security settings", optionalContextKeys: ["securityUrl"]),
+            goTo("revoke_secret", "Revoke Secret", ["url", "actionUrl"], .veryHigh, "Revoke exposed API key or secret",
+                confirmationRequirement: .detailed(title: "Revoke API Key", message: "This will immediately revoke the exposed API key or secret. Any services using this key will stop working.", confirmText: "Revoke Key", cancelText: "Cancel")),
+            goTo("verify_account", "Verify Account", ["url", "verificationLink"], .veryHigh, "Verify email or account", modalConfigJSON: "verify_account"),
+            goTo("verify_device", "Verify Device", ["url"], .veryHigh, "Verify new device login", optionalContextKeys: ["verificationUrl"]),
 
             // === BILLING ACTIONS ===
-
-            // Download Receipt
-            ActionConfig(
-                actionId: "download_receipt",
-                displayName: "Download Receipt",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "receiptUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_download_receipt",
-                priority: .high,
-                description: "Download payment receipt"
-            ),
-
-            // Update Payment
-            ActionConfig(
-                actionId: "update_payment",
-                displayName: "Update Payment",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["paymentUrl"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_update_payment",
-                priority: .high,
-                description: "Update payment method"
-            ),
-
-            // View Invoice
-            ActionConfig(
-                actionId: "view_invoice",
-                displayName: "View Invoice",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["invoiceUrl", "invoiceId"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_invoice",
-                priority: .high,
-                description: "View invoice details"
-            ),
+            goTo("download_receipt", "Download Receipt", ["url", "receiptUrl"], .high, "Download payment receipt"),
+            goTo("update_payment", "Update Payment", ["url"], .high, "Update payment method", optionalContextKeys: ["paymentUrl"], modalConfigJSON: "update_payment"),
+            goTo("view_invoice", "View Invoice", ["url"], .high, "View invoice details", optionalContextKeys: ["invoiceUrl", "invoiceId"]),
 
             // === CAREER ACTIONS ===
-
-            // Accept Offer
-            ActionConfig(
-                actionId: "accept_offer",
-                displayName: "Accept Offer",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "offerUrl"],
-                optionalContextKeys: ["company", "position"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_accept_offer",
-                priority: .veryHigh,
-                description: "Accept job offer",
-                confirmationRequirement: .detailed(
-                    title: "Accept Job Offer",
-                    message: "This will formally accept your job offer. Make sure you've reviewed all terms and conditions before proceeding.",
-                    confirmText: "Accept Offer",
-                    cancelText: "Review Again"
-                )
-            ),
-
-            // Check Application Status
-            ActionConfig(
-                actionId: "check_application_status",
-                displayName: "Check Status",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["applicationUrl", "company", "position"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_check_application_status",
-                priority: .veryHigh,
-                description: "Check application status"
-            ),
-
-            // Schedule Interview
-            ActionConfig(
-                actionId: "schedule_interview",
-                displayName: "Schedule Interview",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "interviewUrl"],
-                optionalContextKeys: ["company", "position"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_schedule_interview",
-                priority: .veryHigh,
-                description: "Schedule interview time"
-            ),
-
-            // View Job Details
-            ActionConfig(
-                actionId: "view_job_details",
-                displayName: "View Job Details",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: ["jobUrl"],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_job_details",
-                priority: .high,
-                description: "View detailed job description"
-            ),
-
-            // Buy Again
-            ActionConfig(
-                actionId: "buy_again",
-                displayName: "Buy Again",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "orderNumber"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_buy_again",
-                priority: .high,
-                description: "Reorder the same items"
-            ),
-
-
-            // Return Item
-            ActionConfig(
-                actionId: "return_item",
-                displayName: "Return Item",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "orderNumber"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_return_item",
-                priority: .veryHigh,
-                description: "Initiate return process"
-            ),
-
-
-            // Join Meeting
-            ActionConfig(
-                actionId: "join_meeting",
-                displayName: "Join Meeting",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "meetingUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_join_meeting",
-                priority: .veryHigh,
-                description: "Join video meeting"
-            ),
-
-
-            // Register
-            ActionConfig(
-                actionId: "register_event",
-                displayName: "Register",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "registrationLink"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_register_event",
-                priority: .veryHigh,
-                description: "Register for event"
-            ),
-
-
-            // Modify Reservation
-            ActionConfig(
-                actionId: "modify_reservation",
-                displayName: "Modify Reservation",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "confirmationCode"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_modify_reservation",
-                priority: .high,
-                description: "Modify restaurant reservation"
-            ),
-
-
-            // Track Delivery
-            ActionConfig(
-                actionId: "track_delivery",
-                displayName: "Track Delivery",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "trackingUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_track_delivery",
-                priority: .veryHigh,
-                description: "Track food delivery in real-time"
-            ),
-
-
-            // Change Preferences
-            ActionConfig(
-                actionId: "change_delivery_preferences",
-                displayName: "Change Preferences",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_change_delivery_preferences",
-                priority: .high,
-                description: "Update delivery time or location preferences"
-            ),
-
-
-            // View Message
-            ActionConfig(
-                actionId: "view_lms_message",
-                displayName: "View Message",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "messageUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_lms_message",
-                priority: .veryHigh,
-                description: "View Canvas/Classroom message from teacher"
-            ),
-
-
-            // Reply to Teacher
-            ActionConfig(
-                actionId: "reply_to_teacher",
-                displayName: "Reply to Teacher",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "teacher"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_reply_to_teacher",
-                priority: .high,
-                description: "Reply to teacher message"
-            ),
-
-
-            // Submit Assignment
-            ActionConfig(
-                actionId: "submit_assignment",
-                displayName: "Submit Assignment",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "assignmentUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_submit_assignment",
-                priority: .veryHigh,
-                description: "Go to assignment submission page"
-            ),
-
-
-            // Register
-            ActionConfig(
-                actionId: "register_for_sports",
-                displayName: "Register",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "registrationUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_register_for_sports",
-                priority: .veryHigh,
-                description: "Register for youth sports or activity"
-            ),
-
-
-            // View Schedule
-            ActionConfig(
-                actionId: "view_game_schedule",
-                displayName: "View Schedule",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_game_schedule",
-                priority: .veryHigh,
-                description: "View game schedule"
-            ),
-
-
-            // RSVP to Game
-            ActionConfig(
-                actionId: "rsvp_game",
-                displayName: "RSVP to Game",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_rsvp_game",
-                priority: .high,
-                description: "RSVP for game attendance"
-            ),
-
-
-            // RSVP to Event
-            ActionConfig(
-                actionId: "rsvp_school_event",
-                displayName: "RSVP to Event",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_rsvp_school_event",
-                priority: .high,
-                description: "RSVP for school event"
-            ),
-
-
-            // Manage Booking
-            ActionConfig(
-                actionId: "manage_booking",
-                displayName: "Manage Booking",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "confirmationCode"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_manage_booking",
-                priority: .medium,
-                description: "Manage reservation"
-            ),
-
-
-            // Take Survey
-            ActionConfig(
-                actionId: "take_survey",
-                displayName: "Take Survey",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "surveyLink"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_take_survey",
-                priority: .veryHigh,
-                description: "Complete survey"
-            ),
-
-
-            // View Product
-            ActionConfig(
-                actionId: "view_product",
-                displayName: "View Product",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "productUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_product",
-                priority: .veryHigh,
-                description: "View product details"
-            ),
-
-
-            // Complete Order
-            ActionConfig(
-                actionId: "complete_cart",
-                displayName: "Complete Order",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "cartUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_complete_cart",
-                priority: .veryHigh,
-                description: "Complete cart checkout"
-            ),
-
-
-            // Redeem Rewards
-            ActionConfig(
-                actionId: "redeem_rewards",
-                displayName: "Redeem Rewards",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_redeem_rewards",
-                priority: .veryHigh,
-                description: "Redeem loyalty points or rewards"
-            ),
-
-
-            // View Announcement
-            ActionConfig(
-                actionId: "view_announcement",
-                displayName: "View Announcement",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_announcement",
-                priority: .veryHigh,
-                description: "View brand announcement details"
-            ),
-
-
-            // Contact Support
-            ActionConfig(
-                actionId: "contact_support",
-                displayName: "Contact Support",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_contact_support",
-                priority: .mediumLow,
-                description: "Contact customer support"
-            ),
-
-
-            // Book Appointment
-            ActionConfig(
-                actionId: "book_appointment",
-                displayName: "Book Appointment",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_book_appointment",
-                priority: .veryHigh,
-                description: "Schedule or book a new appointment"
-            ),
-
-
-            // Confirm Appointment
-            ActionConfig(
-                actionId: "confirm_appointment",
-                displayName: "Confirm Appointment",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_confirm_appointment",
-                priority: .veryHigh,
-                description: "Confirm medical appointment"
-            ),
-
-
-            // Reschedule
-            ActionConfig(
-                actionId: "reschedule_appointment",
-                displayName: "Reschedule",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_reschedule_appointment",
-                priority: .veryHigh,
-                description: "Reschedule appointment"
-            ),
-
-
-            // Download Results
-            ActionConfig(
-                actionId: "download_results",
-                displayName: "Download Results",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "resultsUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_download_results",
-                priority: .veryHigh,
-                description: "Download medical test results"
-            ),
-
-
-            // View Referral
-            ActionConfig(
-                actionId: "view_referral",
-                displayName: "View Referral",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_referral",
-                priority: .veryHigh,
-                description: "View specialist referral details"
-            ),
-
-
-            // Schedule Test
-            ActionConfig(
-                actionId: "schedule_test",
-                displayName: "Schedule Test",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_schedule_test",
-                priority: .veryHigh,
-                description: "Schedule medical test or lab work"
-            ),
-
-
-            // View Claim
-            ActionConfig(
-                actionId: "view_claim_status",
-                displayName: "View Claim",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "claimNumber"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_claim_status",
-                priority: .veryHigh,
-                description: "View insurance claim status"
-            ),
-
-
-            // View Statement
-            ActionConfig(
-                actionId: "view_statement",
-                displayName: "View Statement",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "accountId"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_statement",
-                priority: .veryHigh,
-                description: "View financial statement"
-            ),
-
-
-            // Update Payment
-            ActionConfig(
-                actionId: "update_payment_method",
-                displayName: "Update Payment",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_update_payment_method",
-                priority: .veryHigh,
-                description: "Update payment method"
-            ),
-
-
-            // Download Tax Form
-            ActionConfig(
-                actionId: "download_tax_document",
-                displayName: "Download Tax Form",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "taxYear"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_download_tax_document",
-                priority: .veryHigh,
-                description: "Download tax document"
-            ),
-
-
-            // Dispute Transaction
-            ActionConfig(
-                actionId: "dispute_transaction",
-                displayName: "Dispute Transaction",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_dispute_transaction",
-                priority: .veryHigh,
-                description: "Report fraudulent transaction"
-            ),
-
-
-            // View Credit Report
-            ActionConfig(
-                actionId: "view_credit_report",
-                displayName: "View Credit Report",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_credit_report",
-                priority: .veryHigh,
-                description: "View credit score and report"
-            ),
-
-
-            // View Portfolio
-            ActionConfig(
-                actionId: "view_portfolio",
-                displayName: "View Portfolio",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "accountId"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_portfolio",
-                priority: .veryHigh,
-                description: "View investment portfolio"
-            ),
-
-
-            // Verify Transaction
-            ActionConfig(
-                actionId: "verify_transaction",
-                displayName: "Verify Transaction",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_verify_transaction",
-                priority: .veryHigh,
-                description: "Verify suspicious transaction"
-            ),
-
-
-            // Track Return
-            ActionConfig(
-                actionId: "track_return",
-                displayName: "Track Return",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "orderNumber"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_track_return",
-                priority: .veryHigh,
-                description: "Track return shipment status"
-            ),
-
-
-            // Print Label
-            ActionConfig(
-                actionId: "print_return_label",
-                displayName: "Print Label",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "orderNumber"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_print_return_label",
-                priority: .veryHigh,
-                description: "Print return shipping label"
-            ),
-
-
-            // View Refund
-            ActionConfig(
-                actionId: "view_refund_status",
-                displayName: "View Refund",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "refundAmount"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_refund_status",
-                priority: .veryHigh,
-                description: "View refund processing status"
-            ),
-
-
-            // Reorder
-            ActionConfig(
-                actionId: "reorder_item",
-                displayName: "Reorder",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "productName"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_reorder_item",
-                priority: .veryHigh,
-                description: "Reorder out-of-stock item"
-            ),
-
-
-            // View Warranty
-            ActionConfig(
-                actionId: "view_warranty",
-                displayName: "View Warranty",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "productName"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_warranty",
-                priority: .veryHigh,
-                description: "View warranty details"
-            ),
-
-
-            // View Outage Info
-            ActionConfig(
-                actionId: "view_outage_details",
-                displayName: "View Outage Info",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_outage_details",
-                priority: .veryHigh,
-                description: "View power outage details and affected areas"
-            ),
-
-
-            // Schedule Delivery
-            ActionConfig(
-                actionId: "schedule_delivery_time",
-                displayName: "Schedule Delivery",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_schedule_delivery_time",
-                priority: .veryHigh,
-                description: "Choose delivery time window"
-            ),
-
-
-            // View Homes
-            ActionConfig(
-                actionId: "view_property_listings",
-                displayName: "View Homes",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_property_listings",
-                priority: .veryHigh,
-                description: "View recommended property listings"
-            ),
-
-
-            // Save Favorites
-            ActionConfig(
-                actionId: "save_properties",
-                displayName: "Save Favorites",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_save_properties",
-                priority: .high,
-                description: "Save properties to favorites"
-            ),
-
-
-            // Schedule Tour
-            ActionConfig(
-                actionId: "schedule_showing",
-                displayName: "Schedule Tour",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_schedule_showing",
-                priority: .high,
-                description: "Schedule property showing"
-            ),
-
-
-            // Read Post
-            ActionConfig(
-                actionId: "read_community_post",
-                displayName: "Read Post",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_read_community_post",
-                priority: .veryHigh,
-                description: "Read community post"
-            ),
-
-
-            // View Comments
-            ActionConfig(
-                actionId: "view_post_comments",
-                displayName: "View Comments",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_post_comments",
-                priority: .high,
-                description: "Read post comments and discussion"
-            ),
-
-
-            // Reply
-            ActionConfig(
-                actionId: "reply_to_post",
-                displayName: "Reply",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_reply_to_post",
-                priority: .medium,
-                description: "Reply to community post"
-            ),
-
-
-            // View Activity
-            ActionConfig(
-                actionId: "view_activity_details",
-                displayName: "View Activity",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_activity_details",
-                priority: .veryHigh,
-                description: "View educational activity details"
-            ),
-
-
-            // Book Tickets
-            ActionConfig(
-                actionId: "book_activity_tickets",
-                displayName: "Book Tickets",
-                actionType: .goTo,
-                mode: .mail,
-                modalComponent: nil,
-                requiredContextKeys: ["url"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_book_activity_tickets",
-                priority: .high,
-                description: "Book tickets for activity"
-            ),
-
+            goTo("accept_offer", "Accept Offer", ["url", "offerUrl"], .veryHigh, "Accept job offer", optionalContextKeys: ["company", "position"],
+                confirmationRequirement: .detailed(title: "Accept Job Offer", message: "This will formally accept your job offer. Make sure you've reviewed all terms and conditions before proceeding.", confirmText: "Accept Offer", cancelText: "Review Again")),
+            goTo("check_application_status", "Check Status", ["url"], .veryHigh, "Check application status", optionalContextKeys: ["applicationUrl", "company", "position"]),
+            goTo("schedule_interview", "Schedule Interview", ["url", "interviewUrl"], .veryHigh, "Schedule interview time", optionalContextKeys: ["company", "position"]),
+            goTo("view_job_details", "View Job Details", ["url"], .high, "View detailed job description", optionalContextKeys: ["jobUrl"]),
+            goTo("buy_again", "Buy Again", ["url", "orderNumber"], .high, "Reorder the same items"),
+            goTo("return_item", "Return Item", ["url", "orderNumber"], .veryHigh, "Initiate return process"),
+            goTo("join_meeting", "Join Meeting", ["url", "meetingUrl"], .veryHigh, "Join video meeting"),
+            goTo("register_event", "Register", ["url", "registrationLink"], .veryHigh, "Register for event"),
+            goTo("modify_reservation", "Modify Reservation", ["url", "confirmationCode"], .high, "Modify restaurant reservation"),
+            goTo("track_delivery", "Track Delivery", ["url", "trackingUrl"], .veryHigh, "Track food delivery in real-time"),
+            goTo("change_delivery_preferences", "Change Preferences", ["url"], .high, "Update delivery time or location preferences"),
+
+            // Mail-mode actions
+            goTo("view_lms_message", "View Message", ["url", "messageUrl"], .veryHigh, "View Canvas/Classroom message from teacher", mode: .mail),
+            goTo("reply_to_teacher", "Reply to Teacher", ["url", "teacher"], .high, "Reply to teacher message", mode: .mail),
+            goTo("submit_assignment", "Submit Assignment", ["url", "assignmentUrl"], .veryHigh, "Go to assignment submission page", mode: .mail),
+            goTo("register_for_sports", "Register", ["url", "registrationUrl"], .veryHigh, "Register for youth sports or activity", mode: .mail),
+            goTo("view_game_schedule", "View Schedule", ["url"], .veryHigh, "View game schedule", mode: .mail),
+            goTo("rsvp_game", "RSVP to Game", ["url"], .high, "RSVP for game attendance", mode: .mail),
+            goTo("rsvp_school_event", "RSVP to Event", ["url"], .high, "RSVP for school event", mode: .mail),
+
+            // More basic actions
+            goTo("manage_booking", "Manage Booking", ["url", "confirmationCode"], .medium, "Manage reservation"),
+            goTo("take_survey", "Take Survey", ["url", "surveyLink"], .veryHigh, "Complete survey"),
+            goTo("view_product", "View Product", ["url", "productUrl"], .veryHigh, "View product details"),
+            goTo("complete_cart", "Complete Order", ["url", "cartUrl"], .veryHigh, "Complete cart checkout"),
+            goTo("redeem_rewards", "Redeem Rewards", ["url"], .veryHigh, "Redeem loyalty points or rewards"),
+            goTo("view_announcement", "View Announcement", ["url"], .veryHigh, "View brand announcement details"),
+            goTo("contact_support", "Contact Support", ["url"], .mediumLow, "Contact customer support"),
+
+            // Medical appointments
+            goTo("book_appointment", "Book Appointment", ["url"], .veryHigh, "Schedule or book a new appointment", mode: .mail),
+            goTo("confirm_appointment", "Confirm Appointment", ["url"], .veryHigh, "Confirm medical appointment", mode: .mail),
+            goTo("reschedule_appointment", "Reschedule", ["url"], .veryHigh, "Reschedule appointment", mode: .mail),
+            goTo("download_results", "Download Results", ["url", "resultsUrl"], .veryHigh, "Download medical test results", mode: .mail),
+            goTo("view_referral", "View Referral", ["url"], .veryHigh, "View specialist referral details", mode: .mail),
+            goTo("schedule_test", "Schedule Test", ["url"], .veryHigh, "Schedule medical test or lab work", mode: .mail),
+            goTo("view_claim_status", "View Claim", ["url", "claimNumber"], .veryHigh, "View insurance claim status", mode: .mail),
+
+            // Financial actions
+            goTo("view_statement", "View Statement", ["url", "accountId"], .veryHigh, "View financial statement"),
+            goTo("update_payment_method", "Update Payment", ["url"], .veryHigh, "Update payment method", modalConfigJSON: "update_payment"),
+            goTo("download_tax_document", "Download Tax Form", ["url", "taxYear"], .veryHigh, "Download tax document"),
+            goTo("dispute_transaction", "Dispute Transaction", ["url"], .veryHigh, "Report fraudulent transaction"),
+            goTo("view_credit_report", "View Credit Report", ["url"], .veryHigh, "View credit score and report"),
+            goTo("view_portfolio", "View Portfolio", ["url", "accountId"], .veryHigh, "View investment portfolio"),
+            goTo("verify_transaction", "Verify Transaction", ["url"], .veryHigh, "Verify suspicious transaction"),
+
+            // Shipping and returns
+            goTo("track_return", "Track Return", ["url", "orderNumber"], .veryHigh, "Track return shipment status"),
+            goTo("print_return_label", "Print Label", ["url", "orderNumber"], .veryHigh, "Print return shipping label"),
+            goTo("view_refund_status", "View Refund", ["url", "refundAmount"], .veryHigh, "View refund processing status"),
+            goTo("reorder_item", "Reorder", ["url", "productName"], .veryHigh, "Reorder out-of-stock item"),
+            goTo("view_warranty", "View Warranty", ["url", "productName"], .veryHigh, "View warranty details"),
+
+            // Utilities and services
+            goTo("view_outage_details", "View Outage Info", ["url"], .veryHigh, "View power outage details and affected areas"),
+            goTo("schedule_delivery_time", "Schedule Delivery", ["url"], .veryHigh, "Choose delivery time window"),
+
+            // Real estate
+            goTo("view_property_listings", "View Homes", ["url"], .veryHigh, "View recommended property listings"),
+            goTo("save_properties", "Save Favorites", ["url"], .high, "Save properties to favorites"),
+            goTo("schedule_showing", "Schedule Tour", ["url"], .high, "Schedule property showing"),
+
+            // Social and community
+            goTo("read_community_post", "Read Post", ["url"], .veryHigh, "Read community post"),
+            goTo("view_post_comments", "View Comments", ["url"], .high, "Read post comments and discussion"),
+            goTo("reply_to_post", "Reply", ["url"], .medium, "Reply to community post"),
+            goTo("view_activity_details", "View Activity", ["url"], .veryHigh, "View educational activity details", mode: .mail),
+            goTo("book_activity_tickets", "Book Tickets", ["url"], .high, "Book tickets for activity", mode: .mail),
 
             // === CIVIC, EDUCATION, FINANCE, REAL ESTATE, SOCIAL, SUBSCRIPTION ===
-
-            // Apply for Permit
-            ActionConfig(
-                actionId: "apply_for_permit",
-                displayName: "Apply for Permit",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "applicationUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_apply_for_permit",
-                priority: .medium,
-                description: "Apply for government permit",
-                confirmationRequirement: .simple(message: "Submit permit application? This will begin the official application process.")
-            ),
-
-            // Confirm Appearance
-            ActionConfig(
-                actionId: "confirm_court_appearance",
-                displayName: "Confirm Appearance",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "confirmationUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_confirm_court_appearance",
-                priority: .medium,
-                description: "Confirm court appearance or jury duty",
-                confirmationRequirement: .detailed(
-                    title: "Confirm Court Appearance",
-                    message: "This will confirm your attendance for court or jury duty. This action cannot be undone.",
-                    confirmText: "Confirm Appearance",
-                    cancelText: "Cancel"
-                )
-            ),
-
-            // Pay Property Tax
-            ActionConfig(
-                actionId: "pay_property_tax",
-                displayName: "Pay Property Tax",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "paymentUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_pay_property_tax",
-                priority: .medium,
-                description: "Pay property tax bill",
-                confirmationRequirement: .confirmWithUndo(
-                    confirmation: "Confirm property tax payment?",
-                    undo: UndoConfig(toastMessage: "Tax payment initiated. Tap to undo.")
-                )
-            ),
-
-            // Register to Vote
-            ActionConfig(
-                actionId: "register_to_vote",
-                displayName: "Register to Vote",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "registrationUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_register_to_vote",
-                priority: .medium,
-                description: "Complete voter registration"
-            ),
-
-            // Renew License
-            ActionConfig(
-                actionId: "renew_license",
-                displayName: "Renew License",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "renewalUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_renew_license",
-                priority: .medium,
-                description: "Renew driver license or ID"
-            ),
-
-            // View Ballot
-            ActionConfig(
-                actionId: "view_ballot",
-                displayName: "View Ballot",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "guideUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_ballot",
-                priority: .medium,
-                description: "View sample ballot and voting guide"
-            ),
-
-            // Download Attachment
-            ActionConfig(
-                actionId: "download_attachment",
-                displayName: "Download Attachment",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "attachmentUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_download_attachment",
-                priority: .mediumLow,
-                description: "Download assignment attachment (PDF, worksheet, rubric)"
-            ),
-
-            // Open Original Link
-            ActionConfig(
-                actionId: "open_original_link",
-                displayName: "Open Original Link",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "link"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_open_original_link",
-                priority: .mediumLow,
-                description: "Open the original link in browser"
-            ),
-
-            // Pay Bill
-            ActionConfig(
-                actionId: "pay_utility_bill",
-                displayName: "Pay Bill",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "billUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_pay_utility_bill",
-                priority: .medium,
-                description: "Pay utility bill online",
-                confirmationRequirement: .confirmWithUndo(
-                    confirmation: "Confirm utility bill payment?",
-                    undo: UndoConfig(toastMessage: "Bill payment sent. Tap to undo.")
-                )
-            ),
-
-            // Schedule Inspection
-            ActionConfig(
-                actionId: "schedule_inspection",
-                displayName: "Schedule Inspection",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "schedulingUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_schedule_inspection",
-                priority: .medium,
-                description: "Schedule real estate inspection"
-            ),
-
-            // Accept Invitation
-            ActionConfig(
-                actionId: "accept_social_invitation",
-                displayName: "Accept Invitation",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "invitationLink"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_accept_social_invitation",
-                priority: .low,
-                description: "Accept social platform invitation"
-            ),
-
-            // Share Activity
-            ActionConfig(
-                actionId: "share_achievement",
-                displayName: "Share Activity",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "activityUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_share_achievement",
-                priority: .low,
-                description: "Share fitness achievement on social media"
-            ),
-
-            // Verify Account
-            ActionConfig(
-                actionId: "verify_social_account",
-                displayName: "Verify Account",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "verificationLink"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_verify_social_account",
-                priority: .low,
-                description: "Verify social platform account"
-            ),
-
-            // View Activity
-            ActionConfig(
-                actionId: "view_activity",
-                displayName: "View Activity",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "activityUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_activity",
-                priority: .low,
-                description: "View fitness activity that received kudos"
-            ),
-
-            // View Message
-            ActionConfig(
-                actionId: "view_social_message",
-                displayName: "View Message",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "messageUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_social_message",
-                priority: .low,
-                description: "View social platform message"
-            ),
-
-            // Cancel Service
-            ActionConfig(
-                actionId: "cancel_subscription_service",
-                displayName: "Cancel Service",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "cancellationUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_cancel_subscription_service",
-                priority: .medium,
-                description: "Cancel subscription service"
-            ),
-
-            // Extend Trial
-            ActionConfig(
-                actionId: "extend_trial",
-                displayName: "Extend Trial",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "extensionUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_extend_trial",
-                priority: .mediumLow,
-                description: "Extend free trial period"
-            ),
-
-            // Upgrade Now
-            ActionConfig(
-                actionId: "upgrade_subscription",
-                displayName: "Upgrade Now",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "upgradeUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_upgrade_subscription",
-                priority: .medium,
-                description: "Upgrade subscription plan"
-            ),
-
-            // View Usage
-            ActionConfig(
-                actionId: "view_usage",
-                displayName: "View Usage",
-                actionType: .goTo,
-                mode: .both,
-                modalComponent: nil,
-                requiredContextKeys: ["url", "usageUrl"],
-                optionalContextKeys: [],
-                fallbackBehavior: .showError,
-                analyticsEvent: "action_view_usage",
-                priority: .mediumLow,
-                description: "View subscription usage details"
-            ),
+            goTo("apply_for_permit", "Apply for Permit", ["url", "applicationUrl"], .medium, "Apply for government permit",
+                confirmationRequirement: .simple(message: "Submit permit application? This will begin the official application process.")),
+            goTo("confirm_court_appearance", "Confirm Appearance", ["url", "confirmationUrl"], .medium, "Confirm court appearance or jury duty",
+                confirmationRequirement: .detailed(title: "Confirm Court Appearance", message: "This will confirm your attendance for court or jury duty. This action cannot be undone.", confirmText: "Confirm Appearance", cancelText: "Cancel")),
+            goTo("pay_property_tax", "Pay Property Tax", ["url", "paymentUrl"], .medium, "Pay property tax bill",
+                confirmationRequirement: .confirmWithUndo(confirmation: "Confirm property tax payment?", undo: UndoConfig(toastMessage: "Tax payment initiated. Tap to undo."))),
+            goTo("register_to_vote", "Register to Vote", ["url", "registrationUrl"], .medium, "Complete voter registration"),
+            goTo("renew_license", "Renew License", ["url", "renewalUrl"], .medium, "Renew driver license or ID"),
+            goTo("view_ballot", "View Ballot", ["url", "guideUrl"], .medium, "View sample ballot and voting guide"),
+            goTo("download_attachment", "Download Attachment", ["url", "attachmentUrl"], .mediumLow, "Download assignment attachment (PDF, worksheet, rubric)"),
+            goTo("open_original_link", "Open Original Link", ["url", "link"], .mediumLow, "Open the original link in browser"),
+            goTo("pay_utility_bill", "Pay Bill", ["url", "billUrl"], .medium, "Pay utility bill online",
+                confirmationRequirement: .confirmWithUndo(confirmation: "Confirm utility bill payment?", undo: UndoConfig(toastMessage: "Bill payment sent. Tap to undo."))),
+            goTo("schedule_inspection", "Schedule Inspection", ["url", "schedulingUrl"], .medium, "Schedule real estate inspection"),
+            goTo("accept_social_invitation", "Accept Invitation", ["url", "invitationLink"], .low, "Accept social platform invitation"),
+            goTo("share_achievement", "Share Activity", ["url", "activityUrl"], .low, "Share fitness achievement on social media"),
+            goTo("verify_social_account", "Verify Account", ["url", "verificationLink"], .low, "Verify social platform account"),
+            goTo("view_activity", "View Activity", ["url", "activityUrl"], .low, "View fitness activity that received kudos"),
+            goTo("view_social_message", "View Message", ["url", "messageUrl"], .low, "View social platform message"),
+            goTo("cancel_subscription_service", "Cancel Service", ["url", "cancellationUrl"], .medium, "Cancel subscription service"),
+            goTo("extend_trial", "Extend Trial", ["url", "extensionUrl"], .mediumLow, "Extend free trial period"),
+            goTo("upgrade_subscription", "Upgrade Now", ["url", "upgradeUrl"], .medium, "Upgrade subscription plan"),
+            goTo("view_usage", "View Usage", ["url", "usageUrl"], .mediumLow, "View subscription usage details"),
         ]
+    }
+
+    // Helper function for GO_TO actions
+    private func goTo(
+        _ actionId: String,
+        _ displayName: String,
+        _ requiredContextKeys: [String],
+        _ priority: ActionPriority,
+        _ description: String,
+        mode: ZeroMode = .both,
+        optionalContextKeys: [String] = [],
+        confirmationRequirement: ConfirmationRequirement = .none,
+        modalConfigJSON: String? = nil
+    ) -> ActionConfig {
+        ActionConfig(
+            actionId: actionId,
+            displayName: displayName,
+            actionType: .goTo,
+            mode: mode,
+            modalComponent: nil,
+            requiredContextKeys: requiredContextKeys,
+            optionalContextKeys: optionalContextKeys,
+            fallbackBehavior: .showError,
+            analyticsEvent: "action_\(actionId)",
+            priority: priority,
+            description: description,
+            confirmationRequirement: confirmationRequirement,
+            modalConfigJSON: modalConfigJSON
+        )
+    }
+
+    // Helper function for IN_APP actions
+    private func inApp(
+        _ actionId: String,
+        _ displayName: String,
+        _ priority: ActionPriority,
+        _ description: String,
+        mode: ZeroMode,
+        requiredContextKeys: [String] = [],
+        optionalContextKeys: [String] = [],
+        fallbackBehavior: ActionConfig.FallbackBehavior = .showError,
+        modalComponent: String? = nil,
+        modalConfigJSON: String? = nil,
+        requiredPermission: ActionPermission = .free,
+        confirmationRequirement: ConfirmationRequirement = .none
+    ) -> ActionConfig {
+        ActionConfig(
+            actionId: actionId,
+            displayName: displayName,
+            actionType: .inApp,
+            mode: mode,
+            modalComponent: modalComponent,
+            requiredContextKeys: requiredContextKeys,
+            optionalContextKeys: optionalContextKeys,
+            fallbackBehavior: fallbackBehavior,
+            analyticsEvent: "action_\(actionId)",
+            priority: priority,
+            description: description,
+            requiredPermission: requiredPermission,
+            confirmationRequirement: confirmationRequirement,
+            modalConfigJSON: modalConfigJSON
+        )
     }
 
     // MARK: - All Actions Combined
@@ -2931,48 +1056,19 @@ class ActionRegistry {
     // MARK: - Public Methods
 
     /// Get action configuration by ID
-    /// Phase 3: Hybrid JSON + Swift fallback system
-    /// 1. Check JSON files first (via ActionLoader)
-    /// 2. Convert JSONAction to ActionConfig if found
-    /// 3. Fall back to hardcoded Swift registry if not in JSON
+    /// Phase 3 Optimized: Uses pre-merged JSON+Swift registry
+    /// Registry is initialized once with JSON actions taking priority over Swift
+    /// This provides O(1) dictionary lookup instead of repeated JSON parsing
     func getAction(_ actionId: String) -> ActionConfig? {
-        // PHASE 3: Try JSON first
-        if let jsonAction = ActionLoader.shared.loadAction(id: actionId) {
-            if let actionConfig = jsonAction.toActionConfig() {
-                Logger.info("Loaded action '\(actionId)' from JSON", category: .action)
-                return actionConfig
-            } else {
-                Logger.warning("Failed to convert JSON action '\(actionId)' to ActionConfig, falling back to Swift", category: .action)
-            }
-        }
-
-        // FALLBACK: Use hardcoded Swift registry
         return registry[actionId]
     }
 
     /// Get all actions for a specific mode
-    /// Phase 3: Includes both JSON and Swift registry actions
+    /// Phase 3 Optimized: Uses pre-merged registry (no JSON parsing)
     func getActionsForMode(_ mode: ZeroMode) -> [ActionConfig] {
-        var actions: [ActionConfig] = []
-        var processedIds = Set<String>()
-
-        // PHASE 3: Get JSON actions first (takes priority)
-        let jsonActions = ActionLoader.shared.getActions(for: mode.rawValue)
-        for jsonAction in jsonActions {
-            if let actionConfig = jsonAction.toActionConfig() {
-                actions.append(actionConfig)
-                processedIds.insert(jsonAction.actionId)
-            }
+        return registry.values.filter { action in
+            action.mode == mode || action.mode == .both
         }
-
-        // FALLBACK: Add Swift registry actions (skip if already in JSON)
-        for action in registry.values {
-            if (action.mode == mode || action.mode == .both) && !processedIds.contains(action.actionId) {
-                actions.append(action)
-            }
-        }
-
-        return actions
     }
 
     /// Validate if action can be executed with given context
@@ -2985,8 +1081,13 @@ class ActionRegistry {
             )
         }
 
+        return validateAction(action, context: context)
+    }
+
+    /// Week 5 Performance: Optimized version that accepts ActionConfig to avoid repeated lookups
+    func validateAction(_ actionConfig: ActionConfig, context: [String: String]?) -> ValidationResult {
         let providedKeys = Set(context?.keys.map { $0 } ?? [])
-        let requiredKeys = Set(action.requiredContextKeys)
+        let requiredKeys = Set(actionConfig.requiredContextKeys)
         let missingKeys = requiredKeys.subtracting(providedKeys)
 
         if missingKeys.isEmpty {
@@ -3008,6 +1109,14 @@ class ActionRegistry {
         let zeroMode: ZeroMode = currentMode == .mail ? .mail : .ads
 
         return action.mode == zeroMode || action.mode == .both
+    }
+
+    /// Week 5 Performance: Optimized version that accepts ActionConfig to avoid repeated lookups
+    func isActionValidForMode(_ actionConfig: ActionConfig, currentMode: CardType) -> Bool {
+        // Convert CardType to ZeroMode
+        let zeroMode: ZeroMode = currentMode == .mail ? .mail : .ads
+
+        return actionConfig.mode == zeroMode || actionConfig.mode == .both
     }
 
     /// Get all action IDs

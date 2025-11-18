@@ -43,36 +43,15 @@ struct SearchModal: View {
                 // Results
                 if isSearching {
                     Spacer()
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                    Text("Searching...")
-                        .font(.caption)
-                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-                        .padding(.top, 8)
+                    LoadingSpinner(text: "Searching...", size: .small)
                     Spacer()
                 } else if let error = errorMessage {
                     Spacer()
-                    VStack(spacing: 12) {
-                        Image(systemName: "exclamationmark.triangle")
-                            .font(.largeTitle)
-                            .foregroundColor(.orange)
-                        Text(error)
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-                            .multilineTextAlignment(.center)
-                    }
-                    .padding()
+                    CompactEmptyState(icon: "exclamationmark.triangle", message: error)
                     Spacer()
                 } else if results.isEmpty && !searchQuery.isEmpty {
                     Spacer()
-                    VStack(spacing: 12) {
-                        Image(systemName: "magnifyingglass")
-                            .font(.largeTitle)
-                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
-                        Text("No results found")
-                            .font(.subheadline)
-                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-                    }
+                    CompactEmptyState(icon: "magnifyingglass", message: "No results found")
                     Spacer()
                 } else if results.isEmpty {
                     Spacer()

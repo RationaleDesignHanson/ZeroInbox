@@ -1,0 +1,33 @@
+{
+  "id": "critical-medical-001",
+  "subject": "Appointment Reminder: Dr. Sarah Johnson - Tomorrow at 2:00 PM",
+  "from": {
+    "name": "Memorial Medical Center",
+    "email": "appointments@memorialmedical.org"
+  },
+  "to": "user@example.com",
+  "date": "2025-01-14T18:00:00Z",
+  "headers": {
+    "Message-ID": "<appt-reminder-45678@memorialmedical.org>",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "body": {
+    "text": "Appointment Reminder\n\nDear Patient,\n\nThis is a reminder that you have an upcoming appointment:\n\nPatient: John Doe\nProvider: Dr. Sarah Johnson, MD (Cardiology)\nDate: Wednesday, January 15, 2025\nTime: 2:00 PM\nLocation: Memorial Medical Center, Building A, Suite 300\nAddress: 123 Healthcare Blvd, San Francisco, CA 94110\n\nPlease arrive 15 minutes early to complete check-in.\n\nWhat to bring:\n- Photo ID\n- Insurance card\n- List of current medications\n- Recent test results (if applicable)\n\nIf you need to reschedule or cancel:\nCall: (415) 555-0100\nOnline: memorialmedical.org/appointments\n\nCOVID-19 Safety:\n- Masks are required in all clinical areas\n- Please reschedule if you have symptoms\n\nThank you for choosing Memorial Medical Center.\n\nMemorial Medical Center\n123 Healthcare Blvd\nSan Francisco, CA 94110\n(415) 555-0100",
+    "html": "<html><body style='font-family: Arial, sans-serif; max-width: 650px; margin: 0 auto;'><div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center;'><h1 style='color: white; margin: 0; font-size: 28px;'>Appointment Reminder</h1></div><div style='padding: 30px; background: white;'><p style='font-size: 16px; color: #333;'>Dear Patient,</p><p style='font-size: 14px; color: #666; line-height: 1.6;'>This is a reminder that you have an upcoming appointment:</p><div style='background: #f5f7fa; border-left: 5px solid #667eea; padding: 20px; margin: 25px 0;'><table style='width: 100%; border-collapse: collapse;'><tr><td style='padding: 8px 0; color: #666; font-size: 14px;'><strong>Patient:</strong></td><td style='padding: 8px 0; color: #333; font-size: 14px;'>John Doe</td></tr><tr><td style='padding: 8px 0; color: #666; font-size: 14px;'><strong>Provider:</strong></td><td style='padding: 8px 0; color: #333; font-size: 14px;'>Dr. Sarah Johnson, MD (Cardiology)</td></tr><tr><td style='padding: 8px 0; color: #666; font-size: 14px;'><strong>Date:</strong></td><td style='padding: 8px 0; color: #333; font-size: 14px;'>Wednesday, January 15, 2025</td></tr><tr><td style='padding: 8px 0; color: #666; font-size: 14px;'><strong>Time:</strong></td><td style='padding: 8px 0; color: #333; font-size: 14px; font-weight: bold;'>2:00 PM</td></tr><tr><td style='padding: 8px 0; color: #666; font-size: 14px;'><strong>Location:</strong></td><td style='padding: 8px 0; color: #333; font-size: 14px;'>Memorial Medical Center, Building A, Suite 300</td></tr><tr><td style='padding: 8px 0; color: #666; font-size: 14px;'><strong>Address:</strong></td><td style='padding: 8px 0; color: #333; font-size: 14px;'>123 Healthcare Blvd, San Francisco, CA 94110</td></tr></table></div><div style='background: #fff9e6; border: 1px solid #ffd700; padding: 15px; margin: 20px 0; border-radius: 5px;'><p style='margin: 0; font-size: 13px; color: #856404;'>⏰ Please arrive <strong>15 minutes early</strong> to complete check-in.</p></div><h3 style='color: #333; font-size: 16px; margin-top: 30px;'>What to bring:</h3><ul style='color: #666; font-size: 14px; line-height: 1.8;'><li>Photo ID</li><li>Insurance card</li><li>List of current medications</li><li>Recent test results (if applicable)</li></ul><h3 style='color: #333; font-size: 16px; margin-top: 30px;'>If you need to reschedule or cancel:</h3><p style='color: #666; font-size: 14px;'><strong>Call:</strong> (415) 555-0100<br><strong>Online:</strong> memorialmedical.org/appointments</p><div style='background: #e8f4f8; border-left: 4px solid #2196f3; padding: 15px; margin: 25px 0;'><h4 style='margin: 0 0 10px 0; color: #1976d2; font-size: 14px;'>COVID-19 Safety:</h4><ul style='margin: 0; padding-left: 20px; color: #666; font-size: 13px;'><li>Masks are required in all clinical areas</li><li>Please reschedule if you have symptoms</li></ul></div><p style='font-size: 14px; color: #666; margin-top: 30px;'>Thank you for choosing Memorial Medical Center.</p></div><div style='background: #f5f7fa; padding: 20px; text-align: center; border-top: 1px solid #e0e0e0;'><p style='margin: 0; color: #666; font-size: 12px;'><strong>Memorial Medical Center</strong><br>123 Healthcare Blvd, San Francisco, CA 94110<br>(415) 555-0100</p></div></body></html>"
+  },
+  "classification": {
+    "type": "transactional",
+    "category": "medical",
+    "intent": "appointment_reminder",
+    "priority": "critical",
+    "shouldNeverUnsubscribe": true,
+    "reason": "Medical appointment reminder - critical healthcare communication that must never be unsubscribed"
+  },
+  "testExpectations": {
+    "shouldDetectAsReceipt": false,
+    "shouldDetectAsNewsletter": false,
+    "shouldBeUnsubscribable": false,
+    "shouldBeMarkedCritical": true,
+    "expectedTags": ["medical", "appointment", "healthcare", "reminder", "critical"]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "id": "track_package",
+  "title": "Track Your Package",
+  "subtitle": null,
+  "icon": {
+    "systemName": "shippingbox.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "shipment_details",
+      "title": "Shipment Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "tracking_number",
+          "label": "Tracking Number",
+          "type": "badge",
+          "contextKey": "trackingNumber",
+          "required": true,
+          "copyable": true,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "carrier",
+          "label": "Carrier",
+          "type": "text",
+          "contextKey": "carrier",
+          "required": true,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "order_number",
+          "label": "Order Number",
+          "type": "text",
+          "contextKey": "orderNumber",
+          "required": false,
+          "copyable": true,
+          "placeholder": "Not available",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "estimated_delivery",
+          "label": "Estimated Delivery",
+          "type": "date",
+          "contextKey": "estimatedDelivery",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Pending",
+          "formatting": {
+            "type": "dateFull",
+            "options": null
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "delivery_status",
+          "label": "Status",
+          "type": "statusBadge",
+          "contextKey": "deliveryStatus",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Unknown",
+          "formatting": null,
+          "colorMapping": {
+            "in transit": "blue",
+            "out for delivery": "orange",
+            "delivered": "green",
+            "delayed": "red",
+            "pending": "gray"
+          }
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "View Full Details",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "trackingUrl"
+    }
+  },
+  "secondaryButton": {
+    "title": "Share Tracking Info",
+    "style": "secondary",
+    "action": {
+      "type": "share"
+    }
+  },
+  "layout": "standard"
+}

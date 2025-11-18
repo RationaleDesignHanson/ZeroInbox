@@ -1,0 +1,101 @@
+{
+  "id": "contact_driver",
+  "title": "Contact Driver",
+  "subtitle": null,
+  "icon": {
+    "systemName": "person.crop.circle.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "driver_info",
+      "title": "Driver Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "driver_name",
+          "label": "Driver",
+          "type": "text",
+          "contextKey": "driverName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Your driver",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "estimated_arrival",
+          "label": "Arriving",
+          "type": "text",
+          "contextKey": "estimatedArrival",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Soon",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "tracking_number",
+          "label": "Order",
+          "type": "text",
+          "contextKey": "trackingNumber",
+          "required": false,
+          "copyable": true,
+          "placeholder": "Tracking number",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "contact_info",
+      "title": "Message",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "message",
+          "label": "Custom Message",
+          "type": "textInputMultiline",
+          "contextKey": "customMessage",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Type your message...",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "driver_phone",
+          "label": "Phone",
+          "type": "text",
+          "contextKey": "driverPhone",
+          "required": false,
+          "copyable": true,
+          "placeholder": "Driver phone number",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Send Message",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Call Driver",
+    "style": "secondary",
+    "action": {
+      "type": "callPhone",
+      "contextKey": "driverPhone"
+    }
+  },
+  "layout": "standard"
+}

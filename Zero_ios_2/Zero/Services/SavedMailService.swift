@@ -27,7 +27,6 @@ class SavedMailService: ObservableObject {
     @Published var error: String?
 
     private let baseURL: String
-    private let session = URLSession.shared
     private var cancellables = Set<AnyCancellable>()
 
     nonisolated private init() {
@@ -43,6 +42,7 @@ class SavedMailService: ObservableObject {
 
     /// Fetch all folders for the current user
     func fetchFolders(userId: String) async throws -> [SavedMailFolder] {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         isLoading = true
         defer { isLoading = false }
 
@@ -58,37 +58,31 @@ class SavedMailService: ObservableObject {
             throw SavedMailError.invalidURL
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            let folderResponse: GetFoldersResponse = try await NetworkService.shared.get(url: url)
 
-        let (data, response) = try await session.data(for: request)
+            guard folderResponse.success else {
+                throw SavedMailError.serverError("Failed to fetch folders")
+            }
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+            // Update local cache
+            self.folders = folderResponse.folders
+            self.saveFoldersToCache()
+
+            Logger.info("✅ Fetched \(folderResponse.folders.count) folders", category: .savedMail)
+
+            return folderResponse.folders
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                throw SavedMailError.httpError(statusCode: statusCode)
+            }
             throw SavedMailError.invalidResponse
         }
-
-        guard httpResponse.statusCode == 200 else {
-            throw SavedMailError.httpError(statusCode: httpResponse.statusCode)
-        }
-
-        let folderResponse = try JSONDecoder().decode(GetFoldersResponse.self, from: data)
-
-        guard folderResponse.success else {
-            throw SavedMailError.serverError("Failed to fetch folders")
-        }
-
-        // Update local cache
-        self.folders = folderResponse.folders
-        self.saveFoldersToCache()
-
-        Logger.info("✅ Fetched \(folderResponse.folders.count) folders", category: .savedMail)
-
-        return folderResponse.folders
     }
 
     /// Create a new folder
     func createFolder(userId: String, name: String, color: String?) async throws -> SavedMailFolder {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         isLoading = true
         defer { isLoading = false }
 
@@ -96,50 +90,46 @@ class SavedMailService: ObservableObject {
             throw SavedMailError.invalidURL
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        struct CreateFolderRequest: Codable {
+            let userId: String
+            let name: String
+            let color: String
+        }
 
-        let body: [String: Any] = [
-            "userId": userId,
-            "name": name,
-            "color": color ?? SavedMailFolder.randomColor()
-        ]
+        let requestBody = CreateFolderRequest(
+            userId: userId,
+            name: name,
+            color: color ?? SavedMailFolder.randomColor()
+        )
 
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        do {
+            let folderResponse: CreateFolderResponse = try await NetworkService.shared.post(
+                url: url,
+                body: requestBody
+            )
 
-        let (data, response) = try await session.data(for: request)
+            guard folderResponse.success, let folder = folderResponse.folder else {
+                throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
+            }
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+            // Update local cache
+            self.folders.append(folder)
+            self.saveFoldersToCache()
+
+            Logger.info("✅ Created folder: \(name)", category: .savedMail)
+
+            return folder
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                throw SavedMailError.httpError(statusCode: statusCode)
+            }
             throw SavedMailError.invalidResponse
         }
-
-        guard httpResponse.statusCode == 201 else {
-            // Try to parse error message
-            if let errorResponse = try? JSONDecoder().decode(CreateFolderResponse.self, from: data),
-               let errorMessage = errorResponse.error {
-                throw SavedMailError.serverError(errorMessage)
-            }
-            throw SavedMailError.httpError(statusCode: httpResponse.statusCode)
-        }
-
-        let folderResponse = try JSONDecoder().decode(CreateFolderResponse.self, from: data)
-
-        guard folderResponse.success, let folder = folderResponse.folder else {
-            throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
-        }
-
-        // Update local cache
-        self.folders.append(folder)
-        self.saveFoldersToCache()
-
-        Logger.info("✅ Created folder: \(name)", category: .savedMail)
-
-        return folder
     }
 
     /// Update a folder (rename or recolor)
     func updateFolder(userId: String, folderId: String, name: String?, color: String?) async throws -> SavedMailFolder {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         isLoading = true
         defer { isLoading = false }
 
@@ -147,53 +137,49 @@ class SavedMailService: ObservableObject {
             throw SavedMailError.invalidURL
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "PATCH"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-        var body: [String: Any] = ["userId": userId]
-        if let name = name {
-            body["name"] = name
-        }
-        if let color = color {
-            body["color"] = color
+        struct UpdateFolderRequest: Codable {
+            let userId: String
+            let name: String?
+            let color: String?
         }
 
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        let requestBody = UpdateFolderRequest(
+            userId: userId,
+            name: name,
+            color: color
+        )
 
-        let (data, response) = try await session.data(for: request)
+        do {
+            let folderResponse: UpdateFolderResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .patch,
+                body: requestBody
+            )
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+            guard folderResponse.success, let folder = folderResponse.folder else {
+                throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
+            }
+
+            // Update local cache
+            if let index = self.folders.firstIndex(where: { $0.id == folderId }) {
+                self.folders[index] = folder
+                self.saveFoldersToCache()
+            }
+
+            Logger.info("✅ Updated folder: \(folderId)", category: .savedMail)
+
+            return folder
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                throw SavedMailError.httpError(statusCode: statusCode)
+            }
             throw SavedMailError.invalidResponse
         }
-
-        guard httpResponse.statusCode == 200 else {
-            if let errorResponse = try? JSONDecoder().decode(UpdateFolderResponse.self, from: data),
-               let errorMessage = errorResponse.error {
-                throw SavedMailError.serverError(errorMessage)
-            }
-            throw SavedMailError.httpError(statusCode: httpResponse.statusCode)
-        }
-
-        let folderResponse = try JSONDecoder().decode(UpdateFolderResponse.self, from: data)
-
-        guard folderResponse.success, let folder = folderResponse.folder else {
-            throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
-        }
-
-        // Update local cache
-        if let index = self.folders.firstIndex(where: { $0.id == folderId }) {
-            self.folders[index] = folder
-            self.saveFoldersToCache()
-        }
-
-        Logger.info("✅ Updated folder: \(folderId)", category: .savedMail)
-
-        return folder
     }
 
     /// Delete a folder
     func deleteFolder(userId: String, folderId: String) async throws {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         isLoading = true
         defer { isLoading = false }
 
@@ -209,33 +195,25 @@ class SavedMailService: ObservableObject {
             throw SavedMailError.invalidURL
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            try await NetworkService.shared.delete(url: url)
 
-        let (data, response) = try await session.data(for: request)
+            // Update local cache
+            self.folders.removeAll { $0.id == folderId }
+            self.saveFoldersToCache()
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+            Logger.info("✅ Deleted folder: \(folderId)", category: .savedMail)
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                throw SavedMailError.httpError(statusCode: statusCode)
+            }
             throw SavedMailError.invalidResponse
         }
-
-        guard httpResponse.statusCode == 200 else {
-            if let errorResponse = try? JSONDecoder().decode(DeleteFolderResponse.self, from: data),
-               let errorMessage = errorResponse.error {
-                throw SavedMailError.serverError(errorMessage)
-            }
-            throw SavedMailError.httpError(statusCode: httpResponse.statusCode)
-        }
-
-        // Update local cache
-        self.folders.removeAll { $0.id == folderId }
-        self.saveFoldersToCache()
-
-        Logger.info("✅ Deleted folder: \(folderId)", category: .savedMail)
     }
 
     /// Add email to folder
     func addEmailToFolder(userId: String, folderId: String, emailId: String) async throws -> SavedMailFolder {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         isLoading = true
         defer { isLoading = false }
 
@@ -243,50 +221,46 @@ class SavedMailService: ObservableObject {
             throw SavedMailError.invalidURL
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        struct AddEmailRequest: Codable {
+            let userId: String
+            let emailId: String
+        }
 
-        let body: [String: Any] = [
-            "userId": userId,
-            "emailId": emailId
-        ]
+        let requestBody = AddEmailRequest(
+            userId: userId,
+            emailId: emailId
+        )
 
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        do {
+            let folderResponse: FolderEmailResponse = try await NetworkService.shared.post(
+                url: url,
+                body: requestBody
+            )
 
-        let (data, response) = try await session.data(for: request)
+            guard folderResponse.success, let folder = folderResponse.folder else {
+                throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
+            }
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+            // Update local cache
+            if let index = self.folders.firstIndex(where: { $0.id == folderId }) {
+                self.folders[index] = folder
+                self.saveFoldersToCache()
+            }
+
+            Logger.info("✅ Added email \(emailId) to folder \(folderId)", category: .savedMail)
+
+            return folder
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                throw SavedMailError.httpError(statusCode: statusCode)
+            }
             throw SavedMailError.invalidResponse
         }
-
-        guard httpResponse.statusCode == 200 else {
-            if let errorResponse = try? JSONDecoder().decode(FolderEmailResponse.self, from: data),
-               let errorMessage = errorResponse.error {
-                throw SavedMailError.serverError(errorMessage)
-            }
-            throw SavedMailError.httpError(statusCode: httpResponse.statusCode)
-        }
-
-        let folderResponse = try JSONDecoder().decode(FolderEmailResponse.self, from: data)
-
-        guard folderResponse.success, let folder = folderResponse.folder else {
-            throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
-        }
-
-        // Update local cache
-        if let index = self.folders.firstIndex(where: { $0.id == folderId }) {
-            self.folders[index] = folder
-            self.saveFoldersToCache()
-        }
-
-        Logger.info("✅ Added email \(emailId) to folder \(folderId)", category: .savedMail)
-
-        return folder
     }
 
     /// Remove email from folder
     func removeEmailFromFolder(userId: String, folderId: String, emailId: String) async throws -> SavedMailFolder {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         isLoading = true
         defer { isLoading = false }
 
@@ -302,43 +276,37 @@ class SavedMailService: ObservableObject {
             throw SavedMailError.invalidURL
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            let folderResponse: FolderEmailResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .delete,
+                body: Optional<String>.none
+            )
 
-        let (data, response) = try await session.data(for: request)
+            guard folderResponse.success, let folder = folderResponse.folder else {
+                throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
+            }
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+            // Update local cache
+            if let index = self.folders.firstIndex(where: { $0.id == folderId }) {
+                self.folders[index] = folder
+                self.saveFoldersToCache()
+            }
+
+            Logger.info("✅ Removed email \(emailId) from folder \(folderId)", category: .savedMail)
+
+            return folder
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                throw SavedMailError.httpError(statusCode: statusCode)
+            }
             throw SavedMailError.invalidResponse
         }
-
-        guard httpResponse.statusCode == 200 else {
-            if let errorResponse = try? JSONDecoder().decode(FolderEmailResponse.self, from: data),
-               let errorMessage = errorResponse.error {
-                throw SavedMailError.serverError(errorMessage)
-            }
-            throw SavedMailError.httpError(statusCode: httpResponse.statusCode)
-        }
-
-        let folderResponse = try JSONDecoder().decode(FolderEmailResponse.self, from: data)
-
-        guard folderResponse.success, let folder = folderResponse.folder else {
-            throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
-        }
-
-        // Update local cache
-        if let index = self.folders.firstIndex(where: { $0.id == folderId }) {
-            self.folders[index] = folder
-            self.saveFoldersToCache()
-        }
-
-        Logger.info("✅ Removed email \(emailId) from folder \(folderId)", category: .savedMail)
-
-        return folder
     }
 
     /// Reorder folders
     func reorderFolders(userId: String, folderIds: [String]) async throws -> [SavedMailFolder] {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         isLoading = true
         defer { isLoading = false }
 
@@ -346,44 +314,39 @@ class SavedMailService: ObservableObject {
             throw SavedMailError.invalidURL
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        struct ReorderFoldersRequest: Codable {
+            let userId: String
+            let folderIds: [String]
+        }
 
-        let body: [String: Any] = [
-            "userId": userId,
-            "folderIds": folderIds
-        ]
+        let requestBody = ReorderFoldersRequest(
+            userId: userId,
+            folderIds: folderIds
+        )
 
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        do {
+            let folderResponse: ReorderFoldersResponse = try await NetworkService.shared.post(
+                url: url,
+                body: requestBody
+            )
 
-        let (data, response) = try await session.data(for: request)
+            guard folderResponse.success, let reorderedFolders = folderResponse.folders else {
+                throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
+            }
 
-        guard let httpResponse = response as? HTTPURLResponse else {
+            // Update local cache
+            self.folders = reorderedFolders
+            self.saveFoldersToCache()
+
+            Logger.info("✅ Reordered \(folderIds.count) folders", category: .savedMail)
+
+            return reorderedFolders
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                throw SavedMailError.httpError(statusCode: statusCode)
+            }
             throw SavedMailError.invalidResponse
         }
-
-        guard httpResponse.statusCode == 200 else {
-            if let errorResponse = try? JSONDecoder().decode(ReorderFoldersResponse.self, from: data),
-               let errorMessage = errorResponse.error {
-                throw SavedMailError.serverError(errorMessage)
-            }
-            throw SavedMailError.httpError(statusCode: httpResponse.statusCode)
-        }
-
-        let folderResponse = try JSONDecoder().decode(ReorderFoldersResponse.self, from: data)
-
-        guard folderResponse.success, let reorderedFolders = folderResponse.folders else {
-            throw SavedMailError.serverError(folderResponse.error ?? "Unknown error")
-        }
-
-        // Update local cache
-        self.folders = reorderedFolders
-        self.saveFoldersToCache()
-
-        Logger.info("✅ Reordered \(folderIds.count) folders", category: .savedMail)
-
-        return reorderedFolders
     }
 
     // MARK: - Local Cache

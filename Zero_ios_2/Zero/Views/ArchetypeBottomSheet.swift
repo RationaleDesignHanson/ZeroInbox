@@ -1,67 +1,61 @@
 import SwiftUI
 
 struct ArchetypeBottomSheet: View {
-    @Binding var isPresented: Bool
+    @Environment(\.dismiss) var dismiss
     @Binding var selectedArchetype: CardType
     let selectedArchetypes: [CardType]
     let cards: [EmailCard]
     let onSelect: (CardType) -> Void
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Handle bar
-            RoundedRectangle(cornerRadius: 3)
-                .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
-                .frame(width: 40, height: 5)
-                .padding(.top, 12)
-                .padding(.bottom, 20)
-            
-            // Title
-            Text("Switch Archetype")
-                .font(.title2.bold())
-                .foregroundColor(DesignTokens.Colors.textPrimary)
-                .padding(.bottom, DesignTokens.Spacing.card)
-            
-            // Archetype grid
-            ScrollView {
-                VStack(spacing: 16) {
-                    ForEach(CardType.allCases, id: \.self) { archetype in
-                        let isActive = selectedArchetypes.contains(archetype)
-                        let isSelected = archetype == selectedArchetype
-                        let count = getUnseenCount(for: archetype)
-                        
-                        ArchetypeRow(
-                            archetype: archetype,
-                            isActive: isActive,
-                            isSelected: isSelected,
-                            count: count
-                        ) {
-                            if isActive {
-                                onSelect(archetype)
-                                isPresented = false
+        BottomSheetContainer(
+            maxHeight: 600,
+            useGlassmorphic: false,
+            background: {
+                LinearGradient(
+                    colors: [
+                        Color(red: 0.1, green: 0.1, blue: 0.15),
+                        Color(red: 0.15, green: 0.15, blue: 0.2)
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            },
+            content: {
+                // Title
+                Text("Switch Archetype")
+                    .font(.title2.bold())
+                    .foregroundColor(DesignTokens.Colors.textPrimary)
+                    .padding(.bottom, DesignTokens.Spacing.card)
+
+                // Archetype grid
+                ScrollView {
+                    VStack(spacing: 16) {
+                        ForEach(CardType.allCases, id: \.self) { archetype in
+                            let isActive = selectedArchetypes.contains(archetype)
+                            let isSelected = archetype == selectedArchetype
+                            let count = getUnseenCount(for: archetype)
+
+                            ArchetypeRow(
+                                archetype: archetype,
+                                isActive: isActive,
+                                isSelected: isSelected,
+                                count: count
+                            ) {
+                                if isActive {
+                                    onSelect(archetype)
+                                    dismiss()
+                                }
                             }
+                            .opacity(isActive ? 1.0 : 0.5)
+                            .disabled(!isActive)
                         }
-                        .opacity(isActive ? 1.0 : 0.5)
-                        .disabled(!isActive)
                     }
+                    .padding(.horizontal, DesignTokens.Spacing.card)
+                    .padding(.bottom, 40)
                 }
-                .padding(.horizontal, DesignTokens.Spacing.card)
-                .padding(.bottom, 40)
             }
-        }
-        .frame(maxWidth: .infinity, maxHeight: 600)
-        .background(
-            LinearGradient(
-                colors: [
-                    Color(red: 0.1, green: 0.1, blue: 0.15),
-                    Color(red: 0.15, green: 0.15, blue: 0.2)
-                ],
-                startPoint: .top,
-                endPoint: .bottom
-            )
         )
-        .cornerRadius(DesignTokens.Radius.card)
-        .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 20, y: -5)
     }
     
     func getUnseenCount(for type: CardType) -> Int {
@@ -174,7 +168,6 @@ struct ArchetypeRow: View {
             .ignoresSafeArea()
 
         ArchetypeBottomSheet(
-            isPresented: .constant(true),
             selectedArchetype: .constant(.mail),
             selectedArchetypes: [.mail, .ads],
             cards: [

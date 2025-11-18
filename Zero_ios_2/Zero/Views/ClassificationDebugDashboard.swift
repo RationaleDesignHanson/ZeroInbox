@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+#if DEBUG
 struct ClassificationDebugDashboard: View {
     let card: EmailCard
     @StateObject private var viewModel = ClassificationDebugViewModel()
@@ -55,44 +56,18 @@ struct ClassificationDebugDashboard: View {
     // MARK: - Loading View
 
     private var loadingView: some View {
-        VStack(spacing: 16) {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                .scaleEffect(1.5)
-
-            Text("Analyzing classification pipeline...")
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-        }
+        LoadingSpinner(text: "Analyzing classification pipeline...", size: .medium)
     }
 
     // MARK: - Error View
 
     private func errorView(_ error: String) -> some View {
-        VStack(spacing: 20) {
-            Image(systemName: "exclamationmark.triangle")
-                .font(.system(size: 60))
-                .foregroundColor(.red)
-
-            Text("Debug Error")
-                .font(.title2.bold())
-                .foregroundColor(.white)
-
-            Text(error)
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
-
-            Button("Retry") {
-                viewModel.fetchDebugData(for: card)
-            }
-            .padding(.horizontal, 32)
-            .padding(.vertical, 12)
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(DesignTokens.Radius.button)
-        }
+        GenericEmptyState(
+            icon: "exclamationmark.triangle",
+            title: "Debug Error",
+            message: error,
+            action: ("Retry", { viewModel.fetchDebugData(for: card) })
+        )
     }
 
     // MARK: - Dashboard Content
@@ -1174,6 +1149,7 @@ class ClassificationDebugViewModel: ObservableObject {
     }
 
     private func callDebugAPI(for card: EmailCard) async throws -> ClassificationDebugData {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         // Get classifier service URL from Constants (auto-selects dev/prod)
         let baseURL = Constants.API.classifierServiceURL
         let urlString = "\(baseURL)/classify/debug"
@@ -1182,49 +1158,52 @@ class ClassificationDebugViewModel: ObservableObject {
             throw DebugAPIError.invalidURL
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 30
+        // Create type-safe request structure
+        struct DebugAPIRequest: Codable {
+            let email: EmailPayload
 
-        // Construct email payload
-        let emailPayload: [String: Any] = [
-            "email": [
-                "id": card.id,
-                "subject": card.title,
-                "from": card.sender?.name ?? "Unknown Sender",
-                "snippet": card.summary,
-                "body": card.body ?? "",
-                "htmlBody": card.htmlBody ?? ""
-            ]
-        ]
+            struct EmailPayload: Codable {
+                let id: String
+                let subject: String
+                let from: String
+                let snippet: String
+                let body: String
+                let htmlBody: String
+            }
+        }
 
-        request.httpBody = try JSONSerialization.data(withJSONObject: emailPayload)
+        let requestBody = DebugAPIRequest(
+            email: DebugAPIRequest.EmailPayload(
+                id: card.id,
+                subject: card.title,
+                from: card.sender?.name ?? "Unknown Sender",
+                snippet: card.summary,
+                body: card.body ?? "",
+                htmlBody: card.htmlBody ?? ""
+            )
+        )
 
         Logger.info("Calling debug API: \(urlString)", category: .app)
 
-        // Make the request
-        let (data, response) = try await URLSession.shared.data(for: request)
+        do {
+            let debugData: ClassificationDebugData = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                body: requestBody
+            )
 
-        // Check HTTP response
-        guard let httpResponse = response as? HTTPURLResponse else {
+            Logger.info("Debug data received successfully", category: .app)
+            return debugData
+
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.error("Debug API error (\(statusCode))", category: .app)
+                throw DebugAPIError.httpError(statusCode: statusCode)
+            }
+            throw DebugAPIError.invalidResponse
+        } catch {
             throw DebugAPIError.invalidResponse
         }
-
-        guard httpResponse.statusCode == 200 else {
-            if let errorMessage = String(data: data, encoding: .utf8) {
-                Logger.error("Debug API error (\(httpResponse.statusCode)): \(errorMessage)", category: .app)
-            }
-            throw DebugAPIError.httpError(statusCode: httpResponse.statusCode)
-        }
-
-        // Decode the response
-        let decoder = JSONDecoder()
-        let debugData = try decoder.decode(ClassificationDebugData.self, from: data)
-
-        Logger.info("Debug data received successfully", category: .app)
-
-        return debugData
     }
 }
 
@@ -1427,3 +1406,4 @@ extension ClassificationDebugViewModel {
         )
     }
 }
+#endif

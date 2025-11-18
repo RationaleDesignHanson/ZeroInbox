@@ -6,22 +6,10 @@ struct ProvideAccessCodeModal: View {
 
     @State private var accessCode = ""
     @State private var codeType = ""
-    @State private var showCopySuccess = false
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header bar
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding()
+            ModalHeader(isPresented: $isPresented)
 
             // Scrollable content
             ScrollView {
@@ -76,36 +64,7 @@ struct ProvideAccessCodeModal: View {
                     .padding(.vertical, 8)
 
                     // Copy Button
-                    Button {
-                        copyToClipboard()
-                    } label: {
-                        HStack {
-                            Image(systemName: "doc.on.doc.fill")
-                            Text("Copy Code")
-                                .font(.headline)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(DesignTokens.Radius.button)
-                    }
-
-                    // Copy Success message
-                    if showCopySuccess {
-                        HStack {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.green)
-                            Text("Code copied to clipboard!")
-                                .foregroundColor(.green)
-                                .font(.subheadline.bold())
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
-                        .cornerRadius(DesignTokens.Radius.button)
-                        .transition(.scale.combined(with: .opacity))
-                    }
+                    CopyableButton(text: accessCode, label: "Copy Code", style: .primary)
 
                     // Context information
                     if !card.summary.isEmpty {
@@ -279,26 +238,6 @@ struct ProvideAccessCodeModal: View {
         }
     }
 
-    func copyToClipboard() {
-        UIPasteboard.general.string = accessCode
-        Logger.info("Access code copied to clipboard: \(accessCode)", category: .action)
-
-        // Show success message
-        withAnimation(.spring()) {
-            showCopySuccess = true
-        }
-
-        // Haptic feedback
-        let impact = UINotificationFeedbackGenerator()
-        impact.notificationOccurred(.success)
-
-        // Hide success message after 3 seconds
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            withAnimation(.spring()) {
-                showCopySuccess = false
-            }
-        }
-    }
 }
 
 // MARK: - Preview

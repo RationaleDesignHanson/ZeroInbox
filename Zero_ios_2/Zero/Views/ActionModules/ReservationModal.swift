@@ -48,18 +48,7 @@ struct ReservationModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSecondary)
-                        .font(.title2)
-                }
-            }
-            .padding()
+            ModalHeader(isPresented: $isPresented)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.card) {
@@ -128,15 +117,7 @@ struct ReservationModal: View {
                             )
                         }
                     }
-                    .padding(DesignTokens.Spacing.section)
-                    .background(
-                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                            .fill(DesignTokens.Colors.overlay10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .strokeBorder(DesignTokens.Colors.border, lineWidth: 1)
-                            )
-                    )
+                    .glassCard(borderColor: DesignTokens.Colors.border)
 
                     // Additional Info
                     if !card.summary.isEmpty {
@@ -326,11 +307,8 @@ struct ReservationDetailRow: View {
 
             if copyable {
                 Button {
-                    UIPasteboard.general.string = value
+                    ClipboardUtility.copy(value)
                     showCopied = true
-
-                    let impact = UIImpactFeedbackGenerator(style: .light)
-                    impact.impactOccurred()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         showCopied = false

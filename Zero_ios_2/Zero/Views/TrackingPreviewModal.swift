@@ -126,7 +126,7 @@ struct TrackingPreviewModal: View {
     }
 }
 
-struct InfoRow: View {
+private struct InfoRow: View {
     let label: String
     let value: String
     var copyable: Bool = false

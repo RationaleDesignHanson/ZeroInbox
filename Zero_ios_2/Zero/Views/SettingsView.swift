@@ -10,15 +10,22 @@ struct SettingsView: View {
     @State private var useMLClassification: Bool = false
     @State private var showKeyAlert = false
     @State private var showMLAlert = false
+    #if DEBUG
     @State private var showModelTuning = false
+    // @State private var showActionTester = false // Disabled - ActionTester needs fixes
+    #endif
     @State private var showDebugOverlay: Bool = false
     @State private var showModeIndicators: Bool = true
     @State private var isReloadingEmails = false
     @State private var showReloadAlert = false
     @State private var enableEmailSending: Bool = false
     @State private var showEmailSendingWarning = false
+    @State private var showSendingConfirmation = false
+    @State private var showResetConfirmation = false
     @State private var vipFilterEnabled: Bool = false
     @State private var enableThreading: Bool = false
+    @State private var debugOverlay: Bool = false
+    @State private var showBuildInfo = false
 
     private var backgroundGradient: some View {
         LinearGradient(
@@ -43,251 +50,69 @@ struct SettingsView: View {
                                 .padding(.horizontal, DesignTokens.Spacing.card)
                                 .padding(.top, DesignTokens.Spacing.card)
 
-                            VStack(alignment: .leading, spacing: 12) {
-                                HStack {
-                                    Image(systemName: "sparkles")
-                                        .foregroundColor(.blue)
-                                    Text("OpenAI API Key")
-                                        .font(.subheadline.bold())
-                                        .foregroundColor(.white)
-                                }
-
-                                if !AppEnvironment.openAIKey.isEmpty {
-                                    VStack(alignment: .leading, spacing: 6) {
-                                        HStack(spacing: 6) {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(.green)
-                                            Text("API key configured from build settings")
-                                                .font(.caption)
-                                                .foregroundColor(.green)
-                                        }
-                                        Text("AI Draft Composer is ready to use")
-                                            .font(.caption2)
-                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                    }
-                                } else {
-                                    Text("Required for AI Draft Composer feature")
-                                        .font(.caption)
-                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                }
-
-                                // Manual override option
-                                DisclosureGroup {
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text("Override the build configuration key with a custom value:")
-                                            .font(.caption2)
-                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-
-                                        HStack {
-                                            SecureField("sk-...", text: $openAIKey)
-                                                .textFieldStyle(.plain)
-                                                .foregroundColor(.white)
-                                                .padding(DesignTokens.Spacing.component)
-                                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
-                                                .cornerRadius(DesignTokens.Radius.chip)
-
-                                            Button(action: saveAPIKey) {
-                                                Text("Save")
-                                                    .font(.subheadline.bold())
-                                                    .foregroundColor(.white)
-                                                    .padding(.horizontal, DesignTokens.Spacing.section)
-                                                    .padding(.vertical, DesignTokens.Spacing.component)
-                                                    .background(Color.blue)
-                                                    .cornerRadius(DesignTokens.Radius.chip)
-                                            }
-                                        }
-                                    }
-                                    .padding(.top, 8)
-                                } label: {
-                                    Text("Manual Override (Advanced)")
-                                        .font(.caption)
-                                        .foregroundColor(.blue.opacity(DesignTokens.Opacity.textTertiary))
-                                }
-                            }
-                            .padding(DesignTokens.Spacing.section)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                    )
+                            SettingAPIKeyCard(
+                                title: "OpenAI API Key",
+                                description: "Used for smart replies and AI features. Get yours at platform.openai.com/api-keys",
+                                icon: "key.fill",
+                                color: .blue,
+                                environmentKey: AppEnvironment.openAIKey,
+                                storageKey: "manualOpenAIKey",
+                                configuredMessage: "API key configured via environment",
+                                readyMessage: "API key ready to use",
+                                placeholder: "sk-proj-..."
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
 
-                            // Gemini API Key
-                            VStack(alignment: .leading, spacing: 12) {
-                                HStack {
-                                    Image(systemName: "brain")
-                                        .foregroundColor(.purple)
-                                    Text("Gemini API Key")
-                                        .font(.subheadline.bold())
-                                        .foregroundColor(.white)
-                                }
-
-                                if !AppEnvironment.geminiAPIKey.isEmpty {
-                                    VStack(alignment: .leading, spacing: 6) {
-                                        HStack(spacing: 6) {
-                                            Image(systemName: "checkmark.circle.fill")
-                                                .foregroundColor(.green)
-                                            Text("API key configured from build settings")
-                                                .font(.caption)
-                                                .foregroundColor(.green)
-                                        }
-                                        Text("Smart Replies and ML Classification are ready to use")
-                                            .font(.caption2)
-                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                    }
-                                } else {
-                                    Text("Required for Smart Replies and ML Classification")
-                                        .font(.caption)
-                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                }
-
-                                // Manual override option
-                                DisclosureGroup {
-                                    VStack(alignment: .leading, spacing: 8) {
-                                        Text("Override the build configuration key with a custom value:")
-                                            .font(.caption2)
-                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-
-                                        HStack {
-                                            SecureField("AIza...", text: $geminiAPIKey)
-                                                .textFieldStyle(.plain)
-                                                .foregroundColor(.white)
-                                                .padding(DesignTokens.Spacing.component)
-                                                .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
-                                                .cornerRadius(DesignTokens.Radius.chip)
-
-                                            Button(action: saveGeminiAPIKey) {
-                                                Text("Save")
-                                                    .font(.subheadline.bold())
-                                                    .foregroundColor(.white)
-                                                    .padding(.horizontal, DesignTokens.Spacing.section)
-                                                    .padding(.vertical, 12)
-                                                    .background(Color.purple)
-                                                    .cornerRadius(DesignTokens.Radius.chip)
-                                            }
-                                        }
-                                    }
-                                    .padding(.top, 8)
-                                } label: {
-                                    Text("Manual Override (Advanced)")
-                                        .font(.caption)
-                                        .foregroundColor(.purple.opacity(DesignTokens.Opacity.textTertiary))
-                                }
-                            }
-                            .padding(DesignTokens.Spacing.section)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.purple.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                    )
+                            SettingAPIKeyCard(
+                                title: "Gemini API Key",
+                                description: "Optional: Use Google's Gemini model for classification. Get yours at ai.google.dev",
+                                icon: "sparkles",
+                                color: .purple,
+                                environmentKey: AppEnvironment.geminiAPIKey,
+                                storageKey: "manualGeminiKey",
+                                configuredMessage: "API key configured via environment",
+                                readyMessage: "API key ready to use",
+                                placeholder: "Enter Gemini API key..."
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
 
-                            // ML Classification Toggle
-                            VStack(alignment: .leading, spacing: 12) {
-                                Toggle(isOn: $useMLClassification) {
-                                    HStack {
-                                        Image(systemName: "wand.and.stars")
-                                            .foregroundColor(.blue)
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text("ML Classification")
-                                                .font(.subheadline.bold())
-                                                .foregroundColor(.white)
-                                            Text("Use ML-based intent detection for better accuracy")
-                                                .font(.caption)
-                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                        }
-                                    }
+                            SettingToggleRow(
+                                title: "ML Classification",
+                                description: "Use ML-based intent detection for better accuracy",
+                                icon: "wand.and.stars",
+                                color: .blue,
+                                isOn: $useMLClassification,
+                                onChange: { _ in
+                                    Logger.info("ML Classification toggled: \(useMLClassification)", category: .userPreferences)
                                 }
-                                .tint(.blue)
-                                .onChange(of: useMLClassification) {
-                                    UserDefaults.standard.set(useMLClassification, forKey: "useMLClassification")
-                                    showMLAlert = useMLClassification
-
-                                    // Haptic feedback
-                                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                                    impact.impactOccurred()
-
-                                    Logger.info("ML Classification: \(useMLClassification ? "enabled" : "disabled")", category: .app)
-                                }
-                            }
-                            .padding(DesignTokens.Spacing.section)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                    )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
 
-                            // Email Sending Toggle (SAFETY FEATURE)
-                            VStack(alignment: .leading, spacing: 12) {
-                                Toggle(isOn: $enableEmailSending) {
-                                    HStack {
-                                        Image(systemName: enableEmailSending ? "paperplane.fill" : "paperplane")
-                                            .foregroundColor(enableEmailSending ? .red : .orange)
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text("Enable Email Sending")
-                                                .font(.subheadline.bold())
-                                                .foregroundColor(.white)
-                                            Text(enableEmailSending ? "⚠️ Emails will be sent for real" : "Safe mode: emails won't actually send")
-                                                .font(.caption)
-                                                .foregroundColor(enableEmailSending ? .red.opacity(DesignTokens.Opacity.textTertiary) : .white.opacity(DesignTokens.Opacity.textDisabled))
-                                        }
-                                    }
-                                }
-                                .tint(.red)
-                                .onChange(of: enableEmailSending) {
-                                    if enableEmailSending {
-                                        showEmailSendingWarning = true
+                            SettingToggleRowWithExtra(
+                                title: "Enable Email Sending",
+                                description: enableEmailSending ? "⚠️ Emails will be sent for real" : "Safe mode: emails won't actually send",
+                                icon: enableEmailSending ? "paperplane.fill" : "paperplane",
+                                color: enableEmailSending ? .red : .orange,
+                                isOn: $enableEmailSending,
+                                onChange: { newValue in
+                                    if newValue {
+                                        showSendingConfirmation = true
                                     } else {
-                                        UserDefaults.standard.set(false, forKey: "enableEmailSending")
-                                        Logger.info("Email sending disabled", category: .app)
+                                        Logger.info("Email sending disabled - safe mode", category: .userPreferences)
                                     }
-
-                                    // Haptic feedback
-                                    let impact = UIImpactFeedbackGenerator(style: .heavy)
-                                    impact.impactOccurred()
                                 }
-
-                                // Warning message when disabled
+                            ) {
                                 if !enableEmailSending {
                                     HStack(spacing: 8) {
                                         Image(systemName: "shield.fill")
                                             .foregroundColor(.green)
+                                        Text("Safe mode active: Reply and compose features will simulate sending without actually delivering emails")
                                             .font(.caption)
-                                        Text("Safe mode active: Reply and compose features will simulate sending without actually sending emails. Enable this setting carefully when you're ready to send real emails.")
-                                            .font(.caption2)
-                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-                                            .fixedSize(horizontal: false, vertical: true)
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
                                     }
-                                    .padding(DesignTokens.Spacing.component)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .fill(Color.green.opacity(DesignTokens.Opacity.glassLight))
-                                            .overlay(
-                                                RoundedRectangle(cornerRadius: 8)
-                                                    .strokeBorder(Color.green.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                            )
-                                    )
+                                    .padding(.top, 8)
                                 }
                             }
-                            .padding(DesignTokens.Spacing.section)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(enableEmailSending ? Color.red.opacity(DesignTokens.Opacity.overlayStrong) : Color.orange.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 2)
-                                    )
-                            )
                             .padding(.horizontal, DesignTokens.Spacing.section)
                         }
 
@@ -309,88 +134,39 @@ struct SettingsView: View {
                         }
                         .padding(.top, 40)
 
-                        // Model Tuning Section (Priority)
-                        Button {
-                            showModelTuning = true
-                        } label: {
-                            HStack {
-                                Image(systemName: "brain.head.profile")
-                                    .font(.title3)
-                                    .foregroundColor(.cyan)
-
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Model Tuning")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                    Text("Train Zero's AI on categories and actions")
-                                        .font(.caption)
-                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                }
-
-                                Spacer()
-
-                                Image(systemName: "chevron.right")
-                                    .font(.caption)
-                                    .foregroundColor(.white.opacity(0.4))
-                            }
-                            .padding(DesignTokens.Spacing.card)
-                            .background(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [
-                                                Color.cyan.opacity(0.15),
-                                                Color.purple.opacity(0.15)
-                                            ],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        )
-                                    )
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(
-                                                LinearGradient(
-                                                    colors: [
-                                                        Color.cyan.opacity(DesignTokens.Opacity.overlayStrong),
-                                                        Color.purple.opacity(DesignTokens.Opacity.overlayStrong)
-                                                    ],
-                                                    startPoint: .topLeading,
-                                                    endPoint: .bottomTrailing
-                                                ),
-                                                lineWidth: 2
-                                            )
-                                    )
-                            )
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        #if DEBUG
+                        SettingNavigationButton(
+                            title: "Model Tuning",
+                            description: "Train Zero's AI on categories and actions",
+                            icon: "brain.head.profile",
+                            color: .cyan,
+                            style: .gradient(colors: [.cyan, .purple]),
+                            action: { showModelTuning = true }
+                        )
                         .padding(.horizontal, 16)
                         .padding(.top, 20)
 
-                        // Simplified Email Time Range Section
-                        Button {
-                            // Navigate to time range settings (simplified)
-                        } label: {
-                            HStack {
-                                Image(systemName: "calendar")
-                                    .foregroundColor(.blue)
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Email Time Range")
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                    Text("Fetching last \(viewModel.emailTimeRange.days) days")
-                                        .font(.caption)
-                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                }
-                                Spacer()
-                            }
-                            .foregroundColor(.white)
-                            .padding(DesignTokens.Spacing.card)
-                            .background(Color.white.opacity(DesignTokens.Opacity.glassLight))
-                            .cornerRadius(DesignTokens.Radius.card)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                        // ActionTester button disabled - needs fixes
+                        // SettingNavigationButton(
+                        //     title: "Action Tester",
+                        //     description: "Test all 45+ actions with mock data",
+                        //     icon: "play.circle.fill",
+                        //     color: .green,
+                        //     style: .gradient(colors: [.green, .blue]),
+                        //     action: { showActionTester = true }
+                        // )
+                        // .padding(.horizontal, 16)
+                        #endif
+
+                        SettingNavigationButton(
+                            title: "Email Time Range",
+                            description: "Filter by date range (coming soon)",
+                            icon: "calendar",
+                            color: .orange,
+                            disabled: true,
+                            action: {}
+                        )
                         .padding(.horizontal, 16)
-                        .disabled(true) // TODO: Re-enable with dedicated settings page
 
                         aiSettingsSection
 
@@ -442,15 +218,7 @@ struct SettingsView: View {
                                     Spacer()
                                 }
                                 .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
-                                .padding(DesignTokens.Spacing.card)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.glassLight), lineWidth: 1)
-                                        )
-                                )
+                                .glassCard(borderColor: .white, borderOpacity: DesignTokens.Opacity.glassLight, padding: DesignTokens.Spacing.card)
                             }
                             .buttonStyle(PlainButtonStyle())
                             .disabled(true)
@@ -504,202 +272,134 @@ struct SettingsView: View {
                                 .padding(.horizontal, DesignTokens.Spacing.card)
                                 .padding(.top, DesignTokens.Spacing.card)
 
-                            Button {
-                                // Reset to onboarding
-                                viewModel.currentAppState = .onboarding
-                                isPresented = false
-                            } label: {
-                                HStack {
-                                    Image(systemName: "arrow.counterclockwise")
-                                        .font(.title3)
-
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text("Reset Onboarding")
-                                            .font(.headline)
-                                        Text("Go through the welcome flow again")
-                                            .font(.caption)
-                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                    }
-
-                                    Spacer()
-                                }
-                                .foregroundColor(.white)
-                                .padding(DesignTokens.Spacing.card)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .fill(Color.white.opacity(DesignTokens.Opacity.glassLight))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
-                                        )
-                                )
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            .padding(.horizontal, DesignTokens.Spacing.section)
-
-                            // Debug Overlay Toggle
-                            VStack(alignment: .leading, spacing: 12) {
-                                Toggle(isOn: $showDebugOverlay) {
-                                    HStack {
-                                        Image(systemName: "ant.fill")
-                                            .foregroundColor(.yellow)
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text("Debug Overlay")
-                                                .font(.subheadline.bold())
-                                                .foregroundColor(.white)
-                                            Text("Show card counts and archetype distribution")
-                                                .font(.caption)
-                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                        }
-                                    }
-                                }
-                                .tint(.yellow)
-                                .onChange(of: showDebugOverlay) {
-                                    // Update feature flag
-                                    if showDebugOverlay {
-                                        services.featureGating.enable(.debugOverlays)
-                                    } else {
-                                        services.featureGating.disable(.debugOverlays)
-                                    }
-
-                                    // Haptic feedback
-                                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                                    impact.impactOccurred()
-
-                                    Logger.info("Debug Overlay: \(showDebugOverlay ? "enabled" : "disabled")", category: .app)
-                                }
-                            }
-                            .padding(DesignTokens.Spacing.section)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.yellow.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                    )
+                            SettingNavigationButton(
+                                title: "Reset Onboarding",
+                                description: "Go through the welcome flow again",
+                                icon: "arrow.counterclockwise",
+                                color: .white,
+                                action: { showResetConfirmation = true }
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
 
-                            // Mode Indicators Toggle
-                            VStack(alignment: .leading, spacing: 12) {
-                                Toggle(isOn: $showModeIndicators) {
-                                    HStack {
-                                        Image(systemName: "circle.fill")
-                                            .foregroundColor(.cyan)
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text("Mode Indicators")
-                                                .font(.subheadline.bold())
-                                                .foregroundColor(.white)
-                                            Text("Show status dots (VIP, deadline, newsletter, etc.)")
-                                                .font(.caption)
-                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                        }
-                                    }
+                            SettingToggleRow(
+                                title: "Debug Overlay",
+                                description: "Show card counts and archetype distribution",
+                                icon: "ant.fill",
+                                color: .yellow,
+                                isOn: $debugOverlay,
+                                onChange: { _ in
+                                    Logger.info("Debug overlay toggled: \(debugOverlay)", category: .userPreferences)
                                 }
-                                .tint(.cyan)
-                                .onChange(of: showModeIndicators) {
-                                    UserDefaults.standard.set(showModeIndicators, forKey: "showModeIndicators")
-
-                                    // Haptic feedback
-                                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                                    impact.impactOccurred()
-
-                                    Logger.info("Mode Indicators: \(showModeIndicators ? "enabled" : "disabled")", category: .app)
-                                }
-                            }
-                            .padding(DesignTokens.Spacing.section)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.cyan.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                    )
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
 
-                            // VIP Filter Toggle
-                            VStack(alignment: .leading, spacing: 12) {
-                                Toggle(isOn: $vipFilterEnabled) {
-                                    HStack {
-                                        Image(systemName: "star.fill")
-                                            .foregroundColor(.yellow)
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text("VIP Filter")
-                                                .font(.subheadline.bold())
-                                                .foregroundColor(.white)
-                                            Text("Show only emails from VIP contacts")
-                                                .font(.caption)
-                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                        }
+                            SettingToggleRow(
+                                title: "Mode Indicators",
+                                description: "Show status dots (VIP, deadline, newsletter, etc.)",
+                                icon: "circle.fill",
+                                color: .cyan,
+                                isOn: $showModeIndicators,
+                                onChange: { _ in
+                                    Logger.info("Mode indicators toggled: \(showModeIndicators)", category: .userPreferences)
+                                }
+                            )
+                            .padding(.horizontal, DesignTokens.Spacing.section)
+
+                            SettingToggleRowWithExtra(
+                                title: "VIP Filter",
+                                description: "Show only emails from VIP contacts",
+                                icon: "star.fill",
+                                color: .yellow,
+                                isOn: Binding(
+                                    get: { VIPManager.shared.isVIPFilterEnabled },
+                                    set: { newValue in
+                                        VIPManager.shared.isVIPFilterEnabled = newValue
                                     }
+                                ),
+                                onChange: { _ in
+                                    HapticService.shared.mediumImpact()
+                                    Logger.info("VIP filter toggled: \(VIPManager.shared.isVIPFilterEnabled)", category: .userPreferences)
                                 }
-                                .tint(.yellow)
-                                .onChange(of: vipFilterEnabled) {
-                                    VIPManager.shared.isVIPFilterEnabled = vipFilterEnabled
-                                    Logger.info("VIP filter \(vipFilterEnabled ? "enabled" : "disabled")", category: .app)
-
-                                    // Haptic feedback
-                                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                                    impact.impactOccurred()
-                                }
-
-                                // VIP count display
-                                if !VIPManager.shared.vipContacts.isEmpty {
+                            ) {
+                                if VIPManager.shared.vipContacts.count > 0 {
                                     HStack(spacing: 8) {
                                         Image(systemName: "person.2.fill")
-                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
+                                            .foregroundColor(.yellow)
                                         Text("\(VIPManager.shared.vipContacts.count) VIP contact\(VIPManager.shared.vipContacts.count == 1 ? "" : "s")")
                                             .font(.caption)
-                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
+                                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
                                     }
+                                    .padding(.top, 8)
                                 }
                             }
-                            .padding(DesignTokens.Spacing.section)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.yellow.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                    )
+                            .padding(.horizontal, DesignTokens.Spacing.section)
+
+                            SettingToggleRow(
+                                title: "Conversation Threading",
+                                description: "Group related emails into conversation threads",
+                                icon: "bubble.left.and.bubble.right.fill",
+                                color: .blue,
+                                isOn: $enableThreading,
+                                onChange: { _ in
+                                    Logger.info("Threading toggled: \(enableThreading)", category: .userPreferences)
+                                }
+                            )
+                            .padding(.horizontal, DesignTokens.Spacing.section)
+                        }
+
+                        // Legal Section
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("Legal")
+                                .font(.headline)
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
+                                .padding(.horizontal, DesignTokens.Spacing.card)
+                                .padding(.top, DesignTokens.Spacing.card)
+
+                            SettingNavigationButton(
+                                title: "Privacy Policy",
+                                description: "How we protect and handle your data",
+                                icon: "hand.raised.fill",
+                                color: .blue,
+                                action: {
+                                    if let url = URL(string: Constants.AppInfo.privacyPolicyURL) {
+                                        UIApplication.shared.open(url)
+                                    }
+                                }
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
 
-                            // Threading Toggle
-                            VStack(alignment: .leading, spacing: 12) {
-                                Toggle(isOn: $enableThreading) {
-                                    HStack {
-                                        Image(systemName: "bubble.left.and.bubble.right.fill")
-                                            .foregroundColor(.blue)
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text("Conversation Threading")
-                                                .font(.subheadline.bold())
-                                                .foregroundColor(.white)
-                                            Text("Group related emails into conversation threads")
-                                                .font(.caption)
-                                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                                        }
+                            SettingNavigationButton(
+                                title: "Terms of Service",
+                                description: "Beta testing agreement and usage terms",
+                                icon: "doc.text.fill",
+                                color: .purple,
+                                action: {
+                                    if let url = URL(string: Constants.AppInfo.termsOfServiceURL) {
+                                        UIApplication.shared.open(url)
                                     }
                                 }
-                                .tint(.blue)
-                                .onChange(of: enableThreading) {
-                                    UserDefaults.standard.set(enableThreading, forKey: "enableThreading")
-                                    Logger.info("Threading \(enableThreading ? "enabled" : "disabled")", category: .app)
+                            )
+                            .padding(.horizontal, DesignTokens.Spacing.section)
 
-                                    // Haptic feedback
-                                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                                    impact.impactOccurred()
+                            SettingNavigationButton(
+                                title: "Contact Support",
+                                description: "Get help or report issues",
+                                icon: "envelope.fill",
+                                color: .green,
+                                action: {
+                                    if let url = URL(string: "mailto:\(Constants.AppInfo.supportEmail)") {
+                                        UIApplication.shared.open(url)
+                                    }
                                 }
-                            }
-                            .padding(DesignTokens.Spacing.section)
-                            .background(
-                                RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                    .fill(Color.white.opacity(DesignTokens.Opacity.glassUltraLight))
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: DesignTokens.Radius.container)
-                                            .strokeBorder(Color.blue.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
-                                    )
+                            )
+                            .padding(.horizontal, DesignTokens.Spacing.section)
+
+                            SettingNavigationButton(
+                                title: "Build Info",
+                                description: "Version \(Constants.AppInfo.version) - \(Constants.AppInfo.buildType)",
+                                icon: "info.circle.fill",
+                                color: .gray,
+                                action: { showBuildInfo = true }
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
                         }
@@ -743,7 +443,7 @@ struct SettingsView: View {
             }
 
             // Load debug overlay setting from feature flags
-            showDebugOverlay = services.featureGating.isEnabled(.debugOverlays)
+            debugOverlay = services.featureGating.isEnabled(.debugOverlays)
 
             // Load mode indicators setting (enabled by default)
             if UserDefaults.standard.object(forKey: "showModeIndicators") == nil {
@@ -782,15 +482,21 @@ struct SettingsView: View {
         } message: {
             Text("ML-based classification will be used for new emails. Reload your inbox to see the changes.")
         }
+        #if DEBUG
         .sheet(isPresented: $showModelTuning) {
             ModelTuningView()
         }
+        // ActionTester sheet disabled - needs fixes
+        // .sheet(isPresented: $showActionTester) {
+        //     ActionTester()
+        // }
+        #endif
         .alert("Emails Reloaded", isPresented: $showReloadAlert) {
             Button("OK") { }
         } message: {
             Text("Your inbox has been refreshed with the latest emails.")
         }
-        .alert("⚠️ Enable Email Sending?", isPresented: $showEmailSendingWarning) {
+        .alert("⚠️ Enable Email Sending?", isPresented: $showSendingConfirmation) {
             Button("Cancel", role: .cancel) {
                 enableEmailSending = false
             }
@@ -800,6 +506,18 @@ struct SettingsView: View {
             }
         } message: {
             Text("This will allow the app to send real emails when you use Reply or Compose features. Make sure you're ready to send actual emails before enabling this.")
+        }
+        .alert("Reset Onboarding?", isPresented: $showResetConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Reset", role: .destructive) {
+                viewModel.currentAppState = .onboarding
+                isPresented = false
+            }
+        } message: {
+            Text("You will be taken through the welcome flow again. This won't delete any of your settings or data.")
+        }
+        .sheet(isPresented: $showBuildInfo) {
+            BuildInfoView()
         }
     }
 

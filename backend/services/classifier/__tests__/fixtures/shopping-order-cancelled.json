@@ -1,0 +1,52 @@
+{
+  "id": "shopping-cancel-001",
+  "subject": "Your order has been cancelled - Order #987654321",
+  "from": {
+    "name": "Best Buy",
+    "email": "BestBuyInfo@emailinfo.bestbuy.com"
+  },
+  "to": "user@example.com",
+  "date": "2025-01-15T16:30:00Z",
+  "headers": {
+    "Message-ID": "<cancelled-987654321@bestbuy.com>",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "body": {
+    "text": "Hi John,\n\nYour order has been cancelled.\n\nOrder #987654321\nOrder Date: January 14, 2025\nCancellation Date: January 15, 2025\n\nCancelled Items:\n\n1. Samsung 65\" Class - The Frame QLED 4K UHD Smart TV\n   Quantity: 1\n   Price: $1,499.99\n\nReason: Item unavailable - Out of stock\n\nRefund Details:\nAmount: $1,499.99\nMethod: Original payment method (Visa ending in 3421)\nProcessing time: 5-7 business days\n\nWhat's next?\n- Your refund will be processed automatically\n- No action needed from you\n- Check your account in 5-7 business days\n\nWe're sorry this item wasn't available. Here are some alternatives:\n\nView similar TVs:\nhttps://www.bestbuy.com/site/tvs/samsung-tvs/abcat0101001.c?id=abcat0101001\n\nQuestions about your refund?\nCall: 1-888-BEST-BUY (1-888-237-8289)\nChat: bestbuy.com/support\n\nThank you for shopping at Best Buy.\n\nThe Best Buy Team",
+    "html": "<html><body style='font-family: \"Helvetica Neue\", Arial, sans-serif; max-width: 650px; margin: 0 auto; background: #f5f5f5;'><div style='background: white; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='background: #003DA6; padding: 30px; text-align: center;'><h1 style='color: #FFE600; font-size: 32px; margin: 0; font-weight: bold;'>Best Buy</h1></div><div style='padding: 40px;'><h2 style='color: #1D252D; font-size: 24px; margin: 0 0 15px 0;'>Hi John,</h2><div style='background: #FFF4E5; border-left: 5px solid #FF6600; padding: 20px; margin: 25px 0;'><p style='margin: 0; color: #C65100; font-size: 16px; font-weight: 600;'>⚠️ Your order has been cancelled</p></div><div style='background: #F5F5F5; border-radius: 8px; padding: 20px; margin: 25px 0;'><table style='width: 100%;'><tr><td style='color: #5F6369; font-size: 13px; padding: 8px 0;'>Order Number</td><td style='color: #1D252D; font-size: 13px; font-weight: bold; text-align: right; padding: 8px 0;'>#987654321</td></tr><tr><td style='color: #5F6369; font-size: 13px; padding: 8px 0;'>Order Date</td><td style='color: #1D252D; font-size: 13px; text-align: right; padding: 8px 0;'>January 14, 2025</td></tr><tr><td style='color: #5F6369; font-size: 13px; padding: 8px 0;'>Cancellation Date</td><td style='color: #1D252D; font-size: 13px; text-align: right; padding: 8px 0;'>January 15, 2025</td></tr></table></div><h3 style='color: #1D252D; font-size: 18px; margin: 30px 0 15px 0;'>Cancelled Items</h3><div style='border: 1px solid #D9D9D9; border-radius: 8px; padding: 20px; margin-bottom: 15px;'><div style='display: flex; justify-content: space-between; align-items: start;'><div style='flex: 1;'><h4 style='color: #003DA6; font-size: 15px; margin: 0 0 10px 0;'>Samsung 65\" Class - The Frame QLED 4K UHD Smart TV</h4><p style='color: #5F6369; font-size: 13px; margin: 5px 0;'>Quantity: 1</p></div><div><p style='color: #1D252D; font-size: 16px; font-weight: bold; margin: 0;'>$1,499.99</p></div></div></div><div style='background: #FEF3F3; border: 1px solid #F5B3B3; border-radius: 8px; padding: 15px; margin: 25px 0;'><p style='margin: 0; color: #C62828; font-size: 14px;'><strong>Reason:</strong> Item unavailable - Out of stock</p></div><h3 style='color: #1D252D; font-size: 18px; margin: 30px 0 15px 0;'>Refund Details</h3><div style='background: #E7F5FF; border-left: 4px solid #003DA6; padding: 20px; margin: 25px 0;'><table style='width: 100%;'><tr><td style='color: #1D252D; font-size: 14px; padding: 8px 0; font-weight: 600;'>Amount</td><td style='color: #1D252D; font-size: 14px; text-align: right; padding: 8px 0; font-weight: 600;'>$1,499.99</td></tr><tr><td style='color: #5F6369; font-size: 13px; padding: 8px 0;'>Method</td><td style='color: #5F6369; font-size: 13px; text-align: right; padding: 8px 0;'>Original payment method<br><span style='font-size: 12px;'>(Visa ending in 3421)</span></td></tr><tr><td style='color: #5F6369; font-size: 13px; padding: 8px 0;'>Processing time</td><td style='color: #5F6369; font-size: 13px; text-align: right; padding: 8px 0;'>5-7 business days</td></tr></table></div><h3 style='color: #1D252D; font-size: 18px; margin: 30px 0 15px 0;'>What's next?</h3><ul style='color: #5F6369; font-size: 14px; line-height: 2; padding-left: 20px;'><li>Your refund will be processed automatically</li><li>No action needed from you</li><li>Check your account in 5-7 business days</li></ul><div style='border-top: 1px solid #D9D9D9; padding-top: 30px; margin-top: 35px;'><p style='color: #5F6369; font-size: 14px; margin: 0 0 15px 0;'>We're sorry this item wasn't available. Here are some alternatives:</p><div style='text-align: center; margin: 25px 0;'><a href='https://www.bestbuy.com/site/tvs/samsung-tvs/abcat0101001.c?id=abcat0101001' style='display: inline-block; background: #003DA6; color: white; padding: 14px 28px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 15px;'>View similar TVs</a></div></div><div style='border-top: 1px solid #D9D9D9; padding-top: 30px; margin-top: 35px;'><h4 style='color: #1D252D; font-size: 15px; margin: 0 0 15px 0;'>Questions about your refund?</h4><p style='color: #5F6369; font-size: 14px; margin: 8px 0;'><strong>Call:</strong> 1-888-BEST-BUY (1-888-237-8289)</p><p style='color: #5F6369; font-size: 14px; margin: 8px 0;'><strong>Chat:</strong> <a href='https://www.bestbuy.com/support' style='color: #003DA6;'>bestbuy.com/support</a></p></div><p style='color: #1D252D; font-size: 14px; text-align: center; margin: 40px 0 0 0;'>Thank you for shopping at Best Buy.</p><p style='color: #5F6369; font-size: 13px; text-align: center; margin: 5px 0 0 0;'>The Best Buy Team</p></div><div style='background: #F5F5F5; padding: 25px; text-align: center; border-top: 1px solid #D9D9D9;'><p style='margin: 0; color: #5F6369; font-size: 11px;'>© 2025 Best Buy. All rights reserved.</p></div></div></body></html>"
+  },
+  "classification": {
+    "type": "receipt",
+    "category": "shopping",
+    "intent": "order_cancellation",
+    "merchant": "Best Buy",
+    "shouldNeverUnsubscribe": true,
+    "reason": "Order cancellation is transactional"
+  },
+  "entities": {
+    "orderNumber": "987654321",
+    "orderDate": "2025-01-14",
+    "cancellationDate": "2025-01-15",
+    "merchant": "Best Buy",
+    "refundAmount": 1499.99,
+    "currency": "USD",
+    "items": [
+      {
+        "name": "Samsung 65\" Class - The Frame QLED 4K UHD Smart TV",
+        "quantity": 1,
+        "price": 1499.99
+      }
+    ],
+    "cancellationReason": "Item unavailable - Out of stock",
+    "status": "cancelled"
+  },
+  "testExpectations": {
+    "shouldDetectAsReceipt": true,
+    "shouldDetectAsNewsletter": false,
+    "shouldBeUnsubscribable": false,
+    "shouldExtractOrderNumber": true,
+    "shouldExtractCancellationReason": true,
+    "shouldExtractRefundAmount": true,
+    "expectedStatus": "cancelled"
+  }
+}

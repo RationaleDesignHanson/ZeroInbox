@@ -1,0 +1,92 @@
+{
+  "id": "rsvp",
+  "title": "RSVP",
+  "subtitle": null,
+  "icon": {
+    "systemName": "checkmark.circle.fill",
+    "colorKey": null,
+    "staticColor": "green",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "event_details",
+      "title": "Event Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "event_name",
+          "label": "Event",
+          "type": "text",
+          "contextKey": "eventName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Event name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "event_date",
+          "label": "Date",
+          "type": "text",
+          "contextKey": "eventDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Event date",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "event_time",
+          "label": "Time",
+          "type": "text",
+          "contextKey": "eventTime",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Event time",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "type": "text",
+          "contextKey": "location",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Event location",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "host",
+          "label": "Host",
+          "type": "text",
+          "contextKey": "host",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Event host",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Confirm Response",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

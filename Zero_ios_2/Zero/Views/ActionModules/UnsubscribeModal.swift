@@ -71,19 +71,7 @@ struct UnsubscribeModal: View {
     var body: some View {
         VStack(spacing: 0) {
             // Custom header bar
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding(.top, 20)
-            .padding(.horizontal)
-            .padding(.bottom, 8)
+            ModalHeader(isPresented: $isPresented)
 
             // Scrollable content
             ScrollView {

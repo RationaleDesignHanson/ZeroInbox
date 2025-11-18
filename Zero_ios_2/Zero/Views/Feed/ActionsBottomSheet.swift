@@ -12,11 +12,7 @@ struct ActionsBottomSheet: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Drag indicator
-            RoundedRectangle(cornerRadius: 2.5)
-                .fill(Color.white.opacity(DesignTokens.Opacity.overlayMedium))
-                .frame(width: 40, height: 5)
-                .padding(.vertical, 12)
+            SheetHandleBar(cornerRadius: 2.5, verticalPadding: 12)
 
             Text("Quick Actions")
                 .font(.headline)

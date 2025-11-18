@@ -10,30 +10,12 @@ struct OpenAppModal: View {
     var body: some View {
         VStack(spacing: 0) {
             // Header
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Open in App")
-                        .font(.title2.bold())
-                        .foregroundColor(DesignTokens.Colors.textPrimary)
-                    Text("Launch the app to complete action")
-                        .font(.subheadline)
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                }
-
-                Spacer()
-
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding()
-
-            Divider()
-                .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+            ModalHeader(
+                isPresented: $isPresented,
+                title: "Open in App",
+                subtitle: "Launch the app to complete action",
+                showDivider: true
+            )
 
             ScrollView {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.card) {
@@ -246,11 +228,7 @@ struct OpenAppModal: View {
     /// Copy deep link to clipboard
     func copyLink() {
         if let deepLink = extractDeepLink() {
-            UIPasteboard.general.string = deepLink
-
-            // Show success feedback
-            let impact = UINotificationFeedbackGenerator()
-            impact.notificationOccurred(.success)
+            ClipboardUtility.copy(deepLink)
 
             // Show temporary message
             showSuccessMessage = true

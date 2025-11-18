@@ -1,0 +1,79 @@
+{
+  "id": "open_app",
+  "title": "Open in App",
+  "subtitle": null,
+  "icon": {
+    "systemName": "app.badge",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "app_info",
+      "title": "App Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "app_name",
+          "label": "App",
+          "type": "text",
+          "contextKey": "appName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "App name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "deep_link",
+          "label": "Deep Link",
+          "type": "text",
+          "contextKey": "deepLink",
+          "required": false,
+          "copyable": true,
+          "placeholder": "App link",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "instructions",
+      "title": "Note",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "note",
+          "label": "Requirement",
+          "type": "text",
+          "contextKey": "note",
+          "required": false,
+          "copyable": false,
+          "placeholder": "This action requires the app to be installed on your device",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Open App",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "deepLink"
+    }
+  },
+  "secondaryButton": {
+    "title": "Copy Link",
+    "style": "secondary",
+    "action": {
+      "type": "copy",
+      "contextKey": "deepLink"
+    }
+  },
+  "layout": "standard"
+}

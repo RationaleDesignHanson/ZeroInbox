@@ -1,0 +1,139 @@
+{
+  "id": "view_pickup_details",
+  "title": "Prescription Ready",
+  "subtitle": null,
+  "icon": {
+    "systemName": "pills.circle.fill",
+    "colorKey": null,
+    "staticColor": "green",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "prescription_details",
+      "title": "Prescription Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "rx_number",
+          "label": "Rx Number",
+          "type": "badge",
+          "contextKey": "rxNumber",
+          "required": true,
+          "copyable": true,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "medication_name",
+          "label": "Medication",
+          "type": "text",
+          "contextKey": "medicationName",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Not specified",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "copay",
+          "label": "Copay",
+          "type": "currency",
+          "contextKey": "copay",
+          "required": false,
+          "copyable": false,
+          "placeholder": "See pharmacy",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "pickup_deadline",
+          "label": "Pick up by",
+          "type": "text",
+          "contextKey": "pickupDeadline",
+          "required": false,
+          "copyable": false,
+          "placeholder": "No deadline",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_location",
+      "title": "Pharmacy Location",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "pharmacy",
+          "label": "Pharmacy",
+          "type": "text",
+          "contextKey": "pharmacy",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Pharmacy",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "pharmacy_address",
+          "label": "Address",
+          "type": "text",
+          "contextKey": "pharmacyAddress",
+          "required": false,
+          "copyable": true,
+          "placeholder": "Location details in email",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "pharmacy_hours",
+          "label": "Hours",
+          "type": "text",
+          "contextKey": "pharmacyHours",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Mon-Fri 9AM-6PM",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "pharmacy_phone",
+          "label": "Phone",
+          "type": "text",
+          "contextKey": "pharmacyPhone",
+          "required": false,
+          "copyable": true,
+          "placeholder": "Not available",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Get Directions",
+    "style": "primary",
+    "action": {
+      "type": "openMaps",
+      "contextKey": "pharmacyAddress"
+    }
+  },
+  "secondaryButton": {
+    "title": "Call Pharmacy",
+    "style": "secondary",
+    "action": {
+      "type": "callPhone",
+      "contextKey": "pharmacyPhone"
+    }
+  },
+  "layout": "standard"
+}

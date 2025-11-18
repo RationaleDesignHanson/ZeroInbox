@@ -39,16 +39,29 @@ class AttachmentService {
         _ attachment: EmailAttachment,
         completion: @escaping (Result<Data, AttachmentError>) -> Void
     ) {
+        Task {
+            do {
+                let data = try await downloadAttachmentAsync(attachment)
+                completion(.success(data))
+            } catch let error as AttachmentError {
+                completion(.failure(error))
+            } catch {
+                completion(.failure(.downloadFailed))
+            }
+        }
+    }
+
+    /// Async version of downloadAttachment
+    private func downloadAttachmentAsync(_ attachment: EmailAttachment) async throws -> Data {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let messageId = attachment.messageId else {
-            completion(.failure(.invalidMessageId))
-            return
+            throw AttachmentError.invalidMessageId
         }
 
-        // Get auth token
-        guard let token = UserDefaults.standard.string(forKey: "jwtToken") else {
+        // Get auth token from Keychain
+        guard let token = EmailAPIService.shared.loadTokenFromKeychain() else {
             Logger.error("No auth token available for attachment download", category: .network)
-            completion(.failure(.noAuthToken))
-            return
+            throw AttachmentError.noAuthToken
         }
 
         Logger.info("📎 Downloading attachment: \(attachment.filename) (\(attachment.fileSizeFormatted))", category: .network)
@@ -58,42 +71,28 @@ class AttachmentService {
         let urlString = "\(gatewayURL)/emails/\(messageId)/attachments/\(attachment.id)"
 
         guard let url = URL(string: urlString) else {
-            completion(.failure(.downloadFailed))
-            return
+            throw AttachmentError.downloadFailed
         }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.timeoutInterval = 60 // Longer timeout for large files
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                Logger.error("Attachment download failed: \(error.localizedDescription)", category: .network)
-                completion(.failure(.networkError(error.localizedDescription)))
-                return
-            }
-
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(.downloadFailed))
-                return
-            }
-
-            guard (200...299).contains(httpResponse.statusCode) else {
-                Logger.error("Attachment download failed with status: \(httpResponse.statusCode)", category: .network)
-                completion(.failure(.downloadFailed))
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(.downloadFailed))
-                return
-            }
+        do {
+            let data: Data = try await NetworkService.shared.request(
+                url: url,
+                method: .get,
+                headers: ["Authorization": "Bearer \(token)"],
+                body: Optional<String>.none
+            )
 
             Logger.info("✅ Downloaded attachment: \(attachment.filename) (\(data.count) bytes)", category: .network)
-            completion(.success(data))
-
-        }.resume()
+            return data
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.error("Attachment download failed with status: \(statusCode)", category: .network)
+            }
+            throw AttachmentError.downloadFailed
+        } catch {
+            Logger.error("Attachment download failed: \(error.localizedDescription)", category: .network)
+            throw AttachmentError.networkError(error.localizedDescription)
+        }
     }
 
     // MARK: - File Caching

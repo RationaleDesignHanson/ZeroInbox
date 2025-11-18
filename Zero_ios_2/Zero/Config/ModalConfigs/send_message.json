@@ -1,0 +1,78 @@
+{
+  "id": "send_message",
+  "title": "Send Message",
+  "subtitle": null,
+  "icon": {
+    "systemName": "message.fill",
+    "colorKey": null,
+    "staticColor": "green",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "recipient_info",
+      "title": "Recipient",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "recipient_name",
+          "label": "Name",
+          "type": "text",
+          "contextKey": "recipientName",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Recipient name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "phone_number",
+          "label": "Phone Number",
+          "type": "text",
+          "contextKey": "phoneNumber",
+          "required": true,
+          "copyable": true,
+          "placeholder": "Phone number",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "message_info",
+      "title": "Message",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "message_body",
+          "label": "Message",
+          "type": "text",
+          "contextKey": "messageBody",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Type your message",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Send Message",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

@@ -41,18 +41,8 @@ struct QuickReplyModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding()
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.card) {
@@ -225,31 +215,13 @@ struct QuickReplyModal: View {
                         }
                         .disabled(!canSend || isSending)
 
+                        // Success/Error banners (Week 6: Using shared StatusBanner component)
                         if showSuccess {
-                            HStack {
-                                Image(systemName: "checkmark.circle.fill")
-                                    .foregroundColor(.green)
-                                Text("Reply sent!")
-                                    .foregroundColor(.green)
-                                    .font(.headline.bold())
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
-                            .cornerRadius(DesignTokens.Radius.button)
+                            StatusBanner.success("Reply sent!")
                         }
 
                         if showError, let error = errorMessage {
-                            HStack {
-                                Image(systemName: "exclamationmark.triangle.fill")
-                                    .foregroundColor(.red)
-                                Text(error)
-                                    .foregroundColor(.red)
-                                    .font(.caption)
-                            }
-                            .padding()
-                            .background(Color.red.opacity(DesignTokens.Opacity.glassLight))
-                            .cornerRadius(DesignTokens.Radius.chip)
+                            StatusBanner.error(error)
                         }
                     }
                     .padding(.top, DesignTokens.Spacing.card)

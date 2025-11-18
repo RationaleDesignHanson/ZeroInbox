@@ -29,31 +29,31 @@ struct BottomNavigationBar: View {
             // Quick Actions Row (conditionally shown via swipe or tap)
             if navState.actionsExpanded {
                 HStack(spacing: 20) {
-                    actionButton(icon: "gearshape.fill", label: "Settings", color: .cyan) {
+                    actionButton(icon: "gearshape.fill", label: "Settings", color: actionButtonColor(default: .cyan)) {
                         showSettings = true
                         navState.collapseActions()
                         HapticService.shared.lightImpact()
                     }
 
-                    actionButton(icon: "rectangle.grid.1x2", label: "Stacks", color: .blue) {
+                    actionButton(icon: "rectangle.grid.1x2", label: "Stacks", color: actionButtonColor(default: .blue)) {
                         showSplayView = true
                         navState.collapseActions()
                         HapticService.shared.lightImpact()
                     }
 
-                    actionButton(icon: "magnifyingglass", label: "Search", color: .purple) {
+                    actionButton(icon: "magnifyingglass", label: "Search", color: actionButtonColor(default: .purple)) {
                         showSearch = true
                         navState.collapseActions()
                         HapticService.shared.lightImpact()
                     }
 
-                    actionButton(icon: "folder.fill", label: "Saved", color: .pink) {
+                    actionButton(icon: "folder.fill", label: "Saved", color: actionButtonColor(default: .pink)) {
                         showSavedMail = true
                         navState.collapseActions()
                         HapticService.shared.lightImpact()
                     }
 
-                    actionButton(icon: "arrow.clockwise", label: "Refresh", color: .green) {
+                    actionButton(icon: "arrow.clockwise", label: "Refresh", color: actionButtonColor(default: .green)) {
                         Task {
                             await onRefresh?()
                         }
@@ -64,30 +64,13 @@ struct BottomNavigationBar: View {
                 .padding(.vertical, 12)
                 .padding(.horizontal, 20)
                 .frame(maxWidth: .infinity)
-                .background(
-                    LinearGradient(
-                        colors: [
-                            Color.white.opacity(0.06),
-                            Color.white.opacity(0.02)
-                        ],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
+                .background(quickActionsBackground)
                 .cornerRadius(DesignTokens.Radius.card, corners: [.topLeft, .topRight])
                 .overlay(
                     // Holographic top border
                     VStack {
-                        LinearGradient(
-                            colors: [
-                                Color.cyan.opacity(0.4),
-                                Color.purple.opacity(0.4),
-                                Color.pink.opacity(0.4)
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        .frame(height: 1.5)
+                        topBorderGradient
+                            .frame(height: 1.5)
                         Spacer()
                     }
                 )
@@ -148,21 +131,9 @@ struct BottomNavigationBar: View {
                                 .strokeBorder(Color.white.opacity(0.15), lineWidth: 0.5)
                         )
 
-                    // Holographic progress fill with color cycling
+                    // Holographic progress fill with color cycling (changes for ads)
                     RoundedRectangle(cornerRadius: 3)
-                        .fill(
-                            AngularGradient(
-                                gradient: Gradient(colors: [
-                                    Color.cyan,
-                                    Color.blue,
-                                    Color.purple,
-                                    Color.pink,
-                                    Color.cyan
-                                ]),
-                                center: .center,
-                                angle: .degrees(colorRotation)
-                            )
-                        )
+                        .fill(progressBarGradient)
                         .frame(width: 90 * progressPercent, height: 6)
                         .mask(
                             RoundedRectangle(cornerRadius: 3)
@@ -230,37 +201,18 @@ struct BottomNavigationBar: View {
             .padding(.vertical, 10)
             .background(
                 ZStack {
-                    // Base glass effect - more transparent and blurred
+                    // Base glass effect - colors change based on archetype
                     RoundedRectangle(cornerRadius: navState.actionsExpanded ? 0 : DesignTokens.Radius.card)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color.white.opacity(0.08),
-                                    Color.white.opacity(0.03)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
+                        .fill(mainBarBackground)
                         .background(
                             .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
                             in: RoundedRectangle(cornerRadius: navState.actionsExpanded ? 0 : DesignTokens.Radius.card)
                         )
 
-                    // Holographic rim lighting - iridescent effect
+                    // Holographic rim lighting - iridescent effect (changes for ads)
                     RoundedRectangle(cornerRadius: navState.actionsExpanded ? 0 : DesignTokens.Radius.card)
                         .strokeBorder(
-                            LinearGradient(
-                                colors: [
-                                    Color.blue.opacity(DesignTokens.Opacity.textDisabled),
-                                    Color.cyan.opacity(0.4),
-                                    Color.purple.opacity(DesignTokens.Opacity.overlayStrong),
-                                    Color.pink.opacity(DesignTokens.Opacity.overlayMedium),
-                                    Color.blue.opacity(DesignTokens.Opacity.overlayStrong)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            ),
+                            rimLightingGradient,
                             lineWidth: 1.5
                         )
 
@@ -346,9 +298,162 @@ struct BottomNavigationBar: View {
 
     /// Current glow color based on rotation cycle
     private var currentGlowColor: Color {
-        let colors: [Color] = [.cyan, .blue, .purple, .pink]
-        let index = Int(colorRotation / 90) % colors.count
-        return colors[index]
+        if viewModel.currentArchetype == .ads {
+            let colors: [Color] = [DesignTokens.Colors.adsGradientStart, DesignTokens.Colors.adsGradientEnd, DesignTokens.Colors.adsGradientStart]
+            let index = Int(colorRotation / 120) % colors.count
+            return colors[index]
+        } else {
+            let colors: [Color] = [.cyan, .blue, .purple, .pink]
+            let index = Int(colorRotation / 90) % colors.count
+            return colors[index]
+        }
+    }
+
+    // MARK: - Color Schemes Based on Archetype
+
+    /// Background for quick actions row
+    private var quickActionsBackground: LinearGradient {
+        if viewModel.currentArchetype == .ads {
+            return LinearGradient(
+                colors: [
+                    Color.white.opacity(0.15),
+                    Color.white.opacity(0.08)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        } else {
+            return LinearGradient(
+                colors: [
+                    Color.white.opacity(0.06),
+                    Color.white.opacity(0.02)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
+    }
+
+    /// Top border gradient for quick actions
+    private var topBorderGradient: LinearGradient {
+        if viewModel.currentArchetype == .ads {
+            return LinearGradient(
+                colors: [
+                    DesignTokens.Colors.adsGradientStart.opacity(0.6),
+                    DesignTokens.Colors.adsGradientEnd.opacity(0.8),
+                    DesignTokens.Colors.adsGradientStart.opacity(0.6)
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        } else {
+            return LinearGradient(
+                colors: [
+                    Color.cyan.opacity(0.4),
+                    Color.purple.opacity(0.4),
+                    Color.pink.opacity(0.4)
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        }
+    }
+
+    /// Main bar background
+    private var mainBarBackground: LinearGradient {
+        if viewModel.currentArchetype == .ads {
+            // Light white/green scheme for ads
+            return LinearGradient(
+                colors: [
+                    Color.white.opacity(0.18),
+                    Color.white.opacity(0.12)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else {
+            // Dark purple scheme for mail
+            return LinearGradient(
+                colors: [
+                    Color.white.opacity(0.08),
+                    Color.white.opacity(0.03)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+    }
+
+    /// Rim lighting gradient
+    private var rimLightingGradient: LinearGradient {
+        if viewModel.currentArchetype == .ads {
+            // Green/teal gradient for ads
+            return LinearGradient(
+                colors: [
+                    DesignTokens.Colors.adsGradientStart.opacity(0.5),
+                    DesignTokens.Colors.adsGradientEnd.opacity(0.7),
+                    DesignTokens.Colors.adsGradientStart.opacity(0.6),
+                    DesignTokens.Colors.adsGradientEnd.opacity(0.5),
+                    DesignTokens.Colors.adsGradientStart.opacity(0.6)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else {
+            // Purple/blue gradient for mail
+            return LinearGradient(
+                colors: [
+                    Color.blue.opacity(DesignTokens.Opacity.textDisabled),
+                    Color.cyan.opacity(0.4),
+                    Color.purple.opacity(DesignTokens.Opacity.overlayStrong),
+                    Color.pink.opacity(DesignTokens.Opacity.overlayMedium),
+                    Color.blue.opacity(DesignTokens.Opacity.overlayStrong)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+    }
+
+    /// Progress bar gradient
+    private var progressBarGradient: AngularGradient {
+        if viewModel.currentArchetype == .ads {
+            // Green gradient for ads
+            return AngularGradient(
+                gradient: Gradient(colors: [
+                    DesignTokens.Colors.adsGradientStart,
+                    DesignTokens.Colors.adsGradientEnd,
+                    DesignTokens.Colors.adsGradientStart.opacity(0.8),
+                    DesignTokens.Colors.adsGradientEnd,
+                    DesignTokens.Colors.adsGradientStart
+                ]),
+                center: .center,
+                angle: .degrees(colorRotation)
+            )
+        } else {
+            // Purple/blue gradient for mail
+            return AngularGradient(
+                gradient: Gradient(colors: [
+                    Color.cyan,
+                    Color.blue,
+                    Color.purple,
+                    Color.pink,
+                    Color.cyan
+                ]),
+                center: .center,
+                angle: .degrees(colorRotation)
+            )
+        }
+    }
+
+    /// Action button color based on archetype
+    private func actionButtonColor(default defaultColor: Color) -> Color {
+        if viewModel.currentArchetype == .ads {
+            // Use green tones for ads
+            return DesignTokens.Colors.adsGradientEnd
+        } else {
+            return defaultColor
+        }
     }
 
     // MARK: - Animation Functions

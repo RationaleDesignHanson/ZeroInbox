@@ -103,23 +103,12 @@ struct TemplatePickerView: View {
                 // Templates list
                 if filteredTemplates.isEmpty {
                     Spacer()
-                    VStack(spacing: 16) {
-                        Image(systemName: "text.bubble")
-                            .font(.system(size: 60))
-                            .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
-
-                        Text("No templates found")
-                            .font(.headline)
-                            .foregroundColor(.white)
-
-                        if searchQuery.isEmpty && selectedCategory == nil {
-                            Button("Create Your First Template") {
-                                showNewTemplateSheet = true
-                            }
-                            .font(.subheadline.bold())
-                            .foregroundColor(.blue)
-                        }
-                    }
+                    GenericEmptyState(
+                        icon: "text.bubble",
+                        title: "No templates found",
+                        message: "Create your first template to get started",
+                        action: searchQuery.isEmpty && selectedCategory == nil ? ("Create Your First Template", { showNewTemplateSheet = true }) : nil
+                    )
                     Spacer()
                 } else {
                     ScrollView {

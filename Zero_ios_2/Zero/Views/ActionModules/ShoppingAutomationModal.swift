@@ -26,20 +26,8 @@ struct ShoppingAutomationModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding(.top, 20)
-            .padding(.horizontal)
-            .padding(.bottom, DesignTokens.Spacing.inline)
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             ScrollView {
                 VStack(alignment: .center, spacing: DesignTokens.Spacing.card) {

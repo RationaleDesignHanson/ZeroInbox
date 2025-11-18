@@ -1,0 +1,70 @@
+{
+  "id": "add_to_wallet",
+  "title": "Add to Wallet",
+  "subtitle": null,
+  "icon": {
+    "systemName": "wallet.pass.fill",
+    "colorKey": null,
+    "staticColor": "black",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "pass_info",
+      "title": "Pass Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "pass_title",
+          "label": "Title",
+          "type": "text",
+          "contextKey": "passTitle",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Pass title",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "pass_description",
+          "label": "Description",
+          "type": "text",
+          "contextKey": "passDescription",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Pass description",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "pass_url",
+          "label": "Pass URL",
+          "type": "text",
+          "contextKey": "passUrl",
+          "required": true,
+          "copyable": true,
+          "placeholder": "Pass download URL",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Add to Apple Wallet",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

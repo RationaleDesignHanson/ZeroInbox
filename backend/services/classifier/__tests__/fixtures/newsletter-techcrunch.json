@@ -1,0 +1,46 @@
+{
+  "id": "newsletter-techcrunch-001",
+  "subject": "TechCrunch Daily: OpenAI unveils new partnership, Meta's AR glasses leak",
+  "from": {
+    "name": "TechCrunch",
+    "email": "newsletter@techcrunch.com"
+  },
+  "to": "user@example.com",
+  "date": "2025-01-15T14:00:00Z",
+  "headers": {
+    "Message-ID": "<daily-jan-15-2025@techcrunch.com>",
+    "Content-Type": "text/html; charset=utf-8",
+    "List-Unsubscribe": "<mailto:unsubscribe@techcrunch.com?subject=unsubscribe>, <https://techcrunch.com/newsletters/unsubscribe/xyz789>",
+    "List-Unsubscribe-Post": "List-Unsubscribe=One-Click"
+  },
+  "body": {
+    "text": "TechCrunch Daily\nJanuary 15, 2025\n\nGood afternoon! Here are today's top tech stories:\n\nTOP STORIES\n\n1. OpenAI Announces Strategic Partnership with Healthcare Giant\nThe AI company is bringing GPT-5 to medical diagnostics, raising both excitement and ethical concerns.\nRead more: https://techcrunch.com/2025/01/15/openai-healthcare-partnership\n\n2. Meta's Next-Gen AR Glasses Leaked in Internal Documents\nPhotos reveal a sleek design that could finally make AR mainstream.\nRead more: https://techcrunch.com/2025/01/15/meta-ar-glasses-leak\n\n3. Tesla's Self-Driving Software Gets Major Update\nFSD v12.5 promises better city navigation and reduced intervention rates.\nRead more: https://techcrunch.com/2025/01/15/tesla-fsd-update\n\nSTARTUP NEWS\n\n• Climate tech startup raises $50M Series B\n• New Y Combinator batch announced\n• Fintech unicorn plans 2025 IPO\n\nVENTURE CAPITAL\n\n• Sequoia leads $100M round for AI infrastructure company\n• Andreessen Horowitz doubles down on crypto investments\n\nEVENTS\n\nJoin us at TechCrunch Disrupt 2025 in San Francisco\nSeptember 15-17, 2025\nEarly bird tickets: https://techcrunch.com/events/disrupt-2025\n\n---\n\nYou're receiving TechCrunch Daily because you subscribed at techcrunch.com\n\nManage your newsletter preferences:\nhttps://techcrunch.com/newsletters/preferences\n\nUnsubscribe from all TechCrunch emails:\nhttps://techcrunch.com/newsletters/unsubscribe/xyz789\n\nTechCrunch\n© 2025 Yahoo Inc. All rights reserved.\nPowered by TechCrunch",
+    "html": "<html><body style='font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif; max-width: 680px; margin: 0 auto; background: #000;'><div style='background: #000; padding: 20px;'><div style='background: #0a0; width: 180px; height: 40px; margin: 0 auto 30px auto;'></div><div style='background: #fff; border-radius: 8px; overflow: hidden;'><div style='background: #0a0; padding: 30px; text-align: center;'><h1 style='color: #000; font-size: 32px; margin: 0 0 5px 0; font-weight: 900; letter-spacing: -1px;'>TechCrunch Daily</h1><p style='color: #000; font-size: 14px; margin: 0; font-weight: 600;'>January 15, 2025</p></div><div style='padding: 35px 30px;'><p style='color: #333; font-size: 17px; margin: 0 0 30px 0;'>Good afternoon! Here are today's top tech stories:</p><h2 style='color: #0a0; font-size: 14px; font-weight: 900; letter-spacing: 1px; margin: 0 0 20px 0;'>TOP STORIES</h2><div style='border-bottom: 1px solid #e0e0e0; padding-bottom: 25px; margin-bottom: 25px;'><h3 style='color: #000; font-size: 20px; margin: 0 0 10px 0; line-height: 1.3;'><a href='https://techcrunch.com/2025/01/15/openai-healthcare-partnership' style='color: #000; text-decoration: none;'>1. OpenAI Announces Strategic Partnership with Healthcare Giant</a></h3><p style='color: #666; font-size: 15px; line-height: 1.5; margin: 0;'>The AI company is bringing GPT-5 to medical diagnostics, raising both excitement and ethical concerns.</p><a href='https://techcrunch.com/2025/01/15/openai-healthcare-partnership' style='color: #0a0; font-size: 14px; font-weight: 600; text-decoration: none; margin-top: 10px; display: inline-block;'>Read more →</a></div><div style='border-bottom: 1px solid #e0e0e0; padding-bottom: 25px; margin-bottom: 25px;'><h3 style='color: #000; font-size: 20px; margin: 0 0 10px 0; line-height: 1.3;'><a href='https://techcrunch.com/2025/01/15/meta-ar-glasses-leak' style='color: #000; text-decoration: none;'>2. Meta's Next-Gen AR Glasses Leaked in Internal Documents</a></h3><p style='color: #666; font-size: 15px; line-height: 1.5; margin: 0;'>Photos reveal a sleek design that could finally make AR mainstream.</p><a href='https://techcrunch.com/2025/01/15/meta-ar-glasses-leak' style='color: #0a0; font-size: 14px; font-weight: 600; text-decoration: none; margin-top: 10px; display: inline-block;'>Read more →</a></div><div style='padding-bottom: 25px; margin-bottom: 25px;'><h3 style='color: #000; font-size: 20px; margin: 0 0 10px 0; line-height: 1.3;'><a href='https://techcrunch.com/2025/01/15/tesla-fsd-update' style='color: #000; text-decoration: none;'>3. Tesla's Self-Driving Software Gets Major Update</a></h3><p style='color: #666; font-size: 15px; line-height: 1.5; margin: 0;'>FSD v12.5 promises better city navigation and reduced intervention rates.</p><a href='https://techcrunch.com/2025/01/15/tesla-fsd-update' style='color: #0a0; font-size: 14px; font-weight: 600; text-decoration: none; margin-top: 10px; display: inline-block;'>Read more →</a></div><div style='background: #f5f5f5; padding: 20px; border-radius: 6px; margin: 30px 0;'><h2 style='color: #0a0; font-size: 14px; font-weight: 900; letter-spacing: 1px; margin: 0 0 15px 0;'>STARTUP NEWS</h2><ul style='color: #333; font-size: 15px; line-height: 1.8; margin: 0; padding-left: 20px;'><li>Climate tech startup raises $50M Series B</li><li>New Y Combinator batch announced</li><li>Fintech unicorn plans 2025 IPO</li></ul></div><div style='background: #f5f5f5; padding: 20px; border-radius: 6px; margin: 30px 0;'><h2 style='color: #0a0; font-size: 14px; font-weight: 900; letter-spacing: 1px; margin: 0 0 15px 0;'>VENTURE CAPITAL</h2><ul style='color: #333; font-size: 15px; line-height: 1.8; margin: 0; padding-left: 20px;'><li>Sequoia leads $100M round for AI infrastructure company</li><li>Andreessen Horowitz doubles down on crypto investments</li></ul></div><div style='background: linear-gradient(135deg, #0a0 0%, #005500 100%); padding: 25px; border-radius: 6px; margin: 30px 0; text-align: center;'><h2 style='color: #fff; font-size: 18px; margin: 0 0 10px 0;'>EVENTS</h2><p style='color: #fff; font-size: 16px; font-weight: 600; margin: 0 0 5px 0;'>Join us at TechCrunch Disrupt 2025 in San Francisco</p><p style='color: rgba(255,255,255,0.9); font-size: 14px; margin: 0 0 15px 0;'>September 15-17, 2025</p><a href='https://techcrunch.com/events/disrupt-2025' style='display: inline-block; background: #fff; color: #0a0; padding: 12px 28px; text-decoration: none; border-radius: 25px; font-weight: 700; font-size: 14px;'>Get Early Bird Tickets</a></div></div><div style='background: #f5f5f5; padding: 30px; text-align: center;'><p style='color: #999; font-size: 12px; margin: 0 0 15px 0;'>You're receiving TechCrunch Daily because you subscribed at techcrunch.com</p><p style='font-size: 12px; margin: 0;'><a href='https://techcrunch.com/newsletters/preferences' style='color: #0a0; text-decoration: none; margin: 0 10px;'>Manage preferences</a> | <a href='https://techcrunch.com/newsletters/unsubscribe/xyz789' style='color: #0a0; text-decoration: none; margin: 0 10px;'>Unsubscribe</a></p><p style='color: #ccc; font-size: 11px; margin: 20px 0 0 0;'>TechCrunch<br>© 2025 Yahoo Inc. All rights reserved.</p></div></div></div></body></html>"
+  },
+  "classification": {
+    "type": "newsletter",
+    "category": "news",
+    "intent": "newsletter",
+    "shouldBeUnsubscribable": true,
+    "reason": "News newsletter - user can safely unsubscribe"
+  },
+  "unsubscribeMechanism": {
+    "hasListUnsubscribeHeader": true,
+    "hasOneClickUnsubscribe": true,
+    "unsubscribeUrls": [
+      "https://techcrunch.com/newsletters/unsubscribe/xyz789"
+    ],
+    "preferenceUrls": [
+      "https://techcrunch.com/newsletters/preferences"
+    ],
+    "emailUnsubscribe": "unsubscribe@techcrunch.com"
+  },
+  "testExpectations": {
+    "shouldDetectAsReceipt": false,
+    "shouldDetectAsNewsletter": true,
+    "shouldBeUnsubscribable": true,
+    "shouldExtractUnsubscribeUrl": true,
+    "shouldFindListUnsubscribeHeader": true,
+    "expectedTags": ["newsletter", "news", "technology", "daily"]
+  }
+}

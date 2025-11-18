@@ -1,0 +1,105 @@
+{
+  "id": "sign_form",
+  "title": "Sign Permission Form",
+  "subtitle": null,
+  "icon": {
+    "systemName": "signature",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "form_details",
+      "title": "Form Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "form_title",
+          "label": "Form",
+          "type": "text",
+          "contextKey": "formTitle",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Permission form",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "for_student",
+          "label": "For Student",
+          "type": "text",
+          "contextKey": "studentName",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Student name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "due_date",
+          "label": "Due Date",
+          "type": "date",
+          "contextKey": "dueDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "No due date",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "medium"
+            }
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "signature_info",
+      "title": "Signature",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "signer_name",
+          "label": "Your Name",
+          "type": "textInput",
+          "contextKey": "signerName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Enter your name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "note",
+          "label": "Note",
+          "type": "text",
+          "contextKey": "note",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Type or draw your signature",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Sign & Send",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Cancel",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

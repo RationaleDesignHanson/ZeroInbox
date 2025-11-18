@@ -1,0 +1,44 @@
+{
+  "id": "marketing-promo-001",
+  "subject": "🔥 24-Hour Flash Sale: 40% Off Everything + Free Shipping",
+  "from": {
+    "name": "J.Crew",
+    "email": "sale@jcrew.com"
+  },
+  "to": "user@example.com",
+  "date": "2025-01-15T06:00:00Z",
+  "headers": {
+    "Message-ID": "<flash-sale-jan-15@jcrew.com>",
+    "Content-Type": "text/html; charset=utf-8",
+    "List-Unsubscribe": "<https://www.jcrew.com/email-unsubscribe?email=user@example.com&token=flash456>"
+  },
+  "body": {
+    "text": "J.CREW\n\n24-HOUR FLASH SALE\n40% OFF EVERYTHING\n+ FREE SHIPPING\n\nDon't miss out! This sale ends tonight at midnight.\n\nCode: FLASH40\n\nSHOP NOW\n\nFEATURED ITEMS:\n\n• Cashmere Sweaters - Now $89.99 (Was $149.99)\n• Italian Wool Coats - Now $239.99 (Was $399.99)\n• Cotton Chinos - Now $47.99 (Was $79.99)\n• Silk Blouses - Now $59.99 (Was $99.99)\n\nShop Men's: https://www.jcrew.com/men/sale\nShop Women's: https://www.jcrew.com/women/sale\n\nOFFER DETAILS:\n• Valid January 15, 2025 only\n• Use code FLASH40 at checkout\n• Free standard shipping on all orders\n• Some exclusions may apply\n• Cannot be combined with other offers\n\nNeed help? Chat with us at jcrew.com/help or call 1-800-562-0258\n\n---\n\nYou're receiving promotional emails from J.Crew.\n\nUpdate your email preferences:\nhttps://www.jcrew.com/email-preferences\n\nUnsubscribe from promotional emails:\nhttps://www.jcrew.com/email-unsubscribe?email=user@example.com&token=flash456\n\nJ.Crew\n225 Liberty Street\nNew York, NY 10281",
+    "html": "<html><body style='font-family: \"Helvetica Neue\", Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5;'><div style='max-width: 650px; margin: 0 auto; background: white;'><div style='background: #000; padding: 20px; text-align: center;'><h1 style='color: #fff; font-size: 28px; margin: 0; letter-spacing: 3px; font-weight: 700;'>J.CREW</h1></div><div style='background: linear-gradient(135deg, #e53935 0%, #d32f2f 100%); padding: 50px 20px; text-align: center;'><h2 style='color: #fff; font-size: 18px; margin: 0 0 10px 0; letter-spacing: 2px; font-weight: 600;'>24-HOUR FLASH SALE</h2><h3 style='color: #fff; font-size: 42px; margin: 0; font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);'>40% OFF<br>EVERYTHING</h3><p style='color: #fff; font-size: 20px; margin: 15px 0 0 0; font-weight: 600;'>+ FREE SHIPPING</p><div style='background: #fff; color: #e53935; padding: 12px 25px; display: inline-block; margin: 25px 0 0 0; border-radius: 30px; font-weight: 800; font-size: 18px; letter-spacing: 2px;'>CODE: FLASH40</div></div><div style='padding: 40px 30px; text-align: center;'><p style='color: #d32f2f; font-size: 16px; font-weight: 600; margin: 0 0 30px 0;'>⏰ Don't miss out! This sale ends tonight at midnight.</p><a href='https://www.jcrew.com/sale' style='display: inline-block; background: #000; color: #fff; padding: 16px 48px; text-decoration: none; font-weight: 700; font-size: 18px; border-radius: 4px; margin: 0 0 40px 0;'>SHOP NOW</a><h4 style='color: #000; font-size: 20px; margin: 0 0 25px 0; font-weight: 700;'>FEATURED ITEMS</h4><div style='display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 30px 0;'><div style='border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;'><h5 style='color: #000; font-size: 15px; margin: 0 0 10px 0; font-weight: 600;'>Cashmere Sweaters</h5><p style='color: #d32f2f; font-size: 18px; font-weight: 700; margin: 0;'>$89.99</p><p style='color: #999; font-size: 13px; text-decoration: line-through; margin: 5px 0 0 0;'>Was $149.99</p></div><div style='border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;'><h5 style='color: #000; font-size: 15px; margin: 0 0 10px 0; font-weight: 600;'>Italian Wool Coats</h5><p style='color: #d32f2f; font-size: 18px; font-weight: 700; margin: 0;'>$239.99</p><p style='color: #999; font-size: 13px; text-decoration: line-through; margin: 5px 0 0 0;'>Was $399.99</p></div><div style='border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;'><h5 style='color: #000; font-size: 15px; margin: 0 0 10px 0; font-weight: 600;'>Cotton Chinos</h5><p style='color: #d32f2f; font-size: 18px; font-weight: 700; margin: 0;'>$47.99</p><p style='color: #999; font-size: 13px; text-decoration: line-through; margin: 5px 0 0 0;'>Was $79.99</p></div><div style='border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;'><h5 style='color: #000; font-size: 15px; margin: 0 0 10px 0; font-weight: 600;'>Silk Blouses</h5><p style='color: #d32f2f; font-size: 18px; font-weight: 700; margin: 0;'>$59.99</p><p style='color: #999; font-size: 13px; text-decoration: line-through; margin: 5px 0 0 0;'>Was $99.99</p></div></div><div style='margin: 35px 0;'><a href='https://www.jcrew.com/men/sale' style='display: inline-block; background: #000; color: #fff; padding: 12px 32px; text-decoration: none; font-weight: 600; font-size: 14px; border-radius: 4px; margin: 0 10px 10px 10px;'>Shop Men's</a><a href='https://www.jcrew.com/women/sale' style='display: inline-block; background: #000; color: #fff; padding: 12px 32px; text-decoration: none; font-weight: 600; font-size: 14px; border-radius: 4px; margin: 0 10px 10px 10px;'>Shop Women's</a></div><div style='background: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 8px; padding: 25px; margin: 35px 0; text-align: left;'><h5 style='color: #000; font-size: 14px; margin: 0 0 15px 0; font-weight: 700; text-transform: uppercase;'>Offer Details</h5><ul style='color: #666; font-size: 13px; line-height: 1.8; margin: 0; padding-left: 20px;'><li>Valid January 15, 2025 only</li><li>Use code <strong>FLASH40</strong> at checkout</li><li>Free standard shipping on all orders</li><li>Some exclusions may apply</li><li>Cannot be combined with other offers</li></ul></div><p style='color: #666; font-size: 14px; margin: 30px 0 0 0;'>Need help? <a href='https://www.jcrew.com/help' style='color: #000; font-weight: 600;'>Chat with us</a> or call <strong>1-800-562-0258</strong></p></div><div style='background: #f5f5f5; padding: 30px; text-align: center; border-top: 1px solid #e0e0e0;'><p style='color: #999; font-size: 12px; margin: 0 0 15px 0;'>You're receiving promotional emails from J.Crew.</p><p style='font-size: 12px; margin: 0 0 20px 0;'><a href='https://www.jcrew.com/email-preferences' style='color: #000; text-decoration: none; margin: 0 10px;'>Update preferences</a> | <a href='https://www.jcrew.com/email-unsubscribe?email=user@example.com&token=flash456' style='color: #000; text-decoration: none; margin: 0 10px;'>Unsubscribe</a></p><p style='color: #ccc; font-size: 11px; margin: 0;'>J.Crew<br>225 Liberty Street, New York, NY 10281</p></div></div></body></html>"
+  },
+  "classification": {
+    "type": "marketing",
+    "category": "promotional",
+    "intent": "sales_promotion",
+    "shouldBeUnsubscribable": true,
+    "reason": "Promotional marketing email - user can safely unsubscribe"
+  },
+  "unsubscribeMechanism": {
+    "hasListUnsubscribeHeader": true,
+    "hasOneClickUnsubscribe": false,
+    "unsubscribeUrls": [
+      "https://www.jcrew.com/email-unsubscribe?email=user@example.com&token=flash456"
+    ],
+    "preferenceUrls": [
+      "https://www.jcrew.com/email-preferences"
+    ]
+  },
+  "testExpectations": {
+    "shouldDetectAsReceipt": false,
+    "shouldDetectAsNewsletter": false,
+    "shouldDetectAsMarketing": true,
+    "shouldBeUnsubscribable": true,
+    "shouldExtractUnsubscribeUrl": true,
+    "expectedTags": ["marketing", "promotional", "sale", "retail"]
+  }
+}

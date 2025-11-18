@@ -1224,6 +1224,211 @@
             pointer-events: none;
         }
 
+        /* Order Tracking Styles */
+        .order-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .order-merchant {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .merchant-icon-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .merchant-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .order-number {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Courier New', monospace;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-delivered {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            color: #6ee7b7;
+        }
+
+        .status-shipped {
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #93c5fd;
+        }
+
+        .status-ordered {
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+        }
+
+        .order-items {
+            margin: 16px 0;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .order-item-name {
+            font-size: 14px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .order-item-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .order-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 16px;
+        }
+
+        .order-date {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .order-total {
+            font-size: 20px;
+            font-weight: 900;
+            color: white;
+        }
+
+        .tracking-timeline {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            flex: 1;
+            position: relative;
+        }
+
+        .timeline-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 16px;
+            left: 60%;
+            right: -50%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline-step.completed:not(:last-child)::after {
+            background: linear-gradient(90deg, #10b981 0%, rgba(16, 185, 129, 0.4) 100%);
+        }
+
+        .timeline-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            z-index: 1;
+        }
+
+        .timeline-step.completed .timeline-icon {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .timeline-step.active .timeline-icon {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .timeline-label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .timeline-step.completed .timeline-label {
+            color: #6ee7b7;
+        }
+
+        .timeline-step.active .timeline-label {
+            color: #93c5fd;
+        }
+
     </style>
 </head>
 <body>
@@ -1255,6 +1460,7 @@
                 <li><a href="action-modal-explorer.html" class="nav-link">Actions</a></li>
                 <li><a href="intent-action-explorer.html" class="nav-link">Intents</a></li>
                 <li><a href="shopping-cart.html" class="nav-link active">Shopping</a></li>
+                <li><a href="email-intelligence.html" class="nav-link">Email Intelligence</a></li>
                 <li><a href="architecture-visual.html" class="nav-link">System Architecture</a></li>
             </ul>
         </div>
@@ -1281,6 +1487,7 @@
             <li><a href="action-modal-explorer.html" class="mobile-nav-link">Actions</a></li>
             <li><a href="intent-action-explorer.html" class="mobile-nav-link">Intents</a></li>
             <li><a href="shopping-cart.html" class="mobile-nav-link active">Shopping</a></li>
+            <li><a href="email-intelligence.html" class="mobile-nav-link">Email Intelligence</a></li>
             <li><a href="architecture-visual.html" class="mobile-nav-link">System Architecture</a></li>
         </ul>
     </div>
@@ -1427,6 +1634,150 @@
                                 pre-filled with your cart items for a seamless buying experience.
                             </p>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Tracking Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <span>📦 Auto Order Tracking</span>
+            </h2>
+            <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 24px; line-height: 1.6;">
+                Your orders are automatically parsed from email receipts and tracked from placed to delivered.
+                Supports Amazon, Target, Best Buy, and 15+ major merchants.
+            </p>
+
+            <div class="order-timeline">
+                <!-- Order 1: Delivered -->
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-merchant">
+                            <div class="merchant-icon-badge">📦</div>
+                            <div class="merchant-info">
+                                <h3>Amazon</h3>
+                                <div class="order-number">Order #112-1234567-8901234</div>
+                            </div>
+                        </div>
+                        <span class="status-badge status-delivered">✓ Delivered</span>
+                    </div>
+
+                    <div class="tracking-timeline">
+                        <div class="timeline-step completed">
+                            <div class="timeline-icon">📝</div>
+                            <div class="timeline-label">Ordered</div>
+                        </div>
+                        <div class="timeline-step completed">
+                            <div class="timeline-icon">📦</div>
+                            <div class="timeline-label">Shipped</div>
+                        </div>
+                        <div class="timeline-step completed">
+                            <div class="timeline-icon">✓</div>
+                            <div class="timeline-label">Delivered</div>
+                        </div>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-item">
+                            <span class="order-item-name">Wireless Mouse</span>
+                            <span class="order-item-price">$29.99</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="order-item-name">USB-C Cable (2-pack)</span>
+                            <span class="order-item-price">$12.99</span>
+                        </div>
+                    </div>
+
+                    <div class="order-footer">
+                        <div class="order-date">Delivered Jan 15, 2025</div>
+                        <div class="order-total">$42.98</div>
+                    </div>
+                </div>
+
+                <!-- Order 2: Shipped -->
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-merchant">
+                            <div class="merchant-icon-badge">🎯</div>
+                            <div class="merchant-info">
+                                <h3>Target</h3>
+                                <div class="order-number">Order #87654321</div>
+                            </div>
+                        </div>
+                        <span class="status-badge status-shipped">🚚 Shipped</span>
+                    </div>
+
+                    <div class="tracking-timeline">
+                        <div class="timeline-step completed">
+                            <div class="timeline-icon">📝</div>
+                            <div class="timeline-label">Ordered</div>
+                        </div>
+                        <div class="timeline-step active">
+                            <div class="timeline-icon">🚚</div>
+                            <div class="timeline-label">In Transit</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="timeline-icon">✓</div>
+                            <div class="timeline-label">Delivered</div>
+                        </div>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-item">
+                            <span class="order-item-name">AirPods Pro (2nd Gen)</span>
+                            <span class="order-item-price">$199.99</span>
+                        </div>
+                    </div>
+
+                    <div class="order-footer">
+                        <div class="order-date">Arriving Jan 20, 2025</div>
+                        <div class="order-total">$199.99</div>
+                    </div>
+                </div>
+
+                <!-- Order 3: Ordered -->
+                <div class="order-card">
+                    <div class="order-header">
+                        <div class="order-merchant">
+                            <div class="merchant-icon-badge">💛</div>
+                            <div class="merchant-info">
+                                <h3>Best Buy</h3>
+                                <div class="order-number">Order #BBY01-123456789</div>
+                            </div>
+                        </div>
+                        <span class="status-badge status-ordered">⏳ Processing</span>
+                    </div>
+
+                    <div class="tracking-timeline">
+                        <div class="timeline-step active">
+                            <div class="timeline-icon">📝</div>
+                            <div class="timeline-label">Processing</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="timeline-icon">📦</div>
+                            <div class="timeline-label">Shipped</div>
+                        </div>
+                        <div class="timeline-step">
+                            <div class="timeline-icon">✓</div>
+                            <div class="timeline-label">Delivered</div>
+                        </div>
+                    </div>
+
+                    <div class="order-items">
+                        <div class="order-item">
+                            <span class="order-item-name">Mechanical Keyboard</span>
+                            <span class="order-item-price">$129.99</span>
+                        </div>
+                        <div class="order-item">
+                            <span class="order-item-name">Gaming Mouse Pad</span>
+                            <span class="order-item-price">$24.99</span>
+                        </div>
+                    </div>
+
+                    <div class="order-footer">
+                        <div class="order-date">Ordered Jan 17, 2025</div>
+                        <div class="order-total">$154.98</div>
                     </div>
                 </div>
             </div>

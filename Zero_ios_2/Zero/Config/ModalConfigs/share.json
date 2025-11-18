@@ -1,0 +1,49 @@
+{
+  "id": "share",
+  "title": "Share",
+  "subtitle": null,
+  "icon": {
+    "systemName": "square.and.arrow.up",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "share_content",
+      "title": "Content to Share",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "content",
+          "label": "Content",
+          "type": "text",
+          "contextKey": "content",
+          "required": true,
+          "copyable": true,
+          "placeholder": "Nothing to share",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Share",
+    "style": "primary",
+    "action": {
+      "type": "share",
+      "contextKey": "content"
+    }
+  },
+  "secondaryButton": {
+    "title": "Copy",
+    "style": "secondary",
+    "action": {
+      "type": "copy",
+      "contextKey": "content"
+    }
+  },
+  "layout": "standard"
+}

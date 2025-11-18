@@ -40,19 +40,8 @@ struct ViewItineraryModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Header
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
-                        .font(.title2)
-                }
-            }
-            .padding(.horizontal)
-            .padding(.top, 20)
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             ScrollView {
                 VStack(spacing: 24) {
@@ -89,8 +78,7 @@ struct ViewItineraryModal: View {
                                     .foregroundColor(.white)
 
                                 Button {
-                                    UIPasteboard.general.string = confirmationNumber
-                                    HapticService.shared.mediumImpact()
+                                    ClipboardUtility.copy(confirmationNumber)
                                     copiedField = "confirmation"
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                                         copiedField = nil
@@ -336,8 +324,7 @@ struct ItineraryDetailRow: View {
 
             if copyable {
                 Button {
-                    UIPasteboard.general.string = value
-                    HapticService.shared.lightImpact()
+                    ClipboardUtility.copy(value)
                     copiedField = label
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         copiedField = nil

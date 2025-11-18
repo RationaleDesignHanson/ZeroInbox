@@ -7,7 +7,7 @@ struct ShoppingCartView: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
 
-    let userId = "user-123" // TODO: Replace with actual user ID
+    let userId = AuthContext.getUserId()
 
     var body: some View {
         NavigationView {

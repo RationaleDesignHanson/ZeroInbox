@@ -17,7 +17,7 @@ class UserSession: ObservableObject {
     
     // MARK: - Initialization
     
-    init(userId: String = Constants.UserDefaults.defaultUserId, 
+    init(userId: String = AuthContext.getUserId(), 
          email: String? = nil,
          isAuthenticated: Bool = false,
          authProvider: AuthProvider = .none) {
@@ -43,7 +43,7 @@ class UserSession: ObservableObject {
     func logout() {
         Logger.info("User logged out: \(email ?? userId)", category: .authentication)
         
-        self.userId = Constants.UserDefaults.defaultUserId
+        self.userId = AuthContext.getUserId()
         self.email = nil
         self.isAuthenticated = false
         self.authProvider = .none

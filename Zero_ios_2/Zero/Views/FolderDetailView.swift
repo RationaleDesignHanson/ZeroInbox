@@ -28,7 +28,7 @@ struct FolderDetailView: View {
 
     /// Computed user ID from Keychain
     private var userId: String {
-        getUserEmail() ?? "user-123"
+        getUserEmail() ?? AuthContext.getUserId()
     }
 
     // Computed property to get email cards for this folder
@@ -435,7 +435,7 @@ struct RenameFolderView: View {
 
     /// Computed user ID from Keychain
     private var userId: String {
-        getUserEmail() ?? "user-123"
+        getUserEmail() ?? AuthContext.getUserId()
     }
 
     init(folder: SavedMailFolder, isPresented: Binding<Bool>) {

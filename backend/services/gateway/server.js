@@ -56,6 +56,19 @@ app.use((req, res, next) => {
   next();
 });
 
+// Serve static files (privacy policy & terms)
+const path = require('path');
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
+// Direct routes for privacy and terms (for easier access)
+app.get('/privacy.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'privacy.html'));
+});
+
+app.get('/terms.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'terms.html'));
+});
+
 // Welcome page
 app.get('/', (req, res) => {
   res.json({
@@ -64,6 +77,10 @@ app.get('/', (req, res) => {
     status: 'operational',
     endpoints: {
       health: '/health',
+      legal: {
+        privacy: '/privacy.html',
+        terms: '/terms.html'
+      },
       auth: {
         gmail: '/api/auth/gmail',
         microsoft: '/api/auth/microsoft'
@@ -166,13 +183,12 @@ app.use('/api/summarization', async (req, res) => {
   }
 });
 
-// Dashboard API routes (development only - provides service management)
-const dashboardAPI = require('../../dashboard/api');
-app.use('/api/dashboard', dashboardAPI);
+// Dashboard API routes (development only - commented out for Cloud Run deployment)
+// const dashboardAPI = require('../../dashboard/api');
+// app.use('/api/dashboard', dashboardAPI);
 
-// Serve dashboard static files (HTML, JS, CSS)
-const path = require('path');
-app.use('/dashboard', express.static(path.join(__dirname, '../../dashboard')));
+// Serve dashboard static files (HTML, JS, CSS) - commented out for Cloud Run
+// app.use('/dashboard', express.static(path.join(__dirname, '../../dashboard')));
 
 // Auth Status API routes (OAuth token management)
 const authStatusRoutes = require('./routes/auth-status');

@@ -23,20 +23,9 @@ struct SplashView: View {
                     .zIndex(1000)
             }
 
-            // Animated gradient background
-            AnimatedGradientBackground(
-                gradient: LinearGradient(
-                    colors: [
-                        Color.celebrationPurpleBlue,
-                        Color.celebrationDeepPurple,
-                        Color.celebrationBrightPink
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ),
-                animationSpeed: 30
-            )
-            .ignoresSafeArea()
+            // Firefly background (same as mail section)
+            FireflyBackground()
+                .ignoresSafeArea()
 
             // Floating particles
             FloatingParticles(particleCount: 20, particleSize: 4, speed: 3)
@@ -92,12 +81,18 @@ struct SplashView: View {
                     Text("Swipe to keep, act, or archive for later.")
                         .font(.body)
                         .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
+
+                    // Build version info
+                    Text("v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0") (\(Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "100"))")
+                        .font(.caption2)
+                        .foregroundColor(.white.opacity(0.4))
+                        .padding(.top, 4)
                 }
 
                 Spacer()
 
-                // Authentication Options
-                VStack(spacing: 16) {
+                // Authentication Options - Horizontal Bottom Nav Style
+                HStack(spacing: 12) {
                     // Mock Data Button
                     Button {
                         // Set mock mode
@@ -112,84 +107,36 @@ struct SplashView: View {
                         Logger.info("Mock data mode selected, analytics environment: mock", category: .app)
                         onComplete()
                     } label: {
-                        HStack {
-                            Image(systemName: "text.book.closed.fill")
-                                .font(.title3)
-                            Text("Use Mock Data")
-                                .font(.headline)
-                        }
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
+                        VStack(spacing: 6) {
                             ZStack {
-                                // Base glass layer
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [
-                                                Color.white.opacity(0.08),
-                                                Color.white.opacity(0.03)
-                                            ],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        )
-                                    )
-                                    .background(
-                                        .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
-                                        in: RoundedRectangle(cornerRadius: 16)
+                                // Glow effect
+                                Circle()
+                                    .fill(Color.orange.opacity(DesignTokens.Opacity.overlayLight))
+                                    .frame(width: 44, height: 44)
+                                    .blur(radius: 8)
+
+                                // Icon background
+                                Circle()
+                                    .fill(Color.white.opacity(0.08))
+                                    .frame(width: 44, height: 44)
+                                    .overlay(
+                                        Circle()
+                                            .strokeBorder(Color.orange.opacity(0.3), lineWidth: 1)
                                     )
 
-                                // Button-specific accent glow
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [Color.orange.opacity(DesignTokens.Opacity.overlayLight), Color.pink.opacity(DesignTokens.Opacity.overlayLight)],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
-                                    )
-
-                                // Holographic rim lighting
-                                RoundedRectangle(cornerRadius: 16)
-                                    .strokeBorder(
-                                        LinearGradient(
-                                            colors: [
-                                                Color.orange.opacity(DesignTokens.Opacity.textDisabled),
-                                                Color.pink.opacity(DesignTokens.Opacity.overlayStrong),
-                                                Color.orange.opacity(0.4)
-                                            ],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        ),
-                                        lineWidth: 1.5
-                                    )
-
-                                // Inner glow for depth
-                                RoundedRectangle(cornerRadius: 16)
-                                    .strokeBorder(
-                                        Color.white.opacity(0.15),
-                                        lineWidth: 0.5
-                                    )
-                                    .blur(radius: 2)
-
-                                // Specular highlight
-                                LinearGradient(
-                                    colors: [
-                                        Color.white.opacity(DesignTokens.Opacity.overlayMedium),
-                                        Color.clear,
-                                        Color.clear,
-                                        Color.white.opacity(DesignTokens.Opacity.glassLight)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                .allowsHitTesting(false)
+                                // Icon
+                                Image(systemName: "text.book.closed.fill")
+                                    .font(.title3)
+                                    .foregroundColor(.orange)
                             }
-                        )
-                        .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 15, x: 0, y: -3)
+
+                            Text("Mock")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
+                        }
                     }
+                    .frame(maxWidth: .infinity)
 
                     // Google OAuth Button
                     Button {
@@ -227,90 +174,47 @@ struct SplashView: View {
                             }
                         }
                     } label: {
-                        HStack {
+                        VStack(spacing: 6) {
                             if isAuthenticating {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                Text("Authenticating...")
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.white.opacity(0.08))
+                                        .frame(width: 44, height: 44)
+
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                }
                             } else {
-                                Image(systemName: "g.circle.fill")
-                                    .font(.title3)
-                                Text("Login with Google")
-                                    .font(.headline)
+                                ZStack {
+                                    // Glow effect
+                                    Circle()
+                                        .fill(Color.blue.opacity(DesignTokens.Opacity.overlayLight))
+                                        .frame(width: 44, height: 44)
+                                        .blur(radius: 8)
+
+                                    // Icon background
+                                    Circle()
+                                        .fill(Color.white.opacity(0.08))
+                                        .frame(width: 44, height: 44)
+                                        .overlay(
+                                            Circle()
+                                                .strokeBorder(Color.blue.opacity(0.3), lineWidth: 1)
+                                        )
+
+                                    // Icon
+                                    Image(systemName: "g.circle.fill")
+                                        .font(.title3)
+                                        .foregroundColor(.blue)
+                                }
                             }
+
+                            Text(isAuthenticating ? "Wait..." : "Google")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                         }
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
-                            ZStack {
-                                // Base glass layer
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [
-                                                Color.white.opacity(0.08),
-                                                Color.white.opacity(0.03)
-                                            ],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        )
-                                    )
-                                    .background(
-                                        .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
-                                        in: RoundedRectangle(cornerRadius: 16)
-                                    )
-
-                                // Button-specific accent glow
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [Color.blue.opacity(DesignTokens.Opacity.overlayLight), Color.cyan.opacity(DesignTokens.Opacity.overlayLight)],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
-                                    )
-
-                                // Holographic rim lighting
-                                RoundedRectangle(cornerRadius: 16)
-                                    .strokeBorder(
-                                        LinearGradient(
-                                            colors: [
-                                                Color.blue.opacity(DesignTokens.Opacity.textDisabled),
-                                                Color.cyan.opacity(DesignTokens.Opacity.overlayStrong),
-                                                Color.blue.opacity(0.4)
-                                            ],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        ),
-                                        lineWidth: 1.5
-                                    )
-
-                                // Inner glow for depth
-                                RoundedRectangle(cornerRadius: 16)
-                                    .strokeBorder(
-                                        Color.white.opacity(0.15),
-                                        lineWidth: 0.5
-                                    )
-                                    .blur(radius: 2)
-
-                                // Specular highlight
-                                LinearGradient(
-                                    colors: [
-                                        Color.white.opacity(DesignTokens.Opacity.overlayMedium),
-                                        Color.clear,
-                                        Color.clear,
-                                        Color.white.opacity(DesignTokens.Opacity.glassLight)
-                                    ],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
-                                )
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                .allowsHitTesting(false)
-                            }
-                        )
-                        .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 15, x: 0, y: -3)
                     }
+                    .frame(maxWidth: .infinity)
                     .disabled(isAuthenticating)
                     .opacity(isAuthenticating ? 0.5 : 1.0)
 
@@ -350,94 +254,97 @@ struct SplashView: View {
                             }
                         }
                     } label: {
-                        HStack {
+                        VStack(spacing: 6) {
                             if isAuthenticating {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                Text("Authenticating...")
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.white.opacity(0.08))
+                                        .frame(width: 44, height: 44)
+
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                }
                             } else {
-                                Image(systemName: "m.square.fill")
-                                    .font(.title3)
-                                Text("Login with Microsoft")
-                                    .font(.headline)
+                                ZStack {
+                                    // Glow effect
+                                    Circle()
+                                        .fill(Color.purple.opacity(DesignTokens.Opacity.overlayLight))
+                                        .frame(width: 44, height: 44)
+                                        .blur(radius: 8)
+
+                                    // Icon background
+                                    Circle()
+                                        .fill(Color.white.opacity(0.08))
+                                        .frame(width: 44, height: 44)
+                                        .overlay(
+                                            Circle()
+                                                .strokeBorder(Color.purple.opacity(0.3), lineWidth: 1)
+                                        )
+
+                                    // Icon
+                                    Image(systemName: "m.square.fill")
+                                        .font(.title3)
+                                        .foregroundColor(.purple)
+                                }
                             }
+
+                            Text(isAuthenticating ? "Wait..." : "Microsoft")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
                         }
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
-                            ZStack {
-                                // Base glass layer
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [
-                                                Color.white.opacity(0.08),
-                                                Color.white.opacity(0.03)
-                                            ],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
-                                        )
-                                    )
-                                    .background(
-                                        .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
-                                        in: RoundedRectangle(cornerRadius: 16)
-                                    )
-
-                                // Button-specific accent glow
-                                RoundedRectangle(cornerRadius: 16)
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [Color.indigo.opacity(DesignTokens.Opacity.overlayLight), Color.purple.opacity(DesignTokens.Opacity.overlayLight)],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
-                                    )
-
-                                // Holographic rim lighting
-                                RoundedRectangle(cornerRadius: 16)
-                                    .strokeBorder(
-                                        LinearGradient(
-                                            colors: [
-                                                Color.indigo.opacity(DesignTokens.Opacity.textDisabled),
-                                                Color.purple.opacity(DesignTokens.Opacity.overlayStrong),
-                                                Color.indigo.opacity(0.4)
-                                            ],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        ),
-                                        lineWidth: 1.5
-                                    )
-
-                                // Inner glow for depth
-                                RoundedRectangle(cornerRadius: 16)
-                                    .strokeBorder(
-                                        Color.white.opacity(0.15),
-                                        lineWidth: 0.5
-                                    )
-                                    .blur(radius: 2)
-
-                                // Specular highlight
+                    }
+                    .frame(maxWidth: .infinity)
+                    .disabled(isAuthenticating)
+                    .opacity(isAuthenticating ? 0.5 : 1.0)
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 12)
+                .background(
+                    ZStack {
+                        // Base glass layer
+                        RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
+                            .fill(
                                 LinearGradient(
                                     colors: [
-                                        Color.white.opacity(DesignTokens.Opacity.overlayMedium),
-                                        Color.clear,
-                                        Color.clear,
-                                        Color.white.opacity(DesignTokens.Opacity.glassLight)
+                                        Color.white.opacity(0.08),
+                                        Color.white.opacity(0.03)
                                     ],
                                     startPoint: .topLeading,
                                     endPoint: .bottomTrailing
                                 )
-                                .clipShape(RoundedRectangle(cornerRadius: 16))
-                                .allowsHitTesting(false)
-                            }
-                        )
-                        .shadow(color: Color.black.opacity(DesignTokens.Opacity.overlayLight), radius: 15, x: 0, y: -3)
+                            )
+                            .background(
+                                .ultraThinMaterial.opacity(DesignTokens.Opacity.textDisabled),
+                                in: RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
+                            )
+
+                        // Holographic rim lighting
+                        RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
+                            .strokeBorder(
+                                LinearGradient(
+                                    colors: [
+                                        Color.cyan.opacity(0.4),
+                                        Color.purple.opacity(0.4),
+                                        Color.pink.opacity(0.4)
+                                    ],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                ),
+                                lineWidth: 1.5
+                            )
+
+                        // Inner glow for depth
+                        RoundedRectangle(cornerRadius: DesignTokens.Radius.card)
+                            .strokeBorder(
+                                Color.white.opacity(0.15),
+                                lineWidth: 0.5
+                            )
+                            .blur(radius: 2)
                     }
-                    .disabled(isAuthenticating)
-                    .opacity(isAuthenticating ? 0.5 : 1.0)
-                }
-                .padding(.horizontal)
+                )
+                .padding(.horizontal, 20)
+                .shadow(color: Color.black.opacity(0.15), radius: 20, x: 0, y: -5)
 
                 // Error message
                 if showError {

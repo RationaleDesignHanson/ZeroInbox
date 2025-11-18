@@ -1,0 +1,33 @@
+{
+  "id": "critical-bank-001",
+  "subject": "Security Alert: Unusual Activity Detected on Your Account",
+  "from": {
+    "name": "Chase Bank Security",
+    "email": "alerts@chase.com"
+  },
+  "to": "user@example.com",
+  "date": "2025-01-15T14:32:00Z",
+  "headers": {
+    "Message-ID": "<security-alert-12345@chase.com>",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "body": {
+    "text": "SECURITY ALERT\n\nWe detected unusual activity on your Chase checking account ending in 4567.\n\nTransaction Details:\nAmount: $1,247.89\nMerchant: Electronics Store\nLocation: Los Angeles, CA\nDate: January 15, 2025 at 2:15 PM\n\nIf this was you, no action is needed.\n\nIf you don't recognize this transaction:\n1. Call us immediately at 1-800-935-9935\n2. Log in to review recent activity\n3. Lock your card in the Chase app\n\nFor your security, this email does not contain links. Please visit chase.com directly.\n\nChase Fraud Prevention Team",
+    "html": "<html><body style='font-family: Arial, sans-serif;'><div style='background: #fff3cd; border: 2px solid #ffc107; padding: 20px; border-radius: 8px;'><h2 style='color: #d32f2f; margin: 0 0 15px 0;'>⚠️ SECURITY ALERT</h2><p style='font-size: 16px; line-height: 1.5;'>We detected unusual activity on your <strong>Chase checking account ending in 4567</strong>.</p><div style='background: white; border-left: 4px solid #d32f2f; padding: 15px; margin: 20px 0;'><h3 style='margin: 0 0 10px 0; color: #333;'>Transaction Details:</h3><ul style='list-style: none; padding: 0; margin: 0;'><li><strong>Amount:</strong> $1,247.89</li><li><strong>Merchant:</strong> Electronics Store</li><li><strong>Location:</strong> Los Angeles, CA</li><li><strong>Date:</strong> January 15, 2025 at 2:15 PM</li></ul></div><p style='font-size: 14px;'><strong>If this was you,</strong> no action is needed.</p><p style='font-size: 14px;'><strong>If you don't recognize this transaction:</strong></p><ol style='line-height: 1.8;'><li>Call us immediately at <strong>1-800-935-9935</strong></li><li>Log in to review recent activity</li><li>Lock your card in the Chase app</li></ol><div style='background: #e3f2fd; border-left: 4px solid #2196f3; padding: 15px; margin: 20px 0;'><p style='margin: 0; font-size: 13px;'>🔒 For your security, this email does not contain links. Please visit <strong>chase.com</strong> directly.</p></div><p style='font-size: 12px; color: #666; margin-top: 30px;'>Chase Fraud Prevention Team<br>©2025 JPMorgan Chase & Co.</p></div></body></html>"
+  },
+  "classification": {
+    "type": "transactional",
+    "category": "banking",
+    "intent": "security_alert",
+    "priority": "critical",
+    "shouldNeverUnsubscribe": true,
+    "reason": "Critical banking security alert - must never be automatically unsubscribed"
+  },
+  "testExpectations": {
+    "shouldDetectAsReceipt": false,
+    "shouldDetectAsNewsletter": false,
+    "shouldBeUnsubscribable": false,
+    "shouldBeMarkedCritical": true,
+    "expectedTags": ["banking", "security", "alert", "fraud", "critical"]
+  }
+}

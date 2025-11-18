@@ -1,0 +1,78 @@
+{
+  "id": "newsletter_summary",
+  "title": "Newsletter Summary",
+  "subtitle": null,
+  "icon": {
+    "systemName": "newspaper.circle.fill",
+    "colorKey": null,
+    "staticColor": "purple",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "newsletter_info",
+      "title": "Key Highlights",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "sender",
+          "label": "From",
+          "type": "text",
+          "contextKey": "sender",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Newsletter",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "summary",
+          "label": "Summary",
+          "type": "text",
+          "contextKey": "summary",
+          "required": false,
+          "copyable": true,
+          "placeholder": "Generating AI summary...",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "featured_links",
+      "title": "Featured Links",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "links",
+          "label": "Links",
+          "type": "text",
+          "contextKey": "links",
+          "required": false,
+          "copyable": false,
+          "placeholder": "No featured links",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Read Full Email",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "emailUrl"
+    }
+  },
+  "secondaryButton": {
+    "title": "Save for Later",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

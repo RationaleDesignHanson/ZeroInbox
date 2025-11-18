@@ -1,0 +1,92 @@
+{
+  "id": "save_contact",
+  "title": "Save Contact",
+  "subtitle": null,
+  "icon": {
+    "systemName": "person.crop.circle.badge.plus",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "contact_info",
+      "title": "Contact Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "contact_name",
+          "label": "Name",
+          "type": "text",
+          "contextKey": "contactName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "email",
+          "label": "Email",
+          "type": "text",
+          "contextKey": "email",
+          "required": true,
+          "copyable": true,
+          "placeholder": "Email address",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "phone",
+          "label": "Phone",
+          "type": "text",
+          "contextKey": "phoneNumber",
+          "required": false,
+          "copyable": true,
+          "placeholder": "Phone number",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "organization",
+          "label": "Organization",
+          "type": "text",
+          "contextKey": "organization",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Company name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "type": "text",
+          "contextKey": "notes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Additional notes",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Save to Contacts",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

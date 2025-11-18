@@ -36,58 +36,55 @@ class SummarizationService {
 
     /// Async version of summarizeEmail
     private func summarizeEmailAsync(card: EmailCard) async throws -> String {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let token = authToken ?? loadTokenFromKeychain() else {
             throw SummarizationError.notAuthenticated
         }
 
         Logger.info("Requesting AI summary for email: \(card.id)", category: .email)
 
-        // Build request to generic summarize endpoint (gateway route: /api/emails/summarize)
-        var request = URLRequest(url: URL(string: "\(baseURL)/emails/summarize")!)
-        request.httpMethod = "POST"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 30
-
-        // Request body with email content
-        let body: [String: Any] = [
-            "emailId": card.id,
-            "subject": card.title,
-            "from": card.sender?.name ?? card.company?.name ?? "Unknown",
-            "body": card.body ?? card.summary,
-            "snippet": card.summary.prefix(500),
-            "type": card.type.rawValue
-        ]
-
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
-
-        // Make request
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            Logger.error("Invalid HTTP response for email summary", category: .email)
-            throw SummarizationError.requestFailed
+        guard let url = URL(string: "\(baseURL)/emails/summarize") else {
+            throw SummarizationError.invalidResponse
         }
 
-        Logger.info("Email summary response status: \(httpResponse.statusCode)", category: .email)
-
-        guard httpResponse.statusCode == 200 else {
-            Logger.error("Email summarization failed with status \(httpResponse.statusCode)", category: .email)
-            if let responseStr = String(data: data, encoding: .utf8) {
-                Logger.error("Response body: \(responseStr)", category: .email)
-            }
-            throw SummarizationError.requestFailed
+        struct SummarizeEmailRequest: Codable {
+            let emailId: String
+            let subject: String
+            let from: String
+            let body: String
+            let snippet: String
+            let type: String
         }
 
-        // Parse response
         struct GenericSummaryResponse: Codable {
             let summary: String
         }
 
-        let summaryResponse = try JSONDecoder().decode(GenericSummaryResponse.self, from: data)
-        Logger.info("AI summary generated successfully for \(card.id)", category: .email)
+        let requestBody = SummarizeEmailRequest(
+            emailId: card.id,
+            subject: card.title,
+            from: card.sender?.name ?? card.company?.name ?? "Unknown",
+            body: card.body ?? card.summary,
+            snippet: String(card.summary.prefix(500)),
+            type: card.type.rawValue
+        )
 
-        return summaryResponse.summary
+        do {
+            let summaryResponse: GenericSummaryResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                headers: ["Authorization": "Bearer \(token)"],
+                body: requestBody
+            )
+
+            Logger.info("AI summary generated successfully for \(card.id)", category: .email)
+            return summaryResponse.summary
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.error("Email summarization failed with status \(statusCode)", category: .email)
+            }
+            throw SummarizationError.requestFailed
+        }
     }
 
     // MARK: - Newsletter Summarization
@@ -110,53 +107,23 @@ class SummarizationService {
 
     /// Async version of summarizeNewsletter
     private func summarizeNewsletterAsync(card: EmailCard) async throws -> NewsletterSummary {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let token = authToken ?? loadTokenFromKeychain() else {
             throw SummarizationError.notAuthenticated
         }
 
         Logger.info("Requesting newsletter summary for: \(card.id)", category: .email)
 
-        // Build request (gateway route: /api/emails/summarize/newsletter)
-        var request = URLRequest(url: URL(string: "\(baseURL)/emails/summarize/newsletter")!)
-        request.httpMethod = "POST"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.timeoutInterval = 30  // Longer timeout for AI processing
-
-        // Request body with email content
-        let body: [String: Any] = [
-            "emailId": card.id,
-            "subject": card.title,
-            "from": card.company?.name ?? "Unknown",
-            "body": card.summary,  // Full email body
-            "snippet": card.summary.prefix(500)
-        ]
-
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
-
-        // Make request
-        let (data, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            Logger.error("Invalid HTTP response for newsletter summary", category: .email)
-            throw SummarizationError.requestFailed
+        guard let url = URL(string: "\(baseURL)/emails/summarize/newsletter") else {
+            throw SummarizationError.invalidResponse
         }
 
-        Logger.info("Newsletter summary response status: \(httpResponse.statusCode)", category: .email)
-
-        guard httpResponse.statusCode == 200 else {
-            Logger.error("Newsletter summarization failed with status \(httpResponse.statusCode)", category: .email)
-            if let responseStr = String(data: data, encoding: .utf8) {
-                Logger.error("Response body: \(responseStr)", category: .email)
-            }
-            throw SummarizationError.requestFailed
-        }
-
-        // Parse response
-        struct SummaryResponse: Codable {
-            let summary: String
-            let keyLinks: [LinkData]
-            let keyTopics: [String]?
+        struct SummarizeNewsletterRequest: Codable {
+            let emailId: String
+            let subject: String
+            let from: String
+            let body: String
+            let snippet: String
         }
 
         struct LinkData: Codable {
@@ -165,24 +132,50 @@ class SummarizationService {
             let description: String?
         }
 
-        let summaryResponse = try JSONDecoder().decode(SummaryResponse.self, from: data)
-
-        // Convert to NewsletterSummary
-        let links = summaryResponse.keyLinks.map { linkData in
-            EmailCard.NewsletterLink(
-                title: linkData.title,
-                url: linkData.url,
-                description: linkData.description
-            )
+        struct SummaryResponse: Codable {
+            let summary: String
+            let keyLinks: [LinkData]
+            let keyTopics: [String]?
         }
 
-        Logger.info("Newsletter summary generated successfully for \(card.id) with \(links.count) links", category: .email)
-
-        return NewsletterSummary(
-            summary: summaryResponse.summary,
-            links: links,
-            keyTopics: summaryResponse.keyTopics ?? []
+        let requestBody = SummarizeNewsletterRequest(
+            emailId: card.id,
+            subject: card.title,
+            from: card.company?.name ?? "Unknown",
+            body: card.summary,
+            snippet: String(card.summary.prefix(500))
         )
+
+        do {
+            let summaryResponse: SummaryResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                headers: ["Authorization": "Bearer \(token)"],
+                body: requestBody
+            )
+
+            // Convert to NewsletterSummary
+            let links = summaryResponse.keyLinks.map { linkData in
+                EmailCard.NewsletterLink(
+                    title: linkData.title,
+                    url: linkData.url,
+                    description: linkData.description
+                )
+            }
+
+            Logger.info("Newsletter summary generated successfully for \(card.id) with \(links.count) links", category: .email)
+
+            return NewsletterSummary(
+                summary: summaryResponse.summary,
+                links: links,
+                keyTopics: summaryResponse.keyTopics ?? []
+            )
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.error("Newsletter summarization failed with status \(statusCode)", category: .email)
+            }
+            throw SummarizationError.requestFailed
+        }
     }
 
     // MARK: - Keychain Management

@@ -48,7 +48,35 @@ struct SimpleCardView: View {
         // All other cards: always show
         return true
     }
-    
+
+    // Action button holographic rim colors (mode-specific)
+    private var actionButtonRimColors: [Color] {
+        if card.type == .ads {
+            // ADS: Vibrant brand green/teal gradient
+            return [
+                DesignTokens.Colors.adsGradientStart.opacity(0.7),  // Strong teal #16bbaa
+                DesignTokens.Colors.adsGradientEnd.opacity(0.8),    // Strong green #4fd19e
+                DesignTokens.Colors.adsGradientStart.opacity(0.6),
+                DesignTokens.Colors.adsGradientEnd.opacity(0.5)
+            ]
+        } else {
+            // MAIL: Cosmic cyan/purple gradient
+            return [
+                Color.cyan.opacity(0.4),
+                Color.blue.opacity(DesignTokens.Opacity.overlayStrong),
+                Color.purple.opacity(0.4),
+                Color.pink.opacity(DesignTokens.Opacity.overlayMedium)
+            ]
+        }
+    }
+
+    // Action button edge glow color (mode-specific)
+    private var actionButtonEdgeGlowColor: Color {
+        card.type == .ads ?
+            DesignTokens.Colors.adsGradientEnd :  // Bright green #4fd19e
+            Color.cyan
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {  // Optimized for dense content cards
             // HEADER - Universal for all cards
@@ -87,36 +115,21 @@ struct SimpleCardView: View {
                     // Minimal status indicators - 4 most critical, larger for visibility
                     HStack(spacing: DesignTokens.Spacing.inline) {
                         if showModeIndicators {
-                            // VIP indicator - gold dot (increased size for visibility)
+                            // VIP indicator
                             if card.isVIP == true {
-                                Circle()
-                                    .fill(Color.yellow.opacity(DesignTokens.Opacity.textSecondary))
-                                    .frame(width: 12, height: 12)
-                                    .shadow(color: Color.yellow.opacity(DesignTokens.Opacity.overlayStrong), radius: 2)
+                                statusDot(color: .yellow)
                             }
-
-                            // Deadline indicator - colored dot by urgency (increased size)
+                            // Deadline indicator
                             if let deadline = card.deadline {
-                                Circle()
-                                    .fill(deadline.isUrgent ? Color.red : (deadline.value ?? 0) <= 3 ? Color.orange : Color.green)
-                                    .frame(width: 12, height: 12)
-                                    .shadow(color: (deadline.isUrgent ? Color.red : Color.orange).opacity(DesignTokens.Opacity.overlayStrong), radius: 2)
+                                statusDot(color: deadline.isUrgent ? .red : (deadline.value ?? 0) <= 3 ? .orange : .green)
                             }
-
-                            // Shopping indicator - green dot (increased size)
+                            // Shopping indicator
                             if card.isShoppingEmail == true {
-                                Circle()
-                                    .fill(Color.green.opacity(DesignTokens.Opacity.textSecondary))
-                                    .frame(width: 12, height: 12)
-                                    .shadow(color: Color.green.opacity(DesignTokens.Opacity.overlayStrong), radius: 2)
+                                statusDot(color: .green)
                             }
-
-                            // Attachment indicator - blue dot (increased size)
+                            // Attachment indicator
                             if card.hasAttachments == true {
-                                Circle()
-                                    .fill(Color.blue.opacity(DesignTokens.Opacity.textSecondary))
-                                    .frame(width: 12, height: 12)
-                                    .shadow(color: Color.blue.opacity(DesignTokens.Opacity.overlayStrong), radius: 2)
+                                statusDot(color: .blue)
                             }
                         }
 
@@ -151,17 +164,6 @@ struct SimpleCardView: View {
                 .font(DesignTokens.Typography.cardTitle)
                 .foregroundColor(textColorPrimary)
                 .shadow(color: card.type == .ads ? .white.opacity(DesignTokens.Opacity.overlayStrong) : .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 2, y: 1)
-
-            // Email Summary Text - AI-generated 2-3 line narrative (always shown)
-            // Provides quick context before the detailed AI analysis section
-            if !card.summary.isEmpty {
-                Text(parseMarkdown(card.summary))
-                    .font(.system(size: 15))
-                    .foregroundColor(textColorSecondary)
-                    .lineSpacing(2.0) // Increased from 1.5 for better readability
-                    .fixedSize(horizontal: false, vertical: true)
-                    .padding(.top, 4)
-            }
 
             // Product image (shopping only) - appears after title
             if let imageUrl = card.productImageUrl {
@@ -271,7 +273,9 @@ struct SimpleCardView: View {
                         ForEach(0..<3, id: \.self) { _ in
                             Image(systemName: "chevron.right")
                                 .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
+                                .foregroundColor(card.type == .ads
+                                    ? DesignTokens.Colors.adsTextSecondary.opacity(0.6)
+                                    : .white.opacity(DesignTokens.Opacity.textDisabled))
                         }
                     }
                     .padding(.leading, 16)
@@ -281,7 +285,7 @@ struct SimpleCardView: View {
                     // Right: Action label
                     Text(currentActionLabel)
                         .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.white)
+                        .foregroundColor(card.type == .ads ? DesignTokens.Colors.adsTextPrimary : .white)
                         .padding(.trailing, 16)
                 }
                 .frame(height: 48)
@@ -291,16 +295,11 @@ struct SimpleCardView: View {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(.ultraThinMaterial.opacity(DesignTokens.Opacity.overlayMedium))
 
-                        // Holographic rim (matches bottom nav design)
+                        // Holographic rim (mode-specific colors)
                         RoundedRectangle(cornerRadius: 12)
                             .strokeBorder(
                                 LinearGradient(
-                                    colors: [
-                                        Color.cyan.opacity(0.4),
-                                        Color.blue.opacity(DesignTokens.Opacity.overlayStrong),
-                                        Color.purple.opacity(0.4),
-                                        Color.pink.opacity(DesignTokens.Opacity.overlayMedium)
-                                    ],
+                                    colors: actionButtonRimColors,
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 ),
@@ -316,7 +315,7 @@ struct SimpleCardView: View {
                             LinearGradient(
                                 colors: [
                                     Color.clear,
-                                    Color.cyan.opacity(DesignTokens.Opacity.overlayLight)
+                                    actionButtonEdgeGlowColor.opacity(DesignTokens.Opacity.overlayLight)
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -342,10 +341,10 @@ struct SimpleCardView: View {
                 RichCardBackground(for: card.type, animationSpeed: 30)
 
                 // Ultra-thin liquid glass material overlay (Apple's design guideline)
-                // Ads cards use lighter opacity (0.05) for more transparent glassy effect
+                // Ads cards use no overlay (0) to show the scenic background, mail cards use 0.3 for cosmic glass effect
                 Rectangle()
                     .fill(.ultraThinMaterial)
-                    .opacity(card.type == .ads ? 0.05 : 0.3)
+                    .opacity(card.type == .ads ? 0 : 0.3)
             }
         )
         .overlay(shimmerOverlay)
@@ -409,6 +408,14 @@ struct SimpleCardView: View {
         card.type == .ads ? DesignTokens.Colors.adsTextFaded : DesignTokens.Colors.textFaded
     }
 
+    /// Status dot indicator - consolidates repetitive Circle code
+    private func statusDot(color: Color) -> some View {
+        Circle()
+            .fill(color.opacity(DesignTokens.Opacity.textSecondary))
+            .frame(width: 12, height: 12)
+            .shadow(color: color.opacity(DesignTokens.Opacity.overlayStrong), radius: 2)
+    }
+
     /// Determines if this email is "shoppable" - can be directly added to cart
     var isShoppable: Bool {
         // Shoppable if it's a deal_stacker AND has complete pricing data
@@ -451,46 +458,23 @@ struct SimpleCardView: View {
     }
 
     var priorityBadge: some View {
-        Group {
+        let config: (text: String, fg: Color, bg: Color) = {
             switch card.priority {
-            case .critical:
-                Text("CRITICAL")
-                    .font(.caption2)
-                    .fontWeight(.heavy)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 3)
-                    .background(Color.red.opacity(DesignTokens.Opacity.textSecondary))
-                    .cornerRadius(DesignTokens.Radius.minimal)
-            case .high:
-                Text("HIGH")
-                    .font(.caption2)
-                    .fontWeight(.heavy)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 3)
-                    .background(Color.orange.opacity(DesignTokens.Opacity.textSecondary))
-                    .cornerRadius(DesignTokens.Radius.minimal)
-            case .medium:
-                Text("MEDIUM")
-                    .font(.caption2)
-                    .fontWeight(.heavy)
-                    .foregroundColor(.black)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 3)
-                    .background(Color.yellow.opacity(DesignTokens.Opacity.textSecondary))
-                    .cornerRadius(DesignTokens.Radius.minimal)
-            case .low:
-                Text("LOW")
-                    .font(.caption2)
-                    .fontWeight(.heavy)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 3)
-                    .background(Color.green.opacity(DesignTokens.Opacity.textSecondary))
-                    .cornerRadius(DesignTokens.Radius.minimal)
+            case .critical: return ("CRITICAL", .white, .red)
+            case .high: return ("HIGH", .white, .orange)
+            case .medium: return ("MEDIUM", .black, .yellow)
+            case .low: return ("LOW", .white, .green)
             }
-        }
+        }()
+
+        return Text(config.text)
+            .font(.caption2)
+            .fontWeight(.heavy)
+            .foregroundColor(config.fg)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3)
+            .background(config.bg.opacity(DesignTokens.Opacity.textSecondary))
+            .cornerRadius(DesignTokens.Radius.minimal)
     }
     
     var squareViewButton: some View {
@@ -1275,22 +1259,22 @@ struct ScenicBackground: View {
 
     var body: some View {
         ZStack {
-            // Lighter glassy base (more transparent warm gradient)
+            // Light green-tinted base (springy, nature-inspired)
             LinearGradient(
                 colors: [
-                    Color(red: 0.99, green: 0.98, blue: 0.96), // Ultra-light cream white
-                    Color(red: 0.98, green: 0.98, blue: 0.95), // Very soft warm beige
-                    Color(red: 0.98, green: 0.97, blue: 0.94)  // Light warm sand
+                    Color(red: 0.92, green: 0.97, blue: 0.94), // Light minty white
+                    Color(red: 0.88, green: 0.95, blue: 0.90), // Soft spring green
+                    Color(red: 0.85, green: 0.94, blue: 0.88)  // Light sage green
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
 
-            // Green nebula clouds (teal-green)
+            // Prominent teal-green clouds (much more visible)
             RadialGradient(
                 colors: [
-                    Color(red: 0.35, green: 0.75, blue: 0.65, opacity: 0.25), // Soft teal-green
-                    Color(red: 0.45, green: 0.80, blue: 0.70, opacity: 0.15), // Light green
+                    Color(red: 0.20, green: 0.73, blue: 0.67).opacity(0.50), // Strong teal
+                    Color(red: 0.31, green: 0.82, blue: 0.62).opacity(0.35), // Strong green
                     Color.clear
                 ],
                 center: .init(x: 0.3, y: 0.4),
@@ -1298,13 +1282,13 @@ struct ScenicBackground: View {
                 endRadius: 300
             )
             .scaleEffect(1.0 + animationPhase * 0.1)
-            .blur(radius: 60)
+            .blur(radius: 40)
 
-            // Warm orange accent nebula
+            // Lighter green accent (replaces heavy orange)
             RadialGradient(
                 colors: [
-                    Color(red: 0.95, green: 0.65, blue: 0.35, opacity: 0.30), // Warm orange
-                    Color(red: 0.98, green: 0.75, blue: 0.50, opacity: 0.18), // Light peach-orange
+                    Color(red: 0.60, green: 0.85, blue: 0.70).opacity(0.40), // Light spring green
+                    Color(red: 0.70, green: 0.90, blue: 0.75).opacity(0.25), // Very light green
                     Color.clear
                 ],
                 center: .init(x: 0.7, y: 0.6),
@@ -1312,13 +1296,14 @@ struct ScenicBackground: View {
                 endRadius: 250
             )
             .scaleEffect(1.0 + animationPhase * 0.15)
-            .blur(radius: 50)
+            .blur(radius: 45)
             .offset(x: animationPhase * 20, y: animationPhase * -15)
 
-            // Green-cyan highlight
+            // Deeper teal highlight (more saturated)
             RadialGradient(
                 colors: [
-                    Color(red: 0.30, green: 0.70, blue: 0.60, opacity: 0.20), // Green-cyan
+                    Color(red: 0.09, green: 0.73, blue: 0.67).opacity(0.45), // Strong teal from brand
+                    Color(red: 0.20, green: 0.80, blue: 0.70).opacity(0.25), // Light teal
                     Color.clear
                 ],
                 center: .init(x: 0.5, y: 0.2),
@@ -1326,14 +1311,14 @@ struct ScenicBackground: View {
                 endRadius: 200
             )
             .scaleEffect(1.0 + animationPhase * 0.12)
-            .blur(radius: 40)
+            .blur(radius: 35)
             .offset(x: animationPhase * -15, y: animationPhase * 20)
 
-            // Warm white glow highlight
+            // Subtle white glow (reduced to let green dominate)
             RadialGradient(
                 colors: [
-                    Color(red: 1.0, green: 0.98, blue: 0.92, opacity: 0.35), // Warm white
-                    Color(red: 0.98, green: 0.95, blue: 0.88, opacity: 0.18),
+                    Color(red: 0.95, green: 0.98, blue: 0.96).opacity(0.25), // Minty white glow
+                    Color(red: 0.92, green: 0.96, blue: 0.93).opacity(0.12),
                     Color.clear
                 ],
                 center: .init(x: 0.2, y: 0.7),

@@ -1,0 +1,73 @@
+{
+  "id": "write_review",
+  "title": "Write Review",
+  "subtitle": null,
+  "icon": {
+    "systemName": "star.square.fill",
+    "colorKey": null,
+    "staticColor": "yellow",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "product_info",
+      "title": "Product Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "product_name",
+          "label": "Product",
+          "type": "text",
+          "contextKey": "productName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Unknown Product",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "merchant",
+          "label": "Merchant",
+          "type": "text",
+          "contextKey": "merchant",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Unknown Merchant",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "order_date",
+          "label": "Purchase Date",
+          "type": "date",
+          "contextKey": "orderDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Date not available",
+          "formatting": {
+            "type": "dateFull",
+            "options": null
+          },
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Write Review",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "reviewLink"
+    }
+  },
+  "secondaryButton": {
+    "title": "Remind Me Later",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

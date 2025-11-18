@@ -86,14 +86,6 @@ class EmailSendingService {
             request.setValue(refreshToken, forHTTPHeaderField: "x-refresh-token")
         }
 
-        // Encode body
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
-        } catch {
-            completion(.failure(EmailError.encodingError(error)))
-            return
-        }
-
         Logger.info("Sending email with PDF attachment", category: .network)
         Logger.info("  To: \(finalRecipient)", category: .network)
         Logger.info("  Subject: \(subject)", category: .network)
@@ -101,49 +93,93 @@ class EmailSendingService {
         Logger.info("  PDF size: \(pdfData.count) bytes", category: .network)
         Logger.info("  Safe Mode: \(SafeModeService.shared.currentMode.rawValue)", category: .network)
 
-        // Send request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                Logger.error("Email sending failed: \(error.localizedDescription)", category: .network)
-                completion(.failure(EmailError.networkError(error)))
-                return
-            }
-
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(EmailError.invalidResponse))
-                return
-            }
-
-            Logger.info("Email API response status: \(httpResponse.statusCode)", category: .network)
-
-            guard httpResponse.statusCode == 200 else {
-                if let data = data, let errorMessage = String(data: data, encoding: .utf8) {
-                    Logger.error("Email API error: \(errorMessage)", category: .network)
-                }
-                completion(.failure(EmailError.serverError(httpResponse.statusCode)))
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(EmailError.noData))
-                return
-            }
-
-            // Parse response
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
+        Task {
             do {
-                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let messageId = json["messageId"] as? String {
-                    Logger.info("Email sent successfully! Message ID: \(messageId)", category: .network)
-                    completion(.success(messageId))
-                } else {
-                    completion(.failure(EmailError.invalidResponse))
-                }
+                let messageId = try await sendEmailWithAttachmentAsync(
+                    to: finalRecipient,
+                    subject: subject,
+                    body: body,
+                    pdfData: pdfData,
+                    filename: filename,
+                    threadId: threadId
+                )
+                completion(.success(messageId))
             } catch {
-                completion(.failure(EmailError.decodingError(error)))
+                completion(.failure(error))
+            }
+        }
+    }
+
+    /// Async version of sendEmailWithAttachment
+    private func sendEmailWithAttachmentAsync(
+        to recipient: String,
+        subject: String,
+        body: String,
+        pdfData: Data,
+        filename: String,
+        threadId: String?
+    ) async throws -> String {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
+        let baseURL = AppEnvironment.current.apiBaseURL
+
+        guard let url = URL(string: "\(baseURL)/api/gmail/messages/send") else {
+            throw EmailError.invalidURL
+        }
+
+        // Encode PDF to base64
+        let pdfBase64 = pdfData.base64EncodedString()
+
+        struct SendEmailRequest: Codable {
+            let to: String
+            let subject: String
+            let body: String
+            let attachment: Attachment
+            let threadId: String?
+
+            struct Attachment: Codable {
+                let data: String
+                let filename: String
             }
         }
 
-        task.resume()
+        struct SendEmailResponse: Codable {
+            let messageId: String
+        }
+
+        let requestBody = SendEmailRequest(
+            to: recipient,
+            subject: subject,
+            body: body,
+            attachment: SendEmailRequest.Attachment(data: pdfBase64, filename: filename),
+            threadId: threadId
+        )
+
+        var headers: [String: String] = [:]
+        if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
+            headers["x-access-token"] = accessToken
+        }
+        if let refreshToken = UserDefaults.standard.string(forKey: "refreshToken") {
+            headers["x-refresh-token"] = refreshToken
+        }
+
+        do {
+            let response: SendEmailResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                headers: headers,
+                body: requestBody
+            )
+
+            Logger.info("Email sent successfully! Message ID: \(response.messageId)", category: .network)
+            return response.messageId
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.error("Email API error: \(statusCode)", category: .network)
+                throw EmailError.serverError(statusCode)
+            }
+            throw EmailError.invalidResponse
+        }
     }
 
     /// Send simple text email without attachment
@@ -213,55 +249,81 @@ class EmailSendingService {
             request.setValue(refreshToken, forHTTPHeaderField: "x-refresh-token")
         }
 
-        // Encode body
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: requestBody)
-        } catch {
-            completion(.failure(EmailError.encodingError(error)))
-            return
-        }
-
         Logger.info("Sending text email to \(finalRecipient)", category: .network)
         Logger.info("  Safe Mode: \(SafeModeService.shared.currentMode.rawValue)", category: .network)
 
-        // Send request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                Logger.error("Email sending failed: \(error.localizedDescription)", category: .network)
-                completion(.failure(EmailError.networkError(error)))
-                return
-            }
-
-            guard let httpResponse = response as? HTTPURLResponse else {
-                completion(.failure(EmailError.invalidResponse))
-                return
-            }
-
-            guard httpResponse.statusCode == 200 else {
-                completion(.failure(EmailError.serverError(httpResponse.statusCode)))
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(EmailError.noData))
-                return
-            }
-
-            // Parse response
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
+        Task {
             do {
-                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let messageId = json["messageId"] as? String {
-                    Logger.info("Email sent successfully! Message ID: \(messageId)", category: .network)
-                    completion(.success(messageId))
-                } else {
-                    completion(.failure(EmailError.invalidResponse))
-                }
+                let messageId = try await sendEmailAsync(
+                    to: finalRecipient,
+                    subject: subject,
+                    body: body,
+                    threadId: threadId
+                )
+                completion(.success(messageId))
             } catch {
-                completion(.failure(EmailError.decodingError(error)))
+                completion(.failure(error))
             }
         }
+    }
 
-        task.resume()
+    /// Async version of sendEmail
+    private func sendEmailAsync(
+        to recipient: String,
+        subject: String,
+        body: String,
+        threadId: String?
+    ) async throws -> String {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
+        let baseURL = AppEnvironment.current.apiBaseURL
+
+        guard let url = URL(string: "\(baseURL)/api/gmail/messages/send") else {
+            throw EmailError.invalidURL
+        }
+
+        struct SendEmailRequest: Codable {
+            let to: String
+            let subject: String
+            let body: String
+            let threadId: String?
+        }
+
+        struct SendEmailResponse: Codable {
+            let messageId: String
+        }
+
+        let requestBody = SendEmailRequest(
+            to: recipient,
+            subject: subject,
+            body: body,
+            threadId: threadId
+        )
+
+        var headers: [String: String] = [:]
+        if let accessToken = UserDefaults.standard.string(forKey: "accessToken") {
+            headers["x-access-token"] = accessToken
+        }
+        if let refreshToken = UserDefaults.standard.string(forKey: "refreshToken") {
+            headers["x-refresh-token"] = refreshToken
+        }
+
+        do {
+            let response: SendEmailResponse = try await NetworkService.shared.request(
+                url: url,
+                method: .post,
+                headers: headers,
+                body: requestBody
+            )
+
+            Logger.info("Email sent successfully! Message ID: \(response.messageId)", category: .network)
+            return response.messageId
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                throw EmailError.serverError(statusCode)
+            }
+            throw EmailError.invalidResponse
+        }
     }
 }
 

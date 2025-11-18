@@ -1,0 +1,82 @@
+{
+  "id": "add_to_notes",
+  "title": "Save to Notes",
+  "subtitle": null,
+  "icon": {
+    "systemName": "note.text.badge.plus",
+    "colorKey": null,
+    "staticColor": "yellow",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "note_details",
+      "title": "Note Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "note_title",
+          "label": "Note Title",
+          "type": "text",
+          "contextKey": "noteTitle",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Enter title",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "note_content",
+          "label": "Content",
+          "type": "text",
+          "contextKey": "noteContent",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Enter note content...",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "suggested_tags",
+          "label": "Suggested Tags",
+          "type": "text",
+          "contextKey": "suggestedTags",
+          "required": false,
+          "copyable": false,
+          "placeholder": "No tags suggested",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "suggested_folder",
+          "label": "Suggested Folder",
+          "type": "text",
+          "contextKey": "suggestedFolder",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Email Notes",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Save to Notes App",
+    "style": "primary",
+    "action": {
+      "type": "share",
+      "contextKey": null
+    }
+  },
+  "secondaryButton": {
+    "title": "Copy to Clipboard",
+    "style": "secondary",
+    "action": {
+      "type": "copy",
+      "contextKey": "noteContent"
+    }
+  },
+  "layout": "standard"
+}

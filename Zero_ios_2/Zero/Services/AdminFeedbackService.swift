@@ -1,3 +1,4 @@
+#if DEBUG
 import Foundation
 
 /// Service for managing admin feedback on email classifications
@@ -13,12 +14,12 @@ class AdminFeedbackService {
     /// Fetches the next unreviewed email from the classifier service
     /// Prioritizes low-confidence classifications that need human review
     func fetchNextEmail() async throws -> ClassifiedEmail {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let url = URL(string: "\(baseURL)/admin/next-review") else {
             throw URLError(.badURL)
         }
 
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(ClassifiedEmailResponse.self, from: data)
+        let response: ClassifiedEmailResponse = try await NetworkService.shared.get(url: url)
 
         return ClassifiedEmail(
             id: response.id,
@@ -99,41 +100,44 @@ class AdminFeedbackService {
     /// 2. Build training dataset for model improvement
     /// 3. Generate periodic retraining reports
     func submitFeedback(_ feedback: ClassificationFeedback) async throws {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
         guard let url = URL(string: "\(baseURL)/admin/feedback") else {
             throw URLError(.badURL)
         }
 
-        // Convert to API format
-        let payload: [String: Any] = [
-            "emailId": feedback.emailId,
-            "originalType": feedback.originalType.rawValue,
-            "correctedType": feedback.correctedType?.rawValue as Any,
-            "isCorrect": feedback.isCorrect,
-            "confidence": feedback.confidence,
-            "notes": feedback.notes as Any,
-            "timestamp": ISO8601DateFormatter().string(from: feedback.timestamp),
-            "reviewerId": "admin-user"  // TODO: Get from auth
-        ]
+        struct ClassificationFeedbackRequest: Codable {
+            let emailId: String
+            let originalType: String
+            let correctedType: String?
+            let isCorrect: Bool
+            let confidence: Double
+            let notes: String?
+            let timestamp: String
+            let reviewerId: String
+        }
 
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONSerialization.data(withJSONObject: payload)
+        let requestBody = ClassificationFeedbackRequest(
+            emailId: feedback.emailId,
+            originalType: feedback.originalType.rawValue,
+            correctedType: feedback.correctedType?.rawValue,
+            isCorrect: feedback.isCorrect,
+            confidence: feedback.confidence,
+            notes: feedback.notes,
+            timestamp: ISO8601DateFormatter().string(from: feedback.timestamp),
+            reviewerId: AuthContext.getAdminId()
+        )
 
-        let (_, response) = try await URLSession.shared.data(for: request)
-
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
+        do {
+            try await NetworkService.shared.post(url: url, body: requestBody)
+            Logger.info("Feedback submitted successfully", category: .app)
+        } catch {
             // If backend not ready, just log locally for MVP
             Logger.warning("Backend not available, logging feedback locally for \(feedback.emailId)", category: .app)
             Logger.info("Feedback - Original: \(feedback.originalType.displayName), Correct: \(feedback.isCorrect)", category: .app)
 
             // For MVP: Store in UserDefaults until backend is ready
             storeFeedbackLocally(feedback)
-            return
         }
-
-        Logger.info("Feedback submitted successfully", category: .app)
     }
 
     // MARK: - Local Storage (MVP Fallback)
@@ -276,3 +280,4 @@ struct Misclassification: Codable {
     let to: String
     let count: Int
 }
+#endif

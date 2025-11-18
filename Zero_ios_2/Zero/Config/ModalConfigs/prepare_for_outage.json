@@ -1,0 +1,87 @@
+{
+  "id": "prepare_for_outage",
+  "title": "Prepare for Outage",
+  "subtitle": null,
+  "icon": {
+    "systemName": "exclamationmark.triangle.fill",
+    "colorKey": null,
+    "staticColor": "orange",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "outage_details",
+      "title": "Scheduled Outage",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "outage_reason",
+          "label": "Reason",
+          "type": "text",
+          "contextKey": "outageReason",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Planned maintenance",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "outage_start",
+          "label": "Start Time",
+          "type": "dateTime",
+          "contextKey": "outageStart",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Time not available",
+          "formatting": {
+            "type": "dateTime",
+            "options": null
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "outage_end",
+          "label": "End Time",
+          "type": "dateTime",
+          "contextKey": "outageEnd",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Time not available",
+          "formatting": {
+            "type": "dateTime",
+            "options": null
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "affected_areas",
+          "label": "Affected Areas",
+          "type": "text",
+          "contextKey": "affectedAreas",
+          "required": false,
+          "copyable": false,
+          "placeholder": "All areas",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "View Details",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "url"
+    }
+  },
+  "secondaryButton": {
+    "title": "Close",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard"
+}

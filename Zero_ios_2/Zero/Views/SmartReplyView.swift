@@ -9,34 +9,66 @@ struct SmartReplyView: View {
     @State private var replies: [String] = []
     @State private var isLoading = true
     @State private var error: String?
+    @State private var usedFallback = false
+
+    // Fallback suggestions when API fails
+    private let fallbackSuggestions = [
+        "Thanks for reaching out. I'll get back to you soon.",
+        "I appreciate the update. Let me review this and follow up.",
+        "Could you provide more details about this?"
+    ]
 
     var body: some View {
         VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
             // Header
             HStack(spacing: DesignTokens.Spacing.inline) {
-                Image(systemName: "sparkles")
+                Image(systemName: usedFallback ? "exclamationmark.triangle.fill" : "sparkles")
                     .font(.caption)
-                    .foregroundColor(.blue)
+                    .foregroundColor(usedFallback ? .orange : .blue)
 
-                Text("Smart Replies")
+                Text(usedFallback ? "Quick Replies" : "Smart Replies")
                     .font(.system(size: 13, weight: .semibold))
                     .foregroundColor(DesignTokens.Colors.textSecondary)
 
                 Spacer()
 
                 if isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .scaleEffect(0.7)
+                    LoadingSpinner(text: nil, size: .small)
                 }
             }
 
-            if let error = error {
-                // Error state
-                Text(error)
-                    .font(.caption)
-                    .foregroundColor(.red.opacity(DesignTokens.Opacity.textTertiary))
-            } else if !replies.isEmpty {
+            // Show error banner if there was an error (but still show fallback replies below)
+            if let error = error, usedFallback {
+                HStack(spacing: 8) {
+                    Text(error)
+                        .font(.system(size: 11))
+                        .foregroundColor(.orange)
+
+                    Button(action: {
+                        Task {
+                            await retryLoadSmartReplies()
+                        }
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "arrow.clockwise")
+                                .font(.system(size: 10))
+                            Text("Retry")
+                                .font(.system(size: 11, weight: .semibold))
+                        }
+                        .foregroundColor(.blue)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color.blue.opacity(0.15))
+                        .cornerRadius(6)
+                    }
+                }
+                .padding(.vertical, 6)
+                .padding(.horizontal, 8)
+                .background(Color.orange.opacity(0.1))
+                .cornerRadius(8)
+            }
+
+            if !replies.isEmpty {
                 // Reply buttons
                 ForEach(Array(replies.enumerated()), id: \.offset) { index, reply in
                     SmartReplyButton(
@@ -49,7 +81,7 @@ struct SmartReplyView: View {
                 }
 
                 // Disclaimer
-                Text("AI-generated • Review before sending")
+                Text(usedFallback ? "Generic replies • Review before sending" : "AI-generated • Review before sending")
                     .font(.system(size: 10))
                     .foregroundColor(.white.opacity(0.4))
             }
@@ -82,14 +114,41 @@ struct SmartReplyView: View {
             await MainActor.run {
                 replies = fetchedReplies
                 isLoading = false
+                usedFallback = false
+                error = nil
             }
         } catch {
             await MainActor.run {
-                self.error = "Failed to generate replies"
+                // Use fallback suggestions instead of showing empty state
+                replies = fallbackSuggestions
+                usedFallback = true
                 isLoading = false
-                Logger.error("Smart reply error: \(error.localizedDescription)", category: .email)
+
+                // Set more specific error message
+                if let smartReplyError = error as? SmartReplyError {
+                    switch smartReplyError {
+                    case .missingAPIKey:
+                        self.error = "API key not configured"
+                    case .apiError(let statusCode, _):
+                        self.error = "API error (\(statusCode))"
+                    default:
+                        self.error = "Could not generate AI replies"
+                    }
+                } else {
+                    self.error = "Could not generate AI replies"
+                }
+
+                Logger.warning("Smart reply failed, using fallback: \(error.localizedDescription)", category: .email)
             }
         }
+    }
+
+    func retryLoadSmartReplies() async {
+        await MainActor.run {
+            isLoading = true
+            error = nil
+        }
+        await loadSmartReplies()
     }
 
     func handleReplySelection(_ reply: String, index: Int) {

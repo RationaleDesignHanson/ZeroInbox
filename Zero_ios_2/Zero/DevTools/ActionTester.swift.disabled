@@ -1,0 +1,554 @@
+#if DEBUG
+import SwiftUI
+
+/**
+ * ActionTester - Debug-only Action Testing Tool
+ * Allows testing all 45+ actions with mock data in the simulator
+ * Never included in Release builds
+ */
+
+struct ActionTester: View {
+    @StateObject private var viewModel = EmailViewModel(
+        userPreferences: UserPreferencesService(),
+        appState: AppStateManager(),
+        cardManagement: CardManagementService()
+    )
+    @State private var selectedCategory: ActionCategory = .all
+    @State private var searchText = ""
+    @State private var showingTestResult = false
+    @State private var testResult: TestResult?
+
+    enum ActionCategory: String, CaseIterable {
+        case all = "All Actions"
+        case highPriority = "High Priority"
+        case mail = "Mail Mode"
+        case ads = "Ads Mode"
+        case delivery = "📦 Delivery"
+        case financial = "💰 Financial"
+        case travel = "✈️ Travel"
+        case forms = "📝 Forms"
+        case calendar = "📅 Calendar"
+        case education = "🎓 Education"
+        case healthcare = "🏥 Healthcare"
+        case legal = "⚖️ Legal"
+        case shopping = "🛍️ Shopping"
+        case newsletter = "📰 Newsletter"
+        case utility = "🔧 Utility"
+
+        var icon: String {
+            switch self {
+            case .all: return "square.grid.2x2"
+            case .highPriority: return "star.fill"
+            case .mail: return "envelope.fill"
+            case .ads: return "megaphone.fill"
+            case .delivery, .financial, .travel, .forms, .calendar,
+                 .education, .healthcare, .legal, .shopping, .newsletter, .utility:
+                return String(rawValue.prefix(2))
+            }
+        }
+    }
+
+    struct TestResult: Identifiable {
+        let id = UUID()
+        let actionId: String
+        let success: Bool
+        let message: String
+        let timestamp: Date
+    }
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                // Header
+                headerSection
+
+                // Search bar
+                searchBar
+
+                // Category filter
+                categoryPicker
+
+                Divider()
+                    .background(Color.white.opacity(0.3))
+
+                // Action list
+                ScrollView {
+                    LazyVStack(spacing: 12) {
+                        ForEach(filteredActions, id: \.actionId) { action in
+                            ActionTestCard(
+                                action: action,
+                                onTest: { testAction(action) }
+                            )
+                        }
+                    }
+                    .padding()
+                }
+            }
+            .background(
+                LinearGradient(
+                    colors: [.purple, .blue],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+            )
+            .alert("Test Result", isPresented: $showingTestResult) {
+                Button("OK") { testResult = nil }
+            } message: {
+                if let result = testResult {
+                    Text("\(result.actionId)\n\n\(result.message)")
+                }
+            }
+        }
+    }
+
+    // MARK: - Header
+
+    var headerSection: some View {
+        VStack(spacing: 12) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Action Tester")
+                        .font(.largeTitle.bold())
+                        .foregroundColor(.white)
+
+                    Text("\(ActionRegistry.shared.allActions.count) actions available")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.7))
+                }
+
+                Spacer()
+
+                // Quick stats
+                VStack(alignment: .trailing, spacing: 4) {
+                    Text("✅ 18 modals")
+                        .font(.caption)
+                        .foregroundColor(.green)
+                    Text("🔗 27 GO_TO")
+                        .font(.caption)
+                        .foregroundColor(.blue)
+                }
+            }
+
+            Text("Tap any action to test with mock data")
+                .font(.caption)
+                .foregroundColor(.white.opacity(0.6))
+                .frame(maxWidth: .infinity)
+        }
+        .padding()
+        .background(Color.black.opacity(0.2))
+    }
+
+    // MARK: - Search Bar
+
+    var searchBar: some View {
+        HStack {
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(.white.opacity(0.5))
+
+            TextField("Search actions...", text: $searchText)
+                .foregroundColor(.white)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
+
+            if !searchText.isEmpty {
+                Button {
+                    searchText = ""
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.white.opacity(0.5))
+                }
+            }
+        }
+        .padding(12)
+        .background(Color.white.opacity(0.15))
+        .cornerRadius(12)
+        .padding(.horizontal)
+    }
+
+    // MARK: - Category Picker
+
+    var categoryPicker: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 12) {
+                ForEach(ActionCategory.allCases, id: \.self) { category in
+                    Button {
+                        withAnimation {
+                            selectedCategory = category
+                        }
+                        HapticService.shared.lightImpact()
+                    } label: {
+                        HStack(spacing: 6) {
+                            Image(systemName: category.icon)
+                            Text(category.rawValue)
+                        }
+                        .font(.subheadline.weight(selectedCategory == category ? .bold : .regular))
+                        .foregroundColor(selectedCategory == category ? .white : .white.opacity(0.7))
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(
+                            Capsule()
+                                .fill(selectedCategory == category ? Color.white.opacity(0.3) : Color.clear)
+                                .overlay(
+                                    Capsule()
+                                        .strokeBorder(Color.white.opacity(0.3), lineWidth: 1)
+                                )
+                        )
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+        .padding(.vertical, 8)
+    }
+
+    // MARK: - Filtered Actions
+
+    var filteredActions: [ActionConfig] {
+        let allActions = ActionRegistry.shared.allActions
+
+        // Filter by search
+        let searchFiltered = searchText.isEmpty ? allActions : allActions.filter {
+            $0.actionId.localizedCaseInsensitiveContains(searchText) ||
+            $0.displayName.localizedCaseInsensitiveContains(searchText) ||
+            $0.description.localizedCaseInsensitiveContains(searchText)
+        }
+
+        // Filter by category
+        let categoryFiltered: [ActionConfig]
+        switch selectedCategory {
+        case .all:
+            categoryFiltered = searchFiltered
+        case .highPriority:
+            categoryFiltered = searchFiltered.filter { highPriorityActions.contains($0.actionId) }
+        case .mail:
+            categoryFiltered = searchFiltered.filter { $0.mode == .mail || $0.mode == .both }
+        case .ads:
+            categoryFiltered = searchFiltered.filter { $0.mode == .ads || $0.mode == .both }
+        case .delivery:
+            categoryFiltered = searchFiltered.filter { deliveryActions.contains($0.actionId) }
+        case .financial:
+            categoryFiltered = searchFiltered.filter { financialActions.contains($0.actionId) }
+        case .travel:
+            categoryFiltered = searchFiltered.filter { travelActions.contains($0.actionId) }
+        case .forms:
+            categoryFiltered = searchFiltered.filter { formActions.contains($0.actionId) }
+        case .calendar:
+            categoryFiltered = searchFiltered.filter { calendarActions.contains($0.actionId) }
+        case .education:
+            categoryFiltered = searchFiltered.filter { educationActions.contains($0.actionId) }
+        case .healthcare:
+            categoryFiltered = searchFiltered.filter { healthcareActions.contains($0.actionId) }
+        case .legal:
+            categoryFiltered = searchFiltered.filter { legalActions.contains($0.actionId) }
+        case .shopping:
+            categoryFiltered = searchFiltered.filter { shoppingActions.contains($0.actionId) }
+        case .newsletter:
+            categoryFiltered = searchFiltered.filter { newsletterActions.contains($0.actionId) }
+        case .utility:
+            categoryFiltered = searchFiltered.filter { utilityActions.contains($0.actionId) }
+        }
+
+        return categoryFiltered.sorted { $0.reachScore.rawValue > $1.reachScore.rawValue }
+    }
+
+    // MARK: - Test Action
+
+    func testAction(_ actionDef: ActionConfig) {
+        Logger.info("🧪 Testing action: \(actionDef.actionId)", category: .action)
+        HapticService.shared.mediumImpact()
+
+        // Generate mock EmailCard and EmailAction
+        let mockCard = ActionTestDataGenerator.generateMockCard(for: actionDef)
+        let mockAction = ActionTestDataGenerator.generateMockAction(for: actionDef, card: mockCard)
+
+        // Execute action through ActionRouter
+        ActionRouter.shared.executeAction(mockAction, card: mockCard)
+
+        // Show test result
+        testResult = TestResult(
+            actionId: actionDef.actionId,
+            success: true,
+            message: "Action triggered successfully!\n\nType: \(actionDef.actionType.rawValue)\nMode: \(actionDef.mode.rawValue)\nPriority: \(actionDef.reachScore.rawValue)",
+            timestamp: Date()
+        )
+        showingTestResult = true
+    }
+
+    // MARK: - Action Categories
+
+    let highPriorityActions = [
+        "track_package", "pay_invoice", "check_in_flight", "quick_reply",
+        "add_to_calendar", "view_newsletter_summary", "shop_now", "claim_deal",
+        "view_details", "cancel_subscription"
+    ]
+
+    let deliveryActions = ["track_package", "view_pickup_details", "contact_driver"]
+    let financialActions = ["pay_invoice", "set_payment_reminder"]
+    let travelActions = ["check_in_flight", "view_reservation"]
+    let formActions = ["sign_form", "view_document", "view_spreadsheet"]
+    let calendarActions = ["add_to_calendar", "schedule_meeting", "accept_school_event", "add_activity_to_calendar"]
+    let educationActions = ["view_assignment", "check_grade", "view_lms"]
+    let healthcareActions = ["view_results", "view_prescription", "schedule_appointment", "check_in_appointment", "pickup_prescription"]
+    let legalActions = ["view_jury_summons", "view_tax_notice", "view_voter_info"]
+    let shoppingActions = ["shop_now", "claim_deal", "browse_shopping", "schedule_purchase"]
+    let newsletterActions = ["view_newsletter_summary", "cancel_subscription"]
+    let utilityActions = ["view_details", "add_reminder", "save_for_later", "add_to_wallet", "save_contact_native", "send_message"]
+}
+
+// MARK: - Action Test Card
+
+struct ActionTestCard: View {
+    let action: ActionConfig
+    let onTest: () -> Void
+
+    var body: some View {
+        Button(action: onTest) {
+            VStack(alignment: .leading, spacing: 12) {
+                // Header
+                HStack {
+                    // Action icon
+                    Image(systemName: actionTypeIcon)
+                        .font(.title3)
+                        .foregroundColor(actionTypeColor)
+                        .frame(width: 32, height: 32)
+                        .background(
+                            Circle()
+                                .fill(actionTypeColor.opacity(0.2))
+                        )
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(action.displayName)
+                            .font(.headline)
+                            .foregroundColor(.white)
+
+                        Text(action.actionId)
+                            .font(.caption)
+                            .foregroundColor(.white.opacity(0.6))
+                            .fontDesign(.monospaced)
+                    }
+
+                    Spacer()
+
+                    // Test button
+                    Image(systemName: "play.circle.fill")
+                        .font(.title2)
+                        .foregroundColor(.green)
+                }
+
+                // Description
+                Text(action.description)
+                    .font(.subheadline)
+                    .foregroundColor(.white.opacity(0.8))
+                    .lineLimit(2)
+
+                // Metadata
+                HStack(spacing: 12) {
+                    // Action type
+                    Label(action.actionType.rawValue, systemImage: action.actionType == .goTo ? "safari" : "app.badge")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.7))
+
+                    // Mode
+                    Label(action.mode.displayName, systemImage: modeIcon)
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.7))
+
+                    // Priority
+                    Label("P\(action.reachScore.rawValue)", systemImage: "star.fill")
+                        .font(.caption)
+                        .foregroundColor(priorityColor)
+
+                    Spacer()
+
+                    // Premium badge
+                    if action.requiredPermission == .premium {
+                        Text("PREMIUM")
+                            .font(.caption2.bold())
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(Color.purple)
+                            .cornerRadius(4)
+                    }
+                }
+            }
+            .padding()
+            .background(Color.white.opacity(0.1))
+            .cornerRadius(16)
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .strokeBorder(Color.white.opacity(0.2), lineWidth: 1)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+
+    var actionTypeIcon: String {
+        switch action.actionType {
+        case .goTo: return "safari"
+        case .inApp: return "app.badge"
+        }
+    }
+
+    var actionTypeColor: Color {
+        switch action.actionType {
+        case .goTo: return .blue
+        case .inApp: return .purple
+        }
+    }
+
+    var modeIcon: String {
+        switch action.mode {
+        case .mail: return "envelope.fill"
+        case .ads: return "megaphone.fill"
+        case .both: return "square.grid.2x2"
+        }
+    }
+
+    var priorityColor: Color {
+        let score = action.reachScore.rawValue
+        if score >= 90 { return .red }
+        if score >= 80 { return .orange }
+        if score >= 70 { return .yellow }
+        return .gray
+    }
+}
+
+// MARK: - Mock Data Generator
+
+enum ActionTestDataGenerator {
+
+    static func generateMockCard(for action: ActionConfig) -> EmailCard {
+        let baseCard = EmailCard(
+            id: UUID().uuidString,
+            type: action.mode == .ads ? .ads : .mail,
+            title: generateMockTitle(for: action),
+            summary: generateMockSummary(for: action),
+            sender: EmailCard.Sender(
+                name: generateMockSender(for: action),
+                email: "test@example.com"
+            ),
+            timeAgo: "5 min ago",
+            priority: .high,
+            hpa: action.actionId
+        )
+
+        // Add suggested actions
+        var card = baseCard
+        card.suggestedActions = [generateMockAction(for: action, card: baseCard)]
+
+        return card
+    }
+
+    static func generateMockAction(for actionDef: ActionConfig, card: EmailCard) -> EmailAction {
+        var context: [String: Any] = [:]
+
+        // Populate required context keys
+        for key in actionDef.requiredContextKeys {
+            context[key] = generateMockValue(for: key, actionId: actionDef.actionId)
+        }
+
+        // Populate optional context keys
+        for key in actionDef.optionalContextKeys {
+            context[key] = generateMockValue(for: key, actionId: actionDef.actionId)
+        }
+
+        return EmailAction(
+            actionId: actionDef.actionId,
+            displayName: actionDef.displayName,
+            actionType: actionDef.actionType.rawValue,
+            context: context,
+            isPrimary: true
+        )
+    }
+
+    static func generateMockTitle(for action: ActionConfig) -> String {
+        switch action.actionId {
+        case "track_package":
+            return "Your Amazon Package Has Shipped"
+        case "pay_invoice":
+            return "Invoice #12345 Due Tomorrow"
+        case "check_in_flight":
+            return "Check In Now - Flight UA1234"
+        case "quick_reply":
+            return "Quick Question About Meeting"
+        case "view_newsletter_summary":
+            return "The Daily Brief - Tech News"
+        case "shop_now":
+            return "50% Off Sale - Limited Time"
+        case "cancel_subscription":
+            return "Your Subscription Renewal"
+        default:
+            return "Test Email: \(action.displayName)"
+        }
+    }
+
+    static func generateMockSummary(for action: ActionConfig) -> String {
+        switch action.actionId {
+        case "track_package":
+            return "Your package has been shipped and is on its way. Track your delivery to see when it arrives."
+        case "pay_invoice":
+            return "Invoice for $249.99 due by tomorrow. Click to pay online securely."
+        case "check_in_flight":
+            return "Flight UA1234 to San Francisco departs in 24 hours. Check in now to get your boarding pass."
+        case "view_newsletter_summary":
+            return "Today's top tech news: AI breakthroughs, startup funding, and product launches."
+        default:
+            return "This is a test email to demonstrate the \(action.displayName) action."
+        }
+    }
+
+    static func generateMockSender(for action: ActionConfig) -> String {
+        switch action.actionId {
+        case "track_package":
+            return "Amazon Shipping"
+        case "pay_invoice":
+            return "Acme Corp Billing"
+        case "check_in_flight":
+            return "United Airlines"
+        case "view_newsletter_summary":
+            return "TechCrunch Daily"
+        case "shop_now":
+            return "Nike Store"
+        default:
+            return "Test Sender"
+        }
+    }
+
+    static func generateMockValue(for key: String, actionId: String) -> Any {
+        switch key {
+        case "trackingNumber":
+            return "1Z999AA10123456784"
+        case "carrier":
+            return "UPS"
+        case "url", "shopUrl", "productUrl", "invoiceUrl":
+            return "https://example.com/\(actionId)"
+        case "amount", "price":
+            return "$249.99"
+        case "dueDate", "eventDate", "purchaseDate":
+            return Date().addingTimeInterval(86400)
+        case "eventTitle", "meetingTitle", "productName":
+            return "Test \(key.capitalized)"
+        case "phoneNumber":
+            return "+1 (555) 123-4567"
+        case "summaryText":
+            return "This is a test summary with multiple sentences. It covers key topics and insights. The summary is 4-6 sentences long as per requirements. It includes actionable information. This helps users understand the content quickly."
+        case "topLinks":
+            return [
+                ["title": "Article 1", "url": "https://example.com/1", "description": "First article"],
+                ["title": "Article 2", "url": "https://example.com/2", "description": "Second article"]
+            ]
+        default:
+            return "Mock \(key)"
+        }
+    }
+}
+
+// MARK: - Preview
+
+#Preview {
+    ActionTester()
+}
+
+#endif

@@ -79,4 +79,20 @@ enum AppEnvironment {
         // Fallback to empty string - will fail gracefully with error
         return ""
     }
+
+    /// API Key for modal config service (authenticated endpoint)
+    static var apiKey: String {
+        // Try to get from UserDefaults first
+        if let key = UserDefaults.standard.string(forKey: "modalConfigAPIKey"), !key.isEmpty {
+            return key
+        }
+
+        // Try to get from build configuration
+        if let key = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String, !key.isEmpty {
+            return key
+        }
+
+        // Fallback to demo key for testing
+        return "demo_key_" + UUID().uuidString
+    }
 }

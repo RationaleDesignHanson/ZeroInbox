@@ -1,0 +1,71 @@
+{
+  "id": "shopping-bestbuy-001",
+  "subject": "Thank you for your order! Order #BBY01-745829163",
+  "from": {
+    "name": "Best Buy",
+    "email": "BestBuyInfo@emailinfo.bestbuy.com"
+  },
+  "to": "user@example.com",
+  "date": "2025-01-14T15:22:00Z",
+  "headers": {
+    "Message-ID": "<bby-order-745829163@bestbuy.com>",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "body": {
+    "text": "Thank you for your order!\n\nOrder #BBY01-745829163\nOrder Date: January 14, 2025\n\nYour Items:\n\n1. Apple MacBook Air 13.6\" Laptop - M2 chip - 8GB Memory - 256GB SSD\n   Color: Midnight\n   Quantity: 1\n   Price: $1,099.00\n   Status: Processing\n\n2. Logitech MX Master 3S Wireless Mouse\n   Color: Graphite  \n   Quantity: 1\n   Price: $99.99\n   Status: Processing\n\n3. CalDigit TS4 Thunderbolt 4 Dock\n   Quantity: 1\n   Price: $379.99\n   Status: Processing\n\n4. LG 27\" UltraGear QHD Gaming Monitor\n   Model: 27GP850-B\n   Quantity: 1\n   Price: $399.99\n   Status: Processing\n\nOrder Summary:\nSubtotal: $1,978.97\nSales Tax: $173.16\nShipping: FREE (My Best Buy Plus Member)\nTotal: $2,152.13\n\nPayment Method: Visa ending in 3421\n\nShipping Address:\nJohn Doe\n456 Oak Street\nSan Francisco, CA 94102\n\nEstimated Delivery:\nJanuary 19-21, 2025\n\nYour items are being prepared for shipment. We'll send you tracking information when they ship.\n\nTrack your order:\nhttps://www.bestbuy.com/track-order/BBY01-745829163\n\nMy Best Buy Plus Benefits:\n- FREE shipping on this order (saved $19.99)\n- Extended return period: 60 days\n- Exclusive member prices\n\nNeed help?\nCall: 1-888-BEST-BUY (1-888-237-8289)\nChat: bestbuy.com/support\n\nThank you for being a My Best Buy Plus member!\n\nThe Best Buy Team",
+    "html": "<html><body style='font-family: \"Helvetica Neue\", Arial, sans-serif; max-width: 700px; margin: 0 auto; background: #f5f5f5;'><div style='background: white; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'><div style='background: #003DA6; padding: 30px;'><h1 style='color: #FFE600; font-size: 32px; margin: 0 0 10px 0; font-weight: bold;'>Best Buy</h1><p style='color: white; font-size: 18px; margin: 0;'>Thank you for your order!</p></div><div style='padding: 40px;'><div style='background: #F5F5F5; border-radius: 8px; padding: 20px; margin: 0 0 30px 0;'><table style='width: 100%;'><tr><td style='color: #5F6369; font-size: 13px; padding: 8px 0;'>Order Number</td><td style='color: #1D252D; font-size: 14px; font-weight: bold; text-align: right; padding: 8px 0;'>BBY01-745829163</td></tr><tr><td style='color: #5F6369; font-size: 13px; padding: 8px 0;'>Order Date</td><td style='color: #1D252D; font-size: 13px; text-align: right; padding: 8px 0;'>January 14, 2025</td></tr></table></div><h3 style='color: #1D252D; font-size: 20px; margin: 0 0 20px 0;'>Your Items</h3><div style='border: 1px solid #D9D9D9; border-radius: 8px; padding: 18px; margin-bottom: 12px;'><div style='display: flex; justify-content: space-between; align-items: start;'><div style='flex: 1;'><h4 style='color: #003DA6; font-size: 15px; margin: 0 0 8px 0; font-weight: 600;'>Apple MacBook Air 13.6\" Laptop - M2 chip - 8GB Memory - 256GB SSD</h4><p style='color: #5F6369; font-size: 13px; margin: 4px 0;'>Color: Midnight</p><p style='color: #5F6369; font-size: 13px; margin: 4px 0;'>Quantity: 1</p><p style='color: #00A86B; font-size: 12px; font-weight: 600; margin: 8px 0 0 0;'>● Processing</p></div><div><p style='color: #1D252D; font-size: 16px; font-weight: bold; margin: 0;'>$1,099.00</p></div></div></div><div style='border: 1px solid #D9D9D9; border-radius: 8px; padding: 18px; margin-bottom: 12px;'><div style='display: flex; justify-content: space-between; align-items: start;'><div style='flex: 1;'><h4 style='color: #003DA6; font-size: 15px; margin: 0 0 8px 0; font-weight: 600;'>Logitech MX Master 3S Wireless Mouse</h4><p style='color: #5F6369; font-size: 13px; margin: 4px 0;'>Color: Graphite</p><p style='color: #5F6369; font-size: 13px; margin: 4px 0;'>Quantity: 1</p><p style='color: #00A86B; font-size: 12px; font-weight: 600; margin: 8px 0 0 0;'>● Processing</p></div><div><p style='color: #1D252D; font-size: 16px; font-weight: bold; margin: 0;'>$99.99</p></div></div></div><div style='border: 1px solid #D9D9D9; border-radius: 8px; padding: 18px; margin-bottom: 12px;'><div style='display: flex; justify-content: space-between; align-items: start;'><div style='flex: 1;'><h4 style='color: #003DA6; font-size: 15px; margin: 0 0 8px 0; font-weight: 600;'>CalDigit TS4 Thunderbolt 4 Dock</h4><p style='color: #5F6369; font-size: 13px; margin: 4px 0;'>Quantity: 1</p><p style='color: #00A86B; font-size: 12px; font-weight: 600; margin: 8px 0 0 0;'>● Processing</p></div><div><p style='color: #1D252D; font-size: 16px; font-weight: bold; margin: 0;'>$379.99</p></div></div></div><div style='border: 1px solid #D9D9D9; border-radius: 8px; padding: 18px; margin-bottom: 12px;'><div style='display: flex; justify-content: space-between; align-items: start;'><div style='flex: 1;'><h4 style='color: #003DA6; font-size: 15px; margin: 0 0 8px 0; font-weight: 600;'>LG 27\" UltraGear QHD Gaming Monitor</h4><p style='color: #5F6369; font-size: 13px; margin: 4px 0;'>Model: 27GP850-B</p><p style='color: #5F6369; font-size: 13px; margin: 4px 0;'>Quantity: 1</p><p style='color: #00A86B; font-size: 12px; font-weight: 600; margin: 8px 0 0 0;'>● Processing</p></div><div><p style='color: #1D252D; font-size: 16px; font-weight: bold; margin: 0;'>$399.99</p></div></div></div><div style='background: #F5F5F5; border-radius: 8px; padding: 25px; margin: 30px 0;'><h3 style='color: #1D252D; font-size: 18px; margin: 0 0 20px 0;'>Order Summary</h3><table style='width: 100%; border-collapse: collapse;'><tr><td style='padding: 10px 0; color: #5F6369; font-size: 14px;'>Subtotal</td><td style='padding: 10px 0; color: #1D252D; font-size: 14px; text-align: right;'>$1,978.97</td></tr><tr><td style='padding: 10px 0; color: #5F6369; font-size: 14px;'>Sales Tax</td><td style='padding: 10px 0; color: #1D252D; font-size: 14px; text-align: right;'>$173.16</td></tr><tr><td style='padding: 10px 0; color: #5F6369; font-size: 14px;'>Shipping</td><td style='padding: 10px 0; color: #00A86B; font-size: 14px; font-weight: 600; text-align: right;'>FREE<br><span style='font-size: 11px; font-weight: normal;'>(My Best Buy Plus Member)</span></td></tr><tr style='border-top: 2px solid #D9D9D9;'><td style='padding: 15px 0; color: #1D252D; font-size: 18px; font-weight: bold;'>Total</td><td style='padding: 15px 0; color: #003DA6; font-size: 18px; font-weight: bold; text-align: right;'>$2,152.13</td></tr></table></div><div style='margin: 25px 0;'><h4 style='color: #1D252D; font-size: 15px; margin: 0 0 10px 0;'>Payment Method:</h4><p style='color: #5F6369; font-size: 14px; margin: 0;'>Visa ending in 3421</p></div><div style='margin: 25px 0;'><h4 style='color: #1D252D; font-size: 15px; margin: 0 0 10px 0;'>Shipping Address:</h4><p style='color: #5F6369; font-size: 14px; line-height: 1.6; margin: 0;'>John Doe<br>456 Oak Street<br>San Francisco, CA 94102</p></div><div style='background: #FFF9E6; border-left: 4px solid #FFE600; padding: 20px; margin: 25px 0;'><p style='margin: 0 0 5px 0; color: #1D252D; font-size: 15px; font-weight: 600;'>Estimated Delivery</p><p style='margin: 0; color: #5F6369; font-size: 14px;'>January 19-21, 2025</p></div><p style='color: #5F6369; font-size: 13px; margin: 20px 0;'>Your items are being prepared for shipment. We'll send you tracking information when they ship.</p><div style='text-align: center; margin: 35px 0;'><a href='https://www.bestbuy.com/track-order/BBY01-745829163' style='display: inline-block; background: #003DA6; color: white; padding: 14px 32px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 15px;'>Track your order</a></div><div style='background: #E7F3FF; border: 1px solid #003DA6; border-radius: 8px; padding: 20px; margin: 30px 0;'><h4 style='color: #003DA6; font-size: 16px; margin: 0 0 15px 0;'>✨ My Best Buy Plus Benefits</h4><ul style='color: #1D252D; font-size: 14px; line-height: 2; margin: 0; padding-left: 20px;'><li>FREE shipping on this order (saved $19.99)</li><li>Extended return period: 60 days</li><li>Exclusive member prices</li></ul></div><div style='border-top: 1px solid #D9D9D9; padding-top: 30px; margin-top: 35px;'><h4 style='color: #1D252D; font-size: 15px; margin: 0 0 15px 0;'>Need help?</h4><p style='color: #5F6369; font-size: 14px; margin: 8px 0;'><strong>Call:</strong> 1-888-BEST-BUY (1-888-237-8289)</p><p style='color: #5F6369; font-size: 14px; margin: 8px 0;'><strong>Chat:</strong> <a href='https://www.bestbuy.com/support' style='color: #003DA6;'>bestbuy.com/support</a></p></div><p style='color: #1D252D; font-size: 15px; text-align: center; margin: 40px 0 5px 0;'>Thank you for being a My Best Buy Plus member!</p><p style='color: #5F6369; font-size: 13px; text-align: center; margin: 0;'>The Best Buy Team</p></div><div style='background: #F5F5F5; padding: 25px; text-align: center; border-top: 1px solid #D9D9D9;'><p style='margin: 0; color: #5F6369; font-size: 11px;'>© 2025 Best Buy. All rights reserved.</p></div></div></body></html>"
+  },
+  "classification": {
+    "type": "receipt",
+    "category": "shopping",
+    "intent": "order_confirmation",
+    "merchant": "Best Buy",
+    "shouldNeverUnsubscribe": true,
+    "reason": "Order confirmation is transactional"
+  },
+  "entities": {
+    "orderNumber": "BBY01-745829163",
+    "orderDate": "2025-01-14",
+    "merchant": "Best Buy",
+    "total": 2152.13,
+    "currency": "USD",
+    "items": [
+      {
+        "name": "Apple MacBook Air 13.6\" Laptop - M2 chip - 8GB Memory - 256GB SSD",
+        "quantity": 1,
+        "price": 1099.00,
+        "attributes": {"color": "Midnight"}
+      },
+      {
+        "name": "Logitech MX Master 3S Wireless Mouse",
+        "quantity": 1,
+        "price": 99.99,
+        "attributes": {"color": "Graphite"}
+      },
+      {
+        "name": "CalDigit TS4 Thunderbolt 4 Dock",
+        "quantity": 1,
+        "price": 379.99
+      },
+      {
+        "name": "LG 27\" UltraGear QHD Gaming Monitor",
+        "quantity": 1,
+        "price": 399.99,
+        "attributes": {"model": "27GP850-B"}
+      }
+    ],
+    "deliveryEstimate": "January 19-21, 2025",
+    "trackingUrl": "https://www.bestbuy.com/track-order/BBY01-745829163",
+    "status": "ordered"
+  },
+  "testExpectations": {
+    "shouldDetectAsReceipt": true,
+    "shouldDetectAsNewsletter": false,
+    "shouldBeUnsubscribable": false,
+    "shouldExtractOrderNumber": true,
+    "shouldExtractItems": true,
+    "shouldExtractTotal": true,
+    "shouldExtractMerchant": true,
+    "expectedItemCount": 4
+  }
+}

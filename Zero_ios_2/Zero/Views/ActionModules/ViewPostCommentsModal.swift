@@ -24,18 +24,8 @@ struct ViewPostCommentsModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header bar
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding()
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             // Scrollable content
             ScrollView {
@@ -177,19 +167,9 @@ struct ViewPostCommentsModal: View {
                             .strokeBorder(Color.blue.opacity(0.4), lineWidth: 1)
                     )
 
-                    // Comment Success
+                    // Comment Success (Week 6: Using shared StatusBanner component)
                     if showCommentSuccess {
-                        HStack {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.green)
-                            Text("Comment posted!")
-                                .foregroundColor(.green)
-                                .font(.subheadline.bold())
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
-                        .cornerRadius(DesignTokens.Radius.button)
+                        StatusBanner.success("Comment posted!")
                     }
 
                     // Info message

@@ -1,3 +1,4 @@
+#if DEBUG
 import SwiftUI
 
 /// Admin tool for reviewing and providing feedback on suggested email actions
@@ -80,71 +81,29 @@ struct ActionFeedbackView: View {
     // MARK: - Loading View
 
     var loadingView: some View {
-        VStack(spacing: 20) {
-            ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                .scaleEffect(1.5)
-
-            Text("Loading email...")
-                .font(.headline)
-                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
-        }
+        LoadingSpinner(text: "Loading email...", size: .medium)
     }
 
     // MARK: - Error View
 
     func errorView(_ error: String) -> some View {
-        VStack(spacing: 20) {
-            Image(systemName: "exclamationmark.triangle")
-                .font(.system(size: 60))
-                .foregroundColor(.orange)
-
-            Text("Error")
-                .font(.title2.bold())
-                .foregroundColor(.white)
-
-            Text(error)
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-
-            Button("Retry") {
-                viewModel.loadNextEmail()
-            }
-            .padding(.horizontal, 32)
-            .padding(.vertical, 12)
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(DesignTokens.Radius.button)
-        }
+        GenericEmptyState(
+            icon: "exclamationmark.triangle",
+            title: "Error",
+            message: error,
+            action: ("Retry", { viewModel.loadNextEmail() })
+        )
     }
 
     // MARK: - Empty State
 
     var emptyStateView: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 60))
-                .foregroundColor(.green)
-
-            Text("All Done!")
-                .font(.title2.bold())
-                .foregroundColor(.white)
-
-            Text("No more emails to review")
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
-
-            Button("Load Sample") {
-                Task { await viewModel.loadSampleEmail() }
-            }
-            .padding(.horizontal, 32)
-            .padding(.vertical, 12)
-            .background(Color.purple)
-            .foregroundColor(.white)
-            .cornerRadius(DesignTokens.Radius.button)
-        }
+        GenericEmptyState(
+            icon: "checkmark.circle.fill",
+            title: "All Done!",
+            message: "No more emails to review",
+            action: ("Load Sample", { Task { await viewModel.loadSampleEmail() } })
+        )
     }
 
     // MARK: - Feedback Content
@@ -850,3 +809,4 @@ enum ActionFeedbackType {
 #Preview {
     ActionFeedbackView()
 }
+#endif

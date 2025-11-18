@@ -1,0 +1,136 @@
+{
+  "id": "check_in_flight",
+  "title": "Flight Check-In",
+  "subtitle": null,
+  "icon": {
+    "systemName": "airplane.departure",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "flight_details",
+      "title": "Flight Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "flight_number",
+          "label": "Flight Number",
+          "type": "badge",
+          "contextKey": "flightNumber",
+          "required": true,
+          "copyable": true,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "airline",
+          "label": "Airline",
+          "type": "text",
+          "contextKey": "airline",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Unknown Airline",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "departure_time",
+          "label": "Departure Time",
+          "type": "dateTime",
+          "contextKey": "departureTime",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Time not available",
+          "formatting": {
+            "type": "dateTime",
+            "options": null
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "route",
+          "label": "Route",
+          "type": "text",
+          "contextKey": "route",
+          "required": false,
+          "copyable": false,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "confirmation_code",
+          "label": "Confirmation Code",
+          "type": "badge",
+          "contextKey": "confirmationCode",
+          "required": false,
+          "copyable": true,
+          "placeholder": null,
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "boarding_info",
+      "title": "Boarding Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "terminal",
+          "label": "Terminal",
+          "type": "text",
+          "contextKey": "terminal",
+          "required": false,
+          "copyable": false,
+          "placeholder": "TBD",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "gate",
+          "label": "Gate",
+          "type": "text",
+          "contextKey": "gate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "TBD",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "seat",
+          "label": "Seat",
+          "type": "text",
+          "contextKey": "seatNumber",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Not assigned",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Check In Now",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "checkInUrl"
+    }
+  },
+  "secondaryButton": {
+    "title": "Share Flight Info",
+    "style": "secondary",
+    "action": {
+      "type": "share"
+    }
+  },
+  "layout": "standard"
+}

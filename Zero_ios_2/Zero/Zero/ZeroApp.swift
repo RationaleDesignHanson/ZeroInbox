@@ -133,8 +133,17 @@ struct ZeroApp: App {
                 provider: providerEnum
             )
 
-            // Store JWT token for API calls
-            UserDefaults.standard.set(token, forKey: "jwtToken")
+            // Store JWT token securely in Keychain
+            if let emailAPIService = services.emailService as? EmailAPIService {
+                do {
+                    try emailAPIService.storeTokenInKeychain(token: token, email: email)
+                    services.logger.info("✅ JWT token stored securely in Keychain")
+                } catch {
+                    services.logger.error("❌ Failed to store token in Keychain: \(error)")
+                }
+            } else {
+                services.logger.warning("⚠️ Could not cast emailService to EmailAPIService for Keychain storage")
+            }
 
             // Turn off mock data mode
             services.settings.useMockData = false

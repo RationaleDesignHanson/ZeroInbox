@@ -80,18 +80,8 @@ struct BrowseShoppingModal: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Custom header
-            HStack {
-                Spacer()
-                Button {
-                    isPresented = false
-                } label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(DesignTokens.Colors.textSubtle)
-                        .font(.title2)
-                }
-            }
-            .padding()
+            // Header (Week 6: Using shared ModalHeader component)
+            ModalHeader(isPresented: $isPresented)
 
             ScrollView {
                 VStack(alignment: .leading, spacing: DesignTokens.Spacing.card) {
@@ -211,18 +201,9 @@ struct BrowseShoppingModal: View {
                         }
                     }
 
+                    // Success banner (Week 6: Using shared StatusBanner component)
                     if showSuccess {
-                        HStack {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(.green)
-                            Text("Product opened!")
-                                .foregroundColor(.green)
-                                .font(.headline.bold())
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.green.opacity(DesignTokens.Opacity.overlayLight))
-                        .cornerRadius(DesignTokens.Radius.button)
+                        StatusBanner.success("Product opened!")
                     }
                 }
                 .padding(DesignTokens.Spacing.card)

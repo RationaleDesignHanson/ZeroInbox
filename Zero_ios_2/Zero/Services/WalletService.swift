@@ -59,28 +59,47 @@ class WalletService {
     ) {
         Logger.info("Downloading pass from: \(url.absoluteString)", category: .action)
 
-        // Download pass data
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            DispatchQueue.main.async {
-                if let error = error {
-                    Logger.error("Failed to download pass: \(error.localizedDescription)", category: .action)
+        Task {
+            do {
+                let data = try await downloadPassAsync(from: url)
+
+                // Add pass to wallet on main thread
+                await MainActor.run {
+                    self.addPassToWallet(
+                        passData: data,
+                        presentingViewController: presentingViewController,
+                        completion: completion
+                    )
+                }
+            } catch {
+                Logger.error("Failed to download pass: \(error.localizedDescription)", category: .action)
+                await MainActor.run {
                     completion(.failure(WalletError.downloadFailed(error)))
-                    return
                 }
-
-                guard let data = data else {
-                    completion(.failure(WalletError.noData))
-                    return
-                }
-
-                // Add pass to wallet
-                self?.addPassToWallet(
-                    passData: data,
-                    presentingViewController: presentingViewController,
-                    completion: completion
-                )
             }
-        }.resume()
+        }
+    }
+
+    /// Async version to download pass data
+    /// - Parameter url: URL to .pkpass file
+    /// - Returns: Pass data
+    private func downloadPassAsync(from url: URL) async throws -> Data {
+        // Week 6 Service Layer Cleanup: Using centralized NetworkService
+        do {
+            let data: Data = try await NetworkService.shared.request(
+                url: url,
+                method: .get,
+                body: Optional<String>.none
+            )
+            return data
+        } catch let error as NetworkServiceError {
+            if let statusCode = error.statusCode {
+                Logger.error("Failed to download pass with status: \(statusCode)", category: .action)
+            }
+            throw WalletError.downloadFailed(error)
+        } catch {
+            throw WalletError.downloadFailed(error)
+        }
     }
 
     // MARK: - Generate Passes (if backend provides raw data)

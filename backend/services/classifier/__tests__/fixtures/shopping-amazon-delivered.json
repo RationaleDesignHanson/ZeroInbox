@@ -1,0 +1,50 @@
+{
+  "id": "shopping-amazon-003",
+  "subject": "Delivered: Your package from Amazon.com",
+  "from": {
+    "name": "Amazon.com",
+    "email": "ship-confirm@amazon.com"
+  },
+  "to": "user@example.com",
+  "date": "2025-01-17T18:45:00Z",
+  "headers": {
+    "Message-ID": "<delivered-112-8426571-3947825@amazon.com>",
+    "Content-Type": "text/html; charset=utf-8"
+  },
+  "body": {
+    "text": "Your package was delivered\n\nOrder #112-8426571-3947825\n\nDelivered on:\nFriday, January 17, 2025 at 6:32 PM\n\nDelivery location:\nFront Porch\n\nItems delivered:\n- Sony WH-1000XM5 Wireless Noise Canceling Headphones\n- Apple AirTag 4 Pack\n\nHow's everything?\nWe'd love to hear what you think.\n\nRate your delivery experience:\nhttps://www.amazon.com/rate-delivery/112-8426571-3947825\n\nWrite a product review:\nhttps://www.amazon.com/review/create-review/112-8426571-3947825\n\nNeed to return something?\nMost items can be returned within 30 days.\nhttps://www.amazon.com/gp/css/returns\n\nView your complete order:\nhttps://www.amazon.com/gp/css/order-history\n\nThanks for shopping with us!\nAmazon.com",
+    "html": "<html><body style='font-family: Arial, sans-serif; max-width: 650px; margin: 0 auto;'><div style='background: #232f3e; padding: 20px;'><img src='https://m.media-amazon.com/images/G/01/gc/designs/livepreview/amazon_logo_retail.png' alt='Amazon' style='height: 40px;'></div><div style='padding: 30px;'><div style='text-align: center; margin-bottom: 30px;'><div style='display: inline-block; background: #067D62; border-radius: 50%; width: 80px; height: 80px; line-height: 80px;'><span style='color: white; font-size: 40px;'>✓</span></div><h2 style='color: #0F1111; font-size: 28px; margin: 20px 0 10px 0;'>Your package was delivered</h2></div><div style='background: #f7f8f8; border: 1px solid #ddd; border-radius: 8px; padding: 20px; margin: 25px 0;'><h3 style='color: #0F1111; font-size: 16px; margin: 0 0 5px 0;'>Order #112-8426571-3947825</h3></div><div style='background: #e7f7f4; border-left: 4px solid #067D62; padding: 20px; margin: 25px 0;'><table style='width: 100%;'><tr><td style='padding: 5px 0; color: #565959; font-size: 13px; width: 140px;'><strong>Delivered on:</strong></td><td style='padding: 5px 0; color: #0F1111; font-size: 14px; font-weight: bold;'>Friday, January 17, 2025 at 6:32 PM</td></tr><tr><td style='padding: 5px 0; color: #565959; font-size: 13px;'><strong>Delivery location:</strong></td><td style='padding: 5px 0; color: #0F1111; font-size: 13px;'>Front Porch</td></tr></table></div><h3 style='color: #0F1111; font-size: 16px; margin: 25px 0 15px 0;'>Items delivered:</h3><ul style='list-style: none; padding: 0; margin: 0 0 25px 0;'><li style='color: #565959; font-size: 14px; padding: 8px 0; border-bottom: 1px solid #eee;'>Sony WH-1000XM5 Wireless Noise Canceling Headphones</li><li style='color: #565959; font-size: 14px; padding: 8px 0; border-bottom: 1px solid #eee;'>Apple AirTag 4 Pack</li></ul><div style='border-top: 1px solid #ddd; padding-top: 30px; margin-top: 30px;'><h3 style='color: #0F1111; font-size: 18px; margin: 0 0 15px 0;'>How's everything?</h3><p style='color: #565959; font-size: 14px; margin: 0 0 20px 0;'>We'd love to hear what you think.</p><div style='display: flex; gap: 15px; flex-wrap: wrap; margin: 25px 0;'><a href='https://www.amazon.com/rate-delivery/112-8426571-3947825' style='flex: 1; min-width: 200px; display: block; background: #FFD814; color: #0F1111; padding: 12px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; text-align: center;'>Rate delivery</a><a href='https://www.amazon.com/review/create-review/112-8426571-3947825' style='flex: 1; min-width: 200px; display: block; background: #FFD814; color: #0F1111; padding: 12px 20px; text-decoration: none; border-radius: 8px; font-weight: bold; font-size: 14px; text-align: center;'>Write review</a></div></div><div style='border-top: 1px solid #ddd; padding-top: 30px; margin-top: 30px;'><h4 style='color: #0F1111; font-size: 15px; margin: 0 0 15px 0;'>Need to return something?</h4><p style='color: #565959; font-size: 13px; margin: 0 0 15px 0;'>Most items can be returned within 30 days.</p><a href='https://www.amazon.com/gp/css/returns' style='color: #007185; text-decoration: none; font-size: 14px;'>Start a return</a></div><p style='color: #565959; font-size: 13px; text-align: center; margin: 30px 0;'><a href='https://www.amazon.com/gp/css/order-history' style='color: #007185;'>View your complete order</a></p><p style='color: #565959; font-size: 14px; margin: 30px 0 0 0;'>Thanks for shopping with us!</p><p style='color: #0F1111; font-size: 14px; font-weight: bold; margin: 5px 0 0 0;'>Amazon.com</p></div></body></html>"
+  },
+  "classification": {
+    "type": "receipt",
+    "category": "shopping",
+    "intent": "delivery_confirmation",
+    "merchant": "Amazon",
+    "shouldNeverUnsubscribe": true,
+    "reason": "Delivery confirmation is transactional"
+  },
+  "entities": {
+    "orderNumber": "112-8426571-3947825",
+    "merchant": "Amazon",
+    "deliveryDate": "2025-01-17",
+    "deliveryTime": "6:32 PM",
+    "deliveryLocation": "Front Porch",
+    "status": "delivered",
+    "items": [
+      {
+        "name": "Sony WH-1000XM5 Wireless Noise Canceling Headphones"
+      },
+      {
+        "name": "Apple AirTag 4 Pack"
+      }
+    ]
+  },
+  "testExpectations": {
+    "shouldDetectAsReceipt": true,
+    "shouldDetectAsNewsletter": false,
+    "shouldBeUnsubscribable": false,
+    "shouldExtractOrderNumber": true,
+    "shouldExtractDeliveryDate": true,
+    "expectedStatus": "delivered"
+  }
+}

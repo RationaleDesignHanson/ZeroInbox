@@ -44,33 +44,16 @@ struct LiquidGlassBottomNav: View {
             .padding(.vertical, 12)
         }
         .background(
-            // Premium iOS liquid glass with web demo gradient
+            // Premium iOS liquid glass - changes based on archetype
             ZStack {
-                // Base gradient matching web demo (#1a1a2e → #2d1b4e → #4a1942 → #1f1f3a)
-                LinearGradient(
-                    colors: [
-                        Color(red: 0x1a/255, green: 0x1a/255, blue: 0x2e/255),
-                        Color(red: 0x2d/255, green: 0x1b/255, blue: 0x4e/255),
-                        Color(red: 0x4a/255, green: 0x19/255, blue: 0x42/255),
-                        Color(red: 0x1f/255, green: 0x1f/255, blue: 0x3a/255)
-                    ],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+                // Base gradient changes for ads vs mail
+                baseGradient
 
                 // Premium iOS blur material for glass effect
                 .background(.regularMaterial.opacity(DesignTokens.Opacity.textDisabled))
 
                 // Subtle highlight overlay for depth
-                LinearGradient(
-                    colors: [
-                        Color.white.opacity(DesignTokens.Opacity.glassUltraLight),
-                        Color.clear,
-                        Color.black.opacity(DesignTokens.Opacity.glassLight)
-                    ],
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
+                highlightOverlay
             }
         )
         .cornerRadius(DesignTokens.Radius.modal)  // Rounded corners for island effect
@@ -283,22 +266,11 @@ struct LiquidGlassBottomNav: View {
                         .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                         .frame(height: 4)
 
-                    // Filled progress with holographic gradient
+                    // Filled progress with holographic gradient (changes for ads)
                     RoundedRectangle(cornerRadius: 2)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color.cyan.opacity(DesignTokens.Opacity.textSecondary),
-                                    Color.blue.opacity(DesignTokens.Opacity.textPrimary),
-                                    Color.purple.opacity(DesignTokens.Opacity.textSecondary),
-                                    Color.pink.opacity(DesignTokens.Opacity.textTertiary)
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                        )
+                        .fill(progressBarGradient)
                         .frame(width: validProgressWidth(geometryWidth: geometry.size.width), height: 4)
-                        .shadow(color: Color.cyan.opacity(DesignTokens.Opacity.textDisabled), radius: 4, x: 0, y: 0)
+                        .shadow(color: progressGlowColor.opacity(DesignTokens.Opacity.textDisabled), radius: 4, x: 0, y: 0)
                 }
             }
             .frame(height: 4)
@@ -337,5 +309,97 @@ struct LiquidGlassBottomNav: View {
             .frame(height: 8)
             .blur(radius: 6)
         }
+    }
+
+    // MARK: - Color Schemes Based on Archetype
+
+    /// Base gradient background - changes for ads vs mail
+    private var baseGradient: LinearGradient {
+        if viewModel.currentArchetype == .ads {
+            // Light white/green scheme for ads
+            return LinearGradient(
+                colors: [
+                    Color.white.opacity(0.85),
+                    Color(red: 0.85, green: 0.95, blue: 0.88).opacity(0.95),  // Light green tint
+                    Color(red: 0.80, green: 0.93, blue: 0.86).opacity(0.90),  // Slightly more green
+                    Color.white.opacity(0.82)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        } else {
+            // Dark purple scheme for mail (web demo gradient)
+            return LinearGradient(
+                colors: [
+                    Color(red: 0x1a/255, green: 0x1a/255, blue: 0x2e/255),
+                    Color(red: 0x2d/255, green: 0x1b/255, blue: 0x4e/255),
+                    Color(red: 0x4a/255, green: 0x19/255, blue: 0x42/255),
+                    Color(red: 0x1f/255, green: 0x1f/255, blue: 0x3a/255)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+        }
+    }
+
+    /// Highlight overlay for depth
+    private var highlightOverlay: LinearGradient {
+        if viewModel.currentArchetype == .ads {
+            // Subtle highlights for light green theme
+            return LinearGradient(
+                colors: [
+                    Color.white.opacity(0.4),
+                    Color.clear,
+                    DesignTokens.Colors.adsGradientStart.opacity(0.15)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        } else {
+            // Dark purple highlights for mail
+            return LinearGradient(
+                colors: [
+                    Color.white.opacity(DesignTokens.Opacity.glassUltraLight),
+                    Color.clear,
+                    Color.black.opacity(DesignTokens.Opacity.glassLight)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
+    }
+
+    /// Progress bar gradient - changes for ads vs mail
+    private var progressBarGradient: LinearGradient {
+        if viewModel.currentArchetype == .ads {
+            // Green gradient for ads
+            return LinearGradient(
+                colors: [
+                    DesignTokens.Colors.adsGradientStart.opacity(DesignTokens.Opacity.textSecondary),
+                    DesignTokens.Colors.adsGradientEnd.opacity(DesignTokens.Opacity.textPrimary),
+                    DesignTokens.Colors.adsGradientStart.opacity(DesignTokens.Opacity.textSecondary),
+                    DesignTokens.Colors.adsGradientEnd.opacity(DesignTokens.Opacity.textTertiary)
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        } else {
+            // Purple/blue gradient for mail
+            return LinearGradient(
+                colors: [
+                    Color.cyan.opacity(DesignTokens.Opacity.textSecondary),
+                    Color.blue.opacity(DesignTokens.Opacity.textPrimary),
+                    Color.purple.opacity(DesignTokens.Opacity.textSecondary),
+                    Color.pink.opacity(DesignTokens.Opacity.textTertiary)
+                ],
+                startPoint: .leading,
+                endPoint: .trailing
+            )
+        }
+    }
+
+    /// Progress glow color
+    private var progressGlowColor: Color {
+        viewModel.currentArchetype == .ads ? DesignTokens.Colors.adsGradientEnd : Color.cyan
     }
 }
