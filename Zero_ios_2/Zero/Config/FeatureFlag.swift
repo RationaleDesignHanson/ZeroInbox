@@ -45,6 +45,9 @@ enum FeatureFlag: String, CaseIterable {
     /// Advanced search with filters
     case advancedSearch = "advanced_search"
 
+    /// Model tuning for training AI classifications
+    case modelTuning = "model_tuning"
+
     // MARK: - Backend Features
 
     /// Real email integration (vs mock data)
@@ -80,7 +83,7 @@ enum FeatureFlag: String, CaseIterable {
             return false
             #endif
 
-        case .newComposer, .fastSwipe, .smartReplies, .advancedSearch:
+        case .newComposer, .fastSwipe, .smartReplies, .advancedSearch, .modelTuning:
             // UI improvements default to ON
             return true
 
@@ -113,6 +116,8 @@ enum FeatureFlag: String, CaseIterable {
             return "AI-powered smart reply suggestions"
         case .advancedSearch:
             return "Advanced search with filters and operators"
+        case .modelTuning:
+            return "Model tuning for training AI classifications and action recommendations"
         case .realEmails:
             return "Real email integration (vs mock data)"
         case .cloudSync:

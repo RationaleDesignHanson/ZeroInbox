@@ -10,8 +10,8 @@ struct SettingsView: View {
     @State private var useMLClassification: Bool = false
     @State private var showKeyAlert = false
     @State private var showMLAlert = false
-    #if DEBUG
     @State private var showModelTuning = false
+    #if DEBUG
     // @State private var showActionTester = false // Disabled - ActionTester needs fixes
     #endif
     @State private var showDebugOverlay: Bool = false
@@ -134,18 +134,21 @@ struct SettingsView: View {
                         }
                         .padding(.top, 40)
 
-                        #if DEBUG
-                        SettingNavigationButton(
-                            title: "Model Tuning",
-                            description: "Train Zero's AI on categories and actions",
-                            icon: "brain.head.profile",
-                            color: .cyan,
-                            style: .gradient(colors: [.cyan, .purple]),
-                            action: { showModelTuning = true }
-                        )
-                        .padding(.horizontal, 16)
-                        .padding(.top, 20)
+                        // Model Tuning - Feature flagged
+                        if services.featureGating.isEnabled(.modelTuning) {
+                            SettingNavigationButton(
+                                title: "Model Tuning",
+                                description: "Train Zero's AI on categories and actions",
+                                icon: "brain.head.profile",
+                                color: .cyan,
+                                style: .gradient(colors: [.cyan, .purple]),
+                                action: { showModelTuning = true }
+                            )
+                            .padding(.horizontal, 16)
+                            .padding(.top, 20)
+                        }
 
+                        #if DEBUG
                         // ActionTester button disabled - needs fixes
                         // SettingNavigationButton(
                         //     title: "Action Tester",
