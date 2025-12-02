@@ -36,15 +36,15 @@ function bindNumberVariable(node, property, variableName) {
 }
 /**
  * Create text node with styling
+ * Uses system default font to avoid font loading issues
  */
-function createText(content, fontSize, weight = 'Regular') {
+async function createText(content, fontSize, weight = 'Regular') {
     const text = figma.createText();
+    // Use default font (no loading required)
+    await figma.loadFontAsync({ family: 'Inter', style: weight });
+    text.fontName = { family: 'Inter', style: weight };
     text.characters = content;
     text.fontSize = fontSize;
-    // Load font before setting (Figma requires this)
-    figma.loadFontAsync({ family: 'SF Pro Display', style: weight }).then(() => {
-        text.fontName = { family: 'SF Pro Display', style: weight };
-    });
     return text;
 }
 /**
@@ -82,12 +82,12 @@ async function generateZeroButton() {
     button.itemSpacing = 8;
     button.cornerRadius = 12; // Will bind to radius/button variable
     // Add text label
-    await figma.loadFontAsync({ family: 'SF Pro Display', style: 'Medium' });
+    await figma.loadFontAsync({ family: 'Inter', style: 'Medium' });
     const label = figma.createText();
     label.name = 'Label';
     label.characters = 'Button Text';
     label.fontSize = 15;
-    label.fontName = { family: 'SF Pro Display', style: 'Medium' };
+    label.fontName = { family: 'Inter', style: 'Medium' };
     label.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
     button.appendChild(label);
     // Add icon (optional, hidden by default)
@@ -158,30 +158,31 @@ async function generateZeroCard() {
     // Header section
     const header = createAutoLayoutFrame('Header', 'HORIZONTAL', 0, 8);
     header.layoutAlign = 'STRETCH';
-    await figma.loadFontAsync({ family: 'SF Pro Display', style: 'Semibold' });
+    await figma.loadFontAsync({ family: 'Inter', style: 'Semi Bold' });
     const title = figma.createText();
     title.name = 'Title';
     title.characters = 'Email Title';
     title.fontSize = 17;
-    title.fontName = { family: 'SF Pro Display', style: 'Semibold' };
+    title.fontName = { family: 'Inter', style: 'Semi Bold' };
     title.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
     title.layoutGrow = 1;
     header.appendChild(title);
-    await figma.loadFontAsync({ family: 'SF Pro Display', style: 'Regular' });
+    await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
     const timestamp = figma.createText();
     timestamp.name = 'Timestamp';
     timestamp.characters = '2m ago';
     timestamp.fontSize = 13;
-    timestamp.fontName = { family: 'SF Pro Display', style: 'Regular' };
+    timestamp.fontName = { family: 'Inter', style: 'Regular' };
     timestamp.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 0.7 }];
     header.appendChild(timestamp);
     card.appendChild(header);
     // Summary
+    await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
     const summary = figma.createText();
     summary.name = 'Summary';
     summary.characters = 'Email summary text goes here. This is a preview of the email content.';
     summary.fontSize = 15;
-    summary.fontName = { family: 'SF Pro Display', style: 'Regular' };
+    summary.fontName = { family: 'Inter', style: 'Regular' };
     summary.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 0.9 }];
     summary.layoutAlign = 'STRETCH';
     card.appendChild(summary);
@@ -221,22 +222,22 @@ async function generateZeroModal() {
     bindNumberVariable(modal, 'cornerRadius', 'radius/modal');
     bindNumberVariable(modal, 'paddingLeft', 'spacing/modal');
     // Title
-    await figma.loadFontAsync({ family: 'SF Pro Display', style: 'Bold' });
+    await figma.loadFontAsync({ family: 'Inter', style: 'Bold' });
     const title = figma.createText();
     title.name = 'Title';
     title.characters = 'Modal Title';
     title.fontSize = 20;
-    title.fontName = { family: 'SF Pro Display', style: 'Bold' };
+    title.fontName = { family: 'Inter', style: 'Bold' };
     title.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
     title.layoutAlign = 'STRETCH';
     modal.appendChild(title);
     // Body
-    await figma.loadFontAsync({ family: 'SF Pro Display', style: 'Regular' });
+    await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
     const body = figma.createText();
     body.name = 'Body';
     body.characters = 'Modal body text goes here with additional information.';
     body.fontSize = 15;
-    body.fontName = { family: 'SF Pro Display', style: 'Regular' };
+    body.fontName = { family: 'Inter', style: 'Regular' };
     body.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 0.9 }];
     body.layoutAlign = 'STRETCH';
     body.layoutGrow = 1;
@@ -286,12 +287,12 @@ async function generateZeroListItem() {
     icon.visible = false;
     item.appendChild(icon);
     // Label
-    await figma.loadFontAsync({ family: 'SF Pro Display', style: 'Regular' });
+    await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
     const label = figma.createText();
     label.name = 'Label';
     label.characters = 'List Item';
     label.fontSize = 16;
-    label.fontName = { family: 'SF Pro Display', style: 'Regular' };
+    label.fontName = { family: 'Inter', style: 'Regular' };
     label.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
     label.layoutGrow = 1;
     item.appendChild(label);
@@ -352,21 +353,21 @@ async function generateZeroAlert() {
     // Text section
     const textSection = createAutoLayoutFrame('TextSection', 'VERTICAL', 0, 4);
     textSection.layoutGrow = 1;
-    await figma.loadFontAsync({ family: 'SF Pro Display', style: 'Semibold' });
+    await figma.loadFontAsync({ family: 'Inter', style: 'Semi Bold' });
     const title = figma.createText();
     title.name = 'Title';
     title.characters = 'Success';
     title.fontSize = 15;
-    title.fontName = { family: 'SF Pro Display', style: 'Semibold' };
+    title.fontName = { family: 'Inter', style: 'Semi Bold' };
     title.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
     title.layoutAlign = 'STRETCH';
     textSection.appendChild(title);
-    await figma.loadFontAsync({ family: 'SF Pro Display', style: 'Regular' });
+    await figma.loadFontAsync({ family: 'Inter', style: 'Regular' });
     const message = figma.createText();
     message.name = 'Message';
     message.characters = 'Your action was completed successfully.';
     message.fontSize = 13;
-    message.fontName = { family: 'SF Pro Display', style: 'Regular' };
+    message.fontName = { family: 'Inter', style: 'Regular' };
     message.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 0.9 }];
     message.layoutAlign = 'STRETCH';
     textSection.appendChild(message);
