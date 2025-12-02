@@ -122,11 +122,8 @@ async function generateZeroButton(): Promise<ComponentNode> {
   // Try to bind corner radius to variable
   bindNumberVariable(button, 'cornerRadius', 'radius/button');
 
-  // Add component properties
-  button.addComponentProperty('Style', 'VARIANT', 'Primary');
-  button.addComponentProperty('Size', 'VARIANT', 'Large');
-  button.addComponentProperty('State', 'VARIANT', 'Default');
-  button.addComponentProperty('HasIcon', 'BOOLEAN', false);
+  // Note: Component properties require a component set
+  // Add these manually in Figma: Style, Size, State, HasIcon
 
   // Create variants
   const variants = [
@@ -225,9 +222,7 @@ async function generateZeroCard(): Promise<ComponentNode> {
   summary.layoutAlign = 'STRETCH';
   card.appendChild(summary);
 
-  // Add component properties
-  card.addComponentProperty('State', 'VARIANT', 'Default');
-  card.addComponentProperty('ShowPriority', 'BOOLEAN', false);
+  // Note: Add properties manually in Figma: State, ShowPriority
 
   return card;
 }
@@ -301,8 +296,7 @@ async function generateZeroModal(): Promise<ComponentNode> {
   modal.y = (backdrop.height - modal.height) / 2;
   backdrop.appendChild(modal);
 
-  // Add properties
-  modal.addComponentProperty('Type', 'VARIANT', 'Standard');
+  // Note: Add Type property manually in Figma
 
   return modal;
 }
@@ -371,11 +365,7 @@ async function generateZeroListItem(): Promise<ComponentNode> {
   arrow.visible = false;
   item.appendChild(arrow);
 
-  // Add properties
-  item.addComponentProperty('HasIcon', 'BOOLEAN', false);
-  item.addComponentProperty('HasBadge', 'BOOLEAN', false);
-  item.addComponentProperty('HasArrow', 'BOOLEAN', false);
-  item.addComponentProperty('State', 'VARIANT', 'Default');
+  // Note: Add properties manually: HasIcon, HasBadge, HasArrow, State
 
   return item;
 }
@@ -450,9 +440,7 @@ async function generateZeroAlert(): Promise<ComponentNode> {
   closeButton.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 0.7 }];
   alert.appendChild(closeButton);
 
-  // Add properties
-  alert.addComponentProperty('Type', 'VARIANT', 'Success');
-  alert.addComponentProperty('HasCloseButton', 'BOOLEAN', true);
+  // Note: Add properties manually: Type, HasCloseButton
 
   return alert;
 }
