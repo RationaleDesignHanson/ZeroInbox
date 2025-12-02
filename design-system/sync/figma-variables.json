@@ -1,7 +1,7 @@
 {
   "version": "1.0",
   "source": "iOS DesignTokens",
-  "generatedAt": "2025-11-14T02:25:16.123Z",
+  "generatedAt": "2025-12-02T04:43:16.339Z",
   "variables": [
     {
       "name": "spacing/card",
@@ -96,67 +96,67 @@
     {
       "name": "opacity/glassUltraLight",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.05,
       "description": "Opacity token: glassUltraLight"
     },
     {
       "name": "opacity/glassLight",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.1,
       "description": "Opacity token: glassLight"
     },
     {
       "name": "opacity/glassMedium",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.2,
       "description": "Opacity token: glassMedium"
     },
     {
       "name": "opacity/overlayLight",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.2,
       "description": "Opacity token: overlayLight"
     },
     {
       "name": "opacity/overlayMedium",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.3,
       "description": "Opacity token: overlayMedium"
     },
     {
       "name": "opacity/overlayStrong",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.5,
       "description": "Opacity token: overlayStrong"
     },
     {
       "name": "opacity/textDisabled",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.6,
       "description": "Opacity token: textDisabled"
     },
     {
       "name": "opacity/textSubtle",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.7,
       "description": "Opacity token: textSubtle"
     },
     {
       "name": "opacity/textTertiary",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.8,
       "description": "Opacity token: textTertiary"
     },
     {
       "name": "opacity/textSecondary",
       "type": "FLOAT",
-      "value": null,
+      "value": 0.9,
       "description": "Opacity token: textSecondary"
     },
     {
       "name": "opacity/textPrimary",
       "type": "FLOAT",
-      "value": null,
+      "value": 1,
       "description": "Opacity token: textPrimary"
     },
     {

@@ -118,11 +118,13 @@ function tokensToFigmaVariables() {
     Object.entries(tokens.opacity || {}).forEach(([key, token]) => {
         if (key.startsWith('$')) return;
         const value = token.$value || token;
+        const resolvedValue = typeof value === 'string' ?
+            resolveTokenReference(value, tokens) : value;
 
         variables.push({
             name: `opacity/${key}`,
             type: 'FLOAT',
-            value: parseFloat(value),
+            value: parseFloat(resolvedValue),
             description: token.$description || `Opacity token: ${key}`
         });
     });
