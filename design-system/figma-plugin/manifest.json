@@ -1,10 +1,10 @@
 {
-  "name": "Zero Design Sync v3",
-  "id": "zero-design-sync-v3",
+  "name": "Zero Component Generator",
+  "id": "zero-component-generator",
   "api": "1.0.0",
-  "main": "sync-plugin.js",
-  "ui": "sync-ui.html",
-  "editorType": ["figma"],
+  "main": "component-generator.js",
+  "ui": "component-generator-ui.html",
+  "editorType": ["figma", "dev"],
   "documentAccess": "dynamic-page",
   "networkAccess": {
     "allowedDomains": ["none"]
