@@ -5,6 +5,7 @@
   "main": "component-generator.js",
   "ui": "component-generator-ui.html",
   "editorType": ["figma", "dev"],
+  "capabilities": ["inspect"],
   "documentAccess": "dynamic-page",
   "networkAccess": {
     "allowedDomains": ["none"]
