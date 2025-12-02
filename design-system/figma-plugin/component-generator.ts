@@ -461,6 +461,16 @@ async function generateZeroAlert(): Promise<ComponentNode> {
 
 async function generateAllComponents() {
   try {
+    // Load all fonts first (before creating any text nodes)
+    console.log('Loading fonts...');
+    await Promise.all([
+      figma.loadFontAsync({ family: 'Inter', style: 'Regular' }),
+      figma.loadFontAsync({ family: 'Inter', style: 'Medium' }),
+      figma.loadFontAsync({ family: 'Inter', style: 'Semi Bold' }),
+      figma.loadFontAsync({ family: 'Inter', style: 'Bold' })
+    ]);
+    console.log('Fonts loaded successfully');
+
     // Create or find Components page
     let componentsPage = figma.root.children.find(page => page.name === 'Components') as PageNode;
     if (!componentsPage) {
