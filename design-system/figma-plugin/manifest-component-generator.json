@@ -6,7 +6,7 @@
   "ui": "component-generator-ui.html",
   "editorType": ["figma", "dev"],
   "capabilities": ["inspect"],
-  "documentAccess": "dynamic-page",
+  "documentAccess": "current-page",
   "networkAccess": {
     "allowedDomains": ["none"]
   }
