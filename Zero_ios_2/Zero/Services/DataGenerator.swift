@@ -49,7 +49,7 @@ struct DataGenerator {
         cards.append(createCard(
             id: "newsletter1", type: .ads, priority: .medium,
             title: "The Download: This Week in AI - Issue #47",
-            summary: "Weekly AI and tech newsletter featuring GPT-5 speculation, EU AI Act launch, and GitHub Copilot X upgrade. Industry stats show 67% of developers now use AI assistants daily with $21B invested this quarter.",
+            summary: "Weekly AI and tech newsletter featuring next-gen AI model speculation, EU AI Act launch, and GitHub Copilot X upgrade. Industry stats show 67% of developers now use AI assistants daily with $21B invested this quarter.",
             actions: [("view_newsletter_summary", "View Summary", true), ("save_for_later", "Save for Later", false), ("archive", "Archive", false)],
             sender: ("TechCrunch", "T"), hpa: "View Summary",
             productImageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400",

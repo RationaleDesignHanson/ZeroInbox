@@ -94,7 +94,7 @@ struct BottomNavigationBar: View {
                             // Subtle chevron indicator
                             Image(systemName: "chevron.down.circle.fill")
                                 .font(.system(size: 11))
-                                .foregroundColor(.white.opacity(0.4))
+                                .foregroundColor(viewModel.currentArchetype == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.6) : .white.opacity(0.4))
                         }
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
@@ -111,11 +111,11 @@ struct BottomNavigationBar: View {
                     // Elegant separator
                     Text("·")
                         .font(.system(size: 14))
-                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayMedium))
+                        .foregroundColor(viewModel.currentArchetype == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.5) : .white.opacity(DesignTokens.Opacity.overlayMedium))
 
                     Text("\(viewModel.filteredCards.count) left")
                         .font(.system(size: 14, weight: .medium, design: .rounded))
-                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textDisabled))
+                        .foregroundColor(viewModel.currentArchetype == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.7) : .white.opacity(DesignTokens.Opacity.textDisabled))
                 }
 
                 Spacer()
@@ -184,7 +184,7 @@ struct BottomNavigationBar: View {
                         // Icon with holographic hint
                         Image(systemName: navState.actionsExpanded ? "xmark" : "ellipsis")
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
+                            .foregroundColor(viewModel.currentArchetype == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.8) : .white.opacity(DesignTokens.Opacity.textSecondary))
                             .rotationEffect(.degrees(navState.actionsExpanded ? 90 : 0))
                             .animation(.spring(response: 0.3, dampingFraction: 0.7), value: navState.actionsExpanded)
                     }
@@ -280,7 +280,7 @@ struct BottomNavigationBar: View {
 
                 Text(label)
                     .font(.caption2)
-                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
+                    .foregroundColor(viewModel.currentArchetype == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.8) : .white.opacity(DesignTokens.Opacity.textTertiary))
             }
         }
         .buttonStyle(PlainButtonStyle())

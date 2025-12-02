@@ -25,7 +25,11 @@ struct LiquidGlassBottomNav: View {
 
                 // Subtle divider
                 Rectangle()
-                    .fill(Color.white.opacity(0.15))
+                    .fill(
+                        viewModel.currentArchetype == .ads ?
+                            DesignTokens.Colors.adsTextSubtle.opacity(0.15) :
+                            Color.white.opacity(0.15)
+                    )
                     .frame(height: 1)
                     .padding(.horizontal, 16)
             }
@@ -101,11 +105,20 @@ struct LiquidGlassBottomNav: View {
         }
         .padding(.horizontal, 10)
         .padding(.vertical, 6)
-        .background(Color.black.opacity(DesignTokens.Opacity.overlayMedium))
+        .background(
+            viewModel.currentArchetype == .ads ?
+                DesignTokens.Colors.adsTextSubtle.opacity(0.15) :
+                Color.black.opacity(DesignTokens.Opacity.overlayMedium)
+        )
         .cornerRadius(DesignTokens.Radius.card)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
+                .strokeBorder(
+                    viewModel.currentArchetype == .ads ?
+                        DesignTokens.Colors.adsTextSubtle.opacity(DesignTokens.Opacity.overlayLight) :
+                        Color.white.opacity(DesignTokens.Opacity.overlayLight),
+                    lineWidth: 1
+                )
         )
     }
 
@@ -132,7 +145,7 @@ struct LiquidGlassBottomNav: View {
                     endPoint: .trailing
                 )
             )
-            .foregroundColor(.white)
+            .foregroundColor(viewModel.currentArchetype == .ads ? DesignTokens.Colors.adsTextPrimary : .white)
             .cornerRadius(DesignTokens.Radius.button)
         }
         .buttonStyle(PlainButtonStyle())
@@ -156,7 +169,12 @@ struct LiquidGlassBottomNav: View {
                     .fill(Color.black.opacity(DesignTokens.Opacity.textDisabled))
                     .overlay(
                         Capsule()
-                            .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayMedium), lineWidth: 1)
+                            .strokeBorder(
+                                viewModel.currentArchetype == .ads ?
+                                    DesignTokens.Colors.adsTextSubtle.opacity(DesignTokens.Opacity.overlayMedium) :
+                                    Color.white.opacity(DesignTokens.Opacity.overlayMedium),
+                                lineWidth: 1
+                            )
                     )
             )
             .offset(x: 4, y: -4)
@@ -216,13 +234,22 @@ struct LiquidGlassBottomNav: View {
         Button(action: action) {
             Image(systemName: systemImage)
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundColor(.white)
+                .foregroundColor(viewModel.currentArchetype == .ads ? DesignTokens.Colors.adsTextPrimary : .white)
                 .frame(width: 36, height: 36)
-                .background(Color.white.opacity(0.15))
+                .background(
+                    viewModel.currentArchetype == .ads ?
+                        DesignTokens.Colors.adsTextSubtle.opacity(0.15) :
+                        Color.white.opacity(0.15)
+                )
                 .cornerRadius(DesignTokens.Radius.button)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .strokeBorder(Color.white.opacity(DesignTokens.Opacity.overlayLight), lineWidth: 1)
+                        .strokeBorder(
+                            viewModel.currentArchetype == .ads ?
+                                DesignTokens.Colors.adsTextSubtle.opacity(DesignTokens.Opacity.overlayLight) :
+                                Color.white.opacity(DesignTokens.Opacity.overlayLight),
+                            lineWidth: 1
+                        )
                 )
         }
         .buttonStyle(PlainButtonStyle())
@@ -249,12 +276,20 @@ struct LiquidGlassBottomNav: View {
             HStack(spacing: 4) {
                 Text("INBOX PROGRESS")
                     .font(.system(size: 9, weight: .bold))
-                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
+                    .foregroundColor(
+                        viewModel.currentArchetype == .ads ?
+                            DesignTokens.Colors.adsTextSecondary :
+                            .white.opacity(DesignTokens.Opacity.textSubtle)
+                    )
                     .tracking(0.5)
 
                 Text("\(Int(progressPercentage * 100))%")
                     .font(.system(size: 9, weight: .bold))
-                    .foregroundColor(.white.opacity(DesignTokens.Opacity.textSecondary))
+                    .foregroundColor(
+                        viewModel.currentArchetype == .ads ?
+                            DesignTokens.Colors.adsTextPrimary :
+                            .white.opacity(DesignTokens.Opacity.textSecondary)
+                    )
             }
             .fixedSize()
 
@@ -263,7 +298,11 @@ struct LiquidGlassBottomNav: View {
                 ZStack(alignment: .leading) {
                     // Background bar
                     RoundedRectangle(cornerRadius: 2)
-                        .fill(Color.white.opacity(DesignTokens.Opacity.overlayLight))
+                        .fill(
+                            viewModel.currentArchetype == .ads ?
+                                DesignTokens.Colors.adsTextSubtle.opacity(DesignTokens.Opacity.overlayLight) :
+                                Color.white.opacity(DesignTokens.Opacity.overlayLight)
+                        )
                         .frame(height: 4)
 
                     // Filled progress with holographic gradient (changes for ads)

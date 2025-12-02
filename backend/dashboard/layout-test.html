@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout Spacing Test - Zero Landing Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Placeholder box styling */
+        .placeholder {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            margin: 10px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .placeholder-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .placeholder-dimensions {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            font-family: monospace;
+        }
+
+        /* Beta Banner */
+        .beta-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            height: 60px;
+            background: rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        /* Main Navigation */
+        .main-nav {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            z-index: 9998;
+            height: 70px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 130px; /* Beta banner 60px + Nav 70px */
+            padding: 15px 20px 40px; /* 15px top padding = consistent gap */
+            text-align: center;
+        }
+
+        .hero-logo {
+            height: 80px;
+            margin-bottom: 15px;
+        }
+
+        .hero-title {
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        .hero-subtitle {
+            height: 40px;
+            margin-bottom: 15px;
+        }
+
+        .hero-cta-buttons {
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        /* Demo Container */
+        .demo-container {
+            margin: 15px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .demo-iframe-placeholder {
+            height: 800px;
+            width: 100%;
+        }
+
+        /* Marketing Sections */
+        .marketing-section {
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            height: 50px;
+            margin-bottom: 15px;
+        }
+
+        .section-content {
+            height: 300px;
+            margin-bottom: 15px;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 0;
+        }
+
+        .feature-card {
+            height: 200px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 200px;
+        }
+
+        /* Viewport Info */
+        .viewport-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: monospace;
+            z-index: 10000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .viewport-info div {
+            margin: 5px 0;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .beta-banner {
+                height: 50px;
+            }
+
+            .main-nav {
+                top: 50px;
+                height: 60px;
+            }
+
+            .hero {
+                margin-top: 110px; /* Beta banner 50px + Nav 60px */
+                padding: 12px 16px 30px; /* 12px top padding = consistent gap */
+            }
+
+            .hero-logo {
+                height: 60px;
+                margin-bottom: 12px;
+            }
+
+            .hero-title {
+                height: 50px;
+                margin-bottom: 12px;
+            }
+
+            .hero-subtitle {
+                height: 35px;
+                margin-bottom: 12px;
+            }
+
+            .hero-cta-buttons {
+                height: 120px; /* Stacked buttons */
+                margin-bottom: 12px;
+            }
+
+            .demo-container {
+                margin: 12px 0;
+                padding: 0;
+            }
+
+            .demo-iframe-placeholder {
+                height: 600px;
+            }
+
+            .marketing-section {
+                padding: 12px 16px;
+            }
+
+            .section-title {
+                height: 40px;
+                margin-bottom: 12px;
+            }
+
+            .section-content {
+                height: 250px;
+                margin-bottom: 12px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .feature-card {
+                height: 180px;
+            }
+
+            .footer {
+                padding: 12px 16px;
+                margin-top: 12px;
+            }
+
+            .footer-content {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .beta-banner {
+                height: 45px;
+            }
+
+            .main-nav {
+                top: 45px;
+                height: 55px;
+            }
+
+            .hero {
+                margin-top: 100px;
+                padding: 10px 12px 20px; /* 10px top padding = consistent gap */
+            }
+
+            .hero-logo {
+                height: 50px;
+                margin-bottom: 10px;
+            }
+
+            .hero-title {
+                height: 45px;
+                margin-bottom: 10px;
+            }
+
+            .hero-subtitle {
+                height: 30px;
+                margin-bottom: 10px;
+            }
+
+            .hero-cta-buttons {
+                margin-bottom: 10px;
+            }
+
+            .demo-container {
+                margin: 10px 0;
+            }
+
+            .marketing-section {
+                padding: 10px 12px;
+            }
+
+            .section-title {
+                margin-bottom: 10px;
+            }
+
+            .section-content {
+                margin-bottom: 10px;
+            }
+
+            .features-grid {
+                gap: 10px;
+            }
+
+            .footer {
+                padding: 10px 12px;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Viewport Info -->
+    <div class="viewport-info">
+        <div><strong>Viewport:</strong> <span id="width"></span>px × <span id="height"></span>px</div>
+        <div><strong>Breakpoint:</strong> <span id="breakpoint"></span></div>
+        <div><strong>Scroll:</strong> <span id="scroll"></span>px</div>
+    </div>
+
+    <!-- Beta Banner -->
+    <div class="beta-banner placeholder">
+        <div class="placeholder-label">Beta Banner</div>
+        <div class="placeholder-dimensions" id="beta-banner-dims"></div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="main-nav placeholder">
+        <div class="placeholder-label">Main Navigation</div>
+        <div class="placeholder-dimensions" id="main-nav-dims"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-logo placeholder">
+            <div class="placeholder-label">Hero Logo</div>
+            <div class="placeholder-dimensions" id="hero-logo-dims"></div>
+        </div>
+
+        <div class="hero-title placeholder">
+            <div class="placeholder-label">Hero Title (H1)</div>
+            <div class="placeholder-dimensions" id="hero-title-dims"></div>
+        </div>
+
+        <div class="hero-subtitle placeholder">
+            <div class="placeholder-label">Hero Subtitle</div>
+            <div class="placeholder-dimensions" id="hero-subtitle-dims"></div>
+        </div>
+
+        <div class="hero-cta-buttons placeholder">
+            <div class="placeholder-label">
+                Hero CTA Buttons:<br>
+                [Request Beta Access] [Download TestFlight]
+            </div>
+            <div class="placeholder-dimensions" id="hero-cta-dims"></div>
+        </div>
+    </section>
+
+    <!-- Demo Container (iframe) -->
+    <div class="demo-container">
+        <div class="demo-iframe-placeholder placeholder">
+            <div class="placeholder-label">Demo iframe<br>(app-demo.html embedded)</div>
+            <div class="placeholder-dimensions" id="demo-iframe-dims"></div>
+        </div>
+    </div>
+
+    <!-- Marketing Section 1: Features -->
+    <section class="marketing-section">
+        <div class="section-title placeholder">
+            <div class="placeholder-label">Section Title: Features</div>
+            <div class="placeholder-dimensions" id="features-title-dims"></div>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card placeholder">
+                <div class="placeholder-label">Feature Card 1</div>
+                <div class="placeholder-dimensions" id="feature-1-dims"></div>
+            </div>
+            <div class="feature-card placeholder">
+                <div class="placeholder-label">Feature Card 2</div>
+                <div class="placeholder-dimensions" id="feature-2-dims"></div>
+            </div>
+            <div class="feature-card placeholder">
+                <div class="placeholder-label">Feature Card 3</div>
+                <div class="placeholder-dimensions" id="feature-3-dims"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marketing Section 2: How It Works -->
+    <section class="marketing-section">
+        <div class="section-title placeholder">
+            <div class="placeholder-label">Section Title: How It Works</div>
+            <div class="placeholder-dimensions" id="how-title-dims"></div>
+        </div>
+
+        <div class="section-content placeholder">
+            <div class="placeholder-label">How It Works Content</div>
+            <div class="placeholder-dimensions" id="how-content-dims"></div>
+        </div>
+    </section>
+
+    <!-- Marketing Section 3: Testimonials -->
+    <section class="marketing-section">
+        <div class="section-title placeholder">
+            <div class="placeholder-label">Section Title: Testimonials</div>
+            <div class="placeholder-dimensions" id="testimonials-title-dims"></div>
+        </div>
+
+        <div class="section-content placeholder">
+            <div class="placeholder-label">Testimonials Content</div>
+            <div class="placeholder-dimensions" id="testimonials-content-dims"></div>
+        </div>
+    </section>
+
+    <!-- Marketing Section 4: CTA -->
+    <section class="marketing-section">
+        <div class="section-title placeholder">
+            <div class="placeholder-label">Final CTA Title</div>
+            <div class="placeholder-dimensions" id="cta-title-dims"></div>
+        </div>
+
+        <div class="section-content placeholder">
+            <div class="placeholder-label">Final CTA Content</div>
+            <div class="placeholder-dimensions" id="cta-content-dims"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content placeholder">
+            <div class="placeholder-label">Footer (Links, Social, Copyright)</div>
+            <div class="placeholder-dimensions" id="footer-dims"></div>
+        </div>
+    </footer>
+
+    <script>
+        function updateViewportInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const scroll = window.scrollY;
+
+            document.getElementById('width').textContent = width;
+            document.getElementById('height').textContent = height;
+            document.getElementById('scroll').textContent = Math.round(scroll);
+
+            let breakpoint = 'Desktop (>768px)';
+            if (width <= 480) {
+                breakpoint = 'Mobile Small (≤480px)';
+            } else if (width <= 768) {
+                breakpoint = 'Mobile/Tablet (≤768px)';
+            }
+            document.getElementById('breakpoint').textContent = breakpoint;
+
+            // Update dimensions for each placeholder
+            updateElementDimensions('beta-banner-dims', document.querySelector('.beta-banner'));
+            updateElementDimensions('main-nav-dims', document.querySelector('.main-nav'));
+            updateElementDimensions('hero-logo-dims', document.querySelector('.hero-logo'));
+            updateElementDimensions('hero-title-dims', document.querySelector('.hero-title'));
+            updateElementDimensions('hero-subtitle-dims', document.querySelector('.hero-subtitle'));
+            updateElementDimensions('hero-cta-dims', document.querySelector('.hero-cta-buttons'));
+            updateElementDimensions('demo-iframe-dims', document.querySelector('.demo-iframe-placeholder'));
+            updateElementDimensions('features-title-dims', document.querySelector('#features-title-dims').closest('.placeholder'));
+            updateElementDimensions('feature-1-dims', document.querySelectorAll('.feature-card')[0]);
+            updateElementDimensions('footer-dims', document.querySelector('.footer-content'));
+        }
+
+        function updateElementDimensions(id, element) {
+            if (element) {
+                const rect = element.getBoundingClientRect();
+                document.getElementById(id).textContent =
+                    `${Math.round(rect.width)}×${Math.round(rect.height)}`;
+            }
+        }
+
+        updateViewportInfo();
+        window.addEventListener('resize', updateViewportInfo);
+        window.addEventListener('scroll', updateViewportInfo);
+    </script>
+</body>
+</html>

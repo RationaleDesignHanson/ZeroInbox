@@ -37,7 +37,7 @@ struct EmailDetailView: View {
                     // Subject in frosted glass panel
                     Text(card.title)
                         .font(.title2.bold())
-                        .foregroundColor(.white)
+                        .foregroundColor(readerTextPrimary)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(DesignTokens.Spacing.component)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -66,7 +66,7 @@ struct EmailDetailView: View {
                             LinkifiedText(
                                 processedBody,
                                 font: .body,
-                                color: .white.opacity(0.92),
+                                color: card.type == .ads ? Color(red: 0.1, green: 0.4, blue: 0.35) : .white.opacity(0.92),
                                 lineSpacing: 6
                             )
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -77,7 +77,7 @@ struct EmailDetailView: View {
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("Summary")
                                     .font(.caption.bold())
-                                    .foregroundColor(.white.opacity(0.75))
+                                    .foregroundColor(readerTextSecondary)
                                     .tracking(0.5)
 
                                 StructuredSummaryView(card: card)
@@ -239,11 +239,11 @@ struct EmailDetailView: View {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Draft a Reply with AI")
                                         .font(.headline)
-                                        .foregroundColor(.white)
+                                        .foregroundColor(readerTextPrimary)
 
                                     Text("Generate a complete, context-aware draft")
                                         .font(.caption)
-                                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
+                                        .foregroundColor(readerTextSecondary)
                                 }
 
                                 Spacer()
@@ -775,11 +775,11 @@ struct EmailDetailView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("From: \(senderName)")
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(readerTextPrimary)
 
                     Text(card.timeAgo)
                         .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.75))
+                        .foregroundColor(readerTextSecondary)
                 }
             }
             
@@ -790,7 +790,7 @@ struct EmailDetailView: View {
                 Text(card.priority.rawValue.uppercased())
                     .font(.caption.bold())
             }
-            .foregroundColor(.white)
+            .foregroundColor(readerTextPrimary)
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(priorityColor)
@@ -808,10 +808,10 @@ struct EmailDetailView: View {
             if card.requiresSignature == true {
                 HStack(spacing: 12) {
                     Image(systemName: "doc.text.fill")
-                        .foregroundColor(.white)
+                        .foregroundColor(readerTextPrimary)
                     Text("Digital Signature Required")
                         .font(.subheadline.bold())
-                        .foregroundColor(.white)
+                        .foregroundColor(readerTextPrimary)
                 }
                 .padding()
                 .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
@@ -867,17 +867,17 @@ struct EmailDetailView: View {
                 HStack(spacing: 12) {
                     Text("$\(String(format: "%.2f", salePrice))")
                         .font(.title.bold())
-                        .foregroundColor(.white)
-                    
+                        .foregroundColor(readerTextPrimary)
+
                     Text("$\(String(format: "%.2f", originalPrice))")
                         .font(.title3)
-                        .foregroundColor(.white.opacity(DesignTokens.Opacity.overlayStrong))
+                        .foregroundColor(readerTextSecondary)
                         .strikethrough()
-                    
+
                     if let discount = card.discount {
                         Text("Save \(discount)%")
                             .font(.subheadline.bold())
-                            .foregroundColor(.white)
+                            .foregroundColor(readerTextPrimary)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(Color.green)
@@ -912,16 +912,16 @@ struct EmailDetailView: View {
     func detailRow(icon: String, label: String, value: String) -> some View {
         HStack(spacing: 12) {
             Image(systemName: icon)
-                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
+                .foregroundColor(readerTextTertiary)
                 .frame(width: 24)
 
             Text(label + ":")
                 .font(.subheadline)
-                .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
+                .foregroundColor(readerTextTertiary)
 
             Text(value)
                 .font(.subheadline.bold())
-                .foregroundColor(.white)
+                .foregroundColor(readerTextPrimary)
 
             Spacer()
         }
@@ -951,8 +951,8 @@ struct EmailDetailView: View {
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 14)
-                .background(Color.white)
-                .foregroundColor(.blue)
+                .background(card.type == .ads ? DesignTokens.Colors.adsGradientEnd : Color.white)
+                .foregroundColor(card.type == .ads ? .white : .blue)
                 .cornerRadius(DesignTokens.Radius.button)
             }
 
@@ -979,8 +979,8 @@ struct EmailDetailView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
-                    .background(Color.white.opacity(0.15))
-                    .foregroundColor(.white)
+                    .background(card.type == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.2) : Color.white.opacity(0.15))
+                    .foregroundColor(card.type == .ads ? DesignTokens.Colors.adsGradientEnd : .white)
                     .cornerRadius(DesignTokens.Radius.button)
                 }
 
@@ -995,8 +995,8 @@ struct EmailDetailView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
-                    .background(Color.white.opacity(0.15))
-                    .foregroundColor(.white)
+                    .background(card.type == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.2) : Color.white.opacity(0.15))
+                    .foregroundColor(card.type == .ads ? DesignTokens.Colors.adsGradientEnd : .white)
                     .cornerRadius(DesignTokens.Radius.button)
                 }
             }
@@ -1089,6 +1089,21 @@ struct EmailDetailView: View {
     /// Border color for reader UI sections
     private var readerBorderColor: Color {
         card.type == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.3) : Color.white.opacity(0.12)
+    }
+
+    /// Primary text color for reader UI (white for mail, dark green for ads)
+    private var readerTextPrimary: Color {
+        card.type == .ads ? Color(red: 0.1, green: 0.4, blue: 0.35) : .white
+    }
+
+    /// Secondary text color for reader UI
+    private var readerTextSecondary: Color {
+        card.type == .ads ? Color(red: 0.15, green: 0.5, blue: 0.45) : .white.opacity(0.75)
+    }
+
+    /// Tertiary text color for reader UI
+    private var readerTextTertiary: Color {
+        card.type == .ads ? Color(red: 0.2, green: 0.55, blue: 0.5) : .white.opacity(DesignTokens.Opacity.textDisabled)
     }
 
     /// Background view for reader sections

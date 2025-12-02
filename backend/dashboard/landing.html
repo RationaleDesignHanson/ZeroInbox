@@ -104,9 +104,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             text-align: center;
-            margin-top: -300px;
+            padding-top: 60px;
         }
 
         .logo-hero {
@@ -117,7 +117,7 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             letter-spacing: -5px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             animation: pulse 3s ease-in-out infinite;
             display: inline-block;
             padding: 0 10px;
@@ -127,7 +127,7 @@
             font-size: 56px;
             font-weight: 900;
             line-height: 1.2;
-            margin-bottom: 24px;
+            margin-bottom: 15px;
         }
 
         .hero p {
@@ -135,7 +135,41 @@
             color: rgba(255, 255, 255, 0.8);
             max-width: 700px;
             line-height: 1.6;
-            margin-bottom: 40px;
+            margin-bottom: 15px;
+        }
+
+        /* Demo Container */
+        .demo-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 15px auto 15px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at top, #020617, #020617 40%, #000 100%);
+        }
+
+        .demo-iframe {
+            width: 100%;
+            height: 1600px;
+            border: none;
+            background: transparent;
+            overflow: visible;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .demo-container {
+                max-width: 100%;
+                padding: 0 20px;
+                margin: 40px auto 40px;
+            }
+
+            .demo-iframe {
+                height: 1200px;
+            }
         }
 
         .cta-buttons {
@@ -247,6 +281,15 @@
             background: linear-gradient(135deg, var(--primary-blue), var(--secondary-purple));
             border-radius: 20px;
             margin-top: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .sequence-result:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
         }
 
         .sequence-result h3 {
@@ -510,11 +553,6 @@
         }
 
         /* Responsive */
-        /* Hide "Contact to Try App" buttons - beta banner handles this */
-        .btn-primary[onclick="openBetaModal()"] {
-            display: none;
-        }
-
         @media (max-width: 768px) {
             .hero h1 { font-size: 40px; }
             .hero p { font-size: 18px; }
@@ -838,15 +876,26 @@
             opacity: 1;
         }
 
+        /* Tablet breakpoint */
         @media (max-width: 768px) {
             body {
                 padding-top: 0;
             }
 
             .hero {
-                padding: 60px 20px;
+                padding: 60px 20px 40px 20px;
                 min-height: 100vh;
-                margin-top: 0; /* Reset desktop positioning for mobile */
+                margin-top: 0;
+            }
+
+            .hero h1 {
+                font-size: 44px;
+                line-height: 1.2;
+            }
+
+            .hero p {
+                font-size: 18px;
+                margin-bottom: 24px;
             }
 
             .beta-banner {
@@ -860,6 +909,7 @@
             .beta-banner-btn {
                 flex: 1;
                 text-align: center;
+                padding: 10px 18px;
             }
 
             .main-nav {
@@ -870,6 +920,120 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+            }
+
+            .demo-container iframe {
+                height: 950px;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            .floating-spheres {
+                opacity: 0.5;
+            }
+        }
+
+        /* Mobile phone breakpoint */
+        @media (max-width: 480px) {
+            body {
+                padding-top: 0;
+            }
+
+            .hero {
+                padding: 20px 16px 20px 16px;
+                min-height: auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+            }
+
+            .logo-hero {
+                font-size: 60px;
+                margin-bottom: 8px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+                line-height: 1.2;
+                margin-bottom: 12px;
+            }
+
+            .hero p {
+                font-size: 16px;
+                line-height: 1.5;
+                margin-bottom: 20px;
+            }
+
+            .beta-banner {
+                padding: 8px 12px;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .beta-banner-content {
+                width: 100%;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .beta-banner-text {
+                text-align: center;
+                width: 100%;
+            }
+
+            .beta-banner-title {
+                font-size: 14px;
+            }
+
+            .beta-banner-subtitle {
+                font-size: 11px;
+            }
+
+            .beta-banner-actions {
+                width: 100%;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .beta-banner-btn {
+                width: 100%;
+                padding: 12px 20px;
+                font-size: 14px;
+                min-height: 48px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .demo-container {
+                margin-top: 10px;
+                padding: 0;
+            }
+
+            .demo-container iframe {
+                height: 1000px;
+                border-radius: 0;
+                width: 100%;
+            }
+
+            section {
+                padding: 40px 16px;
+            }
+
+            .section-title {
+                font-size: 28px;
+                margin-bottom: 16px;
+            }
+
+            .floating-spheres {
+                opacity: 0.3;
+            }
+
+            .sphere {
+                filter: blur(40px);
             }
         }
 
@@ -1067,6 +1231,143 @@
             text-decoration: underline;
         }
 
+        /* Firefly Shader Background */
+        .firefly-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .firefly {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            will-change: transform, opacity;
+            animation: firefly-float ease-in-out infinite;
+        }
+
+        .firefly.small {
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, rgba(147, 197, 253, 1), rgba(147, 197, 253, 0.5) 40%, transparent 70%);
+            box-shadow: 0 0 10px rgba(147, 197, 253, 0.8), 0 0 20px rgba(147, 197, 253, 0.4);
+        }
+
+        .firefly.medium {
+            width: 5px;
+            height: 5px;
+            background: radial-gradient(circle, rgba(196, 181, 253, 1), rgba(196, 181, 253, 0.6) 40%, transparent 70%);
+            box-shadow: 0 0 15px rgba(196, 181, 253, 0.9), 0 0 30px rgba(196, 181, 253, 0.5);
+        }
+
+        .firefly.warm {
+            width: 4px;
+            height: 4px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 1), rgba(251, 191, 36, 0.7) 40%, transparent 70%);
+            box-shadow: 0 0 12px rgba(251, 191, 36, 0.9), 0 0 25px rgba(251, 146, 60, 0.6);
+        }
+
+        @keyframes firefly-float {
+            0%, 100% {
+                transform: translate3d(0, 0, 0);
+                opacity: 0.3;
+            }
+            25% {
+                transform: translate3d(var(--tx1), var(--ty1), 0);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate3d(var(--tx2), var(--ty2), 0);
+                opacity: 0.5;
+            }
+            75% {
+                transform: translate3d(var(--tx3), var(--ty3), 0);
+                opacity: 0.9;
+            }
+        }
+
+        /* Phone Glow Background Effect */
+        .phone-glow-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 550px;
+            height: 1200px;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(99, 102, 241, 0.85) 0%,
+                rgba(139, 92, 246, 0.7) 25%,
+                rgba(59, 130, 246, 0.5) 50%,
+                transparent 75%
+            );
+            filter: blur(70px);
+            mix-blend-mode: screen;
+            animation: phone-glow-pulse 3s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes phone-glow-pulse {
+            0%, 100% {
+                opacity: 0.7;
+                transform: translate(-50%, -50%) scale(1);
+                filter: blur(70px);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.1);
+                filter: blur(80px);
+            }
+        }
+
+        /* Responsive glow sizing */
+        @media (max-width: 768px) {
+            .phone-glow-background {
+                width: 450px;
+                height: 1000px;
+            }
+
+            @keyframes phone-glow-pulse {
+                0%, 100% {
+                    opacity: 0.7;
+                    transform: translate(-50%, -50%) scale(1);
+                    filter: blur(60px);
+                }
+                50% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1.1);
+                    filter: blur(70px);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            .phone-glow-background {
+                width: 100%;
+                max-width: 400px;
+                height: 900px;
+            }
+
+            @keyframes phone-glow-pulse {
+                0%, 100% {
+                    opacity: 0.7;
+                    transform: translate(-50%, -50%) scale(1);
+                    filter: blur(50px);
+                }
+                50% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1.1);
+                    filter: blur(60px);
+                }
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1093,7 +1394,6 @@
         <div class="nav-container">
             <ul class="nav-links">
                 <li><a href="landing.html" class="nav-link active">Home</a></li>
-                <li><a href="app-demo.html" class="nav-link">Live Demo</a></li>
                 <li><a href="zero-sequence-live.html" class="nav-link">Intent-Action Demo</a></li>
                 <li><a href="action-modal-explorer.html" class="nav-link">Actions</a></li>
                 <li><a href="intent-action-explorer.html" class="nav-link">Intents</a></li>
@@ -1120,7 +1420,6 @@
         </div>
         <ul class="mobile-nav-links">
             <li><a href="landing.html" class="mobile-nav-link active">Home</a></li>
-            <li><a href="app-demo.html" class="mobile-nav-link">Live Demo</a></li>
             <li><a href="zero-sequence-live.html" class="mobile-nav-link">Intent-Action Demo</a></li>
             <li><a href="action-modal-explorer.html" class="mobile-nav-link">Actions</a></li>
             <li><a href="intent-action-explorer.html" class="mobile-nav-link">Intents</a></li>
@@ -1137,22 +1436,33 @@
         <div class="sphere"></div>
     </div>
 
+    <!-- Firefly Background -->
+    <div class="firefly-background" id="fireflyBg"></div>
+
     <div class="content">
         <!-- Hero Section -->
         <section class="hero">
             <div class="logo-hero">zero</div>
-            <h1>Your Inbox, Simplified to Zero</h1>
+            <h1>Short-form email, swipe and move on.</h1>
             <p>AI-powered email intelligence that surfaces what matters and handles everything else with one-tap actions</p>
-            <div class="cta-buttons">
-                <a href="app-demo.html" class="btn btn-secondary">See How It Works</a>
-                <button onclick="openBetaModal()" class="btn btn-primary">Contact to Try App</button>
+
+            <!-- Interactive Phone Demo -->
+            <div class="demo-container">
+                <div class="phone-glow-background"></div>
+                <iframe
+                    src="/app-demo.html"
+                    title="Zero Interactive Demo"
+                    class="demo-iframe"
+                    loading="lazy"
+                    scrolling="no"
+                ></iframe>
             </div>
         </section>
 
         <!-- Zero Sequence Section -->
         <section id="zero-sequence" class="zero-sequence">
             <h2 class="section-title">The Zero Sequence</h2>
-            <p class="section-subtitle">Every email goes through our 5-step process to reach inbox zero</p>
+            <p class="section-subtitle">Every email goes through our 5-step process</p>
 
             <div class="sequence-flow">
                 <div class="sequence-step">
@@ -1170,7 +1480,7 @@
                 <div class="sequence-step">
                     <div class="step-number">3</div>
                     <h3>SUGGEST</h3>
-                    <p>One-tap actions appear: add to calendar, track package, reply</p>
+                    <p>Smart suggestions appear instantly: add to calendar, track package, reply</p>
                 </div>
 
                 <div class="sequence-step">
@@ -1186,10 +1496,10 @@
                 </div>
             </div>
 
-            <div class="sequence-result">
-                <h3>Result: Hours Saved, Stress Eliminated</h3>
-                <p>Clear your inbox in a fraction of the time. Inbox zero, every day.</p>
-            </div>
+            <a href="zero-sequence-live.html" class="sequence-result">
+                <h3>See How It Works</h3>
+                <p>Discover how Zero classifies emails and suggests actions</p>
+            </a>
         </section>
 
         <!-- Action Shots Section -->
@@ -1391,17 +1701,16 @@
             <h2>Ready for Inbox Zero?</h2>
             <p>Join 100 beta testers experiencing the future of email</p>
             <div class="cta-buttons">
-                <a href="app-demo.html" class="btn btn-secondary">See How It Works</a>
-                <button onclick="openBetaModal()" class="btn btn-primary">Contact to Try App</button>
+                <button onclick="openBetaModal()" class="btn btn-primary">Request Beta Access</button>
             </div>
         </section>
 
         <!-- Footer -->
         <footer>
             <div class="footer-links">
-                <a href="architecture-visual.html">Security</a>
+                <a href="/splash.html">Beta Tester Login</a>
                 <a href="mailto:zerobeta@rationale.work">Contact</a>
-                <a href="/">Dashboard</a>
+                <a href="architecture-visual.html">Security</a>
                 <a href="/design-system-renderer.html">Design System</a>
             </div>
             <p style="color: rgba(255, 255, 255, 0.5); font-size: 14px;">
@@ -1461,7 +1770,7 @@
             </form>
 
             <div class="beta-modal-footer">
-                Already have an access code? <a href="/splash.html">Login here</a>
+                Already a beta tester? <a href="/splash.html">Login to Dashboard</a>
             </div>
         </div>
     </div>
@@ -1598,6 +1907,36 @@
             section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(section);
         });
+
+        // Initialize firefly background
+        (function initFireflies() {
+            const container = document.getElementById('fireflyBg');
+            const fireflyCount = 40;
+
+            for (let i = 0; i < fireflyCount; i++) {
+                const firefly = document.createElement('div');
+                const rand = Math.random();
+                const variant = rand < 0.33 ? 'small' : rand < 0.66 ? 'medium' : 'warm';
+                firefly.className = `firefly ${variant}`;
+
+                firefly.style.left = `${Math.random() * 100}%`;
+                firefly.style.top = `${Math.random() * 100}%`;
+
+                const duration = 8 + Math.random() * 12;
+                firefly.style.animationDuration = `${duration}s`;
+                firefly.style.animationDelay = `${Math.random() * -duration}s`;
+
+                const moveRange = 60 + Math.random() * 80;
+                firefly.style.setProperty('--tx1', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty1', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--tx2', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty2', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--tx3', `${(Math.random() - 0.5) * moveRange}px`);
+                firefly.style.setProperty('--ty3', `${(Math.random() - 0.5) * moveRange}px`);
+
+                container.appendChild(firefly);
+            }
+        })();
     </script>
 </body>
 </html>

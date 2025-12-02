@@ -35,6 +35,35 @@
             padding-bottom: 20px;
         }
 
+        /* Hide navigation when embedded in iframe */
+        body.iframe-embedded .beta-banner,
+        body.iframe-embedded .main-nav,
+        body.iframe-embedded .mobile-menu-toggle,
+        body.iframe-embedded .mobile-drawer,
+        body.iframe-embedded .mobile-backdrop,
+        body.iframe-embedded .header {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        body.iframe-embedded {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            background: transparent !important;
+        }
+
+        /* Reposition iPhone mockup higher when embedded in iframe */
+        body.iframe-embedded .hero-section {
+            margin-top: 20px;
+        }
+
+        /* Hide firefly background when embedded to prevent duplication */
+        body.iframe-embedded .firefly-background {
+            display: none !important;
+        }
+
         /* Beta Banner - Fixed Top on Desktop, Bottom on Mobile */
         .beta-banner {
             position: fixed;
@@ -315,6 +344,7 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 24px 20px;
+            overflow: visible;
         }
 
         /* Header */
@@ -484,12 +514,14 @@
 
         /* Hero Section - iPhone Mockup */
         .hero-section {
-            margin-top: 6px;
+            margin-top: 0;
             margin-bottom: 0;
+            padding: 20px;
             display: flex;
             align-items: flex-start;
             justify-content: center;
             position: relative;
+            overflow: visible;
         }
 
         .demo-instruction {
@@ -526,8 +558,8 @@
             backdrop-filter: blur(10px);
             border: 2px solid rgba(102, 126, 234, 0.4);
             border-radius: 12px;
-            padding: 12px 24px;
-            font-size: 14px;
+            padding: 10px 20px;
+            font-size: 13px;
             font-weight: 600;
             color: white;
             z-index: 250;
@@ -580,33 +612,8 @@
             box-shadow:
                 0 40px 80px rgba(0, 0, 0, 0.8),
                 0 0 0 12px #1d1d1f,
-                0 0 0 14px rgba(255, 255, 255, 0.1),
-                0 0 100px rgba(59, 130, 246, 0.4),
-                0 0 200px rgba(139, 92, 246, 0.3),
-                0 0 300px rgba(59, 130, 246, 0.2);
+                0 0 0 14px rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            animation: hero-glow 4s ease-in-out infinite;
-        }
-
-        @keyframes hero-glow {
-            0%, 100% {
-                box-shadow:
-                    0 40px 80px rgba(0, 0, 0, 0.8),
-                    0 0 0 12px #1d1d1f,
-                    0 0 0 14px rgba(255, 255, 255, 0.1),
-                    0 0 100px rgba(59, 130, 246, 0.4),
-                    0 0 200px rgba(139, 92, 246, 0.3),
-                    0 0 300px rgba(59, 130, 246, 0.2);
-            }
-            50% {
-                box-shadow:
-                    0 40px 80px rgba(0, 0, 0, 0.8),
-                    0 0 0 12px #1d1d1f,
-                    0 0 0 14px rgba(255, 255, 255, 0.1),
-                    0 0 120px rgba(59, 130, 246, 0.6),
-                    0 0 240px rgba(139, 92, 246, 0.5),
-                    0 0 360px rgba(59, 130, 246, 0.4);
-            }
         }
 
         .iphone-notch {
@@ -668,10 +675,12 @@
         .email-card {
             position: absolute;
             width: 343px;
+            max-height: 70vh;
+            overflow-y: auto;
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 16px;
-            padding: 20px;
+            padding: 16px;
             cursor: grab;
             transition: transform 0.3s ease, opacity 0.3s ease;
             user-select: none;
@@ -859,10 +868,10 @@
         /* Product Image - Shopping/ADS Cards */
         .product-image-container {
             width: 100%;
-            height: 120px;
+            height: 80px;
             border-radius: 12px;
             overflow: hidden;
-            margin: 12px 0;
+            margin: 8px 0;
             background: rgba(255, 255, 255, 0.05);
             position: relative;
         }
@@ -1023,8 +1032,8 @@
         .ai-suggested-actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 12px;
+            gap: 10px;
+            margin-top: 16px;
             position: relative;
             z-index: 1;
         }
@@ -1033,7 +1042,7 @@
             font-size: 11px;
             font-weight: 600;
             color: white;
-            padding: 6px 12px;
+            padding: 8px 14px;
             border-radius: 8px;
             background: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -1261,6 +1270,18 @@
                 transform: translateX(-50%) translateY(-100px);
                 opacity: 0;
             }
+        }
+
+        /* Error Toast Variant */
+        .action-toast.error {
+            background: linear-gradient(135deg, #ef4444, #f87171);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.6);
+        }
+
+        /* Info Toast Variant */
+        .action-toast.info {
+            background: linear-gradient(135deg, #3b82f6, #60a5fa);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6);
         }
 
         /* Action Bottom Sheet - Inside iPhone */
@@ -1876,7 +1897,7 @@
             align-items: center;
             justify-content: space-between;
             padding: 0 16px;
-            z-index: 100;
+            z-index: 110;
         }
 
         .nav-section {
@@ -2196,6 +2217,7 @@
             }
         }
 
+        /* Tablet breakpoint */
         @media (max-width: 768px) {
             .main-title {
                 font-size: 48px;
@@ -2247,6 +2269,93 @@
                 align-items: center;
                 justify-content: center;
             }
+        }
+
+        /* Mobile phone breakpoint */
+        @media (max-width: 480px) {
+            .hero-section {
+                padding: 5px 8px;
+                margin-top: 0;
+                margin-bottom: 0;
+            }
+
+            .main-title {
+                font-size: 32px;
+            }
+
+            .main-subtitle {
+                font-size: 16px;
+                margin: 12px auto 0;
+                padding: 0 8px;
+            }
+
+            .iphone-mockup {
+                width: 100vw;
+                max-width: 100%;
+                height: auto;
+                min-height: 600px;
+                border-radius: 0;
+                box-shadow:
+                    0 20px 40px rgba(0, 0, 0, 0.8),
+                    0 0 0 8px #1d1d1f;
+                transform: none;
+                margin: 0;
+                background: transparent;
+            }
+
+            /* Hide iPhone decorative elements on mobile */
+            .iphone-notch {
+                display: none !important;
+            }
+
+            .iphone-screen {
+                position: relative;
+                border-radius: 0;
+                width: 100%;
+                height: auto;
+                min-height: 600px;
+            }
+
+            .section-title {
+                font-size: 28px;
+                padding: 0 16px;
+            }
+
+            .tab-switcher {
+                padding: 0 12px;
+                gap: 8px;
+            }
+
+            .tab-button-grid {
+                padding: 0 12px;
+                gap: 8px;
+            }
+
+            .tab-button {
+                padding: 12px 10px;
+                font-size: 11px;
+                min-height: 44px;
+            }
+
+            .metrics-bar {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .metric-value {
+                font-size: 36px;
+            }
+
+            .metric-label {
+                font-size: 12px;
+            }
+
+            /* Make touch targets larger on mobile */
+            .bottom-nav .nav-icon {
+                min-width: 44px;
+                min-height: 44px;
+            }
+        }
 
             .tab-button:hover {
                 transform: none;
@@ -2750,8 +2859,13 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Ellipses Menu */
-        .menu-button {
+        /* Ellipses Menu - HIDDEN */
+        .menu-button,
+        .menu-dropdown {
+            display: none !important;
+        }
+
+        /* .menu-button {
             position: fixed;
             bottom: 20px;
             left: 20px;
@@ -3022,6 +3136,14 @@
     </style>
 </head>
 <body>
+    <!-- Iframe Detection Script -->
+    <script>
+        // Detect if running in iframe and hide navigation
+        if (window.self !== window.top) {
+            document.body.classList.add('iframe-embedded');
+        }
+    </script>
+
     <!-- Beta Banner -->
     <div class="beta-banner">
         <div class="beta-banner-content">
@@ -3163,7 +3285,7 @@
 
                     <!-- In-Phone Demo Instruction -->
                     <div class="in-phone-instruction" id="inPhoneInstruction">
-                        Try it: Swipe right on an email to take action
+                        Swipe right on an email to take action
                     </div>
 
                     <div class="email-feed" id="emailFeed">
@@ -3234,16 +3356,16 @@
 
                         <div class="nav-section">
                             <!-- Shopping Cart -->
-                            <div class="nav-icon" onclick="alert('Shopping cart feature - tracks deals across all your emails!')" title="Shopping Cart">
+                            <div class="nav-icon" title="Shopping Cart">
                                 <span>🛒</span>
-                                <span class="cart-badge" id="cartBadge">3</span>
+                                <span class="cart-badge" id="cartBadge">0</span>
                             </div>
-                            <!-- Settings -->
-                            <div class="nav-icon" onclick="alert('Settings - customize your Zero experience')" title="Settings">
+                            <!-- Settings (non-clickable) -->
+                            <div class="nav-icon" title="Settings" style="opacity: 0.5; cursor: default;">
                                 <span>⚙️</span>
                             </div>
-                            <!-- Search -->
-                            <div class="nav-icon" onclick="alert('Search - find any email instantly')" title="Search">
+                            <!-- Search (non-clickable) -->
+                            <div class="nav-icon" title="Search" style="opacity: 0.5; cursor: default;">
                                 <span>🔍</span>
                             </div>
                         </div>
@@ -6244,10 +6366,10 @@
         // Rich iOS-style mock data from DataGenerator.swift
         const sampleEmails = [
             {
-                from: 'Amazon',
+                from: 'Amazin\' Deliveries',
                 initial: 'A',
                 subject: 'Package Shipped - Arriving Tomorrow',
-                preview: 'Your order has shipped and is arriving tomorrow by 8 PM. Track with UPS.',
+                preview: 'Your order has shipped and is arriving tomorrow by 8 PM. Track with You\'re Probably Shipped.',
                 intent: 'e-commerce.shipping.notification',
                 intentConfidence: 1.0,
                 timeAgo: '30m ago',
@@ -6265,7 +6387,7 @@
                         priority: 1,
                         context: {
                             trackingNumber: '1Z999AA10123456784',
-                            carrier: 'UPS',
+                            carrier: 'You\'re Probably Shipped',
                             url: 'https://www.ups.com/track?tracknum=1Z999AA10123456784'
                         }
                     },
@@ -6288,9 +6410,10 @@
                     type: 'mail',
                     priority: 'high',
                     trackingNumber: '1Z999AA10123456784',
-                    carrier: 'UPS',
+                    carrier: 'You\'re Probably Shipped',
                     estimatedDelivery: 'Tomorrow by 8 PM'
                 },
+                productImageUrl: 'https://picsum.photos/seed/package/400/240',
                 threadCount: 3  // Simple thread indicator for demo
             },
             {
@@ -6363,9 +6486,9 @@
                 threadCount: 5  // Simple thread indicator for demo
             },
             {
-                from: 'Best Buy',
+                from: 'Best... Buy Now!',
                 initial: 'B',
-                subject: 'Sony WH-1000XM5 Headphones',
+                subject: 'Sound Innovation WH-1000XM5 Headphones',
                 preview: 'FLASH SALE: 30% off premium noise-cancelling headphones. Save $120 - today only!',
                 intent: 'e-commerce.promotional.deal',
                 intentConfidence: 0.95,
@@ -6384,7 +6507,7 @@
                         priority: 1,
                         context: {
                             url: 'https://www.bestbuy.com/site/sony-wh-1000xm5',
-                            product: 'Sony WH-1000XM5',
+                            product: 'Sound Innovation WH-1000XM5',
                             originalPrice: 399.99,
                             salePrice: 279.99,
                             savings: 120.00,
@@ -6398,9 +6521,9 @@
                         isPrimary: false,
                         priority: 2,
                         context: {
-                            product: 'Sony WH-1000XM5',
+                            product: 'Sound Innovation WH-1000XM5',
                             price: 279.99,
-                            merchant: 'Best Buy'
+                            merchant: 'Best... Buy Now!'
                         }
                     },
                     {
@@ -6410,8 +6533,8 @@
                         isPrimary: false,
                         priority: 3,
                         context: {
-                            productName: 'Sony WH-1000XM5',
-                            merchants: ['Amazon', 'Target', 'Walmart']
+                            productName: 'Sound Innovation WH-1000XM5',
+                            merchants: ['Amazin\' Deliveries', 'Bullseye Bargains', 'Wally World']
                         }
                     }
                 ],
@@ -6432,8 +6555,8 @@
                 productImageUrl: 'https://picsum.photos/seed/headphones/400/240'
             },
             {
-                from: 'Target',
-                initial: 'T',
+                from: 'Bullseye Bargains',
+                initial: 'B',
                 subject: 'Extra 20% Off - Code: SAVE20',
                 preview: 'Flash sale! Extra 20% off everything with code SAVE20. Ends tonight at midnight.',
                 intent: 'marketing.promo-code.offer',
@@ -6466,7 +6589,7 @@
                         priority: 2,
                         context: {
                             url: 'https://www.target.com?promo=SAVE20',
-                            merchant: 'Target'
+                            merchant: 'Bullseye Bargains'
                         }
                     }
                 ],
@@ -6485,7 +6608,7 @@
                 productImageUrl: 'https://picsum.photos/seed/target/400/240'
             },
             {
-                from: 'REI',
+                from: 'Real Exciting Items',
                 initial: 'R',
                 subject: 'Complete Your Order - 3 Items Waiting',
                 preview: 'Your trail runners, water bottle, and yoga mat are waiting. Cart total: $156.97',
@@ -6550,7 +6673,7 @@
                 productImageUrl: 'https://picsum.photos/seed/rei/400/240'
             },
             {
-                from: 'Avant Arte',
+                from: 'Art Vanguard Gallery',
                 initial: 'A',
                 subject: 'James Jean - Sculpture and print duo',
                 preview: 'Limited edition Sun Tarot Nebula collection drops Oct 31. One week only - 500 pieces.',
@@ -6607,8 +6730,8 @@
                 productImageUrl: 'https://picsum.photos/seed/art/400/240'
             },
             {
-                from: 'Acme Corp',
-                initial: 'AC',
+                from: 'Peak Performance Corp',
+                initial: 'P',
                 subject: 'Invoice Due - $599.00',
                 preview: 'Invoice #INV-2025-1234 is due on Oct 30. Professional services for September.',
                 intent: 'billing.invoice.due',
@@ -6631,7 +6754,7 @@
                             amount: 599.00,
                             dueDate: 'Oct 30',
                             paymentMethods: ['ACH', 'credit_card'],
-                            recipient: 'Acme Corp',
+                            recipient: 'Peak Performance Corp',
                             description: 'Professional Services - September 2025'
                         }
                     },
@@ -6804,7 +6927,7 @@
                 }
             },
             {
-                from: 'TechCrunch',
+                from: 'Tech Munch Daily',
                 initial: 'T',
                 subject: 'The Download: This Week in AI - Issue #47',
                 preview: 'Weekly AI & tech newsletter: GPT-5 speculation, EU AI Act, GitHub Copilot X upgrade...',
@@ -6838,7 +6961,7 @@
                         priority: 2,
                         context: {
                             category: 'newsletters',
-                            publication: 'TechCrunch',
+                            publication: 'Tech Munch Daily',
                             tags: ['AI', 'Technology', 'GPT-5']
                         }
                     },
@@ -6941,12 +7064,10 @@
                 return text.substring(0, maxLength) + '...';
             };
 
-            const truncatedActions = isAdsCard ? truncateText(email.aiSummary?.actions, 50) : email.aiSummary?.actions;
-            const truncatedWhy = isAdsCard ? truncateText(email.aiSummary?.why, 80) : email.aiSummary?.why;
-            // For context, only show first line for ads cards
-            const truncatedContext = isAdsCard && email.aiSummary?.context ?
-                email.aiSummary.context.split('\n')[0] :
-                email.aiSummary?.context;
+            const truncatedActions = isAdsCard ? truncateText(email.aiSummary?.actions, 35) : email.aiSummary?.actions;
+            const truncatedWhy = isAdsCard ? truncateText(email.aiSummary?.why, 50) : email.aiSummary?.why;
+            // For context, hide it completely for ads cards to save space
+            const truncatedContext = isAdsCard ? '' : email.aiSummary?.context;
 
             const aiPreview = email.aiSummary ? `
                 <div class="ai-preview-section">
@@ -7174,11 +7295,22 @@
 
         // Show action flow modal
         function showActionFlowModal(actionId) {
+            // DEBUG: Log modal lookup attempt
+            console.log('🔍 LOOKING UP MODAL for actionId:', actionId);
+
             const flow = MODAL_FLOWS[actionId];
             if (!flow) {
-                console.log(`No modal flow found for action: ${actionId}`);
+                console.warn(`❌ NO MODAL FLOW FOUND for action: ${actionId}`);
+                console.log('Available modal flows:', Object.keys(MODAL_FLOWS));
                 return false;
             }
+
+            // DEBUG: Log modal flow details
+            console.log('✅ MODAL FLOW FOUND:', {
+                actionId: actionId,
+                title: flow.title,
+                steps: flow.steps.length
+            });
 
             const overlay = document.getElementById('actionFlowOverlay');
             const title = document.getElementById('actionFlowTitle');
@@ -7209,6 +7341,7 @@
             // Add escape key listener
             document.addEventListener('keydown', handleModalEscape);
 
+            console.log('🎬 Modal displayed successfully');
             return true;
         }
 
@@ -7235,7 +7368,7 @@
 
         // Execute action based on swipe direction
         function executeSwipeAction(direction, emailData) {
-            console.log(`Swipe ${direction} on email:`, emailData.subject);
+            console.log(`➡️ SWIPE ${direction.toUpperCase()} on email:`, emailData.subject);
 
             // Hide the in-phone instruction after first swipe
             const inPhoneInstruction = document.getElementById('inPhoneInstruction');
@@ -7256,16 +7389,26 @@
                             actionType: primaryAction.actionType
                         };
 
+                        // DEBUG: Log primary action details
+                        console.log('🚀 EXECUTING PRIMARY ACTION:', {
+                            actionId: primaryAction.actionId,
+                            displayName: primaryAction.displayName,
+                            actionType: primaryAction.actionType,
+                            isPrimary: primaryAction.isPrimary
+                        });
+
                         // Try to show modal flow first
                         const modalShown = showActionFlowModal(primaryAction.actionId);
 
                         if (!modalShown) {
                             // Fallback to toast if no modal flow exists
+                            console.log('📢 No modal flow - showing toast instead');
                             showToast(`✓ ${primaryAction.displayName}: ${emailData.subject}`);
                         }
 
                         console.log('Executing primary action:', primaryAction);
                     } else {
+                        console.warn('⚠️ No suggested actions found for this email');
                         showToast(`✓ Action completed: ${emailData.subject}`);
                     }
                     // Update counters - card is dismissed
@@ -7805,7 +7948,7 @@
             }
         }
 
-        function showToast(message) {
+        function showToast(message, type = 'success') {
             // Get iPhone screen container
             const iphoneScreen = document.querySelector('.iphone-screen');
             if (!iphoneScreen) {
@@ -7814,15 +7957,16 @@
             }
 
             const toast = document.createElement('div');
-            toast.className = 'action-toast';
+            toast.className = `action-toast ${type}`;
             toast.textContent = message;
             iphoneScreen.appendChild(toast);
 
-            // Auto-dismiss after 2.5 seconds with slide-up animation
+            // Auto-dismiss - longer for errors (5s) vs success (2.5s)
+            const duration = type === 'error' ? 5000 : 2500;
             setTimeout(() => {
                 toast.style.animation = 'slideUpToastOut 0.4s ease-out forwards';
                 setTimeout(() => toast.remove(), 400);
-            }, 2500);
+            }, duration);
         }
 
         // ==================== ACTION HANDLERS ====================
@@ -7850,6 +7994,12 @@
         }
 
         function handleSaveToCart(product) {
+            // Increment cart badge
+            const cartBadge = document.getElementById('cartBadge');
+            if (cartBadge) {
+                const currentCount = parseInt(cartBadge.textContent) || 0;
+                cartBadge.textContent = currentCount + 1;
+            }
             showToast(`${product} saved to shopping cart`);
         }
 
@@ -8050,6 +8200,16 @@
             const emailData = sheet.emailData;
             const selectedAction = emailData.suggestedActions[actionIndex];
 
+            // DEBUG: Log action selection details
+            console.log('🎯 ACTION SELECTED:', {
+                actionId: selectedAction.actionId,
+                displayName: selectedAction.displayName,
+                actionType: selectedAction.actionType,
+                actionIndex: actionIndex,
+                emailSubject: emailSubject,
+                totalActions: emailData.suggestedActions.length
+            });
+
             // Update UI - remove selected from all, add to clicked
             const options = sheet.querySelectorAll('.action-option');
             options.forEach(opt => opt.classList.remove('selected'));
@@ -8060,11 +8220,22 @@
                 action.isPrimary = (action.actionId === selectedAction.actionId);
             });
 
-            // Update the card's swipe CTA if it's the current top card
+            // DEBUG: Log isPrimary flags after update
+            console.log('📋 isPrimary flags updated:', emailData.suggestedActions.map(a => ({
+                actionId: a.actionId,
+                isPrimary: a.isPrimary
+            })));
+
+            // Update the card's swipe CTA and emailData if it's the current top card
             if (currentTopCardIndex < cardStack.length) {
                 const topCard = cardStack[currentTopCardIndex];
                 if (topCard.emailData.subject === emailSubject) {
+                    // Update the card's emailData reference to match the updated sheet data
+                    topCard.emailData.suggestedActions = emailData.suggestedActions;
                     updateCardCTA(topCard, selectedAction.displayName);
+                    console.log('✅ Card emailData synced with action sheet data');
+                } else {
+                    console.warn('⚠️ Email subject mismatch - card data NOT synced');
                 }
             }
 
@@ -8146,7 +8317,7 @@
 
         function handleEmailAction(actionId, emailSubject) {
             console.log(`Action clicked: ${actionId} for email: ${emailSubject}`);
-            alert(`Action "${actionId}" would be executed for:\n"${emailSubject}"`);
+            // Silent logging only - no user notification needed for debug actions
             closeEmailDetail();
         }
 
@@ -8426,7 +8597,7 @@
                 }
             } catch (error) {
                 console.error('Error submitting beta request:', error);
-                alert('There was an error submitting your request. Please try again or email us directly at zerobeta@rationale.work');
+                showToast('❌ Error submitting your request. Please try again or email zerobeta@rationale.work', 'error');
             }
         }
 
@@ -8506,12 +8677,7 @@
 
                     // Show success message
                     setTimeout(() => {
-                        alert('✨ Successfully regenerated summaries for ' + processedCount + ' emails!\n\n' +
-                              'Fresh AI summaries with:\n' +
-                              '• Actions (15px, 100% white)\n' +
-                              '• Why (14px, 80% white, italic)\n' +
-                              '• Context (13px, 70% white)\n\n' +
-                              'Your iOS app will receive these on next sync.');
+                        showToast('✨ Successfully regenerated summaries for ' + processedCount + ' emails!');
 
                         button.innerHTML = originalContent;
                         button.style.pointerEvents = 'auto';
@@ -8550,14 +8716,14 @@
                 if (result.success) {
                     window.location.href = '/splash.html';
                 } else {
-                    alert('Logout failed. Please try again.');
+                    showToast('❌ Logout failed. Please try again.', 'error');
                     if (button) {
                         button.innerHTML = '<span class="menu-item-icon">🚪</span><span>Logout</span>';
                     }
                 }
             } catch (error) {
                 console.error('Logout error:', error);
-                alert('Connection error. Please refresh the page.');
+                showToast('❌ Connection error. Please refresh the page.', 'error');
             }
         }
 

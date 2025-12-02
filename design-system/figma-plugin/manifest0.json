@@ -1,0 +1,12 @@
+{
+  "name": "Zero Modal Components Generator",
+  "id": "zero-modal-components-generator",
+  "api": "1.0.0",
+  "main": "generators/modals/modal-components-generator.js",
+  "editorType": ["figma", "dev"],
+  "capabilities": ["inspect"],
+  "documentAccess": "current-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}

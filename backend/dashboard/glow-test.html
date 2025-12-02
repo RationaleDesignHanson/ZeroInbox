@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Glow Test - Isolated</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at top, #020617, #020617 40%, #000 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: white;
+        }
+
+        .test-container {
+            width: 600px;
+            height: 1200px;
+            position: relative;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            margin: 40px auto;
+        }
+
+        .phone-glow-background {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 550px;
+            height: 1200px;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(99, 102, 241, 0.65) 0%,
+                rgba(139, 92, 246, 0.5) 30%,
+                transparent 70%
+            );
+            filter: blur(60px);
+            mix-blend-mode: screen;
+            animation: phone-glow-pulse 4s ease-in-out infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes phone-glow-pulse {
+            0%, 100% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: translate(-50%, -50%) scale(1.05);
+            }
+        }
+
+        .phone-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 48px;
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.8),
+                0 0 0 12px #1d1d1f,
+                0 0 0 14px rgba(255, 255, 255, 0.1);
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 300px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .control-group button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            background: rgba(99, 102, 241, 0.3);
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .control-group button:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+
+        .control-group button.active {
+            background: rgba(99, 102, 241, 0.8);
+            border-color: rgba(99, 102, 241, 1);
+        }
+
+        .status {
+            padding: 12px;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            border-radius: 6px;
+            font-size: 13px;
+            color: #86efac;
+        }
+
+        .info {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .info h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="info">
+        <h1>Phone Glow Blend Mode Test</h1>
+        <p>Testing: <code>mix-blend-mode: screen</code> on dark background</p>
+        <p><strong>Expected:</strong> Bright blue/purple glow around phone with pulsing animation</p>
+    </div>
+
+    <div class="test-container">
+        <div class="phone-glow-background" id="glow"></div>
+        <div class="phone-placeholder">
+            iPhone Placeholder
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="control-group">
+            <label><strong>Blend Mode:</strong></label>
+            <button onclick="setBlendMode('screen')" class="active" id="btn-screen">screen (current)</button>
+            <button onclick="setBlendMode('normal')" id="btn-normal">normal</button>
+            <button onclick="setBlendMode('lighten')" id="btn-lighten">lighten</button>
+            <button onclick="setBlendMode('overlay')" id="btn-overlay">overlay</button>
+        </div>
+
+        <div class="control-group">
+            <label><strong>Filter:</strong></label>
+            <button onclick="setFilter('blur(60px)')" class="active" id="btn-blur60">blur(60px) - current</button>
+            <button onclick="setFilter('blur(90px)')" id="btn-blur90">blur(90px)</button>
+            <button onclick="setFilter('none')" id="btn-blur-none">none</button>
+        </div>
+
+        <div class="control-group">
+            <label><strong>Test Colors:</strong></label>
+            <button onclick="setTestColor()">Red Test Glow</button>
+            <button onclick="resetColor()" class="active">Blue/Purple (default)</button>
+        </div>
+
+        <div class="status">
+            ✓ If you see a glowing halo around the phone, blend mode is working!
+        </div>
+    </div>
+
+    <script>
+        const glow = document.getElementById('glow');
+        let currentBlendMode = 'screen';
+        let currentFilter = 'blur(60px)';
+
+        function setBlendMode(mode) {
+            currentBlendMode = mode;
+            glow.style.mixBlendMode = mode;
+
+            // Update button states
+            document.querySelectorAll('.control-group button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('btn-' + mode).classList.add('active');
+
+            console.log('Blend mode set to:', mode);
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+            glow.style.filter = filter;
+
+            // Update button states
+            ['blur60', 'blur90', 'blur-none'].forEach(id => {
+                const btn = document.getElementById('btn-' + id);
+                if (btn) btn.classList.remove('active');
+            });
+
+            if (filter === 'blur(60px)') {
+                document.getElementById('btn-blur60').classList.add('active');
+            } else if (filter === 'blur(90px)') {
+                document.getElementById('btn-blur90').classList.add('active');
+            } else {
+                document.getElementById('btn-blur-none').classList.add('active');
+            }
+
+            console.log('Filter set to:', filter);
+        }
+
+        function setTestColor() {
+            glow.style.background = 'radial-gradient(circle at center, rgba(255, 0, 0, 0.8) 0%, rgba(255, 100, 0, 0.6) 30%, transparent 70%)';
+            console.log('Test color: red gradient');
+        }
+
+        function resetColor() {
+            glow.style.background = 'radial-gradient(ellipse at center, rgba(99, 102, 241, 0.65) 0%, rgba(139, 92, 246, 0.5) 30%, transparent 70%)';
+            console.log('Reset to: blue/purple gradient');
+        }
+
+        // Log initial state
+        console.log('Initial state:');
+        console.log('- Blend mode:', currentBlendMode);
+        console.log('- Filter:', currentFilter);
+        console.log('- Background: dark radial gradient');
+        console.log('- If you see NO glow, mix-blend-mode is broken');
+        console.log('- Try clicking "Red Test Glow" to make it obvious');
+    </script>
+</body>
+</html>

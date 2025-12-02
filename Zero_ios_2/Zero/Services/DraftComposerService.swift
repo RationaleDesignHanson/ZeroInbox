@@ -4,8 +4,8 @@ import Foundation
 class DraftComposerService {
     static let shared = DraftComposerService()
 
-    private let openAIAPIKey = AppEnvironment.openAIKey
-    private let openAIEndpoint = "https://api.openai.com/v1/chat/completions"
+    private let aiProviderAPIKey = AppEnvironment.openAIKey
+    private let aiProviderEndpoint = "https://api.openai.com/v1/chat/completions"
 
     // MARK: - Draft Generation
 
@@ -18,11 +18,11 @@ class DraftComposerService {
 
         Logger.info("Generating draft for: \(emailContext.subject), tone: \(tone.rawValue)", category: .email)
 
-        // Build prompt for OpenAI
+        // Build prompt for AI provider
         let prompt = buildPrompt(context: emailContext, tone: tone)
 
-        // Call OpenAI API
-        let draftContent = try await callOpenAI(prompt: prompt)
+        // Call AI provider API
+        let draftContent = try await callAIProvider(prompt: prompt)
 
         let latency = Date().timeIntervalSince(startTime)
 
@@ -92,22 +92,22 @@ class DraftComposerService {
         return prompt
     }
 
-    // MARK: - OpenAI API Call
+    // MARK: - AI Provider API Call
 
-    private func callOpenAI(prompt: String) async throws -> String {
+    private func callAIProvider(prompt: String) async throws -> String {
         // Week 6 Service Layer Cleanup: Using centralized NetworkService
-        guard !openAIAPIKey.isEmpty else {
+        guard !aiProviderAPIKey.isEmpty else {
             throw DraftComposerError.missingAPIKey
         }
 
-        let url = URL(string: openAIEndpoint)!
+        let url = URL(string: aiProviderEndpoint)!
 
         struct Message: Codable {
             let role: String
             let content: String
         }
 
-        struct OpenAIRequest: Codable {
+        struct AIRequest: Codable {
             let model: String
             let messages: [Message]
             let temperature: Double
@@ -119,15 +119,15 @@ class DraftComposerService {
             }
         }
 
-        struct OpenAIChoice: Codable {
+        struct AIChoice: Codable {
             let message: Message
         }
 
-        struct OpenAIResponse: Codable {
-            let choices: [OpenAIChoice]
+        struct AIResponse: Codable {
+            let choices: [AIChoice]
         }
 
-        let requestBody = OpenAIRequest(
+        let requestBody = AIRequest(
             model: "gpt-4",
             messages: [
                 Message(role: "system", content: "You are a helpful email composition assistant."),
@@ -138,10 +138,10 @@ class DraftComposerService {
         )
 
         do {
-            let response: OpenAIResponse = try await NetworkService.shared.request(
+            let response: AIResponse = try await NetworkService.shared.request(
                 url: url,
                 method: .post,
-                headers: ["Authorization": "Bearer \(openAIAPIKey)"],
+                headers: ["Authorization": "Bearer \(aiProviderAPIKey)"],
                 body: requestBody
             )
 
@@ -152,7 +152,7 @@ class DraftComposerService {
             return firstChoice.message.content.trimmingCharacters(in: .whitespacesAndNewlines)
         } catch let error as NetworkServiceError {
             if let statusCode = error.statusCode {
-                Logger.error("OpenAI API error: \(statusCode)", category: .email)
+                Logger.error("AI service API error: \(statusCode)", category: .email)
                 throw DraftComposerError.apiError(statusCode)
             }
             throw DraftComposerError.invalidResponse
@@ -279,11 +279,11 @@ enum DraftComposerError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .missingAPIKey:
-            return "OpenAI API key not configured"
+            return "AI service API key not configured"
         case .invalidResponse:
-            return "Invalid response from OpenAI API"
+            return "Invalid response from AI service"
         case .apiError(let code):
-            return "OpenAI API error: \(code)"
+            return "AI service error: \(code)"
         }
     }
 }

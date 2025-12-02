@@ -1,0 +1,12 @@
+{
+  "name": "Zero Component Generator (Full Automation)",
+  "id": "zero-component-generator-variants",
+  "api": "1.0.0",
+  "main": "component-generator-with-variants.js",
+  "editorType": ["figma", "dev"],
+  "capabilities": ["inspect"],
+  "documentAccess": "current-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}

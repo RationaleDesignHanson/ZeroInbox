@@ -76,12 +76,8 @@ enum FeatureFlag: String, CaseIterable {
     var defaultValue: Bool {
         switch self {
         case .debugOverlays:
-            // Debug overlays default to OFF in production
-            #if DEBUG
-            return true
-            #else
+            // Debug overlays default to OFF (can be enabled in settings)
             return false
-            #endif
 
         case .newComposer, .fastSwipe, .smartReplies, .advancedSearch, .modelTuning:
             // UI improvements default to ON

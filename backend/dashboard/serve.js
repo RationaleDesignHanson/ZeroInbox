@@ -228,12 +228,30 @@ app.get('/health', (req, res) => {
 // Public pages (accessible without auth)
 const PUBLIC_PAGES = [
   'splash.html',
+  'landing.html',
+  'app-demo.html',
   'zero-sequence-live.html',
   'zero-sequence-live-with-64.html'
 ];
 
+// Root route - public marketing landing page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'landing.html'));
+});
+
+// Landing page - public marketing page
+app.get('/landing.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'landing.html'));
+});
+
+// Splash page - beta tester login gateway
 app.get('/splash.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'splash.html'));
+});
+
+// App demo page - public access (for iframe embed)
+app.get('/app-demo.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'app-demo.html'));
 });
 
 // Zero Sequence Live demo pages - public access
@@ -249,11 +267,6 @@ app.get('/zero-sequence-live-with-64.html', (req, res) => {
 app.get('/*.html', requireAuth, (req, res) => {
   const fileName = path.basename(req.path);
   res.sendFile(path.join(__dirname, fileName));
-});
-
-// Root route - redirect to splash if not authenticated, otherwise show landing page
-app.get('/', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'landing.html'));
 });
 
 // Error handling for uncaught exceptions

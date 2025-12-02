@@ -244,7 +244,6 @@
 		C5FCB6532EA9C76E00DC7DB9 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FCB6522EA9C76E00DC7DB9 /* AccountManager.swift */; };
 		C5FCB6552EA9CC1200DC7DB9 /* ModelTuningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FCB6542EA9CC1200DC7DB9 /* ModelTuningView.swift */; };
 		C5FCB6B62EAA896F00DC7DB9 /* Services/ModelTuningRewardsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E10AD514CFE466DB3610B8F /* Services/ModelTuningRewardsService.swift */; };
-		C5FCB7882EAA8FD400DC7DB9 /* Views/SwipeGestureTutorialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA1D1B40BC3496E859D377A /* Views/SwipeGestureTutorialView.swift */; };
 		C98743EEB63C126DC1DDE01B /* LaunchConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CC4AC9B2CB1665873E9A5C /* LaunchConfiguration.swift */; };
 		D941C88F4F1E42119D2AF0C8 /* PremiumPaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF557D4FA9E443A99D41359 /* PremiumPaywallView.swift */; };
 		DCAA4E80883D96D3625BCE3F /* AppLifecycleObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AB49C390073FF7F9A169BB /* AppLifecycleObserver.swift */; };
@@ -1651,7 +1650,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 100;
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_ASSET_PATHS = "\"Zero/Preview Content\"";
 				DEVELOPMENT_TEAM = Q2HHH2GDN8;
 				ENABLE_PREVIEWS = YES;
@@ -1667,7 +1666,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = work.rationale;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1682,7 +1681,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 100;
+				CURRENT_PROJECT_VERSION = 105;
 				DEVELOPMENT_ASSET_PATHS = "\"Zero/Preview Content\"";
 				DEVELOPMENT_TEAM = Q2HHH2GDN8;
 				ENABLE_PREVIEWS = YES;
@@ -1698,7 +1697,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.0;
+				MARKETING_VERSION = 2.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = work.rationale;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;

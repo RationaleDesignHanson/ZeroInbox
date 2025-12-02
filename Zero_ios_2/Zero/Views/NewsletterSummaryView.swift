@@ -283,9 +283,9 @@ extension StructuredSummaryView {
                 keyLinks: [
                     EmailCard.NewsletterLink(
                         id: "1",
-                        title: "GPT-5 Rumors Heat Up",
-                        url: "https://techcrunch.com/gpt5-analysis",
-                        description: "OpenAI hints at next-generation model with improved reasoning capabilities."
+                        title: "Next-Gen AI Model Rumors Heat Up",
+                        url: "https://techcrunch.com/ai-analysis",
+                        description: "Leading AI company hints at next-generation model with improved reasoning capabilities."
                     ),
                     EmailCard.NewsletterLink(
                         id: "2",
@@ -300,7 +300,7 @@ extension StructuredSummaryView {
                         description: "Voice-to-code, AI code reviews, and context-aware suggestions."
                     )
                 ],
-                keyTopics: ["Artificial Intelligence", "GPT-5", "EU Regulation", "GitHub Copilot", "Machine Learning"],
+                keyTopics: ["Artificial Intelligence", "AI Models", "EU Regulation", "GitHub Copilot", "Machine Learning"],
                 lineLimit: nil
             )
             .padding()

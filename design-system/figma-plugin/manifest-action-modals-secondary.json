@@ -1,0 +1,12 @@
+{
+  "name": "Zero Action Modals - Secondary (35 Additional Modals)",
+  "id": "zero-action-modals-secondary",
+  "api": "1.0.0",
+  "main": "generators/modals/action-modals-secondary-generator.js",
+  "editorType": ["figma", "dev"],
+  "capabilities": ["inspect"],
+  "documentAccess": "current-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}

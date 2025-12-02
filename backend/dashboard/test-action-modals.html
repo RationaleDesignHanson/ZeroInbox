@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action-Modal Pairing Test Suite | Zero Inbox</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card .value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-card .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .email-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+        }
+
+        .email-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .email-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .email-meta {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .action-tests {
+            display: grid;
+            gap: 12px;
+        }
+
+        .test-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .test-item:hover {
+            background: #f0f2f5;
+            transform: translateX(4px);
+        }
+
+        .test-item.passed {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+
+        .test-item.failed {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+        }
+
+        .checkbox-wrapper {
+            display: flex;
+            gap: 8px;
+            min-width: 80px;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #28a745;
+        }
+
+        .checkbox-wrapper input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            margin: 0;
+        }
+
+        .checkbox-wrapper input[type="radio"]:first-of-type {
+            accent-color: #28a745;
+        }
+
+        .checkbox-wrapper input[type="radio"]:last-of-type {
+            accent-color: #dc3545;
+        }
+
+        .test-content {
+            flex: 1;
+        }
+
+        .test-action {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+
+        .test-expected {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+
+        .test-notes {
+            font-size: 13px;
+            color: #999;
+            font-style: italic;
+        }
+
+        .action-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 8px;
+        }
+
+        .badge-modal {
+            background: #667eea;
+            color: white;
+        }
+
+        .badge-toast {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .badge-primary {
+            background: #28a745;
+            color: white;
+        }
+
+        .reset-button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 24px;
+        }
+
+        .reset-button:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .instructions {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+
+        .instructions h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .instructions li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Action-Modal Pairing Test Suite</h1>
+            <p>Comprehensive testing for action selection and modal display behavior in the Zero Inbox app demo. Test each action to ensure the correct modal or toast appears.</p>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="value" id="totalTests">68</div>
+                    <div class="label">Total Tests</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="passedTests">0</div>
+                    <div class="label">Passed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="failedTests">0</div>
+                    <div class="label">Failed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value" id="coverage">0%</div>
+                    <div class="label">Coverage</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>Testing Instructions</h3>
+            <ol>
+                <li>Open app-demo.html in another browser tab</li>
+                <li>For each test item below, navigate to the corresponding email card</li>
+                <li>Tap the action sheet button and select the action to test</li>
+                <li>Swipe right to trigger the action</li>
+                <li>Mark Pass (green) if correct modal/toast appears, or Fail (red) if incorrect</li>
+                <li>Review the stats at the top to track your progress</li>
+            </ol>
+        </div>
+
+        <!-- Email Card 1: Amazon Shipping -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Amazin' Deliveries - Package Shipped</div>
+                    <div class="email-meta">Card 1/10 • 7 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="amazon-track">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="amazon-track" value="pass">
+                        <input type="radio" name="amazon-track" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Track Package <span class="action-badge badge-modal badge-primary">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step tracking modal (Enter tracking, View status, Done)</div>
+                        <div class="test-notes">Primary action - Should show UPS tracking number 1Z999AA10123456784</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="amazon-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="amazon-save" value="pass">
+                        <input type="radio" name="amazon-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="amazon-reply">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="amazon-reply" value="pass">
+                        <input type="radio" name="amazon-reply" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Quick Reply <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step reply modal (Draft, Preview, Send)</div>
+                        <div class="test-notes">Should show email composition interface</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="amazon-calendar">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="amazon-calendar" value="pass">
+                        <input type="radio" name="amazon-calendar" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Add to Calendar <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step calendar modal (Choose date, Set reminder, Confirm)</div>
+                        <div class="test-notes">Should extract delivery date context</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="amazon-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="amazon-archive" value="pass">
+                        <input type="radio" name="amazon-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="amazon-contact">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="amazon-contact" value="pass">
+                        <input type="radio" name="amazon-contact" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Contact Support <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 2-step support modal (Choose issue, Submit)</div>
+                        <div class="test-notes">Should provide carrier contact options</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="amazon-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="amazon-delete" value="pass">
+                        <input type="radio" name="amazon-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Card 2: Best Buy Invoice -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Best... Buy Now! - Your Order Invoice</div>
+                    <div class="email-meta">Card 2/10 • 7 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="bestbuy-pay">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="bestbuy-pay" value="pass">
+                        <input type="radio" name="bestbuy-pay" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Pay Invoice <span class="action-badge badge-modal badge-primary">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step payment modal (Review, Payment method, Confirm)</div>
+                        <div class="test-notes">Primary action - Should show $1,947.99 amount</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="bestbuy-download">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="bestbuy-download" value="pass">
+                        <input type="radio" name="bestbuy-download" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Download Receipt <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Receipt downloaded"</div>
+                        <div class="test-notes">NATIVE_API action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="bestbuy-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="bestbuy-save" value="pass">
+                        <input type="radio" name="bestbuy-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="bestbuy-reply">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="bestbuy-reply" value="pass">
+                        <input type="radio" name="bestbuy-reply" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Quick Reply <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step reply modal (Draft, Preview, Send)</div>
+                        <div class="test-notes">Should show email composition interface</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="bestbuy-contact">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="bestbuy-contact" value="pass">
+                        <input type="radio" name="bestbuy-contact" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Contact Support <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 2-step support modal (Choose issue, Submit)</div>
+                        <div class="test-notes">Should provide Best Buy support options</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="bestbuy-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="bestbuy-archive" value="pass">
+                        <input type="radio" name="bestbuy-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="bestbuy-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="bestbuy-delete" value="pass">
+                        <input type="radio" name="bestbuy-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Card 3: Avant Arte Gallery -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Art Vanguard Gallery - New Collection</div>
+                    <div class="email-meta">Card 3/10 • 7 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="avant-browse">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="avant-browse" value="pass">
+                        <input type="radio" name="avant-browse" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Browse Collection <span class="action-badge badge-toast badge-primary">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Opening collection..."</div>
+                        <div class="test-notes">Primary action - GO_TO type, no modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="avant-calendar">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="avant-calendar" value="pass">
+                        <input type="radio" name="avant-calendar" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Add to Calendar <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step calendar modal (Choose date, Set reminder, Confirm)</div>
+                        <div class="test-notes">Should extract event date context</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="avant-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="avant-save" value="pass">
+                        <input type="radio" name="avant-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="avant-reply">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="avant-reply" value="pass">
+                        <input type="radio" name="avant-reply" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Quick Reply <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step reply modal (Draft, Preview, Send)</div>
+                        <div class="test-notes">Should show email composition interface</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="avant-unsubscribe">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="avant-unsubscribe" value="pass">
+                        <input type="radio" name="avant-unsubscribe" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Unsubscribe <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 2-step unsubscribe modal (Confirm, Done)</div>
+                        <div class="test-notes">Should show confirmation dialog</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="avant-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="avant-archive" value="pass">
+                        <input type="radio" name="avant-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="avant-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="avant-delete" value="pass">
+                        <input type="radio" name="avant-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Card 4: School Field Trip -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Lincoln Elementary - Field Trip Permission</div>
+                    <div class="email-meta">Card 4/10 • 7 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="school-pay">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="school-pay" value="pass">
+                        <input type="radio" name="school-pay" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Pay Field Trip Fee <span class="action-badge badge-modal badge-primary">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step payment modal (Review form, Payment, Submit) - Uses pay_form_fee flow</div>
+                        <div class="test-notes">Primary action - Should show $35 fee amount (Note: Uses pay_form_fee modal)</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="school-calendar">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="school-calendar" value="pass">
+                        <input type="radio" name="school-calendar" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Add to Calendar <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step calendar modal (Choose date, Set reminder, Confirm)</div>
+                        <div class="test-notes">Should extract field trip date (Friday, March 8th)</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="school-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="school-save" value="pass">
+                        <input type="radio" name="school-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="school-reply">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="school-reply" value="pass">
+                        <input type="radio" name="school-reply" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Quick Reply <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step reply modal (Draft, Preview, Send)</div>
+                        <div class="test-notes">Should show email composition interface</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="school-download">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="school-download" value="pass">
+                        <input type="radio" name="school-download" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Download Form <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Permission form downloaded"</div>
+                        <div class="test-notes">NATIVE_API action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="school-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="school-archive" value="pass">
+                        <input type="radio" name="school-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="school-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="school-delete" value="pass">
+                        <input type="radio" name="school-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Card 5: Real Exciting Items Newsletter -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Real Exciting Items - Winter Clearance</div>
+                    <div class="email-meta">Card 5/10 • 6 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="rei-shop">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="rei-shop" value="pass">
+                        <input type="radio" name="rei-shop" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Shop Sale <span class="action-badge badge-toast badge-primary">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Opening sale page..."</div>
+                        <div class="test-notes">Primary action - GO_TO type, no modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="rei-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="rei-save" value="pass">
+                        <input type="radio" name="rei-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="rei-reply">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="rei-reply" value="pass">
+                        <input type="radio" name="rei-reply" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Quick Reply <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step reply modal (Draft, Preview, Send)</div>
+                        <div class="test-notes">Should show email composition interface</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="rei-unsubscribe">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="rei-unsubscribe" value="pass">
+                        <input type="radio" name="rei-unsubscribe" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Unsubscribe <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 2-step unsubscribe modal (Confirm, Done)</div>
+                        <div class="test-notes">Should show confirmation dialog</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="rei-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="rei-archive" value="pass">
+                        <input type="radio" name="rei-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="rei-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="rei-delete" value="pass">
+                        <input type="radio" name="rei-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Card 6: Meeting Request -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Sarah Chen - Q1 Planning Meeting</div>
+                    <div class="email-meta">Card 6/10 • 7 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="meeting-calendar">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="meeting-calendar" value="pass">
+                        <input type="radio" name="meeting-calendar" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Add to Calendar <span class="action-badge badge-modal badge-primary">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step calendar modal (Choose date, Set reminder, Confirm)</div>
+                        <div class="test-notes">Primary action - Should extract meeting time</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="meeting-reply">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="meeting-reply" value="pass">
+                        <input type="radio" name="meeting-reply" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Quick Reply <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step reply modal (Draft, Preview, Send)</div>
+                        <div class="test-notes">Should show email composition interface</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="meeting-propose">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="meeting-propose" value="pass">
+                        <input type="radio" name="meeting-propose" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Propose New Time <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step schedule modal (Choose date, Set time, Confirm)</div>
+                        <div class="test-notes">Should show calendar picker interface</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="meeting-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="meeting-save" value="pass">
+                        <input type="radio" name="meeting-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="meeting-decline">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="meeting-decline" value="pass">
+                        <input type="radio" name="meeting-decline" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Decline Meeting <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 2-step decline modal (Add reason, Send)</div>
+                        <div class="test-notes">Should show optional message field</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="meeting-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="meeting-archive" value="pass">
+                        <input type="radio" name="meeting-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="meeting-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="meeting-delete" value="pass">
+                        <input type="radio" name="meeting-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Card 7: Sony Headphones Ad -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Sound Innovation WH-1000XM5 - Sponsored</div>
+                    <div class="email-meta">Card 7/10 • 6 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="sony-cart">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="sony-cart" value="pass">
+                        <input type="radio" name="sony-cart" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Add to Cart <span class="action-badge badge-toast badge-primary">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Sound Innovation WH-1000XM5 saved to shopping cart"</div>
+                        <div class="test-notes">Primary action - Should increment cart badge counter</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="sony-view">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="sony-view" value="pass">
+                        <input type="radio" name="sony-view" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">View Product <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Opening product page..."</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="sony-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="sony-save" value="pass">
+                        <input type="radio" name="sony-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="sony-hide">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="sony-hide" value="pass">
+                        <input type="radio" name="sony-hide" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Hide Ad <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Ad hidden"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="sony-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="sony-archive" value="pass">
+                        <input type="radio" name="sony-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="sony-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="sony-delete" value="pass">
+                        <input type="radio" name="sony-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Card 8: Target Pickup Ad -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Bullseye Bargains Drive Up - Sponsored</div>
+                    <div class="email-meta">Card 8/10 • 6 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="target-cart">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="target-cart" value="pass">
+                        <input type="radio" name="target-cart" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Add to Cart <span class="action-badge badge-toast badge-primary">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Bullseye Bargains Drive Up saved to shopping cart"</div>
+                        <div class="test-notes">Primary action - Should increment cart badge counter</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="target-view">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="target-view" value="pass">
+                        <input type="radio" name="target-view" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">View Product <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Opening product page..."</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="target-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="target-save" value="pass">
+                        <input type="radio" name="target-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="target-hide">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="target-hide" value="pass">
+                        <input type="radio" name="target-hide" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Hide Ad <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Ad hidden"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="target-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="target-archive" value="pass">
+                        <input type="radio" name="target-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="target-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="target-delete" value="pass">
+                        <input type="radio" name="target-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Card 9: Tech Munch Daily Newsletter -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Tech Munch Daily - AI Breakthrough</div>
+                    <div class="email-meta">Card 9/10 • 6 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="tech-read">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="tech-read" value="pass">
+                        <input type="radio" name="tech-read" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Read Full Article <span class="action-badge badge-toast badge-primary">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Opening article..."</div>
+                        <div class="test-notes">Primary action - GO_TO type, no modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="tech-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="tech-save" value="pass">
+                        <input type="radio" name="tech-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="tech-reply">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="tech-reply" value="pass">
+                        <input type="radio" name="tech-reply" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Quick Reply <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step reply modal (Draft, Preview, Send)</div>
+                        <div class="test-notes">Should show email composition interface</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="tech-unsubscribe">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="tech-unsubscribe" value="pass">
+                        <input type="radio" name="tech-unsubscribe" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Unsubscribe <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 2-step unsubscribe modal (Confirm, Done)</div>
+                        <div class="test-notes">Should show confirmation dialog</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="tech-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="tech-archive" value="pass">
+                        <input type="radio" name="tech-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="tech-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="tech-delete" value="pass">
+                        <input type="radio" name="tech-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Card 10: Peak Performance Corp HR -->
+        <div class="email-card">
+            <div class="email-header">
+                <div>
+                    <div class="email-title">Peak Performance Corp HR - Benefits Enrollment</div>
+                    <div class="email-meta">Card 10/10 • 7 actions to test</div>
+                </div>
+            </div>
+            <div class="action-tests">
+                <div class="test-item" data-test="hr-enroll">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="hr-enroll" value="pass">
+                        <input type="radio" name="hr-enroll" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Start Enrollment <span class="action-badge badge-toast badge-primary">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Opening enrollment portal..."</div>
+                        <div class="test-notes">Primary action - GO_TO type, no modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="hr-calendar">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="hr-calendar" value="pass">
+                        <input type="radio" name="hr-calendar" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Add Deadline to Calendar <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step calendar modal (Choose date, Set reminder, Confirm)</div>
+                        <div class="test-notes">Should extract deadline date (March 31st)</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="hr-download">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="hr-download" value="pass">
+                        <input type="radio" name="hr-download" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Download Forms <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Benefits forms downloaded"</div>
+                        <div class="test-notes">NATIVE_API action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="hr-save">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="hr-save" value="pass">
+                        <input type="radio" name="hr-save" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Save for Later <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email saved for later"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="hr-reply">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="hr-reply" value="pass">
+                        <input type="radio" name="hr-reply" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Quick Reply <span class="action-badge badge-modal">Modal</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> 3-step reply modal (Draft, Preview, Send)</div>
+                        <div class="test-notes">Should show email composition interface</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="hr-archive">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="hr-archive" value="pass">
+                        <input type="radio" name="hr-archive" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Archive <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email archived"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+                <div class="test-item" data-test="hr-delete">
+                    <div class="checkbox-wrapper">
+                        <input type="radio" name="hr-delete" value="pass">
+                        <input type="radio" name="hr-delete" value="fail">
+                    </div>
+                    <div class="test-content">
+                        <div class="test-action">Delete <span class="action-badge badge-toast">Toast</span></div>
+                        <div class="test-expected"><strong>Expected:</strong> Success toast "Email deleted"</div>
+                        <div class="test-notes">GO_TO action type - No modal</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="reset-button" onclick="resetAllTests()">Reset All Tests</button>
+        </div>
+    </div>
+
+    <script>
+        // Update statistics in real-time
+        function updateStats() {
+            const allRadios = document.querySelectorAll('input[type="radio"]');
+            const totalTests = allRadios.length / 2; // Each test has 2 radios (pass/fail)
+
+            let passedCount = 0;
+            let failedCount = 0;
+
+            // Count checked pass/fail radios
+            const allTestNames = new Set();
+            allRadios.forEach(radio => {
+                allTestNames.add(radio.name);
+            });
+
+            allTestNames.forEach(testName => {
+                const passRadio = document.querySelector(`input[name="${testName}"][value="pass"]`);
+                const failRadio = document.querySelector(`input[name="${testName}"][value="fail"]`);
+
+                if (passRadio && passRadio.checked) passedCount++;
+                if (failRadio && failRadio.checked) failedCount++;
+            });
+
+            const coverage = totalTests > 0 ? Math.round(((passedCount + failedCount) / totalTests) * 100) : 0;
+
+            document.getElementById('totalTests').textContent = totalTests;
+            document.getElementById('passedTests').textContent = passedCount;
+            document.getElementById('failedTests').textContent = failedCount;
+            document.getElementById('coverage').textContent = coverage + '%';
+        }
+
+        // Handle radio button changes
+        document.addEventListener('change', (e) => {
+            if (e.target.type === 'radio') {
+                const testItem = e.target.closest('.test-item');
+                const testName = e.target.name;
+                const value = e.target.value;
+
+                // Remove both classes first
+                testItem.classList.remove('passed', 'failed');
+
+                // Add appropriate class
+                if (value === 'pass') {
+                    testItem.classList.add('passed');
+                } else if (value === 'fail') {
+                    testItem.classList.add('failed');
+                }
+
+                updateStats();
+            }
+        });
+
+        // Reset all tests
+        function resetAllTests() {
+            if (confirm('Are you sure you want to reset all test results?')) {
+                // Uncheck all radios
+                document.querySelectorAll('input[type="radio"]').forEach(radio => {
+                    radio.checked = false;
+                });
+
+                // Remove all pass/fail classes
+                document.querySelectorAll('.test-item').forEach(item => {
+                    item.classList.remove('passed', 'failed');
+                });
+
+                updateStats();
+            }
+        }
+
+        // Initialize stats on page load
+        updateStats();
+    </script>
+</body>
+</html>

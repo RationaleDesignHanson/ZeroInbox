@@ -491,19 +491,19 @@ struct SimpleCardView: View {
                 if let threadLength = card.threadLength, threadLength > 1 {
                     Image(systemName: "bubble.left.and.bubble.right.fill")
                         .font(.system(size: 14))
-                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
+                        .foregroundColor(card.type == .ads ? textColorSecondary : .white.opacity(DesignTokens.Opacity.textSubtle))
                     Text("\(threadLength)")
                         .font(.system(size: 10, weight: .bold))
-                        .foregroundColor(.white.opacity(0.85))
+                        .foregroundColor(card.type == .ads ? textColorPrimary : .white.opacity(0.85))
                 } else {
                     Image(systemName: "envelope.open.fill")
                         .font(.system(size: 16))
-                        .foregroundColor(.white.opacity(DesignTokens.Opacity.textSubtle))
+                        .foregroundColor(card.type == .ads ? textColorSecondary : .white.opacity(DesignTokens.Opacity.textSubtle))
                 }
 
                 Text("View")
                     .font(.system(size: 10, weight: .medium))
-                    .foregroundColor(.white.opacity(0.85))
+                    .foregroundColor(card.type == .ads ? textColorPrimary : .white.opacity(0.85))
             }
             .frame(width: 56, height: 56)
             .background(Color.white.opacity(0.25))

@@ -51,8 +51,8 @@ struct SettingsView: View {
                                 .padding(.top, DesignTokens.Spacing.card)
 
                             SettingAPIKeyCard(
-                                title: "OpenAI API Key",
-                                description: "Used for smart replies and AI features. Get yours at platform.openai.com/api-keys",
+                                title: "AI Provider API Key",
+                                description: "Used for smart replies and AI features. Configure your AI service provider key.",
                                 icon: "key.fill",
                                 color: .blue,
                                 environmentKey: AppEnvironment.openAIKey,
@@ -290,8 +290,13 @@ struct SettingsView: View {
                                 icon: "ant.fill",
                                 color: .yellow,
                                 isOn: $debugOverlay,
-                                onChange: { _ in
-                                    Logger.info("Debug overlay toggled: \(debugOverlay)", category: .userPreferences)
+                                onChange: { newValue in
+                                    if newValue {
+                                        services.featureGating.enable(.debugOverlays)
+                                    } else {
+                                        services.featureGating.disable(.debugOverlays)
+                                    }
+                                    Logger.info("Debug overlay toggled: \(newValue)", category: .userPreferences)
                                 }
                             )
                             .padding(.horizontal, DesignTokens.Spacing.section)
@@ -478,7 +483,7 @@ struct SettingsView: View {
         .alert("API Key Saved", isPresented: $showKeyAlert) {
             Button("OK") { }
         } message: {
-            Text("Your OpenAI API key has been saved securely.")
+            Text("Your AI provider API key has been saved securely.")
         }
         .alert("ML Classification Enabled", isPresented: $showMLAlert) {
             Button("OK") { }
@@ -550,7 +555,7 @@ struct SettingsView: View {
         let impact = UIImpactFeedbackGenerator(style: .medium)
         impact.impactOccurred()
 
-        Logger.info("OpenAI API key saved", category: .app)
+        Logger.info("AI provider API key saved", category: .app)
     }
 
     func saveGeminiAPIKey() {

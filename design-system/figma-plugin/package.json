@@ -7,9 +7,16 @@
     "build": "tsc",
     "build:sync": "tsc --project tsconfig-sync.json",
     "build:generator": "tsc --project tsconfig-component-generator.json",
-    "build:all": "tsc && tsc --project tsconfig-sync.json && tsc --project tsconfig-component-generator.json",
+    "build:variants": "tsc --project tsconfig-variants.json",
+    "build:effects": "tsc --project tsconfig-effects.json",
+    "build:modal-components": "tsc --project tsconfig-modal-components.json",
+    "build:action-modals-core": "tsc --project tsconfig-action-modals-core.json",
+    "build:action-modals-secondary": "tsc --project tsconfig-action-modals-secondary.json",
+    "build:all": "tsc && tsc --project tsconfig-sync.json && tsc --project tsconfig-component-generator.json && tsc --project tsconfig-variants.json && tsc --project tsconfig-effects.json && tsc --project tsconfig-modal-components.json && tsc --project tsconfig-action-modals-core.json && tsc --project tsconfig-action-modals-secondary.json",
     "dev": "tsc --watch",
-    "dev:generator": "tsc --project tsconfig-component-generator.json --watch"
+    "dev:generator": "tsc --project tsconfig-component-generator.json --watch",
+    "dev:variants": "tsc --project tsconfig-variants.json --watch",
+    "dev:effects": "tsc --project tsconfig-effects.json --watch"
   },
   "author": "Zero Team",
   "license": "MIT",

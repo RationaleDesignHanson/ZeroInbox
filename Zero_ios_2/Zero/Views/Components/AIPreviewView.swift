@@ -8,6 +8,7 @@ struct AIPreviewView: View {
     @State private var isExpanded: Bool = false
 
     // Conditional text colors based on card type
+    // AIPreview has semi-transparent gradient, so sits on light background for ads
     private var headerTextColor: Color {
         card.type == .ads ? DesignTokens.Colors.adsTextSecondary : Color.white.opacity(DesignTokens.Opacity.textTertiary)
     }
