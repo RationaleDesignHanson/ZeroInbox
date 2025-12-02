@@ -3,7 +3,7 @@ import SwiftUI
 /// Design Tokens - Semantic naming system for consistent styling
 /// Architecture: Primitive values → Semantic tokens → Component tokens
 /// Version 2.0.0
-/// Generated: 2025-11-14T01:26:25.293Z
+/// Generated: 2025-12-02T04:45:34.224Z
 /// DO NOT EDIT MANUALLY - This file is auto-generated from design-system/tokens.json
 enum DesignTokens {
 
@@ -103,8 +103,6 @@ enum DesignTokens {
 
         // Text hierarchy
         static let textDisabled: Double = Primitive.Opacity.disabled // 0.6
-        static let textFaded: Double = Primitive.Opacity.disabled // 0.6 (alias for disabled)
-        static let textPlaceholder: Double = Primitive.Opacity.disabled // 0.6 (placeholder text)
         static let textSubtle: Double = Primitive.Opacity.secondary // 0.7
         static let textTertiary: Double = Primitive.Opacity.tertiary // 0.8
         static let textSecondary: Double = Primitive.Opacity.primary // 0.9
@@ -120,8 +118,8 @@ enum DesignTokens {
         static let textSecondary = Color.white.opacity(Opacity.textSecondary)
         static let textTertiary = Color.white.opacity(Opacity.textTertiary)
         static let textSubtle = Color.white.opacity(Opacity.textSubtle)
-        static let textFaded = Color.white.opacity(Opacity.textFaded)
-        static let textPlaceholder = Color.white.opacity(Opacity.textPlaceholder)
+        static let textFaded = Color.white.opacity(Opacity.textDisabled)
+        static let textPlaceholder = Color.white.opacity(Opacity.textDisabled)
 
         // Borders and dividers
         static let borderStrong = Color.white.opacity(Opacity.overlayMedium)

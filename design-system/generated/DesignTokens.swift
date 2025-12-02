@@ -3,7 +3,7 @@ import SwiftUI
 /// Design Tokens - Semantic naming system for consistent styling
 /// Architecture: Primitive values → Semantic tokens → Component tokens
 /// Version 2.0.0
-/// Generated: 2025-11-14T01:26:25.293Z
+/// Generated: 2025-12-02T04:45:34.224Z
 /// DO NOT EDIT MANUALLY - This file is auto-generated from design-system/tokens.json
 enum DesignTokens {
 
