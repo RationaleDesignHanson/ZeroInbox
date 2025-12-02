@@ -6,8 +6,10 @@
   "scripts": {
     "build": "tsc",
     "build:sync": "tsc --project tsconfig-sync.json",
-    "build:all": "tsc && tsc --project tsconfig-sync.json",
-    "dev": "tsc --watch"
+    "build:generator": "tsc --project tsconfig-component-generator.json",
+    "build:all": "tsc && tsc --project tsconfig-sync.json && tsc --project tsconfig-component-generator.json",
+    "dev": "tsc --watch",
+    "dev:generator": "tsc --project tsconfig-component-generator.json --watch"
   },
   "author": "Zero Team",
   "license": "MIT",

@@ -1,0 +1,12 @@
+{
+  "name": "Zero Component Generator",
+  "id": "zero-component-generator",
+  "api": "1.0.0",
+  "main": "component-generator.js",
+  "ui": "component-generator-ui.html",
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page",
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  }
+}
