@@ -351,7 +351,9 @@ class ActionRouter: ObservableObject {
      * Build modal for action using ActionRegistry (v1.2)
      * This replaces the giant switch statement with registry-powered routing
      */
-    private func buildModalForAction(_ action: EmailAction, card: EmailCard) -> ActionModal {
+    /// Build a modal for a given action and email card
+    /// Used by action execution flow and developer tools (Action Modal Gallery)
+    func buildModalForAction(_ action: EmailAction, card: EmailCard) -> ActionModal {
         let actionId = action.actionId
         let context = action.context ?? [:]
 

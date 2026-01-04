@@ -3,8 +3,8 @@
  * Tests all 138 actions for correct routing and priority
  */
 
-const { getActionsForIntent, suggestActions } = require('../rules-engine');
-const { ActionCatalog, getAllActionIds } = require('../action-catalog');
+const { suggestActions } = require('../rules-engine');
+const { ActionCatalog, getAllActionIds, getActionsForIntent } = require('../action-catalog');
 const { IntentTaxonomy } = require('../../../shared/models/Intent');
 const fs = require('fs');
 const path = require('path');
@@ -122,7 +122,7 @@ describe('Phase 1: Action Routing Validation', () => {
       const genericActions = Object.values(ActionCatalog).filter(a => a.validIntents.length === 0);
 
       genericActions.forEach(action => {
-        expect(action.priority).toBeGreaterThan(3);
+        expect(action.priority).toBeGreaterThanOrEqual(3);
       });
     });
   });

@@ -40,50 +40,101 @@ struct GenericEmptyState: View {
     let title: String
     let message: String
     let action: (title: String, action: () -> Void)?
+    let style: EmptyStateStyle
+    
+    @State private var iconAnimation = false
 
     init(
         icon: String,
         title: String,
         message: String,
-        action: (String, () -> Void)? = nil
+        action: (String, () -> Void)? = nil,
+        style: EmptyStateStyle = .standard
     ) {
         self.icon = icon
         self.title = title
         self.message = message
         self.action = action
+        self.style = style
     }
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 24) {
             Spacer()
+
+            // Animated icon with glow
+            ZStack {
+                // Glow effect
+                Circle()
+                    .fill(style.accentColor.opacity(0.15))
+                    .frame(width: 120, height: 120)
+                    .blur(radius: 20)
+                    .scaleEffect(iconAnimation ? 1.1 : 0.9)
+                
+                // Icon circle
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                style.accentColor.opacity(0.2),
+                                style.accentColor.opacity(0.05)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .frame(width: 100, height: 100)
 
             // Icon
             Image(systemName: icon)
-                .font(.system(size: 60))
-                .foregroundColor(.secondary)
+                    .font(.system(size: 44, weight: .medium))
+                    .foregroundStyle(
+                        LinearGradient(
+                            colors: [style.accentColor, style.accentColor.opacity(0.7)],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .scaleEffect(iconAnimation ? 1.05 : 1.0)
+            }
+            .onAppear {
+                withAnimation(.easeInOut(duration: 2).repeatForever(autoreverses: true)) {
+                    iconAnimation = true
+                }
+            }
 
             // Title
             Text(title)
-                .font(.title2)
-                .fontWeight(.semibold)
+                .font(DesignTokens.Typography.headingMedium)
+                .foregroundColor(.white)
 
             // Message
             Text(message)
-                .font(.body)
-                .foregroundColor(.secondary)
+                .font(DesignTokens.Typography.bodyMedium)
+                .foregroundColor(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 40)
+                .lineSpacing(4)
 
             // Action button
             if let action = action {
                 Button(action: action.action) {
+                    HStack(spacing: 8) {
                     Text(action.title)
-                        .font(.headline)
+                            .font(DesignTokens.Typography.actionPrimary)
+                    }
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
-                        .padding(.vertical, 12)
-                        .background(Color.blue)
+                    .padding(.vertical, 14)
+                    .background(
+                        LinearGradient(
+                            colors: [style.accentColor, style.accentColor.opacity(0.8)],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
+                    )
                         .cornerRadius(DesignTokens.Radius.button)
+                    .shadow(color: style.accentColor.opacity(0.3), radius: 8, y: 4)
                 }
                 .padding(.top, 8)
             }
@@ -91,55 +142,190 @@ struct GenericEmptyState: View {
             Spacer()
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemBackground))
+        .background(
+            LinearGradient(
+                colors: [
+                    Color(red: 0.08, green: 0.08, blue: 0.12),
+                    Color(red: 0.12, green: 0.1, blue: 0.18)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+        )
     }
 }
 
-// MARK: - No Emails
+enum EmptyStateStyle {
+    case standard
+    case success
+    case warning
+    case info
+    
+    var accentColor: Color {
+        switch self {
+        case .standard: return Color(red: 0.4, green: 0.5, blue: 0.9)
+        case .success: return Color(red: 0.3, green: 0.8, blue: 0.5)
+        case .warning: return Color(red: 0.95, green: 0.6, blue: 0.2)
+        case .info: return Color(red: 0.3, green: 0.7, blue: 0.9)
+        }
+    }
+}
+
+// MARK: - No Emails (World-Class Inbox Zero)
 
 struct NoEmailsView: View {
     let refreshAction: (() async -> Void)?
 
     @State private var isRefreshing = false
+    @State private var celebrationScale: CGFloat = 0
+    @State private var showConfetti = false
 
     var body: some View {
-        VStack(spacing: 20) {
+        ZStack {
+            // Background
+            LinearGradient(
+                colors: [
+                    Color(red: 0.08, green: 0.08, blue: 0.12),
+                    Color(red: 0.12, green: 0.1, blue: 0.18)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            
+            VStack(spacing: 28) {
             Spacer()
 
-            Image(systemName: "tray")
-                .font(.system(size: 60))
-                .foregroundColor(.secondary)
+                // Celebratory icon with animation
+                ZStack {
+                    // Outer glow rings
+                    ForEach(0..<3, id: \.self) { i in
+                        Circle()
+                            .stroke(
+                                LinearGradient(
+                                    colors: [
+                                        Color.green.opacity(0.3 - Double(i) * 0.1),
+                                        Color.cyan.opacity(0.2 - Double(i) * 0.05)
+                                    ],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 2
+                            )
+                            .frame(width: CGFloat(120 + i * 30), height: CGFloat(120 + i * 30))
+                            .scaleEffect(celebrationScale)
+                            .opacity(1 - Double(i) * 0.3)
+                    }
+                    
+                    // Main circle
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0.2, green: 0.8, blue: 0.6),
+                                    Color(red: 0.1, green: 0.6, blue: 0.5)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 100, height: 100)
+                        .shadow(color: Color.green.opacity(0.4), radius: 20, y: 4)
+                        .scaleEffect(celebrationScale)
+                    
+                    // Check icon
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 48, weight: .bold))
+                        .foregroundColor(.white)
+                        .scaleEffect(celebrationScale)
+                }
 
-            Text("No Emails")
-                .font(.title2)
-                .fontWeight(.semibold)
+                // Title
+                Text("Inbox Zero")
+                    .font(DesignTokens.Typography.displayMedium)
+                    .foregroundColor(.white)
+                    .opacity(celebrationScale)
 
-            Text("Your inbox is empty. Check back later or connect your email account.")
-                .font(.body)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
+                // Subtitle
+                Text("You're all caught up!")
+                    .font(DesignTokens.Typography.bodyLarge)
+                    .foregroundColor(.white.opacity(0.8))
+                    .opacity(celebrationScale)
+
+                // Stats or suggestion
+                HStack(spacing: 24) {
+                    StatBadge(icon: "envelope.fill", value: "0", label: "Unread")
+                    StatBadge(icon: "bolt.fill", value: "0", label: "Actions")
+                }
+                .opacity(celebrationScale)
+                .padding(.top, 8)
 
             if let refreshAction = refreshAction {
-                LoadingButton(
-                    title: "Refresh",
-                    isLoading: isRefreshing,
-                    action: {
+                    Button {
                         Task {
                             isRefreshing = true
                             await refreshAction()
                             isRefreshing = false
                         }
+                    } label: {
+                        HStack(spacing: 8) {
+                            if isRefreshing {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(0.8)
+                            } else {
+                                Image(systemName: "arrow.clockwise")
+                            }
+                            Text("Check for new emails")
+                        }
+                        .font(DesignTokens.Typography.actionSecondary)
+                        .foregroundColor(.white.opacity(0.7))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(DesignTokens.Radius.button)
                     }
-                )
-                .padding(.horizontal, 48)
-                .padding(.top, 8)
+                    .disabled(isRefreshing)
+                    .opacity(celebrationScale)
+                    .padding(.top, 16)
             }
 
             Spacer()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemBackground))
+        }
+        .onAppear {
+            withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+                celebrationScale = 1.0
+            }
+            HapticService.shared.celebration()
+        }
+    }
+}
+
+struct StatBadge: View {
+    let icon: String
+    let value: String
+    let label: String
+    
+    var body: some View {
+        VStack(spacing: 6) {
+            HStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 14))
+                Text(value)
+                    .font(DesignTokens.Typography.headingSmall)
+            }
+            .foregroundColor(.white)
+            
+            Text(label)
+                .font(DesignTokens.Typography.labelSmall)
+                .foregroundColor(.white.opacity(0.5))
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 12)
+        .background(Color.white.opacity(0.08))
+        .cornerRadius(DesignTokens.Radius.button)
     }
 }
 

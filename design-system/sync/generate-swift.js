@@ -208,11 +208,21 @@ function generateColors(colors) {
   let code = `\n    /// Color tokens - using semantic opacity values\n`;
   code += `    enum Colors {\n`;
 
-  // Text hierarchy
+  // Text hierarchy - map text colors to their semantic opacity values
   code += `        // Text hierarchy (white with semantic opacity)\n`;
   if (colors.text) {
+    // Map token names to their opacity reference
+    const opacityMap = {
+      'primary': 'textPrimary',
+      'secondary': 'textSecondary',
+      'tertiary': 'textTertiary',
+      'subtle': 'textSubtle',
+      'faded': 'textDisabled',        // faded uses textDisabled (0.6)
+      'placeholder': 'textDisabled'   // placeholder uses textDisabled (0.6)
+    };
     Object.entries(colors.text).filter(([key]) => !key.startsWith('$')).forEach(([key, token]) => {
-      code += `        static let text${key.charAt(0).toUpperCase() + key.slice(1)} = Color.white.opacity(Opacity.text${key.charAt(0).toUpperCase() + key.slice(1)})\n`;
+      const opacityRef = opacityMap[key] || `text${key.charAt(0).toUpperCase() + key.slice(1)}`;
+      code += `        static let text${key.charAt(0).toUpperCase() + key.slice(1)} = Color.white.opacity(Opacity.${opacityRef})\n`;
     });
   }
 
@@ -315,56 +325,118 @@ function generateColors(colors) {
   return code;
 }
 
+// Helper to generate Font.system call with design support
+function generateFontCall(token) {
+  const size = parseInt(token.$value);
+  const weight = token.fontWeight || 'regular';
+  const design = token.fontDesign || 'default';
+  
+  // Map weight strings to Swift weight enum
+  const weightMap = {
+    'regular': '.regular',
+    'medium': '.medium',
+    'semibold': '.semibold',
+    'bold': '.bold'
+  };
+  
+  const swiftWeight = weightMap[weight] || '.regular';
+  const swiftDesign = design === 'default' ? '.default' : `.${design}`;
+  
+  return `Font.system(size: ${size}, weight: ${swiftWeight}, design: ${swiftDesign})`;
+}
+
 // Generate Typography
 function generateTypography(typography) {
   let code = `\n    /// Typography tokens - semantic font scale\n`;
+  code += `    /// World-class typography with refined hierarchy and optimal readability\n`;
   code += `    enum Typography {\n`;
 
+  const fontSize = typography.fontSize || {};
+
   // Display
-  code += `        // Display (largest)\n`;
-  code += `        static let displayLarge = Font.system(.largeTitle, weight: .bold)\n`;
-  code += `        static let displayMedium = Font.system(.title, weight: .bold)\n\n`;
+  code += `        // Display (largest) - hero headlines, splash screens\n`;
+  if (fontSize.display) {
+    code += `        static let displayLarge = ${generateFontCall(fontSize.display.large)}\n`;
+    code += `        static let displayMedium = ${generateFontCall(fontSize.display.medium)}\n\n`;
+  }
 
   // Headings
-  code += `        // Headings\n`;
-  code += `        static let headingLarge = Font.system(.title2, weight: .bold)\n`;
-  code += `        static let headingMedium = Font.system(.title3, weight: .semibold)\n`;
-  code += `        static let headingSmall = Font.system(.headline, weight: .semibold)\n\n`;
+  code += `        // Headings - section titles, card titles\n`;
+  if (fontSize.heading) {
+    code += `        static let headingLarge = ${generateFontCall(fontSize.heading.large)}\n`;
+    code += `        static let headingMedium = ${generateFontCall(fontSize.heading.medium)}\n`;
+    code += `        static let headingSmall = ${generateFontCall(fontSize.heading.small)}\n\n`;
+  }
 
   // Body
-  code += `        // Body text\n`;
-  code += `        static let bodyLarge = Font.system(.body, weight: .regular)\n`;
-  code += `        static let bodyMedium = Font.system(.callout, weight: .regular)\n`;
-  code += `        static let bodySmall = Font.system(.subheadline, weight: .regular)\n\n`;
+  code += `        // Body text - main content, readable paragraphs\n`;
+  if (fontSize.body) {
+    code += `        static let bodyLarge = ${generateFontCall(fontSize.body.large)}\n`;
+    code += `        static let bodyMedium = ${generateFontCall(fontSize.body.medium)}\n`;
+    code += `        static let bodySmall = ${generateFontCall(fontSize.body.small)}\n\n`;
+  }
 
   // Labels
-  code += `        // Labels\n`;
-  code += `        static let labelLarge = Font.system(.caption, weight: .bold)\n`;
-  code += `        static let labelMedium = Font.system(.caption, weight: .regular)\n`;
-  code += `        static let labelSmall = Font.system(.caption2, weight: .regular)\n\n`;
+  code += `        // Labels - UI labels, metadata, timestamps\n`;
+  if (fontSize.label) {
+    code += `        static let labelLarge = ${generateFontCall(fontSize.label.large)}\n`;
+    code += `        static let labelMedium = ${generateFontCall(fontSize.label.medium)}\n`;
+    code += `        static let labelSmall = ${generateFontCall(fontSize.label.small)}\n\n`;
+  }
 
   // Card Typography
-  if (typography.fontSize && typography.fontSize.card) {
-    code += `        // Email Card Typography (specific to card components)\n`;
-    const cardTitle = parseInt(typography.fontSize.card.title.$value);
-    const cardSummary = parseInt(typography.fontSize.card.summary.$value);
-    const cardHeader = parseInt(typography.fontSize.card.sectionHeader.$value);
-    code += `        static let cardTitle = Font.system(size: ${cardTitle}, weight: .bold)           // Email card title (matches web demo)\n`;
-    code += `        static let cardSummary = Font.system(size: ${cardSummary})                        // Email card summary (matches web demo)\n`;
-    code += `        static let cardSectionHeader = Font.system(size: ${cardHeader}, weight: .bold)   // Section headers (Actions, Why, etc - matches web)\n\n`;
+  if (fontSize.card) {
+    code += `        // Email Card Typography (world-class card components)\n`;
+    code += `        static let cardTitle = ${generateFontCall(fontSize.card.title)}         // ${fontSize.card.title.description || 'Card title'}\n`;
+    code += `        static let cardSender = ${generateFontCall(fontSize.card.sender)}    // ${fontSize.card.sender.description || 'Sender name'}\n`;
+    code += `        static let cardSummary = ${generateFontCall(fontSize.card.summary)}    // ${fontSize.card.summary.description || 'Summary text'}\n`;
+    code += `        static let cardSectionHeader = ${generateFontCall(fontSize.card.sectionHeader)} // ${fontSize.card.sectionHeader.description || 'Section header'}\n`;
+    code += `        static let cardTimestamp = ${generateFontCall(fontSize.card.timestamp)}   // ${fontSize.card.timestamp.description || 'Timestamp'}\n`;
+    code += `        static let cardMetadata = ${generateFontCall(fontSize.card.metadata)}   // ${fontSize.card.metadata.description || 'Metadata'}\n\n`;
   }
 
   // Thread Typography
-  if (typography.fontSize && typography.fontSize.thread) {
+  if (fontSize.thread) {
     code += `        // Thread Typography (for threaded card views)\n`;
-    const threadTitle = parseInt(typography.fontSize.thread.title.$value);
-    const threadSummary = parseInt(typography.fontSize.thread.summary.$value);
-    const threadSender = parseInt(typography.fontSize.thread.messageSender.$value);
-    const threadBody = parseInt(typography.fontSize.thread.messageBody.$value);
-    code += `        static let threadTitle = Font.system(size: ${threadTitle}, weight: .semibold)     // Thread card title\n`;
-    code += `        static let threadSummary = Font.system(size: ${threadSummary})                      // Thread card summary\n`;
-    code += `        static let threadMessageSender = Font.system(size: ${threadSender}, weight: .bold) // Expanded thread sender\n`;
-    code += `        static let threadMessageBody = Font.system(size: ${threadBody})                  // Expanded thread body\n`;
+    code += `        static let threadTitle = ${generateFontCall(fontSize.thread.title)}\n`;
+    code += `        static let threadSummary = ${generateFontCall(fontSize.thread.summary)}\n`;
+    code += `        static let threadMessageSender = ${generateFontCall(fontSize.thread.messageSender)}\n`;
+    code += `        static let threadMessageBody = ${generateFontCall(fontSize.thread.messageBody)}\n\n`;
+  }
+
+  // Reader Typography
+  if (fontSize.reader) {
+    code += `        // Reader Typography (world-class email reader)\n`;
+    code += `        static let readerSubject = ${generateFontCall(fontSize.reader.subject)}     // ${fontSize.reader.subject.description || 'Subject'}\n`;
+    code += `        static let readerSender = ${generateFontCall(fontSize.reader.sender)}  // ${fontSize.reader.sender.description || 'Sender'}\n`;
+    code += `        static let readerBody = ${generateFontCall(fontSize.reader.body)}     // ${fontSize.reader.body.description || 'Body'}\n`;
+    code += `        static let readerQuote = ${generateFontCall(fontSize.reader.quote)}      // ${fontSize.reader.quote.description || 'Quote'}\n`;
+    code += `        static let readerMetadata = ${generateFontCall(fontSize.reader.metadata)}  // ${fontSize.reader.metadata.description || 'Metadata'}\n\n`;
+  }
+
+  // Action Typography
+  if (fontSize.action) {
+    code += `        // Action Typography (buttons, CTAs)\n`;
+    code += `        static let actionPrimary = ${generateFontCall(fontSize.action.primary)}\n`;
+    code += `        static let actionSecondary = ${generateFontCall(fontSize.action.secondary)}\n`;
+    code += `        static let actionTertiary = ${generateFontCall(fontSize.action.tertiary)}\n\n`;
+  }
+
+  // Badge Typography
+  if (fontSize.badge) {
+    code += `        // Badge Typography (status indicators, tags)\n`;
+    code += `        static let badgeLarge = ${generateFontCall(fontSize.badge.large)}\n`;
+    code += `        static let badgeSmall = ${generateFontCall(fontSize.badge.small)}\n\n`;
+  }
+
+  // AI Analysis Typography
+  if (fontSize.aiAnalysis) {
+    code += `        // AI Analysis Typography (card AI preview section)\n`;
+    code += `        static let aiAnalysisTitle = ${generateFontCall(fontSize.aiAnalysis.title)}         // ${fontSize.aiAnalysis.title.description || 'AI Analysis header'}\n`;
+    code += `        static let aiAnalysisSectionHeader = ${generateFontCall(fontSize.aiAnalysis.sectionHeader)} // ${fontSize.aiAnalysis.sectionHeader.description || 'Section headers'}\n`;
+    code += `        static let aiAnalysisActionText = ${generateFontCall(fontSize.aiAnalysis.actionText)}    // ${fontSize.aiAnalysis.actionText.description || 'Action text'}\n`;
+    code += `        static let aiAnalysisContextText = ${generateFontCall(fontSize.aiAnalysis.contextText)}  // ${fontSize.aiAnalysis.contextText.description || 'Context text'}\n`;
+    code += `        static let aiAnalysisWhyText = ${generateFontCall(fontSize.aiAnalysis.whyText)}      // ${fontSize.aiAnalysis.whyText.description || 'Why text'}\n`;
   }
 
   code += `    }\n`;
@@ -431,6 +503,26 @@ function generateComponents(components, tokens) {
     code += `    }\n\n`;
   }
 
+  // AI Analysis Box
+  if (components.aiAnalysisBox) {
+    code += `    /// AI Analysis box component tokens\n`;
+    code += `    enum AIAnalysisBox {\n`;
+    code += `        static let padding = Spacing.component\n`;
+    code += `        static let radius = Radius.button\n`;
+    code += `        static let borderWidth: CGFloat = ${parseFloat(components.aiAnalysisBox.borderWidth.$value)}\n`;
+    code += `    }\n\n`;
+  }
+
+  // Bottom Action Bar
+  if (components.bottomActionBar) {
+    code += `    /// Bottom action bar component tokens\n`;
+    code += `    enum BottomActionBar {\n`;
+    code += `        static let height: CGFloat = ${parseInt(components.bottomActionBar.height.$value)}\n`;
+    code += `        static let padding = Spacing.element\n`;
+    code += `        static let radius = Radius.chip\n`;
+    code += `    }\n\n`;
+  }
+
   // Shadow
   if (components.shadow) {
     code += `    /// Shadow preset tokens\n`;
@@ -455,11 +547,40 @@ function generateAnimation(animation, tokens) {
   let code = `    /// Animation timing tokens\n`;
   code += `    enum Animation {\n`;
 
-  Object.entries(animation).filter(([key]) => !key.startsWith('$')).forEach(([key, token]) => {
-    const resolvedValue = resolveValue(token.$value || token, tokens);
-    const value = parseInt(resolvedValue) / 1000; // Convert ms to seconds
-    code += `        static let ${key} = Primitive.Duration.${key === 'standard' ? 'normal' : key}\n`;
-  });
+  // Duration presets
+  if (animation.duration) {
+    code += `        // Duration presets\n`;
+    Object.entries(animation.duration).filter(([key]) => !key.startsWith('$')).forEach(([key, token]) => {
+      const primitiveKey = key === 'standard' ? 'normal' : key;
+      code += `        static let ${key} = Primitive.Duration.${primitiveKey}\n`;
+    });
+    code += `        \n`;
+  }
+
+  // Spring presets
+  if (animation.spring) {
+    code += `        // Spring presets for world-class microinteractions\n`;
+    code += `        enum Spring {\n`;
+    Object.entries(animation.spring).filter(([key]) => !key.startsWith('$')).forEach(([key, preset]) => {
+      if (preset.response && preset.dampingFraction) {
+        const response = preset.response.$value !== undefined ? preset.response.$value : preset.response;
+        const damping = preset.dampingFraction.$value !== undefined ? preset.dampingFraction.$value : preset.dampingFraction;
+        const desc = preset.description || `${key} spring animation`;
+        code += `            /// ${desc}\n`;
+        code += `            static let ${key} = SwiftUI.Animation.spring(response: ${response}, dampingFraction: ${damping})\n`;
+      }
+    });
+    code += `        }\n`;
+    code += `        \n`;
+  }
+
+  // Easing presets
+  code += `        // Easing presets\n`;
+  code += `        enum Ease {\n`;
+  code += `            static let \`in\` = SwiftUI.Animation.easeIn(duration: Primitive.Duration.normal)\n`;
+  code += `            static let out = SwiftUI.Animation.easeOut(duration: Primitive.Duration.normal)\n`;
+  code += `            static let inOut = SwiftUI.Animation.easeInOut(duration: Primitive.Duration.normal)\n`;
+  code += `        }\n`;
 
   code += `    }\n\n`;
   return code;

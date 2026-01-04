@@ -21,5 +21,9 @@
 	<!-- Google Client ID -->
 	<key>GIDClientID</key>
 	<string>514014482017-gpsj2233l3dl312j6ek96cglv0agovuq.apps.googleusercontent.com</string>
+
+	<!-- Export Compliance: App uses standard encryption only (HTTPS/TLS) -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

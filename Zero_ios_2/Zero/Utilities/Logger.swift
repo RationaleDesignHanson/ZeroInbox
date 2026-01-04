@@ -35,6 +35,12 @@ struct Logger {
         case admin = "Admin"
         case widget = "Widget"
         case savedMail = "SavedMail"
+        case audio = "Audio"
+        case voice = "Voice"
+        case watch = "Watch"
+        case wearables = "Wearables"
+        case arDisplay = "ARDisplay"
+        case emg = "EMG"
 
         var osLog: OSLog {
             return OSLog(subsystem: "com.emailshortform.zero", category: rawValue)

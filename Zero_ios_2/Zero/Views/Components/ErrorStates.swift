@@ -48,56 +48,200 @@ extension AppError {
     }
 }
 
-// MARK: - Error View (Full Screen)
+// MARK: - Error View (Full Screen) - World Class
 
 struct ErrorView: View {
     let error: AppError
     let retryAction: (() async -> Void)?
 
     @State private var isRetrying = false
+    @State private var iconPulse = false
+    @State private var shakeOffset: CGFloat = 0
 
     var body: some View {
-        VStack(spacing: 24) {
+        ZStack {
+            // Dark gradient background
+            LinearGradient(
+                colors: [
+                    Color(red: 0.08, green: 0.08, blue: 0.12),
+                    Color(red: 0.15, green: 0.08, blue: 0.12)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
+            
+            VStack(spacing: 28) {
             Spacer()
+
+                // Error icon with pulse animation
+                ZStack {
+                    // Glow effect
+                    Circle()
+                        .fill(error.color.opacity(0.2))
+                        .frame(width: 140, height: 140)
+                        .blur(radius: 30)
+                        .scaleEffect(iconPulse ? 1.2 : 0.8)
+                    
+                    // Icon background
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    error.color.opacity(0.3),
+                                    error.color.opacity(0.1)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 100, height: 100)
 
             // Error icon
             Image(systemName: error.icon)
-                .font(.system(size: 60))
+                        .font(.system(size: 44, weight: .medium))
                 .foregroundColor(error.color)
+                }
+                .offset(x: shakeOffset)
 
             // Error title
             Text(error.type.capitalized)
-                .font(.title2)
-                .fontWeight(.bold)
+                    .font(DesignTokens.Typography.headingLarge)
+                    .foregroundColor(.white)
 
             // Error message
             Text(error.userFacingMessage)
-                .font(.body)
-                .foregroundColor(.secondary)
+                    .font(DesignTokens.Typography.bodyMedium)
+                    .foregroundColor(.white.opacity(0.7))
                 .multilineTextAlignment(.center)
-                .padding(.horizontal, 32)
+                    .padding(.horizontal, 40)
+                    .lineSpacing(4)
+
+                // Error code (debug info)
+                Text("Error Code: \(error.errorCode)")
+                    .font(DesignTokens.Typography.labelSmall)
+                    .foregroundColor(.white.opacity(0.4))
+                    .padding(.top, -8)
 
             // Retry button
             if error.canRetry, let retryAction = retryAction {
-                LoadingButton(
-                    title: "Retry",
-                    isLoading: isRetrying,
-                    action: {
+                    Button {
                         Task {
                             isRetrying = true
                             await retryAction()
                             isRetrying = false
                         }
+                    } label: {
+                        HStack(spacing: 10) {
+                            if isRetrying {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                    .scaleEffect(0.9)
+                            } else {
+                                Image(systemName: "arrow.clockwise")
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+                            Text(isRetrying ? "Retrying..." : "Try Again")
+                                .font(DesignTokens.Typography.actionPrimary)
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 40)
+                        .padding(.vertical, 16)
+                        .background(
+                            LinearGradient(
+                                colors: [error.color, error.color.opacity(0.7)],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .cornerRadius(DesignTokens.Radius.button)
+                        .shadow(color: error.color.opacity(0.3), radius: 10, y: 4)
                     }
-                )
-                .padding(.horizontal, 48)
+                    .disabled(isRetrying)
                 .padding(.top, 16)
             }
 
             Spacer()
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.systemBackground))
+        }
+        .onAppear {
+            // Pulse animation
+            withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                iconPulse = true
+            }
+            
+            // Initial shake to draw attention
+            shakeIcon()
+        }
+    }
+    
+    private func shakeIcon() {
+        let shakeSequence: [(CGFloat, Double)] = [
+            (-12, 0.05), (12, 0.05), (-10, 0.05), (10, 0.05),
+            (-6, 0.05), (6, 0.05), (-3, 0.05), (0, 0.05)
+        ]
+        
+        var delay: Double = 0
+        for (offset, duration) in shakeSequence {
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+                withAnimation(.linear(duration: duration)) {
+                    shakeOffset = offset
+                }
+            }
+            delay += duration
+        }
+    }
+}
+
+// Add error code property to AppError
+extension AppError {
+    var errorCode: String {
+        switch self {
+        case .network: return "NET-001"
+        case .authentication: return "AUTH-001"
+        case .emailFetch: return "EMAIL-001"
+        case .classification: return "CLASS-001"
+        case .shopping: return "SHOP-001"
+        case .storage: return "STOR-001"
+        case .custom: return "CUST-001"
+        case .unknown: return "UNK-001"
+        }
+    }
+}
+
+// MARK: - Banner Types
+
+enum BannerType {
+    case error
+    case warning
+    case success
+    case info
+
+    var icon: String {
+        switch self {
+        case .error: return "xmark.circle.fill"
+        case .warning: return "exclamationmark.triangle.fill"
+        case .success: return "checkmark.circle.fill"
+        case .info: return "info.circle.fill"
+        }
+    }
+
+    var iconColor: Color {
+        switch self {
+        case .error: return .red
+        case .warning: return .orange
+        case .success: return .green
+        case .info: return .blue
+        }
+    }
+
+    var backgroundColor: Color {
+        switch self {
+        case .error: return Color.red.opacity(DesignTokens.Opacity.glassLight)
+        case .warning: return Color.orange.opacity(DesignTokens.Opacity.glassLight)
+        case .success: return Color.green.opacity(DesignTokens.Opacity.glassLight)
+        case .info: return Color.blue.opacity(DesignTokens.Opacity.glassLight)
+        }
     }
 }
 
@@ -153,40 +297,6 @@ struct ErrorBanner: View {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             dismissAction?()
-        }
-    }
-}
-
-enum BannerType {
-    case error
-    case warning
-    case success
-    case info
-
-    var icon: String {
-        switch self {
-        case .error: return "xmark.circle.fill"
-        case .warning: return "exclamationmark.triangle.fill"
-        case .success: return "checkmark.circle.fill"
-        case .info: return "info.circle.fill"
-        }
-    }
-
-    var iconColor: Color {
-        switch self {
-        case .error: return .red
-        case .warning: return .orange
-        case .success: return .green
-        case .info: return .blue
-        }
-    }
-
-    var backgroundColor: Color {
-        switch self {
-        case .error: return Color.red.opacity(DesignTokens.Opacity.glassLight)
-        case .warning: return Color.orange.opacity(DesignTokens.Opacity.glassLight)
-        case .success: return Color.green.opacity(DesignTokens.Opacity.glassLight)
-        case .info: return Color.blue.opacity(DesignTokens.Opacity.glassLight)
         }
     }
 }

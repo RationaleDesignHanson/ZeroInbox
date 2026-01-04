@@ -1,6 +1,28 @@
 import Foundation
 import SwiftUI
 
+/// Destructive action configuration (Wave 2)
+struct DestructiveActionConfig: Codable {
+    let title: String
+    let confirmationTitle: String?
+    let confirmationMessage: String?
+    let action: ButtonAction
+    let analytics: AnalyticsConfig?
+}
+
+/// Permissions configuration (Wave 2)
+struct PermissionsConfig: Codable {
+    let required: [String]     // Required permissions (e.g., "calendar", "contacts")
+    let optional: [String]     // Optional permissions
+}
+
+/// Loading states configuration (Wave 2)
+struct LoadingStatesConfig: Codable {
+    let submitting: String     // Message while submitting
+    let success: String        // Success message
+    let error: String          // Error message
+}
+
 /**
  * ModalConfig - Complete configuration for a data-driven modal
  *
@@ -26,6 +48,13 @@ struct ModalConfig: Identifiable {
     let secondaryButton: ButtonConfig?
     let layout: ModalLayout
 
+    // Wave 2 additions
+    let tertiaryButton: ButtonConfig?
+    let cancelButton: ButtonConfig?
+    let destructiveAction: DestructiveActionConfig?
+    let permissions: PermissionsConfig?
+    let loadingStates: LoadingStatesConfig?
+
     enum ModalLayout: String, Codable {
         case standard      // Icon, title, sections, button
         case form          // Title, form fields, submit
@@ -42,7 +71,12 @@ struct ModalConfig: Identifiable {
         sections: [ModalSection],
         primaryButton: ButtonConfig,
         secondaryButton: ButtonConfig? = nil,
-        layout: ModalLayout = .standard
+        layout: ModalLayout = .standard,
+        tertiaryButton: ButtonConfig? = nil,
+        cancelButton: ButtonConfig? = nil,
+        destructiveAction: DestructiveActionConfig? = nil,
+        permissions: PermissionsConfig? = nil,
+        loadingStates: LoadingStatesConfig? = nil
     ) {
         self.id = id
         self.title = title
@@ -52,6 +86,11 @@ struct ModalConfig: Identifiable {
         self.primaryButton = primaryButton
         self.secondaryButton = secondaryButton
         self.layout = layout
+        self.tertiaryButton = tertiaryButton
+        self.cancelButton = cancelButton
+        self.destructiveAction = destructiveAction
+        self.permissions = permissions
+        self.loadingStates = loadingStates
     }
 }
 
@@ -60,6 +99,7 @@ struct ModalConfig: Identifiable {
 extension ModalConfig: Codable {
     enum CodingKeys: String, CodingKey {
         case id, title, subtitle, icon, sections, primaryButton, secondaryButton, layout
+        case tertiaryButton, cancelButton, destructiveAction, permissions, loadingStates
     }
 
     init(from decoder: Decoder) throws {
@@ -72,6 +112,13 @@ extension ModalConfig: Codable {
         primaryButton = try container.decode(ButtonConfig.self, forKey: .primaryButton)
         secondaryButton = try container.decodeIfPresent(ButtonConfig.self, forKey: .secondaryButton)
         layout = try container.decodeIfPresent(ModalLayout.self, forKey: .layout) ?? .standard
+
+        // Wave 2 additions
+        tertiaryButton = try container.decodeIfPresent(ButtonConfig.self, forKey: .tertiaryButton)
+        cancelButton = try container.decodeIfPresent(ButtonConfig.self, forKey: .cancelButton)
+        destructiveAction = try container.decodeIfPresent(DestructiveActionConfig.self, forKey: .destructiveAction)
+        permissions = try container.decodeIfPresent(PermissionsConfig.self, forKey: .permissions)
+        loadingStates = try container.decodeIfPresent(LoadingStatesConfig.self, forKey: .loadingStates)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -84,6 +131,13 @@ extension ModalConfig: Codable {
         try container.encode(primaryButton, forKey: .primaryButton)
         try container.encodeIfPresent(secondaryButton, forKey: .secondaryButton)
         try container.encode(layout, forKey: .layout)
+
+        // Wave 2 additions
+        try container.encodeIfPresent(tertiaryButton, forKey: .tertiaryButton)
+        try container.encodeIfPresent(cancelButton, forKey: .cancelButton)
+        try container.encodeIfPresent(destructiveAction, forKey: .destructiveAction)
+        try container.encodeIfPresent(permissions, forKey: .permissions)
+        try container.encodeIfPresent(loadingStates, forKey: .loadingStates)
     }
 }
 
@@ -129,6 +183,11 @@ struct ModalSection: Codable, Identifiable {
     let layout: SectionLayout
     let background: BackgroundStyle?
 
+    // Wave 2 additions
+    let collapsible: Bool?            // Section can be collapsed
+    let collapsed: Bool?              // Initial collapsed state
+    let visibilityCondition: VisibilityCondition?  // Conditional visibility
+
     enum SectionLayout: String, Codable {
         case vertical      // Stack fields vertically
         case horizontal    // Stack fields horizontally
@@ -138,6 +197,7 @@ struct ModalSection: Codable, Identifiable {
     enum BackgroundStyle: String, Codable {
         case glass         // Glassmorphic background
         case card          // Card background
+        case plain         // Plain background (Wave 2)
         case none          // No background
     }
 
@@ -146,13 +206,94 @@ struct ModalSection: Codable, Identifiable {
         title: String? = nil,
         fields: [FieldConfig],
         layout: SectionLayout = .vertical,
-        background: BackgroundStyle? = .glass
+        background: BackgroundStyle? = .glass,
+        collapsible: Bool? = nil,
+        collapsed: Bool? = nil,
+        visibilityCondition: VisibilityCondition? = nil
     ) {
         self.id = id
         self.title = title
         self.fields = fields
         self.layout = layout
         self.background = background
+        self.collapsible = collapsible
+        self.collapsed = collapsed
+        self.visibilityCondition = visibilityCondition
+    }
+}
+
+// MARK: - Supporting Structs
+
+/// Visibility condition for conditional field/section display
+struct VisibilityCondition: Codable {
+    let field: String              // Field ID to watch
+    let equals: AnyCodableValue    // Value to match for visibility
+}
+
+/// Rich picker option with icon and description
+struct PickerOption: Codable, Identifiable {
+    let value: String
+    let label: String
+    let icon: String?              // SF Symbol name
+    let description: String?        // Subtitle/helper text
+
+    var id: String { value }
+}
+
+/// Type-erased codable value (supports String, Int, Bool, Double)
+enum AnyCodableValue: Codable, Equatable {
+    case string(String)
+    case int(Int)
+    case double(Double)
+    case bool(Bool)
+    case null
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+
+        if container.decodeNil() {
+            self = .null
+        } else if let bool = try? container.decode(Bool.self) {
+            self = .bool(bool)
+        } else if let int = try? container.decode(Int.self) {
+            self = .int(int)
+        } else if let double = try? container.decode(Double.self) {
+            self = .double(double)
+        } else if let string = try? container.decode(String.self) {
+            self = .string(string)
+        } else {
+            throw DecodingError.typeMismatch(
+                AnyCodableValue.self,
+                DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Unsupported type")
+            )
+        }
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .string(let value):
+            try container.encode(value)
+        case .int(let value):
+            try container.encode(value)
+        case .double(let value):
+            try container.encode(value)
+        case .bool(let value):
+            try container.encode(value)
+        case .null:
+            try container.encodeNil()
+        }
+    }
+
+    /// Get string representation
+    var stringValue: String {
+        switch self {
+        case .string(let value): return value
+        case .int(let value): return String(value)
+        case .double(let value): return String(value)
+        case .bool(let value): return String(value)
+        case .null: return ""
+        }
     }
 }
 
@@ -169,6 +310,15 @@ struct FieldConfig: Codable, Identifiable {
     let formatting: FormattingRule?
     let colorMapping: [String: String]?  // For statusBadge, etc.
     let validation: ValidationRule?      // Validation rules (Phase 2.1)
+
+    // Wave 2 additions
+    let helpText: String?                 // Helper text below field
+    let visibilityCondition: VisibilityCondition?  // Conditional visibility
+    let defaultValue: AnyCodableValue?    // Default value for field
+    let maxLines: Int?                    // Max lines for textArea
+    let characterLimit: Int?              // Character count limit
+    let pickerOptions: [PickerOption]?   // Rich picker options with icons/descriptions
+    let calculation: String?              // Formula for calculated fields (e.g., "{price} * {quantity}")
 
     enum FieldType: String, Codable {
         // Display-only fields
@@ -199,6 +349,13 @@ struct FieldConfig: Codable, Identifiable {
         case segmentedControl        // iOS segmented control (multiple choice)
         case stepper                 // Numeric stepper (+/- buttons)
         case rating                  // Star rating input (1-5 stars)
+
+        // Wave 2 additions
+        case multiSelect             // Multiple selection with checkboxes
+        case searchField             // Search input with magnifying glass icon
+        case stars                   // Star rating display (read-only, 1-5 stars)
+        case textArea                // Multi-line text input (enhanced textInputMultiline)
+        case calculated              // Calculated field based on formula
     }
 
     init(
@@ -211,7 +368,14 @@ struct FieldConfig: Codable, Identifiable {
         placeholder: String? = nil,
         formatting: FormattingRule? = nil,
         colorMapping: [String: String]? = nil,
-        validation: ValidationRule? = nil
+        validation: ValidationRule? = nil,
+        helpText: String? = nil,
+        visibilityCondition: VisibilityCondition? = nil,
+        defaultValue: AnyCodableValue? = nil,
+        maxLines: Int? = nil,
+        characterLimit: Int? = nil,
+        pickerOptions: [PickerOption]? = nil,
+        calculation: String? = nil
     ) {
         self.id = id
         self.label = label
@@ -223,6 +387,13 @@ struct FieldConfig: Codable, Identifiable {
         self.formatting = formatting
         self.colorMapping = colorMapping
         self.validation = validation
+        self.helpText = helpText
+        self.visibilityCondition = visibilityCondition
+        self.defaultValue = defaultValue
+        self.maxLines = maxLines
+        self.characterLimit = characterLimit
+        self.pickerOptions = pickerOptions
+        self.calculation = calculation
     }
 }
 
@@ -407,19 +578,29 @@ struct ButtonConfig: Codable {
     let title: String
     let style: ButtonStyle
     let action: ButtonAction
+    let analytics: AnalyticsConfig?   // Wave 2: Analytics tracking
 
     enum ButtonStyle: String, Codable {
         case primary           // Gradient button (main action)
         case secondary         // Glass button (alternate action)
+        case tertiary          // Tertiary button (Wave 2)
+        case plain             // Plain text button (Wave 2)
         case destructive       // Red button (dangerous action)
         case link              // Text-only link button
     }
 
-    init(title: String, style: ButtonStyle, action: ButtonAction) {
+    init(title: String, style: ButtonStyle, action: ButtonAction, analytics: AnalyticsConfig? = nil) {
         self.title = title
         self.style = style
         self.action = action
+        self.analytics = analytics
     }
+}
+
+/// Analytics configuration for button actions
+struct AnalyticsConfig: Codable {
+    let eventName: String
+    let properties: [String: String]?  // Key-value pairs with placeholder support (e.g., "{ticketId}")
 }
 
 // MARK: - Button Actions
@@ -427,7 +608,8 @@ struct ButtonConfig: Codable {
 enum ButtonAction: Codable, Equatable {
     case openURL(contextKey: String)
     case copyToClipboard(contextKey: String)
-    case submit(serviceCall: String)
+    case submit(contextKey: String?)        // Wave 2: Submit form (optional service call via contextKey)
+    case custom(contextKey: String)         // Wave 2: Custom action handler
     case share
     case dismiss
 
@@ -436,7 +618,7 @@ enum ButtonAction: Codable, Equatable {
     enum CodingKeys: String, CodingKey {
         case type
         case contextKey
-        case serviceCall
+        case serviceCall  // Legacy support
     }
 
     init(from decoder: Decoder) throws {
@@ -453,8 +635,14 @@ enum ButtonAction: Codable, Equatable {
             self = .copyToClipboard(contextKey: key)
 
         case "submit":
-            let call = try container.decode(String.self, forKey: .serviceCall)
-            self = .submit(serviceCall: call)
+            // Wave 2: contextKey is optional for submit
+            let key = try container.decodeIfPresent(String.self, forKey: .contextKey)
+            self = .submit(contextKey: key)
+
+        case "custom":
+            // Wave 2: custom action with required contextKey
+            let key = try container.decode(String.self, forKey: .contextKey)
+            self = .custom(contextKey: key)
 
         case "share":
             self = .share
@@ -483,9 +671,13 @@ enum ButtonAction: Codable, Equatable {
             try container.encode("copyToClipboard", forKey: .type)
             try container.encode(key, forKey: .contextKey)
 
-        case .submit(let call):
+        case .submit(let key):
             try container.encode("submit", forKey: .type)
-            try container.encode(call, forKey: .serviceCall)
+            try container.encodeIfPresent(key, forKey: .contextKey)
+
+        case .custom(let key):
+            try container.encode("custom", forKey: .type)
+            try container.encode(key, forKey: .contextKey)
 
         case .share:
             try container.encode("share", forKey: .type)

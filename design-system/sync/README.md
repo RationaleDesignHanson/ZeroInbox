@@ -1,446 +1,239 @@
 # Design Token Sync Workflow
 
-Automated pipeline to sync design tokens from Figma to iOS (Swift) and Web (CSS/JS).
+Bidirectional pipeline to sync design tokens between Figma, tokens.json, and generated code.
 
-## 🔄 Workflow
+## Architecture
 
 ```
-┌─────────────┐
-│   FIGMA     │  ← Single Source of Truth
-│   File      │     Design System Components page
-└──────┬──────┘
-       │ Figma REST API
+FIGMA VARIABLES (Source of Truth)
+       │
+       │ export-from-figma.js
        ▼
-┌──────────────────────┐
-│ export-from-figma.js │  Extracts tokens from Figma
-└──────────┬───────────┘
-           │
-           ▼
-┌────────────────────┐
-│ design-tokens.json │  Platform-agnostic format
-└────────┬───────────┘
+┌─────────────────┐
+│  tokens.json    │  ← Central token definition
+└────────┬────────┘
          │
-    ┌────┴────┐
-    │         │
-    ▼         ▼
-┌────────────┐  ┌────────────┐
-│ generate-  │  │ generate-  │  Transform to platform
-│ swift.js   │  │ web.js     │
-└─────┬──────┘  └─────┬──────┘
-      │               │
-      ▼               ▼
-┌────────────┐  ┌────────────┐
-│ Design     │  │ design-    │  Ready to use!
-│ Tokens.    │  │ tokens.    │
-│ swift      │  │ css + .js  │
-└────────────┘  └────────────┘
+    ┌────┴─────────────────┐
+    │                      │
+    ▼                      ▼
+┌────────────────┐  ┌──────────────────────────┐
+│ generate-      │  │ figma-plugin/            │
+│ swift.js       │  │ generate-tokens-for-     │
+│                │  │ plugin.js                │
+└───────┬────────┘  └──────────┬───────────────┘
+        │                      │
+        ▼                      ▼
+┌────────────────┐  ┌──────────────────────────┐
+│ DesignTokens.  │  │ tokens-for-plugin.ts     │
+│ swift          │  │ (used by Figma plugin)   │
+└────────────────┘  └──────────────────────────┘
 ```
 
-## 🚀 Usage
+## Quick Start
 
-### Run Full Sync
+### Full Sync Pipeline
 
 ```bash
+# From project root
 cd design-system/sync
-node sync-all.js
+node generate-swift.js   # tokens.json -> Swift
 ```
 
-### Run Individual Steps
+### Figma Plugin Sync
 
 ```bash
-# Step 1: Export from Figma
-node export-from-figma.js
-
-# Step 2: Generate iOS tokens
-node generate-swift.js
-
-# Step 3: Generate Web tokens
-node generate-web.js
+# Generate tokens for plugin
+cd design-system/figma-plugin
+npm run generate-tokens  # tokens.json -> TypeScript
+npm run build:effects    # Build plugin with tokens
 ```
 
-## 📥 export-from-figma.js
+## File Reference
 
-Fetches your Figma file via REST API and extracts design tokens.
+| File | Purpose |
+|------|---------|
+| `tokens.json` | Central token definition (source of truth) |
+| `generate-swift.js` | Generates `DesignTokens.swift` from tokens.json |
+| `export-from-figma.js` | Extracts tokens from Figma Variables |
+| `sync-to-figma.js` | Prepares tokens for Figma sync |
 
-### What It Extracts
+## Workflow Details
 
-- **Colors**: From color palette frames with solid fills
-- **Spacing**: From text nodes matching `0: 0px`, `1: 4px` format
-- **Radius**: From text nodes matching `none: 0px`, `base: 8px` format
-- **Typography**: From headers like `XS (12px)`, `BASE (15px)`
-- **Opacity**: From text nodes matching `low: 0.3` format
-- **Gradients**: From archetype sections (Mail, Ads)
+### 1. tokens.json Structure
 
-### Configuration
-
-```javascript
-const FIGMA_TOKEN = process.env.FIGMA_ACCESS_TOKEN || 'figd_...';
-const FILE_KEY = process.env.FIGMA_FILE_KEY || 'WuQicPi1wbHXqEcYCQcLfr';
-```
-
-### Output
+The tokens.json file follows the Design Tokens W3C format:
 
 ```json
 {
-  "meta": {
-    "version": "1.0.0",
-    "source": "Figma",
-    "fileKey": "...",
-    "exportedAt": "2025-11-09T..."
+  "primitive": {
+    "size": { "sm": { "$value": "8px" } },
+    "opacity": { "glass": { "$value": 0.05 } }
   },
-  "colors": {
-    "base": { "white": "#FFFFFF", "black": "#000000" },
-    "semantic": { "success": "#34C759", ... }
+  "spacing": {
+    "card": { "$value": "{primitive.size.xxxl}" }
   },
-  "spacing": { "space0": 0, "space1": 4, ... },
-  "radius": { "none": 0, "sm": 1, ... },
-  "typography": { "xs": { "size": 12, "weights": {...} }, ... },
-  "opacity": { "veryLow": 0.1, ... },
-  "gradients": { "mail": { "start": "#...", "end": "#..." }, ... }
-}
-```
-
-## 🍎 generate-swift.js
-
-Converts `design-tokens.json` to Swift code for iOS.
-
-### Output: DesignTokens.swift
-
-```swift
-import SwiftUI
-
-enum DesignTokens {
-    enum Spacing {
-        static let minimal: CGFloat = 4
-        static let inline: CGFloat = 8
-        // ...
+  "typography": {
+    "fontSize": {
+      "reader": {
+        "subject": { "$value": "24px", "fontWeight": "bold", "fontDesign": "rounded" }
+      }
     }
-
-    enum Radius {
-        static let button: CGFloat = 12
-        static let card: CGFloat = 16
-        // ...
+  },
+  "animation": {
+    "spring": {
+      "snappy": { "response": 0.25, "dampingFraction": 0.7 }
     }
-
-    enum Colors {
-        static let white = Color(red: 1.0, green: 1.0, blue: 1.0)
-        static let successPrimary = Color(hex: "#34C759")
-        // ...
-    }
-
-    enum Typography {
-        static let bodyRegular = Font.system(size: 15, weight: .regular)
-        // ...
-    }
-
-    enum Opacity {
-        static let veryLow: Double = 0.1
-        // ...
-    }
-}
-
-extension Color {
-    init(hex: String) { /* ... */ }
-}
-```
-
-### Usage in iOS
-
-```swift
-import SwiftUI
-
-struct MyView: View {
-    var body: some View {
-        Text("Hello")
-            .font(DesignTokens.Typography.bodyRegular)
-            .foregroundColor(DesignTokens.Colors.white)
-            .padding(DesignTokens.Spacing.component)
-            .background(DesignTokens.Colors.successPrimary)
-            .cornerRadius(DesignTokens.Radius.button)
-    }
-}
-```
-
-## 🌐 generate-web.js
-
-Converts `design-tokens.json` to CSS variables and JavaScript module.
-
-### Output 1: design-tokens.css
-
-```css
-:root {
-  /* Spacing */
-  --spacing-minimal: 4px;
-  --spacing-inline: 8px;
-  --spacing-component: 16px;
-
-  /* Colors */
-  --color-white: #FFFFFF;
-  --color-success: #34C759;
-
-  /* Typography */
-  --font-size-body: 15px;
-  --font-weight-regular: 400;
-
-  /* Border Radius */
-  --radius-button: 12px;
-  --radius-card: 16px;
-
-  /* Gradients */
-  --gradient-mail: linear-gradient(135deg, #667eea, #764ba2);
-
-  /* Shadows */
-  --shadow-button: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-```
-
-### Output 2: design-tokens.js
-
-```javascript
-export const spacing = {
-  minimal: 4,
-  inline: 8,
-  component: 16,
-  // ...
-};
-
-export const colors = {
-  white: '#FFFFFF',
-  success: '#34C759',
-  // ...
-};
-
-export const gradients = {
-  mail: { start: '#667eea', end: '#764ba2' }
-};
-
-export default designTokens;
-```
-
-### Usage in Web (CSS)
-
-```html
-<link rel="stylesheet" href="design-tokens.css">
-
-<style>
-  .button {
-    padding: var(--spacing-component);
-    border-radius: var(--radius-button);
-    background: var(--gradient-mail);
-    box-shadow: var(--shadow-button);
   }
-</style>
+}
 ```
 
-### Usage in Web (JavaScript)
+### 2. generate-swift.js
 
-```javascript
-import { spacing, colors, gradients } from './design-tokens.js';
+Transforms tokens.json into `DesignTokens.swift`:
 
-const buttonStyle = {
-  padding: `${spacing.component}px`,
-  borderRadius: `${radius.button}px`,
-  background: `linear-gradient(135deg, ${gradients.mail.start}, ${gradients.mail.end})`
-};
-```
+**Input:** `design-system/tokens.json`
+**Output:** `design-system/generated/DesignTokens.swift`
 
-## 🔧 Configuration
-
-### Environment Variables
+Features:
+- Resolves token references (e.g., `{primitive.size.xl}`)
+- Generates Font.system() with size, weight, and design
+- Creates Animation.spring() presets
+- Handles semantic opacity mappings
 
 ```bash
-# Figma API Token (required)
+cd design-system/sync
+node generate-swift.js
+```
+
+### 3. export-from-figma.js
+
+Extracts tokens from Figma Variables API:
+
+```bash
+FIGMA_ACCESS_TOKEN=xxx node export-from-figma.js
+```
+
+Features:
+- Uses Figma Variables API (requires paid plan)
+- Falls back to file-based extraction
+- Merges with existing tokens.json
+- Creates backup before updating
+
+### 4. Figma Plugin Token Generation
+
+The Figma plugin reads from tokens.json via a generated TypeScript file:
+
+```bash
+cd design-system/figma-plugin
+node generate-tokens-for-plugin.js
+```
+
+This creates `tokens-for-plugin.ts` which is imported by the plugin.
+
+## Token Categories
+
+### Typography (NEW)
+- `fontSize.display` - Hero headlines
+- `fontSize.heading` - Section titles
+- `fontSize.body` - Main content
+- `fontSize.label` - UI labels
+- `fontSize.card` - Email card typography
+- `fontSize.reader` - Email reader typography
+- `fontSize.action` - Button text
+- `fontSize.badge` - Status indicators
+
+### Animation Springs (NEW)
+- `spring.snappy` - Buttons (0.25s, 0.7 damping)
+- `spring.bouncy` - Playful (0.4s, 0.6 damping)
+- `spring.gentle` - Subtle (0.5s, 0.8 damping)
+- `spring.heavy` - Significant (0.6s, 0.75 damping)
+
+### Existing Categories
+- `primitive` - Raw values (size, opacity, blur, duration)
+- `spacing` - Semantic spacing
+- `radius` - Border radius
+- `opacity` - Transparency levels
+- `colors` - Gradients, semantic colors
+- `components` - Card, button, modal tokens
+
+## Environment Variables
+
+```bash
+# Figma API Token (required for Figma export)
 export FIGMA_ACCESS_TOKEN="figd_..."
 
-# Figma File Key (optional, defaults to Zero Inbox file)
+# Figma File Key (optional, has default)
 export FIGMA_FILE_KEY="WuQicPi1wbHXqEcYCQcLfr"
 ```
 
-### File Paths
-
-Edit in each script if needed:
-
-```javascript
-// export-from-figma.js
-const OUTPUT_FILE = path.join(__dirname, 'design-tokens.json');
-
-// generate-swift.js
-const OUTPUT_FILE = path.join(__dirname, '../generated/DesignTokens.swift');
-
-// generate-web.js
-const OUTPUT_CSS = path.join(__dirname, '../generated/design-tokens.css');
-const OUTPUT_JS = path.join(__dirname, '../generated/design-tokens.js');
-```
-
-## 🎨 Figma Requirements
-
-Your Figma file must have a page named **"🎨 Design System Components"** containing:
-
-### 1. Color Palette Section
-```
-🎨 Color Palette
-├── Primary
-│   ├── white (frame with #FFFFFF fill)
-│   └── black (frame with #000000 fill)
-└── Semantic
-    ├── success (frame with #34C759 fill)
-    └── error (frame with #FF3B30 fill)
-```
-
-### 2. Spacing Scale Section
-```
-📏 Spacing Scale
-├── 0: 0px (text node)
-├── 1: 4px (text node)
-└── 2: 8px (text node)
-```
-
-### 3. Border Radius Section
-```
-🔘 Border Radius
-├── none: 0px (text node)
-├── base: 8px (text node)
-└── lg: 12px (text node)
-```
-
-### 4. Typography Section
-```
-✏️ Typography Specimen
-├── XS (12px) (text header)
-├── BASE (15px) (text header)
-└── LG (17px) (text header)
-```
-
-### 5. Opacity Scale
-```
-Opacity Scale
-├── veryLow: 0.1 (text node)
-└── medium: 0.6 (text node)
-```
-
-### 6. Archetype Gradients
-```
-🎨 Archetypes
-├── Mail (text header)
-│   ├── Start: #667eea (text node)
-│   └── End: #764ba2 (text node)
-└── Ads (text header)
-    ├── Start: #16bbaa (text node)
-    └── End: #4fd19e (text node)
-```
-
-## 🚨 Troubleshooting
-
-### "No Design System page found"
-
-**Problem**: Script can't find the design system page.
-
-**Solution**: Ensure your Figma page name contains "Design System".
-
-### "Invalid Figma data" or 403 Error
-
-**Problem**: Figma API authentication failed.
-
-**Solution**: Check your `FIGMA_ACCESS_TOKEN`:
-```bash
-curl -H "X-Figma-Token: YOUR_TOKEN" \
-  "https://api.figma.com/v1/files/WuQicPi1wbHXqEcYCQcLfr"
-```
-
-### Missing Tokens in Output
-
-**Problem**: Some tokens aren't being extracted.
-
-**Solution**:
-1. Run `node export-from-figma.js` to see what's extracted
-2. Check token naming matches expected format
-3. Verify frames/text nodes are in correct sections
-
-### Gradient Color Mismatch
-
-**Problem**: iOS gradients don't match Figma.
-
-**Solution**: See `/Users/matthanson/Zer0_Inbox/DESIGN_SYSTEM_AUDIT.md` for analysis. Update either Figma or iOS to match.
-
-## 📝 Adding Custom Tokens
-
-### 1. Add to Figma
-
-Create properly named frames/text nodes in your Figma file.
-
-### 2. Update Extraction Logic
-
-Edit `export-from-figma.js`:
-
-```javascript
-function extractCustomTokens(node, tokens = {}) {
-  if (node.name === 'My Custom Section') {
-    // Extract your custom tokens
-  }
-  // ...
-}
-```
-
-### 3. Update Generators
-
-Edit `generate-swift.js` and `generate-web.js`:
-
-```javascript
-function generateCustomTokens(tokens) {
-  // Generate code for your custom tokens
-}
-```
-
-## 🔄 CI/CD Integration
-
-### GitHub Actions Example
+## CI/CD Integration
 
 ```yaml
 # .github/workflows/sync-tokens.yml
 name: Sync Design Tokens
 
 on:
-  schedule:
-    - cron: '0 0 * * 1'  # Weekly on Monday
+  push:
+    paths:
+      - 'design-system/tokens.json'
   workflow_dispatch:
 
 jobs:
-  sync:
+  generate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
 
-      - name: Sync tokens
-        env:
-          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+      - name: Generate Swift tokens
         run: |
           cd design-system/sync
-          node sync-all.js
+          node generate-swift.js
+
+      - name: Generate Figma plugin tokens
+        run: |
+          cd design-system/figma-plugin
+          node generate-tokens-for-plugin.js
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v5
         with:
-          title: 'chore: sync design tokens from Figma'
-          commit-message: 'Update design tokens'
+          title: 'chore: regenerate design tokens'
+          commit-message: 'Regenerate tokens from tokens.json'
           branch: 'automated/design-tokens'
 ```
 
-## 🎯 Roadmap
+## Troubleshooting
 
-- [ ] Add component extraction (buttons, cards, etc.)
-- [ ] Support design token versioning
-- [ ] Add Android (Kotlin/XML) generator
-- [ ] Implement design token validation
-- [ ] Add support for Figma Variables API
-- [ ] Create VSCode extension for token preview
+### Generated Swift doesn't match iOS app
 
-## 📚 Resources
+1. Run `node generate-swift.js`
+2. Compare: `diff generated/DesignTokens.swift ../../Zero_ios_2/Zero/Config/DesignTokens.swift`
+3. If tokens differ, update tokens.json
 
-- [Figma REST API](https://www.figma.com/developers/api)
-- [Design Tokens W3C Spec](https://design-tokens.github.io/community-group/)
-- [Style Dictionary](https://amzn.github.io/style-dictionary/)
+### Figma Variables API error (403)
+
+The Variables API requires a paid Figma plan. The export script will fall back to file-based extraction.
+
+### Token references not resolving
+
+Check that reference paths match token structure:
+- Good: `{primitive.size.xl}` 
+- Bad: `{size.xl}` (missing primitive)
+
+## Future: MCP Server
+
+The plan includes building an MCP server for real-time bidirectional sync:
+
+1. Designer changes color in Figma
+2. MCP server detects change via webhook
+3. tokens.json auto-updates
+4. Swift/Plugin code regenerates
+5. PR created automatically
 
 ---
 
-**Questions?** See the main [Design System README](../README.md) or [Design System Audit](../../DESIGN_SYSTEM_AUDIT.md).
+See also:
+- [tokens.json](../tokens.json) - Token definitions
+- [Figma Plugin README](../figma-plugin/FINAL_SUMMARY.md) - Plugin documentation
+- [Design System Status](../DESIGN_SYSTEM_STATUS_AND_ENHANCEMENT_PLAN.md) - Overall status

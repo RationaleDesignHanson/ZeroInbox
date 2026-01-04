@@ -3,7 +3,7 @@ import SwiftUI
 /// Design Tokens - Semantic naming system for consistent styling
 /// Architecture: Primitive values → Semantic tokens → Component tokens
 /// Version 2.0.0
-/// Generated: 2025-12-02T04:45:34.224Z
+/// Generated: 2025-12-18T23:11:14.273Z
 /// DO NOT EDIT MANUALLY - This file is auto-generated from design-system/tokens.json
 enum DesignTokens {
 
@@ -178,36 +178,63 @@ enum DesignTokens {
 
 
     /// Typography tokens - semantic font scale
+    /// World-class typography with refined hierarchy and optimal readability
     enum Typography {
-        // Display (largest)
-        static let displayLarge = Font.system(.largeTitle, weight: .bold)
-        static let displayMedium = Font.system(.title, weight: .bold)
+        // Display (largest) - hero headlines, splash screens
+        static let displayLarge = Font.system(size: 34, weight: .bold, design: .rounded)
+        static let displayMedium = Font.system(size: 28, weight: .bold, design: .rounded)
 
-        // Headings
-        static let headingLarge = Font.system(.title2, weight: .bold)
-        static let headingMedium = Font.system(.title3, weight: .semibold)
-        static let headingSmall = Font.system(.headline, weight: .semibold)
+        // Headings - section titles, card titles
+        static let headingLarge = Font.system(size: 22, weight: .bold, design: .rounded)
+        static let headingMedium = Font.system(size: 20, weight: .semibold, design: .rounded)
+        static let headingSmall = Font.system(size: 17, weight: .semibold, design: .default)
 
-        // Body text
-        static let bodyLarge = Font.system(.body, weight: .regular)
-        static let bodyMedium = Font.system(.callout, weight: .regular)
-        static let bodySmall = Font.system(.subheadline, weight: .regular)
+        // Body text - main content, readable paragraphs
+        static let bodyLarge = Font.system(size: 17, weight: .regular, design: .default)
+        static let bodyMedium = Font.system(size: 15, weight: .regular, design: .default)
+        static let bodySmall = Font.system(size: 14, weight: .regular, design: .default)
 
-        // Labels
-        static let labelLarge = Font.system(.caption, weight: .bold)
-        static let labelMedium = Font.system(.caption, weight: .regular)
-        static let labelSmall = Font.system(.caption2, weight: .regular)
+        // Labels - UI labels, metadata, timestamps
+        static let labelLarge = Font.system(size: 13, weight: .semibold, design: .default)
+        static let labelMedium = Font.system(size: 12, weight: .medium, design: .default)
+        static let labelSmall = Font.system(size: 11, weight: .regular, design: .default)
 
-        // Email Card Typography (specific to card components)
-        static let cardTitle = Font.system(size: 19, weight: .bold)           // Email card title (matches web demo)
-        static let cardSummary = Font.system(size: 15)                        // Email card summary (matches web demo)
-        static let cardSectionHeader = Font.system(size: 15, weight: .bold)   // Section headers (Actions, Why, etc - matches web)
+        // Email Card Typography (world-class card components)
+        static let cardTitle = Font.system(size: 20, weight: .bold, design: .rounded)         // Email card title - prominent, scannable
+        static let cardSender = Font.system(size: 16, weight: .semibold, design: .default)    // Clear sender identification
+        static let cardSummary = Font.system(size: 15, weight: .regular, design: .default)    // Readable preview
+        static let cardSectionHeader = Font.system(size: 13, weight: .bold, design: .default) // Section headers uppercase
+        static let cardTimestamp = Font.system(size: 13, weight: .medium, design: .default)   // Subtle but legible
+        static let cardMetadata = Font.system(size: 12, weight: .regular, design: .default)   // Secondary info
 
         // Thread Typography (for threaded card views)
-        static let threadTitle = Font.system(size: 14, weight: .semibold)     // Thread card title
-        static let threadSummary = Font.system(size: 16)                      // Thread card summary
-        static let threadMessageSender = Font.system(size: 13, weight: .bold) // Expanded thread sender
-        static let threadMessageBody = Font.system(size: 13)                  // Expanded thread body
+        static let threadTitle = Font.system(size: 15, weight: .semibold, design: .default)
+        static let threadSummary = Font.system(size: 16, weight: .regular, design: .default)
+        static let threadMessageSender = Font.system(size: 14, weight: .semibold, design: .default)
+        static let threadMessageBody = Font.system(size: 14, weight: .regular, design: .default)
+
+        // Reader Typography (world-class email reader)
+        static let readerSubject = Font.system(size: 24, weight: .bold, design: .rounded)     // Commanding presence for email subject
+        static let readerSender = Font.system(size: 17, weight: .semibold, design: .default)  // Clear attribution
+        static let readerBody = Font.system(size: 16, weight: .regular, design: .default)     // Optimal reading
+        static let readerQuote = Font.system(size: 15, weight: .regular, design: .serif)      // Quoted text distinction
+        static let readerMetadata = Font.system(size: 13, weight: .medium, design: .default)  // Timestamps, labels
+
+        // Action Typography (buttons, CTAs)
+        static let actionPrimary = Font.system(size: 17, weight: .semibold, design: .rounded)
+        static let actionSecondary = Font.system(size: 15, weight: .medium, design: .default)
+        static let actionTertiary = Font.system(size: 14, weight: .medium, design: .default)
+
+        // Badge Typography (status indicators, tags)
+        static let badgeLarge = Font.system(size: 12, weight: .bold, design: .default)
+        static let badgeSmall = Font.system(size: 10, weight: .bold, design: .default)
+
+        // AI Analysis Typography (card AI preview section)
+        static let aiAnalysisTitle = Font.system(size: 11, weight: .bold, design: .default)         // AI Analysis header title
+        static let aiAnalysisSectionHeader = Font.system(size: 11, weight: .semibold, design: .default) // Section headers (SUGGESTED ACTIONS, etc)
+        static let aiAnalysisActionText = Font.system(size: 15, weight: .regular, design: .default)    // Action item text
+        static let aiAnalysisContextText = Font.system(size: 14, weight: .regular, design: .default)  // Context and explanation text
+        static let aiAnalysisWhyText = Font.system(size: 14, weight: .regular, design: .default)      // Why this matters text
     }
 
 
@@ -255,6 +282,20 @@ enum DesignTokens {
         static let borderWidthSubtle: CGFloat = 1
     }
 
+    /// AI Analysis box component tokens
+    enum AIAnalysisBox {
+        static let padding = Spacing.component
+        static let radius = Radius.button
+        static let borderWidth: CGFloat = 1.5
+    }
+
+    /// Bottom action bar component tokens
+    enum BottomActionBar {
+        static let height: CGFloat = 48
+        static let padding = Spacing.element
+        static let radius = Radius.chip
+    }
+
     /// Shadow preset tokens
     enum Shadow {
         static let card = (color: Color.black.opacity(0.4), radius: CGFloat(20), x: CGFloat(0), y: CGFloat(10))  // Updated to 0.4 (web demo)
@@ -266,9 +307,29 @@ enum DesignTokens {
 
     /// Animation timing tokens
     enum Animation {
+        // Duration presets
         static let quick = Primitive.Duration.quick
         static let standard = Primitive.Duration.normal
         static let slow = Primitive.Duration.slow
+        
+        // Spring presets for world-class microinteractions
+        enum Spring {
+            /// Snappy response for buttons and quick interactions
+            static let snappy = SwiftUI.Animation.spring(response: 0.25, dampingFraction: 0.7)
+            /// Bouncy for playful elements
+            static let bouncy = SwiftUI.Animation.spring(response: 0.4, dampingFraction: 0.6)
+            /// Gentle for subtle transitions
+            static let gentle = SwiftUI.Animation.spring(response: 0.5, dampingFraction: 0.8)
+            /// Heavy for significant actions
+            static let heavy = SwiftUI.Animation.spring(response: 0.6, dampingFraction: 0.75)
+        }
+        
+        // Easing presets
+        enum Ease {
+            static let `in` = SwiftUI.Animation.easeIn(duration: Primitive.Duration.normal)
+            static let out = SwiftUI.Animation.easeOut(duration: Primitive.Duration.normal)
+            static let inOut = SwiftUI.Animation.easeInOut(duration: Primitive.Duration.normal)
+        }
     }
 
 

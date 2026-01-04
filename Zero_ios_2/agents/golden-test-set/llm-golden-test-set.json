@@ -1,0 +1,2130 @@
+{
+  "meta": {
+    "generated_at": "2025-12-02T17:10:06.961Z",
+    "model": "gpt-4o-mini",
+    "total_emails": 136,
+    "generation_method": "openai-fast"
+  },
+  "emails": [
+    {
+      "id": "test-001",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "URGENT: Unauthorized Access Detected",
+      "from": "security@techsolutions.com",
+      "from_name": "Tech Solutions Security Team",
+      "body": "Dear User,\n\nWe have detected unauthorized access attempts to your account from an unrecognized IP address. Please log in immediately to review your account activity and change your password.\n\nIf you did not attempt to log in, please contact our support team immediately. Your security is our top priority.\n\nBest,\nTech Solutions Security Team",
+      "summary": "Unauthorized access detected; immediate action required.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-002",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "Important Security Update Required",
+      "from": "noreply@financialservices.com",
+      "from_name": "Financial Services IT Department",
+      "body": "Attention Valued Customer,\n\nAs part of our ongoing commitment to security, we require all users to update their passwords by the end of the week. Failure to do so may result in restricted access to your account.\n\nFor your protection, please follow the link below to initiate the update process:\n[Update Password Link]\n\nThank you for your prompt attention to this matter.\n\nSincerely,\nFinancial Services IT Department",
+      "summary": "Password update required to maintain account security.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-003",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "Security Breach Alert: Immediate Action Needed",
+      "from": "alerts@ecommerce.com",
+      "from_name": "Ecommerce Security Team",
+      "body": "Dear Customer,\n\nWe regret to inform you that a security breach has been detected in our system that may affect your personal information. Immediate action is required to secure your account.\n\nPlease log in and verify your recent transactions. If you notice any unauthorized activity, report it to us immediately.\n\nBest Regards,\nEcommerce Security Team",
+      "summary": "Security breach detected; immediate verification required.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-004",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "Critical Alert: Suspicious Login Attempt",
+      "from": "no-reply@healthcareprovider.com",
+      "from_name": "Healthcare Provider Security Team",
+      "body": "Dear [User],\n\nWe have detected a suspicious login attempt to your healthcare account. If this was not you, please secure your account immediately by changing your password.\n\nYour health data is sensitive and we take your privacy seriously. If you have any questions, feel free to reach out.\n\nTake care,\nHealthcare Provider Security Team",
+      "summary": "Suspicious login attempt detected; secure your account.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-005",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "ALERT: Phishing Email Reported from Your Account",
+      "from": "support@onlinetools.com",
+      "from_name": "Online Tools Support",
+      "body": "Dear Customer,\n\nWe have received a report indicating that phishing emails were sent from your account. We recommend changing your password immediately and reviewing your sent messages.\n\nTo assist with this, we've included a guide on identifying phishing attempts: [Phishing Guide Link].\n\nThank you for your prompt response to this situation.\n\nBest,\nOnline Tools Support",
+      "summary": "Phishing emails linked to your account; action required.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-006",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "Warning: Multiple Failed Login Attempts",
+      "from": "no-reply@bankingapp.com",
+      "from_name": "Banking App Security Alerts",
+      "body": "Dear Customer,\n\nWe have detected multiple failed login attempts on your account. If you are experiencing difficulties accessing your account, please ensure you are using the correct credentials.\n\nIf you suspect any unauthorized access, please reset your password immediately. Your security is our utmost concern.\n\nSincerely,\nBanking App Security Alerts",
+      "summary": "Multiple failed login attempts detected; please check your account.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-007",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "Critical Security Notification: Account Compromised",
+      "from": "security@cloudstorage.com",
+      "from_name": "Cloud Storage Security Team",
+      "body": "Hello,\n\nThis is a security notification that we have detected unusual activities on your cloud storage account. We suspect that your account may have been compromised.\n\nPlease log in to your account immediately to review activity logs and change your password. If you require assistance, our support team is available 24/7.\n\nThank you for your attention to this critical matter.\n\nBest Regards,\nCloud Storage Security Team",
+      "summary": "Account may be compromised; immediate log in required.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-008",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "ALERT: Your Device May Be Infected",
+      "from": "threatalerts@antivirussoftware.com",
+      "from_name": "Antivirus Software Support",
+      "body": "Dear User,\n\nOur systems have detected suspicious activity on one of your devices associated with your antivirus subscription. Immediate action is recommended to ensure your system's security.\n\nWe advise running a full system scan and updating your virus definitions. Please reach out if you need assistance.\n\nStay safe,\nAntivirus Software Support",
+      "summary": "Suspicious activity detected on your device; action recommended.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-009",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "Action Required: Security Alert on Your Account!",
+      "from": "noreply@socialmedia.com",
+      "from_name": "Social Media Security Team",
+      "body": "Hi there,\n\nWe noticed a login from an unfamiliar device on your social media account. To keep your account secure, please review your recent activity and change your password.\n\nIf you do not recognize this login, please follow the instructions to secure your account. Your privacy is important to us.\n\nThanks,\nSocial Media Security Team",
+      "summary": "Unfamiliar device detected; please review your account.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-010",
+      "category": "security_alert",
+      "priority": "critical",
+      "subject": "Critical Notice: Potential Data Leak",
+      "from": "info@dataanalytics.com",
+      "from_name": "Data Analytics Security Team",
+      "body": "Dear Customer,\n\nWe have identified a potential data leak involving your information. Our team is currently investigating the issue.\n\nIn the meantime, we urge you to change your passwords and enable two-factor authentication on your account for added security. We take these matters extremely seriously and will update you as soon as possible.\n\nThank you for your understanding,\nData Analytics Security Team",
+      "summary": "Potential data leak identified; immediate action recommended.",
+      "suggested_action": "Review Now",
+      "metadata": {
+        "category": "security_alert",
+        "priority": "critical",
+        "action": "Review Now",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-011",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Your Electric Bill is Due Soon",
+      "from": "billing@energycompany.com",
+      "from_name": "Energy Company",
+      "body": "Dear Valued Customer,\n\nThis is a reminder that your electric bill for the month of October is due on the 15th. The total amount due is $75.00. Please make sure to pay on time to avoid any late fees.\n\nYou can pay your bill online at our website or by using our mobile app.\n\nThank you for being a part of our community.\n\nBest regards,\nEnergy Company Billing Team",
+      "summary": "Reminder about an upcoming electric bill payment.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-012",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Your Subscription Renewal is Coming Up!",
+      "from": "subscriptions@streamingservice.com",
+      "from_name": "Streaming Service",
+      "body": "Hi there,\n\nThis is a friendly reminder that your subscription will renew on the 20th of this month at a rate of $9.99. If you want to avoid being charged, please cancel your subscription before that date.\n\nIf you have any questions, feel free to reach out!\n\nCheers,\nThe Streaming Service Team",
+      "summary": "Notification about subscription renewal, potential payment due.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-013",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Important: Your Phone Bill is Past Due!",
+      "from": "customerservice@telecomprovider.com",
+      "from_name": "Telecom Provider",
+      "body": "Dear Customer,\n\nWe are writing to inform you that your phone bill from last month remains unpaid. The total amount is $55.32. To avoid service interruption, please pay your bill immediately.\n\nLog into your account to process your payment, or contact us if you need assistance.\n\nThank you,\nTelecom Provider Customer Support",
+      "summary": "Urgent notice regarding a past due phone bill.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-014",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Your Rent Payment for October is Due!",
+      "from": "noreply@apartmentcomplex.com",
+      "from_name": "Apartment Management",
+      "body": "Hello [Tenant's Name],\n\nThis is a reminder that your rent payment of $1,200.00 is due on the 1st of October. Please ensure your payment is made on time to avoid any late fees.\n\nYou may pay online through your tenant portal.\n\nThanks,\nApartment Management",
+      "summary": "Reminder for upcoming rent payment.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-015",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Water Bill Payment Reminder",
+      "from": "info@waterutility.com",
+      "from_name": "Water Utility Provider",
+      "body": "Dear Customer,\n\nYour water bill for September is due on the 30th. The total amount due is $45.00. If you have already made the payment, please disregard this message. Otherwise, please remember to pay it on time to avoid penalties.\n\nBest,\nWater Utility Team",
+      "summary": "Reminder about water bill payment due date.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-016",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Payment Confirmation for Your Cable Bill",
+      "from": "confirmations@cableservice.com",
+      "from_name": "Cable Service",
+      "body": "Dear Customer,\n\nThank you for your recent payment of $89.99 towards your cable bill. Your payment has been successfully processed and your service remains active.\n\nIf you have any questions or concerns, please reach out to our support team.\n\nBest regards,\nThe Cable Service Team",
+      "summary": "Confirmation of recent cable bill payment.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-017",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Your Monthly Internet Plan - Action Required",
+      "from": "alerts@internetprovider.com",
+      "from_name": "Internet Provider",
+      "body": "Hi [Customer's First Name],\n\nWe noticed that your payment for the monthly internet plan is due soon, specifically on the 10th of October. The amount due is $49.99. Please make sure to pay your bill to prevent any service interruptions.\n\nVisit our portal to make the payment now!\n\nThank you,\nInternet Provider Customer Service",
+      "summary": "Reminder for payment of internet plan due date.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-018",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Final Notice: Pay Your Gas Bill",
+      "from": "collections@gascompany.com",
+      "from_name": "Gas Company Collections",
+      "body": "Dear [Customer Name],\n\nThis is a final notice regarding your overdue gas bill totaling $120.00. If payment is not received by the end of this week, we will have to take further action.\n\nPlease visit our website to make your payment today.\n\nBest,\nGas Company Collections",
+      "summary": "Final notice for overdue gas bill requiring immediate action.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-019",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Reminder: Upcoming Bill for Your Gym Membership",
+      "from": "billing@gym.com",
+      "from_name": "Local Gym",
+      "body": "Hey [Member's Name],\n\nJust a quick reminder that your gym membership fee of $49.99 will be charged to your account on the 15th of this month. We appreciate your commitment to fitness and look forward to seeing you at the gym!\n\nIf you have any questions, don’t hesitate to ask.\n\nBest, \nLocal Gym Team",
+      "summary": "Friendly reminder for an upcoming gym membership charge.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-020",
+      "category": "bill_payment",
+      "priority": "high",
+      "subject": "Your Insurance Premium is Due!",
+      "from": "notifications@insurancecompany.com",
+      "from_name": "Insurance Company",
+      "body": "Dear Policyholder,\n\nWe want to remind you that your insurance premium of $400.00 is due by October 5th. Please make sure to process your payment to maintain your coverage.\n\nIf you have already paid, disregard this notice. Thank you for choosing us as your insurance provider.\n\nSincerely,\nInsurance Company Customer Care",
+      "summary": "Payment reminder for upcoming insurance premium.",
+      "suggested_action": "Pay Bill",
+      "metadata": {
+        "known_accuracy": 88,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-021",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Project X Submission Deadline Approaching",
+      "from": "manager@techsolutions.com",
+      "from_name": "Jane Doe",
+      "body": "Hi Team,\n\nThis is a friendly reminder that the submission deadline for Project X is this Friday at 5 PM. Please ensure that your contributions are finalized by then. If you have any questions, feel free to reach out.\n\nBest,\nJane",
+      "summary": "Reminder about Project X submission deadline.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-022",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Important: Final Submission Due Tomorrow!",
+      "from": "notifications@designstudio.com",
+      "from_name": "Design Studio Alerts",
+      "body": "Dear Team,\n\nThis is a reminder that the final submission for the client presentation is due tomorrow at noon. Make sure to double-check your slides and send them to me before the deadline. Thank you for your hard work!\n\nBest,\nThe Design Studio",
+      "summary": "Final submission for client presentation due tomorrow.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-023",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Last Call: Submit Your Expense Reports",
+      "from": "hr@financemanager.com",
+      "from_name": "Emily Johnson",
+      "body": "Hello Everyone,\n\nThis is a last call reminder for submitting your expense reports for this quarter. Please make sure to submit them by the end of the week. Incomplete reports will not be processed!\n\nThanks,\nEmily",
+      "summary": "Submit expense reports by week's end.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-024",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Reminder: Performance Reviews Due",
+      "from": "admin@marketinghub.com",
+      "from_name": "Michael Smith",
+      "body": "Hi Team,\n\nA quick reminder that performance reviews must be submitted by Monday. If you have any concerns or questions, please let me know before the deadline. Thank you for your attention to this matter.\n\nRegards,\nMichael",
+      "summary": "Performance reviews due on Monday.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-025",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Tax Submission Reminder - Critical Deadline Ahead",
+      "from": "finance@accountingcorp.com",
+      "from_name": "Accounting Dept.",
+      "body": "Dear All,\n\nThis is a critical reminder that all tax submissions are due by the end of this month. Please ensure that you have all of your documents prepared and submitted on time to avoid any penalties. If you require assistance, do not hesitate to contact us.\n\nBest,\nAccounting Team",
+      "summary": "Tax submissions due by the end of the month.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-026",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Final Call for Participation in Annual Conference",
+      "from": "events@conferenceteam.com",
+      "from_name": "Lucy Green",
+      "body": "Hello Everyone,\n\nThis is your final reminder to register for the Annual Conference happening next week. The deadline for registration is this Friday at 5 PM. Don't miss this opportunity to network and learn from industry experts. Register now!\n\nSincerely,\nLucy",
+      "summary": "Final registration for Annual Conference due soon.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-027",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Reminder: Project Z Milestone Due Tomorrow",
+      "from": "projects@innovationlabs.com",
+      "from_name": "Tom Hardy",
+      "body": "Hi Team,\n\nJust a quick reminder that the next milestone for Project Z is due tomorrow at 3 PM. Please ensure all tasks are completed, and updates are submitted on time. Let’s finish strong!\n\nCheers,\nTom",
+      "summary": "Project Z milestone due tomorrow at 3 PM.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-028",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Urgent: Proposal Deadline Fast Approaching",
+      "from": "proposals@startupinc.com",
+      "from_name": "Rachel Adams",
+      "body": "Dear Team,\n\nThis is an urgent notice that the deadline for submitting our proposal is just two days away. Please ensure your sections are thorough and submitted by Thursday at 10 AM. Reach out if you need any support!\n\nBest regards,\nRachel",
+      "summary": "Proposal submission deadline in two days.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-029",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Don't Forget: Workshop Registration Closes Soon!",
+      "from": "workshops@learninghub.org",
+      "from_name": "Workshop Coordinator",
+      "body": "Hi Everyone,\n\nThis is a reminder that registration for our upcoming workshop closes on Saturday. If you haven't signed up yet, please do so to reserve your spot. We look forward to seeing you there!\n\nBest,\nWorkshop Team",
+      "summary": "Workshop registration closes Saturday.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-030",
+      "category": "deadline_reminder",
+      "priority": "high",
+      "subject": "Action Required: Submit Your Bi-Annual Reviews",
+      "from": "hr@corporatehq.com",
+      "from_name": "Corporate HR Team",
+      "body": "Hello Team,\n\nThis is a reminder that all bi-annual employee reviews must be submitted by the end of this week. Please ensure you complete your evaluations and submit them promptly to avoid delays. Thank you for your cooperation.\n\nBest,\nCorporate HR",
+      "summary": "Bi-annual employee reviews due this week.",
+      "suggested_action": "Calendar",
+      "metadata": {
+        "priority": "high",
+        "action": "Calendar",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-031",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Reminder Needed for Project Launch",
+      "from": "jane.doe@techsolutions.com",
+      "from_name": "Jane Doe",
+      "body": "Hi Team,\n\nAs we approach the launch date for the new app, can someone please add a reminder for our final review meeting scheduled for next Friday at 3 PM? It’s crucial that we have all the feedback in by then.\n\nThanks,\nJane",
+      "summary": "Jane requests a reminder for a final review meeting.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "high",
+        "action": "Add Reminder",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-032",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Reminder: Quarterly Meeting",
+      "from": "mark.smith@financialgroup.com",
+      "from_name": "Mark Smith",
+      "body": "Hello Team,\n\nJust a quick note to ask if someone could set a reminder for our quarterly financial review meeting next Wednesday at 10 AM. It’s important that we all attend to discuss projections and strategies.\n\nBest, Mark",
+      "summary": "Mark needs a reminder for a financial review meeting.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "high",
+        "action": "Add Reminder",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-033",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Help Needed: Schedule Reminder for Client Call",
+      "from": "linda.brown@marketingagency.com",
+      "from_name": "Linda Brown",
+      "body": "Hi everyone,\n\nI hope you’re all doing well. I need to set a reminder for our call with the new client on Monday. Can someone take care of that? It’s a big deal, and we want to make sure we’re prepared.\n\nThank you! Linda",
+      "summary": "Linda asks for a reminder for a client call.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "high",
+        "action": "Add Reminder",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-034",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Reminder Request for Team Outing",
+      "from": "alex.johnson@eventplanners.com",
+      "from_name": "Alex Johnson",
+      "body": "Hey Team,\n\nJust a friendly reminder that we have our team outing next Saturday at 1 PM. Could someone add a reminder for that? I don’t want anyone to forget!\n\nCheers, Alex",
+      "summary": "Alex wants a reminder for a team outing.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "high",
+        "action": "Add Reminder",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-035",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Next Week's Deadline",
+      "from": "sara.williams@buildcorp.com",
+      "from_name": "Sara Williams",
+      "body": "Hi,\n\nI know this is last minute, but can we set a reminder for the project deadline next Tuesday at 5 PM? I want everyone to be on the same page and ensure all deliverables are ready.\n\nThanks, Sara",
+      "summary": "Sara requests a reminder for an upcoming project deadline.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "high",
+        "action": "Add Reminder",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-036",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Upcoming Training Reminder",
+      "from": "robert.james@hrsolutions.com",
+      "from_name": "Robert James",
+      "body": "Team,\n\nPlease add a reminder for the training session happening this Thursday at 2 PM. It’s essential for everyone’s professional development. Let’s not miss it!\n\nRegards, Rob",
+      "summary": "Robert asks for a reminder for a training session.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "high",
+        "action": "Add Reminder",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-037",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Set a Reminder for Sales Meeting?",
+      "from": "clara.martin@retailinc.com",
+      "from_name": "Clara Martin",
+      "body": "Hi everyone,\n\nCould someone help me by scheduling a reminder for the sales team meeting next Monday at 4 PM? I think it’s important to have everyone prepared for our presentation.\n\nThanks so much!",
+      "summary": "Clara seeks help setting a reminder for a sales meeting.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "high",
+        "action": "Add Reminder",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-038",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Reminder for Office Closure",
+      "from": "david.jones@logisticspro.com",
+      "from_name": "David Jones",
+      "body": "Hi all,\n\nPlease remember that our office will be closed for the holiday next Friday. I’d like to set a reminder for everyone to wrap up their tasks by Thursday. Can someone manage that?\n\nThanks, David",
+      "summary": "David wants a reminder for office closure tasks.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "high",
+        "action": "Add Reminder",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-039",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Follow-Up Reminder Needed",
+      "from": "mike.taylor@consultancyfirm.com",
+      "from_name": "Mike Taylor",
+      "body": "Hello,\n\nI need a reminder to follow up with the client after our meeting on Tuesday. It’s vital to maintain the relationship and I don’t want to forget. Please set that up!\n\nCheers, Mike",
+      "summary": "Mike requests a reminder for a client follow-up after a meeting.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "high",
+        "action": "Add Reminder",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-040",
+      "category": "task_request",
+      "priority": "high",
+      "subject": "Meeting Request (Not a Reminder)",
+      "from": "Sarah.lee@designstudio.com",
+      "from_name": "Sarah Lee",
+      "body": "Hi Team,\n\nI hope you’re all doing well! I’d like to schedule a meeting to discuss the new project timeline. This isn’t a reminder, but please check your calendars for availability.\n\nThanks, Sarah",
+      "summary": "Sarah schedules a meeting but specifies it's not a reminder.",
+      "suggested_action": "Add Reminder",
+      "metadata": {
+        "priority": "low",
+        "action": "No Action Needed",
+        "known_accuracy": 78,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-041",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Urgent: Follow-Up on Marketing Proposal",
+      "from": "sarah.jones@innovate.com",
+      "from_name": "Sarah Jones",
+      "body": "Hi Team,\n\nI hope this message finds you well. I wanted to follow up on the marketing proposal I submitted last week. I haven't received any feedback yet, and our timeline is getting tight for the upcoming campaign. Please let me know if you need any further information from my side.\n\nThanks for your attention to this matter!\n\nBest,\nSarah",
+      "summary": "Sarah Jones follows up on a marketing proposal awaiting feedback.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-042",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Reminder: Project Status Update Needed",
+      "from": "john.lee@techsolutions.com",
+      "from_name": "John Lee",
+      "body": "Dear Team,\n\nJust a quick reminder that I’m still awaiting the status update on the Beta testing we discussed last month. Could you please provide me with any information on progress? It’s essential we stay on track as our launch date approaches.\n\nLooking forward to your prompt response.\n\nBest regards,\nJohn",
+      "summary": "John Lee is waiting for an update on Beta testing for a project.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-043",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Feedback Needed for Design Mockups",
+      "from": "jane.doe@brightideas.com",
+      "from_name": "Jane Doe",
+      "body": "Hello,\n\nI hope you’re having a great week! I sent over the initial design mockups for the new app interface last Thursday, but I haven't heard back yet. Your feedback is crucial for moving forward, so if you could take a moment to review them, I would greatly appreciate it.\n\nCheers,\nJane",
+      "summary": "Jane Doe is requesting feedback on app design mockups.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-044",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Following Up on Our Last Meeting",
+      "from": "mike@globalenterprise.com",
+      "from_name": "Mike Thompson",
+      "body": "Hello Team,\n\nI hope you are all doing well! Following our recent meeting regarding the partnership with EcoSolutions, I wanted to check in and see if there’s been any progress on the necessary documentation. This is crucial for our next steps.\n\nThank you in advance for your attention!\n\nBest,\nMike",
+      "summary": "Mike Thompson is checking on documentation progress post-meeting.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-045",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Quick Check: Vendor Contract Status",
+      "from": "linda.smith@retailgroup.com",
+      "from_name": "Linda Smith",
+      "body": "Hi,\n\nI wanted to follow up on the vendor contracts that were due last week. Can you confirm if we have received them yet? If not, I’d like to know the expected timeline as I need to finalize our procurement plans.\n\nThanks for handling this!\n\nBest,\nLinda",
+      "summary": "Linda Smith checks on the status of vendor contracts.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-046",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Pending: Software Update Deployment",
+      "from": "robert@itservices.com",
+      "from_name": "Robert Green",
+      "body": "Team,\n\nQuick note to follow up on the deployment schedule for the latest software update. We had initially planned to execute it by the end of this week, but I've yet to receive confirmation. We need to ensure our clients are updated promptly.\n\nPlease advise as soon as possible.\n\nThank you,\nRobert",
+      "summary": "Robert Green follows up on the deployment schedule for a software update.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-047",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Follow-Up Needed: Client Proposal",
+      "from": "emily.brown@consultancyfirm.com",
+      "from_name": "Emily Brown",
+      "body": "Dear Client,\n\nI hope this note finds you well. I am writing to check in on the proposal I sent last week regarding your new project. If you have any questions or need more information, please don’t hesitate to reach out. Otherwise, I would appreciate any feedback you may have.\n\nThank you!\n\nBest,\nEmily",
+      "summary": "Emily Brown checks in with a client about a proposal.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-048",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Important: Pending Approval for Budget Increase",
+      "from": "alex.wang@financeteam.com",
+      "from_name": "Alex Wang",
+      "body": "Hi,\n\nI hope all is well with you! I'm following up on the budget increase request I submitted over two weeks ago for the new marketing initiative. This matter is becoming urgent as we need to start allocating resources soon.\n\nPlease let me know if you need any additional information to expedite this process.\n\nThanks,\nAlex",
+      "summary": "Alex Wang is urgently following up on a budget increase request.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-049",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Checking In: Sales Report Updates",
+      "from": "nora.harris@salesdept.com",
+      "from_name": "Nora Harris",
+      "body": "Hi Team,\n\nJust checking in on the sales reports due last Friday. I'm still awaiting updates so we can finalize our quarterly review. If you could share your respective areas' performance metrics by the end of the day, that would be incredibly helpful.\n\nThanks for your cooperation!\n\nBest,\nNora",
+      "summary": "Nora Harris is awaiting updates on sales reports for quarterly review.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-050",
+      "category": "follow_up_needed",
+      "priority": "high",
+      "subject": "Reminder: Confirm Attendance for Upcoming Conference",
+      "from": "paul.jones@eventsinc.com",
+      "from_name": "Paul Jones",
+      "body": "Hello,\n\nI hope you are well! I wanted to send a friendly reminder for you to confirm your attendance at the upcoming marketing conference next month. It's important for our planning and logistics. If you haven’t yet, please RSVP by the end of this week.\n\nThank you!\n\nBest,\nPaul",
+      "summary": "Paul Jones is reminding recipients to confirm attendance at a conference.",
+      "suggested_action": "Set Reminder",
+      "metadata": {
+        "known_accuracy": 82,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-051",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Your Monthly Update from Tech Innovators!",
+      "from": "newsletter@techinnovators.com",
+      "from_name": "Tech Innovators Team",
+      "body": "Hello, Tech Innovators community! We're excited to bring you our latest updates this month. Dive into our new blog posts, explore our newly launched products, and don’t miss our upcoming webinar on cutting-edge AI technology. We value your input, so please let us know what topics you'd like us to cover next!\n\nBest,\nThe Tech Innovators Team",
+      "summary": "Monthly newsletter with updates and invites from Tech Innovators.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-052",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Weekly Insights: News and Trends in Marketing",
+      "from": "insights@marketingmaven.com",
+      "from_name": "Marketing Maven",
+      "body": "Hi there!\nThis week we dive into the evolving landscape of digital marketing. Discover the latest trends, tools, and strategies that can help you stay ahead of the competition. Make sure to check out our top article on social media algorithms and how they affect your reach!\n\nHappy reading!\nThe Marketing Maven Team",
+      "summary": "A weekly newsletter discussing the latest trends in digital marketing.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-053",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Upcoming Events Alert!",
+      "from": "events@cityevents.com",
+      "from_name": "City Events Team",
+      "body": "Dear Subscriber,\nGet ready for more exciting events in your city! From art exhibitions to food festivals, we have something for everyone! Check our website for event details, and be sure to book your tickets in advance to avoid missing out.\n\nCheers,\nCity Events Team",
+      "summary": "Newsletter highlighting upcoming local events.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-054",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Health Tips: Staying Fit Through Winter!",
+      "from": "wellness@healthcast.com",
+      "from_name": "HealthCast Wellness",
+      "body": "Hello HealthCast readers,\nAs we transition into the winter months, it's essential to keep our health in check. This newsletter provides you with effective tips on staying active indoors, nutritious winter recipes, and mental wellness strategies. We also want to hear from you—what are your health goals for this season?\nStay healthy!\nThe HealthCast Team",
+      "summary": "Health and wellness tips for winter.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-055",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Your Favorite Recipes Delivered Weekly!",
+      "from": "chef@cookingdelights.com",
+      "from_name": "Cooking Delights",
+      "body": "Greetings, Cooking Enthusiast!\nIt’s time for another delicious newsletter! This week, we feature a scrumptious lasagna recipe and tips on making the perfect garlic bread. Don’t forget to share your culinary creations with us on social media using #CookingDelights. Happy cooking!\nBest,\nThe Cooking Delights Team",
+      "summary": "A weekly newsletter featuring recipes and cooking tips.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-056",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Last Chance: Subscribe to Our Premium Plan!",
+      "from": "info@streaminghub.com",
+      "from_name": "Streaming Hub",
+      "body": "Dear Subscriber,\nThis is your last chance to upgrade to our premium plan at a discounted rate! Enjoy ad-free streaming and exclusive content. Upgrade today and experience the difference! Offer ends soon!\nThank you,\nStreaming Hub Team",
+      "summary": "Promotional email encouraging upgrade to premium service.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-057",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Discover Our Newest Products!",
+      "from": "updates@fashionista.com",
+      "from_name": "Fashionista News",
+      "body": "Hello Fashion Lovers!\nWe are thrilled to announce the launch of our latest product line! Explore our chic new collections designed just for you. To celebrate, we are offering an exclusive discount for newsletter subscribers. Don’t miss out on styling your wardrobe with the latest trends!\nStay fashionable,\nFashionista Team",
+      "summary": "Newsletter announcing new product launches with a subscriber discount.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-058",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Don't Forget: Webinar on Personal Finance Tomorrow!",
+      "from": "reminders@financeforall.com",
+      "from_name": "Finance For All",
+      "body": "Hi Participants,\nThis is a friendly reminder about our upcoming webinar on personal finance basics tomorrow at 7 PM. Join us for expert tips and a Q&A session. Everyone is welcome, and we’d love to see you there!\nBest regards,\nFinance For All Team",
+      "summary": "Reminder email for a personal finance webinar.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-059",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Summer Reading List Just for You!",
+      "from": "books@readersparadise.com",
+      "from_name": "Readers Paradise",
+      "body": "Hello Book Lovers!\nWe’ve curated an exciting summer reading list tailored just for you! From thrillers to romantic novels, there’s something for every bookworm. Check out our reviews and find your next favorite book!\nHappy reading,\nReaders Paradise Team",
+      "summary": "Newsletter featuring a curated summer reading list.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-060",
+      "category": "newsletter",
+      "priority": "low",
+      "subject": "Seasonal Sale: Huge Discounts on Our Bestsellers!",
+      "from": "sales@bestsellerguide.com",
+      "from_name": "Bestseller Guide",
+      "body": "Attention Readers!\nOur seasonal sale is here! Get huge discounts on our best-selling books for a limited time. This is a great opportunity to stock up your reading list for the upcoming season. Visit our website to see the full list and take advantage of these savings!\nCheers,\nBestseller Guide Team",
+      "summary": "Newsletter announcing a seasonal sale on best-selling books.",
+      "suggested_action": "Read Later",
+      "metadata": {
+        "known_accuracy": 85,
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-061",
+      "category": "calendar_invite",
+      "priority": "high",
+      "subject": "Quarterly Product Strategy Meeting",
+      "from": "jane.doe@techinnovations.com",
+      "from_name": "Jane Doe",
+      "body": "Hello Team,\n\nI would like to invite you to our quarterly product strategy meeting scheduled for next Wednesday at 10 AM in the main conference room. We’ll be discussing project timelines, budget allocations, and product roadmaps for the upcoming quarter. Your input is crucial for our success, so please make every effort to attend.\n\nPlease RSVP by Monday.\n\nBest,\nJane",
+      "summary": "Invitation to the quarterly product strategy meeting.",
+      "suggested_action": "RSVP",
+      "metadata": {
+        "date": "2023-11-01T10:00:00",
+        "location": "Main Conference Room",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-062",
+      "category": "calendar_invite",
+      "priority": "high",
+      "subject": "Weekly Team Standup - Action Required",
+      "from": "mark.brown@financepros.com",
+      "from_name": "Mark Brown",
+      "body": "Hi Team,\n\nThis is a reminder for our weekly team standup on Thursdays at 9 AM. Please confirm your attendance by replying to this email. This week, we will focus on the budget updates and pending tasks. Make sure to come prepared with your updates!\n\nThank you,\nMark",
+      "summary": "Weekly standup meeting - RSVP needed.",
+      "suggested_action": "RSVP",
+      "metadata": {
+        "date": "2023-11-02T09:00:00",
+        "location": "Zoom",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-063",
+      "category": "calendar_invite",
+      "priority": "high",
+      "subject": "Project Kickoff: New Marketing Initiative",
+      "from": "emily.smith@marketinghub.com",
+      "from_name": "Emily Smith",
+      "body": "Dear Team,\n\nI’m excited to announce that we are kicking off a new marketing initiative next Friday at 2 PM. This meeting will be a vital opportunity for us to brainstorm ideas and establish goals. Join us in the Innovation Lab for an engaging session full of creative energy!\n\nPlease confirm your attendance as soon as possible. Looking forward to seeing all of you there!\n\nBest,\nEmily",
+      "summary": "Kickoff meeting for a new marketing initiative.",
+      "suggested_action": "RSVP",
+      "metadata": {
+        "date": "2023-11-03T14:00:00",
+        "location": "Innovation Lab",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-064",
+      "category": "calendar_invite",
+      "priority": "high",
+      "subject": "Client Meeting Confirmation",
+      "from": "robert.james@consultancyworld.com",
+      "from_name": "Robert James",
+      "body": "Hello,\n\nI am writing to confirm our meeting with ABC Corp regarding the new consultancy proposal. We will meet on Monday, November 6th at 1 PM at their office. Please RSVP to confirm your attendance.\n\nThank you,\nRobert",
+      "summary": "Meeting confirmation with a client.",
+      "suggested_action": "RSVP",
+      "metadata": {
+        "date": "2023-11-06T13:00:00",
+        "location": "ABC Corp Office",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-065",
+      "category": "calendar_invite",
+      "priority": "high",
+      "subject": "All Hands Meeting - Important Updates",
+      "from": "hr@bigenterprise.com",
+      "from_name": "HR Team",
+      "body": "Dear Employees,\n\nWe are holding an All Hands meeting on Tuesday, November 7th at 3 PM to discuss important company updates and address any questions you may have. Your participation is essential, and we encourage everyone to attend.\n\nPlease mark your calendars and RSVP by the end of the week.\n\nBest,\nHR Team",
+      "summary": "Invitation to the All Hands meeting with company updates.",
+      "suggested_action": "RSVP",
+      "metadata": {
+        "date": "2023-11-07T15:00:00",
+        "location": "Company Auditorium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-066",
+      "category": "calendar_invite",
+      "priority": "high",
+      "subject": "Team Outing Planning Session",
+      "from": "alex.kim@creativeagency.com",
+      "from_name": "Alex Kim",
+      "body": "Hey Team,\n\nLet’s plan our annual team outing! I’d like to gather ideas and decide on a date during our session next Thursday at 4 PM. Please bring your suggestions! Your input can make this outing unforgettable. Kindly reply with your availability.\n\nCheers,\nAlex",
+      "summary": "Planning session for the annual team outing.",
+      "suggested_action": "RSVP",
+      "metadata": {
+        "date": "2023-11-09T16:00:00",
+        "location": "Breakout Room A",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-067",
+      "category": "calendar_invite",
+      "priority": "high",
+      "subject": "Important: Budget Review Meeting",
+      "from": "linda.perez@softwareco.com",
+      "from_name": "Linda Perez",
+      "body": "Dear Team,\n\nI would like to schedule a budget review meeting next Friday, November 10th at 11 AM. This meeting is critical for our financial planning for the upcoming quarter. Please confirm your attendance at your earliest convenience.\n\nThanks,\nLinda",
+      "summary": "Budget review meeting invitation.",
+      "suggested_action": "RSVP",
+      "metadata": {
+        "date": "2023-11-10T11:00:00",
+        "location": "Conference Room B",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-068",
+      "category": "calendar_invite",
+      "priority": "high",
+      "subject": "Let’s Celebrate: End of Year Party!",
+      "from": "celebration@events.com",
+      "from_name": "Events Team",
+      "body": "Hello Everyone,\n\nWe are thrilled to announce our End of Year Party! Join us on December 15th at 6 PM for a night of fun, food, and festivities at the Grand Ballroom. It will be a great opportunity to unwind and celebrate our achievements together. Please RSVP by December 1st to reserve your spot!\n\nLooking forward to seeing you all there!\n\nBest,\nEvents Team",
+      "summary": "Invitation to the End of Year party.",
+      "suggested_action": "RSVP",
+      "metadata": {
+        "date": "2023-12-15T18:00:00",
+        "location": "Grand Ballroom",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-069",
+      "category": "meeting_request",
+      "priority": "high",
+      "subject": "Urgent: Project Kickoff Meeting",
+      "from": "jane.doe@techinnovators.com",
+      "from_name": "Jane Doe",
+      "body": "Hi Team,\n\nI hope this message finds you well! As we prepare to kick off our latest project, I would like to schedule a meeting to discuss our objectives, timeline, and key deliverables. Please let me know your availability for the rest of this week. I believe it’s crucial that we align our goals from the start.\n\nLooking forward to your replies.\n\nBest,\nJane",
+      "summary": "Jane requests an urgent meeting to kick off a new project.",
+      "suggested_action": "Schedule",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-070",
+      "category": "meeting_request",
+      "priority": "high",
+      "subject": "Feedback Session on Q3 Performance",
+      "from": "manager@retailcompany.com",
+      "from_name": "John Smith",
+      "body": "Dear Team,\n\nI would like to gather everyone for a feedback session on our Q3 performance. This meeting will take place next Thursday at 3 PM in the main conference room. Please come prepared with your thoughts and suggestions. It’s important that we openly discuss our achievements and areas for improvement.\n\nThank you,\nJohn",
+      "summary": "John schedules a meeting for feedback on Q3 performance.",
+      "suggested_action": "Schedule",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-071",
+      "category": "meeting_request",
+      "priority": "high",
+      "subject": "Re: Strategy Meeting Follow-Up",
+      "from": "alice.j@marketingpower.com",
+      "from_name": "Alice Johnson",
+      "body": "Hi Everyone,\n\nFollowing up on our previous strategy meeting, I would like to schedule a follow-up meeting to ensure we are all on the same page. Please reply with your availability for Monday or Tuesday afternoon. Your insights are valuable as we finalize our marketing strategy.\n\nBest,\nAlice",
+      "summary": "Alice seeks to schedule a follow-up meeting for strategy alignment.",
+      "suggested_action": "Schedule",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-072",
+      "category": "meeting_request",
+      "priority": "high",
+      "subject": "Quarterly Budget Planning Discussion",
+      "from": "finance@corporatesolutions.com",
+      "from_name": "Michael Brown",
+      "body": "Team,\n\nAs we approach the end of the quarter, it's time to discuss our budget planning for the next quarter. I'd like to set up a meeting next Wednesday at 10 AM to review our current budget and plan for adjustments. Please confirm your attendance.\n\nBest regards,\nMichael",
+      "summary": "Michael wants to meet regarding quarterly budget planning.",
+      "suggested_action": "Schedule",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-073",
+      "category": "meeting_request",
+      "priority": "high",
+      "subject": "Request for Daily Sync Up",
+      "from": "lisa@devteam.com",
+      "from_name": "Lisa Tran",
+      "body": "Hi Team,\n\nTo enhance our productivity and keep up with our project timelines, I propose we start having a daily sync-up meeting. I suggest we meet every morning at 9 AM for a quick 15-minute update. Please let me know if you have any issues with this schedule.\n\nThanks,\nLisa",
+      "summary": "Lisa proposes a daily meeting for project updates.",
+      "suggested_action": "Schedule",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-074",
+      "category": "meeting_request",
+      "priority": "high",
+      "subject": "Team Alignment for Upcoming Launch",
+      "from": "ceo@innovatech.com",
+      "from_name": "Jennifer Lee",
+      "body": "Dear Team,\n\nAs we gear up for our upcoming product launch, I’d like to gather everyone for an alignment meeting on Friday at 2 PM. This is critical to ensure that all departments are coordinated. Please prioritize this in your calendars and be prepared with any action items from your teams.\n\nCheers,\nJennifer",
+      "summary": "Jennifer schedules an important meeting for product launch alignment.",
+      "suggested_action": "Schedule",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-075",
+      "category": "meeting_request",
+      "priority": "high",
+      "subject": "Quick Check-in on Client Project",
+      "from": "support@servicehub.com",
+      "from_name": "Tom Wilson",
+      "body": "Hey Team,\n\nHope you're doing well! I’d like to set up a quick check-in meeting regarding our current project with XYZ Corp. We can discuss challenges, progress, and any support needed. Please share your availability for tomorrow or Thursday.\n\nThanks,\nTom",
+      "summary": "Tom wants to schedule a quick check-in meeting about a client project.",
+      "suggested_action": "Schedule",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-076",
+      "category": "meeting_request",
+      "priority": "high",
+      "subject": "Important: Change in Meeting Time",
+      "from": "admin@financecorp.com",
+      "from_name": "Sarah White",
+      "body": "Dear All,\n\nPlease note that the previously scheduled meeting for next Monday at 1 PM has been moved to Tuesday at the same time. I apologize for any inconvenience this may cause. Let me know if you’re unable to attend at the new time.\n\nBest,\nSarah",
+      "summary": "Sarah informs about a rescheduled meeting time.",
+      "suggested_action": "Schedule",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-077",
+      "category": "approval_request",
+      "priority": "high",
+      "subject": "Urgent: Approval Needed for Marketing Campaign Launch",
+      "from": "jessica.phillips@brightwave.com",
+      "from_name": "Jessica Phillips",
+      "body": "Hi Team,\n\nI hope this message finds you well. I am reaching out to request your urgent approval for our upcoming marketing campaign scheduled to launch next week. We have developed a comprehensive strategy that aligns with our goals for the quarter, including targeted social media advertisements and email outreach.\n\nThe total budget for this campaign is $15,000. Attached you will find the detailed proposal and budget breakdown. I believe that with your approval, we can drive significant engagement and increase our customer base.\n\nPlease let me know if you need any additional information or if you’d like to discuss this further.\n\nLooking forward to your prompt response.\n\nBest, \nJessica",
+      "summary": "Jessica Phillips from BrightWave requests urgent approval for a marketing campaign budget.",
+      "suggested_action": "Approve/Deny",
+      "metadata": {
+        "priority": "high",
+        "action": "approve/deny",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-078",
+      "category": "approval_request",
+      "priority": "high",
+      "subject": "Approval Request: New Employee Onboarding Policy",
+      "from": "hr.manager@techsolutions.com",
+      "from_name": "Mark Johnson",
+      "body": "Dear Management,\n\nI hope this email finds you in good spirits. I am writing to seek your approval on the new employee onboarding policy we have drafted. This policy is essential to streamline our current processes and ensure a smoother transition for new hires into our company culture.\n\nThe proposed changes include a mentorship program and a comprehensive onboarding checklist that would greatly enhance the experience for our new team members.\n\nI believe this policy will not only improve retention rates but also foster a welcoming environment. I appreciate your time and consideration, and I look forward to your feedback.\n\nThank you!\n\nBest regards,\nMark",
+      "summary": "Mark Johnson is requesting approval for a new employee onboarding policy at Tech Solutions.",
+      "suggested_action": "Approve/Deny",
+      "metadata": {
+        "priority": "high",
+        "action": "approve/deny",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-079",
+      "category": "approval_request",
+      "priority": "high",
+      "subject": "Production Budget Adjustment Needed",
+      "from": "alex.taylor@filmco.com",
+      "from_name": "Alex Taylor",
+      "body": "Team,\n\nAs we near the end of our filming schedule, I’ve come across some unforeseen expenses that will require an adjustment to our production budget. Specifically, we need an additional $5,000 to cover last-minute location fees and equipment rentals.\n\nI understand budgets are tight, but without this adjustment, we risk delaying the project. I assure you that we will remain within the revised budget for the remainder of production. \n\nPlease review the attached document for detailed breakdowns. Your approval is needed by end of day tomorrow to avoid complications.\n\nThanks for your urgent attention to this matter.\n\nBest, \nAlex",
+      "summary": "Alex Taylor requests urgent approval for a budget adjustment at FilmCo due to unexpected expenses.",
+      "suggested_action": "Approve/Deny",
+      "metadata": {
+        "priority": "high",
+        "action": "approve/deny",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-080",
+      "category": "approval_request",
+      "priority": "high",
+      "subject": "Request for Approval: Company Retreat Plans",
+      "from": "linda.garcia@innovatech.com",
+      "from_name": "Linda Garcia",
+      "body": "Hello,\n\nAfter discussions with the team, we have proposed a company retreat to foster team building and innovation. We are looking at dates in late October and have found a great venue that can accommodate all of us. The total cost, including accommodations and activities, is approximately $20,000.\n\nI believe this retreat will greatly benefit our team dynamics and overall productivity. I would appreciate your feedback and approval to move forward with arrangements as soon as possible. Please let me know if you need further details!\n\nWarm regards,\nLinda",
+      "summary": "Linda Garcia seeks approval for a company retreat proposal at Innovatech costing $20,000.",
+      "suggested_action": "Approve/Deny",
+      "metadata": {
+        "priority": "high",
+        "action": "approve/deny",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-081",
+      "category": "approval_request",
+      "priority": "high",
+      "subject": "Final Approval Needed for Software Purchase",
+      "from": "jason.wong@codexcorp.com",
+      "from_name": "Jason Wong",
+      "body": "Dear Team,\n\nI’m writing to request final approval for a software purchase that we’ve been discussing for a couple of months now. After evaluating several options, we have settled on Product X, which offers the best features at a competitive price of $10,000 annually.\n\nThis investment will enhance our operational efficiency and improve our project management capabilities. The team is eager to implement this solution as soon as possible. \n\nWhile I understand that this is a significant expenditure, I truly believe the long-term benefits could outweigh the initial costs. Please provide your feedback and approval at your earliest convenience.\n\nThank you for your consideration.\n\nBest, \nJason",
+      "summary": "Jason Wong requests final approval for a software purchase at Codex Corp.",
+      "suggested_action": "Approve/Deny",
+      "metadata": {
+        "priority": "high",
+        "action": "approve/deny",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-082",
+      "category": "personal_message",
+      "priority": "high",
+      "subject": "Quick Catch-Up?",
+      "from": "jane.doe@gmail.com",
+      "from_name": "Jane Doe",
+      "body": "Hi Alex,\n\nI hope you're doing well! It's been a while since we last caught up. How has life been treating you? I was thinking it would be great to grab a coffee sometime next week if you’re free. Let me know what your schedule looks like.\n\nBest wishes,\nJane",
+      "summary": "Jane reaches out to Alex to suggest meeting for coffee.",
+      "suggested_action": "Reply",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-083",
+      "category": "personal_message",
+      "priority": "high",
+      "subject": "Your Thoughts on the Wedding Plans?",
+      "from": "mike.smith@outlook.com",
+      "from_name": "Mike Smith",
+      "body": "Hey Sarah,\n\nI wanted to hear your thoughts on the wedding plans. I’ve been working with the venue and catering service, and I think everything is coming together nicely. However, I’d love to get your opinions on the color scheme and the guest list. Can we chat about this over the phone or meet up this week?\n\nLooking forward to your input!\nCheers,\nMike",
+      "summary": "Mike asks Sarah for feedback on wedding planning.",
+      "suggested_action": "Reply",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-084",
+      "category": "personal_message",
+      "priority": "high",
+      "subject": "Excited for Our Trip!",
+      "from": "emily.jones@icloud.com",
+      "from_name": "Emily Jones",
+      "body": "Hi Tom,\n\nI can hardly believe our trip to Hawaii is just around the corner! Have you finalized the itinerary? I’m so excited to explore the beaches and try out some snorkeling. Also, do you think we should book the car rental in advance?\n\nLet me know your thoughts!\nTalk soon,\nEmily",
+      "summary": "Emily expresses excitement and inquires about trip plans to Hawaii.",
+      "suggested_action": "Reply",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-085",
+      "category": "personal_message",
+      "priority": "high",
+      "subject": "Thanks for the Help!",
+      "from": "lisa.brown@yahoo.com",
+      "from_name": "Lisa Brown",
+      "body": "Dear Mark,\n\nI just wanted to take a moment to thank you for your help with the project last week. Your insights really made a difference, and I appreciate the time you dedicated to assist me. It's always great to collaborate with you!\n\nLet’s catch up soon!\nBest,\nLisa",
+      "summary": "Lisa thanks Mark for his assistance on a project.",
+      "suggested_action": "Reply",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-086",
+      "category": "personal_message",
+      "priority": "high",
+      "subject": "Random - Do You Remember the Old Times?",
+      "from": "john.doe@workmail.com",
+      "from_name": "John Doe",
+      "body": "Hey Emma,\n\nI was cleaning out my desk the other day and found some old photos from our college days. It took me back to those wild times we had! Remember our road trip to the beach? Those were the days! I’d love to hear from you and see which of those memories stand out for you. Let’s plan a reunion with the gang!\n\nTake care,\nJohn",
+      "summary": "John reminisces with Emma about their college days and suggests a reunion.",
+      "suggested_action": "Reply",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-087",
+      "category": "package_tracking",
+      "priority": "medium",
+      "subject": "Your Order #123456 is on the way!",
+      "from": "shipping@amazon.com",
+      "from_name": "Amazon Shipping",
+      "body": "Hello, \n\nWe are excited to inform you that your order #123456 has been shipped! You can track your package using the link below: \n\n[Track Your Package](https://www.amazon.com/track-package) \n\nThank you for shopping with us!\n\nBest regards, \nAmazon Shipping Team",
+      "summary": "Amazon confirms that order #123456 has shipped and provides a tracking link.",
+      "suggested_action": "Track Package",
+      "metadata": {
+        "company": "Amazon",
+        "order_number": "123456",
+        "tracking_link": "https://www.amazon.com/track-package",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-088",
+      "category": "package_tracking",
+      "priority": "medium",
+      "subject": "Tracking Information for Your Recent Purchase",
+      "from": "support@ups.com",
+      "from_name": "UPS Support",
+      "body": "Dear Customer, \n\nThank you for choosing UPS. Your package is in transit and is scheduled to arrive on Thursday. You can monitor the progress of your shipment using the tracking number below:\n\nTracking Number: 1Z12345E0205271688\n\n[Track Here](https://www.ups.com/track) \n\nIf you have any questions, feel free to reply to this email.\n\nRegards, \nUPS Support Team",
+      "summary": "UPS notifies the customer of their package's tracking information with a tracking number.",
+      "suggested_action": "Track Package",
+      "metadata": {
+        "company": "UPS",
+        "tracking_number": "1Z12345E0205271688",
+        "tracking_link": "https://www.ups.com/track",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-089",
+      "category": "package_tracking",
+      "priority": "medium",
+      "subject": "Package Update: Delayed Delivery",
+      "from": "info@fedex.com",
+      "from_name": "FedEx Assistance",
+      "body": "Hi there, \n\nWe wanted to update you regarding your package with tracking number 1234 5678 9012. Due to unforeseen circumstances, there is a delay in delivery. You can track its status here: \n\n[Track Package](https://www.fedex.com/en-us/tracking.html)\n\nRest assured we are working hard to get your package to you as soon as possible. Thank you for your patience.\n\nWarm regards, \nFedEx Assistance Team",
+      "summary": "FedEx informs the customer of a delay in package delivery and provides a tracking link.",
+      "suggested_action": "Track Package",
+      "metadata": {
+        "company": "FedEx",
+        "tracking_number": "1234 5678 9012",
+        "tracking_link": "https://www.fedex.com/en-us/tracking.html",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-090",
+      "category": "package_tracking",
+      "priority": "medium",
+      "subject": "Your package has arrived at the local depot!",
+      "from": "notifications@usps.com",
+      "from_name": "USPS Notifications",
+      "body": "Hello, \n\nGreat news! Your package labeled with tracking ID 9400 1000 0000 0000 0000 00 has arrived at your local USPS depot. You can pick it up anytime during business hours or request redelivery at your convenience! \n\nFor more detailed tracking information, visit our site: [USPS Tracking](https://tools.usps.com/go/TrackConfirmAction) \n\nThank you for using USPS,\n\nBest, \nUSPS Notifications Team",
+      "summary": "USPS notifies the arrival of a package at the local depot and provides a tracking link.",
+      "suggested_action": "Track Package",
+      "metadata": {
+        "company": "USPS",
+        "tracking_id": "9400 1000 0000 0000 0000 00",
+        "tracking_link": "https://tools.usps.com/go/TrackConfirmAction",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-091",
+      "category": "package_tracking",
+      "priority": "medium",
+      "subject": "Important: Package Tracking Confirmation",
+      "from": "info@dhl.com",
+      "from_name": "DHL Customer Service",
+      "body": "Dear Valued Customer, \n\nWe are writing to confirm the shipment of your package. Please use the following link to track your package: \n\nTrack here: [DHL Tracking](https://www.dhl.com/en/express/tracking.html) \n\nTracking Number: C1234567890 \n\nIf you have any questions, please reach out to our customer service.\n\nWarm wishes, \nThe DHL Team",
+      "summary": "DHL provides confirmation of a shipped package along with a tracking link.",
+      "suggested_action": "Track Package",
+      "metadata": {
+        "company": "DHL",
+        "tracking_number": "C1234567890",
+        "tracking_link": "https://www.dhl.com/en/express/tracking.html",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-092",
+      "category": "travel_itinerary",
+      "priority": "medium",
+      "subject": "Your Travel Itinerary for Paris: Confirmed",
+      "from": "support@expedia.com",
+      "from_name": "Expedia Team",
+      "body": "Dear Traveler,\n\nThank you for booking with Expedia! We're excited to confirm your upcoming trip to Paris from March 15 to March 22, 2024. \n\nHere are the details:\n- Flight: Delta Airlines, Flight 1234, Departs NYC at 7:30 PM\n- Hotel: Hotel Le Meurice, Check-in on March 15, Check-out on March 22\n- Activities:\n  - Louvre Museum: March 16, 10:00 AM\n  - Seine River Cruise: March 18, 3:00 PM\n\nPlease add these events to your calendar. If you have any questions, feel free to reach out. \n\nBest regards,\nThe Expedia Team\n\nP.S. Don’t forget to pack your camera!",
+      "summary": "Travel itinerary confirmation for a trip to Paris.",
+      "suggested_action": "Add to Calendar",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-093",
+      "category": "travel_itinerary",
+      "priority": "medium",
+      "subject": "Your Upcoming Trip to Hawaii - Calendar Invite",
+      "from": "info@travelocity.com",
+      "from_name": "Travelocity Support",
+      "body": "Hi Jane,\n\nWe are pleased to inform you that your trip to Hawaii is scheduled from June 1 to June 10, 2024. Below are the details:\n\n- Flight: Hawaiian Airlines, Flight 256, Departing from LAX at 11:00 AM\n- Accommodation: Hilton Hawaiian Village, Reservation ID: 987654\n- Rental Car: Hertz, Pickup on June 1\n\nPlease find attached a calendar invite to save these dates. We hope you have a wonderful time!\n\nCheers,\nTravelocity Support Team\n\nP.S. Check out our travel guide for must-see attractions!",
+      "summary": "Information about a trip to Hawaii with an attached calendar invite.",
+      "suggested_action": "Add to Calendar",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-094",
+      "category": "travel_itinerary",
+      "priority": "medium",
+      "subject": "Important Itinerary Update: Italy Trip",
+      "from": "contact@booking.com",
+      "from_name": "Booking.com Customer Service",
+      "body": "Dear Michael,\n\nWe wanted to inform you of a change in your itinerary for your upcoming trip to Italy. Your flight with Alitalia has been rescheduled to depart on April 5 at 5:00 PM instead of 3:00 PM. \n\nYour accommodation details remain unchanged:\n- Florence Hotel, Check-in April 6, Check-out April 12.\n\nWe apologize for any inconvenience this may cause and recommend adding the flight update to your calendar. Thank you for choosing Booking.com!\n\nBest,\nThe Booking.com Team",
+      "summary": "Update regarding flight rescheduling for a trip to Italy.",
+      "suggested_action": "Add to Calendar",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-095",
+      "category": "travel_itinerary",
+      "priority": "medium",
+      "subject": "Adventure Awaits: Your Itinerary for Thailand!",
+      "from": "travel@airasia.com",
+      "from_name": "AirAsia Itinerary Services",
+      "body": "Hello Alex,\n\nYour exciting adventure to Thailand is just around the corner! Here are your itinerary details:\n- Departure: AirAsia, Flight AK123 from Singapore on May 10 at 9:00 AM\n- Accommodation: Bangkok City Hotel, Confirmation No: 54321\n\nActivities planned:\n- Thai Cooking Class: May 12, 2:00 PM\n- Guided City Tour: May 14, 10:00 AM\n\nWe recommend adding these details to your calendar for easy reference!\n\nSafe travels,\nAirAsia Itinerary Services",
+      "summary": "Itinerary details for a trip to Thailand including activities.",
+      "suggested_action": "Add to Calendar",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-096",
+      "category": "travel_itinerary",
+      "priority": "medium",
+      "subject": "Booking Confirmation for Your Business Trip",
+      "from": "bookings@hilton.com",
+      "from_name": "Hilton Hotels",
+      "body": "Dear Mr. Thompson,\n\nThis email is to confirm your reservation at Hilton Garden Inn for your business trip from April 18 to April 20, 2024.\n\n- Check-in: April 18\n- Check-out: April 20\n- Meeting Room Booking: Conference Room A on April 19, 9:00 AM to 12:00 PM.\n\nFor your convenience, we have attached a calendar invite with the details. Let us know if there is anything we can assist with prior to your arrival.\n\nBest regards,\nHilton Hotels Booking Team",
+      "summary": "Confirmation for a business trip with a calendar invite attached.",
+      "suggested_action": "Add to Calendar",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-097",
+      "category": "financial_statement",
+      "priority": "medium",
+      "subject": "Q3 2023 Financial Statement Overview",
+      "from": "finance@techsolutions.com",
+      "from_name": "Emily Johnson",
+      "body": "Dear Team,\n\nI hope this message finds you well. Attached you will find the Q3 2023 financial statement for Tech Solutions Inc. The report includes a comprehensive overview of our revenue, expenses, and overall profitability for the quarter.\n\nPlease pay special attention to the changes in our operational costs, as well as the growth in our software service subscriptions, which have significantly contributed to our earnings this quarter.\n\nFeel free to reach out if you have any questions or need further clarification.\n\nBest regards,\nEmily Johnson\nFinance Manager\nTech Solutions Inc.",
+      "summary": "Emily Johnson shares the Q3 2023 financial statement from Tech Solutions Inc.",
+      "suggested_action": "Review",
+      "metadata": {
+        "date": "2023-10-01",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-098",
+      "category": "financial_statement",
+      "priority": "medium",
+      "subject": "Your Monthly Statement for September 2023",
+      "from": "noreply@bankingexperts.com",
+      "from_name": "Banking Experts",
+      "body": "Dear Valued Customer,\n\nWe are pleased to provide you with your monthly financial statement for September 2023. This statement includes details of your account balances, transaction history, and any applicable fees. \n\nFor your convenience, you can review the statement online through our secure portal.\n\nThank you for choosing Banking Experts as your financial partner.\n\nSincerely,\nThe Banking Experts Team",
+      "summary": "Monthly financial statement for September 2023 from Banking Experts.",
+      "suggested_action": "Review",
+      "metadata": {
+        "date": "2023-10-02",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-099",
+      "category": "financial_statement",
+      "priority": "medium",
+      "subject": "Important: Year-End Financial Summary Needed",
+      "from": "accounting@retailco.com",
+      "from_name": "Rachel Green",
+      "body": "Hello Team,\n\nAs we approach the end of the fiscal year, I need to compile the year-end financial summary for Retail Co. Please send me the figures from your departments by the end of this week so we can finalize the overview.\n\nIt’s crucial we ensure accuracy in our reports, as this will impact our strategic planning meetings next month. Thank you for your prompt attention to this.\n\nBest,\nRachel Green\nHead of Accounting\nRetail Co.",
+      "summary": "Rachel Green requests year-end financial figures from department heads at Retail Co.",
+      "suggested_action": "Review",
+      "metadata": {
+        "date": "2023-10-03",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-100",
+      "category": "financial_statement",
+      "priority": "medium",
+      "subject": "Annual Budget Forecast and Review Meeting",
+      "from": "planning@greenenergy.com",
+      "from_name": "Michael Smith",
+      "body": "Dear Team,\n\nI hope you are all doing well. We will be having a meeting on October 10 regarding our annual budget forecast for Green Energy Ltd. I need everyone to review the attached financial documents beforehand so we can have a productive discussion.\n\nThis meeting will allow us to align our financial strategies with our growth objectives for the coming year. Your insights will be invaluable, and I look forward to your contributions.\n\nThank you,\nMichael Smith\nFinancial Planning Manager\nGreen Energy Ltd.",
+      "summary": "Michael Smith schedules a budget forecast meeting for Green Energy Ltd.",
+      "suggested_action": "Review",
+      "metadata": {
+        "date": "2023-10-04",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-101",
+      "category": "financial_statement",
+      "priority": "medium",
+      "subject": "Confidential: Preliminary Financial Results",
+      "from": "ceo@innovativehealth.com",
+      "from_name": "Alice Walker",
+      "body": "Team,\n\nI am writing to share the preliminary financial results for Q3 at Innovative Health Corp. The figures indicate a positive trend, although we are still below our projected targets. Please find the details attached in the confidential document.\n\nI must stress that this information is sensitive and should be handled with care. I expect your feedback and analysis by next week so we can address the areas needing improvement.\n\nThank you for your hard work.\n\nBest,\nAlice Walker\nCEO\nInnovative Health Corp.",
+      "summary": "Alice Walker shares preliminary financial results with a confidentiality warning.",
+      "suggested_action": "Review",
+      "metadata": {
+        "date": "2023-10-05",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-102",
+      "category": "password_reset",
+      "priority": "medium",
+      "subject": "Reset Your Password",
+      "from": "support@techworld.com",
+      "from_name": "TechWorld Support",
+      "body": "Dear User,\n\nWe received a request to reset your password for your TechWorld account. If you did not request a password reset, please ignore this email.\n\nTo reset your password, please click the link below:\n\n[Reset Password](https://www.techworld.com/reset-password)\n\nFor your security, this link will expire in 30 minutes. If you need further assistance, reach out to our support team.\n\nBest Regards,\nTechWorld Support Team",
+      "summary": "Email instructing user to reset their TechWorld account password.",
+      "suggested_action": "Take Action",
+      "metadata": {
+        "company": "TechWorld",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-103",
+      "category": "password_reset",
+      "priority": "medium",
+      "subject": "Password Change Request",
+      "from": "no-reply@bookstore.com",
+      "from_name": "Bookstore",
+      "body": "Hello,\n\nWe received a request to change the password for your Bookstore account. If you made this request, please follow the link below to set a new password:\n\n[Change Password](https://www.bookstore.com/password-change)\n\nThis link is valid for 1 hour. If you have any issues, please contact our customer service.\n\nThank you,\nBookstore Team",
+      "summary": "Request to change the Bookstore account password.",
+      "suggested_action": "Take Action",
+      "metadata": {
+        "company": "Bookstore",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-104",
+      "category": "password_reset",
+      "priority": "medium",
+      "subject": "Action Required: Password Reset",
+      "from": "noreply@musicstream.com",
+      "from_name": "MusicStream Support",
+      "body": "Dear Valued User,\n\nYour request to reset your MusicStream password has been processed. To complete the reset, please click on the link below:\n\n[Reset My Password](https://www.musicstream.com/reset)\n\nPlease note, this link will expire after 15 minutes. If you did not request this, kindly contact our support.\n\nThank you,\nMusicStream Support",
+      "summary": "Notification about a password reset request on MusicStream.",
+      "suggested_action": "Take Action",
+      "metadata": {
+        "company": "MusicStream",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-105",
+      "category": "password_reset",
+      "priority": "medium",
+      "subject": "Important: Password Reset Instructions",
+      "from": "admin@shoppingplatform.com",
+      "from_name": "ShoppingPlatform Admin",
+      "body": "Hi there,\n\nWe’ve received a request to reset the password for your ShoppingPlatform account. If this was you, please click the link below to choose a new password:\n\n[Click Here to Reset](https://www.shoppingplatform.com/reset-password)\n\nIf you did not request this change, please secure your account by changing your password immediately. Reach out to us if you have any questions.\n\nSincerely,\nShoppingPlatform Admin Team",
+      "summary": "Instructions for resetting the password for ShoppingPlatform.",
+      "suggested_action": "Take Action",
+      "metadata": {
+        "company": "ShoppingPlatform",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-106",
+      "category": "password_reset",
+      "priority": "medium",
+      "subject": "Your Password Reset Link - Action Required!",
+      "from": "service@bankingapp.com",
+      "from_name": "BankingApp Services",
+      "body": "Dear Customer,\n\nYou have requested to reset your password. Please click on the link below to reset it:\n\n[Reset Your Password](https://www.bankingapp.com/reset-password)\n\nThis link is valid for 10 minutes due to security reasons. If you did not initiate this request, please contact us immediately to secure your account.\n\nThanks for using BankingApp!\n\nBest,\nBankingApp Services",
+      "summary": "Password reset link for BankingApp with urgency due to time limit.",
+      "suggested_action": "Take Action",
+      "metadata": {
+        "company": "BankingApp",
+        "priority": "medium",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-107",
+      "category": "subscription_renewal",
+      "priority": "medium",
+      "subject": "Your Netflix Subscription Will Auto-Renew Soon",
+      "from": "support@netflix.com",
+      "from_name": "Netflix Support",
+      "body": "Dear Valued Member,\n\nThis is a friendly reminder that your Netflix subscription will automatically renew on April 15, 2023. At that time, your credit card on file will be charged $15.99. If you need to make any changes to your plan or payment method, please visit your account settings.\n\nThank you for choosing Netflix. We hope you enjoy your favorite shows and movies!\n\nBest regards,\nThe Netflix Team",
+      "summary": "Reminder about Netflix subscription renewal.",
+      "suggested_action": "Review",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-108",
+      "category": "subscription_renewal",
+      "priority": "medium",
+      "subject": "Reminder: Your Spotify Premium Subscription is Ending Soon!",
+      "from": "no-reply@spotify.com",
+      "from_name": "Spotify",
+      "body": "Hi there,\n\nWe wanted to remind you that your Spotify Premium subscription will expire in 3 days. To continue enjoying ad-free music and offline listening, please make sure your payment information is up to date.\n\nIf you don’t want to continue your subscription, no action is needed, and your account will revert to Spotify Free.\n\nEnjoy the music!\n\nCheers,\nThe Spotify Team",
+      "summary": "Reminder about expiring Spotify Premium subscription.",
+      "suggested_action": "Review",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-109",
+      "category": "subscription_renewal",
+      "priority": "medium",
+      "subject": "Your Adobe Creative Cloud Subscription is About to Renew",
+      "from": "billing@adobe.com",
+      "from_name": "Adobe Billing",
+      "body": "Hello,\n\nWe're reaching out to let you know that your Adobe Creative Cloud subscription will automatically renew on April 22, 2023. The renewal fee of $52.99 will be charged to your payment method on file. If you’d like to review your subscription details or make changes, please log into your account.\n\nThank you for being part of the Adobe community!\n\nSincerely,\nAdobe Billing",
+      "summary": "Notice of Adobe Creative Cloud subscription renewal.",
+      "suggested_action": "Review",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-110",
+      "category": "subscription_renewal",
+      "priority": "medium",
+      "subject": "Your Amazon Prime Membership is Up for Renewal!",
+      "from": "info@amazon.com",
+      "from_name": "Amazon Customer Service",
+      "body": "Dear Customer,\n\nThis is a reminder that your Amazon Prime membership will renew on May 5, 2023. The annual fee of $119 will be charged to your selected payment method. If you need to make any changes to your membership or payment, visit your Amazon account.\n\nThank you for being a valued member!\n\nBest,\nAmazon Customer Service",
+      "summary": "Reminder about upcoming Amazon Prime membership renewal.",
+      "suggested_action": "Review",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-111",
+      "category": "subscription_renewal",
+      "priority": "medium",
+      "subject": "Notification: Your Gym Membership Will Renew Next Week",
+      "from": "memberships@fitclub.com",
+      "from_name": "FitClub Support",
+      "body": "Hi [Member Name],\n\nWe hope you’re enjoying your time at FitClub! We wanted to inform you that your gym membership will automatically renew on April 10, 2023. The monthly fee of $49.99 will be deducted from your account.\n\nIf you would like to cancel your membership or update your payment method, please contact us before the renewal date.\n\nThank you for being part of our fitness community!\n\nWarm regards,\nFitClub Support Team",
+      "summary": "Notification regarding gym membership renewal.",
+      "suggested_action": "Review",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-112",
+      "category": "work_update",
+      "priority": "medium",
+      "subject": "Quarterly Progress Report",
+      "from": "john.doe@techcorp.com",
+      "from_name": "John Doe",
+      "body": "Hi Team,\n\nI wanted to take a moment to provide you all with an update on our progress for Q2. As you know, we set ambitious goals at the beginning of the quarter, and I’m pleased to report that we are on track to meet our targets. Our development team has successfully rolled out the new features for our app, and early feedback has been overwhelmingly positive.\n\nAdditionally, the marketing team has begun implementing strategies to enhance our brand visibility, which should help drive user engagement. Please look out for the detailed report that will be shared next week.\n\nThanks for your hard work and dedication!\n\nBest,\nJohn",
+      "summary": "John provides an update on Q2 progress and acknowledges team efforts.",
+      "suggested_action": "Acknowledge",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-113",
+      "category": "work_update",
+      "priority": "medium",
+      "subject": "Update on Client Project",
+      "from": "sarah.james@creativegroup.net",
+      "from_name": "Sarah James",
+      "body": "Dear Team,\n\nI hope this message finds you well! I wanted to share an update regarding our ongoing project with Eco Solutions. We have completed the initial phases and are now moving into the design stage, which starts next week. The client has expressed satisfaction with our current progress and is looking forward to seeing the upcoming mock-ups.\n\nPlease remember to keep all communication transparent and maintain our timelines as discussed. Let’s continue to work collaboratively to ensure a successful outcome.\n\nBest regards,\nSarah",
+      "summary": "Sarah updates the team about the Eco Solutions project progress.",
+      "suggested_action": "Acknowledge",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-114",
+      "category": "work_update",
+      "priority": "medium",
+      "subject": "Team Achievements This Month",
+      "from": "mike.klein@healthcareinc.com",
+      "from_name": "Mike Klein",
+      "body": "Hey Team,\n\nI just wanted to take a quick moment to recognize some fantastic achievements this month. We’ve successfully launched two new health programs, which received great feedback from users. Moreover, our outreach efforts have led to a significant increase in community engagement.\n\nIt’s essential to celebrate these wins as they reflect our hard work. Keep up the excellent work everyone! Let’s aim to surpass our goals for the rest of the quarter.\n\nCheers,\nMike",
+      "summary": "Mike acknowledges the team's achievements and encourages continued effort.",
+      "suggested_action": "Acknowledge",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-115",
+      "category": "work_update",
+      "priority": "medium",
+      "subject": "Upcoming Changes in Workflow",
+      "from": "lisa.chen@financeteam.org",
+      "from_name": "Lisa Chen",
+      "body": "Hello Everyone,\n\nAs we continue to adapt to our new working conditions, I want to inform you about some upcoming changes in our workflow that will take effect next month. We are moving to a new project management tool that should streamline our processes and improve collaboration.\n\nI will be holding a training session on the new tool, and I encourage everyone to participate. Your feedback will be invaluable as we make this transition. Please let me know if you have any concerns.\n\nBest,\nLisa",
+      "summary": "Lisa informs the team about upcoming changes in workflow and training.",
+      "suggested_action": "Acknowledge",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-116",
+      "category": "work_update",
+      "priority": "medium",
+      "subject": "Budget Review Meeting Follow-Up",
+      "from": "alex.smith@retailgroup.com",
+      "from_name": "Alex Smith",
+      "body": "Team,\n\nFollowing our recent budget review meeting, I just wanted to provide you all with a summary of the key points we discussed. We have allocated additional resources to the marketing department to enhance our advertising efforts, especially with the holiday season approaching. However, this comes with a need for spending discipline across other departments.\n\nPlease ensure that your teams are aligned with these budget priorities. I appreciate everyone’s cooperation and commitment to our financial health during this time. Let’s make this a successful season!\n\nThanks,\nAlex",
+      "summary": "Alex summarizes key points from a recent budget review meeting.",
+      "suggested_action": "Acknowledge",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-117",
+      "category": "promotional",
+      "priority": "low",
+      "subject": "Exclusive Offer Just for You!",
+      "from": "offers@techgadgetstore.com",
+      "from_name": "Tech Gadget Store",
+      "body": "Dear valued customer,\n\nWe are excited to share an exclusive offer just for our loyal customers! For a limited time only, enjoy 20% off your next purchase. Whether you're looking to upgrade your tech or surprise a loved one with the latest gadget, we have you covered.\n\nUse code TECH20 at checkout and take advantage of this fantastic deal. Don't wait too long; this offer expires at the end of the month!\n\nThank you for being part of the Tech Gadget Store family.\n\nBest regards,\nThe Tech Gadget Store Team\n\nP.S. If you wish to unsubscribe from our promotions, click here.",
+      "summary": "An exclusive 20% discount offer from Tech Gadget Store.",
+      "suggested_action": "Unsubscribe",
+      "metadata": {
+        "category": "promotional",
+        "priority": "low",
+        "action": "unsubscribe",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-118",
+      "category": "promotional",
+      "priority": "low",
+      "subject": "New Seasonal Arrivals - Don't Miss Out!",
+      "from": "hello@chicfashion.com",
+      "from_name": "Chic Fashion",
+      "body": "Hi fashion lovers,\n\nWe are thrilled to announce our new seasonal arrivals at Chic Fashion! From stylish coats to vibrant accessories, our latest collection is sure to turn heads this fall. Shop now and find the perfect pieces to elevate your wardrobe.\n\nAs a token of appreciation, enjoy a 15% discount on your next order. Use the code FALL15 at checkout.\n\nVisit our website today to explore the new collection!\n\nCheers,\nThe Chic Fashion Team\n\nP.S. If you prefer not to receive our promotional emails, you can unsubscribe here.",
+      "summary": "Chic Fashion reveals new seasonal collection with a discount promotion.",
+      "suggested_action": "Unsubscribe",
+      "metadata": {
+        "category": "promotional",
+        "priority": "low",
+        "action": "unsubscribe",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-119",
+      "category": "promotional",
+      "priority": "low",
+      "subject": "Last Chance: Flash Sale Ends Soon!",
+      "from": "sale@furniturewarehouse.com",
+      "from_name": "Furniture Warehouse",
+      "body": "Dear Home Decor Enthusiast,\n\nTime is running out! Our flash sale on living room furniture ends today at midnight. Enjoy up to 50% off selected items, including sofas, coffee tables, and more.\n\nThis is your last chance to snag incredible deals on high-quality pieces that will transform your space. Simply click here to shop!\n\nHappy shopping! \nBest,\nThe Furniture Warehouse Team\n\nIf you'd rather not hear from us again, feel free to unsubscribe.",
+      "summary": "Furniture Warehouse offers a last-minute flash sale with significant discounts.",
+      "suggested_action": "Unsubscribe",
+      "metadata": {
+        "category": "promotional",
+        "priority": "low",
+        "action": "unsubscribe",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-120",
+      "category": "promotional",
+      "priority": "low",
+      "subject": "Join Us For Our Grand Opening Celebration!",
+      "from": "info@localbakery.com",
+      "from_name": "Local Bakery",
+      "body": "Hello,\n\nWe are thrilled to announce the grand opening of Local Bakery this Saturday! Join us for a day of delicious pastries, freshly brewed coffee, and great company. Enjoy free samples and enter our raffle for a chance to win a month of free baked goods!\n\nCome celebrate with us from 9 AM to 5 PM. We can't wait to see you! \nBest,\nThe Local Bakery Team\n\nP.S. If you'd like to unsubscribe from our updates, you can do so here.",
+      "summary": "Local Bakery invites customers to their grand opening with free samples and a raffle.",
+      "suggested_action": "Unsubscribe",
+      "metadata": {
+        "category": "promotional",
+        "priority": "low",
+        "action": "unsubscribe",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-121",
+      "category": "promotional",
+      "priority": "low",
+      "subject": "Reminder: Your Subscription Box is Ready!",
+      "from": "updates@subscriptionbox.com",
+      "from_name": "Subscription Box Co.",
+      "body": "Hello!\n\nThis is a quick reminder that your latest subscription box from Subscription Box Co. is ready for delivery! Packed with goodies just for you, your box will be shipped soon.\n\nIf you're excited to receive it, don't forget to share your unboxing experience with us on social media!\n\nIf you wish to unsubscribe from our emails, you can click here.\n\nLooking forward to your feedback!\nBest,\nThe Subscription Box Co. Team\n\nP.S. Your next box is curated just for you!",
+      "summary": "Subscription Box Co. reminds customers about their upcoming box delivery.",
+      "suggested_action": "Unsubscribe",
+      "metadata": {
+        "category": "promotional",
+        "priority": "low",
+        "action": "unsubscribe",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-122",
+      "category": "receipt",
+      "priority": "low",
+      "subject": "Your Invoice from Amazon",
+      "from": "no-reply@amazon.com",
+      "from_name": "Amazon",
+      "body": "Hello John,\n\nThank you for your purchase! We have received your order for the following items:\n\n- Echo Dot (3rd Gen) - $39.99\n- Fire TV Stick 4K - $49.99\n\nTotal: $89.98\n\nYour order will be shipped to:\n123 Main St, Springfield, IL 62701\n\nIf you have any questions, please contact our support team.\n\nBest,\nThe Amazon Team",
+      "summary": "Receipt for an Amazon order totaling $89.98.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "receipt",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-123",
+      "category": "receipt",
+      "priority": "low",
+      "subject": "Receipt from Starbucks",
+      "from": "receipt@starbucks.com",
+      "from_name": "Starbucks",
+      "body": "Dear Sarah,\n\nThank you for visiting Starbucks! You purchased the following items:\n\n- Grande Caramel Latte - $4.75\n- Blueberry Muffin - $2.50\n\nYour total is: $7.25\n\nWe appreciate your business and hope to see you again soon!\n\nCheers,\nThe Starbucks Team",
+      "summary": "Receipt for a Starbucks purchase totaling $7.25.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "receipt",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-124",
+      "category": "receipt",
+      "priority": "low",
+      "subject": "Your Ticket Confirmation - Eventbrite",
+      "from": "no-reply@eventbrite.com",
+      "from_name": "Eventbrite",
+      "body": "Hi James,\n\nThanks for purchasing a ticket for the \"Coding Workshop\" on March 5, 2024. Below are your order details:\n\n- Quantity: 1\n- Price: $50.00\n\nTotal paid: $50.00\n\nWe’re excited to see you there! If you have any questions, feel free to reply to this email.\n\nBest Regards,\nThe Eventbrite Team",
+      "summary": "Confirmation and receipt for an Eventbrite ticket purchase totaling $50.00.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "receipt",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-125",
+      "category": "receipt",
+      "priority": "low",
+      "subject": "Thank you for your order!",
+      "from": "help@walmart.com",
+      "from_name": "Walmart",
+      "body": "Hello,\n\nWe appreciate your recent order at Walmart. Here are the details:\n\n1. Groceries\n   - Milk - $2.49\n   - Eggs - $3.29\n   - Bread - $1.99\n\nOrder Total: $7.77\n\nThis order will be shipped to the address provided at checkout.\n\nIf you have any inquiries or require assistance, our customer service team is here to help!\n\nWarm regards,\nWalmart Customer Care",
+      "summary": "Order receipt from Walmart for groceries totaling $7.77.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "receipt",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-126",
+      "category": "receipt",
+      "priority": "low",
+      "subject": "Your Subscription Receipt from Netflix",
+      "from": "no-reply@netflix.com",
+      "from_name": "Netflix",
+      "body": "Hi David,\n\nThank you for your subscription! We’ve charged your account:\n\n- Plan: Standard Streaming - $15.99\n\nThis will recur every month. Don’t worry, you can cancel anytime!\n\nEnjoy watching your favorite shows!\n\nBest,\nThe Netflix Team",
+      "summary": "Receipt for Netflix subscription charged at $15.99.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "receipt",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-127",
+      "category": "social_notification",
+      "priority": "low",
+      "subject": "You have new followers on Instagram!",
+      "from": "notifications@instagram.com",
+      "from_name": "Instagram Support",
+      "body": "Hi there! 🎉 You've gained new followers since your last visit. Check out who they are and see what they're up to! We thought you’d love to connect with them. Don’t forget to post some of your amazing content to keep them engaged. Happy connecting! 📸\n\nBest,\nThe Instagram Team",
+      "summary": "Notification about new followers on Instagram.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "social_notification",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-128",
+      "category": "social_notification",
+      "priority": "low",
+      "subject": "Your friend tagged you in a photo on Facebook",
+      "from": "alerts@facebook.com",
+      "from_name": "Facebook Alerts",
+      "body": "Hello! Your friend, Mike, just tagged you in a picture. Head over to Facebook to check it out and see the fun memories we captured together! Click here to view the photo: [link]. Don't forget to leave a comment!\n\nCheers,\nFacebook Team",
+      "summary": "Notification about a friend tagging the user in a photo on Facebook.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "social_notification",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-129",
+      "category": "social_notification",
+      "priority": "low",
+      "subject": "New comment on your blog post!",
+      "from": "notifications@blogger.com",
+      "from_name": "Blogger Notifications",
+      "body": "Hey there! Just wanted to let you know that you received a new comment on your latest blog post titled 'Exploring the Great Outdoors'. The commenter shared their thoughts and insights, which might spark an interesting discussion! Log in to your Blogger account to read the comment and respond.\n\nBest,\nBlogger Team",
+      "summary": "Notification about a new comment on a blog post.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "social_notification",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-130",
+      "category": "social_notification",
+      "priority": "low",
+      "subject": "Reminder: Group event this weekend!",
+      "from": "events@meetup.com",
+      "from_name": "Meetup Events",
+      "body": "Hi! Just a friendly reminder about the group event happening this Saturday at 5 PM at Central Park. It's a great chance to meet new people who share your interests. Don’t forget to RSVP if you haven’t already! Looking forward to seeing you there!\n\nWarm regards,\nMeetup Team",
+      "summary": "Reminder for a group event scheduled for the weekend.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "social_notification",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-131",
+      "category": "social_notification",
+      "priority": "low",
+      "subject": "Feedback request for your recent event",
+      "from": "no-reply@eventbrite.com",
+      "from_name": "Eventbrite Support",
+      "body": "Dear User,\n\nThank you for attending our recent event, 'Networking Night'. We strive to improve our events and would appreciate your feedback! Please take a moment to fill out this survey: [survey link]. Your insights are valuable to us and help shape future gatherings. Thank you for contributing!\n\nBest wishes,\nEventbrite Team",
+      "summary": "Request for feedback on a recent event.",
+      "suggested_action": "Archive",
+      "metadata": {
+        "category": "social_notification",
+        "priority": "low",
+        "action": "archive",
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-132",
+      "category": "feedback_request",
+      "priority": "low",
+      "subject": "Your Feedback Matters to Us!",
+      "from": "support@techinnovators.com",
+      "from_name": "Tech Innovators Support Team",
+      "body": "Hi there,\n\nWe hope you’re enjoying your experience with our new application! Your insights are invaluable to us, and we would love to hear your thoughts. \n\nCould you take a few minutes to fill out our feedback survey? It will help us improve and serve you better in the future.\n\n[Link to survey]\n\nThank you for being a part of the Tech Innovators community!\n\nBest regards,\nThe Tech Innovators Team",
+      "summary": "Request for feedback on a recently used application.",
+      "suggested_action": "Complete Later",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-133",
+      "category": "feedback_request",
+      "priority": "low",
+      "subject": "Quick Favor: Share Your Thoughts!",
+      "from": "feedback@brightideas.com",
+      "from_name": "Jamie L.",
+      "body": "Hey there!\n\nI hope this email finds you well. As you know, we recently completed our workshop on innovative problem solving, and I wanted to reach out personally to get your feedback.\n\nYour perspective would really help us shape future workshops and enhance the experience for everyone. It would mean a lot if you could let us know what you liked and what could have been better.\n\nFeel free to reply to this email or fill out this short form: [link to form]. Thanks a bunch!\n\nCheers,\nJamie",
+      "summary": "Personal request for feedback regarding a workshop.",
+      "suggested_action": "Complete Later",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-134",
+      "category": "feedback_request",
+      "priority": "low",
+      "subject": "We Value Your Opinion – Tell Us What You Think!",
+      "from": "customer.service@homefurnishings.com",
+      "from_name": "Home Furnishings Team",
+      "body": "Dear Valued Customer,\n\nThank you for choosing Home Furnishings for your recent purchase. We strive to provide the best products and services, and your feedback is crucial for our continuous improvement.\n\nWe would greatly appreciate it if you could spare a few moments to fill out our feedback questionnaire. Your input helps us understand how we can better serve you and other customers in the future.\n\nPlease click here to take the survey: [survey link]. It's short and shouldn't take more than 5 minutes.\n\nThank you for your time and support!\n\nWarm regards,\nThe Home Furnishings Team",
+      "summary": "Request for feedback on a recent purchase experience.",
+      "suggested_action": "Complete Later",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-135",
+      "category": "feedback_request",
+      "priority": "low",
+      "subject": "Did We Meet Your Expectations?",
+      "from": "info@cookingclassescorp.com",
+      "from_name": "Cooking Classes Corp",
+      "body": "Hi,\n\nWe hope you enjoyed your recent cooking class with us! To ensure we keep improving and providing top-notch experiences, we’d love to hear your thoughts.\n\nCould you please take a moment to complete our feedback form? Your input is incredibly important to us as we strive to make each class enjoyable and educational.\n\n[Feedback Form Link]\n\nThank you for your time, and we look forward to cooking with you again soon!\n\nBest, \nCooking Classes Corp Team",
+      "summary": "Request for feedback on a cooking class experience.",
+      "suggested_action": "Complete Later",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    },
+    {
+      "id": "test-136",
+      "category": "feedback_request",
+      "priority": "low",
+      "subject": "Help Us Improve: Your Feedback Needed",
+      "from": "contact@creativesolutions.org",
+      "from_name": "Creative Solutions Team",
+      "body": "Hi,\n\nAs a recent participant in our community outreach program, your feedback is incredibly valuable! We are always looking at ways to enhance our programs and would love to hear about your experience.\n\nWe have created a brief survey that should take no longer than 5 minutes. Please click the link to share your insights: [survey link].\n\nYour opinion helps us create better solutions for the community. Thank you for taking the time to share your thoughts with us!\n\nWarmly, \nCreative Solutions Team",
+      "summary": "Request for feedback on community outreach program participation.",
+      "suggested_action": "Complete Later",
+      "metadata": {
+        "generated_with": "gpt-4o-mini"
+      }
+    }
+  ]
+}
