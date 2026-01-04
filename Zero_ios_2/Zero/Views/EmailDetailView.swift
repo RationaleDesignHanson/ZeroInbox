@@ -34,10 +34,11 @@ struct EmailDetailView: View {
                                 .strokeBorder(readerBorderColor, lineWidth: 1)
                         )
 
-                    // Subject in frosted glass panel
+                    // Subject in frosted glass panel - commanding presence
                     Text(card.title)
-                        .font(.title2.bold())
+                        .font(DesignTokens.Typography.readerSubject)
                         .foregroundColor(readerTextPrimary)
+                        .lineSpacing(4)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(DesignTokens.Spacing.component)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -758,37 +759,37 @@ struct EmailDetailView: View {
     }
 
     var headerSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 14) {
             // From
-            HStack(spacing: 12) {
-                // Avatar
+            HStack(spacing: 14) {
+                // Avatar - larger, more prominent
                 ZStack {
                     Circle()
                         .fill(avatarColor)
-                        .frame(width: 50, height: 50)
+                        .frame(width: 52, height: 52)
                     
                     Text(avatarInitial)
-                        .font(.title3.bold())
+                        .font(DesignTokens.Typography.headingMedium)
                         .foregroundColor(.white)
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("From: \(senderName)")
-                        .font(.headline)
+                    Text(senderName)
+                        .font(DesignTokens.Typography.readerSender)
                         .foregroundColor(readerTextPrimary)
 
                     Text(card.timeAgo)
-                        .font(.subheadline)
+                        .font(DesignTokens.Typography.readerMetadata)
                         .foregroundColor(readerTextSecondary)
                 }
             }
             
             // Priority badge
-            HStack(spacing: 8) {
+            HStack(spacing: 6) {
                 Image(systemName: priorityIcon)
-                    .font(.caption)
+                    .font(DesignTokens.Typography.badgeSmall)
                 Text(card.priority.rawValue.uppercased())
-                    .font(.caption.bold())
+                    .font(DesignTokens.Typography.badgeLarge)
             }
             .foregroundColor(readerTextPrimary)
             .padding(.horizontal, 12)
@@ -928,7 +929,7 @@ struct EmailDetailView: View {
     }
     
     var actionButtons: some View {
-        VStack(spacing: 10) {
+        VStack(spacing: 12) {
             // Primary action - wired to ActionRouter
             Button {
                 // Get effective action and execute through ActionRouter
@@ -944,20 +945,21 @@ struct EmailDetailView: View {
                     Logger.warning("No action found for card: \(card.id)", category: .action)
                 }
             } label: {
-                HStack {
+                HStack(spacing: 8) {
                     Image(systemName: "bolt.fill")
+                        .font(.system(size: 16, weight: .semibold))
                     Text(card.hpa)
-                        .font(.headline)
+                        .font(DesignTokens.Typography.actionPrimary)
                 }
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
+                .padding(.vertical, 16)
                 .background(card.type == .ads ? DesignTokens.Colors.adsGradientEnd : Color.white)
                 .foregroundColor(card.type == .ads ? .white : .blue)
                 .cornerRadius(DesignTokens.Radius.button)
             }
 
             // Secondary actions
-            HStack(spacing: 10) {
+            HStack(spacing: 12) {
                 Button {
                     // Mark as seen
                     Task {
@@ -974,11 +976,12 @@ struct EmailDetailView: View {
                 } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "eye.fill")
+                            .font(.system(size: 14))
                         Text("Mark Seen")
-                            .font(.subheadline)
+                            .font(DesignTokens.Typography.actionSecondary)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
+                    .padding(.vertical, 14)
                     .background(card.type == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.2) : Color.white.opacity(0.15))
                     .foregroundColor(card.type == .ads ? DesignTokens.Colors.adsGradientEnd : .white)
                     .cornerRadius(DesignTokens.Radius.button)
@@ -990,11 +993,12 @@ struct EmailDetailView: View {
                 } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "moon.zzz.fill")
+                            .font(.system(size: 14))
                         Text("Snooze")
-                            .font(.subheadline)
+                            .font(DesignTokens.Typography.actionSecondary)
                     }
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 12)
+                    .padding(.vertical, 14)
                     .background(card.type == .ads ? DesignTokens.Colors.adsGradientEnd.opacity(0.2) : Color.white.opacity(0.15))
                     .foregroundColor(card.type == .ads ? DesignTokens.Colors.adsGradientEnd : .white)
                     .cornerRadius(DesignTokens.Radius.button)

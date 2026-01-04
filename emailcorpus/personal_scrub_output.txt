@@ -1,0 +1,30 @@
+
+============================================================
+🔒 Personal Email PII Scrubber
+============================================================
+Input:  /Users/matthanson/Zer0_Inbox/emailcorpus/emailsfordeepsampling/Takeout/Mail
+Output: /Users/matthanson/Zer0_Inbox/emailcorpus/personal/scrubbed/personal_corpus.json
+Limit:  5000 emails
+
+📧 Extracting emails...
+
+📂 Processing Inbox-001...
+
+✅ Extracted 5000 emails
+   - From .eml files: 5000
+   - From .mbox files: 0
+   - Errors: 0
+
+🔐 Scrubbing PII...
+   - Email addresses anonymized: 989
+   - Names anonymized: 135
+
+💾 Writing to /Users/matthanson/Zer0_Inbox/emailcorpus/personal/scrubbed/personal_corpus.json...
+
+============================================================
+✅ Processing Complete!
+============================================================
+Total emails processed: 5000
+Output: /Users/matthanson/Zer0_Inbox/emailcorpus/personal/scrubbed/personal_corpus.json
+Report: /Users/matthanson/Zer0_Inbox/emailcorpus/personal/scrubbed/personal_corpus.report.json
+Output size: 21.4 MB

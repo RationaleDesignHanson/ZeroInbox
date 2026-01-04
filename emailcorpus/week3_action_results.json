@@ -1,0 +1,731 @@
+{
+  "timestamp": "2025-12-18T03:32:57.259Z",
+  "summary": {
+    "totalActions": 10,
+    "totalTests": 26,
+    "passed": 26,
+    "failed": 0,
+    "successRate": "100.0%",
+    "avgLatencyMs": 0
+  },
+  "actions": {
+    "archive": {
+      "name": "Archive",
+      "actionId": null,
+      "actionType": "BACKEND",
+      "usesNativeIOS": false,
+      "tests": [
+        {
+          "scenario": "Marketing email",
+          "intent": "marketing.promotion.discount",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": false,
+            "handledBy": "gateway/emails.js",
+            "suggestedActionsCount": 9
+          }
+        },
+        {
+          "scenario": "Personal email",
+          "intent": "communication.thread.reply",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": false,
+            "handledBy": "gateway/emails.js",
+            "suggestedActionsCount": 6
+          }
+        },
+        {
+          "scenario": "Order confirmation",
+          "intent": "e-commerce.order.receipt",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": false,
+            "handledBy": "gateway/emails.js",
+            "suggestedActionsCount": 9
+          }
+        }
+      ],
+      "summary": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    },
+    "reply": {
+      "name": "Reply",
+      "actionId": "quick_reply",
+      "actionType": "IN_APP",
+      "usesNativeIOS": false,
+      "tests": [
+        {
+          "scenario": "Thread reply",
+          "intent": "communication.thread.reply",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Quick Reply",
+            "actionType": "IN_APP",
+            "priority": 5,
+            "requiredEntities": [],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 6,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 5,
+            "modalComponent": "QuickReplyModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Meeting invitation",
+          "intent": "event.meeting.invitation",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Quick Reply",
+            "actionType": "IN_APP",
+            "priority": 5,
+            "requiredEntities": [],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 5,
+            "modalComponent": "QuickReplyModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Interview scheduling",
+          "intent": "career.interview.invitation",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Quick Reply",
+            "actionType": "IN_APP",
+            "priority": 5,
+            "requiredEntities": [],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 7,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 5,
+            "modalComponent": "QuickReplyModal",
+            "hasModalImplementation": true
+          }
+        }
+      ],
+      "summary": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    },
+    "snooze": {
+      "name": "Snooze",
+      "actionId": "set_reminder",
+      "actionType": "IN_APP",
+      "usesNativeIOS": false,
+      "tests": [
+        {
+          "scenario": "Bill due later",
+          "intent": "billing.invoice.due",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Remind me on {saleDateShort}",
+            "actionType": "IN_APP",
+            "priority": 2,
+            "requiredEntities": [
+              "saleDate"
+            ],
+            "intentMatch": "indirect",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": false,
+            "missingEntities": [
+              "saleDate"
+            ],
+            "entitiesValidated": true,
+            "modalComponent": "SetReminderModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Meeting to review",
+          "intent": "event.meeting.invitation",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Remind me on {saleDateShort}",
+            "actionType": "IN_APP",
+            "priority": 2,
+            "requiredEntities": [
+              "saleDate"
+            ],
+            "intentMatch": "indirect",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": false,
+            "missingEntities": [
+              "saleDate"
+            ],
+            "entitiesValidated": true,
+            "modalComponent": "SetReminderModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Job offer to consider",
+          "intent": "career.job.offer",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Remind me on {saleDateShort}",
+            "actionType": "IN_APP",
+            "priority": 2,
+            "requiredEntities": [
+              "saleDate"
+            ],
+            "intentMatch": "indirect",
+            "suggestedActionsCount": 7,
+            "returnedByRulesEngine": false,
+            "missingEntities": [
+              "saleDate"
+            ],
+            "entitiesValidated": true,
+            "modalComponent": "SetReminderModal",
+            "hasModalImplementation": true
+          }
+        }
+      ],
+      "summary": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    },
+    "reminder": {
+      "name": "Reminder",
+      "actionId": "add_reminder",
+      "actionType": "IN_APP",
+      "usesNativeIOS": true,
+      "tests": [
+        {
+          "scenario": "Appointment reminder",
+          "intent": "healthcare.appointment.reminder",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Add Reminder",
+            "actionType": "IN_APP",
+            "priority": 3,
+            "requiredEntities": [
+              "dateTime"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 3,
+            "missingEntities": [
+              "dateTime"
+            ],
+            "entitiesValidated": true,
+            "modalComponent": "AddReminderModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Payment reminder",
+          "intent": "billing.invoice.due",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Add Reminder",
+            "actionType": "IN_APP",
+            "priority": 3,
+            "requiredEntities": [
+              "dateTime"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 3,
+            "missingEntities": [
+              "dateTime"
+            ],
+            "entitiesValidated": true,
+            "modalComponent": "AddReminderModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Assignment due",
+          "intent": "education.assignment.due",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Add Reminder",
+            "actionType": "IN_APP",
+            "priority": 3,
+            "requiredEntities": [
+              "dateTime"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 7,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 3,
+            "missingEntities": [
+              "dateTime"
+            ],
+            "entitiesValidated": true,
+            "modalComponent": "AddReminderModal",
+            "hasModalImplementation": true
+          }
+        }
+      ],
+      "summary": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    },
+    "recurring_reminder": {
+      "name": "Recurring Reminder",
+      "actionId": "set_payment_reminder",
+      "actionType": "IN_APP",
+      "usesNativeIOS": false,
+      "tests": [
+        {
+          "scenario": "Subscription renewal",
+          "intent": "billing.subscription.renewal",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Set Reminder",
+            "actionType": "IN_APP",
+            "priority": 3,
+            "requiredEntities": [
+              "dueDate"
+            ],
+            "intentMatch": "indirect",
+            "suggestedActionsCount": 10,
+            "returnedByRulesEngine": false,
+            "missingEntities": [
+              "dueDate"
+            ],
+            "entitiesValidated": true,
+            "modalComponent": "SetPaymentReminderModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Recurring bill",
+          "intent": "billing.invoice.due",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Set Reminder",
+            "actionType": "IN_APP",
+            "priority": 3,
+            "requiredEntities": [
+              "dueDate"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 3,
+            "missingEntities": [
+              "dueDate"
+            ],
+            "entitiesValidated": true,
+            "modalComponent": "SetPaymentReminderModal",
+            "hasModalImplementation": true
+          }
+        }
+      ],
+      "summary": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    },
+    "track_package": {
+      "name": "Track Package",
+      "actionId": "track_package",
+      "actionType": "GO_TO",
+      "usesNativeIOS": false,
+      "tests": [
+        {
+          "scenario": "Shipping notification",
+          "intent": "e-commerce.shipping.notification",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Track Package",
+            "actionType": "GO_TO",
+            "priority": 1,
+            "requiredEntities": [
+              "trackingNumber",
+              "carrier"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 8,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 1,
+            "entitiesValidated": true
+          }
+        },
+        {
+          "scenario": "Delivery update",
+          "intent": "delivery.tracking.alert",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Track Package",
+            "actionType": "GO_TO",
+            "priority": 1,
+            "requiredEntities": [
+              "trackingNumber",
+              "carrier"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 8,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 1,
+            "entitiesValidated": true
+          }
+        }
+      ],
+      "summary": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    },
+    "calendar": {
+      "name": "Add to Calendar",
+      "actionId": "add_to_calendar",
+      "actionType": "IN_APP",
+      "usesNativeIOS": true,
+      "tests": [
+        {
+          "scenario": "Meeting invitation",
+          "intent": "event.meeting.invitation",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Add to Calendar",
+            "actionType": "IN_APP",
+            "priority": 2,
+            "requiredEntities": [
+              "dateTime"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 2,
+            "entitiesValidated": true,
+            "modalComponent": "AddToCalendarModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Webinar",
+          "intent": "event.webinar.invitation",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Add to Calendar",
+            "actionType": "IN_APP",
+            "priority": 2,
+            "requiredEntities": [
+              "dateTime"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 2,
+            "entitiesValidated": true,
+            "modalComponent": "AddToCalendarModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Doctor appointment",
+          "intent": "healthcare.appointment.reminder",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Add to Calendar",
+            "actionType": "IN_APP",
+            "priority": 2,
+            "requiredEntities": [
+              "dateTime"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 2,
+            "entitiesValidated": true,
+            "modalComponent": "AddToCalendarModal",
+            "hasModalImplementation": true
+          }
+        }
+      ],
+      "summary": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    },
+    "appointment": {
+      "name": "Schedule/View Appointment",
+      "actionId": "schedule_meeting",
+      "actionType": "IN_APP",
+      "usesNativeIOS": false,
+      "tests": [
+        {
+          "scenario": "Doctor booking",
+          "intent": "healthcare.appointment.booking-request",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Schedule Meeting",
+            "actionType": "GO_TO",
+            "priority": 2,
+            "requiredEntities": [],
+            "intentMatch": "indirect",
+            "suggestedActionsCount": 7,
+            "returnedByRulesEngine": false,
+            "modalComponent": "ScheduleMeetingModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Interview scheduling",
+          "intent": "career.interview.invitation",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Schedule Meeting",
+            "actionType": "GO_TO",
+            "priority": 2,
+            "requiredEntities": [],
+            "intentMatch": "indirect",
+            "suggestedActionsCount": 7,
+            "returnedByRulesEngine": false,
+            "modalComponent": "ScheduleMeetingModal",
+            "hasModalImplementation": true
+          }
+        }
+      ],
+      "summary": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    },
+    "pay_bill": {
+      "name": "Pay Bill",
+      "actionId": "pay_invoice",
+      "actionType": "IN_APP",
+      "usesNativeIOS": false,
+      "tests": [
+        {
+          "scenario": "Invoice due",
+          "intent": "billing.invoice.due",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Pay Invoice",
+            "actionType": "IN_APP",
+            "priority": 1,
+            "requiredEntities": [
+              "invoiceId",
+              "amount"
+            ],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 1,
+            "entitiesValidated": true,
+            "modalComponent": "PayInvoiceModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Payment confirmation",
+          "intent": "billing.payment.received",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Pay Invoice",
+            "actionType": "IN_APP",
+            "priority": 1,
+            "requiredEntities": [
+              "invoiceId",
+              "amount"
+            ],
+            "intentMatch": "indirect",
+            "suggestedActionsCount": 7,
+            "returnedByRulesEngine": false,
+            "entitiesValidated": true,
+            "modalComponent": "PayInvoiceModal",
+            "hasModalImplementation": true
+          }
+        }
+      ],
+      "summary": {
+        "total": 2,
+        "passed": 2,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    },
+    "rsvp": {
+      "name": "RSVP",
+      "actionId": "rsvp_yes",
+      "actionType": "IN_APP",
+      "usesNativeIOS": false,
+      "tests": [
+        {
+          "scenario": "Meeting RSVP",
+          "intent": "event.meeting.invitation",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Accept Invitation",
+            "actionType": "IN_APP",
+            "priority": 1,
+            "requiredEntities": [],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 1,
+            "modalComponent": "RSVPModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "Webinar RSVP",
+          "intent": "event.webinar.invitation",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Accept Invitation",
+            "actionType": "IN_APP",
+            "priority": 1,
+            "requiredEntities": [],
+            "intentMatch": "direct",
+            "suggestedActionsCount": 9,
+            "returnedByRulesEngine": true,
+            "suggestedPriority": 1,
+            "modalComponent": "RSVPModal",
+            "hasModalImplementation": true
+          }
+        },
+        {
+          "scenario": "School event RSVP",
+          "intent": "education.event.invitation",
+          "status": "passed",
+          "latencyMs": 0,
+          "errors": [],
+          "details": {
+            "inCatalog": true,
+            "displayName": "Accept Invitation",
+            "actionType": "IN_APP",
+            "priority": 1,
+            "requiredEntities": [],
+            "intentMatch": "indirect",
+            "suggestedActionsCount": 7,
+            "returnedByRulesEngine": false,
+            "modalComponent": "RSVPModal",
+            "hasModalImplementation": true
+          }
+        }
+      ],
+      "summary": {
+        "total": 3,
+        "passed": 3,
+        "failed": 0,
+        "avgLatencyMs": 0,
+        "successRate": "100.0%",
+        "meetsTarget": true
+      }
+    }
+  },
+  "recommendations": []
+}

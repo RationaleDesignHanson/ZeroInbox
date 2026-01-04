@@ -1,0 +1,151 @@
+{
+  "timestamp": "2025-12-18T03:40:04.487Z",
+  "duration_seconds": 5.968,
+  "input_file": "emailcorpus/golden_test_set/golden_test_set.json",
+  "summary": {
+    "total_in_corpus": 70,
+    "emails_processed": 70,
+    "errors": 0,
+    "non_fallback_rate": "100.00%",
+    "high_confidence_rate": "100.00%",
+    "fallback_rate": "0.00%",
+    "avg_processing_ms": "85.03"
+  },
+  "confidence_distribution": {
+    "high_gte_0_7": 70,
+    "medium_0_5_to_0_7": 0,
+    "low_lt_0_5": 0
+  },
+  "type_distribution": {
+    "ads": 30,
+    "mail": 40
+  },
+  "top_20_intents": [
+    {
+      "intent": "communication.thread.reply",
+      "count": 32,
+      "percentage": "45.71%"
+    },
+    {
+      "intent": "communication.personal.message",
+      "count": 5,
+      "percentage": "7.14%"
+    },
+    {
+      "intent": "marketing.loyalty.reward",
+      "count": 4,
+      "percentage": "5.71%"
+    },
+    {
+      "intent": "marketing.content.lifestyle",
+      "count": 3,
+      "percentage": "4.29%"
+    },
+    {
+      "intent": "marketing.seasonal.campaign",
+      "count": 3,
+      "percentage": "4.29%"
+    },
+    {
+      "intent": "marketing.promotion.discount",
+      "count": 2,
+      "percentage": "2.86%"
+    },
+    {
+      "intent": "education.activity.announcement",
+      "count": 2,
+      "percentage": "2.86%"
+    },
+    {
+      "intent": "marketing.collection.new-arrivals",
+      "count": 2,
+      "percentage": "2.86%"
+    },
+    {
+      "intent": "content.newsletter.entertainment",
+      "count": 2,
+      "percentage": "2.86%"
+    },
+    {
+      "intent": "content.newsletter.sports",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "marketing.brand.announcement",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "content.newsletter.lifestyle",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "marketing.promotion.flash-sale",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "education.school-portal.link-only",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "career.interview.invitation",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "event.meeting.invitation",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "communication.personal.self-note",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "billing.payment.received",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "feedback.review.request",
+      "count": 1,
+      "percentage": "1.43%"
+    },
+    {
+      "intent": "event.webinar.invitation",
+      "count": 1,
+      "percentage": "1.43%"
+    }
+  ],
+  "all_intents": {
+    "communication.thread.reply": 32,
+    "communication.personal.message": 5,
+    "marketing.loyalty.reward": 4,
+    "marketing.content.lifestyle": 3,
+    "marketing.seasonal.campaign": 3,
+    "marketing.promotion.discount": 2,
+    "education.activity.announcement": 2,
+    "marketing.collection.new-arrivals": 2,
+    "content.newsletter.entertainment": 2,
+    "content.newsletter.sports": 1,
+    "marketing.brand.announcement": 1,
+    "content.newsletter.lifestyle": 1,
+    "marketing.promotion.flash-sale": 1,
+    "education.school-portal.link-only": 1,
+    "career.interview.invitation": 1,
+    "event.meeting.invitation": 1,
+    "communication.personal.self-note": 1,
+    "billing.payment.received": 1,
+    "feedback.review.request": 1,
+    "event.webinar.invitation": 1,
+    "youth.sports.practice-reminder": 1,
+    "healthcare.prescription.ready": 1,
+    "e-commerce.restock.alert": 1,
+    "social.invitation.request": 1
+  }
+}

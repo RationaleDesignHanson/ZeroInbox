@@ -1,0 +1,45 @@
+{
+  "timestamp": "2025-12-17T21:55:55.877835",
+  "total_emails": 200,
+  "source_corpus": {
+    "personal": 178179,
+    "enron_sample": 50000
+  },
+  "categories": {
+    "content.newsletter": 9,
+    "education.school": 8,
+    "edge_case.long_subject": 5,
+    "travel.flight": 9,
+    "ecommerce.order": 10,
+    "edge_case.long_body": 5,
+    "civic.political": 9,
+    "edge_case.short_subject": 4,
+    "communication.personal": 10,
+    "education.learning": 9,
+    "marketing.new-arrivals": 9,
+    "finance.payment": 9,
+    "edge_case.short_body": 5,
+    "edge_case.emoji_subject": 4,
+    "edge_case.creative_subject": 5,
+    "edge_case.no_subject": 5,
+    "marketing.promotion": 8,
+    "calendar.event": 8,
+    "finance.tax": 10,
+    "communication.thread": 8,
+    "healthcare.general": 10,
+    "marketing.loyalty": 8,
+    "travel.hotel": 10,
+    "social.notification": 8,
+    "ecommerce.restock": 6,
+    "other": 9
+  },
+  "edge_cases": {
+    "creative_subject": 5,
+    "emoji_subject": 4,
+    "long_body": 5,
+    "long_subject": 5,
+    "short_subject": 4,
+    "short_body": 5,
+    "no_subject": 5
+  }
+}

@@ -8,65 +8,13 @@
  * - Proper shadows and blur effects
  *
  * Phase 0 Day 2: Complete visual fidelity to iOS app
+ * 
+ * TOKENS: Imported from tokens-for-plugin.ts (generated from tokens.json)
+ * Run `node generate-tokens-for-plugin.js` before building to sync tokens.
  */
 
-// MARK: - Effect Utilities (Inlined)
-
-/**
- * Design tokens from iOS DesignTokens.swift
- */
-const EffectTokens = {
-  glassmorphic: {
-    opacity: { ultraLight: 0.05, light: 0.1, medium: 0.2 },
-    blur: { standard: 20, heavy: 30, ultra: 40 }
-  },
-  shadows: {
-    card: {
-      color: { r: 0, g: 0, b: 0, a: 0.1 },
-      offset: { x: 0, y: 4 },
-      radius: 12
-    },
-    modal: {
-      color: { r: 0, g: 0, b: 0, a: 0.25 },
-      offset: { x: 0, y: 8 },
-      radius: 24
-    },
-    button: {
-      color: { r: 0, g: 0, b: 0, a: 0.15 },
-      offset: { x: 0, y: 2 },
-      radius: 8
-    }
-  },
-  gradients: {
-    mail: {
-      nebula: {
-        deepPurple: { r: 0.2, g: 0.1, b: 0.4 },
-        darkBlue: { r: 0.1, g: 0.15, b: 0.3 },
-        brightPurple: { r: 0.4, g: 0.2, b: 0.6 },
-        bluePurple: { r: 0.2, g: 0.3, b: 0.7 }
-      },
-      blur: [60, 50, 40, 30],
-      opacity: [0.6, 0.3, 0.5, 0.3]
-    },
-    ads: {
-      teal: { r: 0.086, g: 0.733, b: 0.667 },
-      green: { r: 0.310, g: 0.820, b: 0.620 },
-      lightTeal: { r: 0.2, g: 0.8, b: 0.75 }
-    }
-  },
-  holographic: {
-    mail: {
-      colors: ['#00FFFF', '#0000FF', '#800080', '#FF00FF'],
-      opacities: [0.4, 0.5, 0.4, 0.3],
-      edgeGlow: { color: '#00FFFF', opacity: 0.5, blur: 8 }
-    },
-    ads: {
-      colors: ['#16bbaa', '#4fd19e', '#16bbaa', '#4fd19e'],
-      opacities: [0.7, 0.8, 0.6, 0.5],
-      edgeGlow: { color: '#4fd19e', opacity: 0.6, blur: 8 }
-    }
-  }
-};
+// Import design tokens from generated file
+import { DesignTokens, EffectTokens } from './tokens-for-plugin';
 
 function hexToRgb(hex: string): RGB {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -80,6 +28,67 @@ function hexToRgb(hex: string): RGB {
 
 function random(min: number, max: number): number {
   return Math.random() * (max - min) + min;
+}
+
+/**
+ * Creates a scenic background for ADS cards (teal/green gradient)
+ */
+function createScenicBackground(width: number, height: number): FrameNode {
+  const background = figma.createFrame();
+  background.name = 'Scenic Background (ADS)';
+  background.resize(width, height);
+  background.clipsContent = true;
+
+  // Base: Light teal
+  background.fills = [{
+    type: 'GRADIENT_LINEAR',
+    gradientTransform: [[1, 0, 0], [0, 1, 0]],
+    gradientStops: [
+      { position: 0, color: { ...hexToRgb('#16bbaa'), a: 0.4 } },
+      { position: 0.5, color: { ...hexToRgb('#4fd19e'), a: 0.3 } },
+      { position: 1, color: { ...hexToRgb('#9fedd7'), a: 0.5 } }
+    ]
+  }];
+
+  // Layer 1: Radial highlight (center accent)
+  const layer1 = figma.createEllipse();
+  layer1.name = 'Scenic Layer 1';
+  layer1.resize(width * 1.2, height * 1.2);
+  layer1.x = width * 0.4 - width * 0.6;
+  layer1.y = height * 0.5 - height * 0.6;
+  layer1.opacity = 0.4;
+  layer1.fills = [{
+    type: 'GRADIENT_RADIAL',
+    gradientTransform: [[1, 0, 0.5], [0, 1, 0.5]],
+    gradientStops: [
+      { position: 0, color: { ...hexToRgb('#4fd19e'), a: 0.6 } },
+      { position: 0.6, color: { ...hexToRgb('#16bbaa'), a: 0.3 } },
+      { position: 1, color: { r: 0, g: 0, b: 0, a: 0 } }
+    ]
+  }];
+  layer1.effects = [{ type: 'LAYER_BLUR', radius: 50, visible: true } as any];
+  background.appendChild(layer1);
+
+  // Layer 2: Green accent (bottom-right)
+  const layer2 = figma.createEllipse();
+  layer2.name = 'Scenic Layer 2';
+  layer2.resize(width * 0.8, height * 0.8);
+  layer2.x = width * 0.7 - width * 0.4;
+  layer2.y = height * 0.6 - height * 0.4;
+  layer2.opacity = 0.3;
+  layer2.fills = [{
+    type: 'GRADIENT_RADIAL',
+    gradientTransform: [[1, 0, 0.5], [0, 1, 0.5]],
+    gradientStops: [
+      { position: 0, color: { ...hexToRgb('#9fedd7'), a: 0.5 } },
+      { position: 0.5, color: { ...hexToRgb('#4fd19e'), a: 0.3 } },
+      { position: 1, color: { r: 0, g: 0, b: 0, a: 0 } }
+    ]
+  }];
+  layer2.effects = [{ type: 'LAYER_BLUR', radius: 40, visible: true } as any];
+  background.appendChild(layer2);
+
+  return background;
 }
 
 /**
@@ -442,54 +451,63 @@ async function generateZeroButtonVariants(): Promise<ComponentSetNode> {
 }
 
 // MARK: - ZeroCard Generator (24 variants) WITH GLASSMORPHIC + NEBULA
+// Updated to match new card layout: Title → Sender Row → AI Analysis → Bottom Action Bar
 
 async function generateZeroCardVariants(): Promise<ComponentSetNode> {
-  console.log('Generating ZeroCard with glassmorphic + nebula background...');
+  console.log('Generating ZeroCard with new layout (title at top, AI Analysis section, bottom action bar)...');
 
-  const layouts = ['Compact', 'Expanded'];
+  const archetypes = ['Mail', 'Ads'];
   const priorities = [
     { name: 'High', color: COLORS.red },
     { name: 'Medium', color: COLORS.yellow },
     { name: 'Low', color: null }
   ];
   const states = [
-    { name: 'Default', bg: COLORS.white, border: COLORS.gray200 },
-    { name: 'Hover', bg: { r: 0.98, g: 0.98, b: 0.98 }, border: COLORS.gray300 },
-    { name: 'Selected', bg: COLORS.blueBg, border: COLORS.blue },
-    { name: 'Read', bg: COLORS.white, border: COLORS.gray200 }
+    { name: 'Default', textOpacity: 1.0 },
+    { name: 'Read', textOpacity: 0.6 }
   ];
 
   const components: ComponentNode[] = [];
 
-  for (const layout of layouts) {
+  for (const archetype of archetypes) {
     for (const priority of priorities) {
       for (const state of states) {
         const component = figma.createComponent();
-        component.name = `Layout=${layout}, Priority=${priority.name}, State=${state.name}`;
+        component.name = `Archetype=${archetype}, Priority=${priority.name}, State=${state.name}`;
+
+        const isAds = archetype === 'Ads';
+        const textOpacity = state.textOpacity;
 
         // Convert to frame for layering
         component.layoutMode = 'VERTICAL';
-        component.paddingLeft = 24;
-        component.paddingRight = 24;
-        component.paddingTop = 24;
-        component.paddingBottom = 24;
+        component.paddingLeft = 20;
+        component.paddingRight = 20;
+        component.paddingTop = 20;
+        component.paddingBottom = 20;
         component.itemSpacing = 12;
         component.primaryAxisSizingMode = 'AUTO';
         component.counterAxisSizingMode = 'FIXED';
-        component.resize(358, 500);
+        component.resize(358, 520);
         component.cornerRadius = 16;
         component.clipsContent = false;
 
-        // Add nebula background (bottom layer)
-        const nebula = createNebulaBackground(358, 500);
-        nebula.y = -24;  // Offset for padding
-        nebula.x = -24;
-        component.insertChild(0, nebula);
+        // Add background (nebula for Mail, scenic gradient for Ads)
+        if (isAds) {
+          const adsBackground = createScenicBackground(358, 520);
+          adsBackground.y = -20;
+          adsBackground.x = -20;
+          component.insertChild(0, adsBackground);
+        } else {
+          const nebula = createNebulaBackground(358, 520);
+          nebula.y = -20;
+          nebula.x = -20;
+          component.insertChild(0, nebula);
+        }
 
-        // Add glassmorphic layer (above nebula)
-        const glass = createGlassmorphicLayer(358, 500, 16);
-        glass.y = -24;
-        glass.x = -24;
+        // Add glassmorphic layer (above background)
+        const glass = createGlassmorphicLayer(358, 520, 16);
+        glass.y = -20;
+        glass.x = -20;
         component.insertChild(1, glass);
 
         // Priority indicator
@@ -499,14 +517,7 @@ async function generateZeroCardVariants(): Promise<ComponentSetNode> {
           component.strokeAlign = 'INSIDE';
         }
 
-        // Background (now translucent to show nebula + glass)
-        component.fills = [{ type: 'SOLID', color: state.bg, opacity: 0.3 }];
-        if (!priority.color) {
-          component.strokes = [{ type: 'SOLID', color: state.border }];
-          component.strokeWeight = 1;
-        }
-
-        // Apply card shadow
+        // Card shadow
         component.effects = [{
           type: 'DROP_SHADOW',
           ...EffectTokens.shadows.card,
@@ -514,47 +525,217 @@ async function generateZeroCardVariants(): Promise<ComponentSetNode> {
           blendMode: 'NORMAL'
         }];
 
-        // Header
-        const header = createAutoLayoutFrame('Header', 'HORIZONTAL', 8, 0);
-        header.primaryAxisSizingMode = 'FIXED';
-        header.counterAxisSizingMode = 'AUTO';
-        header.primaryAxisAlignItems = 'SPACE_BETWEEN';
-        header.resize(310, 20);
+        // Text colors
+        const textColorPrimary = isAds ? hexToRgb('#0D594D') : { r: 1, g: 1, b: 1 };
+        const textColorSubtle = isAds ? hexToRgb('#269985') : { r: 1, g: 1, b: 1 };
 
-        const from = await createText('sender@example.com', 13, 'Medium');
-        from.name = 'From';
-        const textOpacity = state.name === 'Read' ? 0.6 : 1.0;
-        from.opacity = textOpacity;
+        // 1. TITLE (at top)
+        const title = await createText('Field Trip Permission Form - Science Museum', 20, 'Bold');
+        title.name = 'Title';
+        title.fills = [{ type: 'SOLID', color: textColorPrimary, opacity: textOpacity }];
+        title.layoutSizingHorizontal = 'FILL';
+        component.appendChild(title);
 
-        const time = await createText('2m', 11, 'Regular');
-        time.name = 'Time';
-        time.fills = [{ type: 'SOLID', color: COLORS.gray900, opacity: 0.6 }];
+        // 2. SENDER ROW (Avatar + Name + Time + View Button)
+        const senderRow = createAutoLayoutFrame('Sender Row', 'HORIZONTAL', 12, 0);
+        senderRow.primaryAxisSizingMode = 'FIXED';
+        senderRow.counterAxisSizingMode = 'AUTO';
+        senderRow.counterAxisAlignItems = 'CENTER';
+        senderRow.resize(318, 50);
 
-        header.appendChild(from);
-        header.appendChild(time);
-        component.appendChild(header);
+        // Avatar
+        const avatar = figma.createEllipse();
+        avatar.name = 'Avatar';
+        avatar.resize(40, 40);
+        avatar.fills = [{ type: 'SOLID', color: isAds ? hexToRgb('#16bbaa') : { r: 0.2, g: 0.8, b: 0.4 } }];
+        senderRow.appendChild(avatar);
 
-        // Subject
-        const subject = await createText('Email Subject Line', 15, state.name === 'Read' ? 'Regular' : 'Semi Bold');
-        subject.name = 'Subject';
-        subject.opacity = textOpacity;
-        component.appendChild(subject);
+        // Avatar initial
+        const initial = await createText('J', 18, 'Semi Bold');
+        initial.name = 'Initial';
+        initial.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+        initial.x = 14;
+        initial.y = 8;
+        // Note: Initial positioning handled by avatar parent
 
-        // Preview (Expanded only)
-        if (layout === 'Expanded') {
-          const preview = await createText('Preview text of the email content...', 13, 'Regular');
-          preview.name = 'Preview';
-          preview.fills = [{ type: 'SOLID', color: COLORS.gray900, opacity: 0.7 }];
-          preview.opacity = textOpacity;
-          component.appendChild(preview);
+        // Sender details
+        const senderDetails = createAutoLayoutFrame('Sender Details', 'VERTICAL', 2, 0);
+        senderDetails.primaryAxisSizingMode = 'AUTO';
+        senderDetails.counterAxisSizingMode = 'FILL';
+        senderDetails.layoutGrow = 1;
+
+        const nameTimeRow = createAutoLayoutFrame('Name Time', 'HORIZONTAL', 8, 0);
+        const senderName = await createText('Mrs. Johnson', 16, 'Semi Bold');
+        senderName.fills = [{ type: 'SOLID', color: textColorPrimary, opacity: textOpacity }];
+        const timeAgo = await createText('2h ago', 13, 'Medium');
+        timeAgo.fills = [{ type: 'SOLID', color: textColorSubtle, opacity: 0.8 }];
+        nameTimeRow.appendChild(senderName);
+        nameTimeRow.appendChild(timeAgo);
+
+        const recipients = await createText('to me, spouse@email.com', 12, 'Regular');
+        recipients.fills = [{ type: 'SOLID', color: textColorSubtle, opacity: 0.7 }];
+
+        senderDetails.appendChild(nameTimeRow);
+        senderDetails.appendChild(recipients);
+        senderRow.appendChild(senderDetails);
+
+        // View button
+        const viewButton = createAutoLayoutFrame('View Button', 'VERTICAL', 4, 0);
+        viewButton.paddingTop = 8;
+        viewButton.paddingBottom = 8;
+        viewButton.paddingLeft = 8;
+        viewButton.paddingRight = 8;
+        viewButton.counterAxisAlignItems = 'CENTER';
+        viewButton.cornerRadius = 12;
+        viewButton.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: 0.25 }];
+
+        const viewIcon = await createText('View', 10, 'Medium');
+        viewIcon.fills = [{ type: 'SOLID', color: isAds ? textColorPrimary : { r: 1, g: 1, b: 1 }, opacity: 0.85 }];
+        viewButton.appendChild(viewIcon);
+        senderRow.appendChild(viewButton);
+
+        component.appendChild(senderRow);
+
+        // 3. AI ANALYSIS BOX
+        const aiBox = createAutoLayoutFrame('AI Analysis', 'VERTICAL', 12, 0);
+        aiBox.paddingTop = 16;
+        aiBox.paddingBottom = 16;
+        aiBox.paddingLeft = 16;
+        aiBox.paddingRight = 16;
+        aiBox.cornerRadius = 12;
+        aiBox.layoutSizingHorizontal = 'FILL';
+
+        // AI box background gradient
+        const aiBoxGradient = isAds ? [
+          { position: 0, color: { ...hexToRgb('#16bbaa'), a: 0.35 } },
+          { position: 1, color: { ...hexToRgb('#4fd19e'), a: 0.25 } }
+        ] : [
+          { position: 0, color: { r: 0.5, g: 0.2, b: 0.8, a: 0.2 } },
+          { position: 1, color: { r: 0.5, g: 0.2, b: 0.8, a: 0.15 } }
+        ];
+        aiBox.fills = [{
+          type: 'GRADIENT_LINEAR',
+          gradientTransform: [[1, 0, 0], [0, 1, 0]],
+          gradientStops: aiBoxGradient
+        }];
+        aiBox.strokes = [{
+          type: 'SOLID',
+          color: isAds ? hexToRgb('#4fd19e') : { r: 0.5, g: 0.2, b: 0.8 },
+          opacity: 0.4
+        }];
+        aiBox.strokeWeight = 1.5;
+
+        // AI Analysis header with star
+        const aiHeader = createAutoLayoutFrame('AI Header', 'HORIZONTAL', 8, 0);
+        aiHeader.counterAxisAlignItems = 'CENTER';
+        const starCircle = figma.createEllipse();
+        starCircle.resize(24, 24);
+        starCircle.fills = [{
+          type: 'GRADIENT_LINEAR',
+          gradientTransform: [[1, 0, 0], [0, 1, 0]],
+          gradientStops: [
+            { position: 0, color: { r: 1, g: 0.9, b: 0.2, a: 0.9 } },
+            { position: 1, color: { r: 1, g: 0.6, b: 0.2, a: 0.8 } }
+          ]
+        }];
+        aiHeader.appendChild(starCircle);
+        const aiTitle = await createText('AI ANALYSIS', 11, 'Bold');
+        aiTitle.fills = [{ type: 'SOLID', color: isAds ? textColorPrimary : { r: 1, g: 1, b: 1 }, opacity: 0.9 }];
+        aiHeader.appendChild(aiTitle);
+        aiBox.appendChild(aiHeader);
+
+        // SUGGESTED ACTIONS section
+        const actionsHeader = createAutoLayoutFrame('Actions Header', 'HORIZONTAL', 0, 0);
+        actionsHeader.layoutSizingHorizontal = 'FILL';
+        actionsHeader.primaryAxisAlignItems = 'SPACE_BETWEEN';
+        const actionsLabel = await createText('SUGGESTED ACTIONS', 11, 'Semi Bold');
+        actionsLabel.fills = [{ type: 'SOLID', color: isAds ? textColorSubtle : { r: 1, g: 1, b: 1 }, opacity: 0.7 }];
+        actionsHeader.appendChild(actionsLabel);
+        const arrow = await createText('→', 14, 'Medium');
+        arrow.fills = [{ type: 'SOLID', color: isAds ? textColorPrimary : { r: 1, g: 1, b: 1 }, opacity: 0.9 }];
+        actionsHeader.appendChild(arrow);
+        aiBox.appendChild(actionsHeader);
+
+        const actionText = await createText('• Sign permission form by Oct 24 • Pay $25 field trip fee', 15, 'Regular');
+        actionText.fills = [{ type: 'SOLID', color: isAds ? textColorPrimary : { r: 1, g: 1, b: 1 } }];
+        actionText.layoutSizingHorizontal = 'FILL';
+        aiBox.appendChild(actionText);
+
+        // WHY THIS MATTERS section
+        const whyLabel = await createText('WHY THIS MATTERS', 11, 'Semi Bold');
+        whyLabel.fills = [{ type: 'SOLID', color: isAds ? textColorSubtle : { r: 1, g: 1, b: 1 }, opacity: 0.7 }];
+        aiBox.appendChild(whyLabel);
+
+        const whyText = await createText('Emma needs permission and payment for upcoming field trip.', 14, 'Regular');
+        whyText.fills = [{ type: 'SOLID', color: isAds ? textColorSubtle : { r: 1, g: 1, b: 1 }, opacity: 0.85 }];
+        whyText.layoutSizingHorizontal = 'FILL';
+        aiBox.appendChild(whyText);
+
+        // CONTEXT section
+        const contextLabel = await createText('CONTEXT', 11, 'Semi Bold');
+        contextLabel.fills = [{ type: 'SOLID', color: isAds ? textColorSubtle : { r: 1, g: 1, b: 1 }, opacity: 0.7 }];
+        aiBox.appendChild(contextLabel);
+
+        const contextText = await createText('• Oct 28 trip to Science Museum • Departs 8:30 AM, returns 2:30 PM • Dinosaur ex...', 14, 'Regular');
+        contextText.fills = [{ type: 'SOLID', color: isAds ? textColorSubtle : { r: 1, g: 1, b: 1 }, opacity: 0.85 }];
+        contextText.layoutSizingHorizontal = 'FILL';
+        aiBox.appendChild(contextText);
+
+        component.appendChild(aiBox);
+
+        // 4. BOTTOM ACTION BAR
+        const bottomBar = createAutoLayoutFrame('Bottom Action Bar', 'HORIZONTAL', 0, 0);
+        bottomBar.layoutSizingHorizontal = 'FILL';
+        bottomBar.primaryAxisAlignItems = 'SPACE_BETWEEN';
+        bottomBar.counterAxisAlignItems = 'CENTER';
+        bottomBar.paddingTop = 12;
+        bottomBar.paddingBottom = 12;
+        bottomBar.paddingLeft = 12;
+        bottomBar.paddingRight = 12;
+        bottomBar.cornerRadius = 8;
+        bottomBar.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 }, opacity: isAds ? 0.1 : 0.05 }];
+
+        // Navigation dots
+        const navDots = createAutoLayoutFrame('Nav Dots', 'HORIZONTAL', 4, 0);
+        for (let i = 0; i < 3; i++) {
+          const chevron = await createText('›', 10, 'Bold');
+          chevron.fills = [{ type: 'SOLID', color: isAds ? textColorSubtle : { r: 1, g: 1, b: 1 }, opacity: i === 2 ? 1.0 : (i === 1 ? 0.7 : 0.4) }];
+          navDots.appendChild(chevron);
         }
+        bottomBar.appendChild(navDots);
+
+        // CTA Button
+        const ctaButton = createAutoLayoutFrame('CTA Button', 'HORIZONTAL', 0, 0);
+        ctaButton.paddingTop = 8;
+        ctaButton.paddingBottom = 8;
+        ctaButton.paddingLeft = 16;
+        ctaButton.paddingRight = 16;
+        ctaButton.cornerRadius = 8;
+        const ctaGradient = isAds ? [
+          { position: 0, color: { ...hexToRgb('#16bbaa'), a: 1 } },
+          { position: 1, color: { ...hexToRgb('#4fd19e'), a: 1 } }
+        ] : [
+          { position: 0, color: { r: 1, g: 1, b: 1, a: 0.25 } },
+          { position: 1, color: { r: 1, g: 1, b: 1, a: 0.15 } }
+        ];
+        ctaButton.fills = [{
+          type: 'GRADIENT_LINEAR',
+          gradientTransform: [[1, 0, 0], [0, 1, 0]],
+          gradientStops: ctaGradient
+        }];
+        const ctaLabel = await createText(isAds ? 'Claim Deal' : 'Sign & Send', 15, 'Medium');
+        ctaLabel.fills = [{ type: 'SOLID', color: { r: 1, g: 1, b: 1 } }];
+        ctaButton.appendChild(ctaLabel);
+        bottomBar.appendChild(ctaButton);
+
+        component.appendChild(bottomBar);
 
         components.push(component);
       }
     }
   }
 
-  console.log(`Created ${components.length} card variants with glassmorphic + nebula effects`);
+  console.log(`Created ${components.length} card variants with new layout (2 archetypes × 3 priorities × 2 states)`);
 
   components.forEach(comp => figma.currentPage.appendChild(comp));
   const componentSet = figma.combineAsVariants(components, figma.currentPage);

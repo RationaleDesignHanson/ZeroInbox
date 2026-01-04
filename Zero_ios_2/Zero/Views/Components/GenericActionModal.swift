@@ -33,6 +33,8 @@ struct GenericActionModal: View {
     @State private var isLoading = false
     @State private var formData: [String: Any] = [:]  // For interactive fields
     @State private var fieldErrors: [String: String] = [:]  // Field validation errors
+    @State private var collapsedSections: [String: Bool] = [:]  // Track collapsed state per section
+    @State private var showDestructiveConfirmation = false  // Destructive action confirmation
 
     // Services
     // Using singleton for now
@@ -50,7 +52,10 @@ struct GenericActionModal: View {
 
                     // Dynamic sections based on config
                     ForEach(config.sections) { section in
-                        sectionView(for: section)
+                        // Check visibility condition
+                        if isVisible(section: section) {
+                            sectionView(for: section)
+                        }
                     }
 
                     // Primary and secondary buttons
@@ -63,7 +68,7 @@ struct GenericActionModal: View {
         .overlay(alignment: .top) {
             if showSuccess {
                 ErrorBanner(
-                    message: "Action completed successfully",
+                    message: config.loadingStates?.success ?? "Action completed successfully",
                     dismissAction: { showSuccess = false }
                 )
                 .transition(.move(edge: .top).combined(with: .opacity))
@@ -83,8 +88,35 @@ struct GenericActionModal: View {
                 .padding(.top, 8)
             }
         }
+        .overlay {
+            if isLoading {
+                ZStack {
+                    Color.black.opacity(0.4)
+                        .edgesIgnoringSafeArea(.all)
+
+                    VStack(spacing: 16) {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(1.5)
+
+                        if let loadingMessage = config.loadingStates?.submitting {
+                            Text(loadingMessage)
+                                .font(DesignTokens.Typography.bodyMedium)
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .padding(32)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.black.opacity(0.8))
+                    )
+                }
+            }
+        }
         .onAppear {
             trackModalView()
+            initializeCollapsedSections()
+            initializeDefaultValues()
         }
     }
 
@@ -138,47 +170,83 @@ struct GenericActionModal: View {
 
     @ViewBuilder
     private func sectionView(for section: ModalSection) -> some View {
-        VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
-            // Section title
-            if let title = section.title {
+        let isCollapsed = collapsedSections[section.id] ?? (section.collapsed ?? false)
+
+        // Check if section is collapsible
+        if section.collapsible == true, let title = section.title {
+            // Collapsible section with DisclosureGroup
+            DisclosureGroup(
+                isExpanded: Binding(
+                    get: { !isCollapsed },
+                    set: { collapsedSections[section.id] = !$0 }
+                )
+            ) {
+                sectionContent(for: section)
+                    .padding(.top, DesignTokens.Spacing.element)
+            } label: {
                 Text(title)
                     .font(DesignTokens.Typography.headingSmall)
                     .foregroundColor(DesignTokens.Colors.textPrimary)
             }
+            .padding(DesignTokens.Spacing.component)
+            .background(backgroundView(for: section.background))
+            .cornerRadius(DesignTokens.Radius.card)
+            .tint(DesignTokens.Colors.accentBlue)
+        } else {
+            // Non-collapsible section
+            VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
+                // Section title
+                if let title = section.title {
+                    Text(title)
+                        .font(DesignTokens.Typography.headingSmall)
+                        .foregroundColor(DesignTokens.Colors.textPrimary)
+                }
 
-            // Fields based on layout
-            switch section.layout {
-            case .vertical:
-                VStack(spacing: DesignTokens.Spacing.element) {
-                    ForEach(section.fields) { field in
+                sectionContent(for: section)
+            }
+            .padding(DesignTokens.Spacing.component)
+            .background(backgroundView(for: section.background))
+            .cornerRadius(DesignTokens.Radius.card)
+        }
+    }
+
+    @ViewBuilder
+    private func sectionContent(for section: ModalSection) -> some View {
+        // Fields based on layout
+        switch section.layout {
+        case .vertical:
+            VStack(spacing: DesignTokens.Spacing.element) {
+                ForEach(section.fields) { field in
+                    if isVisible(field: field) {
                         fieldView(for: field)
                     }
                 }
+            }
 
-            case .horizontal:
-                HStack(spacing: DesignTokens.Spacing.element) {
-                    ForEach(section.fields) { field in
+        case .horizontal:
+            HStack(spacing: DesignTokens.Spacing.element) {
+                ForEach(section.fields) { field in
+                    if isVisible(field: field) {
                         fieldView(for: field)
                     }
                 }
+            }
 
-            case .grid:
-                LazyVGrid(
-                    columns: [
-                        GridItem(.flexible()),
-                        GridItem(.flexible())
-                    ],
-                    spacing: DesignTokens.Spacing.element
-                ) {
-                    ForEach(section.fields) { field in
+        case .grid:
+            LazyVGrid(
+                columns: [
+                    GridItem(.flexible()),
+                    GridItem(.flexible())
+                ],
+                spacing: DesignTokens.Spacing.element
+            ) {
+                ForEach(section.fields) { field in
+                    if isVisible(field: field) {
                         fieldView(for: field)
                     }
                 }
             }
         }
-        .padding(DesignTokens.Spacing.component)
-        .background(backgroundView(for: section.background))
-        .cornerRadius(DesignTokens.Radius.card)
     }
 
     @ViewBuilder
@@ -188,6 +256,8 @@ struct GenericActionModal: View {
             Color.white.opacity(DesignTokens.Opacity.glassUltraLight)
         case .card:
             Color(.systemGray6)
+        case .plain:
+            Color.white.opacity(0.05)
         case .some(.none), nil:
             Color.clear
         }
@@ -317,12 +387,24 @@ struct GenericActionModal: View {
             )
 
         case .picker:
-            InteractivePickerView(
-                label: field.label,
-                selection: binding(for: field.contextKey, default: ""),
-                options: field.colorMapping?.keys.sorted() ?? [],
-                required: field.required
-            )
+            if let pickerOptions = field.pickerOptions {
+                // Enhanced picker with icons and descriptions
+                EnhancedPickerView(
+                    label: field.label,
+                    selection: binding(for: field.contextKey, default: ""),
+                    options: pickerOptions,
+                    required: field.required,
+                    helpText: field.helpText
+                )
+            } else {
+                // Basic picker fallback
+                InteractivePickerView(
+                    label: field.label,
+                    selection: binding(for: field.contextKey, default: ""),
+                    options: field.colorMapping?.keys.sorted() ?? [],
+                    required: field.required
+                )
+            }
 
         case .slider:
             InteractiveSliderView(
@@ -356,6 +438,52 @@ struct GenericActionModal: View {
                 label: field.label,
                 rating: binding(for: field.contextKey, default: 0)
             )
+
+        // MARK: Wave 2 Fields
+
+        case .multiSelect:
+            // TODO: Implement multiSelect rendering
+            Text("Multi-select field (TODO)")
+                .font(DesignTokens.Typography.bodySmall)
+                .foregroundColor(DesignTokens.Colors.textSecondary)
+
+        case .searchField:
+            // TODO: Implement searchField rendering
+            InteractiveTextFieldView(
+                label: field.label,
+                text: binding(for: field.contextKey, default: ""),
+                placeholder: field.placeholder ?? "Search...",
+                required: field.required,
+                errorMessage: fieldErrors[field.contextKey]
+            )
+
+        case .stars:
+            // Display-only star rating (read-only)
+            if let value = value, let rating = Int(value) {
+                StarRatingView(
+                    label: field.label,
+                    rating: rating
+                )
+            }
+
+        case .textArea:
+            // Enhanced multi-line text with character count
+            InteractiveTextAreaView(
+                label: field.label,
+                text: binding(for: field.contextKey, default: ""),
+                placeholder: field.placeholder,
+                required: field.required,
+                errorMessage: fieldErrors[field.contextKey],
+                helpText: field.helpText,
+                maxLines: field.maxLines,
+                characterLimit: field.characterLimit
+            )
+
+        case .calculated:
+            // TODO: Implement calculated field rendering
+            Text("Calculated: \(value ?? "0")")
+                .font(DesignTokens.Typography.bodyMedium)
+                .foregroundColor(DesignTokens.Colors.textPrimary)
         }
     }
 
@@ -370,6 +498,21 @@ struct GenericActionModal: View {
             if let secondaryButton = config.secondaryButton {
                 secondaryButtonView(secondaryButton)
             }
+
+            // Tertiary button (optional)
+            if let tertiaryButton = config.tertiaryButton {
+                secondaryButtonView(tertiaryButton)
+            }
+
+            // Destructive action (optional)
+            if let destructiveAction = config.destructiveAction {
+                destructiveActionView(destructiveAction)
+            }
+
+            // Cancel button (optional)
+            if let cancelButton = config.cancelButton {
+                secondaryButtonView(cancelButton)
+            }
         }
         .padding(.top, DesignTokens.Spacing.component)
     }
@@ -378,7 +521,7 @@ struct GenericActionModal: View {
         Button {
             // Validate all fields before performing action
             if validateAllFields() {
-                handleButtonAction(config.primaryButton.action)
+                handleButtonAction(config.primaryButton.action, analytics: config.primaryButton.analytics)
             }
         } label: {
             if isLoading {
@@ -397,7 +540,7 @@ struct GenericActionModal: View {
     @ViewBuilder
     private func secondaryButtonView(_ button: ButtonConfig) -> some View {
         Button {
-            handleButtonAction(button.action)
+            handleButtonAction(button.action, analytics: button.analytics)
         } label: {
             Text(button.title)
                 .font(DesignTokens.Typography.bodyMedium)
@@ -406,9 +549,40 @@ struct GenericActionModal: View {
         .buttonStyle(buttonStyle(for: button.style))
     }
 
+    @ViewBuilder
+    private func destructiveActionView(_ action: DestructiveActionConfig) -> some View {
+        Button {
+            showDestructiveConfirmation = true
+        } label: {
+            Text(action.title)
+                .font(DesignTokens.Typography.bodyMedium)
+                .foregroundColor(.white)
+        }
+        .buttonStyle(buttonStyle(for: .destructive))
+        .confirmationDialog(
+            action.confirmationTitle ?? "Are you sure?",
+            isPresented: $showDestructiveConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button(action.title, role: .destructive) {
+                handleButtonAction(action.action, analytics: action.analytics)
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            if let message = action.confirmationMessage {
+                Text(message)
+            }
+        }
+    }
+
     // MARK: - Button Actions
 
-    private func handleButtonAction(_ action: ButtonAction) {
+    private func handleButtonAction(_ action: ButtonAction, analytics: AnalyticsConfig? = nil) {
+        // Fire analytics event if provided
+        if let analytics = analytics {
+            fireAnalyticsEvent(analytics)
+        }
+
         switch action {
         case .openURL(let contextKey):
             handleOpenURL(contextKey: contextKey)
@@ -416,8 +590,11 @@ struct GenericActionModal: View {
         case .copyToClipboard(let contextKey):
             handleCopyToClipboard(contextKey: contextKey)
 
-        case .submit(let serviceCall):
-            handleSubmit(serviceCall: serviceCall)
+        case .submit(let contextKey):
+            handleSubmit(contextKey: contextKey)
+
+        case .custom(let contextKey):
+            handleCustom(contextKey: contextKey)
 
         case .share:
             handleShare()
@@ -425,6 +602,52 @@ struct GenericActionModal: View {
         case .dismiss:
             isPresented = false
         }
+    }
+
+    private func fireAnalyticsEvent(_ analytics: AnalyticsConfig) {
+        var properties: [String: String] = [:]
+
+        // Substitute placeholders in analytics properties
+        if let analyticsProperties = analytics.properties {
+            for (key, valueTemplate) in analyticsProperties {
+                properties[key] = substitutePlaceholders(in: valueTemplate)
+            }
+        }
+
+        analyticsService.log(analytics.eventName, properties: properties)
+    }
+
+    private func substitutePlaceholders(in template: String) -> String {
+        var result = template
+
+        // Find all placeholders in format {key}
+        let pattern = "\\{([^}]+)\\}"
+        if let regex = try? NSRegularExpression(pattern: pattern) {
+            let matches = regex.matches(in: template, range: NSRange(template.startIndex..., in: template))
+
+            for match in matches.reversed() {
+                if let range = Range(match.range(at: 1), in: template) {
+                    let key = String(template[range])
+
+                    // Get value from formData or context
+                    let value: String
+                    if let formValue = formData[key] {
+                        value = String(describing: formValue)
+                    } else if let contextValue = context.optionalString(for: key) {
+                        value = contextValue
+                    } else {
+                        value = ""
+                    }
+
+                    // Replace placeholder with value
+                    if let fullRange = Range(match.range, in: template) {
+                        result = result.replacingOccurrences(of: String(template[fullRange]), with: value)
+                    }
+                }
+            }
+        }
+
+        return result
     }
 
     private func handleOpenURL(contextKey: String) {
@@ -468,7 +691,7 @@ struct GenericActionModal: View {
         ])
     }
 
-    private func handleSubmit(serviceCall: String) {
+    private func handleSubmit(contextKey: String?) {
         isLoading = true
 
         Task {
@@ -476,7 +699,14 @@ struct GenericActionModal: View {
                 // Merge formData with existing context
                 let mergedContext = createMergedContext()
 
-                try await ServiceCallExecutor.execute(serviceCall, context: mergedContext)
+                // If contextKey provided, use it to get service call
+                if let contextKey = contextKey,
+                   let serviceCall = context.optionalString(for: contextKey) {
+                    try await ServiceCallExecutor.execute(serviceCall, context: mergedContext)
+                } else {
+                    // Generic form submission (no specific service call)
+                    // Just close the modal after validation
+                }
 
                 await MainActor.run {
                     isLoading = false
@@ -486,7 +716,7 @@ struct GenericActionModal: View {
 
                     analyticsService.log("generic_modal_submitted", properties: [
                         "modal_id": config.id,
-                        "service_call": serviceCall,
+                        "context_key": contextKey ?? "none",
                         "form_fields_submitted": formData.keys.sorted().joined(separator: ", ")
                     ])
 
@@ -501,12 +731,25 @@ struct GenericActionModal: View {
 
                     analyticsService.log("generic_modal_error", properties: [
                         "modal_id": config.id,
-                        "service_call": serviceCall,
+                        "context_key": contextKey ?? "none",
                         "error": error.localizedDescription
                     ])
                 }
             }
         }
+    }
+
+    private func handleCustom(contextKey: String) {
+        // Custom action - log analytics and dismiss
+        analyticsService.log("generic_modal_custom_action", properties: [
+            "modal_id": config.id,
+            "context_key": contextKey
+        ])
+
+        // TODO: Hook into app-level custom action handler
+        Logger.info("Custom action triggered: \(contextKey)", category: .action)
+
+        isPresented = false
     }
 
     /// Create a merged context that combines original context with form data
@@ -665,6 +908,81 @@ struct GenericActionModal: View {
         ])
     }
 
+    // MARK: - Visibility & Initialization
+
+    private func isVisible(section: ModalSection) -> Bool {
+        guard let condition = section.visibilityCondition else { return true }
+        return evaluateVisibilityCondition(condition)
+    }
+
+    private func isVisible(field: FieldConfig) -> Bool {
+        guard let condition = field.visibilityCondition else { return true }
+        return evaluateVisibilityCondition(condition)
+    }
+
+    private func evaluateVisibilityCondition(_ condition: VisibilityCondition) -> Bool {
+        // Get current value of the watched field
+        if let currentValue = formData[condition.field] {
+            // Compare with expected value
+            return matchesValue(currentValue, condition.equals)
+        }
+        return false
+    }
+
+    private func matchesValue(_ currentValue: Any, _ expectedValue: AnyCodableValue) -> Bool {
+        switch expectedValue {
+        case .string(let expected):
+            if let current = currentValue as? String {
+                return current == expected
+            }
+        case .int(let expected):
+            if let current = currentValue as? Int {
+                return current == expected
+            }
+        case .double(let expected):
+            if let current = currentValue as? Double {
+                return current == expected
+            }
+        case .bool(let expected):
+            if let current = currentValue as? Bool {
+                return current == expected
+            }
+        case .null:
+            return currentValue is NSNull || (currentValue as? String)?.isEmpty == true
+        }
+        return false
+    }
+
+    private func initializeCollapsedSections() {
+        for section in config.sections {
+            if let collapsed = section.collapsed {
+                collapsedSections[section.id] = collapsed
+            }
+        }
+    }
+
+    private func initializeDefaultValues() {
+        for section in config.sections {
+            for field in section.fields {
+                if let defaultValue = field.defaultValue, formData[field.contextKey] == nil {
+                    // Set default value based on type
+                    switch defaultValue {
+                    case .string(let value):
+                        formData[field.contextKey] = value
+                    case .int(let value):
+                        formData[field.contextKey] = value
+                    case .double(let value):
+                        formData[field.contextKey] = value
+                    case .bool(let value):
+                        formData[field.contextKey] = value
+                    case .null:
+                        break
+                    }
+                }
+            }
+        }
+    }
+
     private func colorFromString(_ colorName: String) -> Color {
         switch colorName.lowercased() {
         case "red": return .red
@@ -687,6 +1005,10 @@ struct GenericActionModal: View {
             return AnyButtonStyle(GradientButtonStyle())
         case .secondary:
             return AnyButtonStyle(SecondaryButtonStyle())
+        case .tertiary:
+            return AnyButtonStyle(TertiaryButtonStyle())
+        case .plain:
+            return AnyButtonStyle(LinkButtonStyle())
         case .destructive:
             return AnyButtonStyle(DestructiveButtonStyle())
         case .link:
@@ -699,6 +1021,10 @@ struct GenericActionModal: View {
         case .primary, .destructive:
             return .white
         case .secondary:
+            return DesignTokens.Colors.textPrimary
+        case .tertiary:
+            return DesignTokens.Colors.textSecondary
+        case .plain:
             return DesignTokens.Colors.textPrimary
         case .link:
             return DesignTokens.Colors.accentBlue
@@ -748,6 +1074,19 @@ struct SecondaryButtonStyle: ButtonStyle {
     }
 }
 
+// MARK: - Tertiary Button Style
+
+struct TertiaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth: .infinity)
+            .frame(height: 54)
+            .background(Color.clear)
+            .foregroundColor(DesignTokens.Colors.textSecondary)
+            .cornerRadius(DesignTokens.Radius.button)
+    }
+}
+
 // MARK: - Link Button Style
 
 struct LinkButtonStyle: ButtonStyle {
@@ -757,20 +1096,47 @@ struct LinkButtonStyle: ButtonStyle {
     }
 }
 
+// MARK: - Star Rating View (Read-Only)
+
+struct StarRatingView: View {
+    let label: String?
+    let rating: Int
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if let label = label {
+                Text(label)
+                    .font(DesignTokens.Typography.bodySmall)
+                    .foregroundColor(DesignTokens.Colors.textSecondary)
+            }
+
+            HStack(spacing: 4) {
+                ForEach(1...5, id: \.self) { star in
+                    Image(systemName: star <= rating ? "star.fill" : "star")
+                        .font(.system(size: 20))
+                        .foregroundColor(star <= rating ? .yellow : DesignTokens.Colors.textSecondary.opacity(0.3))
+                }
+            }
+        }
+    }
+}
+
 // MARK: - Interactive Field Views (Phase 2)
 
-/// Generic wrapper for all interactive fields - handles label, required indicator, error messages, and styling
+/// Generic wrapper for all interactive fields - handles label, required indicator, error messages, help text, and styling
 struct InteractiveFieldWrapper<Content: View>: View {
     let label: String?
     let required: Bool
     let errorMessage: String?
+    let helpText: String?
     let showBackground: Bool
     @ViewBuilder let content: () -> Content
 
-    init(label: String? = nil, required: Bool = false, errorMessage: String? = nil, showBackground: Bool = true, @ViewBuilder content: @escaping () -> Content) {
+    init(label: String? = nil, required: Bool = false, errorMessage: String? = nil, helpText: String? = nil, showBackground: Bool = true, @ViewBuilder content: @escaping () -> Content) {
         self.label = label
         self.required = required
         self.errorMessage = errorMessage
+        self.helpText = helpText
         self.showBackground = showBackground
         self.content = content
     }
@@ -808,6 +1174,10 @@ struct InteractiveFieldWrapper<Content: View>: View {
                 Text(errorMessage)
                     .font(DesignTokens.Typography.bodySmall)
                     .foregroundColor(.red)
+            } else if let helpText = helpText {
+                Text(helpText)
+                    .font(DesignTokens.Typography.bodySmall)
+                    .foregroundColor(DesignTokens.Colors.textSecondary.opacity(0.7))
             }
         }
     }
@@ -857,6 +1227,93 @@ struct InteractiveMultilineTextFieldView: View {
                 .padding(8)
                 .background(Color.white.opacity(0.1))
                 .cornerRadius(DesignTokens.Radius.button)
+        }
+    }
+}
+
+struct InteractiveTextAreaView: View {
+    let label: String?
+    @Binding var text: String
+    let placeholder: String?
+    let required: Bool
+    let errorMessage: String?
+    let helpText: String?
+    let maxLines: Int?
+    let characterLimit: Int?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            // Label with required indicator
+            if let label = label {
+                HStack(spacing: 4) {
+                    Text(label)
+                        .font(DesignTokens.Typography.bodySmall)
+                        .foregroundColor(DesignTokens.Colors.textSecondary)
+                    if required {
+                        Text("*")
+                            .foregroundColor(.red)
+                            .font(DesignTokens.Typography.bodySmall)
+                    }
+                }
+            }
+
+            // Text editor with background
+            ZStack(alignment: .topLeading) {
+                if text.isEmpty, let placeholder = placeholder {
+                    Text(placeholder)
+                        .font(DesignTokens.Typography.bodyMedium)
+                        .foregroundColor(DesignTokens.Colors.textSecondary.opacity(0.5))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 16)
+                }
+
+                TextEditor(text: $text)
+                    .font(DesignTokens.Typography.bodyMedium)
+                    .foregroundColor(DesignTokens.Colors.textPrimary)
+                    .frame(minHeight: 100)
+                    .padding(8)
+                    .scrollContentBackground(.hidden)
+                    .background(Color.clear)
+                    .onChange(of: text) { newValue in
+                        // Enforce character limit
+                        if let limit = characterLimit, newValue.count > limit {
+                            text = String(newValue.prefix(limit))
+                        }
+                    }
+            }
+            .background(Color.white.opacity(0.1))
+            .cornerRadius(DesignTokens.Radius.button)
+            .overlay(
+                RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
+                    .stroke(errorMessage != nil ? Color.red : Color.clear, lineWidth: 1)
+            )
+
+            // Character counter and help text row
+            HStack {
+                // Help text or error message
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .font(DesignTokens.Typography.bodySmall)
+                        .foregroundColor(.red)
+                } else if let helpText = helpText {
+                    Text(helpText)
+                        .font(DesignTokens.Typography.bodySmall)
+                        .foregroundColor(DesignTokens.Colors.textSecondary.opacity(0.7))
+                }
+
+                Spacer()
+
+                // Character counter
+                if let limit = characterLimit {
+                    Text("\(text.count)/\(limit)")
+                        .font(DesignTokens.Typography.bodySmall)
+                        .foregroundColor(
+                            text.count >= limit
+                                ? .orange
+                                : DesignTokens.Colors.textSecondary.opacity(0.7)
+                        )
+                }
+            }
         }
     }
 }
@@ -943,6 +1400,86 @@ struct InteractivePickerView: View {
             }
             .pickerStyle(.menu)
             .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+}
+
+struct EnhancedPickerView: View {
+    let label: String?
+    @Binding var selection: String
+    let options: [PickerOption]
+    let required: Bool
+    let helpText: String?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            // Label with required indicator
+            if let label = label {
+                HStack(spacing: 4) {
+                    Text(label)
+                        .font(DesignTokens.Typography.bodySmall)
+                        .foregroundColor(DesignTokens.Colors.textSecondary)
+                    if required {
+                        Text("*")
+                            .foregroundColor(.red)
+                            .font(DesignTokens.Typography.bodySmall)
+                    }
+                }
+            }
+
+            // Enhanced picker with icons
+            Menu {
+                ForEach(options) { option in
+                    Button {
+                        selection = option.value
+                    } label: {
+                        HStack {
+                            if let icon = option.icon {
+                                Image(systemName: icon)
+                            }
+                            VStack(alignment: .leading) {
+                                Text(option.label)
+                                if let description = option.description {
+                                    Text(description)
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                        }
+                    }
+                }
+            } label: {
+                HStack {
+                    // Show selected option with icon
+                    if let selectedOption = options.first(where: { $0.value == selection }) {
+                        if let icon = selectedOption.icon {
+                            Image(systemName: icon)
+                                .foregroundColor(DesignTokens.Colors.accentBlue)
+                        }
+                        Text(selectedOption.label)
+                            .font(DesignTokens.Typography.bodyMedium)
+                            .foregroundColor(DesignTokens.Colors.textPrimary)
+                    } else {
+                        Text("Select option")
+                            .font(DesignTokens.Typography.bodyMedium)
+                            .foregroundColor(DesignTokens.Colors.textSecondary)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 14))
+                        .foregroundColor(DesignTokens.Colors.textSecondary)
+                }
+                .padding(12)
+                .background(Color.white.opacity(0.1))
+                .cornerRadius(DesignTokens.Radius.button)
+            }
+
+            // Help text
+            if let helpText = helpText {
+                Text(helpText)
+                    .font(DesignTokens.Typography.bodySmall)
+                    .foregroundColor(DesignTokens.Colors.textSecondary.opacity(0.7))
+            }
         }
     }
 }

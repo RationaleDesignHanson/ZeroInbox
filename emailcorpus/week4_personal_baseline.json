@@ -1,0 +1,123 @@
+{
+  "timestamp": "2025-12-18T03:40:25.102Z",
+  "duration_seconds": 6.726,
+  "input_file": "emailcorpus/personal/scrubbed/personal_corpus_complete.json",
+  "summary": {
+    "total_in_corpus": 50,
+    "emails_processed": 50,
+    "errors": 0,
+    "non_fallback_rate": "100.00%",
+    "high_confidence_rate": "100.00%",
+    "fallback_rate": "0.00%",
+    "avg_processing_ms": "92.80"
+  },
+  "confidence_distribution": {
+    "high_gte_0_7": 50,
+    "medium_0_5_to_0_7": 0,
+    "low_lt_0_5": 0
+  },
+  "type_distribution": {
+    "ads": 26,
+    "mail": 24
+  },
+  "top_20_intents": [
+    {
+      "intent": "communication.thread.reply",
+      "count": 20,
+      "percentage": "40.00%"
+    },
+    {
+      "intent": "marketing.promotion.discount",
+      "count": 7,
+      "percentage": "14.00%"
+    },
+    {
+      "intent": "marketing.collection.new-arrivals",
+      "count": 5,
+      "percentage": "10.00%"
+    },
+    {
+      "intent": "finance.payment.received",
+      "count": 2,
+      "percentage": "4.00%"
+    },
+    {
+      "intent": "marketing.seasonal.campaign",
+      "count": 2,
+      "percentage": "4.00%"
+    },
+    {
+      "intent": "marketing.loyalty.reward",
+      "count": 2,
+      "percentage": "4.00%"
+    },
+    {
+      "intent": "travel.flight.check-in",
+      "count": 2,
+      "percentage": "4.00%"
+    },
+    {
+      "intent": "marketing.promotion.flash-sale",
+      "count": 2,
+      "percentage": "4.00%"
+    },
+    {
+      "intent": "shopping.product.future-sale",
+      "count": 1,
+      "percentage": "2.00%"
+    },
+    {
+      "intent": "marketing.content.lifestyle",
+      "count": 1,
+      "percentage": "2.00%"
+    },
+    {
+      "intent": "education.parent.teacher-communication",
+      "count": 1,
+      "percentage": "2.00%"
+    },
+    {
+      "intent": "project.incident.alert",
+      "count": 1,
+      "percentage": "2.00%"
+    },
+    {
+      "intent": "marketing.home-decor.products",
+      "count": 1,
+      "percentage": "2.00%"
+    },
+    {
+      "intent": "dining.reservation.confirmation",
+      "count": 1,
+      "percentage": "2.00%"
+    },
+    {
+      "intent": "content.newsletter.sports",
+      "count": 1,
+      "percentage": "2.00%"
+    },
+    {
+      "intent": "education.activity.announcement",
+      "count": 1,
+      "percentage": "2.00%"
+    }
+  ],
+  "all_intents": {
+    "communication.thread.reply": 20,
+    "marketing.promotion.discount": 7,
+    "marketing.collection.new-arrivals": 5,
+    "finance.payment.received": 2,
+    "marketing.seasonal.campaign": 2,
+    "marketing.loyalty.reward": 2,
+    "travel.flight.check-in": 2,
+    "marketing.promotion.flash-sale": 2,
+    "shopping.product.future-sale": 1,
+    "marketing.content.lifestyle": 1,
+    "education.parent.teacher-communication": 1,
+    "project.incident.alert": 1,
+    "marketing.home-decor.products": 1,
+    "dining.reservation.confirmation": 1,
+    "content.newsletter.sports": 1,
+    "education.activity.announcement": 1
+  }
+}

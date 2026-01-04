@@ -1,0 +1,41 @@
+{
+  "name": "@rationale/agents-system",
+  "version": "1.0.0",
+  "description": "Multi-agent system for backend/architecture review",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "echo \"Tests not configured yet\" && exit 0",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "agents",
+    "architecture",
+    "review",
+    "typescript"
+  ],
+  "author": "Rationale Studio",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "openai": "^6.9.1",
+    "typescript": "^5.9.3",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2"
+  }
+}

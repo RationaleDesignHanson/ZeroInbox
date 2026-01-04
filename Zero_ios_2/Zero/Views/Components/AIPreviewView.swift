@@ -1,14 +1,13 @@
 import SwiftUI
 
-/// AI Preview section with purple gradient header matching web demo design
-/// Shows AI intelligence header, confidence, and summary (no action badges - use swipe up for actions)
+/// AI Preview section with star badge header matching new card design
+/// Shows AI Analysis header, structured summary sections, and expand/collapse
 struct AIPreviewView: View {
     let card: EmailCard
 
     @State private var isExpanded: Bool = false
 
     // Conditional text colors based on card type
-    // AIPreview has semi-transparent gradient, so sits on light background for ads
     private var headerTextColor: Color {
         card.type == .ads ? DesignTokens.Colors.adsTextSecondary : Color.white.opacity(DesignTokens.Opacity.textTertiary)
     }
@@ -17,63 +16,50 @@ struct AIPreviewView: View {
         card.type == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white.opacity(DesignTokens.Opacity.textSecondary)
     }
 
-    private var progressBarBackground: Color {
-        card.type == .ads ? DesignTokens.Colors.adsTextSubtle.opacity(DesignTokens.Opacity.overlayMedium) : Color.white.opacity(DesignTokens.Opacity.overlayLight)
-    }
-
-    private var progressBarFill: Color {
-        card.type == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white
+    // Star badge gradient colors
+    private var starBadgeGradient: [Color] {
+        card.type == .ads ? [
+            Color.yellow.opacity(0.9),
+            Color.orange.opacity(0.8)
+        ] : [
+            Color.yellow.opacity(0.9),
+            Color.orange.opacity(0.8)
+        ]
     }
 
     var body: some View {
-        // Single unified container matching web demo - purple gradient background
-        VStack(alignment: .leading, spacing: DesignTokens.Spacing.component) {
-            // Analysis Confidence Header with Progress Bar
-            VStack(alignment: .leading, spacing: 6) {
-                // Label and percentage on one row
-                HStack(spacing: 8) {
-                    Image(systemName: "sparkles")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(headerTextColor)
+        VStack(alignment: .leading, spacing: DesignTokens.Spacing.element) {
+            // AI ANALYSIS Header with Star Badge
+            HStack(spacing: DesignTokens.Spacing.inline) {
+                // Star badge
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: starBadgeGradient,
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 24, height: 24)
 
-                    Text("Analysis Confidence")
-                        .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(headerTextColor)
-
-                    Spacer()
-
-                    if let confidence = card.intentConfidence {
-                        Text("\(Int(confidence * 100))%")
-                            .font(.system(size: 11, weight: .semibold))
-                            .foregroundColor(headerTextColorStrong)
-                    }
+                    Image(systemName: "star.fill")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.white)
                 }
 
-                // Percentage bar
-                if let confidence = card.intentConfidence {
-                    GeometryReader { geometry in
-                        ZStack(alignment: .leading) {
-                            // Background bar
-                            RoundedRectangle(cornerRadius: 3)
-                                .fill(progressBarBackground)
-                                .frame(height: 6)
+                Text("AI ANALYSIS")
+                    .font(DesignTokens.Typography.aiAnalysisTitle)
+                    .foregroundColor(headerTextColorStrong)
+                    .tracking(0.5)
 
-                            // Filled percentage
-                            RoundedRectangle(cornerRadius: 3)
-                                .fill(progressBarFill)
-                                .frame(width: geometry.size.width * CGFloat(confidence), height: 6)
-                        }
-                    }
-                    .frame(height: 6)
-                }
+                Spacer()
             }
-            .padding(.bottom, 4)
 
-            // AI Summary Content - directly inside same container (no separate box)
-            // Tap to expand/collapse
-            StructuredSummaryView(card: card, lineLimit: isExpanded ? nil : 3)
+            // AI Summary Content with structured sections
+            StructuredSummaryView(card: card, lineLimit: isExpanded ? nil : 4)
                 .onTapGesture {
-                    withAnimation(.easeInOut(duration: 0.2)) {
+                    withAnimation(DesignTokens.Animation.Spring.snappy) {
                         isExpanded.toggle()
                     }
                     HapticService.shared.lightImpact()
@@ -92,10 +78,9 @@ struct AIPreviewView: View {
                 }
             }
         }
-        .padding(DesignTokens.Spacing.component)
+        .padding(DesignTokens.AIAnalysisBox.padding)
         .background(
-            // Gradient background: purple for mail, green for ads
-            // Ads use higher opacity (0.35/0.25) for better contrast on light card background
+            // Gradient background: purple for mail, teal for ads
             LinearGradient(
                 colors: card.type == .ads ? [
                     DesignTokens.Colors.adsGradientStart.opacity(0.35),
@@ -108,14 +93,14 @@ struct AIPreviewView: View {
                 endPoint: .bottomTrailing
             )
         )
-        .cornerRadius(DesignTokens.Radius.button)
+        .cornerRadius(DesignTokens.AIAnalysisBox.radius)
         .overlay(
-            RoundedRectangle(cornerRadius: DesignTokens.Radius.button)
+            RoundedRectangle(cornerRadius: DesignTokens.AIAnalysisBox.radius)
                 .strokeBorder(
                     card.type == .ads ?
                         DesignTokens.Colors.adsGradientEnd.opacity(0.4) :
                         Color.purple.opacity(0.4),
-                    lineWidth: 1.5
+                    lineWidth: DesignTokens.AIAnalysisBox.borderWidth
                 )
         )
     }

@@ -60,38 +60,162 @@ struct LoadingSpinner: View {
 
 // MARK: - Skeleton Loaders
 
-/// Skeleton loader for email cards
+/// World-class skeleton loader for email cards - matches actual card layout
 struct EmailCardSkeleton: View {
+    let cardType: CardType
     @State private var isAnimating = false
 
+    init(cardType: CardType = .mail) {
+        self.cardType = cardType
+    }
+
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            // Sender and time
-            HStack {
-                ShimmerBox(width: 120, height: 16)
+        VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {
+            // Header - Avatar, name, time
+            HStack(alignment: .top, spacing: DesignTokens.Spacing.component) {
+                // View button skeleton
+                ShimmerBoxDark(width: 56, height: 56, cornerRadius: DesignTokens.Radius.button)
+                
+                // Name and time
+                VStack(alignment: .leading, spacing: 6) {
+                    ShimmerBoxDark(width: 140, height: 18)
+                    ShimmerBoxDark(width: 80, height: 14)
+                }
+                
                 Spacer()
-                ShimmerBox(width: 60, height: 14)
+                
+                // Priority badge skeleton
+                ShimmerBoxDark(width: 60, height: 24, cornerRadius: DesignTokens.Radius.minimal)
             }
 
-            // Subject
-            ShimmerBox(width: 200, height: 18)
-
-            // Preview
-            VStack(alignment: .leading, spacing: 6) {
-                ShimmerBox(width: .infinity, height: 14)
-                ShimmerBox(width: 250, height: 14)
+            // Title
+            ShimmerBoxDark(width: nil, height: 22)
+            
+            // AI Preview section
+            VStack(alignment: .leading, spacing: 10) {
+                // Section header
+                ShimmerBoxDark(width: 80, height: 13)
+                // Summary lines
+                ShimmerBoxDark(width: nil, height: 16)
+                ShimmerBoxDark(width: 260, height: 16)
+                ShimmerBoxDark(width: 200, height: 16)
             }
+            .padding(DesignTokens.Spacing.element)
+            .background(Color.white.opacity(0.06))
+            .cornerRadius(DesignTokens.Radius.button)
 
-            // Tags
-            HStack(spacing: DesignTokens.Spacing.inline) {
-                ShimmerBox(width: 60, height: 24, cornerRadius: DesignTokens.Radius.button)
-                ShimmerBox(width: 80, height: 24, cornerRadius: DesignTokens.Radius.button)
-            }
+            // Action button skeleton
+            ShimmerBoxDark(width: nil, height: 48, cornerRadius: 12)
         }
         .padding(DesignTokens.Spacing.section)
-        .background(Color(.systemBackground))
+        .padding(.top, 4)
+        .padding(.bottom, DesignTokens.Spacing.section)
+        .frame(width: UIScreen.main.bounds.width - 48)
+        .background(
+            ZStack {
+                // Dark gradient base matching card backgrounds
+                LinearGradient(
+                    colors: [
+                        Color(red: 0.1, green: 0.08, blue: 0.18),
+                        Color(red: 0.15, green: 0.1, blue: 0.25)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                
+                // Ultra-thin material overlay
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .opacity(0.3)
+            }
+        )
+        .cornerRadius(DesignTokens.Radius.card)
+        .shadow(color: .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 20)
+    }
+}
+
+/// Skeleton for email reader view
+struct EmailReaderSkeleton: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            // Header section
+            HStack(spacing: 14) {
+                ShimmerBoxDark(width: 52, height: 52, cornerRadius: 26)
+                
+                VStack(alignment: .leading, spacing: 6) {
+                    ShimmerBoxDark(width: 160, height: 18)
+                    ShimmerBoxDark(width: 100, height: 14)
+            }
+            }
+            .padding(DesignTokens.Spacing.component)
+            .background(glassBackground)
+            .cornerRadius(DesignTokens.Radius.card)
+
+            // Subject
+            ShimmerBoxDark(width: nil, height: 28)
+                .padding(DesignTokens.Spacing.component)
+                .background(glassBackground)
+                .cornerRadius(DesignTokens.Radius.button)
+            
+            // Body content
+            VStack(alignment: .leading, spacing: 10) {
+                ShimmerBoxDark(width: nil, height: 16)
+                ShimmerBoxDark(width: nil, height: 16)
+                ShimmerBoxDark(width: 280, height: 16)
+                ShimmerBoxDark(width: nil, height: 16)
+                ShimmerBoxDark(width: 220, height: 16)
+            }
+            .padding(DesignTokens.Spacing.component)
+            .background(glassBackground)
+            .cornerRadius(DesignTokens.Radius.button)
+
+            // Actions
+            HStack(spacing: 12) {
+                ShimmerBoxDark(width: nil, height: 50, cornerRadius: DesignTokens.Radius.button)
+            }
+            .padding(DesignTokens.Spacing.component)
+            .background(glassBackground)
+            .cornerRadius(DesignTokens.Radius.card)
+        }
+        .padding(.horizontal, 16)
+    }
+    
+    private var glassBackground: some View {
+        ZStack {
+            Color.white.opacity(0.06)
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .opacity(0.3)
+        }
+    }
+}
+
+/// Skeleton for inbox list items
+struct InboxItemSkeleton: View {
+    var body: some View {
+        HStack(spacing: DesignTokens.Spacing.element) {
+            // Avatar
+            ShimmerBoxDark(width: 48, height: 48, cornerRadius: 24)
+            
+            VStack(alignment: .leading, spacing: 6) {
+                // Sender
+                ShimmerBoxDark(width: 140, height: 16)
+                // Subject
+                ShimmerBoxDark(width: 200, height: 14)
+                // Preview
+                ShimmerBoxDark(width: 160, height: 12)
+            }
+
+            Spacer()
+            
+            VStack(alignment: .trailing, spacing: 6) {
+                ShimmerBoxDark(width: 50, height: 12)
+                ShimmerBoxDark(width: 20, height: 20, cornerRadius: 10)
+            }
+        }
+        .padding(DesignTokens.Spacing.element)
+        .background(Color.white.opacity(0.04))
         .cornerRadius(DesignTokens.Radius.button)
-        .shadow(color: .black.opacity(DesignTokens.Opacity.glassUltraLight), radius: 4, y: 2)
     }
 }
 
@@ -177,6 +301,80 @@ struct ShimmerBox: View {
             .cornerRadius(cornerRadius)
             .onAppear {
                 isAnimating = true
+            }
+    }
+}
+
+// MARK: - Shimmer Box Dark (for dark mode / card backgrounds)
+
+/// Premium shimmer effect optimized for dark backgrounds
+struct ShimmerBoxDark: View {
+    let width: CGFloat?
+    let height: CGFloat
+    let cornerRadius: CGFloat
+
+    @State private var shimmerOffset: CGFloat = -1.0
+
+    init(width: CGFloat? = nil, height: CGFloat, cornerRadius: CGFloat = 6) {
+        self.width = width
+        self.height = height
+        self.cornerRadius = cornerRadius
+    }
+
+    var body: some View {
+        GeometryReader { geometry in
+            Rectangle()
+                .fill(Color.white.opacity(0.08))
+                .overlay(
+                    Rectangle()
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.clear,
+                                    Color.white.opacity(0.15),
+                                    Color.white.opacity(0.25),
+                                    Color.white.opacity(0.15),
+                                    Color.clear
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                        .frame(width: geometry.size.width * 0.6)
+                        .offset(x: shimmerOffset * geometry.size.width)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+        }
+        .frame(width: width, height: height)
+        .onAppear {
+            withAnimation(
+                Animation.easeInOut(duration: 1.8)
+                    .repeatForever(autoreverses: false)
+            ) {
+                shimmerOffset = 1.5
+            }
+        }
+    }
+}
+
+// MARK: - Skeleton Card Stack
+
+/// Shows a stack of skeleton cards for loading state
+struct SkeletonCardStack: View {
+    let count: Int
+    
+    init(count: Int = 3) {
+        self.count = count
+    }
+    
+    var body: some View {
+        ZStack {
+            ForEach(0..<min(count, 3), id: \.self) { index in
+                EmailCardSkeleton()
+                    .scaleEffect(1.0 - CGFloat(index) * 0.03)
+                    .offset(y: CGFloat(index) * 8)
+                    .opacity(1.0 - Double(index) * 0.15)
+            }
             }
     }
 }

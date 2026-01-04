@@ -97,6 +97,179 @@ class NetworkService {
         return request
     }
 
+    // MARK: - Token Refresh
+
+    private var tokenRefreshTask: Task<Void, Error>?
+
+    /// Make a network request with automatic token refresh on 401
+    private func requestWithTokenRefresh<Response: Decodable>(
+        url: URL,
+        method: HTTPMethod,
+        headers: [String: String]? = nil,
+        bodyData: Data? = nil,
+        maxRetries: Int = 3
+    ) async throws -> Response {
+        do {
+            // Try request with current token
+            return try await requestWithRetry(
+                url: url,
+                method: method,
+                headers: headers,
+                bodyData: bodyData,
+                maxRetries: maxRetries
+            )
+        } catch let error as NetworkServiceError {
+            // Check for 401 Unauthorized
+            if case .httpError(let statusCode, _) = error, statusCode == 401 {
+                Logger.warning("401 Unauthorized - attempting token refresh", category: .network)
+
+                // Refresh token
+                try await refreshAuthToken()
+
+                // Retry request with new token (only once)
+                Logger.info("Token refreshed, retrying request", category: .network)
+                return try await requestWithRetry(
+                    url: url,
+                    method: method,
+                    headers: headers,
+                    bodyData: bodyData,
+                    maxRetries: 1
+                )
+            }
+
+            throw error
+        }
+    }
+
+    private func refreshAuthToken() async throws {
+        // If already refreshing, wait for that task
+        if let existingTask = tokenRefreshTask {
+            try await existingTask.value
+            return
+        }
+
+        // Create refresh task
+        let task = Task<Void, Error> {
+            Logger.info("Refreshing auth token...", category: .authentication)
+
+            // Call AuthContext refresh (currently returns false - placeholder)
+            let success = await AuthContext.refreshToken()
+
+            if !success {
+                Logger.warning("Token refresh failed - user needs to re-authenticate", category: .authentication)
+                throw NetworkServiceError.httpError(statusCode: 401, message: "Token expired - please re-authenticate")
+            }
+
+            Logger.info("Token refresh successful", category: .authentication)
+        }
+
+        tokenRefreshTask = task
+
+        do {
+            try await task.value
+            tokenRefreshTask = nil
+        } catch {
+            tokenRefreshTask = nil
+            throw error
+        }
+    }
+
+    // MARK: - Retry Logic
+
+    /// Make a network request with automatic retry for transient failures
+    private func requestWithRetry<Response: Decodable>(
+        url: URL,
+        method: HTTPMethod,
+        headers: [String: String]? = nil,
+        bodyData: Data? = nil,
+        maxRetries: Int = 3,
+        currentAttempt: Int = 1
+    ) async throws -> Response {
+        do {
+            // Build and execute request
+            let request = buildRequest(url: url, method: method, headers: headers, body: bodyData)
+
+            Logger.info("→ \(method.rawValue) \(url.path) (attempt \(currentAttempt)/\(maxRetries))", category: .network)
+            if let bodyData = bodyData, let bodyString = String(data: bodyData, encoding: .utf8) {
+                Logger.debug("Request body: \(bodyString)", category: .network)
+            }
+
+            let (data, response) = try await session.data(for: request)
+
+            // Validate response
+            try validateResponse(response, data: data, url: url)
+
+            // Decode and return
+            let decoded = try jsonDecoder.decode(Response.self, from: data)
+            Logger.info("← \(method.rawValue) \(url.path) ✅", category: .network)
+            return decoded
+
+        } catch let error as NetworkServiceError {
+            // Check if we should retry
+            if shouldRetry(error: error, attempt: currentAttempt, maxRetries: maxRetries) {
+                let delay = calculateBackoff(attempt: currentAttempt, error: error)
+                Logger.warning("Request failed (attempt \(currentAttempt)), retrying in \(String(format: "%.1f", delay))s", category: .network)
+
+                // Wait with backoff
+                try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+
+                // Retry
+                return try await requestWithRetry(
+                    url: url,
+                    method: method,
+                    headers: headers,
+                    bodyData: bodyData,
+                    maxRetries: maxRetries,
+                    currentAttempt: currentAttempt + 1
+                )
+            }
+
+            // No more retries, throw error
+            throw error
+        } catch {
+            // For non-NetworkServiceError, wrap and check retry
+            Logger.error("Request error: \(error)", category: .network)
+            throw NetworkServiceError.unknown(error)
+        }
+    }
+
+    /// Determine if error is retryable
+    private func shouldRetry(error: NetworkServiceError, attempt: Int, maxRetries: Int) -> Bool {
+        guard attempt < maxRetries else { return false }
+
+        switch error {
+        case .httpError(let statusCode, _):
+            // Retry on:
+            // - 408 Request Timeout
+            // - 429 Too Many Requests
+            // - 500-599 Server Errors (except 501 Not Implemented)
+            return statusCode == 408
+                || statusCode == 429
+                || (statusCode >= 500 && statusCode != 501)
+        case .timeout, .noInternetConnection:
+            return true
+        default:
+            return false
+        }
+    }
+
+    /// Calculate exponential backoff with jitter
+    private func calculateBackoff(attempt: Int, error: NetworkServiceError) -> Double {
+        // For rate limiting, check if we have a Retry-After value
+        if case .rateLimitExceeded(let retryAfter, _) = error, let retryAfter = retryAfter {
+            // Respect Retry-After header
+            return retryAfter
+        }
+
+        // Base delay: 1s, 2s, 4s, ...
+        let baseDelay = pow(2.0, Double(attempt - 1))
+
+        // Add jitter (0-500ms)
+        let jitter = Double.random(in: 0...0.5)
+
+        return baseDelay + jitter
+    }
+
     // MARK: - Generic Request Methods
 
     /// Make a network request with Codable request/response
@@ -115,33 +288,13 @@ class NetworkService {
         // Encode request body if provided
         let bodyData: Data? = try body.map { try jsonEncoder.encode($0) }
 
-        // Build request
-        let request = buildRequest(url: url, method: method, headers: headers, body: bodyData)
-
-        // Log request
-        Logger.info("→ \(method.rawValue) \(url.path)", category: .network)
-        if let bodyData = bodyData, let bodyString = String(data: bodyData, encoding: .utf8) {
-            Logger.debug("Request body: \(bodyString)", category: .network)
-        }
-
-        // Execute request
-        let (data, response) = try await session.data(for: request)
-
-        // Validate response
-        try validateResponse(response, data: data, url: url)
-
-        // Decode response
-        do {
-            let decoded = try jsonDecoder.decode(Response.self, from: data)
-            Logger.info("← \(method.rawValue) \(url.path) ✅", category: .network)
-            return decoded
-        } catch {
-            Logger.error("Failed to decode response: \(error)", category: .network)
-            if let responseString = String(data: data, encoding: .utf8) {
-                Logger.debug("Response data: \(responseString)", category: .network)
-            }
-            throw NetworkServiceError.decodingFailed(error)
-        }
+        // Use token refresh + retry logic for automatic failure handling
+        return try await requestWithTokenRefresh(
+            url: url,
+            method: method,
+            headers: headers,
+            bodyData: bodyData
+        )
     }
 
     /// Make a network request without request body
@@ -221,6 +374,26 @@ class NetworkService {
 
     // MARK: - Response Validation
 
+    /// Extract Retry-After header from HTTP response
+    private func extractRetryAfter(from response: HTTPURLResponse) -> TimeInterval? {
+        // Check Retry-After header
+        if let retryAfterString = response.value(forHTTPHeaderField: "Retry-After") {
+            // Try parsing as seconds
+            if let seconds = TimeInterval(retryAfterString) {
+                return seconds
+            }
+
+            // Try parsing as HTTP date
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "EEE, dd MMM yyyy HH:mm:ss z"
+            if let date = dateFormatter.date(from: retryAfterString) {
+                return date.timeIntervalSinceNow
+            }
+        }
+
+        return nil
+    }
+
     private func validateResponse(_ response: URLResponse, data: Data, url: URL) throws {
         guard let httpResponse = response as? HTTPURLResponse else {
             throw NetworkServiceError.invalidResponse
@@ -229,6 +402,20 @@ class NetworkService {
         // Log status code
         let statusCode = httpResponse.statusCode
         Logger.debug("Response status: \(statusCode)", category: .network)
+
+        // Handle rate limiting (429)
+        if statusCode == 429 {
+            let retryAfter = extractRetryAfter(from: httpResponse)
+            Logger.warning("Rate limited (429). Retry after: \(retryAfter ?? 0)s", category: .network)
+
+            var errorMessage = "Rate limit exceeded"
+            if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let message = json["message"] as? String {
+                errorMessage = message
+            }
+
+            throw NetworkServiceError.rateLimitExceeded(retryAfter: retryAfter, message: errorMessage)
+        }
 
         // Check for success (200-299)
         guard (200...299).contains(statusCode) else {
@@ -256,6 +443,7 @@ enum NetworkServiceError: Error, LocalizedError {
     case invalidURL
     case invalidResponse
     case httpError(statusCode: Int, message: String?)
+    case rateLimitExceeded(retryAfter: TimeInterval?, message: String?)
     case decodingFailed(Error)
     case encodingFailed(Error)
     case noInternetConnection
@@ -273,6 +461,11 @@ enum NetworkServiceError: Error, LocalizedError {
                 return "HTTP \(statusCode): \(message)"
             }
             return "HTTP error: \(statusCode)"
+        case .rateLimitExceeded(let retryAfter, let message):
+            if let retryAfter = retryAfter {
+                return "Rate limit exceeded. Retry after \(Int(retryAfter)) seconds. \(message ?? "")"
+            }
+            return "Rate limit exceeded. \(message ?? "")"
         case .decodingFailed(let error):
             return "Failed to decode response: \(error.localizedDescription)"
         case .encodingFailed(let error):

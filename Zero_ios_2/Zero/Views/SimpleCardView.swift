@@ -78,71 +78,86 @@ struct SimpleCardView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: DesignTokens.Spacing.section) {  // Optimized for dense content cards
-            // HEADER - Universal for all cards
-            HStack(alignment: .top, spacing: DesignTokens.Spacing.component) {
-                // Left: Square View button (spans height of name+time rows)
-                squareViewButton
+        VStack(alignment: .leading, spacing: DesignTokens.Spacing.element) {  // Tighter spacing for new layout
+            // TITLE - At top, prominent and scannable
+            Text(card.title)
+                .font(DesignTokens.Typography.cardTitle)
+                .foregroundColor(textColorPrimary)
+                .lineSpacing(2)
+                .fixedSize(horizontal: false, vertical: true)
+                .shadow(color: card.type == .ads ? .white.opacity(DesignTokens.Opacity.overlayStrong) : .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 2, y: 1)
 
-                // Center-Left: Name and time
+            // SENDER ROW - Avatar + sender info + View button
+            HStack(alignment: .center, spacing: DesignTokens.Spacing.element) {
+                // Avatar circle with initial
+                senderAvatar
+
+                // Sender name and details
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(displayName)
-                        .font(.headline)
-                        .foregroundColor(textColorPrimary)
+                    HStack(spacing: DesignTokens.Spacing.tight) {
+                        Text(displayName)
+                            .font(DesignTokens.Typography.cardSender)
+                            .foregroundColor(textColorPrimary)
+                            .lineLimit(1)
 
-                    // Recipient email (only show when multiple accounts)
-                    if hasMultipleAccounts, let recipientEmail = card.recipientEmail {
-                        Text(recipientEmail)
-                            .font(.caption2)
-                            .foregroundColor(textColorSubtle)
+                        Text(card.timeAgo)
+                            .font(DesignTokens.Typography.cardTimestamp)
+                            .foregroundColor(textColorTertiary)
                     }
 
-                    Text(card.timeAgo)
-                        .font(.subheadline)
-                        .foregroundColor(textColorTertiary)
+                    // Recipients line
+                    if hasMultipleAccounts, let recipientEmail = card.recipientEmail {
+                        Text("to me, \(recipientEmail)")
+                            .font(DesignTokens.Typography.cardMetadata)
+                            .foregroundColor(textColorSubtle)
+                            .lineLimit(1)
+                    } else {
+                        Text("to me")
+                            .font(DesignTokens.Typography.cardMetadata)
+                            .foregroundColor(textColorSubtle)
+                    }
                 }
 
                 Spacer()
 
-                // Top right: Priority badge + Status indicators
-                HStack(spacing: 8) {
-                    Button {
-                        showingPriorityPicker = true
-                    } label: {
-                        priorityBadge
-                    }
-
-                    // Minimal status indicators - 4 most critical, larger for visibility
-                    HStack(spacing: DesignTokens.Spacing.inline) {
-                        if showModeIndicators {
-                            // VIP indicator
-                            if card.isVIP == true {
-                                statusDot(color: .yellow)
-                            }
-                            // Deadline indicator
-                            if let deadline = card.deadline {
-                                statusDot(color: deadline.isUrgent ? .red : (deadline.value ?? 0) <= 3 ? .orange : .green)
-                            }
-                            // Shopping indicator
-                            if card.isShoppingEmail == true {
-                                statusDot(color: .green)
-                            }
-                            // Attachment indicator
-                            if card.hasAttachments == true {
-                                statusDot(color: .blue)
-                            }
-                        }
-
-                        if isSaved {
-                            Image(systemName: "bookmark.fill")
-                                .foregroundColor(.orange)
-                                .font(.title3)
-                        }
-                    }
-                }
+                // View button (compact)
+                squareViewButton
             }
 
-            // Urgency indicator - shown prominently under sender info
+            // Priority badge and status indicators (below sender row)
+            HStack(spacing: DesignTokens.Spacing.inline) {
+                Button {
+                    showingPriorityPicker = true
+                } label: {
+                    priorityBadge
+                }
+
+                // Minimal status indicators
+                if showModeIndicators {
+                    if card.isVIP == true {
+                        statusDot(color: .yellow)
+                    }
+                    if let deadline = card.deadline {
+                        statusDot(color: deadline.isUrgent ? .red : (deadline.value ?? 0) <= 3 ? .orange : .green)
+                    }
+                    if card.isShoppingEmail == true {
+                        statusDot(color: .green)
+                    }
+                    if card.hasAttachments == true {
+                        statusDot(color: .blue)
+                    }
+                }
+
+                if isSaved {
+                    Image(systemName: "bookmark.fill")
+                        .foregroundColor(.orange)
+                        .font(.caption)
+                }
+
+                Spacer()
+            }
+
+            // Urgency indicator
             if card.urgent == true, let expiresIn = card.expiresIn {
                 HStack(spacing: 6) {
                     Image(systemName: "clock.fill")
@@ -156,14 +171,6 @@ struct SimpleCardView: View {
                 .background(Color.white.opacity(DesignTokens.Opacity.overlayLight))
                 .cornerRadius(DesignTokens.Radius.chip)
             }
-
-            // CONTENT
-
-            // Title (reduced to 80% of original size)
-            Text(card.title)
-                .font(DesignTokens.Typography.cardTitle)
-                .foregroundColor(textColorPrimary)
-                .shadow(color: card.type == .ads ? .white.opacity(DesignTokens.Opacity.overlayStrong) : .black.opacity(DesignTokens.Opacity.overlayMedium), radius: 2, y: 1)
 
             // Product image (shopping only) - appears after title
             if let imageUrl = card.productImageUrl {
@@ -225,31 +232,30 @@ struct SimpleCardView: View {
 
             // Pricing (shopping only) - MUST come BEFORE action button for ADS cards per design system
             if let salePrice = card.salePrice, let originalPrice = card.originalPrice {
-                HStack(spacing: DesignTokens.Spacing.component) {
+                HStack(spacing: DesignTokens.Spacing.element) {
                     Text("$\(String(format: "%.0f", salePrice))")
-                        .font(.system(size: 24, weight: .bold))  // 60% of largeTitle (~40px) = 24px
+                        .font(DesignTokens.Typography.displayMedium)
                         .foregroundColor(textColorPrimary)
 
                     Text("$\(String(format: "%.0f", originalPrice))")
-                        .font(.system(size: 17, weight: .regular))  // 60% of title2 (~28px) = 17px
+                        .font(DesignTokens.Typography.headingSmall)
                         .foregroundColor(textColorSubtle)
                         .strikethrough()
 
                     if let discount = card.discount {
                         Text("\(discount)% OFF")
-                            .font(.caption.bold())
+                            .font(DesignTokens.Typography.badgeLarge)
                             .foregroundColor(.white)
-                            .padding(.horizontal, DesignTokens.Spacing.component)
+                            .padding(.horizontal, DesignTokens.Spacing.element)
                             .padding(.vertical, 6)
-                            .background(Color.green.opacity(DesignTokens.Opacity.textSecondary))  // Match design system green badge
+                            .background(Color.green.opacity(DesignTokens.Opacity.textSecondary))
                             .cornerRadius(DesignTokens.Radius.chip)
                     }
                 }
                 .padding(.top, DesignTokens.Spacing.inline)
             }
 
-            // Progressive reveal: Animated hint → Static CTA
-            // Positioned AFTER pricing for shopping emails
+            // BOTTOM ACTION BAR - with navigation dots and CTA
             if shouldShowAnimatedHint {
                 // First card: Show animated cycling hint teaching all 4 directions
                 SwipeHintOverlay(
@@ -263,68 +269,19 @@ struct SimpleCardView: View {
                     }
                 )
                 .frame(maxWidth: .infinity)
-                .padding(.top, 8)
+                .padding(.top, DesignTokens.Spacing.inline)
             } else if shouldShowStaticCTA {
-                // All other cards + first card after animation: Swipe-focused track design
-                // Horizontal layout with directional cues matching holographic design system
-                HStack(spacing: 0) {
-                    // Left: Directional chevrons (swipe indicator)
-                    HStack(spacing: 2) {
-                        ForEach(0..<3, id: \.self) { _ in
-                            Image(systemName: "chevron.right")
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundColor(card.type == .ads
-                                    ? DesignTokens.Colors.adsTextSecondary.opacity(0.6)
-                                    : .white.opacity(DesignTokens.Opacity.textDisabled))
-                        }
-                    }
-                    .padding(.leading, 16)
-
-                    Spacer()
-
-                    // Right: Action label
-                    Text(currentActionLabel)
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(card.type == .ads ? DesignTokens.Colors.adsTextPrimary : .white)
-                        .padding(.trailing, 16)
-                }
-                .frame(height: 48)
-                .background(
-                    ZStack {
-                        // Glass morphism base (matches card design system)
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(.ultraThinMaterial.opacity(DesignTokens.Opacity.overlayMedium))
-
-                        // Holographic rim (mode-specific colors)
-                        RoundedRectangle(cornerRadius: 12)
-                            .strokeBorder(
-                                LinearGradient(
-                                    colors: actionButtonRimColors,
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                ),
-                                lineWidth: 1.5
-                            )
-
-                        // Animated shimmer sweep (swipe motion cue)
-                        SwipeShimmer()
-
-                        // Right edge glow (directional cue for swipe direction)
-                        HStack {
-                            Spacer()
-                            LinearGradient(
-                                colors: [
-                                    Color.clear,
-                                    actionButtonEdgeGlowColor.opacity(DesignTokens.Opacity.overlayLight)
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            )
-                            .frame(width: 60)
-                        }
-                    }
+                // Bottom action bar with navigation hint and CTA
+                BottomActionBar(
+                    ctaLabel: currentActionLabel,
+                    cardType: card.type,
+                    onCTATap: {
+                        // Trigger primary action
+                        Logger.info("CTA tapped: \(currentActionLabel)", category: .ui)
+                    },
+                    showNavigationHint: true
                 )
-                .padding(.top, DesignTokens.Spacing.component)
+                .padding(.top, DesignTokens.Spacing.inline)
                 .transition(.opacity)
             }
         }
@@ -457,6 +414,24 @@ struct SimpleCardView: View {
         card.kid?.name ?? card.company?.name ?? card.sender?.name ?? card.store ?? card.airline ?? "Email"
     }
 
+    /// Sender avatar with initial letter
+    var senderAvatar: some View {
+        let initial = card.sender?.initial ?? String(displayName.prefix(1)).uppercased()
+        let avatarColor = card.type == .ads ?
+            DesignTokens.Colors.adsGradientStart :
+            Color.green.opacity(0.8)
+
+        return ZStack {
+            Circle()
+                .fill(avatarColor)
+                .frame(width: 40, height: 40)
+
+            Text(initial)
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.white)
+        }
+    }
+
     var priorityBadge: some View {
         let config: (text: String, fg: Color, bg: Color) = {
             switch card.priority {
@@ -468,11 +443,10 @@ struct SimpleCardView: View {
         }()
 
         return Text(config.text)
-            .font(.caption2)
-            .fontWeight(.heavy)
+            .font(DesignTokens.Typography.badgeSmall)
             .foregroundColor(config.fg)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
             .background(config.bg.opacity(DesignTokens.Opacity.textSecondary))
             .cornerRadius(DesignTokens.Radius.minimal)
     }

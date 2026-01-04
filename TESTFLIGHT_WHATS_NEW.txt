@@ -1,0 +1,41 @@
+VERSION 2.0.1 (BUILD 106) - Core Reliability Focus
+
+What to Test:
+
+1. EMAIL FETCHING (5 min)
+• Check if email count matches Gmail
+• Look for missing emails or duplicates
+• Test with large attachments & long threads
+
+2. AI SUMMARIES (10 min)
+• Read 10-15 summaries
+• Check for accuracy vs full email
+• Report hallucinations or missing details
+• Use thumbs up/down feedback buttons
+
+3. TOP 10 ACTIONS (10 min)
+Test: Archive, Reply, Snooze, Reminder, Track Package, Calendar, RSVP, Pay Bill, Recurring Reminder, Appointment
+• Report any failures or slow actions
+• Note confusing UIs
+
+4. ZERO INBOX FLOW - NEW (5 min)
+• Clear inbox to zero
+• Try "Help Improve Zero" prompt
+• Rate a few classifications
+
+Our Goals This Week:
+• 95%+ AI summary accuracy
+• 99%+ action success rate
+• Zero critical bugs
+
+Report Issues:
+CRITICAL: Crashes, data loss, sync failures
+HIGH: AI hallucinations, action failures
+MEDIUM: UI glitches, feature requests
+
+How: Shake device -> "Send Beta Feedback" or email [your-email]
+
+Thank You!
+You're helping build Zero from the ground up. Week 2 we'll optimize AI based on your feedback, Week 3 we'll perfect actions, Week 4 we expand to 50-100 users.
+
+Your feedback shapes the product.

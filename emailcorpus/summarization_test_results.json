@@ -1,0 +1,564 @@
+{
+  "timestamp": "2025-12-18T03:16:27.863Z",
+  "config": {
+    "inputFile": "/Users/matthanson/Zer0_Inbox/emailcorpus/golden_test_set/golden_test_set.json",
+    "sampleSize": 50,
+    "serviceUrl": "http://localhost:8083"
+  },
+  "metrics": {
+    "total": 50,
+    "successful": 50,
+    "failed": 0,
+    "avgLatencyMs": 596.38,
+    "p95LatencyMs": 2058,
+    "maxLatencyMs": 2157,
+    "avgCostPerSummary": 0.00010051200000000002,
+    "hallucinationFlagRate": 38
+  },
+  "targets": {
+    "latency": {
+      "target": "<2000ms",
+      "actual": "596ms",
+      "pass": true
+    },
+    "cost": {
+      "target": "<$0.015",
+      "actual": "$0.000101",
+      "pass": true
+    },
+    "hallucination": {
+      "target": "<2%",
+      "actual": "38.0%",
+      "pass": false
+    }
+  },
+  "summaries": [
+    {
+      "email": {
+        "subject": "=?UTF-8?B?VGhlIEJyZWFkIEZpbmFuY2lhbOKEoiBhcHAgZ2l2ZXMgeW91IGluc3RhbnQ=?=\r\n =?UTF-8?B?IGFjY2VzcyB0byB5b3VyIEFyaGF1cyBBcmNoYXJnZSBDcmVkaXQgQ2FyZA==?=",
+        "from": "Arhaus Archarge Credit Card  <user_bfa3d9bc@example.com>",
+        "bodyPreview": "The Bread Financial™ app gives you instant access to your Arhaus Archarge Credit Card .ReadMsgBody { width: 100%; } .ExternalClass { width: 100%; } .ExternalClass, .ExternalClass p, .ExternalClass spa"
+      },
+      "summary": "**Subject:** Instant Access to Your Arhaus Archarge Credit Card\n\n**Summary:**\n\nThis email promotes the Bread Financial™ app, which provides instant access to your Arhaus Archarge Credit Card. The app allows you to manage your card conveniently.\n",
+      "latencyMs": 979,
+      "cost": 0.00020887499999999997,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Subject"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Instant Access"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Your Arhaus Archarge Credit Card"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "Mona's Bullet Points",
+        "from": "user_d76c1edd@example.com",
+        "bodyPreview": "Sam,  I took a quick look at what Mona had done and had a few clarifying \nchanges.  Let either of us know if you need more help."
+      },
+      "summary": "Sam, this email contains clarifying changes to Mona's work. Review the updates and reach out to either Mona or the sender if you need further assistance.\n",
+      "latencyMs": 837,
+      "cost": 0.00001455,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Review"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "🌱 Learn & Save—Get 15% OFF Your Perfect Valentine’s Gift!",
+        "from": "PlantPico™ <user_3f58a268@example.com>",
+        "bodyPreview": "https://plantpico.com/discount/LOVE15?redirect=%2Fcollections%2Fterrarium\n\nhttps://plantpico.com/discount/LOVE15?redirect=%2Fcollections%2Fterrarium\n\nhttps://plantpico.com/discount/LOVE15?redirect=%2F"
+      },
+      "summary": "PlantPico Valentine's Day deal: Get **15% OFF** your purchase.\nUse code LOVE15 at checkout via the provided link.\nLimited time offer, so act fast!\nUnsubscribe link included if you're not interested.\n",
+      "latencyMs": 692,
+      "cost": 0.000033525,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Limited"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "=?UTF-8?Q?Re=3A_Fyllo_Interview_Confirmation_=F0=9F=8E=8A?=",
+        "from": "Matthew Hanson <user_8545e5c1@example.com>",
+        "bodyPreview": "Sounds great, thank you!\r\n\r\nOn Wed, Nov 9, 2022 at 1:03 PM Daniel Martinez <user_a40b30f5@example.com>\r\nwrote:\r\n\r\n> This will just be a phone call with me, I'm the Talent Acquisition\r\n> Manager. I wil"
+      },
+      "summary": "Okay, here's a summary of the email, tailored for a busy professional on mobile:\n\nThis email is a quick confirmation from Matthew Hanson, acknowledging receipt of interview details.\n\n**Why:**\nMatthew is confirming that he received the details for an upcoming interview. No action is needed from you at this time.\n\n**Context:**\n*   The original email, sent by Daniel Martinez on **November 9, 2022 at 1:03 PM**, contained the interview information.\n*   Matthew Hanson is the interviewee.\n*   Matthew responded with \"Sounds great, thank you!\"\n",
+      "latencyMs": 1587,
+      "cost": 0.00006659999999999999,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Okay"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "=?utf-8?q?Start_a_New_Italian-American_Thanksgiving_Tradition_this_Year_=F0=9F=A6=83?=",
+        "from": "\"Rollati Ristorante\" <user_8b69b330@example.com>",
+        "bodyPreview": "Let us Do the Cooking and Reserve Today!\r\n\r\n\r\n (https://t.e2ma.net/click/5j6srn/xhbxxptb/5np2e0b)\r\n\r\n\r\nVIEW OUR MENU (https://t.e2ma.net/click/5j6srn/xhbxxptb/lgq2e0b)\r\n\r\n\r\n (https://t.e2ma.net/click/"
+      },
+      "summary": "**Summary:**\n\nRollati Ristorante is offering an Italian-American Thanksgiving menu on **Thursday, November 23rd, from 12 PM - 8 PM.** They will serve holiday menu additions alongside a reduced a la carte dinner menu.\n\n**Why:**\n\nEnjoy a relaxing Thanksgiving with family while Rollati Ristorante handles the cooking and details.\n\n**Context:**\n\n*   Rollati Ristorante is open Thanksgiving Day.\n*   Special menu additions include Butternut Squash Soup ($14), Thanksgiving Pappardelle ($24), Thanksgiving Dinner ($28), and Apple & Cranberry Bread Pudding ($10).\n*   Gift cards are available; purchase $100 in gift cards and receive a bonus (amount not specified in email excerpt) through **December 31st.**\n*   Reservations are highly encouraged.\n",
+      "latencyMs": 1755,
+      "cost": 0.000123225,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "amount_not_found",
+            "value": "$14"
+          },
+          {
+            "type": "amount_not_found",
+            "value": "$24"
+          },
+          {
+            "type": "amount_not_found",
+            "value": "$28"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "American Thanksgiving"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Enjoy"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Thanksgiving Day"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Special"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Butternut Squash Soup"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Thanksgiving Pappardelle"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Thanksgiving Dinner"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Apple"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Cranberry Bread Pudding"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Gift"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Reservations"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "RE:  Re: Re: Liz & Matt Hanson - Purchase Update",
+        "from": "\"Eide, Aaron D\" <user_e99c57f1@example.com>",
+        "bodyPreview": "Hey Liz-\r\n\r\nThe application will always read how you originally applied. You can sign this as is, but of course we have all the documentation and verify everything prior to closing.\r\n\r\nAll good to sig"
+      },
+      "summary": "**Summary:**\n\nAaron Eide confirms that Liz and Matt Hanson can sign the loan application \"as is\" even though it doesn't reflect the latest account balances or the deposited $100k gift. He will verify everything prior to closing. He also confirms the gift letter was sent.\n\n**Why:**\n\nLiz noticed discrepancies in the loan application (outdated balances, missing gift deposit) and asked if she should sign it as is or wait for corrections. Aaron's response clarifies that signing the current version is acceptable.\n\n**Context:**\n\n*   Liz and Matt Hanson are purchasing a home.\n*   The loan application in the portal is not up-to-date.\n*   A $100k gift was deposited in April but isn't reflected in the application.\n*   Aaron Eide is the Private Wealth Mortgage Banker at US Bank.\n*   Original email thread started May 5, 2022.\n*   Aaron sent out the gift letter to everyone.\n*   Aaron's assistants are Danette Atherley and Michael Bertram.\n",
+      "latencyMs": 2058,
+      "cost": 0.00026159999999999996,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Original"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "Re: Potential new job",
+        "from": "J B <user_6b9fb6d0@example.com>",
+        "bodyPreview": "I understand.\n\n\nOn Wed, May 15, 2024 at 9:58 AM Matthew Hanson <user_8545e5c1@example.com>\nwrote:\n\n> Good morning, after some more careful consideration, I’ve decided to not\n> interview and I’m just g"
+      },
+      "summary": "Okay, here's a summary of the email for a busy professional:\n\nThis is a very brief reply from J B regarding a potential new job opportunity that Matthew Hanson wrote about on **May 15, 2024**.\n\n**Why:**\n• J B's one-word response (\"I understand.\") provides no specific information about their interest in the job.\n• Without the original email from Matthew Hanson, it's impossible to know the context of the job opportunity or J B's intentions.\n\n**Context:**\n• The subject line indicates a discussion about a potential new job.\n• Matthew Hanson sent the original email on **May 15, 2024, at 9:58 AM**.\n• J B's response implies they received and processed Matthew's message.\n• The lack of detail makes it impossible to determine if J B is accepting, declining, or simply acknowledging the information.\n",
+      "latencyMs": 1816,
+      "cost": 0.0002493,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Okay"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Without"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "New PJM Schedule Notification Time",
+        "from": "user_381f3f70@example.com",
+        "bodyPreview": "Attention Amigos, please read the following.\n\n12/26/2000 Note -- PJM Pilot Program\n\nPJM is implementing a pilot program effective 0900 Thursday, December 28, \n2000. \n\nPJM is reducing the time required"
+      },
+      "summary": "PJM is launching a pilot program on **Thursday, December 28, 2000 at 0900** reducing the time to request changes to interchange transactions from 30 to 20 minutes. Changes are guaranteed with 30 minutes notice, and accommodated on a best-effort basis with 20 minutes notice. Transactions without a NERC Tag will be rejected if untagged 20 minutes before start. Untagged transactions will still hold ramp.\n",
+      "latencyMs": 1068,
+      "cost": 0.000046425,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Untagged"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "3 ways the app defeats indecision\r\n =?UTF-8?B?4pyU77iP4pyU77iP4pyU77iP?=",
+        "from": "Thumbtack <user_c1f152eb@example.com>",
+        "bodyPreview": "Personalized guides help. \r\n ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ \r\n‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ ‌ \r\n‌ ‌ ‌ ‌ ‌"
+      },
+      "summary": "Thumbtack's spring guide helps eliminate home-related indecision.\n\n*   Get personalized tips for your home.\n*   Find accurate cost estimates for home projects.\n*   Decide when to DIY vs. hire a pro.\n\n**Why:** The guide provides recommendations and helps you find and book local pros for tasks like junk removal, painting, pressure washing, and deep cleaning.\n\n**Context:** Build your home profile in the app for personalized guidance and access smarter planning tools.\n",
+      "latencyMs": 1367,
+      "cost": 0.000224325,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Thumbtack"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Decide"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "Re: Session with Clara",
+        "from": "Matthew Hanson <user_8545e5c1@example.com>",
+        "bodyPreview": "Good morning Cecilia I’m excited to come in with Clara today. She was a little confused as she didn’t know if she also had a session tomorrow and was hoping to only have one this week. Can you confirm"
+      },
+      "summary": "Here's a summary of the email thread:\n\n**Why:**\nClara wants to have a session with Matthew to discuss a specific topic, with Cecilia present for support. Clara is hoping to only have one session this week.\n\n**Context:**\n*   Cecilia initially reached out to Matthew on **August 5, 2025**, to schedule an in-person session for Clara the week of **August 18th**.\n*   Matthew confirmed his availability on Mondays and Fridays.\n*   Cecilia proposed **Monday, August 18th at 12:00 pm**, which Matthew accepted.\n*   Matthew is coming in with Clara today, but Clara is confused about a potential session tomorrow.\n*   Cecilia confirmed everything is fine and she will see them in her office on **Monday, August 18th at 12:00 pm**.\n\n**Actions:**\n*   Confirm if Clara has a session scheduled for tomorrow.\n*   If there is a session scheduled for tomorrow, confirm if it is OK to cancel.\n",
+      "latencyMs": 2145,
+      "cost": 0.00010769999999999999,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Here"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Mondays"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Fridays"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Confirm"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "Enter the World of NBA 2K25",
+        "from": "\"NBA 2K\" <user_1d439d0d@example.com>",
+        "bodyPreview": "&zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwnj; &zwn"
+      },
+      "summary": "Here's a summary of the email:\n\nThe email from NBA 2K promotes the upcoming NBA 2K25 game and encourages you to watch the new trailer.\n\n**Why:**\nThe email highlights the interactive City feature and various competitive game modes in NBA 2K25, aiming to generate excitement and encourage pre-orders.\n\n**Context:**\n• The email includes links to watch the \"World of 2K\" trailer.\n• It mentions an \"Early Tip-Off\" promotion.\n• Players who pre-order any edition of NBA 2K25 before **September 6** can play up to two days early on PS5, PS4, Xbox Series X|S, Xbox One, or PC.\n",
+      "latencyMs": 1410,
+      "cost": 0.00020602499999999998,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Here"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "Zoom link for meeting at 5:15pm today",
+        "from": "Sharon Pereira <user_a79bd3e9@example.com>",
+        "bodyPreview": "Sharon Pereira is inviting you to a scheduled Zoom meeting.\n\nTopic: Liz and Matt's Zoom Meeting\nTime: Aug 13, 2021 05:15 PM Pacific Time (US and Canada)\n\nJoin Zoom Meeting\nhttps://us06web.zoom.us/j/8["
+      },
+      "summary": "Here's a summary of the email:\n\nSharon Pereira has sent you a Zoom meeting invitation for a meeting titled \"Liz and Matt's Zoom Meeting.\"\n\n**When:** Today, **August 13, 2021, at 5:15 PM** Pacific Time.\n\n**How to Join:**\n\n*   Use this link: https://us06web.zoom.us/j/8[PHONE_REDACTED]?pwd=MUx3VXA1VGVVdVZpM0xmREJ0c29qdz09\n*   Meeting ID: 894 5382 8556\n*   Passcode: 574594\n\n**Why:** To participate in the scheduled Zoom meeting with Liz and Matt.\n\n**Context:** The email includes Sharon Pereira's contact information, including her office address, phone numbers, and websites. This meeting was scheduled in response to an email from Matthew Hanson on August 13, 2021, at 10:19 AM.\n",
+      "latencyMs": 1914,
+      "cost": 0.000102975,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "date_not_found",
+            "value": "August 13"
+          },
+          {
+            "type": "date_not_found",
+            "value": "August 13"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Here"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "When"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Today"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "August"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "August"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "Final call! A haunting Halloween concert awaits!",
+        "from": "\"Candlelight by Fever\" <user_cf690320@example.com>",
+        "bodyPreview": "https://view.email.feverup.com/?qs=20cfd268fbfb40b5a8d25494583a464659bb632430c231c4b295cdf9cfab2b549862eea5419f6161cf4a205212b72558f1cbb7809c22f6067c2439f8ede32d19a749dd3818510a1ef6c89e2c7ded9a4e \r\n\r\n"
+      },
+      "summary": "Final call! A haunting Halloween concert awaits!",
+      "latencyMs": 187,
+      "cost": 0.000074175,
+      "hallucinations": {
+        "hasIssues": false,
+        "issues": []
+      }
+    },
+    {
+      "email": {
+        "subject": "Help your children get ready to use Gemini Apps",
+        "from": "Google Gemini <user_f5fa55a3@example.com>",
+        "bodyPreview": "Manage your children’s access to Gemini with Google’s Family Link\r\n\r\nHi Matt,\r\n\r\nGemini  \r\nApps<https://notifications.google.com/g/p/ANiao5r6KTbLturPSxG3qZUv1Fy1E1O-oZky7UfOI7C6TQntitFGCKhsQH1_tMViqXa"
+      },
+      "summary": "Manage your children’s access to Gemini with Google’s Family...",
+      "latencyMs": 165,
+      "cost": 0.000128625,
+      "hallucinations": {
+        "hasIssues": false,
+        "issues": []
+      }
+    },
+    {
+      "email": {
+        "subject": "The Gramlins are Live =?UTF-8?B?8J+YiA==?= 30% off New Live Rosin\r\n Vapes",
+        "from": "\"Airfield Supply Co.\" <user_469c3e25@example.com>",
+        "bodyPreview": "+ 25% Off Papa & Barkley Wellness Products!"
+      },
+      "summary": "+ 25% Off Papa & Barkley Wellness Products",
+      "latencyMs": 88,
+      "cost": 0.000005549999999999999,
+      "hallucinations": {
+        "hasIssues": false,
+        "issues": []
+      }
+    },
+    {
+      "email": {
+        "subject": "Re: Hullo from sparkland",
+        "from": "Matt Hanson <user_8a00487b@example.com>",
+        "bodyPreview": "For sure, I kind of anticipated that TBH...I have something brewing that\r\nI'd like to get MTG+Slanted involved in. It'll take me a bit to define it\r\nproperly but ill ping y'all soon!\r\n\r\nTalk in a bit\r"
+      },
+      "summary": "For sure, I kind of anticipated that TBH",
+      "latencyMs": 155,
+      "cost": 0.000028574999999999997,
+      "hallucinations": {
+        "hasIssues": false,
+        "issues": []
+      }
+    },
+    {
+      "email": {
+        "subject": "SIVY ON STOCK - Whirlybird",
+        "from": "user_dd20777f@example.com",
+        "bodyPreview": "********************[ A D V E R T I S E M E N T ]**************** \nStay on top of the market with Prudential Securities and \nDow Jones. Click on the url below to learn how you can receive \na 1-year su"
+      },
+      "summary": "**Summary:**\n\nMichael Sivy of money.com recommends Textron (TXT), an industrial conglomerate, as a value stock in light of economic uncertainty.\n\n**Why:**\n\nTextron's diverse business mix provides stability in an uncertain market. While some divisions are experiencing slower growth due to the economy, the aircraft division (Cessna airplanes and Bell helicopters) is performing strongly.\n\n**Context:**\n\n*   **Date:** November 17, 2000\n*   Textron's operating earnings breakdown:\n    *   40% Industrial\n    *   30% Aircraft Manufacturing (Cessna, Bell)\n    *   19% Automotive\n    *   11% Financial Services\n*   Aircraft division revenue up 22%, profits up 40% in Q3.\n*   Order backlogs are rising for both Cessna and Bell.\n*   Automotive division revenue only up 1% in Q3.\n*   The email also contains an advertisement for Prudential Securities and Dow Jones, offering a free subscription to The Wall Street Journal or Barron's.\n",
+      "latencyMs": 2157,
+      "cost": 0.00015135,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "While"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Date"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Industrial"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Aircraft Manufacturing"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Financial Services"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Aircraft"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Order"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Barron"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "Confirm your new email address on Bumble For Friends",
+        "from": "Bumble For Friends <user_a2baa550@example.com>",
+        "bodyPreview": "<!DOCTYPE html>\n<html>\n<head><meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />\n\n    <title>Confirm your new email address on Bumble For Friends</title>\n    <style>\n        body {\n "
+      },
+      "summary": "Confirm your Bumble For Friends email address by clicking the \"Confirm email\" button in this email.\n\n**Why:**\nThis verifies your new email address with Bumble For Friends, ensuring you receive important updates and notifications.\n\n**Context:**\nYou recently requested to change or set up your email address on Bumble For Friends. If you did not make this request, simply delete the email.\n",
+      "latencyMs": 1220,
+      "cost": 0.000151725,
+      "hallucinations": {
+        "hasIssues": false,
+        "issues": []
+      }
+    },
+    {
+      "email": {
+        "subject": "Murkowski/Feinstein Letter",
+        "from": "user_51fc8f00@example.com",
+        "bodyPreview": "Forwarded to you at the request of Linda Robertson:\n\nLora Sullivan\nFederal Government Affairs Representative\nEnron\n1775 Eye Street, NW\nSuite 800\nWashington, DC  20006\n[PHONE_REDACTED]\n[PHONE_REDACTED]"
+      },
+      "summary": "This email forwards a request from Steven Kean regarding letters to Senators Feinstein and Murkowski.\n\n**Why:**\nKean needs the attached text formatted on his letterhead for letters to Senators Feinstein and Murkowski. He is also seeking feedback on the drafts from Linda Robertson and Tom Briggs.\n\n**Context:**\n• The email was originally sent on **February 26, 2001, at 8:51 AM** by Steven Kean to Maureen McVicker, with copies to Linda Robertson and Tom Briggs.\n• A separate letter to Senator Wyden is already being finalized with minor edits.\n• Lora Sullivan forwarded the email at Linda Robertson's request.\n\n**Actions:**\n• Maureen McVicker: Format the attached text on Steven Kean's letterhead.\n• Linda Robertson & Tom Briggs: Review and provide comments on the drafts.\n",
+      "latencyMs": 1850,
+      "cost": 0.000073125,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "date_not_found",
+            "value": "February 26"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Steven Kean"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Senators Feinstein"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Senators Feinstein"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "February"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Steven Kean"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Senator Wyden"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Format"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Steven Kean"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Review"
+          }
+        ]
+      }
+    },
+    {
+      "email": {
+        "subject": "Last Days to Vote: Condé Nast Traveler's Readers' Choice Awards",
+        "from": "1 Hotels <user_19cf9b82@example.com>",
+        "bodyPreview": "https://view.shhotelsandresorts.com/?qs=66847d1de12762873581eb55d34fb51cfd8434e6db783b1bd8c116510494db250cf0a86bed042a5191628c93716a6e781ff100906144e7b2f0a3347c7500d78bc971f39c5089ea311f7b97d38370bed7"
+      },
+      "summary": "Vote in Condé Nast Traveler's Readers' Choice Awards. It's the last chance to vote for 1 Hotels. Click the link to cast your vote.\n",
+      "latencyMs": 663,
+      "cost": 0.00006539999999999999,
+      "hallucinations": {
+        "hasIssues": true,
+        "issues": [
+          {
+            "type": "potential_name_hallucination",
+            "value": "Hotels"
+          },
+          {
+            "type": "potential_name_hallucination",
+            "value": "Click"
+          }
+        ]
+      }
+    }
+  ]
+}

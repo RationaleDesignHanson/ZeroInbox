@@ -1,0 +1,244 @@
+{
+  "total": 200,
+  "flagged": 5,
+  "realIssues": 3,
+  "falsePositives": 5,
+  "byType": {
+    "date_not_found": 5,
+    "time_not_found": 3
+  },
+  "cases": [
+    {
+      "index": 26,
+      "subject": "Re: KILN",
+      "from": "Matthew Hanson <user_8545e5c1@example.com>",
+      "analysis": {
+        "hasIssues": true,
+        "hasRealIssues": false,
+        "issues": [
+          {
+            "type": "date_not_found",
+            "value": "July 20",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          }
+        ],
+        "realIssues": [],
+        "falsePositives": [
+          {
+            "type": "date_not_found",
+            "value": "July 20",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          }
+        ],
+        "summary": {
+          "total": 1,
+          "real": 0,
+          "falsePositives": 1,
+          "highSeverity": 0,
+          "mediumSeverity": 0,
+          "lowSeverity": 1
+        }
+      },
+      "summary": "Matthew Hanson wants to schedule a cone 10 firing for **7** pinkish bisque pieces he sent to Sasha Ramirez. He is asking about Sasha's availability.\n\n**Why:** Matthew is preparing New Year's gifts and needs to fire his ceramic pieces.\n\n**Context:**\n*   Matthew contacted Sasha initially in July 2023 about kiln availability.\n*   Sasha responded that it depends on the number and size of pieces.\n*   Matthew followed up on **December 16, 2024**, to confirm kiln availability.\n*   Sasha confirmed the k",
+      "originalSnippet": "Awesome - I’m looking to do a cone 10 firing for a few of the pieces I sent (the 7 that are a pinkish bisque).\r\n\r\nWhen are you available?\r\n________________________________\r\nFrom: sasha ramirez <user_a89cb4b3@example.com>\r\nSent: Monday, December 16, 2024 5:14:16 PM\r\nTo: Matthew Hanson <user_8545e5c1@example.com>\r\nSubject: Re: KILN\r\n\r\nHello Matthew,\r\n\r\nYes it’s available.\r\n\r\nBest,\r\n\r\n Sasha R.\r\n\r\nOn Dec 16, 2024, at 16:21, Matthew Hanson <user_8545e5c1@example.com> wrote:\r\n\r\n﻿\r\nHello - although it"
+    },
+    {
+      "index": 27,
+      "subject": "RE: NJ Mediation consult - Hanson divorce",
+      "from": "Mark Marotta <user_27760fc5@example.com>",
+      "analysis": {
+        "hasIssues": true,
+        "hasRealIssues": false,
+        "issues": [
+          {
+            "type": "date_not_found",
+            "value": "June 17",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          }
+        ],
+        "realIssues": [],
+        "falsePositives": [
+          {
+            "type": "date_not_found",
+            "value": "June 17",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          }
+        ],
+        "summary": {
+          "total": 1,
+          "real": 0,
+          "falsePositives": 1,
+          "highSeverity": 0,
+          "mediumSeverity": 0,
+          "lowSeverity": 1
+        }
+      },
+      "summary": "Mark Marotta is available for a mediation consult regarding your divorce from Matt. He suggests an initial call (phone or Zoom) early next week, ideally without Jenny and Joanna present (your lawyers).\n\n**Actions:**\n• Respond with your availability for a call early next week.\n\n**Why:**\nMark was recommended by both you and Matt's lawyers and is willing to discuss mediating your divorce. Liz is available starting **June 17**.\n\n**Context:**\nThe original email was sent **June 7, 2024**. Jenny Birz a",
+      "originalSnippet": "Liz and Matt:\r\n\r\nThanks for reaching out, of course I’d be happy to help and appreciate the opportunity to do so.\r\n\r\nWe can speak on the phone (or Zoom), perhaps early next week.\r\n\r\nI’d assume we could have an initial discussion without Jenny and Joanna (with their permission, of course).\r\n\r\nLet me know what day(s) might work for you both.\r\n\r\nThanks, I look forward to meeting you both.\r\n\r\nMark\r\n\r\nMark P. Marotta, Esq.\r\nMarotta & Tuchman, LLC.\r\n[ADDRESS_REDACTED]\r\nSuite 320\r\nMaywood, New Jersey, "
+    },
+    {
+      "index": 30,
+      "subject": "Debt Trading - Daily Loss violation memo, November 17, 2000",
+      "from": "user_386730a2@example.com",
+      "analysis": {
+        "hasIssues": true,
+        "hasRealIssues": false,
+        "issues": [
+          {
+            "type": "date_not_found",
+            "value": "November 20",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          }
+        ],
+        "realIssues": [],
+        "falsePositives": [
+          {
+            "type": "date_not_found",
+            "value": "November 20",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          }
+        ],
+        "summary": {
+          "total": 1,
+          "real": 0,
+          "falsePositives": 1,
+          "highSeverity": 0,
+          "mediumSeverity": 0,
+          "lowSeverity": 1
+        }
+      },
+      "summary": "Forwarded FYI regarding a Debt Trading Daily Loss violation memo from **November 17, 2000**. The original email was sent by Sheila Glover on **November 20, 2000**, to Shona Wilson and Chris Abel. Several others are CC'd. No specific action is requested in this notification.\n",
+      "originalSnippet": "fyi..\n---------------------- Forwarded by Sheila Glover/HOU/ECT on 11/20/2000 02:33 \nPM ---------------------------\n   \n\t\n\t\n\tFrom:  Sheila Glover                           11/20/2000 02:33 PM\n\t\n\nTo: Shona Wilson/NA/Enron@Enron, Chris Abel/HOU/ECT@ECT\ncc: Tom Doukas/NA/Enron@ENRON, Markus Fiala/LON/ECT@ECT, Gary \nHickerson/HOU/ECT@ECT, Jeff Kinneman/HOU/ECT@ECT, Paul Pizzolato/HOU/ECT@ECT, \n/HOU/ECT, Richard Sage/LON/ECT@ECT, Bryan Seyfried/LON/ECT@ECT, John \nSherriff/LON/ECT@ECT, David A Wall/Ri"
+    },
+    {
+      "index": 46,
+      "subject": "Re: The Lakehouse/Civility & Unrest : Contract Comment for Business\r\n Social Function [Tue, Nov 14, 2023]",
+      "from": "Matthew Hanson <user_8545e5c1@example.com>",
+      "analysis": {
+        "hasIssues": true,
+        "hasRealIssues": false,
+        "issues": [
+          {
+            "type": "date_not_found",
+            "value": "November 14",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          },
+          {
+            "type": "date_not_found",
+            "value": "November 14",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          }
+        ],
+        "realIssues": [],
+        "falsePositives": [
+          {
+            "type": "date_not_found",
+            "value": "November 14",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          },
+          {
+            "type": "date_not_found",
+            "value": "November 14",
+            "severity": "low",
+            "context": "Partial date match found",
+            "likelyFalsePositive": true
+          }
+        ],
+        "summary": {
+          "total": 2,
+          "real": 0,
+          "falsePositives": 2,
+          "highSeverity": 0,
+          "mediumSeverity": 0,
+          "lowSeverity": 2
+        }
+      },
+      "summary": "**Summary:**\n\nMatt Hanson has completed the contract and added a card on file for the Business Social Function at The Lakehouse/Civility & Unrest on **Tuesday, November 14, 2023, at 7:30 PM.**\n\n**Why:**\n\nThis confirms that Matt has fulfilled the requirements outlined by Stephanie Keyt to hold the reservation for the event. No further action is needed from Stephanie at this time.\n\n**Context:**\n\n*   The event is a Business Social Function scheduled for **November 14, 2023, at 7:30 PM.**\n*   Stepha",
+      "originalSnippet": "Great! I just completed the contract and added a card on file, thanks so much. Let me know if you need anything else - see you soon.\r\n\r\n-Matt\r\n________________________________\r\nFrom: Stephanie Keyt <user_7cbbf0a4@example.com>\r\nSent: Sunday, November 12, 2023 1:29:02 PM\r\nTo: Matt Hanson <user_8545e5c1@example.com>\r\nSubject: Re: The Lakehouse/Civility & Unrest : Contract Comment for Business Social Function [Tue, Nov 14, 2023]\r\n\r\n| Reply above this line to comment |\r\n– – – – – – – – – – – – – – – "
+    },
+    {
+      "index": 198,
+      "subject": "Re: [EXTERNAL] Re: TJ 2-202 Your Application for Residency is\r\n Approved!",
+      "from": "Matthew Hanson <user_8545e5c1@example.com>",
+      "analysis": {
+        "hasIssues": true,
+        "hasRealIssues": true,
+        "issues": [
+          {
+            "type": "time_not_found",
+            "value": "10:15 AM",
+            "severity": "medium",
+            "context": "Time may be hallucinated",
+            "likelyFalsePositive": false
+          },
+          {
+            "type": "time_not_found",
+            "value": "10:30 AM",
+            "severity": "medium",
+            "context": "Time may be hallucinated",
+            "likelyFalsePositive": false
+          },
+          {
+            "type": "time_not_found",
+            "value": "10:30 AM",
+            "severity": "medium",
+            "context": "Time may be hallucinated",
+            "likelyFalsePositive": false
+          }
+        ],
+        "realIssues": [
+          {
+            "type": "time_not_found",
+            "value": "10:15 AM",
+            "severity": "medium",
+            "context": "Time may be hallucinated",
+            "likelyFalsePositive": false
+          },
+          {
+            "type": "time_not_found",
+            "value": "10:30 AM",
+            "severity": "medium",
+            "context": "Time may be hallucinated",
+            "likelyFalsePositive": false
+          },
+          {
+            "type": "time_not_found",
+            "value": "10:30 AM",
+            "severity": "medium",
+            "context": "Time may be hallucinated",
+            "likelyFalsePositive": false
+          }
+        ],
+        "falsePositives": [],
+        "summary": {
+          "total": 3,
+          "real": 3,
+          "falsePositives": 0,
+          "highSeverity": 0,
+          "mediumSeverity": 3,
+          "lowSeverity": 0
+        }
+      },
+      "summary": "Here's a summary of the email thread:\n\n**Summary:**\n\nMatt is coordinating with Maritza Moncada (Leasing Specialist at The James) to schedule a key pick-up and walkthrough for his new residency (TJ 2-202). The lease starts on **July 8, 2024**. Maritza has confirmed that Matt can pick up the keys and do the walkthrough on **July 8, 2024**, anytime after 10:15 AM. Matt has proposed **10:30 AM** on **July 8th**.\n\n**Actions:**\n\n*   Confirm with Matthew Hanson if **10:30 AM** on **July 8th** is confir",
+      "originalSnippet": "Thank you for bearing with me and my confusion - I’m juggling a lot of info.\r\n\r\n1030 on 7.8 is great - please let me know if we are confirmed 😀\r\n________________________________\r\nFrom: Moncada, Maritza <user_6cb59251@example.com>\r\nSent: Thursday, June 13, 2024 9:14:30 AM\r\nTo: Matt <user_f8d2cf68@example.com>\r\nCc: user_8545e5c1@example.com <user_8545e5c1@example.com>; Moise, Gary <user_12971ef2@example.com>; Perez, Millie <user_15b6a6ba@example.com>\r\nSubject: RE: [EXTERNAL] Re: TJ 2-202 Your App"
+    }
+  ]
+}

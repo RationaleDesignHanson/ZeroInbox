@@ -29,7 +29,7 @@ struct StructuredSummaryView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DesignTokens.Spacing.element) {
             // If summary is empty, show placeholder
             if summary.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                 Text("No summary available")
@@ -38,41 +38,45 @@ struct StructuredSummaryView: View {
                     .italic()
                     .frame(maxWidth: .infinity, alignment: .leading)
             } else {
-                // Action-oriented display with context - show Actions + Context sections
+                // Action-oriented display with all three sections
                 let actionsSection = sections.first { $0.title == "Actions" }
-                let contextSection = sections.first { $0.title == "Context" }
                 let whySection = sections.first { $0.title == "Why" }
+                let contextSection = sections.first { $0.title == "Context" }
 
-                // Merge Why into Context if both exist
-                let finalContext: SummarySection? = {
-                    if let context = contextSection {
-                        if let why = whySection {
-                            // Merge why into context
-                            let combined = "\(why.content)\n\n\(context.content)"
-                            return SummarySection(title: "Context", icon: "📋", color: .purple, content: combined)
-                        }
-                        return context
-                    } else if let why = whySection {
-                        // Use Why as Context if Context doesn't exist
-                        return SummarySection(title: "Context", icon: "📋", color: .purple, content: why.content)
-                    }
-                    return nil
-                }()
-
-                // Display Actions section
+                // Display SUGGESTED ACTIONS section with arrow
                 if let actions = actionsSection, !actions.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    SectionCard(section: actions, lineLimit: intelligentLineLimit, isActions: true, cardType: cardType)
+                    SectionCard(
+                        section: SummarySection(title: "SUGGESTED ACTIONS", icon: actions.icon, color: actions.color, content: actions.content),
+                        lineLimit: intelligentLineLimit,
+                        sectionType: .actions,
+                        cardType: cardType
+                    )
                 }
 
-                // Display Context section
-                if let context = finalContext, !context.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    SectionCard(section: context, lineLimit: intelligentLineLimit, isActions: false, cardType: cardType)
+                // Display WHY THIS MATTERS section (separate from context)
+                if let why = whySection, !why.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    SectionCard(
+                        section: SummarySection(title: "WHY THIS MATTERS", icon: why.icon, color: why.color, content: why.content),
+                        lineLimit: intelligentLineLimit,
+                        sectionType: .why,
+                        cardType: cardType
+                    )
+                }
+
+                // Display CONTEXT section
+                if let context = contextSection, !context.content.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                    SectionCard(
+                        section: SummarySection(title: "CONTEXT", icon: context.icon, color: context.color, content: context.content),
+                        lineLimit: intelligentLineLimit,
+                        sectionType: .context,
+                        cardType: cardType
+                    )
                 }
 
                 // Fallback: If no sections found, show raw summary
-                if actionsSection == nil && finalContext == nil {
+                if actionsSection == nil && whySection == nil && contextSection == nil {
                     Text((try? AttributedString(markdown: summary)) ?? AttributedString(summary))
-                        .font(.system(size: 14))
+                        .font(DesignTokens.Typography.aiAnalysisContextText)
                         .foregroundColor(textColorPrimary)
                         .lineSpacing(4)
                         .lineLimit(intelligentLineLimit)
@@ -96,36 +100,69 @@ struct StructuredSummaryView: View {
     }
 }
 
+// MARK: - Section Type
+
+private enum SectionType {
+    case actions
+    case why
+    case context
+
+    var isActions: Bool { self == .actions }
+}
+
 // MARK: - Section Card
 
 private struct SectionCard: View {
     let section: SummarySection
     let lineLimit: Int?
-    var isActions: Bool = false
+    var sectionType: SectionType = .context
     var cardType: CardType = .mail
 
-    var body: some View {
-        // Conditional text colors
-        let headerColor = cardType == .ads ? DesignTokens.Colors.adsTextPrimary : Color.white
-        let contentColor = cardType == .ads ?
-            (isActions ? DesignTokens.Colors.adsTextPrimary : DesignTokens.Colors.adsTextSecondary) :
-            Color.white.opacity(isActions ? 1.0 : 0.85)
+    // Conditional text colors
+    private var headerColor: Color {
+        cardType == .ads ?
+            DesignTokens.Colors.adsTextSecondary :
+            Color.white.opacity(DesignTokens.Opacity.textTertiary)
+    }
 
-        // Vertical layout for sections like Actions
-        VStack(alignment: .leading, spacing: isActions ? 8 : 6) {
-            // Section header (only for Actions and other sections, not Why/Context)
-            HStack(spacing: 6) {
-                Text(section.title.uppercased())
-                    .font(DesignTokens.Typography.cardSectionHeader)
+    private var contentColor: Color {
+        cardType == .ads ?
+            (sectionType.isActions ? DesignTokens.Colors.adsTextPrimary : DesignTokens.Colors.adsTextSecondary) :
+            Color.white.opacity(sectionType.isActions ? 1.0 : DesignTokens.Opacity.textSecondary)
+    }
+
+    private var arrowColor: Color {
+        cardType == .ads ?
+            DesignTokens.Colors.adsTextPrimary :
+            Color.white.opacity(DesignTokens.Opacity.textSecondary)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: sectionType.isActions ? DesignTokens.Spacing.inline : DesignTokens.Spacing.tight) {
+            // Section header with optional arrow for actions
+            HStack(spacing: DesignTokens.Spacing.tight) {
+                Text(section.title)
+                    .font(DesignTokens.Typography.aiAnalysisSectionHeader)
                     .foregroundColor(headerColor)
-                    .fontWeight(.bold)
+                    .tracking(0.5)
+
+                Spacer()
+
+                // Arrow indicator for SUGGESTED ACTIONS
+                if sectionType == .actions {
+                    Image(systemName: "arrow.right")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(arrowColor)
+                }
             }
 
             // Section content with markdown rendering
-            // Actions: 15px, primary text color
-            // Other sections: 14px, secondary text color
             Text((try? AttributedString(markdown: section.content)) ?? AttributedString(section.content))
-                .font(.system(size: isActions ? 15 : 14))
+                .font(sectionType.isActions ?
+                    DesignTokens.Typography.aiAnalysisActionText :
+                    (sectionType == .why ?
+                        DesignTokens.Typography.aiAnalysisWhyText :
+                        DesignTokens.Typography.aiAnalysisContextText))
                 .foregroundColor(contentColor)
                 .lineSpacing(5)
                 .lineLimit(lineLimit)
