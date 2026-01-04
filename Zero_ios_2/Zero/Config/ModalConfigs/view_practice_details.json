@@ -1,0 +1,297 @@
+{
+  "id": "view_practice_details",
+  "title": "Practice Details",
+  "subtitle": "View practice information",
+  "icon": {
+    "systemName": "figure.run",
+    "colorKey": null,
+    "staticColor": "green",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "practice_info",
+      "title": "Practice Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "sport_activity",
+          "label": "Sport/Activity",
+          "type": "text",
+          "contextKey": "sport",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Soccer, Basketball, Band, etc.",
+          "helpText": "Type of activity",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "team_level",
+          "label": "Team/Level",
+          "type": "text",
+          "contextKey": "team",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Varsity, JV, U12, etc.",
+          "helpText": "Team name or grade level",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "practice_type",
+          "label": "Type",
+          "type": "badge",
+          "contextKey": "practiceType",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Regular Practice",
+          "helpText": "Practice type",
+          "formatting": null,
+          "colorMapping": {
+            "regular": "blue",
+            "scrimmage": "orange",
+            "game": "red",
+            "conditioning": "purple",
+            "optional": "gray"
+          },
+          "defaultValue": "regular"
+        }
+      ]
+    },
+    {
+      "id": "schedule_section",
+      "title": "Date & Time",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "practice_date",
+          "label": "Date",
+          "type": "date",
+          "contextKey": "date",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Practice date",
+          "helpText": "When is practice?",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "full"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "practice_time",
+          "label": "Time",
+          "type": "time",
+          "contextKey": "time",
+          "required": true,
+          "copyable": false,
+          "placeholder": "3:30 PM",
+          "helpText": "Start time",
+          "formatting": {
+            "type": "time",
+            "options": {
+              "timeStyle": "short"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "duration",
+          "label": "Duration",
+          "type": "text",
+          "contextKey": "duration",
+          "required": false,
+          "copyable": false,
+          "placeholder": "2 hours",
+          "helpText": "How long is practice?",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "location_section",
+      "title": "Location",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "location",
+          "label": "Location",
+          "type": "text",
+          "contextKey": "location",
+          "required": true,
+          "copyable": true,
+          "placeholder": "Main gym, Field 2, etc.",
+          "helpText": "Where to go",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "address",
+          "label": "Address",
+          "type": "text",
+          "contextKey": "address",
+          "required": false,
+          "copyable": true,
+          "placeholder": "123 School St, City, State",
+          "helpText": "Full address",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "coach_section",
+      "title": "Coach/Contact",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "coach_name",
+          "label": "Coach",
+          "type": "text",
+          "contextKey": "coachName",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Coach Smith",
+          "helpText": "Coach or instructor name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "coach_phone",
+          "label": "Contact Phone",
+          "type": "text",
+          "contextKey": "coachPhone",
+          "required": false,
+          "copyable": true,
+          "placeholder": "(555) 123-4567",
+          "helpText": "Tap to copy",
+          "validation": {
+            "type": "phone",
+            "errorMessage": "Please enter a valid phone number"
+          },
+          "formatting": {
+            "type": "phone"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "coach_email",
+          "label": "Contact Email",
+          "type": "text",
+          "contextKey": "coachEmail",
+          "required": false,
+          "copyable": true,
+          "placeholder": "coach@school.edu",
+          "helpText": "Tap to copy",
+          "validation": {
+            "type": "email",
+            "errorMessage": "Please enter a valid email"
+          },
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "additional_info",
+      "title": "Additional Information",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "what_to_bring",
+          "label": "What to Bring",
+          "type": "text",
+          "contextKey": "whatToBring",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Cleats, shin guards, water bottle",
+          "helpText": "Required equipment",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "special_notes",
+          "label": "Special Notes",
+          "type": "textArea",
+          "contextKey": "notes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Any special instructions or notes...",
+          "helpText": "Important information",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 4,
+          "characterLimit": 300
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Add to Calendar",
+    "style": "primary",
+    "action": {
+      "type": "custom",
+      "contextKey": "addToCalendar"
+    },
+    "analytics": {
+      "eventName": "practice_added_to_calendar",
+      "properties": {
+        "sport": "{sport}",
+        "practice_type": "{practiceType}",
+        "has_location": "{location}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Get Directions",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "getDirections"
+    },
+    "analytics": {
+      "eventName": "practice_directions_requested"
+    }
+  },
+  "tertiaryButton": {
+    "title": "Contact Coach",
+    "style": "tertiary",
+    "action": {
+      "type": "custom",
+      "contextKey": "contactCoach"
+    },
+    "analytics": {
+      "eventName": "coach_contact_clicked"
+    }
+  },
+  "cancelButton": {
+    "title": "Close",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": ["calendar", "location"]
+  },
+  "loadingStates": {
+    "submitting": "Processing...",
+    "success": "Practice added to calendar!",
+    "error": "Failed to add practice. Please try again."
+  }
+}

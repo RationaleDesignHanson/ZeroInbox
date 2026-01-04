@@ -1,0 +1,301 @@
+{
+  "id": "file_insurance_claim",
+  "title": "File Insurance Claim",
+  "subtitle": "Get reimbursed for medical expenses",
+  "icon": {
+    "systemName": "cross.case.fill",
+    "colorKey": null,
+    "staticColor": "red",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "claim_type_section",
+      "title": "Claim Type",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "claim_type",
+          "label": "Type of Claim",
+          "type": "picker",
+          "contextKey": "claimType",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Medical",
+          "helpText": "What type of service?",
+          "pickerOptions": [
+            {
+              "value": "medical",
+              "label": "Medical",
+              "icon": "cross.case.fill",
+              "description": "Doctor visit, surgery, ER"
+            },
+            {
+              "value": "dental",
+              "label": "Dental",
+              "icon": "mouth.fill",
+              "description": "Dentist, orthodontist"
+            },
+            {
+              "value": "vision",
+              "label": "Vision",
+              "icon": "eye.fill",
+              "description": "Eye exam, glasses, contacts"
+            },
+            {
+              "value": "prescription",
+              "label": "Prescription",
+              "icon": "pills.fill",
+              "description": "Medications, pharmacy"
+            },
+            {
+              "value": "therapy",
+              "label": "Therapy/Mental Health",
+              "icon": "brain.head.profile",
+              "description": "Counseling, psychiatry"
+            },
+            {
+              "value": "other",
+              "label": "Other",
+              "icon": "ellipsis.circle.fill",
+              "description": "Other medical expense"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": {
+            "medical": "red",
+            "dental": "blue",
+            "vision": "purple",
+            "prescription": "orange",
+            "therapy": "green"
+          },
+          "defaultValue": "medical"
+        }
+      ]
+    },
+    {
+      "id": "service_details",
+      "title": "Service Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "service_date",
+          "label": "Date of Service",
+          "type": "datePicker",
+          "contextKey": "serviceDate",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select date",
+          "helpText": "When was the service provided?",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "long"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "provider_name",
+          "label": "Provider Name",
+          "type": "textInput",
+          "contextKey": "providerName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Dr. Smith, ABC Medical Center",
+          "helpText": "Doctor or facility name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "amount_paid",
+          "label": "Amount Paid",
+          "type": "currency",
+          "contextKey": "amountPaid",
+          "required": true,
+          "copyable": false,
+          "placeholder": "$150.00",
+          "helpText": "How much did you pay?",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "description",
+          "label": "Description of Service",
+          "type": "textArea",
+          "contextKey": "description",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Annual physical exam, blood work...",
+          "helpText": "What was done during the visit?",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 4,
+          "characterLimit": 300
+        }
+      ]
+    },
+    {
+      "id": "insurance_info",
+      "title": "Insurance Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "policy_number",
+          "label": "Policy Number",
+          "type": "textInput",
+          "contextKey": "policyNumber",
+          "required": false,
+          "copyable": true,
+          "placeholder": "ABC123456789",
+          "helpText": "Your insurance policy number",
+          "formatting": {
+            "type": "monospace"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "member_id",
+          "label": "Member ID",
+          "type": "textInput",
+          "contextKey": "memberId",
+          "required": false,
+          "copyable": true,
+          "placeholder": "123456789",
+          "helpText": "Your member identification number",
+          "formatting": {
+            "type": "monospace"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "group_number",
+          "label": "Group Number (if applicable)",
+          "type": "textInput",
+          "contextKey": "groupNumber",
+          "required": false,
+          "copyable": false,
+          "placeholder": "GRP12345",
+          "helpText": "Your employer group number",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "documentation_section",
+      "title": "Documentation",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": false,
+      "fields": [
+        {
+          "id": "has_receipt",
+          "label": "I Have Receipt/Bill",
+          "type": "toggle",
+          "contextKey": "hasReceipt",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Upload your receipt or bill",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        },
+        {
+          "id": "upload_instruction",
+          "label": "Upload Instructions",
+          "type": "text",
+          "contextKey": null,
+          "required": false,
+          "copyable": false,
+          "placeholder": "",
+          "helpText": "You'll be able to attach documents after submitting this form",
+          "formatting": {
+            "type": "italic"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "claim_notes",
+          "label": "Additional Notes",
+          "type": "textArea",
+          "contextKey": "notes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Any other relevant information...",
+          "helpText": "Optional additional context",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 3,
+          "characterLimit": 250
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Submit Claim",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "insurance_claim_filed",
+      "properties": {
+        "claim_type": "{claimType}",
+        "amount": "{amountPaid}",
+        "has_receipt": "{hasReceipt}",
+        "has_policy_number": "{policyNumber}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Save as Draft",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "saveDraft"
+    },
+    "analytics": {
+      "eventName": "claim_draft_saved"
+    }
+  },
+  "tertiaryButton": {
+    "title": "View My Claims",
+    "style": "tertiary",
+    "action": {
+      "type": "custom",
+      "contextKey": "viewClaims"
+    },
+    "analytics": {
+      "eventName": "view_claims_history"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "loadingStates": {
+    "submitting": "Submitting claim...",
+    "success": "Claim submitted! You'll receive confirmation shortly.",
+    "error": "Failed to submit claim. Please try again."
+  }
+}

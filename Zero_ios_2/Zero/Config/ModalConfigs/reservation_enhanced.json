@@ -1,0 +1,374 @@
+{
+  "id": "reservation_enhanced",
+  "title": "View Reservation",
+  "subtitle": "Your reservation details",
+  "icon": {
+    "systemName": "fork.knife.circle.fill",
+    "colorKey": null,
+    "staticColor": "purple",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "reservation_info",
+      "title": "Reservation Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "reservation_type",
+          "label": "Type",
+          "type": "badge",
+          "contextKey": "reservationType",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Restaurant",
+          "helpText": "Type of reservation",
+          "formatting": null,
+          "colorMapping": {
+            "restaurant": "purple",
+            "hotel": "blue",
+            "event": "orange",
+            "spa": "pink",
+            "tour": "green"
+          },
+          "defaultValue": "restaurant"
+        },
+        {
+          "id": "venue",
+          "label": "Venue",
+          "type": "text",
+          "contextKey": "venue",
+          "required": true,
+          "copyable": false,
+          "placeholder": "The French Laundry",
+          "helpText": "Name of restaurant/venue",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "venue_rating",
+          "label": "Rating",
+          "type": "stars",
+          "contextKey": "venueRating",
+          "required": false,
+          "copyable": false,
+          "placeholder": "4.5",
+          "helpText": "Average rating",
+          "validation": {
+            "type": "range",
+            "min": 0,
+            "max": 5,
+            "errorMessage": "Rating must be between 0 and 5"
+          },
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "confirmation_code",
+          "label": "Confirmation Code",
+          "type": "text",
+          "contextKey": "confirmationCode",
+          "required": true,
+          "copyable": true,
+          "placeholder": "ABC123DEF",
+          "helpText": "Tap to copy",
+          "formatting": {
+            "type": "monospace"
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "datetime_section",
+      "title": "Date & Time",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "date",
+          "label": "Date",
+          "type": "date",
+          "contextKey": "date",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Reservation date",
+          "helpText": "When is your reservation?",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "full"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "type": "time",
+          "contextKey": "time",
+          "required": true,
+          "copyable": false,
+          "placeholder": "7:30 PM",
+          "helpText": "Reservation time",
+          "formatting": {
+            "type": "time",
+            "options": {
+              "timeStyle": "short"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "party_size",
+          "label": "Party Size",
+          "type": "stepper",
+          "contextKey": "partySize",
+          "required": true,
+          "copyable": false,
+          "placeholder": "2",
+          "helpText": "Number of guests",
+          "validation": {
+            "type": "range",
+            "min": 1,
+            "max": 20,
+            "errorMessage": "Party size must be between 1 and 20"
+          },
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": 2
+        }
+      ]
+    },
+    {
+      "id": "location_section",
+      "title": "Location",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "address",
+          "label": "Address",
+          "type": "text",
+          "contextKey": "address",
+          "required": false,
+          "copyable": true,
+          "placeholder": "123 Main St, City, State",
+          "helpText": "Tap to copy address",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "phone",
+          "label": "Phone",
+          "type": "text",
+          "contextKey": "phone",
+          "required": false,
+          "copyable": true,
+          "placeholder": "(555) 123-4567",
+          "helpText": "Tap to copy phone number",
+          "validation": {
+            "type": "phone",
+            "errorMessage": "Please enter a valid phone number"
+          },
+          "formatting": {
+            "type": "phone"
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "special_requests",
+      "title": "Special Requests (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "seating_preference",
+          "label": "Seating Preference",
+          "type": "picker",
+          "contextKey": "seatingPreference",
+          "required": false,
+          "copyable": false,
+          "placeholder": "No preference",
+          "helpText": "Where would you like to sit?",
+          "pickerOptions": [
+            {
+              "value": "none",
+              "label": "No Preference"
+            },
+            {
+              "value": "window",
+              "label": "Window",
+              "icon": "rectangle.portrait.and.arrow.right"
+            },
+            {
+              "value": "patio",
+              "label": "Patio/Outdoor",
+              "icon": "tree.fill"
+            },
+            {
+              "value": "booth",
+              "label": "Booth",
+              "icon": "rectangle.split.2x1"
+            },
+            {
+              "value": "bar",
+              "label": "Bar",
+              "icon": "wineglass"
+            },
+            {
+              "value": "quiet",
+              "label": "Quiet Area",
+              "icon": "speaker.slash.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "none"
+        },
+        {
+          "id": "occasion",
+          "label": "Special Occasion",
+          "type": "picker",
+          "contextKey": "occasion",
+          "required": false,
+          "copyable": false,
+          "placeholder": "None",
+          "helpText": "Celebrating something?",
+          "pickerOptions": [
+            {
+              "value": "none",
+              "label": "No Special Occasion"
+            },
+            {
+              "value": "birthday",
+              "label": "Birthday",
+              "icon": "party.popper.fill"
+            },
+            {
+              "value": "anniversary",
+              "label": "Anniversary",
+              "icon": "heart.fill"
+            },
+            {
+              "value": "business",
+              "label": "Business Meeting",
+              "icon": "briefcase.fill"
+            },
+            {
+              "value": "celebration",
+              "label": "Celebration",
+              "icon": "sparkles"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "none"
+        },
+        {
+          "id": "dietary_needs",
+          "label": "Dietary Requirements",
+          "type": "textArea",
+          "contextKey": "dietaryNeeds",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Vegetarian, gluten-free, allergies, etc.",
+          "helpText": "Let the venue know ahead of time",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 3,
+          "characterLimit": 200
+        },
+        {
+          "id": "accessibility",
+          "label": "Accessibility Needs",
+          "type": "textArea",
+          "contextKey": "accessibilityNeeds",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Wheelchair access, hearing assistance, etc.",
+          "helpText": "Special accommodations needed",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 2,
+          "characterLimit": 150
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Add to Calendar",
+    "style": "primary",
+    "action": {
+      "type": "custom",
+      "contextKey": "addToCalendar"
+    },
+    "analytics": {
+      "eventName": "reservation_added_to_calendar",
+      "properties": {
+        "reservation_type": "{reservationType}",
+        "party_size": "{partySize}",
+        "has_special_request": "{seatingPreference}",
+        "occasion": "{occasion}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Get Directions",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "getDirections"
+    },
+    "analytics": {
+      "eventName": "reservation_directions_requested"
+    }
+  },
+  "tertiaryButton": {
+    "title": "Modify",
+    "style": "tertiary",
+    "action": {
+      "type": "custom",
+      "contextKey": "modifyReservation"
+    },
+    "analytics": {
+      "eventName": "reservation_modify_clicked"
+    }
+  },
+  "cancelButton": {
+    "title": "Close",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": ["calendar", "location"]
+  },
+  "loadingStates": {
+    "submitting": "Processing...",
+    "success": "Reservation updated!",
+    "error": "Failed to update reservation. Please try again."
+  },
+  "destructiveAction": {
+    "title": "Cancel Reservation",
+    "confirmationTitle": "Cancel Reservation?",
+    "confirmationMessage": "Are you sure you want to cancel this reservation? This action cannot be undone.",
+    "action": {
+      "type": "custom",
+      "contextKey": "cancelReservation"
+    },
+    "analytics": {
+      "eventName": "reservation_cancelled"
+    }
+  }
+}

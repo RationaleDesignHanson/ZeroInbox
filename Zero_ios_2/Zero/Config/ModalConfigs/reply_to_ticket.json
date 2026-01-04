@@ -1,0 +1,327 @@
+{
+  "id": "reply_to_ticket",
+  "title": "Reply to Ticket",
+  "subtitle": "Update support ticket",
+  "icon": {
+    "systemName": "ticket.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "ticket_info",
+      "title": "Ticket Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "ticket_number",
+          "label": "Ticket #",
+          "type": "text",
+          "contextKey": "ticketId",
+          "required": true,
+          "copyable": true,
+          "placeholder": "#123456",
+          "helpText": "Tap to copy",
+          "formatting": {
+            "type": "monospace"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "ticket_status",
+          "label": "Status",
+          "type": "badge",
+          "contextKey": "ticketStatus",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Open",
+          "helpText": "Current ticket status",
+          "formatting": null,
+          "colorMapping": {
+            "open": "orange",
+            "in_progress": "blue",
+            "waiting": "yellow",
+            "resolved": "green",
+            "closed": "gray"
+          },
+          "defaultValue": "open"
+        },
+        {
+          "id": "subject",
+          "label": "Subject",
+          "type": "text",
+          "contextKey": "subject",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Ticket subject",
+          "helpText": "Original issue",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "reply_section",
+      "title": "Your Reply",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "reply_type",
+          "label": "Reply Type",
+          "type": "segmentedControl",
+          "contextKey": "replyType",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Update",
+          "helpText": "Type of response",
+          "pickerOptions": [
+            {
+              "value": "update",
+              "label": "Update",
+              "description": "Provide additional info"
+            },
+            {
+              "value": "question",
+              "label": "Question",
+              "description": "Ask for clarification"
+            },
+            {
+              "value": "solved",
+              "label": "Solved",
+              "description": "Issue is resolved"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": {
+            "update": "blue",
+            "question": "orange",
+            "solved": "green"
+          },
+          "defaultValue": "update"
+        },
+        {
+          "id": "reply_message",
+          "label": "Message",
+          "type": "textArea",
+          "contextKey": "replyMessage",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Type your reply here...",
+          "helpText": "Respond to support team",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 8,
+          "characterLimit": 1000
+        }
+      ]
+    },
+    {
+      "id": "quick_replies_section",
+      "title": "Quick Replies",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "quick_reply_templates",
+          "label": "Use Template",
+          "type": "picker",
+          "contextKey": "quickReply",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Select template",
+          "helpText": "Common responses",
+          "pickerOptions": [
+            {
+              "value": "still_issue",
+              "label": "Still Having Issues",
+              "description": "I'm still experiencing this problem. Here's what's happening..."
+            },
+            {
+              "value": "tried_steps",
+              "label": "Tried Suggested Steps",
+              "description": "I tried the troubleshooting steps you provided, but..."
+            },
+            {
+              "value": "need_more_info",
+              "label": "Need More Information",
+              "description": "Can you provide more details about..."
+            },
+            {
+              "value": "working_now",
+              "label": "Working Now",
+              "description": "The issue appears to be resolved. Thank you for your help!"
+            },
+            {
+              "value": "escalate",
+              "label": "Request Escalation",
+              "description": "This issue has not been resolved. Can you escalate this to..."
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "attachments_section",
+      "title": "Attachments (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "has_attachments",
+          "label": "Add Attachments",
+          "type": "toggle",
+          "contextKey": "hasAttachments",
+          "required": false,
+          "copyable": false,
+          "placeholder": "false",
+          "helpText": "Screenshots, logs, etc.",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": false
+        },
+        {
+          "id": "attachment_note",
+          "label": "Note",
+          "type": "text",
+          "contextKey": null,
+          "required": false,
+          "copyable": false,
+          "placeholder": "",
+          "helpText": "You'll be able to attach files after submitting",
+          "visibilityCondition": {
+            "field": "has_attachments",
+            "equals": true
+          },
+          "formatting": {
+            "type": "italic"
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "follow_up_section",
+      "title": "Follow-Up",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "request_callback",
+          "label": "Request Callback",
+          "type": "toggle",
+          "contextKey": "requestCallback",
+          "required": false,
+          "copyable": false,
+          "placeholder": "false",
+          "helpText": "Have support call you",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": false
+        },
+        {
+          "id": "callback_time",
+          "label": "Best Time to Call",
+          "type": "picker",
+          "contextKey": "callbackTime",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Morning",
+          "helpText": "When are you available?",
+          "visibilityCondition": {
+            "field": "request_callback",
+            "equals": true
+          },
+          "pickerOptions": [
+            {
+              "value": "morning",
+              "label": "Morning (9 AM - 12 PM)",
+              "icon": "sunrise.fill"
+            },
+            {
+              "value": "afternoon",
+              "label": "Afternoon (12 PM - 5 PM)",
+              "icon": "sun.max.fill"
+            },
+            {
+              "value": "evening",
+              "label": "Evening (5 PM - 8 PM)",
+              "icon": "moon.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "morning"
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Send Reply",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "ticket_reply_sent",
+      "properties": {
+        "ticket_id": "{ticketId}",
+        "reply_type": "{replyType}",
+        "has_attachments": "{hasAttachments}",
+        "request_callback": "{requestCallback}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Save Draft",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "saveDraft"
+    },
+    "analytics": {
+      "eventName": "ticket_reply_draft_saved"
+    }
+  },
+  "tertiaryButton": {
+    "title": "View Ticket History",
+    "style": "tertiary",
+    "action": {
+      "type": "custom",
+      "contextKey": "viewHistory"
+    },
+    "analytics": {
+      "eventName": "ticket_history_viewed"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "loadingStates": {
+    "submitting": "Sending reply...",
+    "success": "Reply sent successfully!",
+    "error": "Failed to send reply. Please try again."
+  }
+}

@@ -13,6 +13,7 @@ struct SettingsView: View {
     @State private var showModelTuning = false
     #if DEBUG
     // @State private var showActionTester = false // Disabled - ActionTester needs fixes
+    @State private var showActionModalGallery = false
     #endif
     @State private var showDebugOverlay: Bool = false
     @State private var showModeIndicators: Bool = true
@@ -134,21 +135,85 @@ struct SettingsView: View {
                         }
                         .padding(.top, 40)
 
-                        // Model Tuning - Feature flagged
-                        if services.featureGating.isEnabled(.modelTuning) {
+                        // Model Tuning - Always visible
+                        VStack(alignment: .leading, spacing: 12) {
                             SettingNavigationButton(
-                                title: "Model Tuning",
-                                description: "Train Zero's AI on categories and actions",
+                                title: "Help Improve AI",
+                                description: "Review emails to improve accuracy. Testing: Any amount helps! Earn rewards.",
                                 icon: "brain.head.profile",
                                 color: .cyan,
                                 style: .gradient(colors: [.cyan, .purple]),
                                 action: { showModelTuning = true }
                             )
-                            .padding(.horizontal, 16)
-                            .padding(.top, 20)
+
+                            // Show progress if user has started
+                            let stats = ModelTuningRewardsService.shared.getStatistics()
+                            if stats.totalFeedback > 0 {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    HStack(spacing: 12) {
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text("Progress")
+                                                .font(.caption.bold())
+                                                .foregroundColor(.white.opacity(0.6))
+                                            Text("\(stats.currentProgress)/10")
+                                                .font(.title3.bold())
+                                                .foregroundColor(.cyan)
+                                        }
+
+                                        Spacer()
+
+                                        VStack(alignment: .trailing, spacing: 4) {
+                                            Text("Free Months Earned")
+                                                .font(.caption.bold())
+                                                .foregroundColor(.white.opacity(0.6))
+                                            Text("\(stats.earnedMonths)")
+                                                .font(.title3.bold())
+                                                .foregroundColor(.green)
+                                        }
+                                    }
+
+                                    // Progress bar
+                                    GeometryReader { geometry in
+                                        ZStack(alignment: .leading) {
+                                            // Background
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .fill(Color.white.opacity(0.1))
+                                                .frame(height: 8)
+
+                                            // Progress
+                                            RoundedRectangle(cornerRadius: 4)
+                                                .fill(
+                                                    LinearGradient(
+                                                        colors: [.cyan, .purple],
+                                                        startPoint: .leading,
+                                                        endPoint: .trailing
+                                                    )
+                                                )
+                                                .frame(width: geometry.size.width * stats.progressPercentage, height: 8)
+                                                .animation(.easeInOut, value: stats.progressPercentage)
+                                        }
+                                    }
+                                    .frame(height: 8)
+                                }
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 8)
+                            }
                         }
+                        .padding(.horizontal, 16)
+                        .padding(.top, 20)
 
                         #if DEBUG
+                        // Action Modal Gallery - Test harness for all IN_APP action modals
+                        SettingNavigationButton(
+                            title: "Action Modal Gallery",
+                            description: "Test all IN_APP action modals with mock data",
+                            icon: "square.stack.3d.up.fill",
+                            color: .cyan,
+                            style: .gradient(colors: [.cyan, .blue]),
+                            action: { showActionModalGallery = true }
+                        )
+                        .padding(.horizontal, 16)
+
                         // ActionTester button disabled - needs fixes
                         // SettingNavigationButton(
                         //     title: "Action Tester",
@@ -494,6 +559,11 @@ struct SettingsView: View {
         .sheet(isPresented: $showModelTuning) {
             ModelTuningView()
         }
+        // ActionModalGalleryView disabled - needs to be added to Xcode target
+        // .sheet(isPresented: $showActionModalGallery) {
+        //     ActionModalGalleryView()
+        //         .environmentObject(services)
+        // }
         // ActionTester sheet disabled - needs fixes
         // .sheet(isPresented: $showActionTester) {
         //     ActionTester()

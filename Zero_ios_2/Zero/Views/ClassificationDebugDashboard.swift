@@ -927,7 +927,7 @@ struct MailAdsClassificationView: View {
                     .font(.subheadline.bold())
                     .foregroundColor(boolValue ? .green : .white.opacity(DesignTokens.Opacity.overlayStrong))
             } else {
-                Text("\(value)")
+                Text(verbatim: String(describing: value))
                     .font(.subheadline.bold())
                     .foregroundColor(.white)
             }

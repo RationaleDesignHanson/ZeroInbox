@@ -1,0 +1,354 @@
+{
+  "id": "view_benefits",
+  "title": "Your Benefits",
+  "subtitle": "Subscription rewards & perks",
+  "icon": {
+    "systemName": "gift.fill",
+    "colorKey": null,
+    "staticColor": "purple",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "membership_info",
+      "title": "Membership",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "service_name",
+          "label": "Service",
+          "type": "text",
+          "contextKey": "serviceName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Amazon Prime, Spotify, etc.",
+          "helpText": "Your subscription",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "membership_tier",
+          "label": "Tier",
+          "type": "badge",
+          "contextKey": "membershipTier",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Premium",
+          "helpText": "Membership level",
+          "formatting": null,
+          "colorMapping": {
+            "free": "gray",
+            "basic": "blue",
+            "premium": "purple",
+            "platinum": "orange",
+            "vip": "red"
+          },
+          "defaultValue": "premium"
+        },
+        {
+          "id": "member_since",
+          "label": "Member Since",
+          "type": "text",
+          "contextKey": "memberSince",
+          "required": false,
+          "copyable": false,
+          "placeholder": "January 2023",
+          "helpText": "Join date",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "long"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "renewal_date",
+          "label": "Renews On",
+          "type": "date",
+          "contextKey": "renewalDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Next billing date",
+          "helpText": "When your subscription renews",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "medium"
+            }
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "rewards_section",
+      "title": "Rewards & Points",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "points_balance",
+          "label": "Points Balance",
+          "type": "text",
+          "contextKey": "pointsBalance",
+          "required": false,
+          "copyable": false,
+          "placeholder": "1,250 points",
+          "helpText": "Available rewards points",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": {
+            "high": "green"
+          }
+        },
+        {
+          "id": "points_value",
+          "label": "Value",
+          "type": "currency",
+          "contextKey": "pointsValue",
+          "required": false,
+          "copyable": false,
+          "placeholder": "$12.50",
+          "helpText": "Equivalent cash value",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "points_expiring",
+          "label": "Expiring Soon",
+          "type": "text",
+          "contextKey": "expiringPoints",
+          "required": false,
+          "copyable": false,
+          "placeholder": "150 points expire Feb 28",
+          "helpText": "Use these points before they expire",
+          "formatting": null,
+          "colorMapping": {
+            "expiring": "orange"
+          }
+        }
+      ]
+    },
+    {
+      "id": "benefits_list",
+      "title": "Active Benefits",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "benefit_1",
+          "label": "Free Shipping",
+          "type": "toggle",
+          "contextKey": "hasFreeShipping",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Unlimited free 2-day shipping",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        },
+        {
+          "id": "benefit_2",
+          "label": "Exclusive Discounts",
+          "type": "toggle",
+          "contextKey": "hasDiscounts",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Access to members-only deals",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        },
+        {
+          "id": "benefit_3",
+          "label": "Early Access",
+          "type": "toggle",
+          "contextKey": "hasEarlyAccess",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Shop new releases first",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        },
+        {
+          "id": "benefit_4",
+          "label": "Bonus Rewards",
+          "type": "toggle",
+          "contextKey": "hasBonusRewards",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Earn 2x points on purchases",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": false
+        }
+      ]
+    },
+    {
+      "id": "perks_section",
+      "title": "Exclusive Perks",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": false,
+      "fields": [
+        {
+          "id": "perk_1",
+          "label": "Birthday Reward",
+          "type": "text",
+          "contextKey": "birthdayReward",
+          "required": false,
+          "copyable": false,
+          "placeholder": "$10 birthday bonus",
+          "helpText": "Special gift during your birthday month",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "perk_2",
+          "label": "Partner Benefits",
+          "type": "text",
+          "contextKey": "partnerBenefits",
+          "required": false,
+          "copyable": false,
+          "placeholder": "15% off at partner stores",
+          "helpText": "Discounts at partner retailers",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "perk_3",
+          "label": "Priority Support",
+          "type": "toggle",
+          "contextKey": "hasPrioritySupport",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Dedicated customer service line",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        }
+      ]
+    },
+    {
+      "id": "redeem_section",
+      "title": "How to Redeem",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "redeem_instructions",
+          "label": "Redemption Options",
+          "type": "picker",
+          "contextKey": "redeemOption",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Select option",
+          "helpText": "Ways to use your points",
+          "pickerOptions": [
+            {
+              "value": "discount",
+              "label": "Apply to Purchase",
+              "icon": "tag.fill",
+              "description": "Use points as discount at checkout"
+            },
+            {
+              "value": "gift_card",
+              "label": "Convert to Gift Card",
+              "icon": "giftcard.fill",
+              "description": "Exchange for gift cards"
+            },
+            {
+              "value": "donate",
+              "label": "Donate to Charity",
+              "icon": "heart.fill",
+              "description": "Give points to charity partners"
+            },
+            {
+              "value": "upgrade",
+              "label": "Upgrade Membership",
+              "icon": "arrow.up.circle.fill",
+              "description": "Apply to next tier upgrade"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Redeem Rewards",
+    "style": "primary",
+    "action": {
+      "type": "custom",
+      "contextKey": "redeemRewards"
+    },
+    "analytics": {
+      "eventName": "rewards_redeem_clicked",
+      "properties": {
+        "service": "{serviceName}",
+        "tier": "{membershipTier}",
+        "points_balance": "{pointsBalance}",
+        "redeem_option": "{redeemOption}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "View Rewards History",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "viewHistory"
+    },
+    "analytics": {
+      "eventName": "rewards_history_viewed"
+    }
+  },
+  "tertiaryButton": {
+    "title": "Manage Subscription",
+    "style": "tertiary",
+    "action": {
+      "type": "custom",
+      "contextKey": "manageSubscription"
+    },
+    "analytics": {
+      "eventName": "subscription_manage_clicked"
+    }
+  },
+  "cancelButton": {
+    "title": "Close",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "loadingStates": {
+    "submitting": "Loading benefits...",
+    "success": "Benefits loaded!",
+    "error": "Failed to load benefits. Please try again."
+  }
+}

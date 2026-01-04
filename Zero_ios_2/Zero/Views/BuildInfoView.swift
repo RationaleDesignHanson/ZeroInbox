@@ -111,31 +111,31 @@ struct BuildInfoView: View {
 
                         // App Info Section
                         InfoSection(title: "App Information") {
-                            InfoRow(label: "Version", value: appVersion)
-                            InfoRow(label: "Build Number", value: buildNumber)
-                            InfoRow(label: "Build Type", value: Constants.AppInfo.buildType)
-                            InfoRow(label: "Environment", value: environment)
-                            InfoRow(label: "Bundle ID", value: bundleIdentifier)
-                            InfoRow(label: "Build Date", value: buildDate)
+                            BuildInfoRow(label: "Version", value: appVersion)
+                            BuildInfoRow(label: "Build Number", value: buildNumber)
+                            BuildInfoRow(label: "Build Type", value: Constants.AppInfo.buildType)
+                            BuildInfoRow(label: "Environment", value: environment)
+                            BuildInfoRow(label: "Bundle ID", value: bundleIdentifier)
+                            BuildInfoRow(label: "Build Date", value: buildDate)
                         }
 
                         // Device Info Section
                         InfoSection(title: "Device Information") {
-                            InfoRow(label: "Device", value: deviceModel)
-                            InfoRow(label: "iOS Version", value: systemVersion)
-                            InfoRow(label: "Device Name", value: deviceName)
+                            BuildInfoRow(label: "Device", value: deviceModel)
+                            BuildInfoRow(label: "iOS Version", value: systemVersion)
+                            BuildInfoRow(label: "Device Name", value: deviceName)
                         }
 
                         // Backend Configuration Section
                         InfoSection(title: "Backend Configuration") {
-                            InfoRow(label: "Gateway API", value: gatewayURL, monospace: true)
-                            InfoRow(label: "Analytics API", value: analyticsURL, monospace: true)
-                            InfoRow(label: "Classification API", value: classificationURL, monospace: true)
+                            BuildInfoRow(label: "Gateway API", value: gatewayURL, monospace: true)
+                            BuildInfoRow(label: "Analytics API", value: analyticsURL, monospace: true)
+                            BuildInfoRow(label: "Classification API", value: classificationURL, monospace: true)
                         }
 
                         // Support Section
                         InfoSection(title: "Support") {
-                            InfoRow(label: "Email", value: Constants.AppInfo.supportEmail)
+                            BuildInfoRow(label: "Email", value: Constants.AppInfo.supportEmail)
 
                             Button {
                                 // Copy all info to clipboard
@@ -249,7 +249,7 @@ private struct InfoSection<Content: View>: View {
 
 // MARK: - Info Row
 
-private struct InfoRow: View {
+private struct BuildInfoRow: View {
     let label: String
     let value: String
     var monospace: Bool = false

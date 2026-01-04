@@ -1,0 +1,161 @@
+{
+  "id": "contact_driver",
+  "version": "2.4",
+  "title": "Contact Driver",
+  "subtitle": "Send a message or call",
+  "icon": {
+    "systemName": "person.crop.circle.fill",
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "layout": "standard",
+  "presentationStyle": "sheet",
+  "dismissible": true,
+  "sections": [
+    {
+      "id": "driver_info",
+      "title": "Driver Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "driver_name",
+          "label": "Driver",
+          "type": "text",
+          "contextKey": "driverName",
+          "required": true,
+          "icon": {
+            "systemName": "person.fill",
+            "staticColor": "blue"
+          }
+        },
+        {
+          "id": "estimated_arrival",
+          "label": "Estimated Arrival",
+          "type": "text",
+          "contextKey": "estimatedArrival",
+          "required": false,
+          "icon": {
+            "systemName": "clock.fill",
+            "staticColor": "orange"
+          }
+        },
+        {
+          "id": "vehicle_info",
+          "label": "Vehicle",
+          "type": "text",
+          "contextKey": "vehicleInfo",
+          "required": false,
+          "showIf": {
+            "type": "contextExists",
+            "key": "vehicleInfo"
+          },
+          "icon": {
+            "systemName": "car.fill",
+            "staticColor": "green"
+          }
+        },
+        {
+          "id": "tracking_number",
+          "label": "Order Number",
+          "type": "badge",
+          "contextKey": "trackingNumber",
+          "required": false,
+          "copyable": true,
+          "showIf": {
+            "type": "contextExists",
+            "key": "trackingNumber"
+          }
+        }
+      ]
+    },
+    {
+      "id": "contact_options",
+      "title": "Contact Options",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "phone_number",
+          "label": "Phone",
+          "type": "link",
+          "contextKey": "driverPhone",
+          "required": false,
+          "tappable": true,
+          "icon": {
+            "systemName": "phone.fill",
+            "staticColor": "green"
+          },
+          "formatting": {
+            "type": "phone"
+          }
+        }
+      ]
+    },
+    {
+      "id": "quick_messages",
+      "title": "Quick Messages",
+      "subtitle": "Send a pre-written message",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "message_templates",
+          "type": "button",
+          "contextKey": "quickMessages",
+          "required": false,
+          "options": [
+            "Running late, please wait 5 minutes",
+            "Please leave at front door",
+            "Please ring doorbell",
+            "Where should I meet you?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "custom_message",
+      "title": "Custom Message",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "message_text",
+          "label": "Message",
+          "type": "textInputMultiline",
+          "contextKey": "customMessage",
+          "required": false,
+          "placeholder": "Type your message here...",
+          "validation": {
+            "type": "maxLength",
+            "value": 500
+          }
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Call Driver",
+    "style": "primary",
+    "haptic": "medium",
+    "action": {
+      "type": "phoneCall",
+      "contextKey": "driverPhone"
+    }
+  },
+  "secondaryButton": {
+    "title": "Send Message",
+    "style": "secondary",
+    "action": {
+      "type": "sendSMS",
+      "contextKey": "driverPhone",
+      "messageKey": "customMessage"
+    }
+  },
+  "trackingEvents": {
+    "modalShown": "modal_shown_contact_driver",
+    "primaryAction": "driver_called",
+    "secondaryAction": "message_sent",
+    "dismissed": "modal_dismissed_contact_driver"
+  }
+}

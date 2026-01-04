@@ -1,0 +1,401 @@
+{
+  "id": "browse_shopping_enhanced",
+  "title": "Browse Products",
+  "subtitle": "Discover great deals",
+  "icon": {
+    "systemName": "bag.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "store_info",
+      "title": "Store",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "merchant",
+          "label": "Store Name",
+          "type": "text",
+          "contextKey": "merchant",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Nike, Apple, Best Buy, etc.",
+          "helpText": "Shopping at",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "store_rating",
+          "label": "Store Rating",
+          "type": "stars",
+          "contextKey": "storeRating",
+          "required": false,
+          "copyable": false,
+          "placeholder": "4.5",
+          "helpText": "Customer rating",
+          "validation": {
+            "type": "range",
+            "min": 0,
+            "max": 5,
+            "errorMessage": "Rating must be between 0 and 5"
+          },
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "product_count",
+          "label": "Products",
+          "type": "badge",
+          "contextKey": "productCount",
+          "required": false,
+          "copyable": false,
+          "placeholder": "1000+ items",
+          "helpText": "Total products available",
+          "formatting": null,
+          "colorMapping": {
+            "many": "blue",
+            "few": "orange"
+          }
+        }
+      ]
+    },
+    {
+      "id": "search_section",
+      "title": "Search & Filter",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "search_query",
+          "label": "Search Products",
+          "type": "searchField",
+          "contextKey": "searchQuery",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Search for products...",
+          "helpText": "Find what you're looking for",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "category",
+          "label": "Category",
+          "type": "picker",
+          "contextKey": "category",
+          "required": false,
+          "copyable": false,
+          "placeholder": "All Categories",
+          "helpText": "Filter by category",
+          "pickerOptions": [
+            {
+              "value": "all",
+              "label": "All Categories",
+              "icon": "square.grid.2x2"
+            },
+            {
+              "value": "electronics",
+              "label": "Electronics",
+              "icon": "laptopcomputer"
+            },
+            {
+              "value": "clothing",
+              "label": "Clothing & Accessories",
+              "icon": "tshirt.fill"
+            },
+            {
+              "value": "home",
+              "label": "Home & Garden",
+              "icon": "house.fill"
+            },
+            {
+              "value": "sports",
+              "label": "Sports & Outdoors",
+              "icon": "figure.run"
+            },
+            {
+              "value": "beauty",
+              "label": "Beauty & Personal Care",
+              "icon": "paintbrush.fill"
+            },
+            {
+              "value": "toys",
+              "label": "Toys & Games",
+              "icon": "gamecontroller.fill"
+            },
+            {
+              "value": "books",
+              "label": "Books & Media",
+              "icon": "book.fill"
+            },
+            {
+              "value": "food",
+              "label": "Food & Grocery",
+              "icon": "cart.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "all"
+        }
+      ]
+    },
+    {
+      "id": "price_section",
+      "title": "Price Range",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "min_price",
+          "label": "Min Price",
+          "type": "currency",
+          "contextKey": "minPrice",
+          "required": false,
+          "copyable": false,
+          "placeholder": "$0",
+          "helpText": "Minimum price",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null,
+          "defaultValue": 0
+        },
+        {
+          "id": "max_price",
+          "label": "Max Price",
+          "type": "currency",
+          "contextKey": "maxPrice",
+          "required": false,
+          "copyable": false,
+          "placeholder": "$1000",
+          "helpText": "Maximum price",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null,
+          "defaultValue": 1000
+        }
+      ]
+    },
+    {
+      "id": "sort_filter_section",
+      "title": "Sort & Filter Options",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": false,
+      "fields": [
+        {
+          "id": "sort_by",
+          "label": "Sort By",
+          "type": "picker",
+          "contextKey": "sortBy",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Relevance",
+          "helpText": "How to sort results",
+          "pickerOptions": [
+            {
+              "value": "relevance",
+              "label": "Relevance",
+              "icon": "star.fill",
+              "description": "Best matches first"
+            },
+            {
+              "value": "price_low",
+              "label": "Price: Low to High",
+              "icon": "arrow.up.circle.fill",
+              "description": "Cheapest first"
+            },
+            {
+              "value": "price_high",
+              "label": "Price: High to Low",
+              "icon": "arrow.down.circle.fill",
+              "description": "Most expensive first"
+            },
+            {
+              "value": "rating",
+              "label": "Customer Rating",
+              "icon": "star.circle.fill",
+              "description": "Best rated first"
+            },
+            {
+              "value": "newest",
+              "label": "Newest First",
+              "icon": "sparkles",
+              "description": "Latest arrivals"
+            },
+            {
+              "value": "popular",
+              "label": "Most Popular",
+              "icon": "flame.fill",
+              "description": "Trending items"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "relevance"
+        },
+        {
+          "id": "show_only",
+          "label": "Show Only",
+          "type": "multiSelect",
+          "contextKey": "showOnly",
+          "required": false,
+          "copyable": false,
+          "placeholder": "All products",
+          "helpText": "Filter by availability",
+          "pickerOptions": [
+            {
+              "value": "on_sale",
+              "label": "On Sale",
+              "icon": "tag.fill",
+              "description": "Discounted items only"
+            },
+            {
+              "value": "in_stock",
+              "label": "In Stock",
+              "icon": "checkmark.circle.fill",
+              "description": "Available now"
+            },
+            {
+              "value": "free_shipping",
+              "label": "Free Shipping",
+              "icon": "shippingbox.fill",
+              "description": "No shipping cost"
+            },
+            {
+              "value": "prime_eligible",
+              "label": "Prime Eligible",
+              "icon": "bolt.fill",
+              "description": "Fast delivery"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "min_rating",
+          "label": "Minimum Rating",
+          "type": "segmentedControl",
+          "contextKey": "minRating",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Any",
+          "helpText": "Filter by star rating",
+          "pickerOptions": [
+            {
+              "value": "0",
+              "label": "Any"
+            },
+            {
+              "value": "3",
+              "label": "3+ ⭐"
+            },
+            {
+              "value": "4",
+              "label": "4+ ⭐⭐"
+            },
+            {
+              "value": "4.5",
+              "label": "4.5+ ⭐⭐⭐"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "0"
+        }
+      ]
+    },
+    {
+      "id": "brands_section",
+      "title": "Brands (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "preferred_brands",
+          "label": "Preferred Brands",
+          "type": "textInput",
+          "contextKey": "preferredBrands",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Nike, Apple, Sony, etc.",
+          "helpText": "Filter by specific brands (comma-separated)",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Browse Products",
+    "style": "primary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "storeUrl"
+    },
+    "analytics": {
+      "eventName": "shopping_browse_initiated",
+      "properties": {
+        "merchant": "{merchant}",
+        "category": "{category}",
+        "min_price": "{minPrice}",
+        "max_price": "{maxPrice}",
+        "sort_by": "{sortBy}",
+        "filters": "{showOnly}",
+        "has_search": "{searchQuery}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Save Preferences",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "savePreferences"
+    },
+    "helpText": "Remember these filters for next time",
+    "analytics": {
+      "eventName": "shopping_preferences_saved"
+    }
+  },
+  "tertiaryButton": {
+    "title": "Reset Filters",
+    "style": "tertiary",
+    "action": {
+      "type": "custom",
+      "contextKey": "resetFilters"
+    }
+  },
+  "cancelButton": {
+    "title": "Close",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "loadingStates": {
+    "submitting": "Loading products...",
+    "success": "Products loaded!",
+    "error": "Failed to load products. Please try again."
+  }
+}

@@ -62,8 +62,8 @@ struct TrackingPreviewModal: View {
                     
                     // Tracking details
                     VStack(spacing: 16) {
-                        InfoRow(label: "Carrier", value: carrier.uppercased())
-                        InfoRow(label: "Tracking Number", value: trackingNumber, copyable: true, onCopy: {
+                        TrackingInfoRow(label: "Carrier", value: carrier.uppercased())
+                        TrackingInfoRow(label: "Tracking Number", value: trackingNumber, copyable: true, onCopy: {
                             UIPasteboard.general.string = trackingNumber
                             copied = true
                             HapticFeedback.success()
@@ -73,7 +73,7 @@ struct TrackingPreviewModal: View {
                         })
                         
                         if let orderNumber = card.suggestedActions?.first?.context?["orderNumber"] {
-                            InfoRow(label: "Order", value: orderNumber)
+                            TrackingInfoRow(label: "Order", value: orderNumber)
                         }
                     }
                     .padding()
@@ -126,7 +126,7 @@ struct TrackingPreviewModal: View {
     }
 }
 
-private struct InfoRow: View {
+private struct TrackingInfoRow: View {
     let label: String
     let value: String
     var copyable: Bool = false

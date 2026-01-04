@@ -1,0 +1,253 @@
+{
+  "id": "delegate_task",
+  "title": "Delegate Task",
+  "subtitle": "Forward with context",
+  "icon": {
+    "systemName": "person.2.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "delegate_to",
+      "title": "Delegate To",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "colleague_email",
+          "label": "Colleague Email",
+          "type": "textInput",
+          "contextKey": "colleagueEmail",
+          "required": true,
+          "copyable": false,
+          "placeholder": "colleague@company.com",
+          "helpText": "Who should handle this?",
+          "validation": {
+            "type": "email",
+            "errorMessage": "Please enter a valid email address"
+          },
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "colleague_name",
+          "label": "Name (Optional)",
+          "type": "textInput",
+          "contextKey": "colleagueName",
+          "required": false,
+          "copyable": false,
+          "placeholder": "John Doe",
+          "helpText": "Colleague's name",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "task_details",
+      "title": "Task Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "task_priority",
+          "label": "Priority",
+          "type": "segmentedControl",
+          "contextKey": "priority",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Normal",
+          "helpText": "How urgent is this?",
+          "pickerOptions": [
+            {
+              "value": "low",
+              "label": "Low",
+              "description": "When you get a chance"
+            },
+            {
+              "value": "normal",
+              "label": "Normal",
+              "description": "Standard priority"
+            },
+            {
+              "value": "high",
+              "label": "High",
+              "description": "Important task"
+            },
+            {
+              "value": "urgent",
+              "label": "Urgent",
+              "description": "Needs immediate attention"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": {
+            "low": "gray",
+            "normal": "blue",
+            "high": "orange",
+            "urgent": "red"
+          },
+          "defaultValue": "normal"
+        },
+        {
+          "id": "due_date",
+          "label": "Due Date (Optional)",
+          "type": "datePicker",
+          "contextKey": "dueDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Select due date",
+          "helpText": "When does this need to be done?",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "medium"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "delegation_message",
+          "label": "Instructions",
+          "type": "textArea",
+          "contextKey": "delegationMessage",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Please handle this for me. Here's what needs to be done...",
+          "helpText": "Explain what you need them to do",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 6,
+          "characterLimit": 500
+        }
+      ]
+    },
+    {
+      "id": "follow_up",
+      "title": "Follow-Up (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "set_follow_up_reminder",
+          "label": "Set Follow-Up Reminder",
+          "type": "toggle",
+          "contextKey": "setFollowUpReminder",
+          "required": false,
+          "copyable": false,
+          "placeholder": "false",
+          "helpText": "Remind me to check on this",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": false
+        },
+        {
+          "id": "follow_up_days",
+          "label": "Remind Me In",
+          "type": "picker",
+          "contextKey": "followUpDays",
+          "required": false,
+          "copyable": false,
+          "placeholder": "3 days",
+          "helpText": "When to send reminder",
+          "visibilityCondition": {
+            "field": "set_follow_up_reminder",
+            "equals": true
+          },
+          "pickerOptions": [
+            {
+              "value": "1",
+              "label": "1 day",
+              "icon": "calendar"
+            },
+            {
+              "value": "2",
+              "label": "2 days",
+              "icon": "calendar"
+            },
+            {
+              "value": "3",
+              "label": "3 days",
+              "icon": "calendar"
+            },
+            {
+              "value": "5",
+              "label": "5 days",
+              "icon": "calendar"
+            },
+            {
+              "value": "7",
+              "label": "1 week",
+              "icon": "calendar.badge.clock"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "3"
+        },
+        {
+          "id": "cc_me",
+          "label": "CC Me on Forward",
+          "type": "toggle",
+          "contextKey": "ccMe",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Keep me in the loop",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Delegate Task",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "task_delegated",
+      "properties": {
+        "priority": "{priority}",
+        "has_due_date": "{dueDate}",
+        "has_follow_up": "{setFollowUpReminder}",
+        "cc_enabled": "{ccMe}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Save as Draft",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "saveDraft"
+    },
+    "analytics": {
+      "eventName": "delegation_draft_saved"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": ["reminders"]
+  },
+  "loadingStates": {
+    "submitting": "Delegating task...",
+    "success": "Task delegated successfully!",
+    "error": "Failed to delegate task. Please try again."
+  }
+}

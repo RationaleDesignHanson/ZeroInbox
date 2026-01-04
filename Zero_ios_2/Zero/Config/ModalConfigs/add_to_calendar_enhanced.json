@@ -1,0 +1,334 @@
+{
+  "id": "add_to_calendar_enhanced",
+  "title": "Add to Calendar",
+  "subtitle": "Save this event to your calendar",
+  "icon": {
+    "systemName": "calendar.badge.plus",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "event_basics",
+      "title": "Event Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "event_title",
+          "label": "Event Name",
+          "type": "textInput",
+          "contextKey": "eventTitle",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Team meeting, Birthday party, etc.",
+          "helpText": "What's the event called?",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "event_date",
+          "label": "Date",
+          "type": "datePicker",
+          "contextKey": "eventDate",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select date",
+          "helpText": "When does it happen?",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "full"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "event_time",
+          "label": "Start Time",
+          "type": "timePicker",
+          "contextKey": "eventTime",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select time",
+          "helpText": "What time does it start?",
+          "formatting": {
+            "type": "time",
+            "options": {
+              "timeStyle": "short"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "duration",
+          "label": "Duration",
+          "type": "segmentedControl",
+          "contextKey": "duration",
+          "required": false,
+          "copyable": false,
+          "placeholder": "1 hour",
+          "helpText": "How long will it last?",
+          "pickerOptions": [
+            {
+              "value": "30",
+              "label": "30 min"
+            },
+            {
+              "value": "60",
+              "label": "1 hour"
+            },
+            {
+              "value": "90",
+              "label": "1.5 hours"
+            },
+            {
+              "value": "120",
+              "label": "2 hours"
+            },
+            {
+              "value": "allday",
+              "label": "All day"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "60"
+        }
+      ]
+    },
+    {
+      "id": "location_section",
+      "title": "Location",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "location_type",
+          "label": "Where",
+          "type": "picker",
+          "contextKey": "locationType",
+          "required": false,
+          "copyable": false,
+          "placeholder": "In person",
+          "helpText": "Event location type",
+          "pickerOptions": [
+            {
+              "value": "in_person",
+              "label": "In Person",
+              "icon": "mappin.circle.fill",
+              "description": "Physical location"
+            },
+            {
+              "value": "video_call",
+              "label": "Video Call",
+              "icon": "video.fill",
+              "description": "Online meeting"
+            },
+            {
+              "value": "phone",
+              "label": "Phone",
+              "icon": "phone.fill",
+              "description": "Phone call"
+            },
+            {
+              "value": "none",
+              "label": "No Location",
+              "icon": "slash.circle",
+              "description": "Location TBD"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "in_person"
+        },
+        {
+          "id": "location",
+          "label": "Address",
+          "type": "textInput",
+          "contextKey": "location",
+          "required": false,
+          "copyable": true,
+          "placeholder": "123 Main St, City, State",
+          "helpText": "Full address or place name",
+          "visibilityCondition": {
+            "field": "location_type",
+            "equals": "in_person"
+          },
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "video_url",
+          "label": "Meeting Link",
+          "type": "textInput",
+          "contextKey": "videoUrl",
+          "required": false,
+          "copyable": true,
+          "placeholder": "https://zoom.us/j/...",
+          "helpText": "Video conference URL",
+          "visibilityCondition": {
+            "field": "location_type",
+            "equals": "video_call"
+          },
+          "validation": {
+            "type": "url",
+            "errorMessage": "Please enter a valid URL"
+          },
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "alerts_section",
+      "title": "Reminders",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "alert_time",
+          "label": "Remind Me",
+          "type": "picker",
+          "contextKey": "alertTime",
+          "required": false,
+          "copyable": false,
+          "placeholder": "15 minutes before",
+          "helpText": "When to send reminder notification",
+          "pickerOptions": [
+            {
+              "value": "none",
+              "label": "No Reminder"
+            },
+            {
+              "value": "0",
+              "label": "At time of event"
+            },
+            {
+              "value": "5",
+              "label": "5 minutes before"
+            },
+            {
+              "value": "15",
+              "label": "15 minutes before"
+            },
+            {
+              "value": "30",
+              "label": "30 minutes before"
+            },
+            {
+              "value": "60",
+              "label": "1 hour before"
+            },
+            {
+              "value": "1440",
+              "label": "1 day before"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "15"
+        }
+      ]
+    },
+    {
+      "id": "notes_section",
+      "title": "Additional Details (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "notes",
+          "label": "Notes",
+          "type": "textArea",
+          "contextKey": "notes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Add any additional information...",
+          "helpText": "Extra details about the event",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 5,
+          "characterLimit": 500
+        },
+        {
+          "id": "calendar_name",
+          "label": "Calendar",
+          "type": "picker",
+          "contextKey": "calendarName",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Default Calendar",
+          "helpText": "Which calendar to add to",
+          "pickerOptions": [
+            {
+              "value": "default",
+              "label": "Default Calendar"
+            },
+            {
+              "value": "work",
+              "label": "Work"
+            },
+            {
+              "value": "personal",
+              "label": "Personal"
+            },
+            {
+              "value": "family",
+              "label": "Family"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "default"
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Add to Calendar",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "calendar_event_added",
+      "properties": {
+        "location_type": "{locationType}",
+        "duration": "{duration}",
+        "has_alert": "{alertTime}",
+        "has_notes": "{notes}",
+        "calendar": "{calendarName}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Share Event",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "shareEvent"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "tertiary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": ["calendar"],
+    "optional": []
+  },
+  "loadingStates": {
+    "submitting": "Adding to your calendar...",
+    "success": "Event added to calendar!",
+    "error": "Failed to add event. Please check calendar permissions."
+  }
+}

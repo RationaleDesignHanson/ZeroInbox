@@ -1,0 +1,199 @@
+{
+  "id": "quick_reply_enhanced",
+  "title": "Quick Reply",
+  "subtitle": "Send a quick response",
+  "icon": {
+    "systemName": "envelope.fill",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "recipient_section",
+      "title": "To",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "recipient",
+          "label": "Recipient",
+          "type": "text",
+          "contextKey": "recipientEmail",
+          "required": true,
+          "copyable": true,
+          "placeholder": "email@example.com",
+          "helpText": "The person you're replying to",
+          "validation": {
+            "type": "email",
+            "errorMessage": "Please enter a valid email address"
+          },
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "subject",
+          "label": "Subject",
+          "type": "text",
+          "contextKey": "subject",
+          "required": true,
+          "copyable": true,
+          "placeholder": "Re: Your subject",
+          "helpText": "Email subject line",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "message_section",
+      "title": "Message",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "template_selector",
+          "label": "Quick Templates",
+          "type": "picker",
+          "contextKey": "template",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Choose a template (optional)",
+          "helpText": "Pre-written responses to save time",
+          "pickerOptions": [
+            {
+              "value": "thanks",
+              "label": "Thanks!",
+              "description": "Thank you for your email. I'll get back to you soon."
+            },
+            {
+              "value": "received",
+              "label": "Received",
+              "description": "Thanks, I've received your email and will review it."
+            },
+            {
+              "value": "confirm",
+              "label": "Confirmed",
+              "description": "Confirmed! I'll be there."
+            },
+            {
+              "value": "followup",
+              "label": "Following up",
+              "description": "Just following up on my previous email."
+            },
+            {
+              "value": "custom",
+              "label": "Custom",
+              "description": "Write your own message"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "reply_text",
+          "label": "Your Reply",
+          "type": "textArea",
+          "contextKey": "replyText",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Type your reply here...",
+          "helpText": "Your message will be sent to the recipient",
+          "validation": {
+            "type": "minLength",
+            "value": 5,
+            "errorMessage": "Please write at least a few words"
+          },
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 8,
+          "characterLimit": 2000
+        }
+      ]
+    },
+    {
+      "id": "options_section",
+      "title": "Options",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "include_signature",
+          "label": "Include Signature",
+          "type": "toggle",
+          "contextKey": "includeSignature",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Add your email signature",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        },
+        {
+          "id": "cc",
+          "label": "CC (Optional)",
+          "type": "textInput",
+          "contextKey": "cc",
+          "required": false,
+          "copyable": false,
+          "placeholder": "cc@example.com",
+          "helpText": "Carbon copy recipients",
+          "validation": {
+            "type": "email",
+            "errorMessage": "Please enter a valid email address"
+          },
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Send Reply",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "quick_reply_sent",
+      "properties": {
+        "has_template": "{template}",
+        "has_signature": "{includeSignature}",
+        "has_cc": "{cc}",
+        "message_length": "{replyText.length}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Save Draft",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "saveDraft"
+    },
+    "analytics": {
+      "eventName": "quick_reply_draft_saved"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "tertiary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": []
+  },
+  "loadingStates": {
+    "submitting": "Sending your reply...",
+    "success": "Reply sent successfully!",
+    "error": "Failed to send reply. Please try again."
+  }
+}

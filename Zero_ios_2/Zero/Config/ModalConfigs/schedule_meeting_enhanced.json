@@ -1,0 +1,289 @@
+{
+  "id": "schedule_meeting_enhanced",
+  "title": "Schedule Meeting",
+  "subtitle": "Set up a meeting with attendees",
+  "icon": {
+    "systemName": "calendar.badge.clock",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "meeting_info",
+      "title": "Meeting Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "meeting_title",
+          "label": "Meeting Title",
+          "type": "textInput",
+          "contextKey": "meetingTitle",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Quick sync, Project review, etc.",
+          "helpText": "Brief description of the meeting",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "attendees",
+          "label": "Attendees",
+          "type": "textArea",
+          "contextKey": "attendees",
+          "required": true,
+          "copyable": false,
+          "placeholder": "email@example.com, another@example.com",
+          "helpText": "Enter email addresses separated by commas",
+          "validation": {
+            "type": "emailList",
+            "errorMessage": "Please enter valid email addresses"
+          },
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 3
+        }
+      ]
+    },
+    {
+      "id": "datetime_section",
+      "title": "Date & Time",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "meeting_date",
+          "label": "Date",
+          "type": "datePicker",
+          "contextKey": "meetingDate",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select date",
+          "helpText": "Choose a date for the meeting",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "medium"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "meeting_time",
+          "label": "Time",
+          "type": "timePicker",
+          "contextKey": "meetingTime",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select time",
+          "helpText": "Choose a time for the meeting",
+          "formatting": {
+            "type": "time",
+            "options": {
+              "timeStyle": "short"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "duration",
+          "label": "Duration",
+          "type": "segmentedControl",
+          "contextKey": "duration",
+          "required": true,
+          "copyable": false,
+          "placeholder": "30 min",
+          "helpText": "How long will the meeting last?",
+          "pickerOptions": [
+            {
+              "value": "15",
+              "label": "15 min"
+            },
+            {
+              "value": "30",
+              "label": "30 min"
+            },
+            {
+              "value": "60",
+              "label": "1 hour"
+            },
+            {
+              "value": "120",
+              "label": "2 hours"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "30"
+        }
+      ]
+    },
+    {
+      "id": "meeting_type_section",
+      "title": "Meeting Type",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "meeting_type",
+          "label": "Format",
+          "type": "picker",
+          "contextKey": "meetingType",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Video call",
+          "helpText": "Choose the meeting format",
+          "pickerOptions": [
+            {
+              "value": "video",
+              "label": "Video Call",
+              "icon": "video.fill",
+              "description": "Join via Zoom, Google Meet, or Teams"
+            },
+            {
+              "value": "in_person",
+              "label": "In Person",
+              "icon": "person.2.fill",
+              "description": "Meet at a physical location"
+            },
+            {
+              "value": "phone",
+              "label": "Phone Call",
+              "icon": "phone.fill",
+              "description": "Traditional phone call"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "video"
+        },
+        {
+          "id": "video_platform",
+          "label": "Video Platform",
+          "type": "picker",
+          "contextKey": "videoPlatform",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Choose platform",
+          "helpText": "Select your preferred video conferencing tool",
+          "visibilityCondition": {
+            "field": "meeting_type",
+            "equals": "video"
+          },
+          "pickerOptions": [
+            {
+              "value": "zoom",
+              "label": "Zoom",
+              "icon": "video.circle.fill"
+            },
+            {
+              "value": "google_meet",
+              "label": "Google Meet",
+              "icon": "video.circle.fill"
+            },
+            {
+              "value": "teams",
+              "label": "Microsoft Teams",
+              "icon": "video.circle.fill"
+            },
+            {
+              "value": "facetime",
+              "label": "FaceTime",
+              "icon": "video.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "zoom"
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "type": "textInput",
+          "contextKey": "location",
+          "required": false,
+          "copyable": false,
+          "placeholder": "123 Main St, Conference Room A",
+          "helpText": "Where to meet",
+          "visibilityCondition": {
+            "field": "meeting_type",
+            "equals": "in_person"
+          },
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "agenda_section",
+      "title": "Agenda (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "agenda",
+          "label": "Meeting Agenda",
+          "type": "textArea",
+          "contextKey": "agenda",
+          "required": false,
+          "copyable": false,
+          "placeholder": "• Topic 1\n• Topic 2\n• Next steps",
+          "helpText": "Outline the topics to discuss",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 6,
+          "characterLimit": 500
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Send Meeting Invite",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "meeting_scheduled",
+      "properties": {
+        "meeting_type": "{meetingType}",
+        "duration": "{duration}",
+        "has_agenda": "{agenda}",
+        "video_platform": "{videoPlatform}",
+        "attendee_count": "{attendees.count}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Add to Calendar Only",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "addToCalendar"
+    },
+    "analytics": {
+      "eventName": "meeting_added_to_calendar_only"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "tertiary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": ["calendar"],
+    "optional": []
+  },
+  "loadingStates": {
+    "submitting": "Creating meeting invite...",
+    "success": "Meeting invite sent!",
+    "error": "Failed to schedule meeting. Please try again."
+  }
+}

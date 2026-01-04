@@ -1,0 +1,347 @@
+{
+  "id": "add_activity_to_calendar",
+  "title": "Add Activity to Calendar",
+  "subtitle": "Save this event",
+  "icon": {
+    "systemName": "calendar.badge.plus",
+    "colorKey": null,
+    "staticColor": "green",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "activity_details",
+      "title": "Activity Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "activity_name",
+          "label": "Activity Name",
+          "type": "textInput",
+          "contextKey": "activityName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Soccer Practice, Band Concert, etc.",
+          "helpText": "What is this activity?",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "activity_type",
+          "label": "Type",
+          "type": "picker",
+          "contextKey": "activityType",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Sports",
+          "helpText": "Category of activity",
+          "pickerOptions": [
+            {
+              "value": "sports",
+              "label": "Sports",
+              "icon": "sportscourt.fill"
+            },
+            {
+              "value": "performance",
+              "label": "Performance/Concert",
+              "icon": "music.note"
+            },
+            {
+              "value": "academic",
+              "label": "Academic/School",
+              "icon": "book.fill"
+            },
+            {
+              "value": "club",
+              "label": "Club/Organization",
+              "icon": "person.3.fill"
+            },
+            {
+              "value": "volunteer",
+              "label": "Volunteer",
+              "icon": "heart.fill"
+            },
+            {
+              "value": "other",
+              "label": "Other",
+              "icon": "ellipsis.circle.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": {
+            "sports": "green",
+            "performance": "purple",
+            "academic": "blue",
+            "club": "orange",
+            "volunteer": "red"
+          },
+          "defaultValue": "sports"
+        }
+      ]
+    },
+    {
+      "id": "datetime_section",
+      "title": "Date & Time",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "activity_date",
+          "label": "Date",
+          "type": "datePicker",
+          "contextKey": "date",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select date",
+          "helpText": "When is the activity?",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "full"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "start_time",
+          "label": "Start Time",
+          "type": "timePicker",
+          "contextKey": "startTime",
+          "required": true,
+          "copyable": false,
+          "placeholder": "3:00 PM",
+          "helpText": "What time does it start?",
+          "formatting": {
+            "type": "time",
+            "options": {
+              "timeStyle": "short"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "duration",
+          "label": "Duration",
+          "type": "picker",
+          "contextKey": "duration",
+          "required": false,
+          "copyable": false,
+          "placeholder": "1 hour",
+          "helpText": "How long will it last?",
+          "pickerOptions": [
+            {
+              "value": "30",
+              "label": "30 minutes"
+            },
+            {
+              "value": "60",
+              "label": "1 hour"
+            },
+            {
+              "value": "90",
+              "label": "1.5 hours"
+            },
+            {
+              "value": "120",
+              "label": "2 hours"
+            },
+            {
+              "value": "180",
+              "label": "3 hours"
+            },
+            {
+              "value": "240",
+              "label": "4 hours"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "60"
+        }
+      ]
+    },
+    {
+      "id": "location_section",
+      "title": "Location",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "location_name",
+          "label": "Location",
+          "type": "textInput",
+          "contextKey": "location",
+          "required": false,
+          "copyable": false,
+          "placeholder": "School gym, Community center, etc.",
+          "helpText": "Where is the activity?",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "address",
+          "label": "Address (Optional)",
+          "type": "textInput",
+          "contextKey": "address",
+          "required": false,
+          "copyable": true,
+          "placeholder": "123 Main St, City, State",
+          "helpText": "Full address for directions",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "reminder_section",
+      "title": "Reminders",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": false,
+      "fields": [
+        {
+          "id": "reminder_time",
+          "label": "Remind Me",
+          "type": "multiSelect",
+          "contextKey": "reminders",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Select reminders",
+          "helpText": "When to remind you",
+          "pickerOptions": [
+            {
+              "value": "15_min",
+              "label": "15 minutes before",
+              "icon": "clock.fill"
+            },
+            {
+              "value": "30_min",
+              "label": "30 minutes before",
+              "icon": "clock.fill"
+            },
+            {
+              "value": "1_hour",
+              "label": "1 hour before",
+              "icon": "clock.fill"
+            },
+            {
+              "value": "1_day",
+              "label": "1 day before",
+              "icon": "calendar.badge.clock"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "which_calendar",
+          "label": "Add to Calendar",
+          "type": "picker",
+          "contextKey": "calendarChoice",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Default",
+          "helpText": "Which calendar to use",
+          "pickerOptions": [
+            {
+              "value": "default",
+              "label": "Default Calendar",
+              "icon": "calendar"
+            },
+            {
+              "value": "personal",
+              "label": "Personal",
+              "icon": "person.fill"
+            },
+            {
+              "value": "school",
+              "label": "School",
+              "icon": "book.fill"
+            },
+            {
+              "value": "family",
+              "label": "Family",
+              "icon": "house.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "default"
+        }
+      ]
+    },
+    {
+      "id": "notes_section",
+      "title": "Notes (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "notes",
+          "label": "Additional Notes",
+          "type": "textArea",
+          "contextKey": "notes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "What to bring, special instructions, etc.",
+          "helpText": "Any other details to remember",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 4,
+          "characterLimit": 300
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Add to Calendar",
+    "style": "primary",
+    "action": {
+      "type": "custom",
+      "contextKey": "addToCalendar"
+    },
+    "analytics": {
+      "eventName": "activity_added_to_calendar",
+      "properties": {
+        "activity_type": "{activityType}",
+        "duration": "{duration}",
+        "has_location": "{location}",
+        "reminder_count": "{reminders}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Share Event",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "shareEvent"
+    },
+    "analytics": {
+      "eventName": "activity_shared"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": ["calendar"],
+    "optional": ["reminders"]
+  },
+  "loadingStates": {
+    "submitting": "Adding to calendar...",
+    "success": "Activity added to calendar!",
+    "error": "Failed to add activity. Please check calendar permissions."
+  }
+}

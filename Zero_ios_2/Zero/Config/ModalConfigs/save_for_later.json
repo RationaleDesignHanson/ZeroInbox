@@ -1,0 +1,274 @@
+{
+  "id": "save_for_later",
+  "title": "Save for Later",
+  "subtitle": "Snooze this email",
+  "icon": {
+    "systemName": "clock.arrow.circlepath",
+    "colorKey": null,
+    "staticColor": "orange",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "when_section",
+      "title": "When to Return",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "snooze_preset",
+          "label": "Show Me This",
+          "type": "picker",
+          "contextKey": "snoozePreset",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Later today",
+          "helpText": "When should this return to your inbox?",
+          "pickerOptions": [
+            {
+              "value": "later_today",
+              "label": "Later Today",
+              "icon": "sun.max.fill",
+              "description": "6:00 PM today"
+            },
+            {
+              "value": "tomorrow_morning",
+              "label": "Tomorrow Morning",
+              "icon": "sunrise.fill",
+              "description": "8:00 AM tomorrow"
+            },
+            {
+              "value": "tomorrow_evening",
+              "label": "Tomorrow Evening",
+              "icon": "moon.stars.fill",
+              "description": "6:00 PM tomorrow"
+            },
+            {
+              "value": "this_weekend",
+              "label": "This Weekend",
+              "icon": "calendar",
+              "description": "Saturday 9:00 AM"
+            },
+            {
+              "value": "next_week",
+              "label": "Next Week",
+              "icon": "calendar.badge.clock",
+              "description": "Monday 9:00 AM"
+            },
+            {
+              "value": "custom",
+              "label": "Custom Date & Time",
+              "icon": "slider.horizontal.3",
+              "description": "Choose your own time"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "later_today"
+        },
+        {
+          "id": "custom_date",
+          "label": "Custom Date",
+          "type": "datePicker",
+          "contextKey": "customDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Select date",
+          "helpText": "When to show this email",
+          "visibilityCondition": {
+            "field": "snooze_preset",
+            "equals": "custom"
+          },
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "medium"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "custom_time",
+          "label": "Custom Time",
+          "type": "timePicker",
+          "contextKey": "customTime",
+          "required": false,
+          "copyable": false,
+          "placeholder": "9:00 AM",
+          "helpText": "What time to show this email",
+          "visibilityCondition": {
+            "field": "snooze_preset",
+            "equals": "custom"
+          },
+          "formatting": {
+            "type": "time",
+            "options": {
+              "timeStyle": "short"
+            }
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "organization_section",
+      "title": "Organization",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "move_to_folder",
+          "label": "Move to Folder",
+          "type": "picker",
+          "contextKey": "folder",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Keep in Inbox",
+          "helpText": "Move email while snoozed",
+          "pickerOptions": [
+            {
+              "value": "inbox",
+              "label": "Keep in Inbox",
+              "icon": "tray.fill"
+            },
+            {
+              "value": "archive",
+              "label": "Archive",
+              "icon": "archivebox.fill"
+            },
+            {
+              "value": "later",
+              "label": "Later Folder",
+              "icon": "folder.fill"
+            },
+            {
+              "value": "pending",
+              "label": "Pending Folder",
+              "icon": "folder.badge.questionmark"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "inbox"
+        },
+        {
+          "id": "add_note",
+          "label": "Add Note (Optional)",
+          "type": "textArea",
+          "contextKey": "note",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Why am I saving this for later?",
+          "helpText": "Remind yourself why you snoozed this",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 3,
+          "characterLimit": 200
+        }
+      ]
+    },
+    {
+      "id": "reminder_section",
+      "title": "Reminder Options",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": false,
+      "fields": [
+        {
+          "id": "add_reminder",
+          "label": "Add Reminder",
+          "type": "toggle",
+          "contextKey": "addReminder",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Get a notification when this returns",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        },
+        {
+          "id": "reminder_style",
+          "label": "Notification Type",
+          "type": "segmentedControl",
+          "contextKey": "reminderStyle",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Push",
+          "helpText": "How to remind you",
+          "visibilityCondition": {
+            "field": "add_reminder",
+            "equals": true
+          },
+          "pickerOptions": [
+            {
+              "value": "push",
+              "label": "Push",
+              "description": "Push notification"
+            },
+            {
+              "value": "email",
+              "label": "Email",
+              "description": "Email reminder"
+            },
+            {
+              "value": "both",
+              "label": "Both",
+              "description": "Push + Email"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "push"
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Save for Later",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "email_snoozed",
+      "properties": {
+        "snooze_preset": "{snoozePreset}",
+        "folder": "{folder}",
+        "has_note": "{note}",
+        "reminder_enabled": "{addReminder}",
+        "reminder_style": "{reminderStyle}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Archive Now",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "archiveNow"
+    },
+    "analytics": {
+      "eventName": "email_archived_from_snooze"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": ["reminders"]
+  },
+  "loadingStates": {
+    "submitting": "Saving email...",
+    "success": "Email saved! Will return at scheduled time.",
+    "error": "Failed to save email. Please try again."
+  }
+}

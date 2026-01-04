@@ -1,0 +1,429 @@
+{
+  "id": "scheduled_purchase_enhanced",
+  "title": "Schedule Purchase",
+  "subtitle": "Buy this item on sale",
+  "icon": {
+    "systemName": "cart.fill.badge.plus",
+    "colorKey": null,
+    "staticColor": "purple",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "product_details",
+      "title": "Product Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "product_name",
+          "label": "Product Name",
+          "type": "text",
+          "contextKey": "productName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "iPhone 16 Pro Max",
+          "helpText": "What are you buying?",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "product_url",
+          "label": "Product Link",
+          "type": "text",
+          "contextKey": "productUrl",
+          "required": true,
+          "copyable": true,
+          "placeholder": "https://example.com/product",
+          "helpText": "Tap to copy link",
+          "validation": {
+            "type": "url",
+            "errorMessage": "Please enter a valid URL"
+          },
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "store",
+          "label": "Store",
+          "type": "text",
+          "contextKey": "store",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Apple Store, Amazon, etc.",
+          "helpText": "Where to buy",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "pricing_section",
+      "title": "Pricing",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "current_price",
+          "label": "Current Price",
+          "type": "currency",
+          "contextKey": "currentPrice",
+          "required": true,
+          "copyable": false,
+          "placeholder": "$999.00",
+          "helpText": "Current retail price",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "sale_price",
+          "label": "Sale Price",
+          "type": "currency",
+          "contextKey": "salePrice",
+          "required": false,
+          "copyable": false,
+          "placeholder": "$799.00",
+          "helpText": "Expected sale price",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": {
+            "below_target": "green"
+          }
+        },
+        {
+          "id": "savings",
+          "label": "Savings",
+          "type": "calculated",
+          "contextKey": "savings",
+          "required": false,
+          "copyable": false,
+          "placeholder": "$200.00 (20% off)",
+          "helpText": "How much you'll save",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": {
+            "positive": "green"
+          },
+          "calculation": "{currentPrice} - {salePrice}"
+        },
+        {
+          "id": "target_price",
+          "label": "Target Price (Optional)",
+          "type": "currency",
+          "contextKey": "targetPrice",
+          "required": false,
+          "copyable": false,
+          "placeholder": "$750.00",
+          "helpText": "Set a price alert - we'll notify you when it drops to this price",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "schedule_section",
+      "title": "When to Buy",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "sale_date",
+          "label": "Sale Date",
+          "type": "datePicker",
+          "contextKey": "saleDate",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select date",
+          "helpText": "When does the sale start?",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "full"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "sale_time",
+          "label": "Sale Time (Optional)",
+          "type": "timePicker",
+          "contextKey": "saleTime",
+          "required": false,
+          "copyable": false,
+          "placeholder": "12:00 AM",
+          "helpText": "What time does the sale start?",
+          "formatting": {
+            "type": "time",
+            "options": {
+              "timeStyle": "short"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "reminder_time",
+          "label": "Remind Me",
+          "type": "picker",
+          "contextKey": "reminderTime",
+          "required": false,
+          "copyable": false,
+          "placeholder": "1 hour before",
+          "helpText": "When to send reminder",
+          "pickerOptions": [
+            {
+              "value": "none",
+              "label": "No Reminder"
+            },
+            {
+              "value": "60",
+              "label": "1 hour before",
+              "icon": "clock.fill"
+            },
+            {
+              "value": "180",
+              "label": "3 hours before",
+              "icon": "clock.fill"
+            },
+            {
+              "value": "1440",
+              "label": "1 day before",
+              "icon": "calendar.badge.clock"
+            },
+            {
+              "value": "2880",
+              "label": "2 days before",
+              "icon": "calendar.badge.clock"
+            },
+            {
+              "value": "at_time",
+              "label": "At sale time",
+              "icon": "alarm.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "60"
+        }
+      ]
+    },
+    {
+      "id": "purchase_priority",
+      "title": "Priority & Tracking",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "priority",
+          "label": "Priority",
+          "type": "segmentedControl",
+          "contextKey": "priority",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Medium",
+          "helpText": "How important is this purchase?",
+          "pickerOptions": [
+            {
+              "value": "must_have",
+              "label": "Must Have",
+              "icon": "exclamationmark.3",
+              "description": "Will definitely buy"
+            },
+            {
+              "value": "nice_to_have",
+              "label": "Nice to Have",
+              "icon": "star.fill",
+              "description": "Depends on price"
+            },
+            {
+              "value": "wishlist",
+              "label": "Wishlist",
+              "icon": "heart.fill",
+              "description": "Maybe someday"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": {
+            "must_have": "red",
+            "nice_to_have": "orange",
+            "wishlist": "blue"
+          },
+          "defaultValue": "nice_to_have"
+        },
+        {
+          "id": "budget_category",
+          "label": "Budget Category",
+          "type": "picker",
+          "contextKey": "budgetCategory",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Personal",
+          "helpText": "Track spending by category",
+          "pickerOptions": [
+            {
+              "value": "personal",
+              "label": "Personal",
+              "icon": "person.fill"
+            },
+            {
+              "value": "household",
+              "label": "Household",
+              "icon": "house.fill"
+            },
+            {
+              "value": "tech",
+              "label": "Tech/Electronics",
+              "icon": "laptopcomputer"
+            },
+            {
+              "value": "clothing",
+              "label": "Clothing",
+              "icon": "tshirt.fill"
+            },
+            {
+              "value": "gifts",
+              "label": "Gifts",
+              "icon": "gift.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "personal"
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "type": "textArea",
+          "contextKey": "notes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Color preference, size, warranty info, etc.",
+          "helpText": "Additional details to remember",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 4,
+          "characterLimit": 300
+        }
+      ]
+    },
+    {
+      "id": "price_tracking",
+      "title": "Price Tracking",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "enable_price_tracking",
+          "label": "Track Price Changes",
+          "type": "toggle",
+          "contextKey": "enablePriceTracking",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Get notified when price drops",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        },
+        {
+          "id": "notify_any_drop",
+          "label": "Notify on Any Price Drop",
+          "type": "toggle",
+          "contextKey": "notifyAnyDrop",
+          "required": false,
+          "copyable": false,
+          "placeholder": "false",
+          "helpText": "Get alerts for any price reduction",
+          "visibilityCondition": {
+            "field": "enable_price_tracking",
+            "equals": true
+          },
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": false
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Schedule Purchase",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "purchase_scheduled",
+      "properties": {
+        "current_price": "{currentPrice}",
+        "target_price": "{targetPrice}",
+        "priority": "{priority}",
+        "has_reminder": "{reminderTime}",
+        "price_tracking": "{enablePriceTracking}",
+        "budget_category": "{budgetCategory}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Add to Wishlist",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "addToWishlist"
+    },
+    "analytics": {
+      "eventName": "product_added_to_wishlist"
+    }
+  },
+  "tertiaryButton": {
+    "title": "View Product",
+    "style": "tertiary",
+    "action": {
+      "type": "openURL",
+      "contextKey": "productUrl"
+    },
+    "analytics": {
+      "eventName": "scheduled_purchase_product_viewed"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": ["reminders", "calendar"]
+  },
+  "loadingStates": {
+    "submitting": "Scheduling your purchase...",
+    "success": "Purchase scheduled! We'll remind you.",
+    "error": "Failed to schedule purchase. Please try again."
+  }
+}

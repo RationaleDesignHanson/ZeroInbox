@@ -422,7 +422,7 @@ class ActionRegistry {
                 analyticsEvent: "action_write_review",
                 priority: .mediumLow,
                 description: "Write product review",
-                modalConfigJSON: "write_review"
+                modalConfigJSON: "write_review_enhanced"
             ),
 
             // Contact Driver - High-fidelity modal with driver contact info
@@ -438,7 +438,7 @@ class ActionRegistry {
                 analyticsEvent: "action_contact_driver",
                 priority: .high,
                 description: "Contact delivery driver",
-                modalConfigJSON: "contact_driver"
+                modalConfigJSON: "contact_driver_enhanced"
             ),
 
             // View Pickup Details - High-fidelity modal with pharmacy/prescription info
@@ -454,7 +454,7 @@ class ActionRegistry {
                 analyticsEvent: "action_view_pickup_details",
                 priority: .mediumHigh,
                 description: "View prescription pickup details",
-                modalConfigJSON: "view_pickup_details"
+                modalConfigJSON: "view_pickup_details_enhanced"
             ),
         ]
     }
@@ -470,15 +470,15 @@ class ActionRegistry {
             // Quick Reply
             inApp("quick_reply", "Quick Reply", .high, "Send quick reply to email", mode: .mail,
                   requiredContextKeys: ["recipientEmail", "subject"], optionalContextKeys: ["body", "template"],
-                  fallbackBehavior: .openEmailComposer, modalConfigJSON: "quick_reply"),
+                  fallbackBehavior: .openEmailComposer, modalConfigJSON: "quick_reply_enhanced"),
 
             // Add to Calendar
             inApp("add_to_calendar", "Add to Calendar", .mediumHigh, "Add event to iOS Calendar", mode: .mail,
-                  optionalContextKeys: ["eventTitle", "eventDate", "eventTime", "location"], modalConfigJSON: "add_to_calendar"),
+                  optionalContextKeys: ["eventTitle", "eventDate", "eventTime", "location"], modalConfigJSON: "add_to_calendar_enhanced"),
 
             // Schedule Meeting
             inApp("schedule_meeting", "Schedule Meeting", .medium, "Schedule meeting with attendees", mode: .mail,
-                  optionalContextKeys: ["meetingTitle", "attendees", "duration"], fallbackBehavior: .openEmailComposer, modalConfigJSON: "schedule_meeting"),
+                  optionalContextKeys: ["meetingTitle", "attendees", "duration"], fallbackBehavior: .openEmailComposer, modalConfigJSON: "schedule_meeting_enhanced"),
 
             // Add Reminder
             inApp("add_reminder", "Add Reminder", .mediumLow, "Add reminder to iOS Reminders", mode: .mail,
@@ -506,11 +506,11 @@ class ActionRegistry {
 
             // Delegate
             inApp("delegate", "Delegate Task", .mediumLow, "Delegate task to colleague", mode: .mail,
-                  optionalContextKeys: ["recipientEmail", "taskDescription"], fallbackBehavior: .openEmailComposer, modalComponent: "EmailComposerModal"),
+                  optionalContextKeys: ["recipientEmail", "taskDescription"], fallbackBehavior: .openEmailComposer, modalConfigJSON: "delegate_task"),
 
             // Save for Later
             inApp("save_for_later", "Save for Later", .mediumLow, "Save email to folder or set reminder", mode: .both,
-                  optionalContextKeys: ["folderId", "reminderTime", "snoozeUntil"], fallbackBehavior: .showToast, modalComponent: "SaveForLaterModal"),
+                  optionalContextKeys: ["folderId", "reminderTime", "snoozeUntil"], fallbackBehavior: .showToast, modalConfigJSON: "save_for_later"),
 
             // === EDUCATION ACTIONS ===
 
@@ -592,7 +592,7 @@ class ActionRegistry {
 
             // File Insurance Claim
             inApp("file_insurance_claim", "File Insurance Claim", .veryHigh, "File insurance claim for medical bill reimbursement", mode: .mail,
-                  modalComponent: "FileInsuranceClaimModal"),
+                  modalConfigJSON: "file_insurance_claim"),
 
             // Pickup Details
             inApp("pickup_prescription", "Pickup Details", .veryHigh, "View prescription pickup information", mode: .mail,
@@ -606,7 +606,7 @@ class ActionRegistry {
 
             // View Practice Info
             inApp("view_practice_details", "View Practice Info", .veryHigh, "View practice details", mode: .mail,
-                  requiredContextKeys: ["sport", "dateTime"], modalComponent: "ViewPracticeInfoModal"),
+                  requiredContextKeys: ["sport", "dateTime"], modalConfigJSON: "view_practice_details"),
 
             // Accept Event
             inApp("accept_school_event", "Accept Event", .veryHigh, "Accept school event invitation and add to calendar", mode: .mail,
@@ -618,7 +618,7 @@ class ActionRegistry {
 
             // Add to Calendar
             inApp("add_activity_to_calendar", "Add to Calendar", .medium, "Add activity to calendar", mode: .mail,
-                  requiredContextKeys: ["date"], modalComponent: "AddtoCalendarModal"),
+                  requiredContextKeys: ["date"], modalConfigJSON: "add_activity_to_calendar"),
 
             // === THREAD FINDER ACTIONS ===
 
@@ -638,11 +638,11 @@ class ActionRegistry {
         [
             // Browse Shopping
             inApp("browse_shopping", "Browse Shopping", .medium, "Browse shopping products", mode: .ads,
-                  optionalContextKeys: ["productUrl", "category", "query"], modalComponent: "BrowseShoppingModal", modalConfigJSON: "browse_shopping"),
+                  optionalContextKeys: ["productUrl", "category", "query"], modalComponent: "BrowseShoppingModal", modalConfigJSON: "browse_shopping_enhanced"),
 
             // Schedule Purchase (PREMIUM)
             inApp("schedule_purchase", "Buy on {saleDateShort}", .mediumHigh, "Schedule future purchase with reminder", mode: .ads,
-                  optionalContextKeys: ["productName", "price", "purchaseDate"], modalConfigJSON: "scheduled_purchase", requiredPermission: .premium),
+                  optionalContextKeys: ["productName", "price", "purchaseDate"], modalConfigJSON: "scheduled_purchase_enhanced", requiredPermission: .premium),
 
             // View Newsletter Summary (PREMIUM - AI-powered)
             inApp("view_newsletter_summary", "View Summary", .mediumLow, "View AI-generated newsletter summary", mode: .ads,
@@ -685,7 +685,7 @@ class ActionRegistry {
 
             // Native iOS: Save Contact
             inApp("save_contact_native", "Save Contact", .mediumLow, "Save contact to iOS Contacts", mode: .both,
-                  optionalContextKeys: ["name", "email", "phone"], modalConfigJSON: "save_contact"),
+                  optionalContextKeys: ["name", "email", "phone"], modalConfigJSON: "save_contact_enhanced"),
 
             // Native iOS: Send Message
             inApp("send_message", "Send Message", .medium, "Send SMS/iMessage", mode: .both,
@@ -704,7 +704,7 @@ class ActionRegistry {
                 mode: .both,
                 optionalContextKeys: ["reservationNumber", "venue", "date"],
                 modalComponent: "ReservationModal",
-                modalConfigJSON: "reservation"
+                modalConfigJSON: "reservation_enhanced"
             ),
 
             // === COMMUNICATION & FEEDBACK ===
@@ -713,7 +713,7 @@ class ActionRegistry {
             inApp("rsvp_yes", "Accept Invitation", .veryHigh, "Accept invitation",
                 mode: .both,
                 modalComponent: "AcceptInvitationModal",
-                modalConfigJSON: "rsvp"
+                modalConfigJSON: "rsvp_enhanced"
             ),
 
             // Decline Invitation
@@ -806,14 +806,14 @@ class ActionRegistry {
             inApp("reply_to_ticket", "Reply", .high, "Reply to support ticket",
                 mode: .both,
                 requiredContextKeys: ["ticketId"],
-                modalComponent: "ReplyModal"
+                modalConfigJSON: "reply_to_ticket"
             ),
 
             // View Benefits
             inApp("view_benefits", "View Benefits", .veryHigh, "View subscription benefits and rewards",
                 mode: .both,
                 requiredContextKeys: ["serviceName"],
-                modalComponent: "ViewBenefitsModal"
+                modalConfigJSON: "view_benefits"
             ),
 
             // === FINANCE ===
@@ -822,7 +822,7 @@ class ActionRegistry {
             inApp("schedule_payment", "Schedule Payment", .high, "Schedule automatic payment",
                 mode: .both,
                 requiredContextKeys: ["amountDue", "dueDate"],
-                modalComponent: "SchedulePaymentModal",
+                modalConfigJSON: "schedule_payment",
                 confirmationRequirement: .confirmWithUndo(
                     confirmation: "Schedule ${amountDue} payment for {dueDate}?",
                     undo: UndoConfig(toastMessage: "Payment scheduled. Tap to undo.")
@@ -1065,6 +1065,12 @@ class ActionRegistry {
     /// This provides O(1) dictionary lookup instead of repeated JSON parsing
     func getAction(_ actionId: String) -> ActionConfig? {
         return registry[actionId]
+    }
+
+    /// Get all action configurations
+    /// Used by developer tools (Action Modal Gallery) to list all available actions
+    func getAllActions() -> [ActionConfig] {
+        return allActions
     }
 
     /// Get all actions for a specific mode

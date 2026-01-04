@@ -1,0 +1,333 @@
+{
+  "id": "rsvp_enhanced",
+  "title": "RSVP",
+  "subtitle": "Respond to invitation",
+  "icon": {
+    "systemName": "calendar.badge.checkmark",
+    "colorKey": null,
+    "staticColor": "green",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "event_info",
+      "title": "Event Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "event_name",
+          "label": "Event",
+          "type": "text",
+          "contextKey": "eventName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Wedding, Birthday Party, etc.",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "host",
+          "label": "Host",
+          "type": "text",
+          "contextKey": "host",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Event host",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "event_date",
+          "label": "Date",
+          "type": "text",
+          "contextKey": "eventDate",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Event date",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "full"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "event_time",
+          "label": "Time",
+          "type": "text",
+          "contextKey": "eventTime",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Event time",
+          "formatting": {
+            "type": "time"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "location",
+          "label": "Location",
+          "type": "text",
+          "contextKey": "location",
+          "required": false,
+          "copyable": true,
+          "placeholder": "Event location",
+          "helpText": "Tap to copy address",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "response_section",
+      "title": "Your Response",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "response",
+          "label": "Will you attend?",
+          "type": "segmentedControl",
+          "contextKey": "response",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Yes",
+          "helpText": "Select your response",
+          "pickerOptions": [
+            {
+              "value": "yes",
+              "label": "✓ Yes",
+              "icon": "checkmark.circle.fill",
+              "description": "I'll be there!"
+            },
+            {
+              "value": "no",
+              "label": "✗ No",
+              "icon": "xmark.circle.fill",
+              "description": "Can't make it"
+            },
+            {
+              "value": "maybe",
+              "label": "? Maybe",
+              "icon": "questionmark.circle.fill",
+              "description": "Not sure yet"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": {
+            "yes": "green",
+            "no": "red",
+            "maybe": "orange"
+          },
+          "defaultValue": "yes"
+        },
+        {
+          "id": "guest_count",
+          "label": "Number of Guests",
+          "type": "stepper",
+          "contextKey": "guestCount",
+          "required": false,
+          "copyable": false,
+          "placeholder": "1",
+          "helpText": "Including yourself",
+          "visibilityCondition": {
+            "field": "response",
+            "equals": "yes"
+          },
+          "validation": {
+            "type": "range",
+            "min": 1,
+            "max": 10,
+            "errorMessage": "Guest count must be between 1 and 10"
+          },
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": 1
+        },
+        {
+          "id": "plus_one",
+          "label": "Bringing a Plus One?",
+          "type": "toggle",
+          "contextKey": "plusOne",
+          "required": false,
+          "copyable": false,
+          "placeholder": "false",
+          "helpText": "Are you bringing a guest?",
+          "visibilityCondition": {
+            "field": "response",
+            "equals": "yes"
+          },
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": false
+        },
+        {
+          "id": "plus_one_name",
+          "label": "Guest Name",
+          "type": "textInput",
+          "contextKey": "plusOneName",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Guest's name",
+          "helpText": "Who are you bringing?",
+          "visibilityCondition": {
+            "field": "plus_one",
+            "equals": true
+          },
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "dietary_section",
+      "title": "Dietary Restrictions (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "visibilityCondition": {
+        "field": "response",
+        "equals": "yes"
+      },
+      "fields": [
+        {
+          "id": "dietary_restrictions",
+          "label": "Dietary Needs",
+          "type": "multiSelect",
+          "contextKey": "dietaryRestrictions",
+          "required": false,
+          "copyable": false,
+          "placeholder": "None",
+          "helpText": "Select all that apply",
+          "pickerOptions": [
+            {
+              "value": "vegetarian",
+              "label": "Vegetarian",
+              "icon": "leaf.fill"
+            },
+            {
+              "value": "vegan",
+              "label": "Vegan",
+              "icon": "leaf.circle.fill"
+            },
+            {
+              "value": "gluten_free",
+              "label": "Gluten-Free",
+              "icon": "g.circle.fill"
+            },
+            {
+              "value": "dairy_free",
+              "label": "Dairy-Free",
+              "icon": "drop.fill"
+            },
+            {
+              "value": "nut_allergy",
+              "label": "Nut Allergy",
+              "icon": "exclamationmark.triangle.fill"
+            },
+            {
+              "value": "other",
+              "label": "Other",
+              "icon": "ellipsis.circle.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "dietary_notes",
+          "label": "Additional Notes",
+          "type": "textArea",
+          "contextKey": "dietaryNotes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Any other dietary requirements...",
+          "helpText": "Be specific if needed",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 3,
+          "characterLimit": 200
+        }
+      ]
+    },
+    {
+      "id": "message_section",
+      "title": "Message to Host (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "message",
+          "label": "Personal Message",
+          "type": "textArea",
+          "contextKey": "message",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Looking forward to it! Thank you for inviting me.",
+          "helpText": "Send a note to the host",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 4,
+          "characterLimit": 300
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Send Response",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "rsvp_submitted",
+      "properties": {
+        "response": "{response}",
+        "guest_count": "{guestCount}",
+        "has_plus_one": "{plusOne}",
+        "has_dietary": "{dietaryRestrictions}",
+        "has_message": "{message}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Add to Calendar",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "addToCalendar"
+    },
+    "visibilityCondition": {
+      "field": "response",
+      "equals": "yes"
+    },
+    "analytics": {
+      "eventName": "rsvp_added_to_calendar"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "tertiary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": ["calendar"]
+  },
+  "loadingStates": {
+    "submitting": "Sending your RSVP...",
+    "success": "RSVP sent successfully!",
+    "error": "Failed to send RSVP. Please try again."
+  }
+}

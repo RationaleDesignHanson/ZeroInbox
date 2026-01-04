@@ -1,0 +1,291 @@
+{
+  "modalId": "view_pickup_details_enhanced",
+  "version": "1.0.0",
+  "actionType": "view_pickup_details",
+  "title": "Prescription Ready",
+  "subtitle": "{{medicationName}}",
+  "icon": {
+    "systemName": "pills.circle.fill",
+    "color": "green"
+  },
+  "description": "View details about your prescription pickup",
+  "requiredContext": [
+    "rxNumber",
+    "pharmacy"
+  ],
+  "optionalContext": [
+    "medicationName",
+    "copay",
+    "pickupDeadline",
+    "pharmacyAddress",
+    "pharmacyPhone",
+    "pharmacyHours"
+  ],
+  "sections": [
+    {
+      "id": "prescription_details",
+      "title": "Prescription Details",
+      "type": "info",
+      "fields": [
+        {
+          "id": "rx_number",
+          "type": "info_row",
+          "label": "Rx Number",
+          "contextKey": "rxNumber",
+          "icon": {
+            "systemName": "number.circle.fill",
+            "color": "blue"
+          },
+          "style": "prominent",
+          "copyable": true
+        },
+        {
+          "id": "medication",
+          "type": "info_row",
+          "label": "Medication",
+          "contextKey": "medicationName",
+          "icon": {
+            "systemName": "pills.fill",
+            "color": "purple"
+          },
+          "style": "prominent",
+          "optional": true
+        },
+        {
+          "id": "copay",
+          "type": "info_row",
+          "label": "Copay",
+          "contextKey": "copay",
+          "icon": {
+            "systemName": "dollarsign.circle.fill",
+            "color": "green"
+          },
+          "style": "inline",
+          "optional": true
+        },
+        {
+          "id": "deadline",
+          "type": "info_row",
+          "label": "Pick up by",
+          "contextKey": "pickupDeadline",
+          "icon": {
+            "systemName": "clock.fill",
+            "color": "orange"
+          },
+          "style": "prominent",
+          "optional": true,
+          "badge": {
+            "text": "Urgent",
+            "style": "warning",
+            "condition": "hasValue"
+          }
+        }
+      ]
+    },
+    {
+      "id": "pharmacy_location",
+      "title": "Pharmacy Location",
+      "type": "location",
+      "fields": [
+        {
+          "id": "pharmacy_name",
+          "type": "info_row",
+          "label": "Pharmacy",
+          "contextKey": "pharmacy",
+          "icon": {
+            "systemName": "cross.case.fill",
+            "color": "red"
+          },
+          "style": "prominent"
+        },
+        {
+          "id": "map_preview",
+          "type": "map",
+          "locationNameKey": "pharmacy",
+          "addressKey": "pharmacyAddress",
+          "height": 200,
+          "showDirectionsButton": false
+        },
+        {
+          "id": "pharmacy_address",
+          "type": "info_row",
+          "label": "Address",
+          "contextKey": "pharmacyAddress",
+          "icon": {
+            "systemName": "mappin.circle.fill",
+            "color": "red"
+          },
+          "style": "inline",
+          "copyable": true,
+          "defaultValue": "Location details in email"
+        },
+        {
+          "id": "pharmacy_hours",
+          "type": "info_row",
+          "label": "Hours",
+          "contextKey": "pharmacyHours",
+          "icon": {
+            "systemName": "clock.fill",
+            "color": "blue"
+          },
+          "style": "inline",
+          "defaultValue": "Mon-Fri 9AM-6PM"
+        },
+        {
+          "id": "pharmacy_phone",
+          "type": "info_row",
+          "label": "Phone",
+          "contextKey": "pharmacyPhone",
+          "icon": {
+            "systemName": "phone.circle.fill",
+            "color": "green"
+          },
+          "style": "inline",
+          "copyable": true,
+          "optional": true,
+          "action": {
+            "type": "phone_call",
+            "phoneNumberKey": "pharmacyPhone"
+          }
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "get_directions",
+      "type": "primary",
+      "label": "Get Directions",
+      "icon": {
+        "systemName": "map.fill"
+      },
+      "style": {
+        "backgroundColor": "blue",
+        "foregroundColor": "white"
+      },
+      "action": {
+        "type": "open_maps",
+        "queryFormat": "{{pharmacy}} {{pharmacyAddress}}",
+        "fallbackUrl": "https://www.google.com/maps/search/?api=1&query={{pharmacy}}+{{pharmacyAddress}}"
+      },
+      "analytics": {
+        "event": "pharmacy_directions_opened",
+        "properties": {
+          "pharmacy": "{{pharmacy}}",
+          "rx_number": "{{rxNumber}}"
+        }
+      }
+    },
+    {
+      "id": "call_pharmacy",
+      "type": "secondary",
+      "label": "Call Pharmacy",
+      "icon": {
+        "systemName": "phone.fill"
+      },
+      "style": {
+        "backgroundColor": "green",
+        "foregroundColor": "white"
+      },
+      "action": {
+        "type": "phone_call",
+        "phoneNumberKey": "pharmacyPhone"
+      },
+      "analytics": {
+        "event": "pharmacy_called",
+        "properties": {
+          "pharmacy": "{{pharmacy}}",
+          "rx_number": "{{rxNumber}}"
+        }
+      },
+      "condition": {
+        "type": "has_context_value",
+        "key": "pharmacyPhone"
+      }
+    },
+    {
+      "id": "set_reminder",
+      "type": "secondary",
+      "label": "Set Pickup Reminder",
+      "icon": {
+        "systemName": "bell.fill"
+      },
+      "style": {
+        "backgroundColor": "orange",
+        "foregroundColor": "white"
+      },
+      "action": {
+        "type": "create_reminder",
+        "titleFormat": "Pick up {{medicationName|prescription}} at {{pharmacy}}",
+        "notesFormat": "Rx Number: {{rxNumber}}\nPharmacy: {{pharmacy}}\nAddress: {{pharmacyAddress}}\n{{#if pharmacyPhone}}Phone: {{pharmacyPhone}}\n{{/if}}Hours: {{pharmacyHours}}",
+        "dueDateKey": "pickupDeadline",
+        "dueDateFormat": "flexible",
+        "defaultDueDays": 1,
+        "defaultDueHour": 17,
+        "priority": 1
+      },
+      "successMessage": "Reminder set!",
+      "errorMessage": "Could not create reminder. Please check Reminders permission in Settings.",
+      "analytics": {
+        "event": "pickup_reminder_created",
+        "properties": {
+          "pharmacy": "{{pharmacy}}",
+          "rx_number": "{{rxNumber}}",
+          "has_deadline": "{{!!pickupDeadline}}",
+          "has_medication_name": "{{!!medicationName}}"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "createdBy": "Phase 5.3 - Wave 1 JSON Migration",
+    "migrationDate": "2024-12-21",
+    "originalFile": "PickupDetailsModal.swift",
+    "category": "health",
+    "tags": ["pharmacy", "prescription", "pickup", "health", "reminder", "location"],
+    "complexity": "high",
+    "features": [
+      "map_integration",
+      "reminder_creation",
+      "phone_integration",
+      "maps_integration",
+      "flexible_date_parsing"
+    ]
+  },
+  "permissions": [
+    {
+      "type": "reminders",
+      "required": false,
+      "requestOnAction": "set_reminder",
+      "rationaleTitle": "Set Pickup Reminders",
+      "rationaleMessage": "Zero Inbox can create reminders to help you remember to pick up your prescriptions on time."
+    },
+    {
+      "type": "location",
+      "required": false,
+      "requestOnAction": "get_directions",
+      "rationaleTitle": "Get Directions",
+      "rationaleMessage": "Zero Inbox needs location access to provide accurate directions to the pharmacy."
+    }
+  ],
+  "validation": {
+    "rules": [
+      {
+        "field": "rxNumber",
+        "type": "required",
+        "message": "Prescription number is required"
+      },
+      {
+        "field": "pharmacy",
+        "type": "required",
+        "message": "Pharmacy name is required"
+      },
+      {
+        "field": "pharmacyPhone",
+        "type": "phone",
+        "message": "Invalid phone number format",
+        "optional": true
+      }
+    ]
+  }
+}

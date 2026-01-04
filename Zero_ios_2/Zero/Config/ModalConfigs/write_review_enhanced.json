@@ -1,0 +1,138 @@
+{
+  "id": "write_review",
+  "version": "2.4",
+  "title": "Write Review",
+  "subtitle": "Share your experience",
+  "icon": {
+    "systemName": "star.square.fill",
+    "staticColor": "yellow",
+    "size": "large"
+  },
+  "layout": "form",
+  "presentationStyle": "sheet",
+  "dismissible": true,
+  "sections": [
+    {
+      "id": "product_info",
+      "title": "Product",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "product_name",
+          "label": "Product Name",
+          "type": "text",
+          "contextKey": "productName",
+          "required": true
+        },
+        {
+          "id": "merchant",
+          "label": "Merchant",
+          "type": "text",
+          "contextKey": "merchant",
+          "required": false,
+          "showIf": {
+            "type": "contextExists",
+            "key": "merchant"
+          }
+        },
+        {
+          "id": "order_date",
+          "label": "Purchased",
+          "type": "date",
+          "contextKey": "orderDate",
+          "required": false,
+          "showIf": {
+            "type": "contextExists",
+            "key": "orderDate"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rating_section",
+      "title": "Your Rating",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "rating",
+          "label": "Rating",
+          "type": "rating",
+          "contextKey": "userRating",
+          "required": true,
+          "validation": {
+            "type": "minValue",
+            "value": 1
+          },
+          "errorMessage": "Please select a rating"
+        }
+      ]
+    },
+    {
+      "id": "review_content",
+      "title": "Your Review",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "review_text",
+          "label": "Review",
+          "type": "textInputMultiline",
+          "contextKey": "reviewText",
+          "required": true,
+          "placeholder": "Share your experience with this product...",
+          "validation": {
+            "type": "minLength",
+            "value": 50,
+            "maxLength": 500
+          },
+          "errorMessage": "Review must be between 50 and 500 characters"
+        },
+        {
+          "id": "character_count",
+          "type": "text",
+          "contextKey": "characterCount",
+          "label": "Character count",
+          "required": false
+        }
+      ]
+    },
+    {
+      "id": "review_tags",
+      "title": "Review Categories (Optional)",
+      "layout": "horizontal",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "tags",
+          "type": "checkbox",
+          "contextKey": "reviewTags",
+          "required": false,
+          "options": ["Quality", "Value", "Service", "Shipping", "Packaging"]
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Submit Review",
+    "style": "primary",
+    "haptic": "success",
+    "action": {
+      "type": "openURL",
+      "contextKey": "reviewLink"
+    }
+  },
+  "secondaryButton": {
+    "title": "Cancel",
+    "style": "secondary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "trackingEvents": {
+    "modalShown": "modal_shown_write_review",
+    "primaryAction": "review_submitted",
+    "dismissed": "modal_dismissed_write_review"
+  }
+}

@@ -1,0 +1,303 @@
+{
+  "id": "save_contact_enhanced",
+  "title": "Save Contact",
+  "subtitle": "Add to your contacts",
+  "icon": {
+    "systemName": "person.crop.circle.badge.plus",
+    "colorKey": null,
+    "staticColor": "blue",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "basic_info",
+      "title": "Contact Information",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "first_name",
+          "label": "First Name",
+          "type": "textInput",
+          "contextKey": "firstName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "John",
+          "helpText": "Contact's first name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "last_name",
+          "label": "Last Name",
+          "type": "textInput",
+          "contextKey": "lastName",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Smith",
+          "helpText": "Contact's last name",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "company",
+          "label": "Company",
+          "type": "textInput",
+          "contextKey": "company",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Acme Corp",
+          "helpText": "Where they work",
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "job_title",
+          "label": "Job Title",
+          "type": "textInput",
+          "contextKey": "jobTitle",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Software Engineer",
+          "helpText": "Their role",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "contact_methods",
+      "title": "Contact Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "email",
+          "label": "Email",
+          "type": "textInput",
+          "contextKey": "email",
+          "required": true,
+          "copyable": true,
+          "placeholder": "john@example.com",
+          "helpText": "Primary email address",
+          "validation": {
+            "type": "email",
+            "errorMessage": "Please enter a valid email address"
+          },
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "phone",
+          "label": "Phone",
+          "type": "textInput",
+          "contextKey": "phone",
+          "required": false,
+          "copyable": true,
+          "placeholder": "+1 (555) 123-4567",
+          "helpText": "Mobile or work phone",
+          "validation": {
+            "type": "phone",
+            "errorMessage": "Please enter a valid phone number"
+          },
+          "formatting": {
+            "type": "phone"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "website",
+          "label": "Website",
+          "type": "textInput",
+          "contextKey": "website",
+          "required": false,
+          "copyable": true,
+          "placeholder": "https://example.com",
+          "helpText": "Personal or company website",
+          "validation": {
+            "type": "url",
+            "errorMessage": "Please enter a valid URL"
+          },
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "additional_info",
+      "title": "Additional Information (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "address",
+          "label": "Address",
+          "type": "textArea",
+          "contextKey": "address",
+          "required": false,
+          "copyable": true,
+          "placeholder": "123 Main St\nCity, State ZIP",
+          "helpText": "Physical address",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 3
+        },
+        {
+          "id": "birthday",
+          "label": "Birthday",
+          "type": "datePicker",
+          "contextKey": "birthday",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Select date",
+          "helpText": "Date of birth",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "long"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "notes",
+          "label": "Notes",
+          "type": "textArea",
+          "contextKey": "notes",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Add any notes about this contact...",
+          "helpText": "Personal notes",
+          "formatting": null,
+          "colorMapping": null,
+          "maxLines": 4,
+          "characterLimit": 300
+        },
+        {
+          "id": "relationship",
+          "label": "Relationship",
+          "type": "picker",
+          "contextKey": "relationship",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Select relationship",
+          "helpText": "How you know them",
+          "pickerOptions": [
+            {
+              "value": "friend",
+              "label": "Friend"
+            },
+            {
+              "value": "family",
+              "label": "Family"
+            },
+            {
+              "value": "colleague",
+              "label": "Colleague"
+            },
+            {
+              "value": "client",
+              "label": "Client"
+            },
+            {
+              "value": "vendor",
+              "label": "Vendor"
+            },
+            {
+              "value": "other",
+              "label": "Other"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "social_media",
+      "title": "Social Media (Optional)",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": true,
+      "fields": [
+        {
+          "id": "linkedin",
+          "label": "LinkedIn",
+          "type": "textInput",
+          "contextKey": "linkedinUrl",
+          "required": false,
+          "copyable": true,
+          "placeholder": "linkedin.com/in/johndoe",
+          "helpText": "LinkedIn profile",
+          "validation": {
+            "type": "url",
+            "errorMessage": "Please enter a valid URL"
+          },
+          "formatting": null,
+          "colorMapping": null
+        },
+        {
+          "id": "twitter",
+          "label": "Twitter/X",
+          "type": "textInput",
+          "contextKey": "twitterHandle",
+          "required": false,
+          "copyable": true,
+          "placeholder": "@johndoe",
+          "helpText": "Twitter/X handle",
+          "formatting": null,
+          "colorMapping": null
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Save to Contacts",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "contact_saved",
+      "properties": {
+        "has_phone": "{phone}",
+        "has_company": "{company}",
+        "has_address": "{address}",
+        "has_social": "{linkedinUrl}",
+        "relationship": "{relationship}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "Export vCard",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "exportVCard"
+    },
+    "analytics": {
+      "eventName": "contact_exported_vcard"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "tertiary",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": ["contacts"],
+    "optional": []
+  },
+  "loadingStates": {
+    "submitting": "Saving contact...",
+    "success": "Contact saved successfully!",
+    "error": "Failed to save contact. Please check contacts permissions."
+  }
+}

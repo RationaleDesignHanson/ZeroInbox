@@ -1,0 +1,331 @@
+{
+  "id": "schedule_payment",
+  "title": "Schedule Payment",
+  "subtitle": "Set up automatic payment",
+  "icon": {
+    "systemName": "creditcard.fill",
+    "colorKey": null,
+    "staticColor": "green",
+    "size": "large"
+  },
+  "sections": [
+    {
+      "id": "payment_details",
+      "title": "Payment Details",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "payee_name",
+          "label": "Payee",
+          "type": "text",
+          "contextKey": "payeeName",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Electric Company, Water Utility, etc.",
+          "helpText": "Who are you paying?",
+          "formatting": {
+            "type": "bold"
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "payment_amount",
+          "label": "Amount",
+          "type": "currency",
+          "contextKey": "amountDue",
+          "required": true,
+          "copyable": false,
+          "placeholder": "$125.00",
+          "helpText": "How much to pay",
+          "formatting": {
+            "type": "currency",
+            "options": {
+              "currencyCode": "USD"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "account_number",
+          "label": "Account Number (Last 4)",
+          "type": "textInput",
+          "contextKey": "accountNumber",
+          "required": false,
+          "copyable": true,
+          "placeholder": "****1234",
+          "helpText": "For confirmation",
+          "validation": {
+            "type": "pattern",
+            "pattern": "^\\d{4}$",
+            "errorMessage": "Enter last 4 digits only"
+          },
+          "formatting": {
+            "type": "monospace"
+          },
+          "colorMapping": null
+        }
+      ]
+    },
+    {
+      "id": "schedule_section",
+      "title": "Payment Schedule",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "due_date",
+          "label": "Due Date",
+          "type": "datePicker",
+          "contextKey": "dueDate",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Select due date",
+          "helpText": "When is payment due?",
+          "formatting": {
+            "type": "date",
+            "options": {
+              "dateStyle": "long"
+            }
+          },
+          "colorMapping": null
+        },
+        {
+          "id": "payment_date",
+          "label": "Pay On",
+          "type": "picker",
+          "contextKey": "paymentTiming",
+          "required": false,
+          "copyable": false,
+          "placeholder": "3 days before",
+          "helpText": "When to process payment",
+          "pickerOptions": [
+            {
+              "value": "same_day",
+              "label": "On Due Date",
+              "icon": "calendar",
+              "description": "Pay on the due date"
+            },
+            {
+              "value": "1_day_before",
+              "label": "1 Day Before",
+              "icon": "calendar.badge.minus",
+              "description": "Pay 1 day early"
+            },
+            {
+              "value": "3_days_before",
+              "label": "3 Days Before",
+              "icon": "calendar.badge.minus",
+              "description": "Pay 3 days early"
+            },
+            {
+              "value": "5_days_before",
+              "label": "5 Days Before",
+              "icon": "calendar.badge.minus",
+              "description": "Pay 5 days early"
+            },
+            {
+              "value": "1_week_before",
+              "label": "1 Week Before",
+              "icon": "calendar.badge.minus",
+              "description": "Pay 7 days early"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "3_days_before"
+        },
+        {
+          "id": "recurring",
+          "label": "Recurring Payment",
+          "type": "toggle",
+          "contextKey": "isRecurring",
+          "required": false,
+          "copyable": false,
+          "placeholder": "false",
+          "helpText": "Set up automatic monthly payment",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": false
+        },
+        {
+          "id": "recurring_day",
+          "label": "Repeat On",
+          "type": "picker",
+          "contextKey": "recurringDay",
+          "required": false,
+          "copyable": false,
+          "placeholder": "Same day each month",
+          "helpText": "Which day of month to pay",
+          "visibilityCondition": {
+            "field": "recurring",
+            "equals": true
+          },
+          "pickerOptions": [
+            {
+              "value": "same",
+              "label": "Same day each month",
+              "description": "e.g., 15th of every month"
+            },
+            {
+              "value": "first",
+              "label": "First of month",
+              "description": "1st of every month"
+            },
+            {
+              "value": "last",
+              "label": "Last of month",
+              "description": "Last day of every month"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "same"
+        }
+      ]
+    },
+    {
+      "id": "payment_method_section",
+      "title": "Payment Method",
+      "layout": "vertical",
+      "background": "glass",
+      "fields": [
+        {
+          "id": "payment_method",
+          "label": "Pay With",
+          "type": "picker",
+          "contextKey": "paymentMethod",
+          "required": true,
+          "copyable": false,
+          "placeholder": "Checking account",
+          "helpText": "Select payment method",
+          "pickerOptions": [
+            {
+              "value": "checking",
+              "label": "Checking Account (...1234)",
+              "icon": "building.columns.fill",
+              "description": "Bank checking account"
+            },
+            {
+              "value": "savings",
+              "label": "Savings Account (...5678)",
+              "icon": "building.columns.fill",
+              "description": "Bank savings account"
+            },
+            {
+              "value": "credit_card",
+              "label": "Credit Card (...9012)",
+              "icon": "creditcard.fill",
+              "description": "Credit or debit card"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "checking"
+        }
+      ]
+    },
+    {
+      "id": "confirmation_section",
+      "title": "Confirmation & Notifications",
+      "layout": "vertical",
+      "background": "plain",
+      "collapsible": true,
+      "collapsed": false,
+      "fields": [
+        {
+          "id": "send_confirmation",
+          "label": "Send Confirmation",
+          "type": "toggle",
+          "contextKey": "sendConfirmation",
+          "required": false,
+          "copyable": false,
+          "placeholder": "true",
+          "helpText": "Email confirmation after payment",
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": true
+        },
+        {
+          "id": "reminder_before",
+          "label": "Reminder Before Payment",
+          "type": "picker",
+          "contextKey": "reminderBefore",
+          "required": false,
+          "copyable": false,
+          "placeholder": "1 day before",
+          "helpText": "Get notified before automatic payment",
+          "pickerOptions": [
+            {
+              "value": "none",
+              "label": "No Reminder"
+            },
+            {
+              "value": "1_day",
+              "label": "1 Day Before",
+              "icon": "bell.fill"
+            },
+            {
+              "value": "2_days",
+              "label": "2 Days Before",
+              "icon": "bell.fill"
+            },
+            {
+              "value": "3_days",
+              "label": "3 Days Before",
+              "icon": "bell.fill"
+            }
+          ],
+          "formatting": null,
+          "colorMapping": null,
+          "defaultValue": "1_day"
+        }
+      ]
+    }
+  ],
+  "primaryButton": {
+    "title": "Schedule Payment",
+    "style": "primary",
+    "action": {
+      "type": "submit",
+      "contextKey": null
+    },
+    "analytics": {
+      "eventName": "payment_scheduled",
+      "properties": {
+        "amount": "{amountDue}",
+        "payment_timing": "{paymentTiming}",
+        "is_recurring": "{isRecurring}",
+        "payment_method": "{paymentMethod}"
+      }
+    }
+  },
+  "secondaryButton": {
+    "title": "View Scheduled Payments",
+    "style": "secondary",
+    "action": {
+      "type": "custom",
+      "contextKey": "viewScheduled"
+    },
+    "analytics": {
+      "eventName": "view_scheduled_payments"
+    }
+  },
+  "cancelButton": {
+    "title": "Cancel",
+    "style": "plain",
+    "action": {
+      "type": "dismiss"
+    }
+  },
+  "layout": "standard",
+  "permissions": {
+    "required": [],
+    "optional": ["reminders"]
+  },
+  "loadingStates": {
+    "submitting": "Scheduling payment...",
+    "success": "Payment scheduled successfully!",
+    "error": "Failed to schedule payment. Please try again."
+  }
+}

@@ -16,7 +16,7 @@ import SwiftUI
  *   "primaryButton": { "title": "Track", "action": { "type": "openURL", ... } }
  * }
  */
-struct ModalConfig: Codable, Identifiable {
+struct ModalConfig: Identifiable {
     let id: String
     let title: String
     let subtitle: String?
@@ -52,6 +52,38 @@ struct ModalConfig: Codable, Identifiable {
         self.primaryButton = primaryButton
         self.secondaryButton = secondaryButton
         self.layout = layout
+    }
+}
+
+// MARK: - Codable Conformance
+
+extension ModalConfig: Codable {
+    enum CodingKeys: String, CodingKey {
+        case id, title, subtitle, icon, sections, primaryButton, secondaryButton, layout
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(String.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        subtitle = try container.decodeIfPresent(String.self, forKey: .subtitle)
+        icon = try container.decodeIfPresent(IconConfig.self, forKey: .icon)
+        sections = try container.decode([ModalSection].self, forKey: .sections)
+        primaryButton = try container.decode(ButtonConfig.self, forKey: .primaryButton)
+        secondaryButton = try container.decodeIfPresent(ButtonConfig.self, forKey: .secondaryButton)
+        layout = try container.decodeIfPresent(ModalLayout.self, forKey: .layout) ?? .standard
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(title, forKey: .title)
+        try container.encodeIfPresent(subtitle, forKey: .subtitle)
+        try container.encodeIfPresent(icon, forKey: .icon)
+        try container.encode(sections, forKey: .sections)
+        try container.encode(primaryButton, forKey: .primaryButton)
+        try container.encodeIfPresent(secondaryButton, forKey: .secondaryButton)
+        try container.encode(layout, forKey: .layout)
     }
 }
 
