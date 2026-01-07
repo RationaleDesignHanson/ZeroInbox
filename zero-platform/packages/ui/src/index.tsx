@@ -1,9 +1,9 @@
 /**
  * @zero/ui - Shared UI components
- * Placeholder for cross-platform UI components
+ * Cross-platform UI components for Zero
  */
 
-import React from 'react';
+import React, { createContext, useContext } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 
 export const UI_VERSION = '1.0.0';
@@ -18,11 +18,16 @@ export const tokens = {
     xl: 32,
     element: 12,
     component: 16,
+    section: 24,
+    card: 20,
+    inline: 8,
+    tight: 4,
   },
   borderRadius: {
     sm: 4,
     md: 8,
     lg: 16,
+    xl: 24,
     full: 9999,
   },
   fontSize: {
@@ -32,6 +37,63 @@ export const tokens = {
     lg: 16,
     xl: 20,
     xxl: 24,
+    xxxl: 32,
+  },
+};
+
+// Typography styles
+export const typography = {
+  displayLarge: {
+    fontSize: 32,
+    fontWeight: '700' as const,
+    lineHeight: 40,
+    letterSpacing: -0.5,
+  },
+  displayMedium: {
+    fontSize: 28,
+    fontWeight: '700' as const,
+    lineHeight: 36,
+    letterSpacing: -0.3,
+  },
+  displaySmall: {
+    fontSize: 24,
+    fontWeight: '600' as const,
+    lineHeight: 32,
+  },
+  headlineMedium: {
+    fontSize: 20,
+    fontWeight: '600' as const,
+    lineHeight: 28,
+  },
+  bodyLarge: {
+    fontSize: 16,
+    fontWeight: '400' as const,
+    lineHeight: 24,
+  },
+  bodyMedium: {
+    fontSize: 14,
+    fontWeight: '400' as const,
+    lineHeight: 20,
+  },
+  bodySmall: {
+    fontSize: 12,
+    fontWeight: '400' as const,
+    lineHeight: 16,
+  },
+  labelLarge: {
+    fontSize: 14,
+    fontWeight: '600' as const,
+    lineHeight: 20,
+  },
+  labelMedium: {
+    fontSize: 12,
+    fontWeight: '500' as const,
+    lineHeight: 16,
+  },
+  labelSmall: {
+    fontSize: 11,
+    fontWeight: '500' as const,
+    lineHeight: 14,
   },
 };
 
@@ -69,6 +131,73 @@ export const colors = {
 // Spacing export for backwards compatibility
 export const spacing = tokens.spacing;
 
+// Theme context
+interface Theme {
+  colors: {
+    text: {
+      primary: string;
+      secondary: string;
+      tertiary: string;
+    };
+    background: {
+      primary: string;
+      secondary: string;
+      tertiary: string;
+    };
+    accent: {
+      primary: string;
+      secondary: string;
+    };
+  };
+  mode: 'mail' | 'ads';
+}
+
+const mailTheme: Theme = {
+  colors: {
+    text: {
+      primary: colors.text,
+      secondary: colors.textSecondary,
+      tertiary: colors.textSubtle,
+    },
+    background: {
+      primary: colors.background,
+      secondary: colors.surface,
+      tertiary: colors.backgroundDark,
+    },
+    accent: {
+      primary: colors.mailGradientStart,
+      secondary: colors.mailGradientEnd,
+    },
+  },
+  mode: 'mail',
+};
+
+const adsTheme: Theme = {
+  colors: {
+    text: {
+      primary: colors.text,
+      secondary: colors.textSecondary,
+      tertiary: colors.textSubtle,
+    },
+    background: {
+      primary: colors.background,
+      secondary: colors.surface,
+      tertiary: colors.backgroundDark,
+    },
+    accent: {
+      primary: colors.adsGradientStart,
+      secondary: colors.adsGradientEnd,
+    },
+  },
+  mode: 'ads',
+};
+
+const ThemeContext = createContext<Theme>(mailTheme);
+
+export function useTheme(): Theme {
+  return useContext(ThemeContext);
+}
+
 // Screen wrapper component
 export function Screen({ children }: { children: React.ReactNode }) {
   return (
@@ -88,12 +217,100 @@ const screenStyles = StyleSheet.create({
 // ThemeProvider component
 export function ThemeProvider({ 
   children, 
-  mode: _mode = 'mail' 
+  mode = 'mail' 
 }: { 
   children: React.ReactNode;
   mode?: 'mail' | 'ads';
 }) {
-  return <>{children}</>;
+  const theme = mode === 'ads' ? adsTheme : mailTheme;
+  return (
+    <ThemeContext.Provider value={theme}>
+      {children}
+    </ThemeContext.Provider>
+  );
+}
+
+// Card component
+export function Card({ 
+  children,
+  variant = 'default',
+  padding = 'default',
+}: { 
+  children: React.ReactNode;
+  variant?: 'default' | 'glass' | 'elevated';
+  padding?: 'none' | 'minimal' | 'default' | 'large';
+}) {
+  const paddingValue = {
+    none: 0,
+    minimal: tokens.spacing.xs,
+    default: tokens.spacing.md,
+    large: tokens.spacing.lg,
+  }[padding];
+
+  const variantStyle = {
+    default: cardComponentStyles.default,
+    glass: cardComponentStyles.glass,
+    elevated: cardComponentStyles.elevated,
+  }[variant];
+
+  return (
+    <View style={[cardComponentStyles.base, variantStyle, { padding: paddingValue }]}>
+      {children}
+    </View>
+  );
+}
+
+const cardComponentStyles = StyleSheet.create({
+  base: {
+    borderRadius: tokens.borderRadius.lg,
+    overflow: 'hidden',
+  },
+  default: {
+    backgroundColor: colors.surface,
+  },
+  glass: {
+    backgroundColor: 'rgba(26, 26, 46, 0.6)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+  },
+  elevated: {
+    backgroundColor: colors.surface,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+});
+
+// Stack component for layout
+export function Stack({ 
+  children,
+  direction = 'vertical',
+  spacing: stackSpacing = 'md',
+  align = 'stretch',
+}: { 
+  children: React.ReactNode;
+  direction?: 'horizontal' | 'vertical';
+  spacing?: keyof typeof tokens.spacing;
+  align?: 'start' | 'center' | 'end' | 'stretch';
+}) {
+  const alignMap = {
+    start: 'flex-start' as const,
+    center: 'center' as const,
+    end: 'flex-end' as const,
+    stretch: 'stretch' as const,
+  };
+
+  return (
+    <View style={{
+      flexDirection: direction === 'horizontal' ? 'row' : 'column',
+      gap: tokens.spacing[stackSpacing],
+      alignItems: alignMap[align],
+    }}>
+      {children}
+    </View>
+  );
 }
 
 // InboxHeader component

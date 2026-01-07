@@ -148,9 +148,10 @@ function ParticleOrb({ particle, animated }: { particle: Particle; animated: boo
 interface NebulaBackgroundProps {
   particleCount?: number;
   animated?: boolean;
+  mode?: 'mail' | 'ads';
 }
 
-export function NebulaBackground({ particleCount = 15, animated = true }: NebulaBackgroundProps) {
+export function NebulaBackground({ particleCount = 15, animated = true, mode = 'mail' }: NebulaBackgroundProps) {
   const particles = useMemo(() => generateParticles(particleCount), [particleCount]);
 
   return (

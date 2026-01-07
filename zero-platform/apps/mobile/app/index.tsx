@@ -1,11 +1,11 @@
 /**
  * Index redirect
- * Redirects to the main inbox tab
+ * Redirects to the main feed screen
  */
 
 import { Redirect } from 'expo-router';
 
 export default function Index() {
-  return <Redirect href="/(tabs)/inbox" />;
+  return <Redirect href="/feed" />;
 }
 
