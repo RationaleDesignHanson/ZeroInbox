@@ -37,7 +37,8 @@ playground.xcworkspace
 
 # Swift Package Manager
 .build/
-Packages/
+# Note: Using specific paths to avoid conflict with zero-platform/packages/
+Zero_ios_2/Zero/Packages/
 Package.pins
 Package.resolved
 *.swiftpm

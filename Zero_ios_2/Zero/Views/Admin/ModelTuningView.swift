@@ -126,8 +126,31 @@ struct ModelTuningView: View {
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { viewModel.exportFeedback() }) {
-                        Image(systemName: "square.and.arrow.up")
+                    Menu {
+                        Button {
+                            viewModel.showDataInfoSheet = true
+                        } label: {
+                            Label("What's Collected?", systemImage: "info.circle")
+                        }
+
+                        Button {
+                            viewModel.initiateExport()
+                        } label: {
+                            Label("Export Feedback (\(LocalFeedbackStore.shared.getFeedbackCount()))", systemImage: "square.and.arrow.up")
+                        }
+                        .disabled(LocalFeedbackStore.shared.getFeedbackCount() == 0)
+
+                        Divider()
+
+                        Button(role: .destructive) {
+                            viewModel.showClearConfirmation = true
+                        } label: {
+                            Label("Clear All Feedback", systemImage: "trash")
+                        }
+                        .disabled(LocalFeedbackStore.shared.getFeedbackCount() == 0)
+
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
                             .foregroundColor(.white)
                     }
                 }
@@ -138,9 +161,9 @@ struct ModelTuningView: View {
                 }
             } message: {
                 if let stats = viewModel.rewardStats {
-                    Text("Progress: \(stats.currentProgress)/10 cards toward next free month")
+                    Text("Testing Phase: \(stats.currentProgress) samples contributed. Progress: \(stats.currentProgress)/10 toward free month.")
                 } else {
-                    Text("Feedback recorded for model training")
+                    Text("Feedback recorded for model training. Thank you!")
                 }
             }
             .alert("🎉 Free Month Earned!", isPresented: $viewModel.showRewardEarnedAlert) {
@@ -154,9 +177,231 @@ struct ModelTuningView: View {
                     Text("Congratulations! You've earned a free month of Zero Premium!")
                 }
             }
+            // Consent dialog - shown on first use
+            .sheet(isPresented: $viewModel.showConsentDialog) {
+                consentDialogView
+            }
+            // Export warning - shown before exporting
+            .alert("Review Before Sharing", isPresented: $viewModel.showExportWarning) {
+                Button("Cancel", role: .cancel) { }
+                Button("Export") {
+                    viewModel.performExport()
+                }
+            } message: {
+                Text("This file contains \(LocalFeedbackStore.shared.getFeedbackCount()) sanitized email samples. Personal information has been redacted, but please review before sharing externally.")
+            }
+            // Clear confirmation
+            .alert("Clear All Feedback?", isPresented: $viewModel.showClearConfirmation) {
+                Button("Cancel", role: .cancel) { }
+                Button("Clear", role: .destructive) {
+                    LocalFeedbackStore.shared.clearAllFeedback()
+                    viewModel.updateRewardStats()
+                }
+            } message: {
+                Text("This will permanently delete all \(LocalFeedbackStore.shared.getFeedbackCount()) feedback samples from your device. This cannot be undone.")
+            }
+            // Data info sheet
+            .sheet(isPresented: $viewModel.showDataInfoSheet) {
+                dataInfoSheetView
+            }
         }
         .task {
             viewModel.loadNextEmail()
+        }
+    }
+
+    // MARK: - Consent Dialog
+
+    var consentDialogView: some View {
+        NavigationStack {
+            ZStack {
+                LinearGradient(
+                    colors: [Color(red: 0.1, green: 0.1, blue: 0.2), Color(red: 0.05, green: 0.05, blue: 0.15)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        // Header
+                        VStack(spacing: 12) {
+                            Image(systemName: "brain.head.profile")
+                                .font(.system(size: 60))
+                                .foregroundColor(.cyan)
+
+                            Text("Help Improve Zero's AI")
+                                .font(.title.bold())
+                                .foregroundColor(.white)
+
+                            Text("Model Tuning collects email samples to improve classification accuracy.")
+                                .font(.subheadline)
+                                .foregroundColor(.white.opacity(0.7))
+                                .multilineTextAlignment(.center)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.top, 20)
+
+                        // Privacy guarantees
+                        VStack(alignment: .leading, spacing: 16) {
+                            privacyFeature(icon: "lock.shield", title: "PII Automatically Redacted", description: "Email addresses, phone numbers, credit cards, and sensitive data removed")
+                            privacyFeature(icon: "externaldrive", title: "Stored Locally", description: "All data stays on your device until you choose to export")
+                            privacyFeature(icon: "hand.raised", title: "You Control Export", description: "Review samples before sharing externally")
+                            privacyFeature(icon: "trash", title: "Delete Anytime", description: "Clear all feedback data whenever you want")
+                        }
+                        .padding(.vertical, 8)
+
+                        // Important note
+                        Text("Testing Phase: Review non-sensitive emails only. Contribute any amount - every sample helps!")
+                            .font(.footnote)
+                            .foregroundColor(.orange.opacity(0.9))
+                            .padding()
+                            .background(Color.orange.opacity(0.1))
+                            .cornerRadius(12)
+
+                        // Buttons
+                        VStack(spacing: 12) {
+                            Button {
+                                viewModel.giveConsent()
+                            } label: {
+                                Text("I Understand")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .background(Color.cyan)
+                                    .foregroundColor(.white)
+                                    .cornerRadius(12)
+                            }
+
+                            Button {
+                                viewModel.declineConsent()
+                                presentationMode.wrappedValue.dismiss()
+                            } label: {
+                                Text("Not Now")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity)
+                                    .padding()
+                                    .foregroundColor(.white.opacity(0.6))
+                            }
+                        }
+                        .padding(.top, 8)
+                    }
+                    .padding(24)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    private func privacyFeature(icon: String, title: String, description: String) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundColor(.cyan)
+                .frame(width: 24)
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.subheadline.bold())
+                    .foregroundColor(.white)
+                Text(description)
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.6))
+            }
+        }
+    }
+
+    // MARK: - Data Info Sheet
+
+    var dataInfoSheetView: some View {
+        NavigationStack {
+            ZStack {
+                LinearGradient(
+                    colors: [Color(red: 0.1, green: 0.1, blue: 0.2), Color(red: 0.05, green: 0.05, blue: 0.15)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("What's Collected?")
+                            .font(.title2.bold())
+                            .foregroundColor(.white)
+
+                        VStack(alignment: .leading, spacing: 16) {
+                            dataItem(title: "Email Subjects", description: "Sanitized with PII removed", icon: "envelope")
+                            dataItem(title: "Sender Domains", description: "Full email addresses redacted (e.g., \"gmail.com\")", icon: "at")
+                            dataItem(title: "Email Snippets", description: "Preview text with PII removed", icon: "text.alignleft")
+                            dataItem(title: "Your Classifications", description: "How you corrected the AI's categories", icon: "checkmark.circle")
+                            dataItem(title: "Action Feedback", description: "Which actions were suggested correctly/incorrectly", icon: "bolt")
+                        }
+
+                        Divider()
+                            .background(Color.white.opacity(0.2))
+                            .padding(.vertical, 8)
+
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Storage Info")
+                                .font(.headline)
+                                .foregroundColor(.white)
+
+                            HStack {
+                                Text("Samples Collected:")
+                                Spacer()
+                                Text("\(LocalFeedbackStore.shared.getFeedbackCount())")
+                                    .fontWeight(.bold)
+                            }
+                            .foregroundColor(.white.opacity(0.8))
+
+                            if let fileSize = LocalFeedbackStore.shared.getFileSize() {
+                                HStack {
+                                    Text("File Size:")
+                                    Spacer()
+                                    Text(ByteCountFormatter.string(fromByteCount: fileSize, countStyle: .file))
+                                        .fontWeight(.bold)
+                                }
+                                .foregroundColor(.white.opacity(0.8))
+                            }
+
+                            Text("Location: Documents/zero-feedback-export.jsonl")
+                                .font(.caption)
+                                .foregroundColor(.white.opacity(0.5))
+                        }
+                        .padding()
+                        .background(Color.white.opacity(0.05))
+                        .cornerRadius(12)
+                    }
+                    .padding(24)
+                }
+            }
+            .navigationTitle("Data Collection")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        viewModel.showDataInfoSheet = false
+                    }
+                    .foregroundColor(.cyan)
+                }
+            }
+        }
+    }
+
+    private func dataItem(title: String, description: String, icon: String) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: icon)
+                .foregroundColor(.cyan)
+                .frame(width: 24)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.subheadline.bold())
+                    .foregroundColor(.white)
+                Text(description)
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.6))
+            }
         }
     }
 
@@ -638,9 +883,18 @@ class ModelTuningViewModel: ObservableObject {
     @Published var notes: String = ""
     @Published var showSuccessAlert = false
     @Published var showRewardEarnedAlert = false
+    @Published var showConsentDialog = false
+    @Published var showExportWarning = false
+    @Published var showDataInfoSheet = false
+    @Published var showClearConfirmation = false
     @Published var rewardStats: RewardStatistics?
 
     private let rewardsService = ModelTuningRewardsService.shared
+    private let consentKey = "modelTuning_consent_given"
+
+    var hasConsent: Bool {
+        UserDefaults.standard.bool(forKey: consentKey)
+    }
 
     var canSubmit: Bool {
         guard correctedCategory != nil else { return false }
@@ -649,6 +903,22 @@ class ModelTuningViewModel: ObservableObject {
 
     init() {
         updateRewardStats()
+        // Check consent on first launch
+        if !hasConsent {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.showConsentDialog = true
+            }
+        }
+    }
+
+    func giveConsent() {
+        UserDefaults.standard.set(true, forKey: consentKey)
+        showConsentDialog = false
+    }
+
+    func declineConsent() {
+        showConsentDialog = false
+        // Could navigate back or show alternative UI
     }
 
     func loadNextEmail() {
@@ -799,6 +1069,35 @@ class ModelTuningViewModel: ObservableObject {
             try await AdminFeedbackService.shared.submitFeedback(categoryFeedback)
             try await ActionFeedbackService.shared.submitFeedback(actionFeedback)
 
+            // Sanitize email content for privacy before saving locally
+            let sanitizedEmail = EmailSanitizer.sanitize(
+                subject: email.subject,
+                from: email.from,
+                snippet: email.snippet,
+                body: nil // UnifiedEmailForTuning only has snippet, not full body
+            )
+
+            // Save sanitized feedback locally for export and training
+            let feedbackSubmission = FeedbackSubmission(
+                emailId: email.id,
+                subject: sanitizedEmail.subject,
+                from: sanitizedEmail.from,
+                fromDomain: sanitizedEmail.fromDomain,
+                body: sanitizedEmail.body,
+                snippet: sanitizedEmail.snippet,
+                sanitizationApplied: sanitizedEmail.sanitizationApplied,
+                sanitizationVersion: sanitizedEmail.sanitizationVersion,
+                classifiedCategory: email.classifiedType.rawValue,
+                correctedCategory: correctedCategory.rawValue,
+                classificationConfidence: email.confidence,
+                suggestedActions: email.suggestedActions.map { $0.actionId },
+                missedActions: missedActions.isEmpty ? nil : Array(missedActions),
+                unnecessaryActions: unnecessaryActions.isEmpty ? nil : Array(unnecessaryActions),
+                notes: notes.isEmpty ? nil : notes,
+                intent: email.intent
+            )
+            LocalFeedbackStore.shared.saveFeedback(feedbackSubmission)
+
             // Track reward progress
             let earnedMonth = rewardsService.recordFeedback()
             updateRewardStats()
@@ -872,9 +1171,56 @@ class ModelTuningViewModel: ObservableObject {
         }
     }
 
-    func exportFeedback() {
-        let message = "Feedback export is handled by backend API"
-        Logger.info(message, category: .admin)
+    /// Triggers export with warning dialog first
+    func initiateExport() {
+        let count = LocalFeedbackStore.shared.getFeedbackCount()
+        if count == 0 {
+            // No feedback to export
+            return
+        }
+        showExportWarning = true
+    }
+
+    /// Performs actual export after user confirms warning
+    func performExport() {
+        exportFeedback()
+    }
+
+    private func exportFeedback() {
+        // Export local feedback file via share sheet
+        guard let fileURL = LocalFeedbackStore.shared.exportFeedback() else {
+            Logger.warning("No feedback to export", category: .admin)
+            return
+        }
+
+        let feedbackCount = LocalFeedbackStore.shared.getFeedbackCount()
+        Logger.info("Exporting \(feedbackCount) feedback entries", category: .admin)
+
+        // Present share sheet with the JSONL file
+        let activityViewController = UIActivityViewController(
+            activityItems: [fileURL],
+            applicationActivities: nil
+        )
+
+        // Configure share sheet
+        activityViewController.completionWithItemsHandler = { (activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
+            if completed {
+                Logger.info("Feedback export completed: \(activityType?.rawValue ?? "unknown")", category: .admin)
+            } else if let error = error {
+                Logger.error("Feedback export failed: \(error)", category: .admin)
+            }
+        }
+
+        // Present from top view controller
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootViewController = windowScene.windows.first?.rootViewController {
+            // Find the topmost presented view controller
+            var topController = rootViewController
+            while let presented = topController.presentedViewController {
+                topController = presented
+            }
+            topController.present(activityViewController, animated: true)
+        }
     }
 
     private func resetFeedbackForm() {

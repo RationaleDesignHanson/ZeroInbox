@@ -1,0 +1,819 @@
+{
+  "modals": {
+    "view_boarding_pass": {
+      "title": "Boarding Pass",
+      "subtitle": "Access your boarding pass",
+      "icon": "🎫",
+      "fields": [],
+      "primaryButton": "View Pass",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["boardingPassUrl", "flightNumber", "seat"]
+    },
+    "hotel_check_in": {
+      "title": "Hotel Check-In",
+      "subtitle": "Start your hotel check-in",
+      "icon": "🏨",
+      "fields": [],
+      "primaryButton": "Check In",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["checkInUrl", "confirmationCode"]
+    },
+    "car_rental_pickup": {
+      "title": "Pickup Car",
+      "subtitle": "View pickup details",
+      "icon": "🚗",
+      "fields": [],
+      "primaryButton": "View Details",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["pickupUrl", "confirmationCode", "location"]
+    },
+    "sign_permission_slip": {
+      "title": "Sign Permission Slip",
+      "subtitle": "Approve school activity",
+      "icon": "✍️",
+      "fields": [],
+      "primaryButton": "Sign Now",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["signatureUrl", "studentName", "activityName"]
+    },
+    "pay_school_fee": {
+      "title": "Pay School Fee",
+      "subtitle": "Complete payment",
+      "icon": "💵",
+      "fields": [],
+      "primaryButton": "Pay Now",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["paymentUrl", "amount", "feeName"]
+    },
+    "schedule_conference": {
+      "title": "Schedule Conference",
+      "subtitle": "Book parent-teacher conference",
+      "icon": "📅",
+      "fields": [],
+      "primaryButton": "Schedule",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["schedulingUrl", "teacherName"]
+    },
+    "view_grades": {
+      "title": "View Grades",
+      "subtitle": "See academic progress",
+      "icon": "📊",
+      "fields": [],
+      "primaryButton": "View Grades",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["gradesUrl", "studentName"]
+    },
+    "complete_form": {
+      "title": "Complete Form",
+      "subtitle": "Fill out required form",
+      "icon": "📝",
+      "fields": [],
+      "primaryButton": "Complete Form",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["formUrl", "formName", "deadline"]
+    },
+    "job_apply": {
+      "title": "Apply Now",
+      "subtitle": "Submit your application",
+      "icon": "💼",
+      "fields": [],
+      "primaryButton": "Apply",
+      "cancelButton": "Save for Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["applicationUrl", "jobTitle", "company"]
+    },
+    "schedule_interview": {
+      "title": "Schedule Interview",
+      "subtitle": "Book interview time",
+      "icon": "📆",
+      "fields": [],
+      "primaryButton": "Schedule",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["schedulingUrl", "company", "position"]
+    },
+    "accept_offer": {
+      "title": "Accept Offer",
+      "subtitle": "Accept job offer",
+      "icon": "🎉",
+      "fields": [],
+      "primaryButton": "Accept",
+      "cancelButton": "Decline",
+      "actionType": "GO_TO",
+      "contextKeys": ["offerUrl", "company", "position"]
+    },
+    "view_property": {
+      "title": "View Property",
+      "subtitle": "See property details",
+      "icon": "🏠",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["listingUrl", "address"]
+    },
+    "schedule_tour": {
+      "title": "Schedule Tour",
+      "subtitle": "Book property viewing",
+      "icon": "🗓️",
+      "fields": [],
+      "primaryButton": "Schedule",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["tourUrl", "address"]
+    },
+    "pay_rent": {
+      "title": "Pay Rent",
+      "subtitle": "Submit rent payment",
+      "icon": "💰",
+      "fields": [],
+      "primaryButton": "Pay Now",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["paymentUrl", "amount", "dueDate"]
+    },
+    "submit_maintenance": {
+      "title": "Submit Request",
+      "subtitle": "Report maintenance issue",
+      "icon": "🔧",
+      "fields": [
+        {
+          "id": "issue",
+          "type": "textarea",
+          "label": "Describe the issue",
+          "placeholder": "What needs to be fixed?",
+          "required": true
+        },
+        {
+          "id": "urgency",
+          "type": "select",
+          "label": "Urgency",
+          "required": true,
+          "options": [
+            { "label": "Emergency", "value": "emergency" },
+            { "label": "Urgent", "value": "urgent" },
+            { "label": "Normal", "value": "normal" },
+            { "label": "Low Priority", "value": "low" }
+          ]
+        }
+      ],
+      "primaryButton": "Submit",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "renew_subscription": {
+      "title": "Renew Now",
+      "subtitle": "Continue your subscription",
+      "icon": "🔄",
+      "fields": [],
+      "primaryButton": "Renew",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["renewalUrl", "expirationDate"]
+    },
+    "upgrade_plan": {
+      "title": "Upgrade Plan",
+      "subtitle": "Get more features",
+      "icon": "⬆️",
+      "fields": [],
+      "primaryButton": "Upgrade",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["upgradeUrl"]
+    },
+    "claim_reward": {
+      "title": "Claim Reward",
+      "subtitle": "Redeem your points",
+      "icon": "🎁",
+      "fields": [],
+      "primaryButton": "Claim",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["rewardUrl", "pointsBalance"]
+    },
+    "activate_card": {
+      "title": "Activate Card",
+      "subtitle": "Activate your new card",
+      "icon": "💳",
+      "fields": [],
+      "primaryButton": "Activate",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["activationUrl"]
+    },
+    "dispute_charge": {
+      "title": "Dispute Charge",
+      "subtitle": "Contest this transaction",
+      "icon": "⚠️",
+      "fields": [
+        {
+          "id": "reason",
+          "type": "select",
+          "label": "Reason for dispute",
+          "required": true,
+          "options": [
+            { "label": "Didn't receive product/service", "value": "not_received" },
+            { "label": "Charged wrong amount", "value": "wrong_amount" },
+            { "label": "Duplicate charge", "value": "duplicate" },
+            { "label": "Subscription already cancelled", "value": "cancelled" },
+            { "label": "Fraudulent charge", "value": "fraud" }
+          ]
+        },
+        {
+          "id": "details",
+          "type": "textarea",
+          "label": "Additional details",
+          "placeholder": "Explain the issue...",
+          "required": false
+        }
+      ],
+      "primaryButton": "Submit Dispute",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "view_policy": {
+      "title": "View Policy",
+      "subtitle": "See policy details",
+      "icon": "📄",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["policyUrl", "policyNumber"]
+    },
+    "file_claim": {
+      "title": "File Claim",
+      "subtitle": "Start insurance claim",
+      "icon": "📋",
+      "fields": [],
+      "primaryButton": "File Claim",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["claimUrl", "policyNumber"]
+    },
+    "renew_policy": {
+      "title": "Renew Policy",
+      "subtitle": "Renew your insurance",
+      "icon": "🔄",
+      "fields": [],
+      "primaryButton": "Renew",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["renewalUrl", "expirationDate"]
+    },
+    "donate_now": {
+      "title": "Donate",
+      "subtitle": "Make a contribution",
+      "icon": "❤️",
+      "fields": [
+        {
+          "id": "amount",
+          "type": "select",
+          "label": "Donation Amount",
+          "required": true,
+          "options": [
+            { "label": "$10", "value": "10" },
+            { "label": "$25", "value": "25" },
+            { "label": "$50", "value": "50" },
+            { "label": "$100", "value": "100" },
+            { "label": "Other", "value": "custom" }
+          ]
+        }
+      ],
+      "primaryButton": "Donate",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["donationUrl", "organization"]
+    },
+    "view_service_appointment": {
+      "title": "Service Appointment",
+      "subtitle": "View appointment details",
+      "icon": "🔧",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["appointmentUrl", "serviceType", "dateTime"]
+    },
+    "request_service": {
+      "title": "Request Service",
+      "subtitle": "Schedule service call",
+      "icon": "📞",
+      "fields": [],
+      "primaryButton": "Request",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["serviceUrl"]
+    },
+    "view_warranty": {
+      "title": "View Warranty",
+      "subtitle": "Check warranty status",
+      "icon": "🛡️",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["warrantyUrl", "productName"]
+    },
+    "redeem_gift_card": {
+      "title": "Redeem Gift Card",
+      "subtitle": "Add to your account",
+      "icon": "🎁",
+      "fields": [],
+      "primaryButton": "Redeem",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["redeemUrl", "giftCardCode", "amount"]
+    },
+    "vote_now": {
+      "title": "Cast Vote",
+      "subtitle": "Participate in voting",
+      "icon": "🗳️",
+      "fields": [],
+      "primaryButton": "Vote",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["votingUrl", "deadline"]
+    },
+    "approve_request": {
+      "title": "Approve Request",
+      "subtitle": "Review and approve",
+      "icon": "✓",
+      "fields": [
+        {
+          "id": "comment",
+          "type": "textarea",
+          "label": "Comment (optional)",
+          "placeholder": "Add a note...",
+          "required": false
+        }
+      ],
+      "primaryButton": "Approve",
+      "cancelButton": "Reject",
+      "actionType": "IN_APP"
+    },
+    "reject_request": {
+      "title": "Reject Request",
+      "subtitle": "Decline this request",
+      "icon": "✗",
+      "fields": [
+        {
+          "id": "reason",
+          "type": "textarea",
+          "label": "Reason for rejection",
+          "placeholder": "Explain why...",
+          "required": true
+        }
+      ],
+      "primaryButton": "Reject",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "sign_document": {
+      "title": "Sign Document",
+      "subtitle": "Add your signature",
+      "icon": "✍️",
+      "fields": [],
+      "primaryButton": "Sign",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["signatureUrl", "documentName"]
+    },
+    "view_contract": {
+      "title": "View Contract",
+      "subtitle": "Review contract terms",
+      "icon": "📃",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["contractUrl"]
+    },
+    "connect_account": {
+      "title": "Connect Account",
+      "subtitle": "Link your accounts",
+      "icon": "🔗",
+      "fields": [],
+      "primaryButton": "Connect",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["authUrl", "serviceName"]
+    },
+    "disconnect_account": {
+      "title": "Disconnect Account",
+      "subtitle": "Unlink this service",
+      "icon": "🔓",
+      "fields": [],
+      "primaryButton": "Disconnect",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "warningMessage": "This will remove access to connected data."
+    },
+    "export_data": {
+      "title": "Export Data",
+      "subtitle": "Download your data",
+      "icon": "📥",
+      "fields": [
+        {
+          "id": "format",
+          "type": "select",
+          "label": "Export Format",
+          "required": true,
+          "options": [
+            { "label": "CSV", "value": "csv" },
+            { "label": "JSON", "value": "json" },
+            { "label": "PDF", "value": "pdf" }
+          ]
+        }
+      ],
+      "primaryButton": "Export",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "view_analytics": {
+      "title": "View Analytics",
+      "subtitle": "See your stats",
+      "icon": "📈",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["analyticsUrl"]
+    },
+    "share_feedback": {
+      "title": "Share Feedback",
+      "subtitle": "Help us improve",
+      "icon": "💬",
+      "fields": [
+        {
+          "id": "type",
+          "type": "select",
+          "label": "Feedback Type",
+          "required": true,
+          "options": [
+            { "label": "Bug Report", "value": "bug" },
+            { "label": "Feature Request", "value": "feature" },
+            { "label": "General Feedback", "value": "general" },
+            { "label": "Compliment", "value": "praise" }
+          ]
+        },
+        {
+          "id": "message",
+          "type": "textarea",
+          "label": "Your Feedback",
+          "placeholder": "Tell us what you think...",
+          "required": true
+        }
+      ],
+      "primaryButton": "Send",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "refer_friend": {
+      "title": "Refer a Friend",
+      "subtitle": "Share and earn rewards",
+      "icon": "👥",
+      "fields": [
+        {
+          "id": "email",
+          "type": "text",
+          "label": "Friend's Email",
+          "placeholder": "friend@example.com",
+          "required": true
+        }
+      ],
+      "primaryButton": "Send Invite",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "contextKeys": ["referralCode", "rewardAmount"]
+    },
+    "update_preferences": {
+      "title": "Update Preferences",
+      "subtitle": "Customize your settings",
+      "icon": "⚙️",
+      "fields": [],
+      "primaryButton": "Update",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["preferencesUrl"]
+    },
+    "manage_notifications": {
+      "title": "Manage Notifications",
+      "subtitle": "Control your alerts",
+      "icon": "🔔",
+      "fields": [],
+      "primaryButton": "Manage",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["notificationSettingsUrl"]
+    },
+    "view_history": {
+      "title": "View History",
+      "subtitle": "See past activity",
+      "icon": "📜",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["historyUrl"]
+    },
+    "bookmark": {
+      "title": "Bookmark",
+      "subtitle": "Save for later",
+      "icon": "🔖",
+      "fields": [],
+      "primaryButton": "Save",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "flag_important": {
+      "title": "Flag Important",
+      "subtitle": "Mark as important",
+      "icon": "🚩",
+      "fields": [],
+      "primaryButton": "Flag",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "move_to_folder": {
+      "title": "Move to Folder",
+      "subtitle": "Organize your email",
+      "icon": "📂",
+      "fields": [
+        {
+          "id": "folder",
+          "type": "select",
+          "label": "Select Folder",
+          "required": true,
+          "options": [
+            { "label": "Personal", "value": "personal" },
+            { "label": "Work", "value": "work" },
+            { "label": "Finance", "value": "finance" },
+            { "label": "Travel", "value": "travel" },
+            { "label": "Shopping", "value": "shopping" },
+            { "label": "Create New...", "value": "new" }
+          ]
+        }
+      ],
+      "primaryButton": "Move",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "add_label": {
+      "title": "Add Label",
+      "subtitle": "Tag this email",
+      "icon": "🏷️",
+      "fields": [
+        {
+          "id": "labels",
+          "type": "multiselect",
+          "label": "Select Labels",
+          "required": true,
+          "options": [
+            { "label": "Urgent", "value": "urgent" },
+            { "label": "Follow Up", "value": "follow_up" },
+            { "label": "Waiting", "value": "waiting" },
+            { "label": "Reference", "value": "reference" }
+          ]
+        }
+      ],
+      "primaryButton": "Apply",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "forward_email": {
+      "title": "Forward",
+      "subtitle": "Share with someone",
+      "icon": "↗️",
+      "fields": [
+        {
+          "id": "recipient",
+          "type": "text",
+          "label": "Forward to",
+          "placeholder": "Enter email address",
+          "required": true
+        },
+        {
+          "id": "note",
+          "type": "textarea",
+          "label": "Add a note",
+          "placeholder": "Optional message...",
+          "required": false
+        }
+      ],
+      "primaryButton": "Forward",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "print_email": {
+      "title": "Print",
+      "subtitle": "Print this email",
+      "icon": "🖨️",
+      "fields": [],
+      "primaryButton": "Print",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "create_task": {
+      "title": "Create Task",
+      "subtitle": "Add to your to-do list",
+      "icon": "☑️",
+      "fields": [
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Task Title",
+          "placeholder": "What needs to be done?",
+          "required": true
+        },
+        {
+          "id": "dueDate",
+          "type": "date",
+          "label": "Due Date",
+          "required": false
+        }
+      ],
+      "primaryButton": "Create",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "create_note": {
+      "title": "Create Note",
+      "subtitle": "Save information",
+      "icon": "📝",
+      "fields": [
+        {
+          "id": "content",
+          "type": "textarea",
+          "label": "Note",
+          "placeholder": "Write your note...",
+          "required": true
+        }
+      ],
+      "primaryButton": "Save",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "block_sender": {
+      "title": "Block Sender",
+      "subtitle": "Stop receiving emails",
+      "icon": "🚫",
+      "fields": [],
+      "primaryButton": "Block",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "warningMessage": "You won't receive emails from this sender anymore."
+    },
+    "mark_spam": {
+      "title": "Mark as Spam",
+      "subtitle": "Report spam",
+      "icon": "⚠️",
+      "fields": [],
+      "primaryButton": "Report",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "report_phishing": {
+      "title": "Report Phishing",
+      "subtitle": "This looks suspicious",
+      "icon": "🎣",
+      "fields": [],
+      "primaryButton": "Report",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "warningMessage": "This email will be reported and removed."
+    },
+    "delete_permanently": {
+      "title": "Delete Permanently",
+      "subtitle": "Remove forever",
+      "icon": "🗑️",
+      "fields": [],
+      "primaryButton": "Delete",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "warningMessage": "This action cannot be undone."
+    },
+    "restore_email": {
+      "title": "Restore",
+      "subtitle": "Move back to inbox",
+      "icon": "↩️",
+      "fields": [],
+      "primaryButton": "Restore",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "mute_thread": {
+      "title": "Mute Thread",
+      "subtitle": "Stop notifications",
+      "icon": "🔇",
+      "fields": [],
+      "primaryButton": "Mute",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "translate_email": {
+      "title": "Translate",
+      "subtitle": "Translate this email",
+      "icon": "🌐",
+      "fields": [
+        {
+          "id": "language",
+          "type": "select",
+          "label": "Translate to",
+          "required": true,
+          "options": [
+            { "label": "English", "value": "en" },
+            { "label": "Spanish", "value": "es" },
+            { "label": "French", "value": "fr" },
+            { "label": "German", "value": "de" },
+            { "label": "Chinese", "value": "zh" },
+            { "label": "Japanese", "value": "ja" }
+          ]
+        }
+      ],
+      "primaryButton": "Translate",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "summarize": {
+      "title": "Summarize",
+      "subtitle": "Get AI summary",
+      "icon": "✨",
+      "fields": [],
+      "primaryButton": "Summarize",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "draft_reply": {
+      "title": "Draft Reply",
+      "subtitle": "AI-assisted response",
+      "icon": "🤖",
+      "fields": [
+        {
+          "id": "tone",
+          "type": "select",
+          "label": "Tone",
+          "required": true,
+          "options": [
+            { "label": "Professional", "value": "professional" },
+            { "label": "Friendly", "value": "friendly" },
+            { "label": "Formal", "value": "formal" },
+            { "label": "Casual", "value": "casual" }
+          ]
+        },
+        {
+          "id": "intent",
+          "type": "select",
+          "label": "Intent",
+          "required": true,
+          "options": [
+            { "label": "Accept", "value": "accept" },
+            { "label": "Decline", "value": "decline" },
+            { "label": "Ask for more info", "value": "clarify" },
+            { "label": "Acknowledge", "value": "acknowledge" },
+            { "label": "Custom", "value": "custom" }
+          ]
+        }
+      ],
+      "primaryButton": "Generate Draft",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "add_contact": {
+      "title": "Add Contact",
+      "subtitle": "Save to contacts",
+      "icon": "👤",
+      "fields": [],
+      "primaryButton": "Add",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "view_sender_info": {
+      "title": "Sender Info",
+      "subtitle": "View contact details",
+      "icon": "ℹ️",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Close",
+      "actionType": "IN_APP"
+    },
+    "vip_sender": {
+      "title": "Mark as VIP",
+      "subtitle": "Prioritize this sender",
+      "icon": "⭐",
+      "fields": [],
+      "primaryButton": "Add VIP",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    }
+  }
+}
+

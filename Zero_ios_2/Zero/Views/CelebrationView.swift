@@ -101,7 +101,7 @@ struct CelebrationView: View {
                                     .foregroundColor(.white)
                             }
 
-                            Text("Help Zero get smarter! Review how it categorizes emails and suggests actions. Your feedback trains the model to work better for you.")
+                            Text("Help Zero learn! Review emails and improve AI accuracy. Testing Phase: Contribute any amount - every sample helps. Earn rewards!")
                                 .font(.subheadline)
                                 .foregroundColor(.white.opacity(DesignTokens.Opacity.textTertiary))
                                 .multilineTextAlignment(.center)
@@ -112,7 +112,7 @@ struct CelebrationView: View {
                             } label: {
                                 HStack(spacing: 6) {
                                     Image(systemName: "slider.horizontal.3")
-                                    Text("Open Model Tuning")
+                                    Text("Start Training")
                                 }
                             }
                             .buttonStyle(GradientButtonStyle(colors: [.vibrantCyan, .vibrantBlue, .vibrantPurple]))

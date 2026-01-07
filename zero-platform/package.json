@@ -1,0 +1,17 @@
+{
+  "name": "zero-platform",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @zero/mobile start",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0"
+  },
+  "packageManager": "pnpm@9.0.0"
+}
+

@@ -1,0 +1,595 @@
+{
+  "$schema": "./action-modal-schema.json",
+  "version": "2.0.0",
+  "modals": {
+    "track_package": {
+      "title": "Track Package",
+      "subtitle": "View delivery status",
+      "icon": "📦",
+      "fields": [],
+      "primaryButton": "Track Now",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["trackingNumber", "carrier", "trackingUrl"]
+    },
+    "view_order": {
+      "title": "View Order",
+      "subtitle": "See order details",
+      "icon": "🛒",
+      "fields": [],
+      "primaryButton": "View Order",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["orderNumber", "orderUrl"]
+    },
+    "pay_invoice": {
+      "title": "Pay Invoice",
+      "subtitle": "Complete payment",
+      "icon": "💳",
+      "fields": [],
+      "primaryButton": "Pay Now",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["invoiceId", "amountDue", "paymentLink"]
+    },
+    "view_invoice": {
+      "title": "View Invoice",
+      "subtitle": "Review invoice details",
+      "icon": "📄",
+      "fields": [],
+      "primaryButton": "View Invoice",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "accept_invite": {
+      "title": "Accept Invitation",
+      "subtitle": "RSVP to this event",
+      "icon": "✓",
+      "fields": [
+        {
+          "id": "notes",
+          "type": "textarea",
+          "label": "Optional Notes",
+          "placeholder": "Add a note for the organizer...",
+          "required": false
+        }
+      ],
+      "primaryButton": "Accept",
+      "cancelButton": "Decline",
+      "actionType": "IN_APP"
+    },
+    "decline_invite": {
+      "title": "Decline Invitation",
+      "subtitle": "Cannot attend this event",
+      "icon": "✗",
+      "fields": [
+        {
+          "id": "reason",
+          "type": "textarea",
+          "label": "Reason (optional)",
+          "placeholder": "Let them know why you can't make it...",
+          "required": false
+        }
+      ],
+      "primaryButton": "Decline",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "add_to_calendar": {
+      "title": "Add to Calendar",
+      "subtitle": "Create a calendar event",
+      "icon": "📅",
+      "fields": [
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Event Title",
+          "placeholder": "Enter event title...",
+          "required": true
+        },
+        {
+          "id": "notes",
+          "type": "textarea",
+          "label": "Notes",
+          "placeholder": "Add notes...",
+          "required": false
+        }
+      ],
+      "primaryButton": "Add Event",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "contextKeys": ["eventDate", "eventTime", "location"]
+    },
+    "check_in": {
+      "title": "Check In",
+      "subtitle": "Start your flight check-in",
+      "icon": "✈️",
+      "fields": [],
+      "primaryButton": "Check In Now",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["checkInUrl", "flightNumber", "confirmationCode"]
+    },
+    "view_itinerary": {
+      "title": "View Itinerary",
+      "subtitle": "See your travel details",
+      "icon": "🗺️",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["itineraryUrl", "confirmationCode"]
+    },
+    "confirm_appointment": {
+      "title": "Confirm Appointment",
+      "subtitle": "Confirm your scheduled appointment",
+      "icon": "✓",
+      "fields": [],
+      "primaryButton": "Confirm",
+      "cancelButton": "Reschedule",
+      "actionType": "IN_APP",
+      "contextKeys": ["dateTime", "provider", "location"]
+    },
+    "reschedule_appointment": {
+      "title": "Reschedule Appointment",
+      "subtitle": "Find a new time",
+      "icon": "🔄",
+      "fields": [],
+      "primaryButton": "Reschedule",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["schedulingUrl", "provider"]
+    },
+    "reset_password": {
+      "title": "Reset Password",
+      "subtitle": "Create a new password",
+      "icon": "🔐",
+      "fields": [],
+      "primaryButton": "Reset Now",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["resetLink"]
+    },
+    "verify_email": {
+      "title": "Verify Email",
+      "subtitle": "Confirm your email address",
+      "icon": "✉️",
+      "fields": [],
+      "primaryButton": "Verify",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["verificationLink"]
+    },
+    "quick_reply": {
+      "title": "Quick Reply",
+      "subtitle": "Send a quick response",
+      "icon": "💬",
+      "fields": [
+        {
+          "id": "message",
+          "type": "textarea",
+          "label": "Your Message",
+          "placeholder": "Type your reply...",
+          "required": true
+        }
+      ],
+      "primaryButton": "Send",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "quickReplies": [
+        "Thanks!",
+        "Got it",
+        "I'll take a look",
+        "Let me get back to you"
+      ]
+    },
+    "view_details": {
+      "title": "Email Details",
+      "subtitle": "View full email",
+      "icon": "📋",
+      "fields": [],
+      "primaryButton": "Open",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "save_for_later": {
+      "title": "Save for Later",
+      "subtitle": "Snooze this email",
+      "icon": "⏰",
+      "fields": [
+        {
+          "id": "snoozeTime",
+          "type": "select",
+          "label": "Remind me",
+          "required": true,
+          "options": [
+            { "label": "In 1 hour", "value": "1h" },
+            { "label": "Tomorrow morning", "value": "tomorrow_am" },
+            { "label": "Tomorrow afternoon", "value": "tomorrow_pm" },
+            { "label": "This weekend", "value": "weekend" },
+            { "label": "Next week", "value": "next_week" }
+          ]
+        }
+      ],
+      "primaryButton": "Snooze",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "archive": {
+      "title": "Archive Email",
+      "subtitle": "Move to archive",
+      "icon": "📁",
+      "fields": [],
+      "primaryButton": "Archive",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "requiresConfirmation": false
+    },
+    "unsubscribe": {
+      "title": "Unsubscribe",
+      "subtitle": "Stop receiving these emails",
+      "icon": "🚫",
+      "fields": [],
+      "primaryButton": "Unsubscribe",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["unsubscribeUrl"],
+      "warningMessage": "You will no longer receive emails from this sender."
+    },
+    "view_receipt": {
+      "title": "View Receipt",
+      "subtitle": "See purchase details",
+      "icon": "🧾",
+      "fields": [],
+      "primaryButton": "View Receipt",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["receiptUrl", "orderNumber"]
+    },
+    "request_refund": {
+      "title": "Request Refund",
+      "subtitle": "Start return process",
+      "icon": "💰",
+      "fields": [
+        {
+          "id": "reason",
+          "type": "select",
+          "label": "Reason for refund",
+          "required": true,
+          "options": [
+            { "label": "Item not as described", "value": "not_as_described" },
+            { "label": "Damaged item", "value": "damaged" },
+            { "label": "Wrong item received", "value": "wrong_item" },
+            { "label": "Item not received", "value": "not_received" },
+            { "label": "Other", "value": "other" }
+          ]
+        },
+        {
+          "id": "notes",
+          "type": "textarea",
+          "label": "Additional details",
+          "placeholder": "Describe the issue...",
+          "required": false
+        }
+      ],
+      "primaryButton": "Request Refund",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "contact_support": {
+      "title": "Contact Support",
+      "subtitle": "Get help with this issue",
+      "icon": "🆘",
+      "fields": [
+        {
+          "id": "issue",
+          "type": "textarea",
+          "label": "Describe your issue",
+          "placeholder": "What do you need help with?",
+          "required": true
+        }
+      ],
+      "primaryButton": "Send",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "open_document": {
+      "title": "Open Document",
+      "subtitle": "View attached file",
+      "icon": "📎",
+      "fields": [],
+      "primaryButton": "Open",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["documentUrl", "filename"]
+    },
+    "download_attachment": {
+      "title": "Download",
+      "subtitle": "Save file to device",
+      "icon": "⬇️",
+      "fields": [],
+      "primaryButton": "Download",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "contextKeys": ["attachmentId", "filename", "mimeType"]
+    },
+    "view_prescription": {
+      "title": "View Prescription",
+      "subtitle": "See prescription details",
+      "icon": "💊",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["prescriptionUrl", "medication"]
+    },
+    "pickup_reminder": {
+      "title": "Set Pickup Reminder",
+      "subtitle": "Don't forget your prescription",
+      "icon": "⏰",
+      "fields": [],
+      "primaryButton": "Set Reminder",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "contextKeys": ["pharmacyLocation", "pickupDeadline"]
+    },
+    "view_results": {
+      "title": "View Results",
+      "subtitle": "Access your test results",
+      "icon": "📊",
+      "fields": [],
+      "primaryButton": "View Results",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["resultsUrl"]
+    },
+    "book_followup": {
+      "title": "Book Follow-up",
+      "subtitle": "Schedule next appointment",
+      "icon": "📅",
+      "fields": [],
+      "primaryButton": "Book Now",
+      "cancelButton": "Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["schedulingUrl", "provider"]
+    },
+    "mark_complete": {
+      "title": "Mark Complete",
+      "subtitle": "Mark task as done",
+      "icon": "✓",
+      "fields": [],
+      "primaryButton": "Complete",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "delegate_task": {
+      "title": "Delegate Task",
+      "subtitle": "Assign to someone else",
+      "icon": "👥",
+      "fields": [
+        {
+          "id": "assignee",
+          "type": "text",
+          "label": "Assign to",
+          "placeholder": "Enter email address...",
+          "required": true
+        },
+        {
+          "id": "notes",
+          "type": "textarea",
+          "label": "Notes",
+          "placeholder": "Add context...",
+          "required": false
+        }
+      ],
+      "primaryButton": "Delegate",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "view_reservation": {
+      "title": "View Reservation",
+      "subtitle": "See booking details",
+      "icon": "🍽️",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["reservationUrl", "confirmationCode"]
+    },
+    "modify_reservation": {
+      "title": "Modify Reservation",
+      "subtitle": "Change date or party size",
+      "icon": "✏️",
+      "fields": [],
+      "primaryButton": "Modify",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["reservationUrl"]
+    },
+    "cancel_reservation": {
+      "title": "Cancel Reservation",
+      "subtitle": "Cancel your booking",
+      "icon": "❌",
+      "fields": [],
+      "primaryButton": "Cancel Booking",
+      "cancelButton": "Keep It",
+      "actionType": "IN_APP",
+      "warningMessage": "This cannot be undone."
+    },
+    "register_event": {
+      "title": "Register",
+      "subtitle": "Sign up for this event",
+      "icon": "📝",
+      "fields": [],
+      "primaryButton": "Register",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["registrationUrl"]
+    },
+    "submit_survey": {
+      "title": "Take Survey",
+      "subtitle": "Share your feedback",
+      "icon": "📋",
+      "fields": [],
+      "primaryButton": "Start Survey",
+      "cancelButton": "Maybe Later",
+      "actionType": "GO_TO",
+      "contextKeys": ["surveyUrl"]
+    },
+    "leave_review": {
+      "title": "Leave Review",
+      "subtitle": "Rate your experience",
+      "icon": "⭐",
+      "fields": [
+        {
+          "id": "rating",
+          "type": "select",
+          "label": "Rating",
+          "required": true,
+          "options": [
+            { "label": "⭐⭐⭐⭐⭐ Excellent", "value": "5" },
+            { "label": "⭐⭐⭐⭐ Good", "value": "4" },
+            { "label": "⭐⭐⭐ Average", "value": "3" },
+            { "label": "⭐⭐ Poor", "value": "2" },
+            { "label": "⭐ Terrible", "value": "1" }
+          ]
+        },
+        {
+          "id": "review",
+          "type": "textarea",
+          "label": "Your Review",
+          "placeholder": "Share your experience...",
+          "required": false
+        }
+      ],
+      "primaryButton": "Submit Review",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "shop_now": {
+      "title": "Shop Now",
+      "subtitle": "Browse this sale",
+      "icon": "🛍️",
+      "fields": [],
+      "primaryButton": "Shop",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["productUrl", "promoCode"]
+    },
+    "apply_coupon": {
+      "title": "Apply Coupon",
+      "subtitle": "Use this promo code",
+      "icon": "🎟️",
+      "fields": [],
+      "primaryButton": "Apply Code",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "contextKeys": ["promoCode"],
+      "copyToClipboard": true
+    },
+    "set_price_alert": {
+      "title": "Set Price Alert",
+      "subtitle": "Get notified of price drops",
+      "icon": "🔔",
+      "fields": [
+        {
+          "id": "targetPrice",
+          "type": "text",
+          "label": "Notify me when price drops to",
+          "placeholder": "$0.00",
+          "required": true
+        }
+      ],
+      "primaryButton": "Set Alert",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP"
+    },
+    "update_payment": {
+      "title": "Update Payment",
+      "subtitle": "Update your payment method",
+      "icon": "💳",
+      "fields": [],
+      "primaryButton": "Update",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["paymentUpdateUrl"]
+    },
+    "cancel_subscription": {
+      "title": "Cancel Subscription",
+      "subtitle": "End your subscription",
+      "icon": "🚫",
+      "fields": [
+        {
+          "id": "reason",
+          "type": "select",
+          "label": "Reason for cancelling",
+          "required": true,
+          "options": [
+            { "label": "Too expensive", "value": "price" },
+            { "label": "Not using it enough", "value": "usage" },
+            { "label": "Found alternative", "value": "alternative" },
+            { "label": "Technical issues", "value": "technical" },
+            { "label": "Other", "value": "other" }
+          ]
+        }
+      ],
+      "primaryButton": "Cancel Subscription",
+      "cancelButton": "Keep Subscription",
+      "actionType": "IN_APP",
+      "warningMessage": "Your subscription will end at the end of the current billing period."
+    },
+    "view_statement": {
+      "title": "View Statement",
+      "subtitle": "See your account statement",
+      "icon": "📑",
+      "fields": [],
+      "primaryButton": "View",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["statementUrl"]
+    },
+    "download_tax_doc": {
+      "title": "Download Tax Document",
+      "subtitle": "Get your tax forms",
+      "icon": "📋",
+      "fields": [],
+      "primaryButton": "Download",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["documentUrl", "taxYear"]
+    },
+    "verify_identity": {
+      "title": "Verify Identity",
+      "subtitle": "Confirm your identity",
+      "icon": "🔐",
+      "fields": [],
+      "primaryButton": "Verify",
+      "cancelButton": "Cancel",
+      "actionType": "GO_TO",
+      "contextKeys": ["verificationUrl"],
+      "urgencyLevel": "high"
+    },
+    "report_fraud": {
+      "title": "Report Fraud",
+      "subtitle": "Report suspicious activity",
+      "icon": "🚨",
+      "fields": [
+        {
+          "id": "recognized",
+          "type": "select",
+          "label": "Did you make this transaction?",
+          "required": true,
+          "options": [
+            { "label": "Yes, this was me", "value": "recognized" },
+            { "label": "No, I did not make this", "value": "fraud" }
+          ]
+        }
+      ],
+      "primaryButton": "Report",
+      "cancelButton": "Cancel",
+      "actionType": "IN_APP",
+      "urgencyLevel": "critical"
+    }
+  }
+}
+

@@ -1,8 +1,8 @@
 {
-  "name": "Zero Action Modals - Core (11 Priority Modals)",
-  "id": "zero-action-modals-core",
+  "name": "Zero Component Generator (With Visual Effects)",
+  "id": "zero-component-generator-effects",
   "api": "1.0.0",
-  "main": "generators/modals/action-modals-core-generator.js",
+  "main": "component-generator-with-effects.js",
   "editorType": ["figma", "dev"],
   "capabilities": ["inspect"],
   "documentAccess": "current-page",

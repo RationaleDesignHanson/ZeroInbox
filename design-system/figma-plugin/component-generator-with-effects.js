@@ -9,63 +9,13 @@
  * - Proper shadows and blur effects
  *
  * Phase 0 Day 2: Complete visual fidelity to iOS app
+ *
+ * TOKENS: Imported from tokens-for-plugin.ts (generated from tokens.json)
+ * Run `node generate-tokens-for-plugin.js` before building to sync tokens.
  */
-// MARK: - Effect Utilities (Inlined)
-/**
- * Design tokens from iOS DesignTokens.swift
- */
-const EffectTokens = {
-    glassmorphic: {
-        opacity: { ultraLight: 0.05, light: 0.1, medium: 0.2 },
-        blur: { standard: 20, heavy: 30, ultra: 40 }
-    },
-    shadows: {
-        card: {
-            color: { r: 0, g: 0, b: 0, a: 0.1 },
-            offset: { x: 0, y: 4 },
-            radius: 12
-        },
-        modal: {
-            color: { r: 0, g: 0, b: 0, a: 0.25 },
-            offset: { x: 0, y: 8 },
-            radius: 24
-        },
-        button: {
-            color: { r: 0, g: 0, b: 0, a: 0.15 },
-            offset: { x: 0, y: 2 },
-            radius: 8
-        }
-    },
-    gradients: {
-        mail: {
-            nebula: {
-                deepPurple: { r: 0.2, g: 0.1, b: 0.4 },
-                darkBlue: { r: 0.1, g: 0.15, b: 0.3 },
-                brightPurple: { r: 0.4, g: 0.2, b: 0.6 },
-                bluePurple: { r: 0.2, g: 0.3, b: 0.7 }
-            },
-            blur: [60, 50, 40, 30],
-            opacity: [0.6, 0.3, 0.5, 0.3]
-        },
-        ads: {
-            teal: { r: 0.086, g: 0.733, b: 0.667 },
-            green: { r: 0.310, g: 0.820, b: 0.620 },
-            lightTeal: { r: 0.2, g: 0.8, b: 0.75 }
-        }
-    },
-    holographic: {
-        mail: {
-            colors: ['#00FFFF', '#0000FF', '#800080', '#FF00FF'],
-            opacities: [0.4, 0.5, 0.4, 0.3],
-            edgeGlow: { color: '#00FFFF', opacity: 0.5, blur: 8 }
-        },
-        ads: {
-            colors: ['#16bbaa', '#4fd19e', '#16bbaa', '#4fd19e'],
-            opacities: [0.7, 0.8, 0.6, 0.5],
-            edgeGlow: { color: '#4fd19e', opacity: 0.6, blur: 8 }
-        }
-    }
-};
+Object.defineProperty(exports, "__esModule", { value: true });
+// Import design tokens from generated file
+const tokens_for_plugin_1 = require("./tokens-for-plugin");
 function hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     if (!result)
@@ -99,13 +49,13 @@ function createNebulaBackground(width, height) {
     layer1.resize(width * 1.2, height * 1.2);
     layer1.x = width * 0.3 - width * 0.6;
     layer1.y = height * 0.4 - height * 0.6;
-    layer1.opacity = EffectTokens.gradients.mail.opacity[0];
+    layer1.opacity = tokens_for_plugin_1.EffectTokens.gradients.mail.opacity[0];
     layer1.fills = [{
             type: 'GRADIENT_RADIAL',
             gradientTransform: [[1, 0, 0.5], [0, 1, 0.5]],
             gradientStops: [
-                { position: 0, color: Object.assign(Object.assign({}, EffectTokens.gradients.mail.nebula.deepPurple), { a: 0.8 }) },
-                { position: 0.5, color: Object.assign(Object.assign({}, EffectTokens.gradients.mail.nebula.darkBlue), { a: 0.4 }) },
+                { position: 0, color: Object.assign(Object.assign({}, tokens_for_plugin_1.EffectTokens.gradients.mail.nebula.deepPurple), { a: 0.8 }) },
+                { position: 0.5, color: Object.assign(Object.assign({}, tokens_for_plugin_1.EffectTokens.gradients.mail.nebula.darkBlue), { a: 0.4 }) },
                 { position: 1, color: { r: 0, g: 0, b: 0, a: 0 } }
             ]
         }];
@@ -117,13 +67,13 @@ function createNebulaBackground(width, height) {
     layer2.resize(width * 1.5, height * 1.5);
     layer2.x = width * 0.7 - width * 0.75;
     layer2.y = height * 0.6 - height * 0.75;
-    layer2.opacity = EffectTokens.gradients.mail.opacity[1];
+    layer2.opacity = tokens_for_plugin_1.EffectTokens.gradients.mail.opacity[1];
     layer2.fills = [{
             type: 'GRADIENT_RADIAL',
             gradientTransform: [[1, 0, 0.5], [0, 1, 0.5]],
             gradientStops: [
-                { position: 0, color: Object.assign(Object.assign({}, EffectTokens.gradients.mail.nebula.darkBlue), { a: 0.6 }) },
-                { position: 0.6, color: Object.assign(Object.assign({}, EffectTokens.gradients.mail.nebula.deepPurple), { a: 0.3 }) },
+                { position: 0, color: Object.assign(Object.assign({}, tokens_for_plugin_1.EffectTokens.gradients.mail.nebula.darkBlue), { a: 0.6 }) },
+                { position: 0.6, color: Object.assign(Object.assign({}, tokens_for_plugin_1.EffectTokens.gradients.mail.nebula.deepPurple), { a: 0.3 }) },
                 { position: 1, color: { r: 0, g: 0, b: 0, a: 0 } }
             ]
         }];
@@ -135,13 +85,13 @@ function createNebulaBackground(width, height) {
     layer3.resize(width * 0.8, height * 0.8);
     layer3.x = width * 0.6 - width * 0.4;
     layer3.y = height * 0.5 - height * 0.4;
-    layer3.opacity = EffectTokens.gradients.mail.opacity[2];
+    layer3.opacity = tokens_for_plugin_1.EffectTokens.gradients.mail.opacity[2];
     layer3.fills = [{
             type: 'GRADIENT_RADIAL',
             gradientTransform: [[1, 0, 0.5], [0, 1, 0.5]],
             gradientStops: [
-                { position: 0, color: Object.assign(Object.assign({}, EffectTokens.gradients.mail.nebula.brightPurple), { a: 0.7 }) },
-                { position: 0.4, color: Object.assign(Object.assign({}, EffectTokens.gradients.mail.nebula.bluePurple), { a: 0.4 }) },
+                { position: 0, color: Object.assign(Object.assign({}, tokens_for_plugin_1.EffectTokens.gradients.mail.nebula.brightPurple), { a: 0.7 }) },
+                { position: 0.4, color: Object.assign(Object.assign({}, tokens_for_plugin_1.EffectTokens.gradients.mail.nebula.bluePurple), { a: 0.4 }) },
                 { position: 1, color: { r: 0, g: 0, b: 0, a: 0 } }
             ]
         }];
@@ -178,11 +128,11 @@ function createGlassmorphicLayer(width, height, cornerRadius) {
     base.fills = [{
             type: 'SOLID',
             color: { r: 1, g: 1, b: 1 },
-            opacity: EffectTokens.glassmorphic.opacity.ultraLight
+            opacity: tokens_for_plugin_1.EffectTokens.glassmorphic.opacity.ultraLight
         }];
     base.effects = [{
             type: 'BACKGROUND_BLUR',
-            radius: EffectTokens.glassmorphic.blur.heavy,
+            radius: tokens_for_plugin_1.EffectTokens.glassmorphic.blur.heavy,
             visible: true
         }];
     glass.appendChild(base);
@@ -232,7 +182,7 @@ function createButtonHolographicRim(width, height, cornerRadius, mode) {
     rim.resize(width, height);
     rim.cornerRadius = cornerRadius;
     rim.fills = [];
-    const config = EffectTokens.holographic[mode];
+    const config = tokens_for_plugin_1.EffectTokens.holographic[mode];
     rim.strokes = [{
             type: 'GRADIENT_LINEAR',
             gradientTransform: [[1, 0, 0], [0, 1, 0]],
@@ -376,7 +326,7 @@ async function generateZeroButtonVariants() {
                     component.fills = [{ type: 'SOLID', color: bgColor, opacity }];
                 }
                 // Add button shadow
-                component.effects = [Object.assign(Object.assign({ type: 'DROP_SHADOW' }, EffectTokens.shadows.button), { visible: true, blendMode: 'NORMAL' })];
+                component.effects = [Object.assign(Object.assign({ type: 'DROP_SHADOW' }, tokens_for_plugin_1.EffectTokens.shadows.button), { visible: true, blendMode: 'NORMAL' })];
                 // Add holographic rim for Primary/Danger buttons in Default/Hover states
                 if (addHolographicRim) {
                     const mode = style === 'Primary' ? 'mail' : 'ads'; // Primary = mail colors, Danger = ads colors
@@ -449,7 +399,7 @@ async function generateZeroCardVariants() {
                     component.strokeWeight = 1;
                 }
                 // Apply card shadow
-                component.effects = [Object.assign(Object.assign({ type: 'DROP_SHADOW' }, EffectTokens.shadows.card), { visible: true, blendMode: 'NORMAL' })];
+                component.effects = [Object.assign(Object.assign({ type: 'DROP_SHADOW' }, tokens_for_plugin_1.EffectTokens.shadows.card), { visible: true, blendMode: 'NORMAL' })];
                 // Header
                 const header = createAutoLayoutFrame('Header', 'HORIZONTAL', 8, 0);
                 header.primaryAxisSizingMode = 'FIXED';
@@ -519,7 +469,7 @@ async function generateZeroModalVariants() {
             component.fills = [{ type: 'SOLID', color: COLORS.white }];
             component.opacity = state.opacity;
             // Apply modal shadow
-            component.effects = [Object.assign(Object.assign({ type: 'DROP_SHADOW' }, EffectTokens.shadows.modal), { visible: true, blendMode: 'NORMAL' })];
+            component.effects = [Object.assign(Object.assign({ type: 'DROP_SHADOW' }, tokens_for_plugin_1.EffectTokens.shadows.modal), { visible: true, blendMode: 'NORMAL' })];
             const header = createAutoLayoutFrame('Header', 'HORIZONTAL', 12, 0);
             header.primaryAxisSizingMode = 'FIXED';
             header.counterAxisSizingMode = 'AUTO';
