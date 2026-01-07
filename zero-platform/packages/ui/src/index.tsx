@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 
 export const UI_VERSION = '1.0.0';
 
@@ -37,17 +37,31 @@ export const tokens = {
 
 // Color palette
 export const colors = {
+  // Primary colors
   primary: '#667eea',
   secondary: '#764ba2',
   success: '#22c55e',
   warning: '#eab308',
   error: '#ef4444',
   info: '#3b82f6',
+  
+  // Background colors
   background: '#0a0a0f',
+  backgroundDark: '#050508',
   surface: '#1a1a2e',
+  
+  // Text colors
   text: '#ffffff',
   textSecondary: '#a0a0b0',
+  textSubtle: '#6b6b7b',
+  
+  // Border colors
   border: '#2a2a3e',
+  borderSubtle: '#1a1a2e',
+  
+  // Gradient colors
+  mailGradientStart: '#667eea',
+  mailGradientEnd: '#764ba2',
   adsGradientStart: '#f59e0b',
   adsGradientEnd: '#ef4444',
 };
@@ -85,10 +99,16 @@ export function ThemeProvider({
 // InboxHeader component
 export function InboxHeader({ 
   mode: _mode = 'mail',
+  unreadCount: _unreadCount = 0,
   onModeChange: _onModeChange,
+  onSearchPress: _onSearchPress,
+  onSettingsPress: _onSettingsPress,
 }: { 
   mode?: 'mail' | 'ads';
+  unreadCount?: number;
   onModeChange?: (mode: 'mail' | 'ads') => void;
+  onSearchPress?: () => void;
+  onSettingsPress?: () => void;
 }) {
   return (
     <View style={headerStyles.container}>
@@ -121,12 +141,12 @@ export function EmailCard({
   showActions?: boolean;
 }) {
   return (
-    <View style={cardStyles.container}>
-      <Text style={cardStyles.title} onPress={onPress}>
+    <TouchableOpacity style={cardStyles.container} onPress={onPress} activeOpacity={0.7}>
+      <Text style={cardStyles.title}>
         {email.title || 'Untitled'}
       </Text>
       <Text style={cardStyles.summary}>{email.summary || ''}</Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -190,9 +210,9 @@ export function EmptyState({
       <Text style={emptyStyles.title}>{title}</Text>
       {message && <Text style={emptyStyles.message}>{message}</Text>}
       {actionLabel && onAction && (
-        <Text style={emptyStyles.action} onPress={onAction}>
-          {actionLabel}
-        </Text>
+        <TouchableOpacity onPress={onAction}>
+          <Text style={emptyStyles.action}>{actionLabel}</Text>
+        </TouchableOpacity>
       )}
     </View>
   );

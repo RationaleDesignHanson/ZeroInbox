@@ -5,6 +5,22 @@
 
 export const API_VERSION = '1.0.0';
 
+// API client configuration
+let apiConfig = {
+  baseUrl: 'https://api.zeroinbox.app',
+  timeout: 30000,
+};
+
+// Initialize the API client
+export function initializeAPIClient(config: { baseUrl?: string; timeout?: number }) {
+  apiConfig = { ...apiConfig, ...config };
+}
+
+// Get current config
+export function getAPIConfig() {
+  return apiConfig;
+}
+
 // Placeholder hooks - will be implemented when backend is ready
 export function useEmails() {
   return {
@@ -17,7 +33,10 @@ export function useEmails() {
 
 export function useInbox(_options?: { type?: string }) {
   return {
-    data: { items: [] },
+    data: { 
+      items: [],
+      unreadCounts: { mail: 0, ads: 0 },
+    },
     isLoading: false,
     isError: false,
     refetch: async () => {},

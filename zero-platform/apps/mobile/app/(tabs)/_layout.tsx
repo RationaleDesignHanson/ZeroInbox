@@ -61,6 +61,7 @@ export default function TabsLayout() {
 
 // Simple tab icon component
 function TabIcon({ name, color, size }: { name: string; color: string; size: number }) {
+  const { Text } = require('react-native');
   const icons: Record<string, string> = {
     inbox: '📬',
     ads: '🏷️',
@@ -68,7 +69,7 @@ function TabIcon({ name, color, size }: { name: string; color: string; size: num
   };
 
   return (
-    <span style={{ fontSize: size, color }}>{icons[name] || '•'}</span>
+    <Text style={{ fontSize: size, color }}>{icons[name] || '•'}</Text>
   );
 }
 
