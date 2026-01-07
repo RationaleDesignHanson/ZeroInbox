@@ -98,9 +98,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     analyticsEnabled: process.env.NODE_ENV === 'production',
   },
   owner: 'rationale',
-  runtimeVersion: {
-    policy: 'appVersion',
-  },
+  runtimeVersion: '2.0.0',
   updates: {
     url: 'https://u.expo.dev/291902f8-04d8-4676-a18b-87fc5d9cf0e4',
     fallbackToCacheTimeout: 0,
