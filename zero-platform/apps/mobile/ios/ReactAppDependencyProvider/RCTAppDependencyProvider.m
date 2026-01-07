@@ -5,11 +5,17 @@ static const void *kDependencyProviderKey = &kDependencyProviderKey;
 
 @implementation NSObject (DependencyProvider)
 
-- (id)dependencyProvider {
-    return objc_getAssociatedObject(self, kDependencyProviderKey);
+- (id<RCTDependencyProvider>)dependencyProvider {
+    id provider = objc_getAssociatedObject(self, kDependencyProviderKey);
+    if (!provider) {
+        // Auto-create a default provider if none exists
+        provider = [[RCTAppDependencyProvider alloc] init];
+        [self setDependencyProvider:provider];
+    }
+    return provider;
 }
 
-- (void)setDependencyProvider:(id)dependencyProvider {
+- (void)setDependencyProvider:(id<RCTDependencyProvider>)dependencyProvider {
     objc_setAssociatedObject(self, kDependencyProviderKey, dependencyProvider, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
