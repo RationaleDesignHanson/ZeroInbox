@@ -1,12 +1,27 @@
 # EAS Build Ignore - at git root
 # Patterns are relative to this file's location
 
-# iOS native projects (the big ones!)
+# HUGE data directory (12GB!)
+emailcorpus
+
+# iOS native projects
 Zero_ios_2
 Zero_ios
 
 # Backend services  
 backend
+
+# Web prototype
+web-prototype
+
+# Other non-essential directories
+logs
+design-system
+figma-mcp-server
+app-store-screenshots
+Strategy
+web-suite
+wearablesplan
 
 # Documentation
 docs
