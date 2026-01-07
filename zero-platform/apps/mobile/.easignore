@@ -1,36 +1,36 @@
-# Ignore everything outside mobile app
-../../Zero_ios_2/
-../../Zero_ios/
-../../backend/
-../../docs/
-../../html/
-../../.git/
-../../*.md
+# EAS Build Ignore - relative to this directory (apps/mobile)
+# Exclude everything outside zero-platform
 
-# Root level ignores
-../../node_modules/
-../../.expo/
+# Go up to repo root and exclude large directories
+../../../Zero_ios_2/**
+../../../Zero_ios/**
+../../../backend/**
+../../../docs/**
+../../../html/**
+../../../.git/**
 
-# iOS and Android build artifacts (will be generated fresh)
+# Exclude root node_modules
+../../../node_modules/**
+
+# Exclude sibling directories we don't need
+../../.git/**
+
+# Local build artifacts
 ios/
 android/
 .expo/
+node_modules/.cache/
 
-# Development files
-*.log
-.DS_Store
+# Large files
+**/*.mp4
+**/*.mov
+**/*.zip
+**/*.tar
+**/*.gz
+**/*.ipa
+**/*.xcarchive
+**/DerivedData/**
 
-# Test files
-__tests__/
-*.test.ts
-*.test.tsx
-*.spec.ts
-*.spec.tsx
-
-# Large unnecessary files
-*.mp4
-*.mov
-*.zip
-*.tar
-*.gz
-
+# Logs and caches
+**/*.log
+**/.DS_Store

@@ -1,59 +1,55 @@
-# EAS Build Ignore - Keep archive under 2GB
+# EAS Build Ignore - at git root
+# Patterns are relative to this file's location
 
-# iOS native projects (large Xcode projects)
-Zero_ios_2/
-Zero_ios/
+# iOS native projects (the big ones!)
+Zero_ios_2
+Zero_ios
 
-# Backend services
-backend/
+# Backend services  
+backend
 
-# Documentation and static files
-docs/
-html/
+# Documentation
+docs
+html
 
-# Git history
-.git/
+# Git directory
+.git
 
-# Root node_modules (will use zero-platform's)
-node_modules/
+# Any node_modules at root level
+/node_modules
 
-# Large media files
-*.mp4
-*.mov
-*.avi
-*.mkv
-*.wav
-*.mp3
-*.zip
-*.tar
-*.gz
-*.rar
-*.dmg
-*.iso
+# Xcode build artifacts
+**/DerivedData
+**/*.xcarchive
+**/build
 
-# Build artifacts
-DerivedData/
-build/
-*.xcarchive
-*.ipa
-*.app
-*.dSYM
+# Large binary files
+**/*.ipa
+**/*.app
+**/*.dSYM
+**/*.mp4
+**/*.mov
+**/*.avi
+**/*.wav
+**/*.mp3
+**/*.zip
+**/*.tar
+**/*.gz
+**/*.dmg
 
-# Cache directories
-.cache/
-.expo/
-*.tsbuildinfo
+# Caches
+**/.expo
+**/*.tsbuildinfo
+**/.cache
 
 # Logs
-*.log
-logs/
+**/*.log
 
 # OS files
-.DS_Store
-Thumbs.db
+**/.DS_Store
+**/Thumbs.db
 
-# IDE
-.idea/
-*.xcworkspace/xcuserdata/
-*.xcodeproj/xcuserdata/
-
+# IDE files
+.idea
+**/*.xcuserdata
+.vscode
