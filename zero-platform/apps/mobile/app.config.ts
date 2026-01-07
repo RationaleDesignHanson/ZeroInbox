@@ -16,7 +16,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ['**/*'],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: 'com.zero.inbox',
+    bundleIdentifier: 'com.seedny.zeroinbox',
     buildNumber: '1',
     config: {
       usesNonExemptEncryption: false,
@@ -29,7 +29,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       UIBackgroundModes: ['audio', 'fetch', 'remote-notification'],
     },
     entitlements: {
-      'com.apple.developer.associated-domains': ['applinks:zero-inbox.app'],
+      'com.apple.developer.associated-domains': ['applinks:zeroinbox.seedny.com'],
     },
   },
   android: {
@@ -37,7 +37,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: './assets/adaptive-icon.png',
       backgroundColor: '#0a0a0f',
     },
-    package: 'com.zero.inbox',
+    package: 'com.seedny.zeroinbox',
     versionCode: 1,
     permissions: [
       'android.permission.CAMERA',
@@ -61,7 +61,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'expo-build-properties',
       {
         ios: {
-          deploymentTarget: '14.0',
+          deploymentTarget: '15.1',
           newArchEnabled: true,
         },
         android: {
@@ -77,11 +77,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       {
         icon: './assets/notification-icon.png',
         color: '#667eea',
-        sounds: ['./assets/sounds/notification.wav'],
       },
     ],
     'expo-font',
-    'expo-haptics',
     'expo-secure-store',
     'expo-local-authentication',
   ],
@@ -93,19 +91,19 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       origin: false,
     },
     eas: {
-      projectId: 'EXPO_PROJECT_ID_PLACEHOLDER',
+      projectId: '291902f8-04d8-4676-a18b-87fc5d9cf0e4',
     },
-    apiBaseUrl: process.env.EXPO_PUBLIC_API_BASE_URL || 'https://api.zero-inbox.app',
+    apiBaseUrl: process.env.EXPO_PUBLIC_API_BASE_URL || 'https://api.zeroinbox.seedny.com',
     sentryDsn: process.env.SENTRY_DSN,
     analyticsEnabled: process.env.NODE_ENV === 'production',
   },
-  owner: 'zero-inbox',
+  owner: 'rationale',
   runtimeVersion: {
     policy: 'appVersion',
   },
   updates: {
-    url: 'https://u.expo.dev/EXPO_PROJECT_ID_PLACEHOLDER',
+    url: 'https://u.expo.dev/291902f8-04d8-4676-a18b-87fc5d9cf0e4',
     fallbackToCacheTimeout: 0,
   },
-  scheme: 'zero-inbox',
+  scheme: 'zeroinbox',
 });
