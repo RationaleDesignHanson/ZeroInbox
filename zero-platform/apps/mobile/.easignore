@@ -1,0 +1,36 @@
+# Ignore everything outside mobile app
+../../Zero_ios_2/
+../../Zero_ios/
+../../backend/
+../../docs/
+../../html/
+../../.git/
+../../*.md
+
+# Root level ignores
+../../node_modules/
+../../.expo/
+
+# iOS and Android build artifacts (will be generated fresh)
+ios/
+android/
+.expo/
+
+# Development files
+*.log
+.DS_Store
+
+# Test files
+__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+
+# Large unnecessary files
+*.mp4
+*.mov
+*.zip
+*.tar
+*.gz
+

@@ -1,0 +1,59 @@
+# EAS Build Ignore - Keep archive under 2GB
+
+# iOS native projects (large Xcode projects)
+Zero_ios_2/
+Zero_ios/
+
+# Backend services
+backend/
+
+# Documentation and static files
+docs/
+html/
+
+# Git history
+.git/
+
+# Root node_modules (will use zero-platform's)
+node_modules/
+
+# Large media files
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wav
+*.mp3
+*.zip
+*.tar
+*.gz
+*.rar
+*.dmg
+*.iso
+
+# Build artifacts
+DerivedData/
+build/
+*.xcarchive
+*.ipa
+*.app
+*.dSYM
+
+# Cache directories
+.cache/
+.expo/
+*.tsbuildinfo
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
