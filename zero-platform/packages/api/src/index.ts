@@ -15,6 +15,22 @@ export function useEmails() {
   };
 }
 
+export function useInbox(_options?: { type?: string }) {
+  return {
+    data: { items: [] },
+    isLoading: false,
+    isError: false,
+    refetch: async () => {},
+  };
+}
+
+export function useRefreshInbox() {
+  return {
+    mutateAsync: async () => {},
+    isPending: false,
+  };
+}
+
 export function usePerformAction() {
   return {
     mutate: async () => {},
@@ -30,4 +46,3 @@ export function useUserSettings() {
     error: null,
   };
 }
-
