@@ -1,0 +1,25 @@
+name: Core Packages CI
+
+on:
+  push:
+    branches: [feature/zero-2.0-plan, release/1.0, main]
+  pull_request:
+    branches: [main, release/1.0]
+
+jobs:
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Run core test harness
+        run: pnpm --filter @zero/test-harness exec ts-node src/cli.ts
+

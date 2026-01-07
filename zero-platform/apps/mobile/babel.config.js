@@ -11,7 +11,7 @@ module.exports = function (api) {
             '@zero/types': '../../packages/types/src',
             '@zero/core': '../../packages/core/src',
             '@zero/api': '../../packages/api/src',
-            '@zero/ui': '../../packages/ui/src',
+            '@zero/ui': '../../packages/ui/src/index.tsx',
           },
         },
       ],

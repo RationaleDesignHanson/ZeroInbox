@@ -1,0 +1,11 @@
+{
+  "name": "@zero/action-resolver",
+  "version": "0.1.0",
+  "main": "src/resolver.ts",
+  "types": "src/resolver.ts",
+  "private": true,
+  "dependencies": {
+    "@zero/core-types": "workspace:*"
+  }
+}
+

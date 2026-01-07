@@ -1,0 +1,11 @@
+{
+  "name": "@zero/confidence",
+  "version": "0.1.0",
+  "main": "src/scorer.ts",
+  "types": "src/scorer.ts",
+  "private": true,
+  "dependencies": {
+    "@zero/core-types": "workspace:*"
+  }
+}
+

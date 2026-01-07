@@ -1,0 +1,21 @@
+{
+  "name": "@zero/test-harness",
+  "version": "0.1.0",
+  "main": "src/runner.ts",
+  "types": "src/runner.ts",
+  "bin": {
+    "zero-test": "src/cli.ts"
+  },
+  "private": true,
+  "dependencies": {
+    "@zero/action-resolver": "workspace:*",
+    "@zero/confidence": "workspace:*",
+    "@zero/intent-engine": "workspace:*",
+    "@zero/core-types": "workspace:*",
+    "@zero/test-fixtures": "workspace:*"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
+

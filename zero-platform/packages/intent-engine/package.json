@@ -1,0 +1,11 @@
+{
+  "name": "@zero/intent-engine",
+  "version": "0.1.0",
+  "main": "src/engine.ts",
+  "types": "src/engine.ts",
+  "private": true,
+  "dependencies": {
+    "@zero/core-types": "workspace:*"
+  }
+}
+
