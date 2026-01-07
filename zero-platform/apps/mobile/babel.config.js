@@ -8,10 +8,10 @@ module.exports = function (api) {
         {
           root: ['./'],
           alias: {
-            '@zero/types': '../../packages/@zero/types/src',
-            '@zero/core': '../../packages/@zero/core/src',
-            '@zero/api': '../../packages/@zero/api/src',
-            '@zero/ui': '../../packages/@zero/ui/src',
+            '@zero/types': '../../packages/types/src',
+            '@zero/core': '../../packages/core/src',
+            '@zero/api': '../../packages/api/src',
+            '@zero/ui': '../../packages/ui/src',
           },
         },
       ],
@@ -19,4 +19,3 @@ module.exports = function (api) {
     ],
   };
 };
-
