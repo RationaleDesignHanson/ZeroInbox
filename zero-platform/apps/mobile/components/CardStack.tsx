@@ -20,6 +20,10 @@ import { SwipeableCard } from './SwipeableCard';
 import { SwipeOverlay, type SwipeDirection } from './SwipeOverlay';
 import { HapticService } from '../services/HapticService';
 
+// Wrapped haptic functions to preserve 'this' context when called via runOnJS
+const triggerMediumHaptic = () => HapticService.mediumImpact();
+const triggerHeavyHaptic = () => HapticService.heavyImpact();
+
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const SWIPE_THRESHOLD = 120;
@@ -70,7 +74,7 @@ export function CardStack({
   }, []);
 
   const handleSwipeComplete = useCallback((direction: SwipeDirection, card: EmailCardType) => {
-    HapticService.heavyImpact();
+    triggerHeavyHaptic();
     
     switch (direction) {
       case 'left':
@@ -222,7 +226,7 @@ function CardItem({
 
       if (distance > HAPTIC_THRESHOLD && !hapticTriggered.value) {
         hapticTriggered.value = true;
-        runOnJS(HapticService.mediumImpact)();
+        runOnJS(triggerMediumHaptic)();
       }
       if (distance < HAPTIC_THRESHOLD) {
         hapticTriggered.value = false;
