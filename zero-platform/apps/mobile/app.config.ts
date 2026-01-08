@@ -111,5 +111,5 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     url: 'https://u.expo.dev/141b18ce-d979-4bd2-9aa3-460632d70b19',
     fallbackToCacheTimeout: 0,
   },
-  scheme: 'zeroinbox',
+  scheme: 'com.zeroinbox.app',
 });

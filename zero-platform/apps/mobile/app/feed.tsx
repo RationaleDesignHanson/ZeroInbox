@@ -1,14 +1,14 @@
 /**
  * FeedScreen - Main card feed view
  * Single screen with CardStack, LiquidGlassBottomNav, and CelebrationView
- * Matches iOS app architecture
+ * Matches iOS app architecture with ActionRouter for swipe right
  */
 
-import React, { useState, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { View, StyleSheet, Modal, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import type { EmailCard } from '@zero/types';
+import type { EmailCard, SuggestedAction } from '@zero/types';
 import { CardStack } from '../components/CardStack';
 import { LiquidGlassBottomNav } from '../components/LiquidGlassBottomNav';
 import { CelebrationView } from '../components/CelebrationView';
@@ -17,23 +17,31 @@ import { ActionSelectorSheet } from '../components/ActionSelectorSheet';
 import { SnoozePickerSheet } from '../components/SnoozePickerSheet';
 import { SwipeHintOverlay } from '../components/SwipeHintOverlay';
 import { ActionToast } from '../components/ActionToast';
+import { SearchModal } from '../components/SearchModal';
+import {
+  EmailComposerModal,
+  CalendarModal,
+  DocumentViewerModal,
+  ConfirmationModal,
+} from '../components/modals';
 import { HapticService } from '../services/HapticService';
+import { ActionRouter, ModalType } from '../services/ActionRouter';
 import { MOCK_MAIL_EMAILS, MOCK_ADS_EMAILS } from '../data/mockEmails';
 import SettingsModal from './settings-modal';
 
 type Mode = 'mail' | 'ads';
 
-interface UndoState {
-  visible: boolean;
-  message: string;
-  card: EmailCard | null;
-  action: string;
-}
-
 interface ToastState {
   visible: boolean;
   message: string;
   type: 'success' | 'info';
+}
+
+interface ActiveModal {
+  type: ModalType;
+  card: EmailCard;
+  action: SuggestedAction;
+  context?: Record<string, string>;
 }
 
 export default function FeedScreen() {
@@ -48,6 +56,7 @@ export default function FeedScreen() {
   
   // UI state
   const [showSettings, setShowSettings] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const [showActionSheet, setShowActionSheet] = useState(false);
   const [showSnoozeSheet, setShowSnoozeSheet] = useState(false);
   const [showSwipeHint, setShowSwipeHint] = useState(false);
@@ -57,6 +66,9 @@ export default function FeedScreen() {
     type: 'mail',
     allCleared: false,
   });
+  
+  // Action modal state
+  const [activeModal, setActiveModal] = useState<ActiveModal | null>(null);
   
   // Toast state for undo and feedback
   const [toast, setToast] = useState<ToastState>({
@@ -76,6 +88,17 @@ export default function FeedScreen() {
   // Current cards based on mode
   const currentCards = mode === 'mail' ? mailCards : adsCards;
   const currentIndex = 0; // Always show from top since we remove cards
+
+  // Register ActionRouter modal handler
+  useEffect(() => {
+    ActionRouter.setModalHandler((modalType, card, action, context) => {
+      setActiveModal({ type: modalType, card, action, context });
+    });
+
+    return () => {
+      ActionRouter.clearModalHandler();
+    };
+  }, []);
   
   // Remove card from appropriate list
   const removeCard = useCallback((card: EmailCard, action: string) => {
@@ -141,10 +164,28 @@ export default function FeedScreen() {
     removeCard(card, 'Archived');
   }, [removeCard]);
   
-  const handleSwipeRight = useCallback((card: EmailCard) => {
-    setSelectedCard(card);
-    setShowActionSheet(true);
-  }, []);
+  // Swipe right - execute primary action via ActionRouter
+  const handleSwipeRight = useCallback(async (card: EmailCard) => {
+    const primaryAction = ActionRouter.getPrimaryAction(card);
+    
+    if (primaryAction) {
+      // Execute primary action through ActionRouter
+      const result = await ActionRouter.executeAction(primaryAction, card);
+      
+      if (result.success) {
+        // If it was a GO_TO action (opened browser), remove the card
+        const route = ActionRouter.routeAction(primaryAction, card);
+        if (route.type === 'GO_TO') {
+          removeCard(card, primaryAction.displayName);
+        }
+        // For IN_APP, the modal handler will be called and we wait for completion
+      }
+    } else {
+      // No primary action - show action selector
+      setSelectedCard(card);
+      setShowActionSheet(true);
+    }
+  }, [removeCard]);
   
   const handleSwipeUp = useCallback((card: EmailCard) => {
     // Show more options / action sheet
@@ -207,7 +248,7 @@ export default function FeedScreen() {
   }, []);
   
   const handleSearchPress = useCallback(() => {
-    // TODO: Implement search modal
+    setShowSearch(true);
     HapticService.selection();
   }, []);
   
@@ -217,6 +258,18 @@ export default function FeedScreen() {
     setAdsCards(MOCK_ADS_EMAILS);
     HapticService.success();
   }, []);
+
+  // Modal action handlers
+  const handleModalClose = useCallback(() => {
+    setActiveModal(null);
+  }, []);
+
+  const handleModalComplete = useCallback((message: string) => {
+    if (activeModal) {
+      removeCard(activeModal.card, message);
+    }
+    setActiveModal(null);
+  }, [activeModal, removeCard]);
   
   return (
     <View style={styles.container}>
@@ -265,7 +318,7 @@ export default function FeedScreen() {
         />
       )}
       
-      {/* Action Sheet */}
+      {/* Action Sheet (for swipe up) */}
       <ActionSelectorSheet
         visible={showActionSheet}
         onClose={() => {
@@ -286,6 +339,82 @@ export default function FeedScreen() {
         onSelect={(option) => handleSnooze(option.label)}
         emailTitle={selectedCard?.title}
       />
+
+      {/* Email Composer Modal */}
+      <Modal
+        visible={activeModal?.type === 'quick_reply'}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={handleModalClose}
+      >
+        {activeModal?.type === 'quick_reply' && (
+          <EmailComposerModal
+            visible={true}
+            onClose={handleModalClose}
+            onSend={(message) => handleModalComplete('Reply sent')}
+            card={activeModal.card}
+            action={activeModal.action}
+            context={activeModal.context}
+          />
+        )}
+      </Modal>
+
+      {/* Calendar Modal */}
+      <Modal
+        visible={activeModal?.type === 'add_to_calendar'}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={handleModalClose}
+      >
+        {activeModal?.type === 'add_to_calendar' && (
+          <CalendarModal
+            visible={true}
+            onClose={handleModalClose}
+            onAdd={() => handleModalComplete('Added to calendar')}
+            card={activeModal.card}
+            action={activeModal.action}
+            context={activeModal.context}
+          />
+        )}
+      </Modal>
+
+      {/* Document Viewer Modal */}
+      <Modal
+        visible={activeModal?.type === 'view_document' || activeModal?.type === 'sign_form'}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={handleModalClose}
+      >
+        {(activeModal?.type === 'view_document' || activeModal?.type === 'sign_form') && (
+          <DocumentViewerModal
+            visible={true}
+            onClose={handleModalClose}
+            onAction={(action) => handleModalComplete(action === 'sign' ? 'Document signed' : 'Downloaded')}
+            card={activeModal.card}
+            action={activeModal.action}
+            context={activeModal.context}
+          />
+        )}
+      </Modal>
+
+      {/* Confirmation Modal */}
+      <Modal
+        visible={activeModal?.type === 'confirmation'}
+        animationType="fade"
+        transparent
+        onRequestClose={handleModalClose}
+      >
+        {activeModal?.type === 'confirmation' && (
+          <ConfirmationModal
+            visible={true}
+            onClose={handleModalClose}
+            onConfirm={() => handleModalComplete(activeModal.action.displayName)}
+            card={activeModal.card}
+            action={activeModal.action}
+            context={activeModal.context}
+          />
+        )}
+      </Modal>
       
       {/* Toast for feedback */}
       {toast.visible && (
@@ -301,6 +430,24 @@ export default function FeedScreen() {
         visible={showSwipeHint}
         onDismiss={() => setShowSwipeHint(false)}
       />
+
+      {/* Search Modal */}
+      <Modal
+        visible={showSearch}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        onRequestClose={() => setShowSearch(false)}
+      >
+        <SearchModal
+          visible={showSearch}
+          onClose={() => setShowSearch(false)}
+          onSelectEmail={(card) => {
+            setShowSearch(false);
+            router.push(`/email/${card.id}`);
+          }}
+          emails={[...mailCards, ...adsCards]}
+        />
+      </Modal>
       
       {/* Settings Modal */}
       <Modal
@@ -329,4 +476,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-

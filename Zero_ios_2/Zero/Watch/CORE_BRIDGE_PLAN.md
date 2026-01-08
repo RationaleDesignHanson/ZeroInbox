@@ -13,3 +13,4 @@ Next steps for implementation:
 - Extend `WatchConnectivityManager` to pass `intent`, `confidence`, and `suggestedAction` fields.
 - Emit telemetry via the same endpoint as mobile using the `@zero/telemetry` schema.
 
+

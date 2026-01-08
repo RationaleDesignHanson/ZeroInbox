@@ -392,3 +392,4 @@ export function getMockEmails(type?: 'mail' | 'ads'): EmailCard[] {
   return ALL_MOCK_EMAILS;
 }
 
+

@@ -61,3 +61,4 @@ export interface EmailContext {
 
 export type EmailType = 'mail' | 'ads';
 
+
