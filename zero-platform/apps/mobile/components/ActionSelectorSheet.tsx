@@ -17,7 +17,7 @@ import {
 import { BlurView } from 'expo-blur';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import type { EmailCard, EmailAction } from '@zero/types';
+import type { EmailCard, SuggestedAction } from '@zero/types';
 import { HapticService } from '../services/HapticService';
 
 // Quick actions always available
@@ -32,7 +32,7 @@ const QUICK_ACTIONS = [
 interface ActionSelectorSheetProps {
   visible: boolean;
   onClose: () => void;
-  onSelectAction: (action: EmailAction) => void;
+  onSelectAction: (action: { id: string; displayName: string }) => void;
   card: EmailCard | null;
 }
 
@@ -81,15 +81,16 @@ export function ActionSelectorSheet({
     HapticService.selection();
     onSelectAction({
       id: action.id,
-      actionId: action.id,
       displayName: action.label,
-      actionType: 'IN_APP',
     });
   };
 
-  const handleSuggestedAction = (action: EmailAction) => {
+  const handleSuggestedAction = (action: SuggestedAction) => {
     HapticService.selection();
-    onSelectAction(action);
+    onSelectAction({
+      id: action.id,
+      displayName: action.displayName,
+    });
   };
 
   const suggestedActions = card?.suggestedActions || [];
@@ -142,11 +143,7 @@ export function ActionSelectorSheet({
                       >
                         {action.displayName}
                       </Text>
-                      {action.confidence && (
-                        <Text style={styles.actionConfidence}>
-                          {Math.round(action.confidence * 100)}%
-                        </Text>
-                      )}
+                      {/* Confidence display removed - not in SuggestedAction type */}
                     </Pressable>
                   ))}
                 </View>
