@@ -3,35 +3,16 @@
  * Matches iOS SplashView.swift with 10000 logo and auth buttons
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Pressable,
   ActivityIndicator,
-  Dimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withSpring,
-  withTiming,
-  Easing,
-} from 'react-native-reanimated';
-import Constants from 'expo-constants';
-
-// Lazy load FloatingParticles to prevent crashes
-let FloatingParticles: React.ComponentType<{ particleCount?: number; particleSize?: number; speed?: number }> | null = null;
-try {
-  FloatingParticles = require('./FloatingParticles').FloatingParticles;
-} catch (e) {
-  console.warn('FloatingParticles failed to load:', e);
-}
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 type AuthProviderOption = 'mock' | 'google' | 'microsoft';
 
@@ -49,21 +30,6 @@ export function SplashScreen({
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [activeProvider, setActiveProvider] = useState<AuthProviderOption | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  // Animation values
-  const scale = useSharedValue(0.8);
-  const opacity = useSharedValue(0);
-
-  useEffect(() => {
-    // Animate in on mount
-    scale.value = withSpring(1, { damping: 12, stiffness: 100 });
-    opacity.value = withTiming(1, { duration: 600, easing: Easing.out(Easing.ease) });
-  }, [scale, opacity]);
-
-  const containerAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    opacity: opacity.value,
-  }));
 
   const handleAuth = async (provider: AuthProviderOption) => {
     if (isAuthenticating) return;
@@ -86,16 +52,12 @@ export function SplashScreen({
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Authentication failed');
-      // Auto-hide error after 3 seconds
       setTimeout(() => setError(null), 3000);
     } finally {
       setIsAuthenticating(false);
       setActiveProvider(null);
     }
   };
-
-  const version = Constants.expoConfig?.version ?? '2.0.0';
-  const buildNumber = Constants.expoConfig?.ios?.buildNumber ?? '1';
 
   return (
     <View style={styles.container}>
@@ -105,10 +67,7 @@ export function SplashScreen({
         style={StyleSheet.absoluteFill}
       />
 
-      {/* Floating particles - conditionally rendered */}
-      {FloatingParticles && <FloatingParticles particleCount={20} particleSize={4} speed={3} />}
-
-      <Animated.View style={[styles.content, containerAnimatedStyle]}>
+      <View style={styles.content}>
         {/* Logo: 10000 */}
         <View style={styles.logoSection}>
           <View style={styles.logoRow}>
@@ -134,9 +93,7 @@ export function SplashScreen({
           <Text style={styles.taglineSubtitle}>
             Swipe to keep, act, or archive for later.
           </Text>
-          <Text style={styles.versionText}>
-            v{version} ({buildNumber})
-          </Text>
+          <Text style={styles.versionText}>v2.0.0</Text>
         </View>
 
         {/* Auth Buttons */}
@@ -174,11 +131,9 @@ export function SplashScreen({
           </View>
 
           {/* Error message */}
-          {error && (
-            <Animated.Text style={styles.errorText}>{error}</Animated.Text>
-          )}
+          {error && <Text style={styles.errorText}>{error}</Text>}
         </View>
-      </Animated.View>
+      </View>
     </View>
   );
 }
