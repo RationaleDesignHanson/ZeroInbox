@@ -33,7 +33,7 @@ try {
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-type AuthProvider = 'mock' | 'google' | 'microsoft';
+type AuthProviderOption = 'mock' | 'google' | 'microsoft';
 
 interface SplashScreenProps {
   onMockLogin: () => void;
@@ -47,7 +47,7 @@ export function SplashScreen({
   onMicrosoftLogin,
 }: SplashScreenProps) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [activeProvider, setActiveProvider] = useState<AuthProvider | null>(null);
+  const [activeProvider, setActiveProvider] = useState<AuthProviderOption | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Animation values
@@ -65,7 +65,7 @@ export function SplashScreen({
     opacity: opacity.value,
   }));
 
-  const handleAuth = async (provider: AuthProvider) => {
+  const handleAuth = async (provider: AuthProviderOption) => {
     if (isAuthenticating) return;
 
     setError(null);
