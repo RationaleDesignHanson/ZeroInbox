@@ -85,20 +85,22 @@ export default function FeedScreen() {
     if (isMailCard) {
       setMailCards(prev => {
         const newCards = prev.filter(c => c.id !== card.id);
-        // Check for celebration
+        // Schedule celebration check after state update
         if (newCards.length === 0) {
-          const allCleared = adsCards.length === 0;
-          setCelebration({ show: true, type: 'mail', allCleared });
+          setTimeout(() => {
+            setCelebration({ show: true, type: 'mail', allCleared: adsCards.length === 0 });
+          }, 0);
         }
         return newCards;
       });
     } else {
       setAdsCards(prev => {
         const newCards = prev.filter(c => c.id !== card.id);
-        // Check for celebration
+        // Schedule celebration check after state update
         if (newCards.length === 0) {
-          const allCleared = mailCards.length === 0;
-          setCelebration({ show: true, type: 'ads', allCleared });
+          setTimeout(() => {
+            setCelebration({ show: true, type: 'ads', allCleared: mailCards.length === 0 });
+          }, 0);
         }
         return newCards;
       });
