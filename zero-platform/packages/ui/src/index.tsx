@@ -462,3 +462,428 @@ const emptyStyles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+
+// ============================================
+// Avatar Component
+// ============================================
+
+export interface AvatarProps {
+  name: string;
+  size?: 'small' | 'medium' | 'large';
+  imageUrl?: string;
+}
+
+const AVATAR_SIZES = {
+  small: 32,
+  medium: 44,
+  large: 56,
+};
+
+const AVATAR_FONT_SIZES = {
+  small: 14,
+  medium: 18,
+  large: 22,
+};
+
+// Generate consistent color from name
+function getAvatarColor(name: string): string {
+  const avatarColors = [
+    '#667eea', '#764ba2', '#22c55e', '#3b82f6', '#f97316',
+    '#ef4444', '#8b5cf6', '#14b8a6', '#f59e0b', '#ec4899',
+  ];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return avatarColors[Math.abs(hash) % avatarColors.length];
+}
+
+export function Avatar({ name, size = 'medium', imageUrl }: AvatarProps) {
+  const dimension = AVATAR_SIZES[size];
+  const fontSize = AVATAR_FONT_SIZES[size];
+  const backgroundColor = getAvatarColor(name);
+  const initial = name.charAt(0).toUpperCase();
+
+  if (imageUrl) {
+    // Would use expo-image here, but keeping simple for now
+    return (
+      <View style={[avatarStyles.container, { width: dimension, height: dimension, backgroundColor }]}>
+        <Text style={[avatarStyles.initial, { fontSize }]}>{initial}</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={[avatarStyles.container, { width: dimension, height: dimension, backgroundColor }]}>
+      <Text style={[avatarStyles.initial, { fontSize }]}>{initial}</Text>
+    </View>
+  );
+}
+
+const avatarStyles = StyleSheet.create({
+  container: {
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  initial: {
+    color: '#fff',
+    fontWeight: '700',
+  },
+});
+
+// ============================================
+// Badge Component
+// ============================================
+
+export type BadgeVariant = 'default' | 'priority' | 'success' | 'warning' | 'error' | 'info';
+export type Priority = 'critical' | 'high' | 'medium' | 'low';
+
+export interface BadgeProps {
+  label: string;
+  variant?: BadgeVariant;
+  priority?: Priority;
+  size?: 'small' | 'medium';
+}
+
+const PRIORITY_COLORS: Record<Priority, string> = {
+  critical: '#ef4444',
+  high: '#f97316',
+  medium: '#eab308',
+  low: '#22c55e',
+};
+
+const BADGE_VARIANTS: Record<BadgeVariant, { bg: string; text: string }> = {
+  default: { bg: 'rgba(255,255,255,0.1)', text: colors.text },
+  priority: { bg: 'rgba(255,255,255,0.1)', text: colors.text }, // Overridden by priority prop
+  success: { bg: 'rgba(34, 197, 94, 0.15)', text: '#22c55e' },
+  warning: { bg: 'rgba(234, 179, 8, 0.15)', text: '#eab308' },
+  error: { bg: 'rgba(239, 68, 68, 0.15)', text: '#ef4444' },
+  info: { bg: 'rgba(59, 130, 246, 0.15)', text: '#3b82f6' },
+};
+
+export function Badge({ label, variant = 'default', priority, size = 'medium' }: BadgeProps) {
+  const isSmall = size === 'small';
+  
+  let bgColor = BADGE_VARIANTS[variant].bg;
+  let textColor = BADGE_VARIANTS[variant].text;
+  
+  if (variant === 'priority' && priority) {
+    const priorityColor = PRIORITY_COLORS[priority];
+    bgColor = `${priorityColor}25`;
+    textColor = priorityColor;
+  }
+
+  return (
+    <View style={[
+      badgeStyles.container,
+      { backgroundColor: bgColor },
+      isSmall && badgeStyles.small,
+    ]}>
+      <Text style={[
+        badgeStyles.text,
+        { color: textColor },
+        isSmall && badgeStyles.smallText,
+      ]}>
+        {label.toUpperCase()}
+      </Text>
+    </View>
+  );
+}
+
+const badgeStyles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 8,
+  },
+  small: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+  },
+  text: {
+    fontSize: 11,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+  smallText: {
+    fontSize: 9,
+  },
+});
+
+// ============================================
+// Button Component
+// ============================================
+
+export interface ButtonProps {
+  title: string;
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  disabled?: boolean;
+  loading?: boolean;
+  onPress: () => void;
+  style?: object;
+  icon?: React.ReactNode;
+}
+
+const BUTTON_SIZES = {
+  small: { paddingVertical: 8, paddingHorizontal: 12, fontSize: 13 },
+  medium: { paddingVertical: 12, paddingHorizontal: 16, fontSize: 15 },
+  large: { paddingVertical: 16, paddingHorizontal: 20, fontSize: 17 },
+};
+
+export function Button({
+  title,
+  variant = 'primary',
+  size = 'medium',
+  disabled = false,
+  loading = false,
+  onPress,
+  style,
+  icon,
+}: ButtonProps) {
+  const sizeStyle = BUTTON_SIZES[size];
+  
+  const variantStyles = {
+    primary: {
+      bg: colors.primary,
+      text: '#fff',
+      border: 'transparent',
+    },
+    secondary: {
+      bg: 'rgba(255,255,255,0.1)',
+      text: colors.text,
+      border: 'rgba(255,255,255,0.2)',
+    },
+    ghost: {
+      bg: 'transparent',
+      text: colors.primary,
+      border: 'transparent',
+    },
+    danger: {
+      bg: colors.error,
+      text: '#fff',
+      border: 'transparent',
+    },
+  }[variant];
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled || loading}
+      activeOpacity={0.7}
+      style={[
+        buttonStyles.container,
+        {
+          backgroundColor: variantStyles.bg,
+          borderColor: variantStyles.border,
+          paddingVertical: sizeStyle.paddingVertical,
+          paddingHorizontal: sizeStyle.paddingHorizontal,
+          opacity: disabled ? 0.5 : 1,
+        },
+        style,
+      ]}
+    >
+      {loading ? (
+        <ActivityIndicator size="small" color={variantStyles.text} />
+      ) : (
+        <View style={buttonStyles.content}>
+          {icon}
+          <Text style={[buttonStyles.text, { color: variantStyles.text, fontSize: sizeStyle.fontSize }]}>
+            {title}
+          </Text>
+        </View>
+      )}
+    </TouchableOpacity>
+  );
+}
+
+const buttonStyles = StyleSheet.create({
+  container: {
+    borderRadius: 12,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  content: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  text: {
+    fontWeight: '600',
+  },
+});
+
+// ============================================
+// ActionButton Component
+// ============================================
+
+export type ActionType = 
+  | 'ARCHIVE' | 'DELETE' | 'REPLY' | 'REPLY_ALL' | 'FORWARD'
+  | 'SNOOZE' | 'LABEL' | 'STAR' | 'MARK_READ' | 'MARK_UNREAD'
+  | 'GO_TO' | 'TRACK' | 'UNSUBSCRIBE' | 'COMPOUND';
+
+export interface ActionButtonProps {
+  title: string;
+  actionType: ActionType;
+  isPrimary?: boolean;
+  isCompound?: boolean;
+  onPress: () => void;
+  style?: object;
+}
+
+const ACTION_ICONS: Record<ActionType, string> = {
+  ARCHIVE: '📥',
+  DELETE: '🗑️',
+  REPLY: '↩️',
+  REPLY_ALL: '↩️',
+  FORWARD: '↪️',
+  SNOOZE: '⏰',
+  LABEL: '🏷️',
+  STAR: '⭐',
+  MARK_READ: '✓',
+  MARK_UNREAD: '○',
+  GO_TO: '🔗',
+  TRACK: '📦',
+  UNSUBSCRIBE: '🚫',
+  COMPOUND: '⚡',
+};
+
+export function ActionButton({
+  title,
+  actionType,
+  isPrimary = false,
+  isCompound = false,
+  onPress,
+  style,
+}: ActionButtonProps) {
+  const icon = ACTION_ICONS[actionType] || '•';
+
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.7}
+      style={[
+        actionButtonStyles.container,
+        isPrimary ? actionButtonStyles.primary : actionButtonStyles.secondary,
+        isCompound && actionButtonStyles.compound,
+        style,
+      ]}
+    >
+      <Text style={actionButtonStyles.icon}>{icon}</Text>
+      <Text style={[
+        actionButtonStyles.text,
+        isPrimary && actionButtonStyles.primaryText,
+      ]}>
+        {title}
+      </Text>
+      {isCompound && (
+        <View style={actionButtonStyles.compoundBadge}>
+          <Text style={actionButtonStyles.compoundText}>SMART</Text>
+        </View>
+      )}
+    </TouchableOpacity>
+  );
+}
+
+const actionButtonStyles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    gap: 10,
+  },
+  primary: {
+    backgroundColor: colors.primary,
+  },
+  secondary: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
+  },
+  compound: {
+    borderWidth: 1,
+    borderColor: colors.primary,
+  },
+  icon: {
+    fontSize: 18,
+  },
+  text: {
+    flex: 1,
+    fontSize: 15,
+    fontWeight: '600',
+    color: colors.text,
+  },
+  primaryText: {
+    color: '#fff',
+  },
+  compoundBadge: {
+    backgroundColor: 'rgba(102, 126, 234, 0.2)',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+  },
+  compoundText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: colors.primary,
+    letterSpacing: 0.5,
+  },
+});
+
+// ============================================
+// ConfidenceBadge Component
+// ============================================
+
+export type ConfidenceLevel = 'VERY_HIGH' | 'HIGH' | 'MEDIUM' | 'LOW' | 'VERY_LOW';
+
+export interface ConfidenceBadgeProps {
+  confidence: number;
+  level: ConfidenceLevel;
+  showPercentage?: boolean;
+}
+
+const CONFIDENCE_COLORS: Record<ConfidenceLevel, string> = {
+  VERY_HIGH: '#22c55e',
+  HIGH: '#84cc16',
+  MEDIUM: '#eab308',
+  LOW: '#f97316',
+  VERY_LOW: '#ef4444',
+};
+
+export function ConfidenceBadge({ confidence, level, showPercentage = true }: ConfidenceBadgeProps) {
+  const color = CONFIDENCE_COLORS[level];
+  const percentage = Math.round(confidence * 100);
+
+  return (
+    <View style={[confidenceStyles.container, { backgroundColor: `${color}20` }]}>
+      <View style={[confidenceStyles.dot, { backgroundColor: color }]} />
+      <Text style={[confidenceStyles.text, { color }]}>
+        {showPercentage ? `${percentage}%` : level.replace('_', ' ')}
+      </Text>
+    </View>
+  );
+}
+
+const confidenceStyles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+    gap: 5,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  text: {
+    fontSize: 11,
+    fontWeight: '600',
+  },
+});

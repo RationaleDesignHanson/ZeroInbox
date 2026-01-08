@@ -65,3 +65,51 @@ export function useUserSettings() {
     error: null,
   };
 }
+
+// Fetch single email by ID
+export function useEmail(emailId: string) {
+  // In production, this would use React Query to fetch from API
+  // For now, return a mock email for demo purposes
+  const mockEmail = emailId ? {
+    id: emailId,
+    title: 'Loading...',
+    summary: 'Email content loading...',
+    body: 'Full email body would appear here when loaded from the server.',
+    sender: {
+      name: 'Loading',
+      email: 'loading@example.com',
+    },
+    timeAgo: 'Just now',
+    priority: 'medium' as const,
+    type: 'mail' as const,
+    suggestedActions: [],
+    threadLength: 1,
+  } : null;
+
+  return {
+    data: mockEmail,
+    isLoading: false,
+    isError: false,
+    error: null,
+    refetch: async () => {},
+  };
+}
+
+// Execute an action on an email
+export function useExecuteAction() {
+  return {
+    mutate: async (data: { emailId: string; actionId: string; context?: Record<string, unknown> }) => {
+      console.log('Executing action:', data);
+      // In production, this would call the API
+      return { success: true };
+    },
+    mutateAsync: async (data: { emailId: string; actionId: string; context?: Record<string, unknown> }) => {
+      console.log('Executing action (async):', data);
+      // In production, this would call the API
+      return { success: true };
+    },
+    isLoading: false,
+    isPending: false,
+    error: null,
+  };
+}

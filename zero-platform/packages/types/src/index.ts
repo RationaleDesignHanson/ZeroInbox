@@ -81,3 +81,28 @@ export interface Toast {
   undoAction?: () => Promise<void>;
 }
 
+// Alias for SuggestedAction (backwards compatibility)
+export type ActionSuggestion = SuggestedAction & {
+  actionId: string;
+  actionType: ActionType;
+  confidence?: number;
+};
+
+// Confidence level enum
+export type ConfidenceLevel = 'VERY_HIGH' | 'HIGH' | 'MEDIUM' | 'LOW' | 'VERY_LOW';
+
+// Action types for buttons
+export type ActionType = 
+  | 'ARCHIVE' | 'DELETE' | 'REPLY' | 'REPLY_ALL' | 'FORWARD'
+  | 'SNOOZE' | 'LABEL' | 'STAR' | 'MARK_READ' | 'MARK_UNREAD'
+  | 'GO_TO' | 'TRACK' | 'UNSUBSCRIBE' | 'COMPOUND';
+
+// Helper to get confidence level from number
+export function getConfidenceLevel(confidence: number): ConfidenceLevel {
+  if (confidence >= 0.9) return 'VERY_HIGH';
+  if (confidence >= 0.75) return 'HIGH';
+  if (confidence >= 0.6) return 'MEDIUM';
+  if (confidence >= 0.4) return 'LOW';
+  return 'VERY_LOW';
+}
+
