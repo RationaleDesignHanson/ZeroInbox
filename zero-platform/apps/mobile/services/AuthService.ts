@@ -27,11 +27,11 @@ const MICROSOFT_REDIRECT_URI = AuthSession.makeRedirectUri({
   path: 'oauth/microsoft',
 });
 
-export type AuthProvider = 'google' | 'microsoft' | 'mock';
+export type AuthProviderType = 'google' | 'microsoft' | 'mock';
 
 export interface AuthUser {
   email: string;
-  provider: AuthProvider;
+  provider: AuthProviderType;
   token: string;
 }
 
@@ -58,7 +58,7 @@ class AuthServiceClass {
         return {
           token,
           email,
-          provider: provider as AuthProvider,
+          provider: provider as AuthProviderType,
         };
       }
 

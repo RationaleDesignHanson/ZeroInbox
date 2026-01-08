@@ -4,7 +4,7 @@
  */
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { AuthService, AuthUser, AuthProvider } from '../services/AuthService';
+import { AuthService, AuthUser } from '../services/AuthService';
 import { SecureStorage } from '../services/SecureStorage';
 
 interface AuthContextType {
