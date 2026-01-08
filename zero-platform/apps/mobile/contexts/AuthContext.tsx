@@ -34,13 +34,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize auth state on mount
   useEffect(() => {
+    let mounted = true;
+
     async function initializeAuth() {
       try {
+        if (!mounted) return;
         setIsLoading(true);
         
-        // Check for existing auth
-        const existingUser = await AuthService.initialize();
-        const mockMode = await SecureStorage.isUsingMockData();
+        // Check for existing auth - with defensive try-catch
+        let existingUser = null;
+        let mockMode = false;
+        
+        try {
+          existingUser = await AuthService.initialize();
+        } catch (e) {
+          console.warn('AuthContext: AuthService.initialize failed:', e);
+        }
+        
+        try {
+          mockMode = await SecureStorage.isUsingMockData();
+        } catch (e) {
+          console.warn('AuthContext: SecureStorage.isUsingMockData failed:', e);
+        }
+        
+        if (!mounted) return;
         
         if (existingUser) {
           setUser(existingUser);
@@ -50,11 +67,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch (err) {
         console.error('AuthContext: Failed to initialize:', err);
       } finally {
-        setIsLoading(false);
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     }
 
     initializeAuth();
+    
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const loginWithMock = useCallback(async () => {

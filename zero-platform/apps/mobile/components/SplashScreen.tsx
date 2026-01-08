@@ -13,7 +13,6 @@ import {
   Dimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, {
   useSharedValue,
@@ -22,8 +21,15 @@ import Animated, {
   withTiming,
   Easing,
 } from 'react-native-reanimated';
-import { FloatingParticles } from './FloatingParticles';
 import Constants from 'expo-constants';
+
+// Lazy load FloatingParticles to prevent crashes
+let FloatingParticles: React.ComponentType<{ particleCount?: number; particleSize?: number; speed?: number }> | null = null;
+try {
+  FloatingParticles = require('./FloatingParticles').FloatingParticles;
+} catch (e) {
+  console.warn('FloatingParticles failed to load:', e);
+}
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -99,8 +105,8 @@ export function SplashScreen({
         style={StyleSheet.absoluteFill}
       />
 
-      {/* Floating particles */}
-      <FloatingParticles particleCount={20} particleSize={4} speed={3} />
+      {/* Floating particles - conditionally rendered */}
+      {FloatingParticles && <FloatingParticles particleCount={20} particleSize={4} speed={3} />}
 
       <Animated.View style={[styles.content, containerAnimatedStyle]}>
         {/* Logo: 10000 */}
@@ -201,7 +207,8 @@ function AuthButton({
       disabled={disabled}
     >
       <View style={styles.authButtonCircle}>
-        <BlurView intensity={20} tint="dark" style={StyleSheet.absoluteFill} />
+        {/* Use a solid background instead of BlurView for stability */}
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: 'rgba(30, 30, 50, 0.8)' }]} />
         <View style={styles.authButtonInner}>
           {isLoading ? (
             <ActivityIndicator color="white" size="small" />

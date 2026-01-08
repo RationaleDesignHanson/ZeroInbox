@@ -3,29 +3,41 @@
  * Handles Google and Microsoft OAuth flows using expo-auth-session
  */
 
-import * as AuthSession from 'expo-auth-session';
-import * as WebBrowser from 'expo-web-browser';
 import { Platform } from 'react-native';
 import { SecureStorage } from './SecureStorage';
 
-// Required for OAuth flow completion
-WebBrowser.maybeCompleteAuthSession();
+// Lazy load OAuth modules to prevent crashes on app start
+let AuthSession: typeof import('expo-auth-session') | null = null;
+let WebBrowser: typeof import('expo-web-browser') | null = null;
 
 // OAuth Configuration
-const GOOGLE_CLIENT_ID = process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID || '';
-const MICROSOFT_CLIENT_ID = process.env.EXPO_PUBLIC_MICROSOFT_CLIENT_ID || '';
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://api.zeroinbox.app';
 
-// OAuth redirect URIs
-const GOOGLE_REDIRECT_URI = AuthSession.makeRedirectUri({
-  scheme: 'com.zeroinbox.app',
-  path: 'oauth/google',
-});
+// Initialize OAuth modules lazily
+async function initOAuthModules() {
+  if (!AuthSession) {
+    AuthSession = await import('expo-auth-session');
+  }
+  if (!WebBrowser) {
+    WebBrowser = await import('expo-web-browser');
+    try {
+      WebBrowser.maybeCompleteAuthSession();
+    } catch (e) {
+      console.warn('AuthService: maybeCompleteAuthSession failed:', e);
+    }
+  }
+}
 
-const MICROSOFT_REDIRECT_URI = AuthSession.makeRedirectUri({
-  scheme: 'com.zeroinbox.app',
-  path: 'oauth/microsoft',
-});
+// Get redirect URI (called after modules are loaded)
+function getRedirectUri(path: string): string {
+  if (!AuthSession) {
+    return '';
+  }
+  return AuthSession.makeRedirectUri({
+    scheme: 'com.zeroinbox.app',
+    path,
+  });
+}
 
 export type AuthProviderType = 'google' | 'microsoft' | 'mock';
 
@@ -96,6 +108,12 @@ class AuthServiceClass {
    */
   async loginWithGoogle(): Promise<AuthUser> {
     try {
+      // Initialize OAuth modules
+      await initOAuthModules();
+      if (!WebBrowser) {
+        throw new Error('OAuth modules not available');
+      }
+
       // Request auth URL from backend
       const authUrlResponse = await fetch(`${API_BASE_URL}/auth/gmail`);
       if (!authUrlResponse.ok) {
@@ -103,11 +121,12 @@ class AuthServiceClass {
       }
       
       const { authUrl } = await authUrlResponse.json();
+      const redirectUri = getRedirectUri('oauth/google');
 
       // Open browser for OAuth flow
       const result = await WebBrowser.openAuthSessionAsync(
         authUrl,
-        GOOGLE_REDIRECT_URI
+        redirectUri
       );
 
       if (result.type !== 'success') {
@@ -150,6 +169,12 @@ class AuthServiceClass {
    */
   async loginWithMicrosoft(): Promise<AuthUser> {
     try {
+      // Initialize OAuth modules
+      await initOAuthModules();
+      if (!WebBrowser) {
+        throw new Error('OAuth modules not available');
+      }
+
       // Request auth URL from backend
       const authUrlResponse = await fetch(`${API_BASE_URL}/auth/outlook`);
       if (!authUrlResponse.ok) {
@@ -157,11 +182,12 @@ class AuthServiceClass {
       }
       
       const { authUrl } = await authUrlResponse.json();
+      const redirectUri = getRedirectUri('oauth/microsoft');
 
       // Open browser for OAuth flow
       const result = await WebBrowser.openAuthSessionAsync(
         authUrl,
-        MICROSOFT_REDIRECT_URI
+        redirectUri
       );
 
       if (result.type !== 'success') {

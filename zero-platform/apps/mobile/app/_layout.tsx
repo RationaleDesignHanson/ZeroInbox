@@ -10,13 +10,17 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider } from '@zero/ui';
 import { initializeAPIClient } from '@zero/api';
 import { useEffect, useState, useCallback } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { SplashScreen as CustomSplashScreen } from '../components/SplashScreen';
 
 // Keep splash screen visible while we initialize
-SplashScreen.preventAutoHideAsync();
+try {
+  SplashScreen.preventAutoHideAsync();
+} catch (e) {
+  console.warn('SplashScreen.preventAutoHideAsync failed:', e);
+}
 
 // Initialize API client
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://api.zeroinbox.app';
