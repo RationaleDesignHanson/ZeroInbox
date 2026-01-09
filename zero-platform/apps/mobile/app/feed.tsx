@@ -149,13 +149,13 @@ export default function FeedScreen() {
   const handleSwipeUp = useCallback((card: EmailCard) => {
     HapticService.lightImpact();
     setActiveCard(card);
-    setShowSnoozeSheet(true);
+    setShowActionSheet(true); // Swipe UP = Actions
   }, []);
 
   const handleSwipeDown = useCallback((card: EmailCard) => {
     HapticService.lightImpact();
     setActiveCard(card);
-    setShowActionSheet(true);
+    setShowSnoozeSheet(true); // Swipe DOWN = Snooze
   }, []);
 
   const handleCardPress = useCallback((card: EmailCard) => {

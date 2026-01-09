@@ -33,13 +33,13 @@ const SWIPE_CONFIG: Record<SwipeDirection, {
     backgroundColor: 'rgba(34, 197, 94, 0.9)',
   },
   up: {
-    icon: 'apps',
-    label: 'More',
+    icon: 'flash',
+    label: 'Actions',
     color: '#fff',
     backgroundColor: 'rgba(168, 85, 247, 0.9)',
   },
   down: {
-    icon: 'time',
+    icon: 'moon',
     label: 'Snooze',
     color: '#fff',
     backgroundColor: 'rgba(234, 179, 8, 0.9)',
