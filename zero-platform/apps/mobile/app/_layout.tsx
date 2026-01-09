@@ -12,7 +12,7 @@ import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { SplashScreen } from '../components/SplashScreen';
 
 function RootLayoutNav() {
-  const { isAuthenticated, isLoading, loginWithMock, loginWithGoogle, loginWithMicrosoft } = useAuth();
+  const { isAuthenticated, isLoading, hasCompletedOnboarding, loginWithMock, loginWithGoogle, loginWithMicrosoft } = useAuth();
 
   // Show splash screen while loading or not authenticated
   if (isLoading) {
@@ -33,8 +33,12 @@ function RootLayoutNav() {
     );
   }
 
+  // Determine initial route based on onboarding status
+  const initialRouteName = hasCompletedOnboarding ? 'feed' : 'onboarding';
+
   return (
     <Stack
+      initialRouteName={initialRouteName}
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: '#0a0a0f' },
@@ -42,6 +46,7 @@ function RootLayoutNav() {
       }}
     >
       <Stack.Screen name="index" />
+      <Stack.Screen name="onboarding" />
       <Stack.Screen name="feed" />
       <Stack.Screen
         name="settings-modal"

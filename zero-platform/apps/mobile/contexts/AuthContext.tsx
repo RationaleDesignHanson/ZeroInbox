@@ -4,8 +4,11 @@
  */
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthService, AuthUser } from '../services/AuthService';
 import { SecureStorage } from '../services/SecureStorage';
+
+const ONBOARDING_KEY = 'hasCompletedOnboarding';
 
 interface AuthContextType {
   // State
@@ -14,6 +17,7 @@ interface AuthContextType {
   user: AuthUser | null;
   error: string | null;
   useMockData: boolean;
+  hasCompletedOnboarding: boolean;
 
   // Actions
   loginWithMock: () => Promise<void>;
@@ -21,6 +25,7 @@ interface AuthContextType {
   loginWithMicrosoft: () => Promise<void>;
   logout: () => Promise<void>;
   clearError: () => void;
+  setOnboardingComplete: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,6 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [useMockData, setUseMockData] = useState(false);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
 
   // Initialize auth state on mount
   useEffect(() => {
@@ -44,6 +50,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Check for existing auth - with defensive try-catch
         let existingUser = null;
         let mockMode = false;
+        let onboardingComplete = false;
         
         try {
           existingUser = await AuthService.initialize();
@@ -57,12 +64,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           console.warn('AuthContext: SecureStorage.isUsingMockData failed:', e);
         }
         
+        try {
+          const onboardingValue = await AsyncStorage.getItem(ONBOARDING_KEY);
+          onboardingComplete = onboardingValue === 'true';
+        } catch (e) {
+          console.warn('AuthContext: Failed to get onboarding state:', e);
+        }
+        
         if (!mounted) return;
         
         if (existingUser) {
           setUser(existingUser);
           setIsAuthenticated(true);
           setUseMockData(mockMode);
+          setHasCompletedOnboarding(onboardingComplete);
         }
       } catch (err) {
         console.error('AuthContext: Failed to initialize:', err);
@@ -137,17 +152,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setError(null);
   }, []);
 
+  const setOnboardingComplete = useCallback(async () => {
+    try {
+      await AsyncStorage.setItem(ONBOARDING_KEY, 'true');
+      setHasCompletedOnboarding(true);
+    } catch (e) {
+      console.error('AuthContext: Failed to set onboarding complete:', e);
+    }
+  }, []);
+
   const value: AuthContextType = {
     isAuthenticated,
     isLoading,
     user,
     error,
     useMockData,
+    hasCompletedOnboarding,
     loginWithMock,
     loginWithGoogle,
     loginWithMicrosoft,
     logout,
     clearError,
+    setOnboardingComplete,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
