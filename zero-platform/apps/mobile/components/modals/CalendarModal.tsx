@@ -1,6 +1,10 @@
 /**
  * CalendarModal - Add events to calendar
  * Used for schedule and add_to_calendar actions
+ * 
+ * NOTE: This is a STUB version that doesn't use expo-calendar
+ * to avoid crashes on builds without calendar permissions.
+ * Real calendar integration requires a new native build.
  */
 
 import React, { useState } from 'react';
@@ -11,11 +15,12 @@ import {
   Pressable,
   ScrollView,
   Platform,
+  Alert,
+  Linking,
 } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import * as Calendar from 'expo-calendar';
 import type { EmailCard, SuggestedAction } from '@zero/types';
 import { HapticService } from '../../services/HapticService';
 
@@ -51,50 +56,51 @@ export function CalendarModal({
     setIsAdding(true);
 
     try {
-      // Request calendar permissions
-      const { status } = await Calendar.requestCalendarPermissionsAsync();
-      
-      if (status !== 'granted') {
-        HapticService.error();
-        // Show permission error (in production, would show alert)
-        console.warn('Calendar permission denied');
-        setIsAdding(false);
-        return;
-      }
-
-      // Get default calendar
-      const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
-      const defaultCalendar = calendars.find(
-        (cal) => cal.allowsModifications && cal.source.name === 'Default'
-      ) || calendars[0];
-
-      if (!defaultCalendar) {
-        console.warn('No calendar found');
-        setIsAdding(false);
-        return;
-      }
-
-      // Parse date and time (simplified for demo)
+      // Create a calendar URL to open the native calendar app
+      // This works without needing expo-calendar permissions
       const startDate = new Date();
-      startDate.setHours(startDate.getHours() + 24); // Default to tomorrow
+      startDate.setHours(startDate.getHours() + 24);
       const endDate = new Date(startDate);
       endDate.setHours(endDate.getHours() + 1);
 
-      // Create event
-      await Calendar.createEventAsync(defaultCalendar.id, {
-        title: eventTitle,
-        startDate,
-        endDate,
-        location: eventLocation,
-        notes: eventDescription,
-        timeZone: 'America/New_York',
+      // Format for iOS calendar URL
+      const formatDateForURL = (date: Date) => {
+        return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+      };
+
+      // Try to open native calendar with the event
+      // This approach doesn't require expo-calendar
+      const calendarUrl = Platform.select({
+        ios: `calshow:${startDate.getTime() / 1000}`,
+        android: `content://com.android.calendar/time/${startDate.getTime()}`,
       });
 
-      HapticService.success();
-      onAdd();
+      if (calendarUrl) {
+        const canOpen = await Linking.canOpenURL(calendarUrl);
+        if (canOpen) {
+          await Linking.openURL(calendarUrl);
+        }
+      }
+
+      // Show success and instructions
+      Alert.alert(
+        'Add to Calendar',
+        `Event "${eventTitle}" details:\n\nDate: ${eventDate}\nTime: ${eventTime}${eventLocation ? `\nLocation: ${eventLocation}` : ''}\n\nPlease add this event manually in your calendar app.`,
+        [
+          { text: 'OK', onPress: () => {
+            HapticService.success();
+            onAdd();
+          }}
+        ]
+      );
     } catch (error) {
-      console.error('Failed to add to calendar:', error);
+      console.error('Failed to open calendar:', error);
       HapticService.error();
+      Alert.alert(
+        'Calendar',
+        'Unable to open calendar. Please add the event manually.',
+        [{ text: 'OK' }]
+      );
     } finally {
       setIsAdding(false);
     }
@@ -156,14 +162,12 @@ export function CalendarModal({
             )}
           </View>
 
-          {/* Calendar Selection (simplified) */}
-          <View style={styles.calendarSection}>
-            <Text style={styles.sectionTitle}>Add to</Text>
-            <View style={styles.calendarOption}>
-              <View style={[styles.calendarDot, { backgroundColor: '#22c55e' }]} />
-              <Text style={styles.calendarName}>Default Calendar</Text>
-              <Ionicons name="checkmark" size={20} color="#22c55e" />
-            </View>
+          {/* Info about calendar integration */}
+          <View style={styles.infoCard}>
+            <Ionicons name="information-circle" size={20} color="rgba(255,255,255,0.5)" />
+            <Text style={styles.infoText}>
+              Tap "Add Event" to open your calendar with these details.
+            </Text>
           </View>
         </ScrollView>
 
@@ -178,7 +182,7 @@ export function CalendarModal({
             disabled={isAdding}
           >
             <Text style={styles.addButtonText}>
-              {isAdding ? 'Adding...' : 'Add Event'}
+              {isAdding ? 'Opening...' : 'Add Event'}
             </Text>
           </Pressable>
         </View>
@@ -238,7 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderRadius: 16,
     padding: 16,
-    marginBottom: 20,
+    marginBottom: 16,
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.1)',
   },
@@ -277,34 +281,20 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.7)',
     lineHeight: 20,
   },
-  calendarSection: {
-    marginBottom: 20,
-  },
-  sectionTitle: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: 'rgba(255, 255, 255, 0.5)',
-    marginBottom: 10,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  calendarOption: {
+  infoCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    gap: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderRadius: 12,
-    padding: 14,
-    gap: 12,
+    padding: 12,
+    marginBottom: 20,
   },
-  calendarDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-  },
-  calendarName: {
-    fontSize: 16,
-    color: 'white',
+  infoText: {
     flex: 1,
+    fontSize: 13,
+    color: 'rgba(255, 255, 255, 0.5)',
+    lineHeight: 18,
   },
   actions: {
     flexDirection: 'row',
@@ -339,4 +329,3 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
-

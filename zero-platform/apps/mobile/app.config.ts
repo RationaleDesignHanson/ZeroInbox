@@ -26,9 +26,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       NSCameraUsageDescription: 'Scan documents and QR codes',
       NSPhotoLibraryUsageDescription: 'Attach photos to emails',
       NSMicrophoneUsageDescription: 'Voice commands and dictation',
-      NSCalendarsUsageDescription: 'Add events from emails to your calendar',
-      NSCalendarsFullAccessUsageDescription: 'Add events from emails to your calendar',
-      NSRemindersUsageDescription: 'Create reminders from emails',
       UIBackgroundModes: ['audio', 'fetch', 'remote-notification'],
     },
     entitlements: {
@@ -51,8 +48,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       'android.permission.RECEIVE_BOOT_COMPLETED',
       'android.permission.INTERNET',
       'android.permission.ACCESS_NETWORK_STATE',
-      'android.permission.READ_CALENDAR',
-      'android.permission.WRITE_CALENDAR',
     ],
     googleServicesFile: process.env.GOOGLE_SERVICES_JSON || './google-services.json',
   },
@@ -95,12 +90,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     'expo-font',
     'expo-secure-store',
     'expo-local-authentication',
-    [
-      'expo-calendar',
-      {
-        calendarPermission: 'Allow $(PRODUCT_NAME) to access your calendar to add events from emails.',
-      },
-    ],
+    // NOTE: expo-calendar removed from plugins - using native Linking instead
+    // to avoid crash on builds without calendar permissions
   ],
   experiments: {
     typedRoutes: true,
