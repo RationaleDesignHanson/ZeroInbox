@@ -367,6 +367,63 @@ export default function SettingsModal() {
             />
           </SettingsSection>
 
+          {/* Model Training Section */}
+          <SettingsSection title="MODEL TRAINING">
+            <SettingsItem
+              icon="🧠"
+              title="Train Intent Classifier"
+              subtitle="Improve AI accuracy with your data"
+              onPress={() => Alert.alert('Model Training', 'This would open the model training interface.')}
+            />
+            <SettingsItem
+              icon="📊"
+              title="View Training Data"
+              subtitle="Review swipe patterns and corrections"
+              onPress={() => Alert.alert('Training Data', 'This would show your training data history.')}
+            />
+            <SettingsItem
+              icon="🔄"
+              title="Reset Model"
+              subtitle="Clear personalized training data"
+              onPress={() => Alert.alert(
+                'Reset Model',
+                'This will clear all personalized training data. The model will return to default behavior.',
+                [
+                  { text: 'Cancel', style: 'cancel' },
+                  { text: 'Reset', style: 'destructive', onPress: () => Alert.alert('Model Reset', 'Training data cleared.') }
+                ]
+              )}
+            />
+            <SettingsItem
+              icon="📈"
+              title="Model Stats"
+              subtitle="Accuracy: 94.2% • 1,247 samples"
+              showArrow={false}
+            />
+          </SettingsSection>
+
+          {/* Action Testing Section */}
+          <SettingsSection title="ACTION TESTING">
+            <SettingsItem
+              icon="🧪"
+              title="Test Email Composer"
+              subtitle="Preview quick reply modal"
+              onPress={() => router.push('/action/quick_reply?emailId=test-1&context=' + encodeURIComponent(JSON.stringify({ subject: 'Test Subject' })))}
+            />
+            <SettingsItem
+              icon="📅"
+              title="Test Calendar Modal"
+              subtitle="Preview add to calendar flow"
+              onPress={() => router.push('/action/add_to_calendar?emailId=test-1&context=' + encodeURIComponent(JSON.stringify({ title: 'Test Event', date: 'Tomorrow at 2pm' })))}
+            />
+            <SettingsItem
+              icon="✅"
+              title="Test Confirmation Modal"
+              subtitle="Preview action confirmation"
+              onPress={() => router.push('/action/confirm?emailId=test-1')}
+            />
+          </SettingsSection>
+
           {/* App Settings Section */}
           <SettingsSection title="APP SETTINGS">
             <ToggleItem

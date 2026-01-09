@@ -57,6 +57,13 @@ function RootLayoutNav() {
           animation: 'slide_from_right',
         }}
       />
+      <Stack.Screen
+        name="action/[actionId]"
+        options={{
+          presentation: 'transparentModal',
+          animation: 'fade',
+        }}
+      />
     </Stack>
   );
 }
