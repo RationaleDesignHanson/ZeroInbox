@@ -6,6 +6,7 @@
 import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import type { EmailCard, SuggestedAction } from '@zero/types';
 
@@ -149,15 +150,66 @@ export default function FeedScreen() {
   const handleSwipeRight = useCallback((card: EmailCard) => {
     HapticService.mediumImpact();
     
-    // Execute primary action
+    // Get primary action
     const primaryAction = card.suggestedActions?.find((a) => a.isPrimary);
-    if (primaryAction) {
-      ActionRouter.executeAction(primaryAction, card);
+    if (!primaryAction) {
+      // No primary action - just archive
+      removeCard(card.id);
+      showToast('Archived');
+      return;
     }
     
-    removeCard(card.id);
-    showToast(`${primaryAction?.displayName || 'Action'} completed`);
-  }, [removeCard, showToast]);
+    // Check if this action needs a modal
+    const shouldShowModal = ActionRouter.shouldShowModal(primaryAction.id);
+    
+    if (shouldShowModal) {
+      // Show the action modal instead of auto-executing
+      setActiveCard(card);
+      const modalType = ActionRouter.getModalType(primaryAction.id);
+      const fullAction: SuggestedAction = {
+        id: primaryAction.id,
+        displayName: primaryAction.displayName,
+        type: primaryAction.type || (primaryAction.id as any),
+      };
+      setActiveAction(fullAction);
+      
+      // Determine which modal to show based on action type
+      const actionModal = getModalForAction(primaryAction.id);
+      switch (actionModal) {
+        case 'email':
+          setShowEmailComposer(true);
+          break;
+        case 'calendar':
+          setShowCalendarModal(true);
+          break;
+        case 'document':
+          setShowDocumentModal(true);
+          break;
+        case 'confirmation':
+          setShowConfirmationModal(true);
+          break;
+        default:
+          // For other modals, navigate to the dynamic action route
+          router.push({
+            pathname: '/action/[actionId]',
+            params: {
+              actionId: primaryAction.id,
+              emailId: card.id,
+              context: encodeURIComponent(JSON.stringify({
+                subject: card.title,
+                senderEmail: card.sender?.email,
+                senderName: card.sender?.name,
+              })),
+            },
+          });
+          break;
+      }
+    } else {
+      // Instant action - execute immediately
+      removeCard(card.id);
+      showToast(`${primaryAction.displayName} completed`);
+    }
+  }, [removeCard, showToast, getModalForAction, router]);
 
   const handleSwipeUp = useCallback((card: EmailCard) => {
     HapticService.lightImpact();
@@ -382,7 +434,18 @@ export default function FeedScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
+    <View style={styles.container}>
+      {/* Ambient gradient background */}
+      <LinearGradient
+        colors={mode === 'mail' 
+          ? ['#0a0a0f', '#1a1a2e', '#16213e', '#0a0a0f']
+          : ['#0a0a0f', '#1e1e2f', '#2d1a3e', '#0a0a0f']
+        }
+        locations={[0, 0.3, 0.7, 1]}
+        style={StyleSheet.absoluteFill}
+      />
+      
+      <SafeAreaView style={styles.safeArea} edges={['top']}>
       {/* Card Stack */}
       <View style={styles.cardContainer}>
         <CardStack
@@ -507,7 +570,8 @@ export default function FeedScreen() {
           action={activeAction}
         />
       )}
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 }
 
@@ -515,6 +579,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0a0a0f',
+  },
+  safeArea: {
+    flex: 1,
   },
   cardContainer: {
     flex: 1,

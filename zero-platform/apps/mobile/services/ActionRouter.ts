@@ -8,33 +8,78 @@ import * as Linking from 'expo-linking';
 import * as WebBrowser from 'expo-web-browser';
 import type { EmailCard, SuggestedAction } from '@zero/types';
 import { HapticService } from './HapticService';
+import { ACTION_CONFIGS, getActionConfig, ActionConfig } from '../data/actionConfigs';
 
 // Action types matching iOS implementation
 export type ActionType = 'GO_TO' | 'IN_APP';
 
-// Modal types for IN_APP actions
+// All modal types supported by the app
 export type ModalType =
-  | 'quick_reply'
-  | 'add_to_calendar'
-  | 'track_package'
-  | 'pay_invoice'
-  | 'view_document'
-  | 'sign_form'
-  | 'check_in_flight'
-  | 'write_review'
-  | 'snooze'
-  | 'save_for_later'
-  | 'view_details'
-  | 'confirmation'
-  | 'share'
-  | 'unsubscribe';
+  // Shipping
+  | 'TrackPackageModal'
+  | 'ScheduleDeliveryTimeModal'
+  | 'PickupDetailsModal'
+  | 'ContactDriverModal'
+  // Financial
+  | 'PayInvoiceModal'
+  | 'UpdatePaymentModal'
+  | 'CancelSubscriptionModal'
+  | 'ScheduledPurchaseModal'
+  // Travel
+  | 'CheckInFlightModal'
+  | 'ViewItineraryModal'
+  | 'ReservationModal'
+  // Calendar
+  | 'AddToCalendarModal'
+  | 'ScheduleMeetingModal'
+  | 'RSVPModal'
+  // Documents
+  | 'DocumentViewerModal'
+  | 'DocumentPreviewModal'
+  | 'SignFormModal'
+  | 'SpreadsheetViewerModal'
+  | 'AttachmentViewerModal'
+  // Communication
+  | 'QuickReplyModal'
+  | 'SendMessageModal'
+  | 'SaveContactModal'
+  // Shopping
+  | 'BrowseShoppingModal'
+  | 'ShoppingPurchaseModal'
+  | 'ShoppingAutomationModal'
+  | 'WriteReviewModal'
+  // Account
+  | 'AccountVerificationModal'
+  | 'ReviewSecurityModal'
+  | 'ProvideAccessCodeModal'
+  // Utilities
+  | 'UnsubscribeModal'
+  | 'AddReminderModal'
+  | 'AddToNotesModal'
+  | 'AddToWalletModal'
+  | 'ShareModal'
+  | 'SnoozeModal'
+  // Content
+  | 'NewsletterSummaryModal'
+  | 'ReadCommunityPostModal'
+  | 'ViewPostCommentsModal'
+  | 'ViewDetailsModal'
+  | 'ViewActivityModal'
+  | 'ViewActivityDetailsModal'
+  // Infrastructure
+  | 'PrepareForOutageModal'
+  | 'ViewOutageDetailsModal'
+  | 'OpenAppModal'
+  // Quick actions
+  | 'ConfirmationModal';
 
 // Result of routing an action
 export interface ActionRouteResult {
   type: ActionType;
-  modalType?: ModalType;
+  modalType: ModalType;
+  actionConfig: ActionConfig | null;
   url?: string;
-  context?: Record<string, string>;
+  context: Record<string, string>;
 }
 
 // Action modal event handler types
@@ -42,7 +87,8 @@ export type ActionModalHandler = (
   modalType: ModalType,
   card: EmailCard,
   action: SuggestedAction,
-  context?: Record<string, string>
+  actionConfig: ActionConfig | null,
+  context: Record<string, string>
 ) => void;
 
 // URL mappings for GO_TO actions
@@ -67,48 +113,13 @@ const URL_MAPPINGS: Record<string, string[]> = {
   unsubscribe: ['unsubscribeUrl', 'url'],
 };
 
-// Modal component mappings for IN_APP actions
-const MODAL_MAPPINGS: Record<string, ModalType> = {
-  reply: 'quick_reply',
-  quick_reply: 'quick_reply',
-  respond: 'quick_reply',
-  acknowledge: 'confirmation',
-  confirm_attendance: 'confirmation',
-  schedule: 'add_to_calendar',
-  add_to_calendar: 'add_to_calendar',
-  view_document: 'view_document',
-  sign_document: 'sign_form',
-  sign_form: 'sign_form',
-  track_package: 'track_package',
-  pay_invoice: 'pay_invoice',
-  check_in_flight: 'check_in_flight',
-  write_review: 'write_review',
-  snooze: 'snooze',
-  save_later: 'save_for_later',
-  save_for_later: 'save_for_later',
-  archive: 'confirmation',
-  share: 'share',
-  unsubscribe: 'unsubscribe',
-};
-
-// Actions that should always open externally (GO_TO)
-const GO_TO_ACTIONS = new Set([
-  'track_package',
-  'pay_invoice',
-  'view_order',
-  'check_in_flight',
-  'reset_password',
-  'verify_account',
-  'register_event',
-  'view_ticket',
-  'join_meeting',
-  'download_receipt',
-  'claim_deal',
-  'view_product',
-  'complete_cart',
-  'manage_booking',
-  'contact_support',
-  'open_link',
+// Actions that can execute immediately without showing a modal
+const INSTANT_ACTIONS = new Set([
+  'archive',
+  'delete',
+  'mark_read',
+  'mark_unread',
+  'save_for_later',
 ]);
 
 class ActionRouterService {
@@ -130,51 +141,118 @@ class ActionRouterService {
   }
 
   /**
+   * Get action config from registry
+   */
+  getConfig(actionId: string): ActionConfig | null {
+    return getActionConfig(actionId) || null;
+  }
+
+  /**
+   * Check if action should show a modal
+   */
+  shouldShowModal(actionId: string): boolean {
+    const config = this.getConfig(actionId);
+    if (!config) return true; // Default to showing modal for unknown actions
+    
+    // IN_APP actions show modals, GO_TO actions may or may not
+    if (config.actionType === 'IN_APP') {
+      return !INSTANT_ACTIONS.has(actionId);
+    }
+    
+    return false;
+  }
+
+  /**
+   * Get the modal type for an action
+   */
+  getModalType(actionId: string): ModalType {
+    const config = this.getConfig(actionId);
+    if (config?.modalComponent) {
+      return config.modalComponent as ModalType;
+    }
+    
+    // Fallback to view details
+    return 'ViewDetailsModal';
+  }
+
+  /**
    * Route an action to determine how it should be executed
    */
   routeAction(action: SuggestedAction, card: EmailCard): ActionRouteResult {
     const actionId = action.id.toLowerCase();
     const context = this.extractContext(action, card);
+    const config = this.getConfig(actionId);
 
-    // Check if this is a GO_TO action
-    if (GO_TO_ACTIONS.has(actionId) || this.hasExternalUrl(actionId, context)) {
+    // Determine action type
+    const actionType: ActionType = config?.actionType || 'IN_APP';
+    
+    // Get modal type
+    const modalType = this.getModalType(actionId);
+
+    // Check for external URL
+    if (actionType === 'GO_TO' || this.hasExternalUrl(actionId, context)) {
       const url = this.getUrlForAction(actionId, context);
       return {
         type: 'GO_TO',
+        modalType,
+        actionConfig: config,
         url,
         context,
       };
     }
 
-    // Otherwise it's an IN_APP action
-    const modalType = MODAL_MAPPINGS[actionId] || 'view_details';
     return {
       type: 'IN_APP',
       modalType,
+      actionConfig: config,
       context,
     };
   }
 
   /**
-   * Execute an action (either open URL or show modal)
+   * Execute an action - either show modal or open URL
    */
   async executeAction(
     action: SuggestedAction,
     card: EmailCard
-  ): Promise<{ success: boolean; message?: string }> {
+  ): Promise<{ success: boolean; showModal: boolean; modalType?: ModalType; message?: string }> {
     const route = this.routeAction(action, card);
+    const actionId = action.id.toLowerCase();
 
     HapticService.mediumImpact();
 
+    // Check if this should be an instant action (no modal)
+    if (INSTANT_ACTIONS.has(actionId)) {
+      return { 
+        success: true, 
+        showModal: false,
+        message: `${action.displayName} completed`
+      };
+    }
+
+    // GO_TO actions open external URL
     if (route.type === 'GO_TO' && route.url) {
-      return this.executeGoToAction(route.url);
+      const result = await this.executeGoToAction(route.url);
+      return { ...result, showModal: false };
     }
 
-    if (route.type === 'IN_APP' && route.modalType) {
-      return this.executeInAppAction(route.modalType, card, action, route.context);
+    // IN_APP actions show modal
+    if (route.type === 'IN_APP') {
+      if (this.modalHandler) {
+        this.modalHandler(route.modalType, card, action, route.actionConfig, route.context);
+        return { success: true, showModal: true, modalType: route.modalType };
+      }
+      
+      // No handler registered - return info about which modal should be shown
+      return { 
+        success: true, 
+        showModal: true, 
+        modalType: route.modalType,
+        message: 'Modal handler not registered' 
+      };
     }
 
-    return { success: false, message: 'Unknown action type' };
+    return { success: false, showModal: false, message: 'Unknown action type' };
   }
 
   /**
@@ -208,24 +286,6 @@ class ActionRouterService {
         return { success: false, message: 'Failed to open link' };
       }
     }
-  }
-
-  /**
-   * Execute an IN_APP action by showing a modal
-   */
-  private executeInAppAction(
-    modalType: ModalType,
-    card: EmailCard,
-    action: SuggestedAction,
-    context?: Record<string, string>
-  ): { success: boolean; message?: string } {
-    if (!this.modalHandler) {
-      console.warn('ActionRouter: No modal handler registered');
-      return { success: false, message: 'Modal handler not registered' };
-    }
-
-    this.modalHandler(modalType, card, action, context);
-    return { success: true };
   }
 
   /**
@@ -271,9 +331,13 @@ class ActionRouterService {
     context.cardTitle = card.title;
     if (card.sender?.email) {
       context.senderEmail = card.sender.email;
+      context.recipientEmail = card.sender.email; // For replies
     }
     if (card.sender?.name) {
       context.senderName = card.sender.name;
+    }
+    if (card.title) {
+      context.subject = `Re: ${card.title}`;
     }
 
     return context;
@@ -336,7 +400,27 @@ class ActionRouterService {
     // Generic tracking search
     return `https://www.google.com/search?q=track+${encodeURIComponent(trackingNumber)}`;
   }
+
+  /**
+   * Get all available actions (for gallery)
+   */
+  getAllActions(): ActionConfig[] {
+    return ACTION_CONFIGS;
+  }
+
+  /**
+   * Get actions filtered by mode
+   */
+  getActionsForMode(mode: 'mail' | 'ads'): ActionConfig[] {
+    return ACTION_CONFIGS.filter((a) => a.mode === mode || a.mode === 'both');
+  }
+
+  /**
+   * Get actions filtered by category
+   */
+  getActionsInCategory(category: string): ActionConfig[] {
+    return ACTION_CONFIGS.filter((a) => a.category === category);
+  }
 }
 
 export const ActionRouter = new ActionRouterService();
-

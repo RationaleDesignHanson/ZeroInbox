@@ -405,22 +405,28 @@ export default function SettingsModal() {
           {/* Action Testing Section */}
           <SettingsSection title="ACTION TESTING">
             <SettingsItem
-              icon="🧪"
-              title="Test Email Composer"
-              subtitle="Preview quick reply modal"
-              onPress={() => router.push('/action/quick_reply?emailId=test-1&context=' + encodeURIComponent(JSON.stringify({ subject: 'Test Subject' })))}
+              icon="🎨"
+              title="Action Modal Gallery"
+              subtitle="Test all 46+ action modals"
+              onPress={() => router.push('/action-gallery')}
             />
             <SettingsItem
-              icon="📅"
-              title="Test Calendar Modal"
-              subtitle="Preview add to calendar flow"
-              onPress={() => router.push('/action/add_to_calendar?emailId=test-1&context=' + encodeURIComponent(JSON.stringify({ title: 'Test Event', date: 'Tomorrow at 2pm' })))}
+              icon="📦"
+              title="Test Track Package"
+              subtitle="Premium modal with tracking timeline"
+              onPress={() => router.push('/action/track_package?emailId=test-1&context=' + encodeURIComponent(JSON.stringify({ trackingNumber: '1Z999AA10123456784', carrier: 'UPS', estimatedDelivery: 'Tomorrow' })))}
             />
             <SettingsItem
-              icon="✅"
-              title="Test Confirmation Modal"
-              subtitle="Preview action confirmation"
-              onPress={() => router.push('/action/confirm?emailId=test-1')}
+              icon="💳"
+              title="Test Pay Invoice"
+              subtitle="Premium modal with payment options"
+              onPress={() => router.push('/action/pay_invoice?emailId=test-1&context=' + encodeURIComponent(JSON.stringify({ invoiceId: 'INV-001', amount: '$149.99', merchant: 'Acme Corp' })))}
+            />
+            <SettingsItem
+              icon="✈️"
+              title="Test Flight Check-In"
+              subtitle="Premium modal with flight details"
+              onPress={() => router.push('/action/check_in_flight?emailId=test-1&context=' + encodeURIComponent(JSON.stringify({ flightNumber: 'AA 1234', airline: 'American Airlines', departureTime: '10:30 AM' })))}
             />
           </SettingsSection>
 
