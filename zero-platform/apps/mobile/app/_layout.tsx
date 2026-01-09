@@ -64,6 +64,13 @@ function RootLayoutNav() {
           animation: 'fade',
         }}
       />
+      <Stack.Screen
+        name="model-tuning"
+        options={{
+          presentation: 'modal',
+          animation: 'slide_from_bottom',
+        }}
+      />
     </Stack>
   );
 }

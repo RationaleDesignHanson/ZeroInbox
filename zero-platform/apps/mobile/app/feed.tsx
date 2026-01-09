@@ -18,6 +18,12 @@ import { SnoozePickerSheet } from '../components/SnoozePickerSheet';
 import { ActionToast } from '../components/ActionToast';
 import { SearchModal } from '../components/SearchModal';
 
+// Action Modals
+import { EmailComposerModal } from '../components/modals/EmailComposerModal';
+import { CalendarModal } from '../components/modals/CalendarModal';
+import { ConfirmationModal } from '../components/modals/ConfirmationModal';
+import { DocumentViewerModal } from '../components/modals/DocumentViewerModal';
+
 // Services
 import { HapticService } from '../services/HapticService';
 import { ActionRouter } from '../services/ActionRouter';
@@ -59,6 +65,13 @@ export default function FeedScreen() {
   
   // Current card for action sheets
   const [activeCard, setActiveCard] = useState<EmailCard | null>(null);
+  
+  // Action modal state
+  const [activeAction, setActiveAction] = useState<SuggestedAction | null>(null);
+  const [showEmailComposer, setShowEmailComposer] = useState(false);
+  const [showCalendarModal, setShowCalendarModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showDocumentModal, setShowDocumentModal] = useState(false);
   
   // Undo stack
   const undoStack = useRef<{ card: EmailCard; mode: FeedMode }[]>([]);
@@ -167,22 +180,129 @@ export default function FeedScreen() {
     setCurrentIndex(index);
   }, []);
 
+  // Determine which modal to show for an action
+  const getModalForAction = useCallback((actionId: string): 'email' | 'calendar' | 'document' | 'confirmation' | 'none' => {
+    // Reply actions
+    if (['reply', 'quick_reply', 'forward', 'respond'].includes(actionId)) {
+      return 'email';
+    }
+    // Calendar actions
+    if (['schedule', 'add_to_calendar', 'rsvp_yes', 'rsvp_no', 'schedule_meeting'].includes(actionId)) {
+      return 'calendar';
+    }
+    // Document actions
+    if (['view_document', 'sign_document', 'review_attachment', 'sign_form'].includes(actionId)) {
+      return 'document';
+    }
+    // Actions that need confirmation
+    if (['archive', 'delete', 'acknowledge', 'confirm_attendance', 'mark_read', 'mark_unread'].includes(actionId)) {
+      return 'confirmation';
+    }
+    // Quick actions that don't need a modal
+    return 'none';
+  }, []);
+
   // Action sheet handlers
-  const handleSelectAction = useCallback((actionId: string, actionName: string) => {
+  const handleSelectAction = useCallback((action: { id: string; displayName: string }) => {
     if (!activeCard) return;
     
-    HapticService.mediumImpact();
+    HapticService.lightImpact();
     setShowActionSheet(false);
     
-    const action = activeCard.suggestedActions?.find((a) => a.id === actionId);
-    if (action) {
-      ActionRouter.executeAction(action, activeCard);
+    const modalType = getModalForAction(action.id);
+    
+    // Create a full action object
+    const fullAction: SuggestedAction = {
+      id: action.id,
+      displayName: action.displayName,
+      type: action.id as any,
+    };
+    setActiveAction(fullAction);
+    
+    switch (modalType) {
+      case 'email':
+        setShowEmailComposer(true);
+        break;
+      case 'calendar':
+        setShowCalendarModal(true);
+        break;
+      case 'document':
+        setShowDocumentModal(true);
+        break;
+      case 'confirmation':
+        setShowConfirmationModal(true);
+        break;
+      case 'none':
+      default:
+        // Execute immediately without modal
+        ActionRouter.executeAction(fullAction, activeCard);
+        removeCard(activeCard.id);
+        showToast(`${action.displayName} completed`);
+        setActiveCard(null);
+        setActiveAction(null);
+        break;
+    }
+  }, [activeCard, getModalForAction, removeCard, showToast]);
+  
+  // Modal completion handlers
+  const handleEmailSend = useCallback((message: string) => {
+    if (!activeCard || !activeAction) return;
+    
+    HapticService.success();
+    setShowEmailComposer(false);
+    removeCard(activeCard.id);
+    showToast('Reply sent');
+    setActiveCard(null);
+    setActiveAction(null);
+  }, [activeCard, activeAction, removeCard, showToast]);
+  
+  const handleCalendarAdd = useCallback(() => {
+    if (!activeCard || !activeAction) return;
+    
+    HapticService.success();
+    setShowCalendarModal(false);
+    removeCard(activeCard.id);
+    showToast('Added to calendar');
+    setActiveCard(null);
+    setActiveAction(null);
+  }, [activeCard, activeAction, removeCard, showToast]);
+  
+  const handleConfirmAction = useCallback(() => {
+    if (!activeCard || !activeAction) return;
+    
+    HapticService.success();
+    setShowConfirmationModal(false);
+    ActionRouter.executeAction(activeAction, activeCard);
+    removeCard(activeCard.id);
+    showToast(`${activeAction.displayName} completed`);
+    setActiveCard(null);
+    setActiveAction(null);
+  }, [activeCard, activeAction, removeCard, showToast]);
+  
+  const handleDocumentAction = useCallback((actionType: string) => {
+    if (!activeCard || !activeAction) return;
+    
+    HapticService.success();
+    setShowDocumentModal(false);
+    
+    if (actionType === 'sign') {
+      showToast('Document signed');
+    } else {
+      showToast('Document downloaded');
     }
     
     removeCard(activeCard.id);
-    showToast(`${actionName} completed`);
     setActiveCard(null);
-  }, [activeCard, removeCard, showToast]);
+    setActiveAction(null);
+  }, [activeCard, activeAction, removeCard, showToast]);
+  
+  const closeAllModals = useCallback(() => {
+    setShowEmailComposer(false);
+    setShowCalendarModal(false);
+    setShowConfirmationModal(false);
+    setShowDocumentModal(false);
+    setActiveAction(null);
+  }, []);
 
   const handleSnooze = useCallback((duration: string) => {
     if (!activeCard) return;
@@ -329,6 +449,62 @@ export default function FeedScreen() {
           actionLabel={toast.actionLabel}
           onAction={toast.onAction}
           onDismiss={() => setToast(null)}
+        />
+      )}
+      
+      {/* Email Composer Modal */}
+      {activeCard && activeAction && (
+        <EmailComposerModal
+          visible={showEmailComposer}
+          onClose={() => {
+            setShowEmailComposer(false);
+            closeAllModals();
+          }}
+          onSend={handleEmailSend}
+          card={activeCard}
+          action={activeAction}
+        />
+      )}
+      
+      {/* Calendar Modal */}
+      {activeCard && activeAction && (
+        <CalendarModal
+          visible={showCalendarModal}
+          onClose={() => {
+            setShowCalendarModal(false);
+            closeAllModals();
+          }}
+          onAdd={handleCalendarAdd}
+          card={activeCard}
+          action={activeAction}
+        />
+      )}
+      
+      {/* Confirmation Modal */}
+      {activeCard && activeAction && (
+        <ConfirmationModal
+          visible={showConfirmationModal}
+          onClose={() => {
+            setShowConfirmationModal(false);
+            closeAllModals();
+          }}
+          onConfirm={handleConfirmAction}
+          card={activeCard}
+          action={activeAction}
+        />
+      )}
+      
+      {/* Document Viewer Modal */}
+      {activeCard && activeAction && (
+        <DocumentViewerModal
+          visible={showDocumentModal}
+          onClose={() => {
+            setShowDocumentModal(false);
+            closeAllModals();
+          }}
+          onAction={handleDocumentAction}
+          card={activeCard}
+          action={activeAction}
         />
       )}
     </SafeAreaView>

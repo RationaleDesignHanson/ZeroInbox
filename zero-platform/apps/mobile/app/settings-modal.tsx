@@ -372,14 +372,14 @@ export default function SettingsModal() {
             <SettingsItem
               icon="🧠"
               title="Train Intent Classifier"
-              subtitle="Improve AI accuracy with your data"
-              onPress={() => Alert.alert('Model Training', 'This would open the model training interface.')}
+              subtitle="Help improve AI with feedback"
+              onPress={() => router.push('/model-tuning')}
             />
             <SettingsItem
               icon="📊"
               title="View Training Data"
               subtitle="Review swipe patterns and corrections"
-              onPress={() => Alert.alert('Training Data', 'This would show your training data history.')}
+              onPress={() => router.push('/model-tuning')}
             />
             <SettingsItem
               icon="🔄"
