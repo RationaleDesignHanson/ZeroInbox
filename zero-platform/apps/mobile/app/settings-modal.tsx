@@ -20,6 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
 import Constants from 'expo-constants';
+import { router } from 'expo-router';
 import { useAuth } from '../contexts/AuthContext';
 import { SettingsService } from '../services/SettingsService';
 import { HapticService } from '../services/HapticService';
@@ -28,10 +29,6 @@ import { HapticService } from '../services/HapticService';
 const PRIVACY_POLICY_URL = 'https://zeroinbox.seedny.com/privacy';
 const TERMS_OF_SERVICE_URL = 'https://zeroinbox.seedny.com/terms';
 const SUPPORT_EMAIL = 'support@zeroinbox.app';
-
-interface SettingsModalProps {
-  onClose: () => void;
-}
 
 interface SettingsItemProps {
   title: string;
@@ -139,8 +136,14 @@ function SettingsSection({
   );
 }
 
-export default function SettingsModal({ onClose }: SettingsModalProps) {
+export default function SettingsModal() {
   const { user, logout, useMockData } = useAuth();
+  
+  // Close modal using router
+  const handleClose = useCallback(() => {
+    HapticService.lightImpact();
+    router.back();
+  }, []);
 
   // Settings state
   const [isLoading, setIsLoading] = useState(true);
@@ -256,11 +259,11 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
         style: 'destructive',
         onPress: async () => {
           await logout();
-          onClose();
+          handleClose();
         },
       },
     ]);
-  }, [logout, onClose]);
+  }, [logout, handleClose]);
 
   const handleResetOnboarding = useCallback(() => {
     Alert.alert('Reset Onboarding', 'This will show the welcome flow again.', [
@@ -305,7 +308,7 @@ export default function SettingsModal({ onClose }: SettingsModalProps) {
         <View style={styles.header}>
           <View style={styles.headerLeft} />
           <Text style={styles.headerTitle}>Settings</Text>
-          <Pressable style={styles.closeButton} onPress={onClose}>
+          <Pressable style={styles.closeButton} onPress={handleClose}>
             <Ionicons name="close" size={24} color="white" />
           </Pressable>
         </View>
