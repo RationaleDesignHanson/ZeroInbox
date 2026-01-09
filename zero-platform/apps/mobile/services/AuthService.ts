@@ -1,43 +1,13 @@
 /**
  * AuthService - OAuth authentication service
- * Handles Google and Microsoft OAuth flows using expo-auth-session
+ * Handles Google and Microsoft OAuth flows
+ * 
+ * NOTE: Real OAuth requires backend API. For now, show helpful message
+ * and offer mock data as fallback.
  */
 
-import { Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { SecureStorage } from './SecureStorage';
-
-// Lazy load OAuth modules to prevent crashes on app start
-let AuthSession: typeof import('expo-auth-session') | null = null;
-let WebBrowser: typeof import('expo-web-browser') | null = null;
-
-// OAuth Configuration
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://api.zeroinbox.app';
-
-// Initialize OAuth modules lazily
-async function initOAuthModules() {
-  if (!AuthSession) {
-    AuthSession = await import('expo-auth-session');
-  }
-  if (!WebBrowser) {
-    WebBrowser = await import('expo-web-browser');
-    try {
-      WebBrowser.maybeCompleteAuthSession();
-    } catch (e) {
-      console.warn('AuthService: maybeCompleteAuthSession failed:', e);
-    }
-  }
-}
-
-// Get redirect URI (called after modules are loaded)
-function getRedirectUri(path: string): string {
-  if (!AuthSession) {
-    return '';
-  }
-  return AuthSession.makeRedirectUri({
-    scheme: 'com.zeroinbox.app',
-    path,
-  });
-}
 
 export type AuthProviderType = 'google' | 'microsoft' | 'mock';
 
@@ -105,124 +75,64 @@ class AuthServiceClass {
 
   /**
    * Login with Google OAuth
+   * NOTE: Requires backend API integration
    */
   async loginWithGoogle(): Promise<AuthUser> {
-    try {
-      // Initialize OAuth modules
-      await initOAuthModules();
-      if (!WebBrowser) {
-        throw new Error('OAuth modules not available');
-      }
-
-      // Request auth URL from backend
-      const authUrlResponse = await fetch(`${API_BASE_URL}/auth/gmail`);
-      if (!authUrlResponse.ok) {
-        throw new Error('Failed to get Google auth URL');
-      }
-      
-      const { authUrl } = await authUrlResponse.json();
-      const redirectUri = getRedirectUri('oauth/google');
-
-      // Open browser for OAuth flow
-      const result = await WebBrowser.openAuthSessionAsync(
-        authUrl,
-        redirectUri
+    return new Promise((resolve, reject) => {
+      Alert.alert(
+        'Google Sign-In',
+        'Google OAuth requires backend integration.\n\nWould you like to use mock data to explore the app instead?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+            onPress: () => reject(new Error('Cancelled')),
+          },
+          {
+            text: 'Use Mock Data',
+            onPress: async () => {
+              try {
+                const user = await this.loginWithMock();
+                resolve(user);
+              } catch (e) {
+                reject(e);
+              }
+            },
+          },
+        ]
       );
-
-      if (result.type !== 'success') {
-        throw new Error('Google authentication was cancelled');
-      }
-
-      // Extract token and email from callback URL
-      const url = new URL(result.url);
-      const token = url.searchParams.get('token');
-      const email = url.searchParams.get('email');
-
-      if (!token || !email) {
-        throw new Error('Missing token or email from OAuth callback');
-      }
-
-      const user: AuthUser = {
-        token,
-        email,
-        provider: 'google',
-      };
-
-      await Promise.all([
-        SecureStorage.setToken(token),
-        SecureStorage.setUserEmail(email),
-        SecureStorage.setAuthProvider('google'),
-        SecureStorage.setUseMockData(false),
-        SecureStorage.setHasSeenSplash(true),
-      ]);
-
-      console.log('AuthService: Google login successful for', email);
-      return user;
-    } catch (error) {
-      console.error('AuthService: Google login failed:', error);
-      throw error;
-    }
+    });
   }
 
   /**
    * Login with Microsoft OAuth
+   * NOTE: Requires backend API integration
    */
   async loginWithMicrosoft(): Promise<AuthUser> {
-    try {
-      // Initialize OAuth modules
-      await initOAuthModules();
-      if (!WebBrowser) {
-        throw new Error('OAuth modules not available');
-      }
-
-      // Request auth URL from backend
-      const authUrlResponse = await fetch(`${API_BASE_URL}/auth/outlook`);
-      if (!authUrlResponse.ok) {
-        throw new Error('Failed to get Microsoft auth URL');
-      }
-      
-      const { authUrl } = await authUrlResponse.json();
-      const redirectUri = getRedirectUri('oauth/microsoft');
-
-      // Open browser for OAuth flow
-      const result = await WebBrowser.openAuthSessionAsync(
-        authUrl,
-        redirectUri
+    return new Promise((resolve, reject) => {
+      Alert.alert(
+        'Microsoft Sign-In',
+        'Microsoft OAuth requires backend integration.\n\nWould you like to use mock data to explore the app instead?',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+            onPress: () => reject(new Error('Cancelled')),
+          },
+          {
+            text: 'Use Mock Data',
+            onPress: async () => {
+              try {
+                const user = await this.loginWithMock();
+                resolve(user);
+              } catch (e) {
+                reject(e);
+              }
+            },
+          },
+        ]
       );
-
-      if (result.type !== 'success') {
-        throw new Error('Microsoft authentication was cancelled');
-      }
-
-      // Extract token and email from callback URL
-      const url = new URL(result.url);
-      const token = url.searchParams.get('token');
-      const email = url.searchParams.get('email');
-
-      if (!token || !email) {
-        throw new Error('Missing token or email from OAuth callback');
-      }
-
-      const user: AuthUser = {
-        token,
-        email,
-        provider: 'microsoft',
-      };
-
-      await Promise.all([
-        SecureStorage.setToken(token),
-        SecureStorage.setUserEmail(email),
-        SecureStorage.setAuthProvider('microsoft'),
-        SecureStorage.setUseMockData(false),
-        SecureStorage.setHasSeenSplash(true),
-      ]);
-
-      console.log('AuthService: Microsoft login successful for', email);
-      return user;
-    } catch (error) {
-      console.error('AuthService: Microsoft login failed:', error);
-      throw error;
-    }
+    });
   }
 
   /**
@@ -251,11 +161,9 @@ class AuthServiceClass {
    * Refresh token if needed (placeholder for future implementation)
    */
   async refreshTokenIfNeeded(): Promise<boolean> {
-    // TODO: Implement token refresh logic
     const token = await SecureStorage.getToken();
     return !!token;
   }
 }
 
 export const AuthService = new AuthServiceClass();
-
