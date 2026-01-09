@@ -3,8 +3,8 @@
  * Core email triage experience matching iOS app
  */
 
-import React, { useState, useCallback, useRef } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
+import { View, StyleSheet, Text, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import type { EmailCard, SuggestedAction } from '@zero/types';
@@ -30,7 +30,7 @@ import { useAuth } from '../contexts/AuthContext';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-type FeedMode = 'all' | 'mail' | 'ads';
+type FeedMode = 'mail' | 'ads';
 type ToastAction = {
   message: string;
   actionLabel?: string;
@@ -40,10 +40,15 @@ type ToastAction = {
 export default function FeedScreen() {
   const { logout } = useAuth();
   
-  // Card state
-  const [cards, setCards] = useState<EmailCard[]>([...ALL_MOCK_EMAILS]);
-  const [mode, setMode] = useState<FeedMode>('all');
-  const [processedCount, setProcessedCount] = useState(0);
+  // Card state - separate mail and ads
+  const [mailCards, setMailCards] = useState<EmailCard[]>([...MOCK_MAIL_EMAILS]);
+  const [adsCards, setAdsCards] = useState<EmailCard[]>([...MOCK_ADS_EMAILS]);
+  const [mode, setMode] = useState<FeedMode>('mail');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // Track initial counts for progress
+  const initialMailCount = useRef(MOCK_MAIL_EMAILS.length);
+  const initialAdsCount = useRef(MOCK_ADS_EMAILS.length);
   
   // UI state
   const [showCelebration, setShowCelebration] = useState(false);
@@ -56,58 +61,55 @@ export default function FeedScreen() {
   const [activeCard, setActiveCard] = useState<EmailCard | null>(null);
   
   // Undo stack
-  const undoStack = useRef<{ card: EmailCard; index: number }[]>([]);
+  const undoStack = useRef<{ card: EmailCard; mode: FeedMode }[]>([]);
 
-  // Get cards for current mode
-  const getCardsForMode = useCallback((newMode: FeedMode): EmailCard[] => {
-    switch (newMode) {
-      case 'mail':
-        return [...MOCK_MAIL_EMAILS];
-      case 'ads':
-        return [...MOCK_ADS_EMAILS];
-      default:
-        return [...ALL_MOCK_EMAILS];
-    }
-  }, []);
+  // Current cards based on mode
+  const currentCards = mode === 'mail' ? mailCards : adsCards;
+  const setCurrentCards = mode === 'mail' ? setMailCards : setAdsCards;
+  const totalInitial = mode === 'mail' ? initialMailCount.current : initialAdsCount.current;
 
   // Remove a card from the stack
-  const removeCard = useCallback((cardId: string, showCelebrationIfEmpty = true) => {
-    setCards((prev) => {
-      const index = prev.findIndex((c) => c.id === cardId);
-      const card = prev.find((c) => c.id === cardId);
-      
-      if (card && index !== -1) {
-        // Store for undo
-        undoStack.current.push({ card, index });
-        if (undoStack.current.length > 10) {
-          undoStack.current.shift();
-        }
-      }
-      
-      const newCards = prev.filter((c) => c.id !== cardId);
-      
-      // Schedule celebration check for next tick to avoid nested setState
-      if (showCelebrationIfEmpty && newCards.length === 0) {
-        setTimeout(() => setShowCelebration(true), 0);
-      }
-      
-      return newCards;
-    });
+  const removeCard = useCallback((cardId: string) => {
+    const cards = mode === 'mail' ? mailCards : adsCards;
+    const card = cards.find((c) => c.id === cardId);
     
-    setProcessedCount((p) => p + 1);
-  }, []);
+    if (card) {
+      // Store for undo
+      undoStack.current.push({ card, mode });
+      if (undoStack.current.length > 10) {
+        undoStack.current.shift();
+      }
+    }
+    
+    if (mode === 'mail') {
+      setMailCards((prev) => {
+        const newCards = prev.filter((c) => c.id !== cardId);
+        if (newCards.length === 0) {
+          setTimeout(() => setShowCelebration(true), 300);
+        }
+        return newCards;
+      });
+    } else {
+      setAdsCards((prev) => {
+        const newCards = prev.filter((c) => c.id !== cardId);
+        if (newCards.length === 0) {
+          setTimeout(() => setShowCelebration(true), 300);
+        }
+        return newCards;
+      });
+    }
+  }, [mode, mailCards, adsCards]);
 
   // Undo last action
   const handleUndo = useCallback(() => {
     const lastAction = undoStack.current.pop();
     if (lastAction) {
       HapticService.lightImpact();
-      setCards((prev) => {
-        const newCards = [...prev];
-        newCards.splice(lastAction.index, 0, lastAction.card);
-        return newCards;
-      });
-      setProcessedCount((p) => Math.max(0, p - 1));
+      if (lastAction.mode === 'mail') {
+        setMailCards((prev) => [lastAction.card, ...prev]);
+      } else {
+        setAdsCards((prev) => [lastAction.card, ...prev]);
+      }
       setToast(null);
     }
   }, []);
@@ -128,7 +130,7 @@ export default function FeedScreen() {
   const handleSwipeLeft = useCallback((card: EmailCard) => {
     HapticService.mediumImpact();
     removeCard(card.id);
-    showToast(`Archived "${card.title.substring(0, 30)}..."`);
+    showToast(`Archived "${card.title.substring(0, 25)}..."`);
   }, [removeCard, showToast]);
 
   const handleSwipeRight = useCallback((card: EmailCard) => {
@@ -159,6 +161,10 @@ export default function FeedScreen() {
   const handleCardPress = useCallback((card: EmailCard) => {
     HapticService.lightImpact();
     router.push(`/email/${card.id}`);
+  }, []);
+
+  const handleIndexChange = useCallback((index: number) => {
+    setCurrentIndex(index);
   }, []);
 
   // Action sheet handlers
@@ -194,17 +200,23 @@ export default function FeedScreen() {
     
     HapticService.lightImpact();
     setMode(newMode);
-    setCards(getCardsForMode(newMode));
-    setProcessedCount(0);
-  }, [mode, getCardsForMode]);
+    setCurrentIndex(0);
+  }, [mode]);
 
   // Celebration continue
   const handleCelebrationContinue = useCallback(() => {
     HapticService.success();
     setShowCelebration(false);
-    setCards(getCardsForMode(mode));
-    setProcessedCount(0);
-  }, [mode, getCardsForMode]);
+    // Reset the current mode's cards
+    if (mode === 'mail') {
+      setMailCards([...MOCK_MAIL_EMAILS]);
+      initialMailCount.current = MOCK_MAIL_EMAILS.length;
+    } else {
+      setAdsCards([...MOCK_ADS_EMAILS]);
+      initialAdsCount.current = MOCK_ADS_EMAILS.length;
+    }
+    setCurrentIndex(0);
+  }, [mode]);
 
   // Nav actions
   const handleSettingsPress = useCallback(() => {
@@ -219,16 +231,31 @@ export default function FeedScreen() {
 
   const handleRefreshPress = useCallback(() => {
     HapticService.mediumImpact();
-    setCards(getCardsForMode(mode));
-    setProcessedCount(0);
+    if (mode === 'mail') {
+      setMailCards([...MOCK_MAIL_EMAILS]);
+      initialMailCount.current = MOCK_MAIL_EMAILS.length;
+    } else {
+      setAdsCards([...MOCK_ADS_EMAILS]);
+      initialAdsCount.current = MOCK_ADS_EMAILS.length;
+    }
+    setCurrentIndex(0);
     showToast('Refreshed inbox', false);
-  }, [mode, getCardsForMode, showToast]);
+  }, [mode, showToast]);
+
+  // Render empty state
+  const renderEmpty = useCallback(() => (
+    <View style={styles.emptyState}>
+      <Text style={styles.emptyEmoji}>🎉</Text>
+      <Text style={styles.emptyTitle}>All caught up!</Text>
+      <Text style={styles.emptySubtitle}>No more {mode === 'mail' ? 'emails' : 'promotions'} to process</Text>
+    </View>
+  ), [mode]);
 
   // Celebration view
   if (showCelebration) {
     return (
       <CelebrationView
-        emailsProcessed={processedCount}
+        emailsProcessed={totalInitial - currentCards.length}
         onContinue={handleCelebrationContinue}
       />
     );
@@ -239,12 +266,15 @@ export default function FeedScreen() {
       {/* Card Stack */}
       <View style={styles.cardContainer}>
         <CardStack
-          cards={cards}
+          cards={currentCards}
+          currentIndex={currentIndex}
           onSwipeLeft={handleSwipeLeft}
           onSwipeRight={handleSwipeRight}
           onSwipeUp={handleSwipeUp}
           onSwipeDown={handleSwipeDown}
           onCardPress={handleCardPress}
+          onIndexChange={handleIndexChange}
+          renderEmpty={renderEmpty}
         />
       </View>
 
@@ -252,11 +282,12 @@ export default function FeedScreen() {
       <LiquidGlassBottomNav
         mode={mode}
         onModeChange={handleModeChange}
+        mailCount={mailCards.length}
+        adsCount={adsCards.length}
+        totalInitialCards={totalInitial}
         onSettingsPress={handleSettingsPress}
         onSearchPress={handleSearchPress}
         onRefreshPress={handleRefreshPress}
-        cardCount={cards.length}
-        processedCount={processedCount}
       />
 
       {/* Action Selector Sheet */}
@@ -284,7 +315,7 @@ export default function FeedScreen() {
       <SearchModal
         visible={showSearchModal}
         onClose={() => setShowSearchModal(false)}
-        emails={ALL_MOCK_EMAILS}
+        emails={[...mailCards, ...adsCards]}
         onSelectEmail={(email) => {
           setShowSearchModal(false);
           router.push(`/email/${email.id}`);
@@ -313,5 +344,25 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  emptyState: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 40,
+  },
+  emptyEmoji: {
+    fontSize: 64,
+    marginBottom: 16,
+  },
+  emptyTitle: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: 'white',
+    marginBottom: 8,
+  },
+  emptySubtitle: {
+    fontSize: 16,
+    color: 'rgba(255,255,255,0.6)',
+    textAlign: 'center',
   },
 });
